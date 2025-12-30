@@ -19,6 +19,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.proxy_list_response import ProxyListResponse
+from ..types.proxy_check_response import ProxyCheckResponse
 from ..types.proxy_create_response import ProxyCreateResponse
 from ..types.proxy_retrieve_response import ProxyRetrieveResponse
 
@@ -184,6 +185,39 @@ class ProxiesResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def check(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyCheckResponse:
+        """
+        Run a health check on the proxy to verify it's working.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            f"/proxies/{id}/check",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ProxyCheckResponse,
+        )
+
 
 class AsyncProxiesResource(AsyncAPIResource):
     @cached_property
@@ -344,6 +378,39 @@ class AsyncProxiesResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def check(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProxyCheckResponse:
+        """
+        Run a health check on the proxy to verify it's working.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            f"/proxies/{id}/check",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ProxyCheckResponse,
+        )
+
 
 class ProxiesResourceWithRawResponse:
     def __init__(self, proxies: ProxiesResource) -> None:
@@ -360,6 +427,9 @@ class ProxiesResourceWithRawResponse:
         )
         self.delete = to_raw_response_wrapper(
             proxies.delete,
+        )
+        self.check = to_raw_response_wrapper(
+            proxies.check,
         )
 
 
@@ -379,6 +449,9 @@ class AsyncProxiesResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             proxies.delete,
         )
+        self.check = async_to_raw_response_wrapper(
+            proxies.check,
+        )
 
 
 class ProxiesResourceWithStreamingResponse:
@@ -397,6 +470,9 @@ class ProxiesResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             proxies.delete,
         )
+        self.check = to_streamed_response_wrapper(
+            proxies.check,
+        )
 
 
 class AsyncProxiesResourceWithStreamingResponse:
@@ -414,4 +490,7 @@ class AsyncProxiesResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             proxies.delete,
+        )
+        self.check = async_to_streamed_response_wrapper(
+            proxies.check,
         )
