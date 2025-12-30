@@ -228,7 +228,12 @@ Methods:
 Types:
 
 ```python
-from kernel.types import ProxyCreateResponse, ProxyRetrieveResponse, ProxyListResponse
+from kernel.types import (
+    ProxyCreateResponse,
+    ProxyRetrieveResponse,
+    ProxyListResponse,
+    ProxyCheckResponse,
+)
 ```
 
 Methods:
@@ -237,6 +242,7 @@ Methods:
 - <code title="get /proxies/{id}">client.proxies.<a href="./src/kernel/resources/proxies.py">retrieve</a>(id) -> <a href="./src/kernel/types/proxy_retrieve_response.py">ProxyRetrieveResponse</a></code>
 - <code title="get /proxies">client.proxies.<a href="./src/kernel/resources/proxies.py">list</a>() -> <a href="./src/kernel/types/proxy_list_response.py">ProxyListResponse</a></code>
 - <code title="delete /proxies/{id}">client.proxies.<a href="./src/kernel/resources/proxies.py">delete</a>(id) -> None</code>
+- <code title="post /proxies/{id}/check">client.proxies.<a href="./src/kernel/resources/proxies.py">check</a>(id) -> <a href="./src/kernel/types/proxy_check_response.py">ProxyCheckResponse</a></code>
 
 # Extensions
 
