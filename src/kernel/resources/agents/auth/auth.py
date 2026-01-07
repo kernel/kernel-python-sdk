@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from .invocations import (
@@ -26,7 +26,6 @@ from ....pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ...._base_client import AsyncPaginator, make_request_options
 from ....types.agents import auth_list_params, auth_create_params
 from ....types.agents.auth_agent import AuthAgent
-from ....types.agents.reauth_response import ReauthResponse
 
 __all__ = ["AuthResource", "AsyncAuthResource"]
 
@@ -58,8 +57,9 @@ class AuthResource(SyncAPIResource):
     def create(
         self,
         *,
+        domain: str,
         profile_name: str,
-        target_domain: str,
+        allowed_domains: SequenceNotStr[str] | Omit = omit,
         credential_name: str | Omit = omit,
         login_url: str | Omit = omit,
         proxy: auth_create_params.Proxy | Omit = omit,
@@ -77,9 +77,13 @@ class AuthResource(SyncAPIResource):
         invocation - use POST /agents/auth/invocations to start an auth flow.
 
         Args:
+          domain: Domain for authentication
+
           profile_name: Name of the profile to use for this auth agent
 
-          target_domain: Target domain for authentication
+          allowed_domains: Additional domains that are valid for this auth agent's authentication flow
+              (besides the primary domain). Useful when login pages redirect to different
+              domains.
 
           credential_name: Optional name of an existing credential to use for this auth agent. If provided,
               the credential will be linked to the agent and its values will be used to
@@ -102,8 +106,9 @@ class AuthResource(SyncAPIResource):
             "/agents/auth",
             body=maybe_transform(
                 {
+                    "domain": domain,
                     "profile_name": profile_name,
-                    "target_domain": target_domain,
+                    "allowed_domains": allowed_domains,
                     "credential_name": credential_name,
                     "login_url": login_url,
                     "proxy": proxy,
@@ -154,10 +159,10 @@ class AuthResource(SyncAPIResource):
     def list(
         self,
         *,
+        domain: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         profile_name: str | Omit = omit,
-        target_domain: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -166,16 +171,16 @@ class AuthResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncOffsetPagination[AuthAgent]:
         """
-        List auth agents with optional filters for profile_name and target_domain.
+        List auth agents with optional filters for profile_name and domain.
 
         Args:
+          domain: Filter by domain
+
           limit: Maximum number of results to return
 
           offset: Number of results to skip
 
           profile_name: Filter by profile name
-
-          target_domain: Filter by target domain
 
           extra_headers: Send extra headers
 
@@ -195,10 +200,10 @@ class AuthResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "domain": domain,
                         "limit": limit,
                         "offset": offset,
                         "profile_name": profile_name,
-                        "target_domain": target_domain,
                     },
                     auth_list_params.AuthListParams,
                 ),
@@ -245,42 +250,6 @@ class AuthResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
-    def reauth(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ReauthResponse:
-        """
-        Triggers automatic re-authentication for an auth agent using stored credentials.
-        Requires the auth agent to have a linked credential, stored selectors, and
-        login_url. Returns immediately with status indicating whether re-auth was
-        started.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._post(
-            f"/agents/auth/{id}/reauth",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ReauthResponse,
-        )
-
 
 class AsyncAuthResource(AsyncAPIResource):
     @cached_property
@@ -309,8 +278,9 @@ class AsyncAuthResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        domain: str,
         profile_name: str,
-        target_domain: str,
+        allowed_domains: SequenceNotStr[str] | Omit = omit,
         credential_name: str | Omit = omit,
         login_url: str | Omit = omit,
         proxy: auth_create_params.Proxy | Omit = omit,
@@ -328,9 +298,13 @@ class AsyncAuthResource(AsyncAPIResource):
         invocation - use POST /agents/auth/invocations to start an auth flow.
 
         Args:
+          domain: Domain for authentication
+
           profile_name: Name of the profile to use for this auth agent
 
-          target_domain: Target domain for authentication
+          allowed_domains: Additional domains that are valid for this auth agent's authentication flow
+              (besides the primary domain). Useful when login pages redirect to different
+              domains.
 
           credential_name: Optional name of an existing credential to use for this auth agent. If provided,
               the credential will be linked to the agent and its values will be used to
@@ -353,8 +327,9 @@ class AsyncAuthResource(AsyncAPIResource):
             "/agents/auth",
             body=await async_maybe_transform(
                 {
+                    "domain": domain,
                     "profile_name": profile_name,
-                    "target_domain": target_domain,
+                    "allowed_domains": allowed_domains,
                     "credential_name": credential_name,
                     "login_url": login_url,
                     "proxy": proxy,
@@ -405,10 +380,10 @@ class AsyncAuthResource(AsyncAPIResource):
     def list(
         self,
         *,
+        domain: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         profile_name: str | Omit = omit,
-        target_domain: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -417,16 +392,16 @@ class AsyncAuthResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[AuthAgent, AsyncOffsetPagination[AuthAgent]]:
         """
-        List auth agents with optional filters for profile_name and target_domain.
+        List auth agents with optional filters for profile_name and domain.
 
         Args:
+          domain: Filter by domain
+
           limit: Maximum number of results to return
 
           offset: Number of results to skip
 
           profile_name: Filter by profile name
-
-          target_domain: Filter by target domain
 
           extra_headers: Send extra headers
 
@@ -446,10 +421,10 @@ class AsyncAuthResource(AsyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "domain": domain,
                         "limit": limit,
                         "offset": offset,
                         "profile_name": profile_name,
-                        "target_domain": target_domain,
                     },
                     auth_list_params.AuthListParams,
                 ),
@@ -496,42 +471,6 @@ class AsyncAuthResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def reauth(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ReauthResponse:
-        """
-        Triggers automatic re-authentication for an auth agent using stored credentials.
-        Requires the auth agent to have a linked credential, stored selectors, and
-        login_url. Returns immediately with status indicating whether re-auth was
-        started.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._post(
-            f"/agents/auth/{id}/reauth",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=ReauthResponse,
-        )
-
 
 class AuthResourceWithRawResponse:
     def __init__(self, auth: AuthResource) -> None:
@@ -548,9 +487,6 @@ class AuthResourceWithRawResponse:
         )
         self.delete = to_raw_response_wrapper(
             auth.delete,
-        )
-        self.reauth = to_raw_response_wrapper(
-            auth.reauth,
         )
 
     @cached_property
@@ -574,9 +510,6 @@ class AsyncAuthResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             auth.delete,
         )
-        self.reauth = async_to_raw_response_wrapper(
-            auth.reauth,
-        )
 
     @cached_property
     def invocations(self) -> AsyncInvocationsResourceWithRawResponse:
@@ -599,9 +532,6 @@ class AuthResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             auth.delete,
         )
-        self.reauth = to_streamed_response_wrapper(
-            auth.reauth,
-        )
 
     @cached_property
     def invocations(self) -> InvocationsResourceWithStreamingResponse:
@@ -623,9 +553,6 @@ class AsyncAuthResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             auth.delete,
-        )
-        self.reauth = async_to_streamed_response_wrapper(
-            auth.reauth,
         )
 
     @cached_property

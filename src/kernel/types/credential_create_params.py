@@ -17,3 +17,17 @@ class CredentialCreateParams(TypedDict, total=False):
 
     values: Required[Dict[str, str]]
     """Field name to value mapping (e.g., username, password)"""
+
+    sso_provider: str
+    """
+    If set, indicates this credential should be used with the specified SSO provider
+    (e.g., google, github, microsoft). When the target site has a matching SSO
+    button, it will be clicked first before filling credential values on the
+    identity provider's login page.
+    """
+
+    totp_secret: str
+    """Base32-encoded TOTP secret for generating one-time passwords.
+
+    Used for automatic 2FA during login.
+    """

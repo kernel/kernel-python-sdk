@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict
+from typing import Dict, Optional
 
 import httpx
 
@@ -20,6 +20,7 @@ from .._response import (
 from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.credential import Credential
+from ..types.credential_totp_code_response import CredentialTotpCodeResponse
 
 __all__ = ["CredentialsResource", "AsyncCredentialsResource"]
 
@@ -50,6 +51,8 @@ class CredentialsResource(SyncAPIResource):
         domain: str,
         name: str,
         values: Dict[str, str],
+        sso_provider: str | Omit = omit,
+        totp_secret: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -57,10 +60,8 @@ class CredentialsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Credential:
-        """Create a new credential for storing login information.
-
-        Values are encrypted at
-        rest.
+        """
+        Create a new credential for storing login information.
 
         Args:
           domain: Target domain this credential is for
@@ -68,6 +69,14 @@ class CredentialsResource(SyncAPIResource):
           name: Unique name for the credential within the organization
 
           values: Field name to value mapping (e.g., username, password)
+
+          sso_provider: If set, indicates this credential should be used with the specified SSO provider
+              (e.g., google, github, microsoft). When the target site has a matching SSO
+              button, it will be clicked first before filling credential values on the
+              identity provider's login page.
+
+          totp_secret: Base32-encoded TOTP secret for generating one-time passwords. Used for automatic
+              2FA during login.
 
           extra_headers: Send extra headers
 
@@ -84,6 +93,8 @@ class CredentialsResource(SyncAPIResource):
                     "domain": domain,
                     "name": name,
                     "values": values,
+                    "sso_provider": sso_provider,
+                    "totp_secret": totp_secret,
                 },
                 credential_create_params.CredentialCreateParams,
             ),
@@ -95,7 +106,7 @@ class CredentialsResource(SyncAPIResource):
 
     def retrieve(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -104,7 +115,7 @@ class CredentialsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Credential:
-        """Retrieve a credential by its ID.
+        """Retrieve a credential by its ID or name.
 
         Credential values are not returned.
 
@@ -117,10 +128,10 @@ class CredentialsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._get(
-            f"/credentials/{id}",
+            f"/credentials/{id_or_name}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -129,9 +140,11 @@ class CredentialsResource(SyncAPIResource):
 
     def update(
         self,
-        id: str,
+        id_or_name: str,
         *,
         name: str | Omit = omit,
+        sso_provider: Optional[str] | Omit = omit,
+        totp_secret: str | Omit = omit,
         values: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -142,13 +155,20 @@ class CredentialsResource(SyncAPIResource):
     ) -> Credential:
         """Update a credential's name or values.
 
-        Values are encrypted at rest.
+        When values are provided, they are merged
+        with existing values (new keys are added, existing keys are overwritten).
 
         Args:
           name: New name for the credential
 
-          values: Field name to value mapping (e.g., username, password). Replaces all existing
-              values.
+          sso_provider: If set, indicates this credential should be used with the specified SSO
+              provider. Set to empty string or null to remove.
+
+          totp_secret: Base32-encoded TOTP secret for generating one-time passwords. Spaces and
+              formatting are automatically normalized. Set to empty string to remove.
+
+          values: Field name to value mapping. Values are merged with existing values (new keys
+              added, existing keys overwritten).
 
           extra_headers: Send extra headers
 
@@ -158,13 +178,15 @@ class CredentialsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._patch(
-            f"/credentials/{id}",
+            f"/credentials/{id_or_name}",
             body=maybe_transform(
                 {
                     "name": name,
+                    "sso_provider": sso_provider,
+                    "totp_secret": totp_secret,
                     "values": values,
                 },
                 credential_update_params.CredentialUpdateParams,
@@ -230,7 +252,7 @@ class CredentialsResource(SyncAPIResource):
 
     def delete(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -240,7 +262,7 @@ class CredentialsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a credential by its ID.
+        Delete a credential by its ID or name.
 
         Args:
           extra_headers: Send extra headers
@@ -251,15 +273,50 @@ class CredentialsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/credentials/{id}",
+            f"/credentials/{id_or_name}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    def totp_code(
+        self,
+        id_or_name: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CredentialTotpCodeResponse:
+        """
+        Returns the current 6-digit TOTP code for a credential with a configured
+        totp_secret. Use this to complete 2FA setup on sites or when you need a fresh
+        code.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
+        return self._get(
+            f"/credentials/{id_or_name}/totp-code",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CredentialTotpCodeResponse,
         )
 
 
@@ -289,6 +346,8 @@ class AsyncCredentialsResource(AsyncAPIResource):
         domain: str,
         name: str,
         values: Dict[str, str],
+        sso_provider: str | Omit = omit,
+        totp_secret: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -296,10 +355,8 @@ class AsyncCredentialsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Credential:
-        """Create a new credential for storing login information.
-
-        Values are encrypted at
-        rest.
+        """
+        Create a new credential for storing login information.
 
         Args:
           domain: Target domain this credential is for
@@ -307,6 +364,14 @@ class AsyncCredentialsResource(AsyncAPIResource):
           name: Unique name for the credential within the organization
 
           values: Field name to value mapping (e.g., username, password)
+
+          sso_provider: If set, indicates this credential should be used with the specified SSO provider
+              (e.g., google, github, microsoft). When the target site has a matching SSO
+              button, it will be clicked first before filling credential values on the
+              identity provider's login page.
+
+          totp_secret: Base32-encoded TOTP secret for generating one-time passwords. Used for automatic
+              2FA during login.
 
           extra_headers: Send extra headers
 
@@ -323,6 +388,8 @@ class AsyncCredentialsResource(AsyncAPIResource):
                     "domain": domain,
                     "name": name,
                     "values": values,
+                    "sso_provider": sso_provider,
+                    "totp_secret": totp_secret,
                 },
                 credential_create_params.CredentialCreateParams,
             ),
@@ -334,7 +401,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
 
     async def retrieve(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -343,7 +410,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Credential:
-        """Retrieve a credential by its ID.
+        """Retrieve a credential by its ID or name.
 
         Credential values are not returned.
 
@@ -356,10 +423,10 @@ class AsyncCredentialsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._get(
-            f"/credentials/{id}",
+            f"/credentials/{id_or_name}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -368,9 +435,11 @@ class AsyncCredentialsResource(AsyncAPIResource):
 
     async def update(
         self,
-        id: str,
+        id_or_name: str,
         *,
         name: str | Omit = omit,
+        sso_provider: Optional[str] | Omit = omit,
+        totp_secret: str | Omit = omit,
         values: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -381,13 +450,20 @@ class AsyncCredentialsResource(AsyncAPIResource):
     ) -> Credential:
         """Update a credential's name or values.
 
-        Values are encrypted at rest.
+        When values are provided, they are merged
+        with existing values (new keys are added, existing keys are overwritten).
 
         Args:
           name: New name for the credential
 
-          values: Field name to value mapping (e.g., username, password). Replaces all existing
-              values.
+          sso_provider: If set, indicates this credential should be used with the specified SSO
+              provider. Set to empty string or null to remove.
+
+          totp_secret: Base32-encoded TOTP secret for generating one-time passwords. Spaces and
+              formatting are automatically normalized. Set to empty string to remove.
+
+          values: Field name to value mapping. Values are merged with existing values (new keys
+              added, existing keys overwritten).
 
           extra_headers: Send extra headers
 
@@ -397,13 +473,15 @@ class AsyncCredentialsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._patch(
-            f"/credentials/{id}",
+            f"/credentials/{id_or_name}",
             body=await async_maybe_transform(
                 {
                     "name": name,
+                    "sso_provider": sso_provider,
+                    "totp_secret": totp_secret,
                     "values": values,
                 },
                 credential_update_params.CredentialUpdateParams,
@@ -469,7 +547,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
 
     async def delete(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -479,7 +557,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a credential by its ID.
+        Delete a credential by its ID or name.
 
         Args:
           extra_headers: Send extra headers
@@ -490,15 +568,50 @@ class AsyncCredentialsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/credentials/{id}",
+            f"/credentials/{id_or_name}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    async def totp_code(
+        self,
+        id_or_name: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CredentialTotpCodeResponse:
+        """
+        Returns the current 6-digit TOTP code for a credential with a configured
+        totp_secret. Use this to complete 2FA setup on sites or when you need a fresh
+        code.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
+        return await self._get(
+            f"/credentials/{id_or_name}/totp-code",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CredentialTotpCodeResponse,
         )
 
 
@@ -521,6 +634,9 @@ class CredentialsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             credentials.delete,
         )
+        self.totp_code = to_raw_response_wrapper(
+            credentials.totp_code,
+        )
 
 
 class AsyncCredentialsResourceWithRawResponse:
@@ -541,6 +657,9 @@ class AsyncCredentialsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             credentials.delete,
+        )
+        self.totp_code = async_to_raw_response_wrapper(
+            credentials.totp_code,
         )
 
 
@@ -563,6 +682,9 @@ class CredentialsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             credentials.delete,
         )
+        self.totp_code = to_streamed_response_wrapper(
+            credentials.totp_code,
+        )
 
 
 class AsyncCredentialsResourceWithStreamingResponse:
@@ -583,4 +705,7 @@ class AsyncCredentialsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             credentials.delete,
+        )
+        self.totp_code = async_to_streamed_response_wrapper(
+            credentials.totp_code,
         )
