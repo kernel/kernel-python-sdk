@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, cast
+from typing import Dict
+from typing_extensions import overload
 
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import required_args, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -17,14 +18,8 @@ from ...._response import (
     async_to_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
-from ....types.agents.auth import (
-    invocation_create_params,
-    invocation_submit_params,
-    invocation_discover_params,
-    invocation_exchange_params,
-)
+from ....types.agents.auth import invocation_create_params, invocation_submit_params, invocation_exchange_params
 from ....types.agents.agent_auth_submit_response import AgentAuthSubmitResponse
-from ....types.agents.agent_auth_discover_response import AgentAuthDiscoverResponse
 from ....types.agents.agent_auth_invocation_response import AgentAuthInvocationResponse
 from ....types.agents.auth.invocation_exchange_response import InvocationExchangeResponse
 from ....types.agents.auth_agent_invocation_create_response import AuthAgentInvocationCreateResponse
@@ -85,24 +80,19 @@ class InvocationsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return cast(
-            AuthAgentInvocationCreateResponse,
-            self._post(
-                "/agents/auth/invocations",
-                body=maybe_transform(
-                    {
-                        "auth_agent_id": auth_agent_id,
-                        "save_credential_as": save_credential_as,
-                    },
-                    invocation_create_params.InvocationCreateParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, AuthAgentInvocationCreateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        return self._post(
+            "/agents/auth/invocations",
+            body=maybe_transform(
+                {
+                    "auth_agent_id": auth_agent_id,
+                    "save_credential_as": save_credential_as,
+                },
+                invocation_create_params.InvocationCreateParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AuthAgentInvocationCreateResponse,
         )
 
     def retrieve(
@@ -116,10 +106,10 @@ class InvocationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthInvocationResponse:
-        """Returns invocation details including app_name and target_domain.
+        """Returns invocation details including status, app_name, and domain.
 
-        Uses the JWT
-        returned by the exchange endpoint, or standard API key or JWT authentication.
+        Supports both
+        API key and JWT (from exchange endpoint) authentication.
 
         Args:
           extra_headers: Send extra headers
@@ -138,46 +128,6 @@ class InvocationsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=AgentAuthInvocationResponse,
-        )
-
-    def discover(
-        self,
-        invocation_id: str,
-        *,
-        login_url: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AgentAuthDiscoverResponse:
-        """
-        Inspects the target site to detect logged-in state or discover required fields.
-        Returns 200 with success: true when fields are found, or 4xx/5xx for failures.
-        Requires the JWT returned by the exchange endpoint.
-
-        Args:
-          login_url: Optional login page URL. If provided, will override the stored login URL for
-              this discovery invocation and skip Phase 1 discovery.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not invocation_id:
-            raise ValueError(f"Expected a non-empty value for `invocation_id` but received {invocation_id!r}")
-        return self._post(
-            f"/agents/auth/invocations/{invocation_id}/discover",
-            body=maybe_transform({"login_url": login_url}, invocation_discover_params.InvocationDiscoverParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AgentAuthDiscoverResponse,
         )
 
     def exchange(
@@ -219,6 +169,7 @@ class InvocationsResource(SyncAPIResource):
             cast_to=InvocationExchangeResponse,
         )
 
+    @overload
     def submit(
         self,
         invocation_id: str,
@@ -231,9 +182,11 @@ class InvocationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthSubmitResponse:
-        """
-        Submits field values for the discovered login form and may return additional
-        auth fields or success. Requires the JWT returned by the exchange endpoint.
+        """Submits field values for the discovered login form.
+
+        Returns immediately after
+        submission is accepted. Poll the invocation endpoint to track progress and get
+        results.
 
         Args:
           field_values: Values for the discovered login fields
@@ -246,11 +199,65 @@ class InvocationsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def submit(
+        self,
+        invocation_id: str,
+        *,
+        sso_button: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentAuthSubmitResponse:
+        """Submits field values for the discovered login form.
+
+        Returns immediately after
+        submission is accepted. Poll the invocation endpoint to track progress and get
+        results.
+
+        Args:
+          sso_button: Selector of SSO button to click
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["field_values"], ["sso_button"])
+    def submit(
+        self,
+        invocation_id: str,
+        *,
+        field_values: Dict[str, str] | Omit = omit,
+        sso_button: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentAuthSubmitResponse:
         if not invocation_id:
             raise ValueError(f"Expected a non-empty value for `invocation_id` but received {invocation_id!r}")
         return self._post(
             f"/agents/auth/invocations/{invocation_id}/submit",
-            body=maybe_transform({"field_values": field_values}, invocation_submit_params.InvocationSubmitParams),
+            body=maybe_transform(
+                {
+                    "field_values": field_values,
+                    "sso_button": sso_button,
+                },
+                invocation_submit_params.InvocationSubmitParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -311,24 +318,19 @@ class AsyncInvocationsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return cast(
-            AuthAgentInvocationCreateResponse,
-            await self._post(
-                "/agents/auth/invocations",
-                body=await async_maybe_transform(
-                    {
-                        "auth_agent_id": auth_agent_id,
-                        "save_credential_as": save_credential_as,
-                    },
-                    invocation_create_params.InvocationCreateParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, AuthAgentInvocationCreateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        return await self._post(
+            "/agents/auth/invocations",
+            body=await async_maybe_transform(
+                {
+                    "auth_agent_id": auth_agent_id,
+                    "save_credential_as": save_credential_as,
+                },
+                invocation_create_params.InvocationCreateParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AuthAgentInvocationCreateResponse,
         )
 
     async def retrieve(
@@ -342,10 +344,10 @@ class AsyncInvocationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthInvocationResponse:
-        """Returns invocation details including app_name and target_domain.
+        """Returns invocation details including status, app_name, and domain.
 
-        Uses the JWT
-        returned by the exchange endpoint, or standard API key or JWT authentication.
+        Supports both
+        API key and JWT (from exchange endpoint) authentication.
 
         Args:
           extra_headers: Send extra headers
@@ -364,48 +366,6 @@ class AsyncInvocationsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=AgentAuthInvocationResponse,
-        )
-
-    async def discover(
-        self,
-        invocation_id: str,
-        *,
-        login_url: str | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AgentAuthDiscoverResponse:
-        """
-        Inspects the target site to detect logged-in state or discover required fields.
-        Returns 200 with success: true when fields are found, or 4xx/5xx for failures.
-        Requires the JWT returned by the exchange endpoint.
-
-        Args:
-          login_url: Optional login page URL. If provided, will override the stored login URL for
-              this discovery invocation and skip Phase 1 discovery.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not invocation_id:
-            raise ValueError(f"Expected a non-empty value for `invocation_id` but received {invocation_id!r}")
-        return await self._post(
-            f"/agents/auth/invocations/{invocation_id}/discover",
-            body=await async_maybe_transform(
-                {"login_url": login_url}, invocation_discover_params.InvocationDiscoverParams
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=AgentAuthDiscoverResponse,
         )
 
     async def exchange(
@@ -447,6 +407,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
             cast_to=InvocationExchangeResponse,
         )
 
+    @overload
     async def submit(
         self,
         invocation_id: str,
@@ -459,9 +420,11 @@ class AsyncInvocationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthSubmitResponse:
-        """
-        Submits field values for the discovered login form and may return additional
-        auth fields or success. Requires the JWT returned by the exchange endpoint.
+        """Submits field values for the discovered login form.
+
+        Returns immediately after
+        submission is accepted. Poll the invocation endpoint to track progress and get
+        results.
 
         Args:
           field_values: Values for the discovered login fields
@@ -474,12 +437,64 @@ class AsyncInvocationsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def submit(
+        self,
+        invocation_id: str,
+        *,
+        sso_button: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentAuthSubmitResponse:
+        """Submits field values for the discovered login form.
+
+        Returns immediately after
+        submission is accepted. Poll the invocation endpoint to track progress and get
+        results.
+
+        Args:
+          sso_button: Selector of SSO button to click
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["field_values"], ["sso_button"])
+    async def submit(
+        self,
+        invocation_id: str,
+        *,
+        field_values: Dict[str, str] | Omit = omit,
+        sso_button: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentAuthSubmitResponse:
         if not invocation_id:
             raise ValueError(f"Expected a non-empty value for `invocation_id` but received {invocation_id!r}")
         return await self._post(
             f"/agents/auth/invocations/{invocation_id}/submit",
             body=await async_maybe_transform(
-                {"field_values": field_values}, invocation_submit_params.InvocationSubmitParams
+                {
+                    "field_values": field_values,
+                    "sso_button": sso_button,
+                },
+                invocation_submit_params.InvocationSubmitParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -497,9 +512,6 @@ class InvocationsResourceWithRawResponse:
         )
         self.retrieve = to_raw_response_wrapper(
             invocations.retrieve,
-        )
-        self.discover = to_raw_response_wrapper(
-            invocations.discover,
         )
         self.exchange = to_raw_response_wrapper(
             invocations.exchange,
@@ -519,9 +531,6 @@ class AsyncInvocationsResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             invocations.retrieve,
         )
-        self.discover = async_to_raw_response_wrapper(
-            invocations.discover,
-        )
         self.exchange = async_to_raw_response_wrapper(
             invocations.exchange,
         )
@@ -540,9 +549,6 @@ class InvocationsResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             invocations.retrieve,
         )
-        self.discover = to_streamed_response_wrapper(
-            invocations.discover,
-        )
         self.exchange = to_streamed_response_wrapper(
             invocations.exchange,
         )
@@ -560,9 +566,6 @@ class AsyncInvocationsResourceWithStreamingResponse:
         )
         self.retrieve = async_to_streamed_response_wrapper(
             invocations.retrieve,
-        )
-        self.discover = async_to_streamed_response_wrapper(
-            invocations.discover,
         )
         self.exchange = async_to_streamed_response_wrapper(
             invocations.exchange,

@@ -228,7 +228,12 @@ Methods:
 Types:
 
 ```python
-from kernel.types import ProxyCreateResponse, ProxyRetrieveResponse, ProxyListResponse
+from kernel.types import (
+    ProxyCreateResponse,
+    ProxyRetrieveResponse,
+    ProxyListResponse,
+    ProxyCheckResponse,
+)
 ```
 
 Methods:
@@ -237,6 +242,7 @@ Methods:
 - <code title="get /proxies/{id}">client.proxies.<a href="./src/kernel/resources/proxies.py">retrieve</a>(id) -> <a href="./src/kernel/types/proxy_retrieve_response.py">ProxyRetrieveResponse</a></code>
 - <code title="get /proxies">client.proxies.<a href="./src/kernel/resources/proxies.py">list</a>() -> <a href="./src/kernel/types/proxy_list_response.py">ProxyListResponse</a></code>
 - <code title="delete /proxies/{id}">client.proxies.<a href="./src/kernel/resources/proxies.py">delete</a>(id) -> None</code>
+- <code title="post /proxies/{id}/check">client.proxies.<a href="./src/kernel/resources/proxies.py">check</a>(id) -> <a href="./src/kernel/types/proxy_check_response.py">ProxyCheckResponse</a></code>
 
 # Extensions
 
@@ -281,7 +287,6 @@ Types:
 
 ```python
 from kernel.types.agents import (
-    AgentAuthDiscoverResponse,
     AgentAuthInvocationResponse,
     AgentAuthSubmitResponse,
     AuthAgent,
@@ -289,7 +294,6 @@ from kernel.types.agents import (
     AuthAgentInvocationCreateRequest,
     AuthAgentInvocationCreateResponse,
     DiscoveredField,
-    ReauthResponse,
 )
 ```
 
@@ -299,7 +303,6 @@ Methods:
 - <code title="get /agents/auth/{id}">client.agents.auth.<a href="./src/kernel/resources/agents/auth/auth.py">retrieve</a>(id) -> <a href="./src/kernel/types/agents/auth_agent.py">AuthAgent</a></code>
 - <code title="get /agents/auth">client.agents.auth.<a href="./src/kernel/resources/agents/auth/auth.py">list</a>(\*\*<a href="src/kernel/types/agents/auth_list_params.py">params</a>) -> <a href="./src/kernel/types/agents/auth_agent.py">SyncOffsetPagination[AuthAgent]</a></code>
 - <code title="delete /agents/auth/{id}">client.agents.auth.<a href="./src/kernel/resources/agents/auth/auth.py">delete</a>(id) -> None</code>
-- <code title="post /agents/auth/{id}/reauth">client.agents.auth.<a href="./src/kernel/resources/agents/auth/auth.py">reauth</a>(id) -> <a href="./src/kernel/types/agents/reauth_response.py">ReauthResponse</a></code>
 
 ### Invocations
 
@@ -313,7 +316,6 @@ Methods:
 
 - <code title="post /agents/auth/invocations">client.agents.auth.invocations.<a href="./src/kernel/resources/agents/auth/invocations.py">create</a>(\*\*<a href="src/kernel/types/agents/auth/invocation_create_params.py">params</a>) -> <a href="./src/kernel/types/agents/auth_agent_invocation_create_response.py">AuthAgentInvocationCreateResponse</a></code>
 - <code title="get /agents/auth/invocations/{invocation_id}">client.agents.auth.invocations.<a href="./src/kernel/resources/agents/auth/invocations.py">retrieve</a>(invocation_id) -> <a href="./src/kernel/types/agents/agent_auth_invocation_response.py">AgentAuthInvocationResponse</a></code>
-- <code title="post /agents/auth/invocations/{invocation_id}/discover">client.agents.auth.invocations.<a href="./src/kernel/resources/agents/auth/invocations.py">discover</a>(invocation_id, \*\*<a href="src/kernel/types/agents/auth/invocation_discover_params.py">params</a>) -> <a href="./src/kernel/types/agents/agent_auth_discover_response.py">AgentAuthDiscoverResponse</a></code>
 - <code title="post /agents/auth/invocations/{invocation_id}/exchange">client.agents.auth.invocations.<a href="./src/kernel/resources/agents/auth/invocations.py">exchange</a>(invocation_id, \*\*<a href="src/kernel/types/agents/auth/invocation_exchange_params.py">params</a>) -> <a href="./src/kernel/types/agents/auth/invocation_exchange_response.py">InvocationExchangeResponse</a></code>
 - <code title="post /agents/auth/invocations/{invocation_id}/submit">client.agents.auth.invocations.<a href="./src/kernel/resources/agents/auth/invocations.py">submit</a>(invocation_id, \*\*<a href="src/kernel/types/agents/auth/invocation_submit_params.py">params</a>) -> <a href="./src/kernel/types/agents/agent_auth_submit_response.py">AgentAuthSubmitResponse</a></code>
 
@@ -322,13 +324,19 @@ Methods:
 Types:
 
 ```python
-from kernel.types import CreateCredentialRequest, Credential, UpdateCredentialRequest
+from kernel.types import (
+    CreateCredentialRequest,
+    Credential,
+    UpdateCredentialRequest,
+    CredentialTotpCodeResponse,
+)
 ```
 
 Methods:
 
 - <code title="post /credentials">client.credentials.<a href="./src/kernel/resources/credentials.py">create</a>(\*\*<a href="src/kernel/types/credential_create_params.py">params</a>) -> <a href="./src/kernel/types/credential.py">Credential</a></code>
-- <code title="get /credentials/{id}">client.credentials.<a href="./src/kernel/resources/credentials.py">retrieve</a>(id) -> <a href="./src/kernel/types/credential.py">Credential</a></code>
-- <code title="patch /credentials/{id}">client.credentials.<a href="./src/kernel/resources/credentials.py">update</a>(id, \*\*<a href="src/kernel/types/credential_update_params.py">params</a>) -> <a href="./src/kernel/types/credential.py">Credential</a></code>
+- <code title="get /credentials/{id_or_name}">client.credentials.<a href="./src/kernel/resources/credentials.py">retrieve</a>(id_or_name) -> <a href="./src/kernel/types/credential.py">Credential</a></code>
+- <code title="patch /credentials/{id_or_name}">client.credentials.<a href="./src/kernel/resources/credentials.py">update</a>(id_or_name, \*\*<a href="src/kernel/types/credential_update_params.py">params</a>) -> <a href="./src/kernel/types/credential.py">Credential</a></code>
 - <code title="get /credentials">client.credentials.<a href="./src/kernel/resources/credentials.py">list</a>(\*\*<a href="src/kernel/types/credential_list_params.py">params</a>) -> <a href="./src/kernel/types/credential.py">SyncOffsetPagination[Credential]</a></code>
-- <code title="delete /credentials/{id}">client.credentials.<a href="./src/kernel/resources/credentials.py">delete</a>(id) -> None</code>
+- <code title="delete /credentials/{id_or_name}">client.credentials.<a href="./src/kernel/resources/credentials.py">delete</a>(id_or_name) -> None</code>
+- <code title="get /credentials/{id_or_name}/totp-code">client.credentials.<a href="./src/kernel/resources/credentials.py">totp_code</a>(id_or_name) -> <a href="./src/kernel/types/credential_totp_code_response.py">CredentialTotpCodeResponse</a></code>

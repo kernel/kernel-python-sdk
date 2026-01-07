@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -25,6 +25,13 @@ class AuthAgent(BaseModel):
 
     status: Literal["AUTHENTICATED", "NEEDS_AUTH"]
     """Current authentication status of the managed profile"""
+
+    allowed_domains: Optional[List[str]] = None
+    """
+    Additional domains that are valid for this auth agent's authentication flow
+    (besides the primary domain). Useful when login pages redirect to different
+    domains.
+    """
 
     can_reauth: Optional[bool] = None
     """

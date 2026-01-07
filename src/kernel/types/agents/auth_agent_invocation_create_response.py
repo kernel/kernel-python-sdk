@@ -1,24 +1,15 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union
 from datetime import datetime
-from typing_extensions import Literal, Annotated, TypeAlias
+from typing_extensions import Literal
 
-from ..._utils import PropertyInfo
 from ..._models import BaseModel
 
-__all__ = ["AuthAgentInvocationCreateResponse", "AuthAgentAlreadyAuthenticated", "AuthAgentInvocationCreated"]
+__all__ = ["AuthAgentInvocationCreateResponse"]
 
 
-class AuthAgentAlreadyAuthenticated(BaseModel):
-    """Response when the agent is already authenticated."""
-
-    status: Literal["already_authenticated"]
-    """Indicates the agent is already authenticated and no invocation was created."""
-
-
-class AuthAgentInvocationCreated(BaseModel):
-    """Response when a new invocation was created."""
+class AuthAgentInvocationCreateResponse(BaseModel):
+    """Response from creating an invocation. Always returns an invocation_id."""
 
     expires_at: datetime
     """When the handoff code expires."""
@@ -32,10 +23,10 @@ class AuthAgentInvocationCreated(BaseModel):
     invocation_id: str
     """Unique identifier for the invocation."""
 
-    status: Literal["invocation_created"]
-    """Indicates an invocation was created."""
+    type: Literal["login", "auto_login", "reauth"]
+    """The invocation type:
 
-
-AuthAgentInvocationCreateResponse: TypeAlias = Annotated[
-    Union[AuthAgentAlreadyAuthenticated, AuthAgentInvocationCreated], PropertyInfo(discriminator="status")
-]
+    - login: First-time authentication
+    - reauth: Re-authentication for previously authenticated agents
+    - auto_login: Legacy type (no longer created, kept for backward compatibility)
+    """

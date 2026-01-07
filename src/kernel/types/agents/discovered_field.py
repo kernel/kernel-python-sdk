@@ -20,7 +20,7 @@ class DiscoveredField(BaseModel):
     selector: str
     """CSS selector for the field"""
 
-    type: Literal["text", "email", "password", "tel", "number", "url", "code"]
+    type: Literal["text", "email", "password", "tel", "number", "url", "code", "totp"]
     """Field type"""
 
     placeholder: Optional[str] = None

@@ -8,6 +8,9 @@ __all__ = ["AuthListParams"]
 
 
 class AuthListParams(TypedDict, total=False):
+    domain: str
+    """Filter by domain"""
+
     limit: int
     """Maximum number of results to return"""
 
@@ -16,6 +19,3 @@ class AuthListParams(TypedDict, total=False):
 
     profile_name: str
     """Filter by profile name"""
-
-    target_domain: str
-    """Filter by target domain"""
