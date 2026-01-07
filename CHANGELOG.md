@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.25.0 (2026-01-07)
+
+Full Changelog: [v0.24.0...v0.25.0](https://github.com/onkernel/kernel-python-sdk/compare/v0.24.0...v0.25.0)
+
+### Features
+
+* **api:** add health check endpoint for proxies ([105801c](https://github.com/onkernel/kernel-python-sdk/commit/105801ca8028df379b2f79a8a5bd4c4e9f43c3cc))
+* **auth:** add auto_login credential flow ([e941d0f](https://github.com/onkernel/kernel-python-sdk/commit/e941d0fb0a62cb8a1aad2424577c825bd6764df4))
+* Enhance AuthAgentInvocation with step and last activity tracking ([99b8057](https://github.com/onkernel/kernel-python-sdk/commit/99b80574482322b22a5bd1ce79762471330f4945))
+
+
+### Bug Fixes
+
+* use async_to_httpx_files in patch method ([b103991](https://github.com/onkernel/kernel-python-sdk/commit/b1039911a4b2b47df0087821aae2cb0ddc374de2))
+
+
+### Chores
+
+* **internal:** add `--fix` argument to lint script ([73e0e46](https://github.com/onkernel/kernel-python-sdk/commit/73e0e4621186edb18b05514b14a638d62a0e5d14))
+* **internal:** codegen related update ([6f18d40](https://github.com/onkernel/kernel-python-sdk/commit/6f18d40b0f1f98b0f50ffb64b7fe858aaefb872f))
+
 ## 0.24.0 (2025-12-17)
 
 Full Changelog: [v0.23.0...v0.24.0](https://github.com/onkernel/kernel-python-sdk/compare/v0.23.0...v0.24.0)
