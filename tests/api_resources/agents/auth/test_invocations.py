@@ -9,12 +9,7 @@ import pytest
 
 from kernel import Kernel, AsyncKernel
 from tests.utils import assert_matches_type
-from kernel.types.agents import (
-    AgentAuthSubmitResponse,
-    AgentAuthDiscoverResponse,
-    AgentAuthInvocationResponse,
-    AuthAgentInvocationCreateResponse,
-)
+from kernel.types.agents import AgentAuthSubmitResponse, AgentAuthInvocationResponse, AuthAgentInvocationCreateResponse
 from kernel.types.agents.auth import (
     InvocationExchangeResponse,
 )
@@ -112,57 +107,6 @@ class TestInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_discover(self, client: Kernel) -> None:
-        invocation = client.agents.auth.invocations.discover(
-            invocation_id="invocation_id",
-        )
-        assert_matches_type(AgentAuthDiscoverResponse, invocation, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_discover_with_all_params(self, client: Kernel) -> None:
-        invocation = client.agents.auth.invocations.discover(
-            invocation_id="invocation_id",
-            login_url="https://doordash.com/account/login",
-        )
-        assert_matches_type(AgentAuthDiscoverResponse, invocation, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_discover(self, client: Kernel) -> None:
-        response = client.agents.auth.invocations.with_raw_response.discover(
-            invocation_id="invocation_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        invocation = response.parse()
-        assert_matches_type(AgentAuthDiscoverResponse, invocation, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_discover(self, client: Kernel) -> None:
-        with client.agents.auth.invocations.with_streaming_response.discover(
-            invocation_id="invocation_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            invocation = response.parse()
-            assert_matches_type(AgentAuthDiscoverResponse, invocation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_path_params_discover(self, client: Kernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `invocation_id` but received ''"):
-            client.agents.auth.invocations.with_raw_response.discover(
-                invocation_id="",
-            )
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
     def test_method_exchange(self, client: Kernel) -> None:
         invocation = client.agents.auth.invocations.exchange(
             invocation_id="invocation_id",
@@ -209,7 +153,7 @@ class TestInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_submit(self, client: Kernel) -> None:
+    def test_method_submit_overload_1(self, client: Kernel) -> None:
         invocation = client.agents.auth.invocations.submit(
             invocation_id="invocation_id",
             field_values={
@@ -221,7 +165,7 @@ class TestInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_submit(self, client: Kernel) -> None:
+    def test_raw_response_submit_overload_1(self, client: Kernel) -> None:
         response = client.agents.auth.invocations.with_raw_response.submit(
             invocation_id="invocation_id",
             field_values={
@@ -237,7 +181,7 @@ class TestInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_submit(self, client: Kernel) -> None:
+    def test_streaming_response_submit_overload_1(self, client: Kernel) -> None:
         with client.agents.auth.invocations.with_streaming_response.submit(
             invocation_id="invocation_id",
             field_values={
@@ -255,7 +199,7 @@ class TestInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_submit(self, client: Kernel) -> None:
+    def test_path_params_submit_overload_1(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `invocation_id` but received ''"):
             client.agents.auth.invocations.with_raw_response.submit(
                 invocation_id="",
@@ -263,6 +207,52 @@ class TestInvocations:
                     "email": "user@example.com",
                     "password": "********",
                 },
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_submit_overload_2(self, client: Kernel) -> None:
+        invocation = client.agents.auth.invocations.submit(
+            invocation_id="invocation_id",
+            sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
+        )
+        assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_submit_overload_2(self, client: Kernel) -> None:
+        response = client.agents.auth.invocations.with_raw_response.submit(
+            invocation_id="invocation_id",
+            sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        invocation = response.parse()
+        assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_submit_overload_2(self, client: Kernel) -> None:
+        with client.agents.auth.invocations.with_streaming_response.submit(
+            invocation_id="invocation_id",
+            sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            invocation = response.parse()
+            assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_submit_overload_2(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `invocation_id` but received ''"):
+            client.agents.auth.invocations.with_raw_response.submit(
+                invocation_id="",
+                sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
             )
 
 
@@ -358,57 +348,6 @@ class TestAsyncInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_discover(self, async_client: AsyncKernel) -> None:
-        invocation = await async_client.agents.auth.invocations.discover(
-            invocation_id="invocation_id",
-        )
-        assert_matches_type(AgentAuthDiscoverResponse, invocation, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_discover_with_all_params(self, async_client: AsyncKernel) -> None:
-        invocation = await async_client.agents.auth.invocations.discover(
-            invocation_id="invocation_id",
-            login_url="https://doordash.com/account/login",
-        )
-        assert_matches_type(AgentAuthDiscoverResponse, invocation, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_discover(self, async_client: AsyncKernel) -> None:
-        response = await async_client.agents.auth.invocations.with_raw_response.discover(
-            invocation_id="invocation_id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        invocation = await response.parse()
-        assert_matches_type(AgentAuthDiscoverResponse, invocation, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_discover(self, async_client: AsyncKernel) -> None:
-        async with async_client.agents.auth.invocations.with_streaming_response.discover(
-            invocation_id="invocation_id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            invocation = await response.parse()
-            assert_matches_type(AgentAuthDiscoverResponse, invocation, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_path_params_discover(self, async_client: AsyncKernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `invocation_id` but received ''"):
-            await async_client.agents.auth.invocations.with_raw_response.discover(
-                invocation_id="",
-            )
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
     async def test_method_exchange(self, async_client: AsyncKernel) -> None:
         invocation = await async_client.agents.auth.invocations.exchange(
             invocation_id="invocation_id",
@@ -455,7 +394,7 @@ class TestAsyncInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_submit(self, async_client: AsyncKernel) -> None:
+    async def test_method_submit_overload_1(self, async_client: AsyncKernel) -> None:
         invocation = await async_client.agents.auth.invocations.submit(
             invocation_id="invocation_id",
             field_values={
@@ -467,7 +406,7 @@ class TestAsyncInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_submit(self, async_client: AsyncKernel) -> None:
+    async def test_raw_response_submit_overload_1(self, async_client: AsyncKernel) -> None:
         response = await async_client.agents.auth.invocations.with_raw_response.submit(
             invocation_id="invocation_id",
             field_values={
@@ -483,7 +422,7 @@ class TestAsyncInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_submit(self, async_client: AsyncKernel) -> None:
+    async def test_streaming_response_submit_overload_1(self, async_client: AsyncKernel) -> None:
         async with async_client.agents.auth.invocations.with_streaming_response.submit(
             invocation_id="invocation_id",
             field_values={
@@ -501,7 +440,7 @@ class TestAsyncInvocations:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_submit(self, async_client: AsyncKernel) -> None:
+    async def test_path_params_submit_overload_1(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `invocation_id` but received ''"):
             await async_client.agents.auth.invocations.with_raw_response.submit(
                 invocation_id="",
@@ -509,4 +448,50 @@ class TestAsyncInvocations:
                     "email": "user@example.com",
                     "password": "********",
                 },
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_submit_overload_2(self, async_client: AsyncKernel) -> None:
+        invocation = await async_client.agents.auth.invocations.submit(
+            invocation_id="invocation_id",
+            sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
+        )
+        assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_submit_overload_2(self, async_client: AsyncKernel) -> None:
+        response = await async_client.agents.auth.invocations.with_raw_response.submit(
+            invocation_id="invocation_id",
+            sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        invocation = await response.parse()
+        assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_submit_overload_2(self, async_client: AsyncKernel) -> None:
+        async with async_client.agents.auth.invocations.with_streaming_response.submit(
+            invocation_id="invocation_id",
+            sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            invocation = await response.parse()
+            assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_submit_overload_2(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `invocation_id` but received ''"):
+            await async_client.agents.auth.invocations.with_raw_response.submit(
+                invocation_id="",
+                sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
             )

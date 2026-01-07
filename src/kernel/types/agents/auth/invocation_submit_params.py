@@ -2,12 +2,20 @@
 
 from __future__ import annotations
 
-from typing import Dict
-from typing_extensions import Required, TypedDict
+from typing import Dict, Union
+from typing_extensions import Required, TypeAlias, TypedDict
 
-__all__ = ["InvocationSubmitParams"]
+__all__ = ["InvocationSubmitParams", "Variant0", "Variant1"]
 
 
-class InvocationSubmitParams(TypedDict, total=False):
+class Variant0(TypedDict, total=False):
     field_values: Required[Dict[str, str]]
     """Values for the discovered login fields"""
+
+
+class Variant1(TypedDict, total=False):
+    sso_button: Required[str]
+    """Selector of SSO button to click"""
+
+
+InvocationSubmitParams: TypeAlias = Union[Variant0, Variant1]

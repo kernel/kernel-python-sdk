@@ -10,7 +10,7 @@ import pytest
 from kernel import Kernel, AsyncKernel
 from tests.utils import assert_matches_type
 from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
-from kernel.types.agents import AuthAgent, ReauthResponse
+from kernel.types.agents import AuthAgent
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -22,8 +22,8 @@ class TestAuth:
     @parametrize
     def test_method_create(self, client: Kernel) -> None:
         auth = client.agents.auth.create(
+            domain="netflix.com",
             profile_name="user-123",
-            target_domain="netflix.com",
         )
         assert_matches_type(AuthAgent, auth, path=["response"])
 
@@ -31,8 +31,9 @@ class TestAuth:
     @parametrize
     def test_method_create_with_all_params(self, client: Kernel) -> None:
         auth = client.agents.auth.create(
+            domain="netflix.com",
             profile_name="user-123",
-            target_domain="netflix.com",
+            allowed_domains=["login.netflix.com", "auth.netflix.com"],
             credential_name="my-netflix-login",
             login_url="https://netflix.com/login",
             proxy={"proxy_id": "proxy_id"},
@@ -43,8 +44,8 @@ class TestAuth:
     @parametrize
     def test_raw_response_create(self, client: Kernel) -> None:
         response = client.agents.auth.with_raw_response.create(
+            domain="netflix.com",
             profile_name="user-123",
-            target_domain="netflix.com",
         )
 
         assert response.is_closed is True
@@ -56,8 +57,8 @@ class TestAuth:
     @parametrize
     def test_streaming_response_create(self, client: Kernel) -> None:
         with client.agents.auth.with_streaming_response.create(
+            domain="netflix.com",
             profile_name="user-123",
-            target_domain="netflix.com",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -119,10 +120,10 @@ class TestAuth:
     @parametrize
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         auth = client.agents.auth.list(
+            domain="domain",
             limit=100,
             offset=0,
             profile_name="profile_name",
-            target_domain="target_domain",
         )
         assert_matches_type(SyncOffsetPagination[AuthAgent], auth, path=["response"])
 
@@ -190,48 +191,6 @@ class TestAuth:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_reauth(self, client: Kernel) -> None:
-        auth = client.agents.auth.reauth(
-            "id",
-        )
-        assert_matches_type(ReauthResponse, auth, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_reauth(self, client: Kernel) -> None:
-        response = client.agents.auth.with_raw_response.reauth(
-            "id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        auth = response.parse()
-        assert_matches_type(ReauthResponse, auth, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_reauth(self, client: Kernel) -> None:
-        with client.agents.auth.with_streaming_response.reauth(
-            "id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            auth = response.parse()
-            assert_matches_type(ReauthResponse, auth, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_path_params_reauth(self, client: Kernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.agents.auth.with_raw_response.reauth(
-                "",
-            )
-
 
 class TestAsyncAuth:
     parametrize = pytest.mark.parametrize(
@@ -242,8 +201,8 @@ class TestAsyncAuth:
     @parametrize
     async def test_method_create(self, async_client: AsyncKernel) -> None:
         auth = await async_client.agents.auth.create(
+            domain="netflix.com",
             profile_name="user-123",
-            target_domain="netflix.com",
         )
         assert_matches_type(AuthAgent, auth, path=["response"])
 
@@ -251,8 +210,9 @@ class TestAsyncAuth:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncKernel) -> None:
         auth = await async_client.agents.auth.create(
+            domain="netflix.com",
             profile_name="user-123",
-            target_domain="netflix.com",
+            allowed_domains=["login.netflix.com", "auth.netflix.com"],
             credential_name="my-netflix-login",
             login_url="https://netflix.com/login",
             proxy={"proxy_id": "proxy_id"},
@@ -263,8 +223,8 @@ class TestAsyncAuth:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncKernel) -> None:
         response = await async_client.agents.auth.with_raw_response.create(
+            domain="netflix.com",
             profile_name="user-123",
-            target_domain="netflix.com",
         )
 
         assert response.is_closed is True
@@ -276,8 +236,8 @@ class TestAsyncAuth:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncKernel) -> None:
         async with async_client.agents.auth.with_streaming_response.create(
+            domain="netflix.com",
             profile_name="user-123",
-            target_domain="netflix.com",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -339,10 +299,10 @@ class TestAsyncAuth:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         auth = await async_client.agents.auth.list(
+            domain="domain",
             limit=100,
             offset=0,
             profile_name="profile_name",
-            target_domain="target_domain",
         )
         assert_matches_type(AsyncOffsetPagination[AuthAgent], auth, path=["response"])
 
@@ -407,47 +367,5 @@ class TestAsyncAuth:
     async def test_path_params_delete(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.agents.auth.with_raw_response.delete(
-                "",
-            )
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_reauth(self, async_client: AsyncKernel) -> None:
-        auth = await async_client.agents.auth.reauth(
-            "id",
-        )
-        assert_matches_type(ReauthResponse, auth, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_reauth(self, async_client: AsyncKernel) -> None:
-        response = await async_client.agents.auth.with_raw_response.reauth(
-            "id",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        auth = await response.parse()
-        assert_matches_type(ReauthResponse, auth, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_reauth(self, async_client: AsyncKernel) -> None:
-        async with async_client.agents.auth.with_streaming_response.reauth(
-            "id",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            auth = await response.parse()
-            assert_matches_type(ReauthResponse, auth, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_path_params_reauth(self, async_client: AsyncKernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.agents.auth.with_raw_response.reauth(
                 "",
             )
