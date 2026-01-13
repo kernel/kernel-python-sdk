@@ -255,6 +255,52 @@ class TestInvocations:
                 sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
             )
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_submit_overload_3(self, client: Kernel) -> None:
+        invocation = client.agents.auth.invocations.submit(
+            invocation_id="invocation_id",
+            selected_mfa_type="sms",
+        )
+        assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_submit_overload_3(self, client: Kernel) -> None:
+        response = client.agents.auth.invocations.with_raw_response.submit(
+            invocation_id="invocation_id",
+            selected_mfa_type="sms",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        invocation = response.parse()
+        assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_submit_overload_3(self, client: Kernel) -> None:
+        with client.agents.auth.invocations.with_streaming_response.submit(
+            invocation_id="invocation_id",
+            selected_mfa_type="sms",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            invocation = response.parse()
+            assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_submit_overload_3(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `invocation_id` but received ''"):
+            client.agents.auth.invocations.with_raw_response.submit(
+                invocation_id="",
+                selected_mfa_type="sms",
+            )
+
 
 class TestAsyncInvocations:
     parametrize = pytest.mark.parametrize(
@@ -494,4 +540,50 @@ class TestAsyncInvocations:
             await async_client.agents.auth.invocations.with_raw_response.submit(
                 invocation_id="",
                 sso_button="xpath=//button[contains(text(), 'Continue with Google')]",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_submit_overload_3(self, async_client: AsyncKernel) -> None:
+        invocation = await async_client.agents.auth.invocations.submit(
+            invocation_id="invocation_id",
+            selected_mfa_type="sms",
+        )
+        assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_submit_overload_3(self, async_client: AsyncKernel) -> None:
+        response = await async_client.agents.auth.invocations.with_raw_response.submit(
+            invocation_id="invocation_id",
+            selected_mfa_type="sms",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        invocation = await response.parse()
+        assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_submit_overload_3(self, async_client: AsyncKernel) -> None:
+        async with async_client.agents.auth.invocations.with_streaming_response.submit(
+            invocation_id="invocation_id",
+            selected_mfa_type="sms",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            invocation = await response.parse()
+            assert_matches_type(AgentAuthSubmitResponse, invocation, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_submit_overload_3(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `invocation_id` but received ''"):
+            await async_client.agents.auth.invocations.with_raw_response.submit(
+                invocation_id="",
+                selected_mfa_type="sms",
             )
