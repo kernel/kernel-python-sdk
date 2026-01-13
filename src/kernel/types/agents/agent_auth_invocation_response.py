@@ -7,7 +7,23 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from .discovered_field import DiscoveredField
 
-__all__ = ["AgentAuthInvocationResponse", "PendingSSOButton"]
+__all__ = ["AgentAuthInvocationResponse", "MfaOption", "PendingSSOButton"]
+
+
+class MfaOption(BaseModel):
+    """An MFA method option for verification"""
+
+    label: str
+    """The visible option text"""
+
+    type: Literal["sms", "call", "email", "totp", "push", "security_key"]
+    """The MFA delivery method type"""
+
+    description: Optional[str] = None
+    """Additional instructions from the site"""
+
+    target: Optional[str] = None
+    """The masked destination (phone/email) if shown"""
 
 
 class PendingSSOButton(BaseModel):
@@ -62,6 +78,12 @@ class AgentAuthInvocationResponse(BaseModel):
 
     live_view_url: Optional[str] = None
     """Browser live view URL for debugging the invocation"""
+
+    mfa_options: Optional[List[MfaOption]] = None
+    """
+    MFA method options to choose from (present when step=awaiting_input and MFA
+    selection is required)
+    """
 
     pending_fields: Optional[List[DiscoveredField]] = None
     """Fields currently awaiting input (present when step=awaiting_input)"""

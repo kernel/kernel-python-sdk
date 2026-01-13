@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict
-from typing_extensions import overload
+from typing_extensions import Literal, overload
 
 import httpx
 
@@ -233,13 +233,46 @@ class InvocationsResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["field_values"], ["sso_button"])
+    @overload
+    def submit(
+        self,
+        invocation_id: str,
+        *,
+        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "security_key"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentAuthSubmitResponse:
+        """Submits field values for the discovered login form.
+
+        Returns immediately after
+        submission is accepted. Poll the invocation endpoint to track progress and get
+        results.
+
+        Args:
+          selected_mfa_type: The MFA delivery method type
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["field_values"], ["sso_button"], ["selected_mfa_type"])
     def submit(
         self,
         invocation_id: str,
         *,
         field_values: Dict[str, str] | Omit = omit,
         sso_button: str | Omit = omit,
+        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "security_key"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -255,6 +288,7 @@ class InvocationsResource(SyncAPIResource):
                 {
                     "field_values": field_values,
                     "sso_button": sso_button,
+                    "selected_mfa_type": selected_mfa_type,
                 },
                 invocation_submit_params.InvocationSubmitParams,
             ),
@@ -471,13 +505,46 @@ class AsyncInvocationsResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["field_values"], ["sso_button"])
+    @overload
+    async def submit(
+        self,
+        invocation_id: str,
+        *,
+        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "security_key"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AgentAuthSubmitResponse:
+        """Submits field values for the discovered login form.
+
+        Returns immediately after
+        submission is accepted. Poll the invocation endpoint to track progress and get
+        results.
+
+        Args:
+          selected_mfa_type: The MFA delivery method type
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["field_values"], ["sso_button"], ["selected_mfa_type"])
     async def submit(
         self,
         invocation_id: str,
         *,
         field_values: Dict[str, str] | Omit = omit,
         sso_button: str | Omit = omit,
+        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "security_key"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -493,6 +560,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
                 {
                     "field_values": field_values,
                     "sso_button": sso_button,
+                    "selected_mfa_type": selected_mfa_type,
                 },
                 invocation_submit_params.InvocationSubmitParams,
             ),
