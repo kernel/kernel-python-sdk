@@ -21,10 +21,12 @@ from .replay_list_response import ReplayListResponse as ReplayListResponse
 from .f_list_files_response import FListFilesResponse as FListFilesResponse
 from .process_exec_response import ProcessExecResponse as ProcessExecResponse
 from .process_kill_response import ProcessKillResponse as ProcessKillResponse
+from .process_resize_params import ProcessResizeParams as ProcessResizeParams
 from .replay_start_response import ReplayStartResponse as ReplayStartResponse
 from .computer_scroll_params import ComputerScrollParams as ComputerScrollParams
 from .process_spawn_response import ProcessSpawnResponse as ProcessSpawnResponse
 from .process_stdin_response import ProcessStdinResponse as ProcessStdinResponse
+from .process_resize_response import ProcessResizeResponse as ProcessResizeResponse
 from .process_status_response import ProcessStatusResponse as ProcessStatusResponse
 from .computer_press_key_params import ComputerPressKeyParams as ComputerPressKeyParams
 from .computer_type_text_params import ComputerTypeTextParams as ComputerTypeTextParams

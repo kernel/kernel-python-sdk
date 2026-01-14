@@ -14,6 +14,9 @@ class ProcessSpawnParams(TypedDict, total=False):
     command: Required[str]
     """Executable or shell command to run."""
 
+    allocate_tty: bool
+    """Allocate a pseudo-terminal (PTY) for interactive shells."""
+
     args: SequenceNotStr[str]
     """Command arguments."""
 
@@ -23,11 +26,17 @@ class ProcessSpawnParams(TypedDict, total=False):
     as_user: Optional[str]
     """Run the process as this user."""
 
+    cols: int
+    """Initial terminal columns. Only used when allocate_tty is true."""
+
     cwd: Optional[str]
     """Working directory (absolute path) to run the command in."""
 
     env: Dict[str, str]
     """Environment variables to set for the process."""
+
+    rows: int
+    """Initial terminal rows. Only used when allocate_tty is true."""
 
     timeout_sec: Optional[int]
     """Maximum execution time in seconds."""
