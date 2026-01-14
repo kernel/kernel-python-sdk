@@ -154,6 +154,7 @@ Types:
 from kernel.types.browsers import (
     ProcessExecResponse,
     ProcessKillResponse,
+    ProcessResizeResponse,
     ProcessSpawnResponse,
     ProcessStatusResponse,
     ProcessStdinResponse,
@@ -165,6 +166,7 @@ Methods:
 
 - <code title="post /browsers/{id}/process/exec">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">exec</a>(id, \*\*<a href="src/kernel/types/browsers/process_exec_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_exec_response.py">ProcessExecResponse</a></code>
 - <code title="post /browsers/{id}/process/{process_id}/kill">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">kill</a>(process_id, \*, id, \*\*<a href="src/kernel/types/browsers/process_kill_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_kill_response.py">ProcessKillResponse</a></code>
+- <code title="post /browsers/{id}/process/{process_id}/resize">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">resize</a>(process_id, \*, id, \*\*<a href="src/kernel/types/browsers/process_resize_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_resize_response.py">ProcessResizeResponse</a></code>
 - <code title="post /browsers/{id}/process/spawn">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">spawn</a>(id, \*\*<a href="src/kernel/types/browsers/process_spawn_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_spawn_response.py">ProcessSpawnResponse</a></code>
 - <code title="get /browsers/{id}/process/{process_id}/status">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">status</a>(process_id, \*, id) -> <a href="./src/kernel/types/browsers/process_status_response.py">ProcessStatusResponse</a></code>
 - <code title="post /browsers/{id}/process/{process_id}/stdin">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">stdin</a>(process_id, \*, id, \*\*<a href="src/kernel/types/browsers/process_stdin_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_stdin_response.py">ProcessStdinResponse</a></code>
