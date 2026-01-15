@@ -695,7 +695,7 @@ class TestKernel:
                 Kernel(api_key=api_key, _strict_response_validation=True, environment="production")
 
             client = Kernel(base_url=None, api_key=api_key, _strict_response_validation=True, environment="production")
-            assert str(client.base_url).startswith("https://api.onkernel.com/")
+            assert str(client.base_url).startswith("https://api.kernel.com/")
 
             client.close()
 
@@ -1596,7 +1596,7 @@ class TestAsyncKernel:
             client = AsyncKernel(
                 base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
-            assert str(client.base_url).startswith("https://api.onkernel.com/")
+            assert str(client.base_url).startswith("https://api.kernel.com/")
 
             await client.close()
 
