@@ -52,3 +52,9 @@ class AuthAgent(BaseModel):
 
     last_auth_check_at: Optional[datetime] = None
     """When the last authentication check was performed"""
+
+    post_login_url: Optional[str] = None
+    """URL where the browser landed after successful login.
+
+    Query parameters and fragments are stripped for privacy.
+    """
