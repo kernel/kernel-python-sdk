@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.25.0 (2026-01-16)
+
+Full Changelog: [v0.24.0...v0.25.0](https://github.com/kernel/kernel-python-sdk/compare/v0.24.0...v0.25.0)
+
+### Features
+
+* add MFA options to agent authentication workflow ([bee5904](https://github.com/kernel/kernel-python-sdk/commit/bee59044cb637362349258b9d4e4be3ecdbd344b))
+* add WebSocket process attach and PTY support ([3882e32](https://github.com/kernel/kernel-python-sdk/commit/3882e3272b9df5c360212f4d729a9a811f59c809))
+* **api:** add IP address logging for residential and custom proxies ([28f7c36](https://github.com/kernel/kernel-python-sdk/commit/28f7c3691edd8825d3e802cb0fc6142b7c6cb28e))
+* **api:** manual updates ([820fa05](https://github.com/kernel/kernel-python-sdk/commit/820fa058d07891e1c201cef71ec4e5a6e31d024f))
+* **api:** update production repos ([e041fef](https://github.com/kernel/kernel-python-sdk/commit/e041fef21a1b14504fef235e1b6b56bc91853550))
+* **client:** add support for binary request streaming ([e73f276](https://github.com/kernel/kernel-python-sdk/commit/e73f276a0be37bcfedbbb964414f4c2290560b8a))
+* Support hot swap proxy on a session ([d9dedd2](https://github.com/kernel/kernel-python-sdk/commit/d9dedd21e7211290daf9ee154c038a68b91c3e71))
+
+
+### Chores
+
+* sync repo ([729aba4](https://github.com/kernel/kernel-python-sdk/commit/729aba4fbc12aee3c63b67941a59dcc9c0d430a4))
+
 ## 0.24.0 (2025-12-17)
 
 Full Changelog: [v0.23.0...v0.24.0](https://github.com/onkernel/kernel-python-sdk/compare/v0.23.0...v0.24.0)
