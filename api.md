@@ -81,6 +81,7 @@ from kernel.types import (
     Profile,
     BrowserCreateResponse,
     BrowserRetrieveResponse,
+    BrowserUpdateResponse,
     BrowserListResponse,
 )
 ```
@@ -89,6 +90,7 @@ Methods:
 
 - <code title="post /browsers">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">create</a>(\*\*<a href="src/kernel/types/browser_create_params.py">params</a>) -> <a href="./src/kernel/types/browser_create_response.py">BrowserCreateResponse</a></code>
 - <code title="get /browsers/{id}">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">retrieve</a>(id) -> <a href="./src/kernel/types/browser_retrieve_response.py">BrowserRetrieveResponse</a></code>
+- <code title="patch /browsers/{id}">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">update</a>(id, \*\*<a href="src/kernel/types/browser_update_params.py">params</a>) -> <a href="./src/kernel/types/browser_update_response.py">BrowserUpdateResponse</a></code>
 - <code title="get /browsers">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">list</a>(\*\*<a href="src/kernel/types/browser_list_params.py">params</a>) -> <a href="./src/kernel/types/browser_list_response.py">SyncOffsetPagination[BrowserListResponse]</a></code>
 - <code title="delete /browsers">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">delete</a>(\*\*<a href="src/kernel/types/browser_delete_params.py">params</a>) -> None</code>
 - <code title="delete /browsers/{id}">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">delete_by_id</a>(id) -> None</code>
@@ -154,6 +156,7 @@ Types:
 from kernel.types.browsers import (
     ProcessExecResponse,
     ProcessKillResponse,
+    ProcessResizeResponse,
     ProcessSpawnResponse,
     ProcessStatusResponse,
     ProcessStdinResponse,
@@ -165,6 +168,7 @@ Methods:
 
 - <code title="post /browsers/{id}/process/exec">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">exec</a>(id, \*\*<a href="src/kernel/types/browsers/process_exec_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_exec_response.py">ProcessExecResponse</a></code>
 - <code title="post /browsers/{id}/process/{process_id}/kill">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">kill</a>(process_id, \*, id, \*\*<a href="src/kernel/types/browsers/process_kill_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_kill_response.py">ProcessKillResponse</a></code>
+- <code title="post /browsers/{id}/process/{process_id}/resize">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">resize</a>(process_id, \*, id, \*\*<a href="src/kernel/types/browsers/process_resize_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_resize_response.py">ProcessResizeResponse</a></code>
 - <code title="post /browsers/{id}/process/spawn">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">spawn</a>(id, \*\*<a href="src/kernel/types/browsers/process_spawn_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_spawn_response.py">ProcessSpawnResponse</a></code>
 - <code title="get /browsers/{id}/process/{process_id}/status">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">status</a>(process_id, \*, id) -> <a href="./src/kernel/types/browsers/process_status_response.py">ProcessStatusResponse</a></code>
 - <code title="post /browsers/{id}/process/{process_id}/stdin">client.browsers.process.<a href="./src/kernel/resources/browsers/process.py">stdin</a>(process_id, \*, id, \*\*<a href="src/kernel/types/browsers/process_stdin_params.py">params</a>) -> <a href="./src/kernel/types/browsers/process_stdin_response.py">ProcessStdinResponse</a></code>

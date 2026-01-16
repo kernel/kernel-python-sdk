@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Mapping, Iterable, cast
 
 import httpx
@@ -15,7 +16,20 @@ from .watch import (
     AsyncWatchResourceWithStreamingResponse,
 )
 from ...._files import read_file_content, async_read_file_content
-from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, FileTypes, FileContent, omit, not_given
+from ...._types import (
+    Body,
+    Omit,
+    Query,
+    Headers,
+    NoneType,
+    NotGiven,
+    FileTypes,
+    BinaryTypes,
+    FileContent,
+    AsyncBinaryTypes,
+    omit,
+    not_given,
+)
 from ...._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
@@ -65,7 +79,7 @@ class FsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/onkernel/kernel-python-sdk#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/kernel/kernel-python-sdk#accessing-raw-response-data-eg-headers
         """
         return FsResourceWithRawResponse(self)
 
@@ -74,7 +88,7 @@ class FsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/onkernel/kernel-python-sdk#with_streaming_response
+        For more information, see https://www.github.com/kernel/kernel-python-sdk#with_streaming_response
         """
         return FsResourceWithStreamingResponse(self)
 
@@ -562,7 +576,7 @@ class FsResource(SyncAPIResource):
     def write_file(
         self,
         id: str,
-        contents: FileContent,
+        contents: FileContent | BinaryTypes,
         *,
         path: str,
         mode: str | Omit = omit,
@@ -595,7 +609,7 @@ class FsResource(SyncAPIResource):
         extra_headers["Content-Type"] = "application/octet-stream"
         return self._put(
             f"/browsers/{id}/fs/write_file",
-            body=read_file_content(contents),
+            content=read_file_content(contents) if isinstance(contents, os.PathLike) else contents,
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -624,7 +638,7 @@ class AsyncFsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/onkernel/kernel-python-sdk#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/kernel/kernel-python-sdk#accessing-raw-response-data-eg-headers
         """
         return AsyncFsResourceWithRawResponse(self)
 
@@ -633,7 +647,7 @@ class AsyncFsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/onkernel/kernel-python-sdk#with_streaming_response
+        For more information, see https://www.github.com/kernel/kernel-python-sdk#with_streaming_response
         """
         return AsyncFsResourceWithStreamingResponse(self)
 
@@ -1121,7 +1135,7 @@ class AsyncFsResource(AsyncAPIResource):
     async def write_file(
         self,
         id: str,
-        contents: FileContent,
+        contents: FileContent | AsyncBinaryTypes,
         *,
         path: str,
         mode: str | Omit = omit,
@@ -1154,7 +1168,7 @@ class AsyncFsResource(AsyncAPIResource):
         extra_headers["Content-Type"] = "application/octet-stream"
         return await self._put(
             f"/browsers/{id}/fs/write_file",
-            body=await async_read_file_content(contents),
+            content=await async_read_file_content(contents) if isinstance(contents, os.PathLike) else contents,
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

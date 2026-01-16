@@ -1,25 +1,23 @@
 # Changelog
 
-## 0.25.0 (2026-01-07)
+## 0.25.0 (2026-01-16)
 
-Full Changelog: [v0.24.0...v0.25.0](https://github.com/onkernel/kernel-python-sdk/compare/v0.24.0...v0.25.0)
+Full Changelog: [v0.24.0...v0.25.0](https://github.com/kernel/kernel-python-sdk/compare/v0.24.0...v0.25.0)
 
 ### Features
 
-* **api:** add health check endpoint for proxies ([105801c](https://github.com/onkernel/kernel-python-sdk/commit/105801ca8028df379b2f79a8a5bd4c4e9f43c3cc))
-* **auth:** add auto_login credential flow ([e941d0f](https://github.com/onkernel/kernel-python-sdk/commit/e941d0fb0a62cb8a1aad2424577c825bd6764df4))
-* Enhance AuthAgentInvocation with step and last activity tracking ([99b8057](https://github.com/onkernel/kernel-python-sdk/commit/99b80574482322b22a5bd1ce79762471330f4945))
-
-
-### Bug Fixes
-
-* use async_to_httpx_files in patch method ([b103991](https://github.com/onkernel/kernel-python-sdk/commit/b1039911a4b2b47df0087821aae2cb0ddc374de2))
+* add MFA options to agent authentication workflow ([bee5904](https://github.com/kernel/kernel-python-sdk/commit/bee59044cb637362349258b9d4e4be3ecdbd344b))
+* add WebSocket process attach and PTY support ([3882e32](https://github.com/kernel/kernel-python-sdk/commit/3882e3272b9df5c360212f4d729a9a811f59c809))
+* **api:** add IP address logging for residential and custom proxies ([28f7c36](https://github.com/kernel/kernel-python-sdk/commit/28f7c3691edd8825d3e802cb0fc6142b7c6cb28e))
+* **api:** manual updates ([820fa05](https://github.com/kernel/kernel-python-sdk/commit/820fa058d07891e1c201cef71ec4e5a6e31d024f))
+* **api:** update production repos ([e041fef](https://github.com/kernel/kernel-python-sdk/commit/e041fef21a1b14504fef235e1b6b56bc91853550))
+* **client:** add support for binary request streaming ([e73f276](https://github.com/kernel/kernel-python-sdk/commit/e73f276a0be37bcfedbbb964414f4c2290560b8a))
+* Support hot swap proxy on a session ([d9dedd2](https://github.com/kernel/kernel-python-sdk/commit/d9dedd21e7211290daf9ee154c038a68b91c3e71))
 
 
 ### Chores
 
-* **internal:** add `--fix` argument to lint script ([73e0e46](https://github.com/onkernel/kernel-python-sdk/commit/73e0e4621186edb18b05514b14a638d62a0e5d14))
-* **internal:** codegen related update ([6f18d40](https://github.com/onkernel/kernel-python-sdk/commit/6f18d40b0f1f98b0f50ffb64b7fe858aaefb872f))
+* sync repo ([729aba4](https://github.com/kernel/kernel-python-sdk/commit/729aba4fbc12aee3c63b67941a59dcc9c0d430a4))
 
 ## 0.24.0 (2025-12-17)
 

@@ -26,6 +26,7 @@ from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
 from .browser_create_params import BrowserCreateParams as BrowserCreateParams
 from .browser_delete_params import BrowserDeleteParams as BrowserDeleteParams
 from .browser_list_response import BrowserListResponse as BrowserListResponse
+from .browser_update_params import BrowserUpdateParams as BrowserUpdateParams
 from .profile_create_params import ProfileCreateParams as ProfileCreateParams
 from .profile_list_response import ProfileListResponse as ProfileListResponse
 from .proxy_create_response import ProxyCreateResponse as ProxyCreateResponse
@@ -35,6 +36,7 @@ from .deployment_state_event import DeploymentStateEvent as DeploymentStateEvent
 from .invocation_list_params import InvocationListParams as InvocationListParams
 from .invocation_state_event import InvocationStateEvent as InvocationStateEvent
 from .browser_create_response import BrowserCreateResponse as BrowserCreateResponse
+from .browser_update_response import BrowserUpdateResponse as BrowserUpdateResponse
 from .extension_list_response import ExtensionListResponse as ExtensionListResponse
 from .extension_upload_params import ExtensionUploadParams as ExtensionUploadParams
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse

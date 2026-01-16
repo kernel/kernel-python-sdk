@@ -14,6 +14,7 @@ from kernel.types.browsers import (
     ProcessKillResponse,
     ProcessSpawnResponse,
     ProcessStdinResponse,
+    ProcessResizeResponse,
     ProcessStatusResponse,
 )
 
@@ -143,6 +144,68 @@ class TestProcess:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_resize(self, client: Kernel) -> None:
+        process = client.browsers.process.resize(
+            process_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="id",
+            cols=1,
+            rows=1,
+        )
+        assert_matches_type(ProcessResizeResponse, process, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_resize(self, client: Kernel) -> None:
+        response = client.browsers.process.with_raw_response.resize(
+            process_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="id",
+            cols=1,
+            rows=1,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        process = response.parse()
+        assert_matches_type(ProcessResizeResponse, process, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_resize(self, client: Kernel) -> None:
+        with client.browsers.process.with_streaming_response.resize(
+            process_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="id",
+            cols=1,
+            rows=1,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            process = response.parse()
+            assert_matches_type(ProcessResizeResponse, process, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_resize(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.browsers.process.with_raw_response.resize(
+                process_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                id="",
+                cols=1,
+                rows=1,
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `process_id` but received ''"):
+            client.browsers.process.with_raw_response.resize(
+                process_id="",
+                id="id",
+                cols=1,
+                rows=1,
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_method_spawn(self, client: Kernel) -> None:
         process = client.browsers.process.spawn(
             id="id",
@@ -156,11 +219,14 @@ class TestProcess:
         process = client.browsers.process.spawn(
             id="id",
             command="command",
+            allocate_tty=True,
             args=["string"],
             as_root=True,
             as_user="as_user",
+            cols=1,
             cwd="/J!",
             env={"foo": "string"},
+            rows=1,
             timeout_sec=0,
         )
         assert_matches_type(ProcessSpawnResponse, process, path=["response"])
@@ -488,6 +554,68 @@ class TestAsyncProcess:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    async def test_method_resize(self, async_client: AsyncKernel) -> None:
+        process = await async_client.browsers.process.resize(
+            process_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="id",
+            cols=1,
+            rows=1,
+        )
+        assert_matches_type(ProcessResizeResponse, process, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_resize(self, async_client: AsyncKernel) -> None:
+        response = await async_client.browsers.process.with_raw_response.resize(
+            process_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="id",
+            cols=1,
+            rows=1,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        process = await response.parse()
+        assert_matches_type(ProcessResizeResponse, process, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_resize(self, async_client: AsyncKernel) -> None:
+        async with async_client.browsers.process.with_streaming_response.resize(
+            process_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="id",
+            cols=1,
+            rows=1,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            process = await response.parse()
+            assert_matches_type(ProcessResizeResponse, process, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_resize(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.browsers.process.with_raw_response.resize(
+                process_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                id="",
+                cols=1,
+                rows=1,
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `process_id` but received ''"):
+            await async_client.browsers.process.with_raw_response.resize(
+                process_id="",
+                id="id",
+                cols=1,
+                rows=1,
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     async def test_method_spawn(self, async_client: AsyncKernel) -> None:
         process = await async_client.browsers.process.spawn(
             id="id",
@@ -501,11 +629,14 @@ class TestAsyncProcess:
         process = await async_client.browsers.process.spawn(
             id="id",
             command="command",
+            allocate_tty=True,
             args=["string"],
             as_root=True,
             as_user="as_user",
+            cols=1,
             cwd="/J!",
             env={"foo": "string"},
+            rows=1,
             timeout_sec=0,
         )
         assert_matches_type(ProcessSpawnResponse, process, path=["response"])

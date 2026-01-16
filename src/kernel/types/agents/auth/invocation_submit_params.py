@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 from typing import Dict, Union
-from typing_extensions import Required, TypeAlias, TypedDict
+from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-__all__ = ["InvocationSubmitParams", "Variant0", "Variant1"]
+__all__ = ["InvocationSubmitParams", "Variant0", "Variant1", "Variant2"]
 
 
 class Variant0(TypedDict, total=False):
@@ -18,4 +18,9 @@ class Variant1(TypedDict, total=False):
     """Selector of SSO button to click"""
 
 
-InvocationSubmitParams: TypeAlias = Union[Variant0, Variant1]
+class Variant2(TypedDict, total=False):
+    selected_mfa_type: Required[Literal["sms", "call", "email", "totp", "push", "security_key"]]
+    """The MFA delivery method type"""
+
+
+InvocationSubmitParams: TypeAlias = Union[Variant0, Variant1, Variant2]

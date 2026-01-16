@@ -19,11 +19,18 @@ from ..._response import (
 )
 from ..._streaming import Stream, AsyncStream
 from ..._base_client import make_request_options
-from ...types.browsers import process_exec_params, process_kill_params, process_spawn_params, process_stdin_params
+from ...types.browsers import (
+    process_exec_params,
+    process_kill_params,
+    process_spawn_params,
+    process_stdin_params,
+    process_resize_params,
+)
 from ...types.browsers.process_exec_response import ProcessExecResponse
 from ...types.browsers.process_kill_response import ProcessKillResponse
 from ...types.browsers.process_spawn_response import ProcessSpawnResponse
 from ...types.browsers.process_stdin_response import ProcessStdinResponse
+from ...types.browsers.process_resize_response import ProcessResizeResponse
 from ...types.browsers.process_status_response import ProcessStatusResponse
 from ...types.browsers.process_stdout_stream_response import ProcessStdoutStreamResponse
 
@@ -37,7 +44,7 @@ class ProcessResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/onkernel/kernel-python-sdk#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/kernel/kernel-python-sdk#accessing-raw-response-data-eg-headers
         """
         return ProcessResourceWithRawResponse(self)
 
@@ -46,7 +53,7 @@ class ProcessResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/onkernel/kernel-python-sdk#with_streaming_response
+        For more information, see https://www.github.com/kernel/kernel-python-sdk#with_streaming_response
         """
         return ProcessResourceWithStreamingResponse(self)
 
@@ -156,16 +163,68 @@ class ProcessResource(SyncAPIResource):
             cast_to=ProcessKillResponse,
         )
 
+    def resize(
+        self,
+        process_id: str,
+        *,
+        id: str,
+        cols: int,
+        rows: int,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProcessResizeResponse:
+        """
+        Resize a PTY-backed process terminal
+
+        Args:
+          cols: New terminal columns.
+
+          rows: New terminal rows.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not process_id:
+            raise ValueError(f"Expected a non-empty value for `process_id` but received {process_id!r}")
+        return self._post(
+            f"/browsers/{id}/process/{process_id}/resize",
+            body=maybe_transform(
+                {
+                    "cols": cols,
+                    "rows": rows,
+                },
+                process_resize_params.ProcessResizeParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ProcessResizeResponse,
+        )
+
     def spawn(
         self,
         id: str,
         *,
         command: str,
+        allocate_tty: bool | Omit = omit,
         args: SequenceNotStr[str] | Omit = omit,
         as_root: bool | Omit = omit,
         as_user: Optional[str] | Omit = omit,
+        cols: int | Omit = omit,
         cwd: Optional[str] | Omit = omit,
         env: Dict[str, str] | Omit = omit,
+        rows: int | Omit = omit,
         timeout_sec: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -180,15 +239,21 @@ class ProcessResource(SyncAPIResource):
         Args:
           command: Executable or shell command to run.
 
+          allocate_tty: Allocate a pseudo-terminal (PTY) for interactive shells.
+
           args: Command arguments.
 
           as_root: Run the process with root privileges.
 
           as_user: Run the process as this user.
 
+          cols: Initial terminal columns. Only used when allocate_tty is true.
+
           cwd: Working directory (absolute path) to run the command in.
 
           env: Environment variables to set for the process.
+
+          rows: Initial terminal rows. Only used when allocate_tty is true.
 
           timeout_sec: Maximum execution time in seconds.
 
@@ -207,11 +272,14 @@ class ProcessResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "command": command,
+                    "allocate_tty": allocate_tty,
                     "args": args,
                     "as_root": as_root,
                     "as_user": as_user,
+                    "cols": cols,
                     "cwd": cwd,
                     "env": env,
+                    "rows": rows,
                     "timeout_sec": timeout_sec,
                 },
                 process_spawn_params.ProcessSpawnParams,
@@ -345,7 +413,7 @@ class AsyncProcessResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/onkernel/kernel-python-sdk#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/kernel/kernel-python-sdk#accessing-raw-response-data-eg-headers
         """
         return AsyncProcessResourceWithRawResponse(self)
 
@@ -354,7 +422,7 @@ class AsyncProcessResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/onkernel/kernel-python-sdk#with_streaming_response
+        For more information, see https://www.github.com/kernel/kernel-python-sdk#with_streaming_response
         """
         return AsyncProcessResourceWithStreamingResponse(self)
 
@@ -464,16 +532,68 @@ class AsyncProcessResource(AsyncAPIResource):
             cast_to=ProcessKillResponse,
         )
 
+    async def resize(
+        self,
+        process_id: str,
+        *,
+        id: str,
+        cols: int,
+        rows: int,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ProcessResizeResponse:
+        """
+        Resize a PTY-backed process terminal
+
+        Args:
+          cols: New terminal columns.
+
+          rows: New terminal rows.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not process_id:
+            raise ValueError(f"Expected a non-empty value for `process_id` but received {process_id!r}")
+        return await self._post(
+            f"/browsers/{id}/process/{process_id}/resize",
+            body=await async_maybe_transform(
+                {
+                    "cols": cols,
+                    "rows": rows,
+                },
+                process_resize_params.ProcessResizeParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ProcessResizeResponse,
+        )
+
     async def spawn(
         self,
         id: str,
         *,
         command: str,
+        allocate_tty: bool | Omit = omit,
         args: SequenceNotStr[str] | Omit = omit,
         as_root: bool | Omit = omit,
         as_user: Optional[str] | Omit = omit,
+        cols: int | Omit = omit,
         cwd: Optional[str] | Omit = omit,
         env: Dict[str, str] | Omit = omit,
+        rows: int | Omit = omit,
         timeout_sec: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -488,15 +608,21 @@ class AsyncProcessResource(AsyncAPIResource):
         Args:
           command: Executable or shell command to run.
 
+          allocate_tty: Allocate a pseudo-terminal (PTY) for interactive shells.
+
           args: Command arguments.
 
           as_root: Run the process with root privileges.
 
           as_user: Run the process as this user.
 
+          cols: Initial terminal columns. Only used when allocate_tty is true.
+
           cwd: Working directory (absolute path) to run the command in.
 
           env: Environment variables to set for the process.
+
+          rows: Initial terminal rows. Only used when allocate_tty is true.
 
           timeout_sec: Maximum execution time in seconds.
 
@@ -515,11 +641,14 @@ class AsyncProcessResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "command": command,
+                    "allocate_tty": allocate_tty,
                     "args": args,
                     "as_root": as_root,
                     "as_user": as_user,
+                    "cols": cols,
                     "cwd": cwd,
                     "env": env,
+                    "rows": rows,
                     "timeout_sec": timeout_sec,
                 },
                 process_spawn_params.ProcessSpawnParams,
@@ -656,6 +785,9 @@ class ProcessResourceWithRawResponse:
         self.kill = to_raw_response_wrapper(
             process.kill,
         )
+        self.resize = to_raw_response_wrapper(
+            process.resize,
+        )
         self.spawn = to_raw_response_wrapper(
             process.spawn,
         )
@@ -679,6 +811,9 @@ class AsyncProcessResourceWithRawResponse:
         )
         self.kill = async_to_raw_response_wrapper(
             process.kill,
+        )
+        self.resize = async_to_raw_response_wrapper(
+            process.resize,
         )
         self.spawn = async_to_raw_response_wrapper(
             process.spawn,
@@ -704,6 +839,9 @@ class ProcessResourceWithStreamingResponse:
         self.kill = to_streamed_response_wrapper(
             process.kill,
         )
+        self.resize = to_streamed_response_wrapper(
+            process.resize,
+        )
         self.spawn = to_streamed_response_wrapper(
             process.spawn,
         )
@@ -727,6 +865,9 @@ class AsyncProcessResourceWithStreamingResponse:
         )
         self.kill = async_to_streamed_response_wrapper(
             process.kill,
+        )
+        self.resize = async_to_streamed_response_wrapper(
+            process.resize,
         )
         self.spawn = async_to_streamed_response_wrapper(
             process.spawn,

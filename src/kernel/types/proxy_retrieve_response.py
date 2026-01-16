@@ -182,6 +182,9 @@ class ProxyRetrieveResponse(BaseModel):
     config: Optional[Config] = None
     """Configuration specific to the selected proxy `type`."""
 
+    ip_address: Optional[str] = None
+    """IP address that the proxy uses when making requests."""
+
     last_checked: Optional[datetime] = None
     """Timestamp of the last health check performed on this proxy."""
 
