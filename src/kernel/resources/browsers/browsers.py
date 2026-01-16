@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import typing_extensions
-from typing import Mapping, Iterable, cast
+from typing import Mapping, Iterable, Optional, cast
 
 import httpx
 
@@ -27,6 +27,7 @@ from ...types import (
     browser_list_params,
     browser_create_params,
     browser_delete_params,
+    browser_update_params,
     browser_load_extensions_params,
 )
 from .process import (
@@ -75,6 +76,7 @@ from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.browser_list_response import BrowserListResponse
 from ...types.browser_create_response import BrowserCreateResponse
+from ...types.browser_update_response import BrowserUpdateResponse
 from ...types.browser_persistence_param import BrowserPersistenceParam
 from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.shared_params.browser_profile import BrowserProfile
@@ -251,6 +253,45 @@ class BrowsersResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=BrowserRetrieveResponse,
+        )
+
+    def update(
+        self,
+        id: str,
+        *,
+        proxy_id: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> BrowserUpdateResponse:
+        """Update a browser session.
+
+        Args:
+          proxy_id: ID of the proxy to use.
+
+        Omit to leave unchanged, set to empty string to remove
+              proxy.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._patch(
+            f"/browsers/{id}",
+            body=maybe_transform({"proxy_id": proxy_id}, browser_update_params.BrowserUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=BrowserUpdateResponse,
         )
 
     def list(
@@ -598,6 +639,45 @@ class AsyncBrowsersResource(AsyncAPIResource):
             cast_to=BrowserRetrieveResponse,
         )
 
+    async def update(
+        self,
+        id: str,
+        *,
+        proxy_id: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> BrowserUpdateResponse:
+        """Update a browser session.
+
+        Args:
+          proxy_id: ID of the proxy to use.
+
+        Omit to leave unchanged, set to empty string to remove
+              proxy.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._patch(
+            f"/browsers/{id}",
+            body=await async_maybe_transform({"proxy_id": proxy_id}, browser_update_params.BrowserUpdateParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=BrowserUpdateResponse,
+        )
+
     def list(
         self,
         *,
@@ -786,6 +866,9 @@ class BrowsersResourceWithRawResponse:
         self.retrieve = to_raw_response_wrapper(
             browsers.retrieve,
         )
+        self.update = to_raw_response_wrapper(
+            browsers.update,
+        )
         self.list = to_raw_response_wrapper(
             browsers.list,
         )
@@ -835,6 +918,9 @@ class AsyncBrowsersResourceWithRawResponse:
         )
         self.retrieve = async_to_raw_response_wrapper(
             browsers.retrieve,
+        )
+        self.update = async_to_raw_response_wrapper(
+            browsers.update,
         )
         self.list = async_to_raw_response_wrapper(
             browsers.list,
@@ -886,6 +972,9 @@ class BrowsersResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             browsers.retrieve,
         )
+        self.update = to_streamed_response_wrapper(
+            browsers.update,
+        )
         self.list = to_streamed_response_wrapper(
             browsers.list,
         )
@@ -935,6 +1024,9 @@ class AsyncBrowsersResourceWithStreamingResponse:
         )
         self.retrieve = async_to_streamed_response_wrapper(
             browsers.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            browsers.update,
         )
         self.list = async_to_streamed_response_wrapper(
             browsers.list,

@@ -12,6 +12,7 @@ from tests.utils import assert_matches_type
 from kernel.types import (
     BrowserListResponse,
     BrowserCreateResponse,
+    BrowserUpdateResponse,
     BrowserRetrieveResponse,
 )
 from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
@@ -122,6 +123,57 @@ class TestBrowsers:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.browsers.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update(self, client: Kernel) -> None:
+        browser = client.browsers.update(
+            id="htzv5orfit78e1m2biiifpbv",
+        )
+        assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params(self, client: Kernel) -> None:
+        browser = client.browsers.update(
+            id="htzv5orfit78e1m2biiifpbv",
+            proxy_id="proxy_id",
+        )
+        assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_update(self, client: Kernel) -> None:
+        response = client.browsers.with_raw_response.update(
+            id="htzv5orfit78e1m2biiifpbv",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        browser = response.parse()
+        assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_update(self, client: Kernel) -> None:
+        with client.browsers.with_streaming_response.update(
+            id="htzv5orfit78e1m2biiifpbv",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            browser = response.parse()
+            assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_update(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.browsers.with_raw_response.update(
+                id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -412,6 +464,57 @@ class TestAsyncBrowsers:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.browsers.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update(self, async_client: AsyncKernel) -> None:
+        browser = await async_client.browsers.update(
+            id="htzv5orfit78e1m2biiifpbv",
+        )
+        assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncKernel) -> None:
+        browser = await async_client.browsers.update(
+            id="htzv5orfit78e1m2biiifpbv",
+            proxy_id="proxy_id",
+        )
+        assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncKernel) -> None:
+        response = await async_client.browsers.with_raw_response.update(
+            id="htzv5orfit78e1m2biiifpbv",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        browser = await response.parse()
+        assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncKernel) -> None:
+        async with async_client.browsers.with_streaming_response.update(
+            id="htzv5orfit78e1m2biiifpbv",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            browser = await response.parse()
+            assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.browsers.with_raw_response.update(
+                id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
