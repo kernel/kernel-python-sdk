@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [docs.kernel.com](https://docs.kernel.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.kernel.com](https://docs.onkernel.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
