@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.26.0 (2026-01-17)
+
+Full Changelog: [v0.25.0...v0.26.0](https://github.com/kernel/kernel-python-sdk/compare/v0.25.0...v0.26.0)
+
+### Features
+
+* Auth agents auth check URL ([f9e1d38](https://github.com/kernel/kernel-python-sdk/commit/f9e1d38c4e42c1f3f340c8cc15a9311aa1b7f00c))
+
+
+### Bug Fixes
+
+* **stainless:** use @onkernel/sdk package name for TypeScript SDK ([b8c5cf1](https://github.com/kernel/kernel-python-sdk/commit/b8c5cf1ac94c4febfa41fd379485a60e39742cbc))
+
+
+### Chores
+
+* **internal:** update `actions/checkout` version ([54be5a5](https://github.com/kernel/kernel-python-sdk/commit/54be5a5b8d6c51b754a845c1a7d7467b89d50a66))
+
 ## 0.25.0 (2026-01-16)
 
 Full Changelog: [v0.24.0...v0.25.0](https://github.com/kernel/kernel-python-sdk/compare/v0.24.0...v0.25.0)
