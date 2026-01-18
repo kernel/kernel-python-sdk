@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import typing_extensions
 from typing import Mapping, Iterable, Optional, cast
+from typing_extensions import Literal
 
 import httpx
 
@@ -28,6 +29,7 @@ from ...types import (
     browser_create_params,
     browser_delete_params,
     browser_update_params,
+    browser_retrieve_params,
     browser_load_extensions_params,
 )
 from .process import (
@@ -226,6 +228,7 @@ class BrowsersResource(SyncAPIResource):
         self,
         id: str,
         *,
+        include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -237,6 +240,8 @@ class BrowsersResource(SyncAPIResource):
         Get information about a browser session.
 
         Args:
+          include_deleted: When true, includes soft-deleted browser sessions in the lookup.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -250,7 +255,13 @@ class BrowsersResource(SyncAPIResource):
         return self._get(
             f"/browsers/{id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"include_deleted": include_deleted}, browser_retrieve_params.BrowserRetrieveParams
+                ),
             ),
             cast_to=BrowserRetrieveResponse,
         )
@@ -300,6 +311,7 @@ class BrowsersResource(SyncAPIResource):
         include_deleted: bool | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        status: Literal["active", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -309,16 +321,19 @@ class BrowsersResource(SyncAPIResource):
     ) -> SyncOffsetPagination[BrowserListResponse]:
         """List all browser sessions with pagination support.
 
-        Use include_deleted=true to
-        include soft-deleted sessions in the results.
+        Use status parameter to
+        filter by session state.
 
         Args:
-          include_deleted: When true, includes soft-deleted browser sessions in the results alongside
-              active sessions.
+          include_deleted: Deprecated: Use status=all instead. When true, includes soft-deleted browser
+              sessions in the results alongside active sessions.
 
           limit: Maximum number of results to return. Defaults to 20, maximum 100.
 
           offset: Number of results to skip. Defaults to 0.
+
+          status: Filter sessions by status. "active" returns only active sessions (default),
+              "deleted" returns only soft-deleted sessions, "all" returns both.
 
           extra_headers: Send extra headers
 
@@ -341,6 +356,7 @@ class BrowsersResource(SyncAPIResource):
                         "include_deleted": include_deleted,
                         "limit": limit,
                         "offset": offset,
+                        "status": status,
                     },
                     browser_list_params.BrowserListParams,
                 ),
@@ -610,6 +626,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -621,6 +638,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Get information about a browser session.
 
         Args:
+          include_deleted: When true, includes soft-deleted browser sessions in the lookup.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -634,7 +653,13 @@ class AsyncBrowsersResource(AsyncAPIResource):
         return await self._get(
             f"/browsers/{id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"include_deleted": include_deleted}, browser_retrieve_params.BrowserRetrieveParams
+                ),
             ),
             cast_to=BrowserRetrieveResponse,
         )
@@ -684,6 +709,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         include_deleted: bool | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        status: Literal["active", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -693,16 +719,19 @@ class AsyncBrowsersResource(AsyncAPIResource):
     ) -> AsyncPaginator[BrowserListResponse, AsyncOffsetPagination[BrowserListResponse]]:
         """List all browser sessions with pagination support.
 
-        Use include_deleted=true to
-        include soft-deleted sessions in the results.
+        Use status parameter to
+        filter by session state.
 
         Args:
-          include_deleted: When true, includes soft-deleted browser sessions in the results alongside
-              active sessions.
+          include_deleted: Deprecated: Use status=all instead. When true, includes soft-deleted browser
+              sessions in the results alongside active sessions.
 
           limit: Maximum number of results to return. Defaults to 20, maximum 100.
 
           offset: Number of results to skip. Defaults to 0.
+
+          status: Filter sessions by status. "active" returns only active sessions (default),
+              "deleted" returns only soft-deleted sessions, "all" returns both.
 
           extra_headers: Send extra headers
 
@@ -725,6 +754,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                         "include_deleted": include_deleted,
                         "limit": limit,
                         "offset": offset,
+                        "status": status,
                     },
                     browser_list_params.BrowserListParams,
                 ),
