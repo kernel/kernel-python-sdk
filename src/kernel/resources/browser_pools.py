@@ -79,7 +79,9 @@ class BrowserPoolsResource(SyncAPIResource):
         Create a new browser pool with the specified configuration and size.
 
         Args:
-          size: Number of browsers to create in the pool
+          size: Number of browsers to maintain in the pool. The maximum size is determined by
+              your organization's pooled sessions limit (the sum of all pool sizes cannot
+              exceed your limit).
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
@@ -206,7 +208,9 @@ class BrowserPoolsResource(SyncAPIResource):
         Updates the configuration used to create browsers in the pool.
 
         Args:
-          size: Number of browsers to create in the pool
+          size: Number of browsers to maintain in the pool. The maximum size is determined by
+              your organization's pooled sessions limit (the sum of all pool sizes cannot
+              exceed your limit).
 
           discard_all_idle: Whether to discard all idle browsers and rebuild the pool immediately. Defaults
               to false.
@@ -513,7 +517,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         Create a new browser pool with the specified configuration and size.
 
         Args:
-          size: Number of browsers to create in the pool
+          size: Number of browsers to maintain in the pool. The maximum size is determined by
+              your organization's pooled sessions limit (the sum of all pool sizes cannot
+              exceed your limit).
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
@@ -640,7 +646,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         Updates the configuration used to create browsers in the pool.
 
         Args:
-          size: Number of browsers to create in the pool
+          size: Number of browsers to maintain in the pool. The maximum size is determined by
+              your organization's pooled sessions limit (the sum of all pool sizes cannot
+              exceed your limit).
 
           discard_all_idle: Whether to discard all idle browsers and rebuild the pool immediately. Defaults
               to false.
