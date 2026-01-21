@@ -14,7 +14,11 @@ __all__ = ["BrowserPoolUpdateParams"]
 
 class BrowserPoolUpdateParams(TypedDict, total=False):
     size: Required[int]
-    """Number of browsers to create in the pool"""
+    """Number of browsers to maintain in the pool.
+
+    The maximum size is determined by your organization's pooled sessions limit (the
+    sum of all pool sizes cannot exceed your limit).
+    """
 
     discard_all_idle: bool
     """Whether to discard all idle browsers and rebuild the pool immediately.

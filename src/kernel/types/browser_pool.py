@@ -15,7 +15,11 @@ class BrowserPoolConfig(BaseModel):
     """Configuration used to create all browsers in this pool"""
 
     size: int
-    """Number of browsers to create in the pool"""
+    """Number of browsers to maintain in the pool.
+
+    The maximum size is determined by your organization's pooled sessions limit (the
+    sum of all pool sizes cannot exceed your limit).
+    """
 
     extensions: Optional[List[BrowserExtension]] = None
     """List of browser extensions to load into the session.
