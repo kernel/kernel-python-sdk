@@ -80,6 +80,14 @@ from .browser_pools import (
     BrowserPoolsResourceWithStreamingResponse,
     AsyncBrowserPoolsResourceWithStreamingResponse,
 )
+from .credential_providers import (
+    CredentialProvidersResource,
+    AsyncCredentialProvidersResource,
+    CredentialProvidersResourceWithRawResponse,
+    AsyncCredentialProvidersResourceWithRawResponse,
+    CredentialProvidersResourceWithStreamingResponse,
+    AsyncCredentialProvidersResourceWithStreamingResponse,
+)
 
 __all__ = [
     "DeploymentsResource",
@@ -142,4 +150,10 @@ __all__ = [
     "AsyncCredentialsResourceWithRawResponse",
     "CredentialsResourceWithStreamingResponse",
     "AsyncCredentialsResourceWithStreamingResponse",
+    "CredentialProvidersResource",
+    "AsyncCredentialProvidersResource",
+    "CredentialProvidersResourceWithRawResponse",
+    "AsyncCredentialProvidersResourceWithRawResponse",
+    "CredentialProvidersResourceWithStreamingResponse",
+    "AsyncCredentialProvidersResourceWithStreamingResponse",
 ]
