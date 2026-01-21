@@ -91,6 +91,9 @@ class AgentAuthInvocationResponse(BaseModel):
     pending_sso_buttons: Optional[List[PendingSSOButton]] = None
     """SSO buttons available on the page (present when step=awaiting_input)"""
 
+    sso_provider: Optional[str] = None
+    """SSO provider being used for authentication (e.g., google, github, microsoft)"""
+
     submitted_fields: Optional[List[str]] = None
     """
     Names of fields that have been submitted (present when step=submitting or later)
