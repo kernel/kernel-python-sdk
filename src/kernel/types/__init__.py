@@ -20,6 +20,7 @@ from .app_list_params import AppListParams as AppListParams
 from .app_list_response import AppListResponse as AppListResponse
 from .browser_list_params import BrowserListParams as BrowserListParams
 from .browser_persistence import BrowserPersistence as BrowserPersistence
+from .credential_provider import CredentialProvider as CredentialProvider
 from .proxy_create_params import ProxyCreateParams as ProxyCreateParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
@@ -69,6 +70,10 @@ from .invocation_retrieve_response import InvocationRetrieveResponse as Invocati
 from .browser_pool_acquire_response import BrowserPoolAcquireResponse as BrowserPoolAcquireResponse
 from .credential_totp_code_response import CredentialTotpCodeResponse as CredentialTotpCodeResponse
 from .browser_load_extensions_params import BrowserLoadExtensionsParams as BrowserLoadExtensionsParams
+from .credential_provider_test_result import CredentialProviderTestResult as CredentialProviderTestResult
+from .credential_provider_create_params import CredentialProviderCreateParams as CredentialProviderCreateParams
+from .credential_provider_list_response import CredentialProviderListResponse as CredentialProviderListResponse
+from .credential_provider_update_params import CredentialProviderUpdateParams as CredentialProviderUpdateParams
 from .extension_download_from_chrome_store_params import (
     ExtensionDownloadFromChromeStoreParams as ExtensionDownloadFromChromeStoreParams,
 )

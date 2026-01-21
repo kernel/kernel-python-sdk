@@ -344,3 +344,26 @@ Methods:
 - <code title="get /credentials">client.credentials.<a href="./src/kernel/resources/credentials.py">list</a>(\*\*<a href="src/kernel/types/credential_list_params.py">params</a>) -> <a href="./src/kernel/types/credential.py">SyncOffsetPagination[Credential]</a></code>
 - <code title="delete /credentials/{id_or_name}">client.credentials.<a href="./src/kernel/resources/credentials.py">delete</a>(id_or_name) -> None</code>
 - <code title="get /credentials/{id_or_name}/totp-code">client.credentials.<a href="./src/kernel/resources/credentials.py">totp_code</a>(id_or_name) -> <a href="./src/kernel/types/credential_totp_code_response.py">CredentialTotpCodeResponse</a></code>
+
+# CredentialProviders
+
+Types:
+
+```python
+from kernel.types import (
+    CreateCredentialProviderRequest,
+    CredentialProvider,
+    CredentialProviderTestResult,
+    UpdateCredentialProviderRequest,
+    CredentialProviderListResponse,
+)
+```
+
+Methods:
+
+- <code title="post /org/credential-providers">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">create</a>(\*\*<a href="src/kernel/types/credential_provider_create_params.py">params</a>) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
+- <code title="get /org/credential-providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">retrieve</a>(id) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
+- <code title="patch /org/credential-providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">update</a>(id, \*\*<a href="src/kernel/types/credential_provider_update_params.py">params</a>) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
+- <code title="get /org/credential-providers">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">list</a>() -> <a href="./src/kernel/types/credential_provider_list_response.py">CredentialProviderListResponse</a></code>
+- <code title="delete /org/credential-providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">delete</a>(id) -> None</code>
+- <code title="post /org/credential-providers/{id}/test">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">test</a>(id) -> <a href="./src/kernel/types/credential_provider_test_result.py">CredentialProviderTestResult</a></code>
