@@ -42,6 +42,7 @@ if TYPE_CHECKING:
         deployments,
         invocations,
         browser_pools,
+        credential_providers,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
@@ -53,6 +54,7 @@ if TYPE_CHECKING:
     from .resources.agents.agents import AgentsResource, AsyncAgentsResource
     from .resources.browser_pools import BrowserPoolsResource, AsyncBrowserPoolsResource
     from .resources.browsers.browsers import BrowsersResource, AsyncBrowsersResource
+    from .resources.credential_providers import CredentialProvidersResource, AsyncCredentialProvidersResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -210,6 +212,12 @@ class Kernel(SyncAPIClient):
         from .resources.credentials import CredentialsResource
 
         return CredentialsResource(self)
+
+    @cached_property
+    def credential_providers(self) -> CredentialProvidersResource:
+        from .resources.credential_providers import CredentialProvidersResource
+
+        return CredentialProvidersResource(self)
 
     @cached_property
     def with_raw_response(self) -> KernelWithRawResponse:
@@ -466,6 +474,12 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncCredentialsResource(self)
 
     @cached_property
+    def credential_providers(self) -> AsyncCredentialProvidersResource:
+        from .resources.credential_providers import AsyncCredentialProvidersResource
+
+        return AsyncCredentialProvidersResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncKernelWithRawResponse:
         return AsyncKernelWithRawResponse(self)
 
@@ -646,6 +660,12 @@ class KernelWithRawResponse:
 
         return CredentialsResourceWithRawResponse(self._client.credentials)
 
+    @cached_property
+    def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithRawResponse:
+        from .resources.credential_providers import CredentialProvidersResourceWithRawResponse
+
+        return CredentialProvidersResourceWithRawResponse(self._client.credential_providers)
+
 
 class AsyncKernelWithRawResponse:
     _client: AsyncKernel
@@ -712,6 +732,12 @@ class AsyncKernelWithRawResponse:
         from .resources.credentials import AsyncCredentialsResourceWithRawResponse
 
         return AsyncCredentialsResourceWithRawResponse(self._client.credentials)
+
+    @cached_property
+    def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithRawResponse:
+        from .resources.credential_providers import AsyncCredentialProvidersResourceWithRawResponse
+
+        return AsyncCredentialProvidersResourceWithRawResponse(self._client.credential_providers)
 
 
 class KernelWithStreamedResponse:
@@ -780,6 +806,12 @@ class KernelWithStreamedResponse:
 
         return CredentialsResourceWithStreamingResponse(self._client.credentials)
 
+    @cached_property
+    def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithStreamingResponse:
+        from .resources.credential_providers import CredentialProvidersResourceWithStreamingResponse
+
+        return CredentialProvidersResourceWithStreamingResponse(self._client.credential_providers)
+
 
 class AsyncKernelWithStreamedResponse:
     _client: AsyncKernel
@@ -846,6 +878,12 @@ class AsyncKernelWithStreamedResponse:
         from .resources.credentials import AsyncCredentialsResourceWithStreamingResponse
 
         return AsyncCredentialsResourceWithStreamingResponse(self._client.credentials)
+
+    @cached_property
+    def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithStreamingResponse:
+        from .resources.credential_providers import AsyncCredentialProvidersResourceWithStreamingResponse
+
+        return AsyncCredentialProvidersResourceWithStreamingResponse(self._client.credential_providers)
 
 
 Client = Kernel
