@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.27.0 (2026-01-21)
+
+Full Changelog: [v0.26.0...v0.27.0](https://github.com/kernel/kernel-python-sdk/compare/v0.26.0...v0.27.0)
+
+### Features
+
+* **agent-auth:** add 1Password integration for credential providers ([b26d1a3](https://github.com/kernel/kernel-python-sdk/commit/b26d1a35dce7e8b76d916d7bbd869edb0c44c195))
+* **dashboard:** add browser replays support for past browsers ([9d81781](https://github.com/kernel/kernel-python-sdk/commit/9d81781970ed6230844d479bc27893453b34a05e))
+* Update browser pool org limits ([7fa6d9b](https://github.com/kernel/kernel-python-sdk/commit/7fa6d9b152e051ed7cbadb9b5760a525fdf1f3b2))
+
+
+### Refactors
+
+* **agentauth:** enhance discover and submit modules with improve… ([570df3a](https://github.com/kernel/kernel-python-sdk/commit/570df3a0cc4b4e48737729442885959e9bf205ba))
+
 ## 0.26.0 (2026-01-17)
 
 Full Changelog: [v0.25.0...v0.26.0](https://github.com/kernel/kernel-python-sdk/compare/v0.25.0...v0.26.0)
