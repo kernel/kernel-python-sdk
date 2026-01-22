@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.28.0 (2026-01-22)
+
+Full Changelog: [v0.27.0...v0.28.0](https://github.com/kernel/kernel-python-sdk/compare/v0.27.0...v0.28.0)
+
+### Features
+
+* Allow hot loading profiles into sessions ([34b8809](https://github.com/kernel/kernel-python-sdk/commit/34b880972dcf2820eff77b32f739b4e621781a44))
+
 ## 0.27.0 (2026-01-21)
 
 Full Changelog: [v0.26.0...v0.27.0](https://github.com/kernel/kernel-python-sdk/compare/v0.26.0...v0.27.0)
