@@ -270,7 +270,9 @@ class BrowsersResource(SyncAPIResource):
         self,
         id: str,
         *,
+        profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
+        viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -278,13 +280,17 @@ class BrowsersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BrowserUpdateResponse:
-        """Update a browser session.
+        """
+        Update a browser session.
 
         Args:
-          proxy_id: ID of the proxy to use.
+          profile: Profile to load into the browser session. Only allowed if the session does not
+              already have a profile loaded.
 
-        Omit to leave unchanged, set to empty string to remove
+          proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy.
+
+          viewport: Viewport configuration to apply to the browser session.
 
           extra_headers: Send extra headers
 
@@ -298,7 +304,14 @@ class BrowsersResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._patch(
             f"/browsers/{id}",
-            body=maybe_transform({"proxy_id": proxy_id}, browser_update_params.BrowserUpdateParams),
+            body=maybe_transform(
+                {
+                    "profile": profile,
+                    "proxy_id": proxy_id,
+                    "viewport": viewport,
+                },
+                browser_update_params.BrowserUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -668,7 +681,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
+        viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -676,13 +691,17 @@ class AsyncBrowsersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BrowserUpdateResponse:
-        """Update a browser session.
+        """
+        Update a browser session.
 
         Args:
-          proxy_id: ID of the proxy to use.
+          profile: Profile to load into the browser session. Only allowed if the session does not
+              already have a profile loaded.
 
-        Omit to leave unchanged, set to empty string to remove
+          proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy.
+
+          viewport: Viewport configuration to apply to the browser session.
 
           extra_headers: Send extra headers
 
@@ -696,7 +715,14 @@ class AsyncBrowsersResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._patch(
             f"/browsers/{id}",
-            body=await async_maybe_transform({"proxy_id": proxy_id}, browser_update_params.BrowserUpdateParams),
+            body=await async_maybe_transform(
+                {
+                    "profile": profile,
+                    "proxy_id": proxy_id,
+                    "viewport": viewport,
+                },
+                browser_update_params.BrowserUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

@@ -147,7 +147,17 @@ class TestBrowsers:
     def test_method_update_with_all_params(self, client: Kernel) -> None:
         browser = client.browsers.update(
             id="htzv5orfit78e1m2biiifpbv",
+            profile={
+                "id": "id",
+                "name": "name",
+                "save_changes": True,
+            },
             proxy_id="proxy_id",
+            viewport={
+                "height": 800,
+                "width": 1280,
+                "refresh_rate": 60,
+            },
         )
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
 
@@ -498,7 +508,17 @@ class TestAsyncBrowsers:
     async def test_method_update_with_all_params(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.update(
             id="htzv5orfit78e1m2biiifpbv",
+            profile={
+                "id": "id",
+                "name": "name",
+                "save_changes": True,
+            },
             proxy_id="proxy_id",
+            viewport={
+                "height": 800,
+                "width": 1280,
+                "refresh_rate": 60,
+            },
         )
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
 
