@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.29.0 (2026-01-30)
+
+Full Changelog: [v0.28.0...v0.29.0](https://github.com/kernel/kernel-python-sdk/compare/v0.28.0...v0.29.0)
+
+### Features
+
+* add support for 1280x800@60 viewport ([1cb6575](https://github.com/kernel/kernel-python-sdk/commit/1cb65752f6aa45fcb2ca1dd55f0eebf9457abfa9))
+* **client:** add custom JSON encoder for extended type support ([33604fe](https://github.com/kernel/kernel-python-sdk/commit/33604feb1a07bbca94477c28143052d5c6eff70d))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([4828aba](https://github.com/kernel/kernel-python-sdk/commit/4828aba4349e61686285b57358892825e75286be))
+
 ## 0.28.0 (2026-01-22)
 
 Full Changelog: [v0.27.0...v0.28.0](https://github.com/kernel/kernel-python-sdk/compare/v0.27.0...v0.28.0)
