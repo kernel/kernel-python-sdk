@@ -26,6 +26,7 @@ from ..types.invocation_create_response import InvocationCreateResponse
 from ..types.invocation_follow_response import InvocationFollowResponse
 from ..types.invocation_update_response import InvocationUpdateResponse
 from ..types.invocation_retrieve_response import InvocationRetrieveResponse
+from ..types.invocation_list_browsers_response import InvocationListBrowsersResponse
 
 __all__ = ["InvocationsResource", "AsyncInvocationsResource"]
 
@@ -347,6 +348,39 @@ class InvocationsResource(SyncAPIResource):
             stream_cls=Stream[InvocationFollowResponse],
         )
 
+    def list_browsers(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> InvocationListBrowsersResponse:
+        """
+        Returns all active browser sessions created within the specified invocation.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._get(
+            f"/invocations/{id}/browsers",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=InvocationListBrowsersResponse,
+        )
+
 
 class AsyncInvocationsResource(AsyncAPIResource):
     @cached_property
@@ -665,6 +699,39 @@ class AsyncInvocationsResource(AsyncAPIResource):
             stream_cls=AsyncStream[InvocationFollowResponse],
         )
 
+    async def list_browsers(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> InvocationListBrowsersResponse:
+        """
+        Returns all active browser sessions created within the specified invocation.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._get(
+            f"/invocations/{id}/browsers",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=InvocationListBrowsersResponse,
+        )
+
 
 class InvocationsResourceWithRawResponse:
     def __init__(self, invocations: InvocationsResource) -> None:
@@ -687,6 +754,9 @@ class InvocationsResourceWithRawResponse:
         )
         self.follow = to_raw_response_wrapper(
             invocations.follow,
+        )
+        self.list_browsers = to_raw_response_wrapper(
+            invocations.list_browsers,
         )
 
 
@@ -712,6 +782,9 @@ class AsyncInvocationsResourceWithRawResponse:
         self.follow = async_to_raw_response_wrapper(
             invocations.follow,
         )
+        self.list_browsers = async_to_raw_response_wrapper(
+            invocations.list_browsers,
+        )
 
 
 class InvocationsResourceWithStreamingResponse:
@@ -736,6 +809,9 @@ class InvocationsResourceWithStreamingResponse:
         self.follow = to_streamed_response_wrapper(
             invocations.follow,
         )
+        self.list_browsers = to_streamed_response_wrapper(
+            invocations.list_browsers,
+        )
 
 
 class AsyncInvocationsResourceWithStreamingResponse:
@@ -759,4 +835,7 @@ class AsyncInvocationsResourceWithStreamingResponse:
         )
         self.follow = async_to_streamed_response_wrapper(
             invocations.follow,
+        )
+        self.list_browsers = async_to_streamed_response_wrapper(
+            invocations.list_browsers,
         )
