@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.30.0 (2026-02-03)
+
+Full Changelog: [v0.29.0...v0.30.0](https://github.com/kernel/kernel-python-sdk/compare/v0.29.0...v0.30.0)
+
+### Features
+
+* Neil/kernel 872 templates v3 ([383d071](https://github.com/kernel/kernel-python-sdk/commit/383d071b2dba88ec884c34ea8453b3c0e9c4a969))
+
 ## 0.29.0 (2026-01-30)
 
 Full Changelog: [v0.28.0...v0.29.0](https://github.com/kernel/kernel-python-sdk/compare/v0.28.0...v0.29.0)
