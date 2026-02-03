@@ -59,6 +59,7 @@ from kernel.types import (
     InvocationUpdateResponse,
     InvocationListResponse,
     InvocationFollowResponse,
+    InvocationListBrowsersResponse,
 )
 ```
 
@@ -70,6 +71,7 @@ Methods:
 - <code title="get /invocations">client.invocations.<a href="./src/kernel/resources/invocations.py">list</a>(\*\*<a href="src/kernel/types/invocation_list_params.py">params</a>) -> <a href="./src/kernel/types/invocation_list_response.py">SyncOffsetPagination[InvocationListResponse]</a></code>
 - <code title="delete /invocations/{id}/browsers">client.invocations.<a href="./src/kernel/resources/invocations.py">delete_browsers</a>(id) -> None</code>
 - <code title="get /invocations/{id}/events">client.invocations.<a href="./src/kernel/resources/invocations.py">follow</a>(id, \*\*<a href="src/kernel/types/invocation_follow_params.py">params</a>) -> <a href="./src/kernel/types/invocation_follow_response.py">InvocationFollowResponse</a></code>
+- <code title="get /invocations/{id}/browsers">client.invocations.<a href="./src/kernel/resources/invocations.py">list_browsers</a>(id) -> <a href="./src/kernel/types/invocation_list_browsers_response.py">InvocationListBrowsersResponse</a></code>
 
 # Browsers
 
