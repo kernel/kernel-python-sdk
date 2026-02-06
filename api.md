@@ -187,14 +187,19 @@ Methods:
 Types:
 
 ```python
-from kernel.types.browsers import ComputerSetCursorVisibilityResponse
+from kernel.types.browsers import (
+    ComputerGetMousePositionResponse,
+    ComputerSetCursorVisibilityResponse,
+)
 ```
 
 Methods:
 
+- <code title="post /browsers/{id}/computer/batch">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">batch</a>(id, \*\*<a href="src/kernel/types/browsers/computer_batch_params.py">params</a>) -> None</code>
 - <code title="post /browsers/{id}/computer/screenshot">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">capture_screenshot</a>(id, \*\*<a href="src/kernel/types/browsers/computer_capture_screenshot_params.py">params</a>) -> BinaryAPIResponse</code>
 - <code title="post /browsers/{id}/computer/click_mouse">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">click_mouse</a>(id, \*\*<a href="src/kernel/types/browsers/computer_click_mouse_params.py">params</a>) -> None</code>
 - <code title="post /browsers/{id}/computer/drag_mouse">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">drag_mouse</a>(id, \*\*<a href="src/kernel/types/browsers/computer_drag_mouse_params.py">params</a>) -> None</code>
+- <code title="post /browsers/{id}/computer/get_mouse_position">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">get_mouse_position</a>(id) -> <a href="./src/kernel/types/browsers/computer_get_mouse_position_response.py">ComputerGetMousePositionResponse</a></code>
 - <code title="post /browsers/{id}/computer/move_mouse">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">move_mouse</a>(id, \*\*<a href="src/kernel/types/browsers/computer_move_mouse_params.py">params</a>) -> None</code>
 - <code title="post /browsers/{id}/computer/press_key">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">press_key</a>(id, \*\*<a href="src/kernel/types/browsers/computer_press_key_params.py">params</a>) -> None</code>
 - <code title="post /browsers/{id}/computer/scroll">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">scroll</a>(id, \*\*<a href="src/kernel/types/browsers/computer_scroll_params.py">params</a>) -> None</code>
