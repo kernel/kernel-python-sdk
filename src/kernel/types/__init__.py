@@ -43,6 +43,7 @@ from .extension_list_response import ExtensionListResponse as ExtensionListRespo
 from .extension_upload_params import ExtensionUploadParams as ExtensionUploadParams
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
 from .credential_create_params import CredentialCreateParams as CredentialCreateParams
+from .credential_provider_item import CredentialProviderItem as CredentialProviderItem
 from .credential_update_params import CredentialUpdateParams as CredentialUpdateParams
 from .deployment_create_params import DeploymentCreateParams as DeploymentCreateParams
 from .deployment_follow_params import DeploymentFollowParams as DeploymentFollowParams
@@ -75,6 +76,9 @@ from .credential_provider_create_params import CredentialProviderCreateParams as
 from .credential_provider_list_response import CredentialProviderListResponse as CredentialProviderListResponse
 from .credential_provider_update_params import CredentialProviderUpdateParams as CredentialProviderUpdateParams
 from .invocation_list_browsers_response import InvocationListBrowsersResponse as InvocationListBrowsersResponse
+from .credential_provider_list_items_response import (
+    CredentialProviderListItemsResponse as CredentialProviderListItemsResponse,
+)
 from .extension_download_from_chrome_store_params import (
     ExtensionDownloadFromChromeStoreParams as ExtensionDownloadFromChromeStoreParams,
 )

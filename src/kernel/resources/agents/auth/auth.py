@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import typing_extensions
+
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
@@ -54,6 +56,7 @@ class AuthResource(SyncAPIResource):
         """
         return AuthResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("deprecated")
     def create(
         self,
         *,
@@ -71,10 +74,11 @@ class AuthResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AuthAgent:
         """
-        Creates a new auth agent for the specified domain and profile combination, or
-        returns an existing one if it already exists. This is idempotent - calling with
-        the same domain and profile will return the same agent. Does NOT start an
-        invocation - use POST /agents/auth/invocations to start an auth flow.
+        **Deprecated: Use POST /auth/connections instead.** Creates a new auth agent for
+        the specified domain and profile combination, or returns an existing one if it
+        already exists. This is idempotent - calling with the same domain and profile
+        will return the same agent. Does NOT start an invocation - use POST
+        /agents/auth/invocations to start an auth flow.
 
         Args:
           domain: Domain for authentication
@@ -84,6 +88,21 @@ class AuthResource(SyncAPIResource):
           allowed_domains: Additional domains that are valid for this auth agent's authentication flow
               (besides the primary domain). Useful when login pages redirect to different
               domains.
+
+              The following SSO/OAuth provider domains are automatically allowed by default
+              and do not need to be specified:
+
+              - Google: accounts.google.com
+              - Microsoft/Azure AD: login.microsoftonline.com, login.live.com
+              - Okta: _.okta.com, _.oktapreview.com
+              - Auth0: _.auth0.com, _.us.auth0.com, _.eu.auth0.com, _.au.auth0.com
+              - Apple: appleid.apple.com
+              - GitHub: github.com
+              - Facebook/Meta: www.facebook.com
+              - LinkedIn: www.linkedin.com
+              - Amazon Cognito: \\**.amazoncognito.com
+              - OneLogin: \\**.onelogin.com
+              - Ping Identity: _.pingone.com, _.pingidentity.com
 
           credential_name: Optional name of an existing credential to use for this auth agent. If provided,
               the credential will be linked to the agent and its values will be used to
@@ -121,6 +140,7 @@ class AuthResource(SyncAPIResource):
             cast_to=AuthAgent,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def retrieve(
         self,
         id: str,
@@ -132,10 +152,9 @@ class AuthResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AuthAgent:
-        """Retrieve an auth agent by its ID.
-
-        Returns the current authentication status of
-        the managed profile.
+        """
+        **Deprecated: Use GET /auth/connections/{id} instead.** Retrieve an auth agent
+        by its ID. Returns the current authentication status of the managed profile.
 
         Args:
           extra_headers: Send extra headers
@@ -156,6 +175,7 @@ class AuthResource(SyncAPIResource):
             cast_to=AuthAgent,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def list(
         self,
         *,
@@ -171,7 +191,8 @@ class AuthResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncOffsetPagination[AuthAgent]:
         """
-        List auth agents with optional filters for profile_name and domain.
+        **Deprecated: Use GET /auth/connections instead.** List auth agents with
+        optional filters for profile_name and domain.
 
         Args:
           domain: Filter by domain
@@ -211,6 +232,7 @@ class AuthResource(SyncAPIResource):
             model=AuthAgent,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def delete(
         self,
         id: str,
@@ -222,9 +244,9 @@ class AuthResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Deletes an auth agent and terminates its workflow.
-
-        This will:
+        """
+        **Deprecated: Use DELETE /auth/connections/{id} instead.** Deletes an auth agent
+        and terminates its workflow. This will:
 
         - Soft delete the auth agent record
         - Gracefully terminate the agent's Temporal workflow
@@ -275,6 +297,7 @@ class AsyncAuthResource(AsyncAPIResource):
         """
         return AsyncAuthResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("deprecated")
     async def create(
         self,
         *,
@@ -292,10 +315,11 @@ class AsyncAuthResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AuthAgent:
         """
-        Creates a new auth agent for the specified domain and profile combination, or
-        returns an existing one if it already exists. This is idempotent - calling with
-        the same domain and profile will return the same agent. Does NOT start an
-        invocation - use POST /agents/auth/invocations to start an auth flow.
+        **Deprecated: Use POST /auth/connections instead.** Creates a new auth agent for
+        the specified domain and profile combination, or returns an existing one if it
+        already exists. This is idempotent - calling with the same domain and profile
+        will return the same agent. Does NOT start an invocation - use POST
+        /agents/auth/invocations to start an auth flow.
 
         Args:
           domain: Domain for authentication
@@ -305,6 +329,21 @@ class AsyncAuthResource(AsyncAPIResource):
           allowed_domains: Additional domains that are valid for this auth agent's authentication flow
               (besides the primary domain). Useful when login pages redirect to different
               domains.
+
+              The following SSO/OAuth provider domains are automatically allowed by default
+              and do not need to be specified:
+
+              - Google: accounts.google.com
+              - Microsoft/Azure AD: login.microsoftonline.com, login.live.com
+              - Okta: _.okta.com, _.oktapreview.com
+              - Auth0: _.auth0.com, _.us.auth0.com, _.eu.auth0.com, _.au.auth0.com
+              - Apple: appleid.apple.com
+              - GitHub: github.com
+              - Facebook/Meta: www.facebook.com
+              - LinkedIn: www.linkedin.com
+              - Amazon Cognito: \\**.amazoncognito.com
+              - OneLogin: \\**.onelogin.com
+              - Ping Identity: _.pingone.com, _.pingidentity.com
 
           credential_name: Optional name of an existing credential to use for this auth agent. If provided,
               the credential will be linked to the agent and its values will be used to
@@ -342,6 +381,7 @@ class AsyncAuthResource(AsyncAPIResource):
             cast_to=AuthAgent,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def retrieve(
         self,
         id: str,
@@ -353,10 +393,9 @@ class AsyncAuthResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AuthAgent:
-        """Retrieve an auth agent by its ID.
-
-        Returns the current authentication status of
-        the managed profile.
+        """
+        **Deprecated: Use GET /auth/connections/{id} instead.** Retrieve an auth agent
+        by its ID. Returns the current authentication status of the managed profile.
 
         Args:
           extra_headers: Send extra headers
@@ -377,6 +416,7 @@ class AsyncAuthResource(AsyncAPIResource):
             cast_to=AuthAgent,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def list(
         self,
         *,
@@ -392,7 +432,8 @@ class AsyncAuthResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[AuthAgent, AsyncOffsetPagination[AuthAgent]]:
         """
-        List auth agents with optional filters for profile_name and domain.
+        **Deprecated: Use GET /auth/connections instead.** List auth agents with
+        optional filters for profile_name and domain.
 
         Args:
           domain: Filter by domain
@@ -432,6 +473,7 @@ class AsyncAuthResource(AsyncAPIResource):
             model=AuthAgent,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def delete(
         self,
         id: str,
@@ -443,9 +485,9 @@ class AsyncAuthResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Deletes an auth agent and terminates its workflow.
-
-        This will:
+        """
+        **Deprecated: Use DELETE /auth/connections/{id} instead.** Deletes an auth agent
+        and terminates its workflow. This will:
 
         - Soft delete the auth agent record
         - Gracefully terminate the agent's Temporal workflow
@@ -476,17 +518,25 @@ class AuthResourceWithRawResponse:
     def __init__(self, auth: AuthResource) -> None:
         self._auth = auth
 
-        self.create = to_raw_response_wrapper(
-            auth.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                auth.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = to_raw_response_wrapper(
-            auth.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                auth.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.list = to_raw_response_wrapper(
-            auth.list,
+        self.list = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                auth.list,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.delete = to_raw_response_wrapper(
-            auth.delete,
+        self.delete = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                auth.delete,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
@@ -498,17 +548,25 @@ class AsyncAuthResourceWithRawResponse:
     def __init__(self, auth: AsyncAuthResource) -> None:
         self._auth = auth
 
-        self.create = async_to_raw_response_wrapper(
-            auth.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                auth.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = async_to_raw_response_wrapper(
-            auth.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                auth.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.list = async_to_raw_response_wrapper(
-            auth.list,
+        self.list = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                auth.list,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.delete = async_to_raw_response_wrapper(
-            auth.delete,
+        self.delete = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                auth.delete,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
@@ -520,17 +578,25 @@ class AuthResourceWithStreamingResponse:
     def __init__(self, auth: AuthResource) -> None:
         self._auth = auth
 
-        self.create = to_streamed_response_wrapper(
-            auth.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                auth.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = to_streamed_response_wrapper(
-            auth.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                auth.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.list = to_streamed_response_wrapper(
-            auth.list,
+        self.list = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                auth.list,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.delete = to_streamed_response_wrapper(
-            auth.delete,
+        self.delete = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                auth.delete,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
@@ -542,17 +608,25 @@ class AsyncAuthResourceWithStreamingResponse:
     def __init__(self, auth: AsyncAuthResource) -> None:
         self._auth = auth
 
-        self.create = async_to_streamed_response_wrapper(
-            auth.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                auth.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = async_to_streamed_response_wrapper(
-            auth.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                auth.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.list = async_to_streamed_response_wrapper(
-            auth.list,
+        self.list = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                auth.list,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.delete = async_to_streamed_response_wrapper(
-            auth.delete,
+        self.delete = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                auth.delete,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property

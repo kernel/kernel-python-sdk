@@ -33,6 +33,7 @@ from ._base_client import (
 if TYPE_CHECKING:
     from .resources import (
         apps,
+        auth,
         agents,
         proxies,
         browsers,
@@ -47,6 +48,7 @@ if TYPE_CHECKING:
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
+    from .resources.auth.auth import AuthResource, AsyncAuthResource
     from .resources.extensions import ExtensionsResource, AsyncExtensionsResource
     from .resources.credentials import CredentialsResource, AsyncCredentialsResource
     from .resources.deployments import DeploymentsResource, AsyncDeploymentsResource
@@ -182,6 +184,12 @@ class Kernel(SyncAPIClient):
         from .resources.profiles import ProfilesResource
 
         return ProfilesResource(self)
+
+    @cached_property
+    def auth(self) -> AuthResource:
+        from .resources.auth import AuthResource
+
+        return AuthResource(self)
 
     @cached_property
     def proxies(self) -> ProxiesResource:
@@ -444,6 +452,12 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncProfilesResource(self)
 
     @cached_property
+    def auth(self) -> AsyncAuthResource:
+        from .resources.auth import AsyncAuthResource
+
+        return AsyncAuthResource(self)
+
+    @cached_property
     def proxies(self) -> AsyncProxiesResource:
         from .resources.proxies import AsyncProxiesResource
 
@@ -631,6 +645,12 @@ class KernelWithRawResponse:
         return ProfilesResourceWithRawResponse(self._client.profiles)
 
     @cached_property
+    def auth(self) -> auth.AuthResourceWithRawResponse:
+        from .resources.auth import AuthResourceWithRawResponse
+
+        return AuthResourceWithRawResponse(self._client.auth)
+
+    @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithRawResponse:
         from .resources.proxies import ProxiesResourceWithRawResponse
 
@@ -702,6 +722,12 @@ class AsyncKernelWithRawResponse:
         from .resources.profiles import AsyncProfilesResourceWithRawResponse
 
         return AsyncProfilesResourceWithRawResponse(self._client.profiles)
+
+    @cached_property
+    def auth(self) -> auth.AsyncAuthResourceWithRawResponse:
+        from .resources.auth import AsyncAuthResourceWithRawResponse
+
+        return AsyncAuthResourceWithRawResponse(self._client.auth)
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithRawResponse:
@@ -777,6 +803,12 @@ class KernelWithStreamedResponse:
         return ProfilesResourceWithStreamingResponse(self._client.profiles)
 
     @cached_property
+    def auth(self) -> auth.AuthResourceWithStreamingResponse:
+        from .resources.auth import AuthResourceWithStreamingResponse
+
+        return AuthResourceWithStreamingResponse(self._client.auth)
+
+    @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithStreamingResponse:
         from .resources.proxies import ProxiesResourceWithStreamingResponse
 
@@ -848,6 +880,12 @@ class AsyncKernelWithStreamedResponse:
         from .resources.profiles import AsyncProfilesResourceWithStreamingResponse
 
         return AsyncProfilesResourceWithStreamingResponse(self._client.profiles)
+
+    @cached_property
+    def auth(self) -> auth.AsyncAuthResourceWithStreamingResponse:
+        from .resources.auth import AsyncAuthResourceWithStreamingResponse
+
+        return AsyncAuthResourceWithStreamingResponse(self._client.auth)
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithStreamingResponse:

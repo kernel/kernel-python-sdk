@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing_extensions
 from typing import Dict
 from typing_extensions import Literal, overload
 
@@ -47,6 +48,7 @@ class InvocationsResource(SyncAPIResource):
         """
         return InvocationsResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("deprecated")
     def create(
         self,
         *,
@@ -59,11 +61,10 @@ class InvocationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AuthAgentInvocationCreateResponse:
-        """Creates a new authentication invocation for the specified auth agent.
-
-        This
-        starts the auth flow and returns a hosted URL for the user to complete
-        authentication.
+        """
+        **Deprecated: Use POST /auth/connections/{id}/login instead.** Creates a new
+        authentication invocation for the specified auth agent. This starts the auth
+        flow and returns a hosted URL for the user to complete authentication.
 
         Args:
           auth_agent_id: ID of the auth agent to create an invocation for
@@ -95,6 +96,7 @@ class InvocationsResource(SyncAPIResource):
             cast_to=AuthAgentInvocationCreateResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def retrieve(
         self,
         invocation_id: str,
@@ -106,10 +108,10 @@ class InvocationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthInvocationResponse:
-        """Returns invocation details including status, app_name, and domain.
-
-        Supports both
-        API key and JWT (from exchange endpoint) authentication.
+        """
+        **Deprecated: Use GET /auth/connections/{id} instead.** Returns invocation
+        details including status, app_name, and domain. Supports both API key and JWT
+        (from exchange endpoint) authentication.
 
         Args:
           extra_headers: Send extra headers
@@ -130,6 +132,7 @@ class InvocationsResource(SyncAPIResource):
             cast_to=AgentAuthInvocationResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     def exchange(
         self,
         invocation_id: str,
@@ -142,10 +145,10 @@ class InvocationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> InvocationExchangeResponse:
-        """Validates the handoff code and returns a JWT token for subsequent requests.
-
-        No
-        authentication required (the handoff code serves as the credential).
+        """
+        **Deprecated: Use POST /auth/connections/{id}/exchange instead.** Validates the
+        handoff code and returns a JWT token for subsequent requests. No authentication
+        required (the handoff code serves as the credential).
 
         Args:
           code: Handoff code from start endpoint
@@ -169,6 +172,7 @@ class InvocationsResource(SyncAPIResource):
             cast_to=InvocationExchangeResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     @overload
     def submit(
         self,
@@ -182,11 +186,10 @@ class InvocationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthSubmitResponse:
-        """Submits field values for the discovered login form.
-
-        Returns immediately after
-        submission is accepted. Poll the invocation endpoint to track progress and get
-        results.
+        """
+        **Deprecated: Use POST /auth/connections/{id}/submit instead.** Submits field
+        values for the discovered login form. Returns immediately after submission is
+        accepted. Poll the invocation endpoint to track progress and get results.
 
         Args:
           field_values: Values for the discovered login fields
@@ -201,6 +204,7 @@ class InvocationsResource(SyncAPIResource):
         """
         ...
 
+    @typing_extensions.deprecated("deprecated")
     @overload
     def submit(
         self,
@@ -214,11 +218,10 @@ class InvocationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthSubmitResponse:
-        """Submits field values for the discovered login form.
-
-        Returns immediately after
-        submission is accepted. Poll the invocation endpoint to track progress and get
-        results.
+        """
+        **Deprecated: Use POST /auth/connections/{id}/submit instead.** Submits field
+        values for the discovered login form. Returns immediately after submission is
+        accepted. Poll the invocation endpoint to track progress and get results.
 
         Args:
           sso_button: Selector of SSO button to click
@@ -233,12 +236,13 @@ class InvocationsResource(SyncAPIResource):
         """
         ...
 
+    @typing_extensions.deprecated("deprecated")
     @overload
     def submit(
         self,
         invocation_id: str,
         *,
-        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "security_key"],
+        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "password"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -246,14 +250,13 @@ class InvocationsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthSubmitResponse:
-        """Submits field values for the discovered login form.
-
-        Returns immediately after
-        submission is accepted. Poll the invocation endpoint to track progress and get
-        results.
+        """
+        **Deprecated: Use POST /auth/connections/{id}/submit instead.** Submits field
+        values for the discovered login form. Returns immediately after submission is
+        accepted. Poll the invocation endpoint to track progress and get results.
 
         Args:
-          selected_mfa_type: The MFA delivery method type
+          selected_mfa_type: The MFA delivery method type (includes password for auth method selection pages)
 
           extra_headers: Send extra headers
 
@@ -265,6 +268,7 @@ class InvocationsResource(SyncAPIResource):
         """
         ...
 
+    @typing_extensions.deprecated("deprecated")
     @required_args(["field_values"], ["sso_button"], ["selected_mfa_type"])
     def submit(
         self,
@@ -272,7 +276,7 @@ class InvocationsResource(SyncAPIResource):
         *,
         field_values: Dict[str, str] | Omit = omit,
         sso_button: str | Omit = omit,
-        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "security_key"] | Omit = omit,
+        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "password"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -319,6 +323,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
         """
         return AsyncInvocationsResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("deprecated")
     async def create(
         self,
         *,
@@ -331,11 +336,10 @@ class AsyncInvocationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AuthAgentInvocationCreateResponse:
-        """Creates a new authentication invocation for the specified auth agent.
-
-        This
-        starts the auth flow and returns a hosted URL for the user to complete
-        authentication.
+        """
+        **Deprecated: Use POST /auth/connections/{id}/login instead.** Creates a new
+        authentication invocation for the specified auth agent. This starts the auth
+        flow and returns a hosted URL for the user to complete authentication.
 
         Args:
           auth_agent_id: ID of the auth agent to create an invocation for
@@ -367,6 +371,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
             cast_to=AuthAgentInvocationCreateResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def retrieve(
         self,
         invocation_id: str,
@@ -378,10 +383,10 @@ class AsyncInvocationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthInvocationResponse:
-        """Returns invocation details including status, app_name, and domain.
-
-        Supports both
-        API key and JWT (from exchange endpoint) authentication.
+        """
+        **Deprecated: Use GET /auth/connections/{id} instead.** Returns invocation
+        details including status, app_name, and domain. Supports both API key and JWT
+        (from exchange endpoint) authentication.
 
         Args:
           extra_headers: Send extra headers
@@ -402,6 +407,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
             cast_to=AgentAuthInvocationResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     async def exchange(
         self,
         invocation_id: str,
@@ -414,10 +420,10 @@ class AsyncInvocationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> InvocationExchangeResponse:
-        """Validates the handoff code and returns a JWT token for subsequent requests.
-
-        No
-        authentication required (the handoff code serves as the credential).
+        """
+        **Deprecated: Use POST /auth/connections/{id}/exchange instead.** Validates the
+        handoff code and returns a JWT token for subsequent requests. No authentication
+        required (the handoff code serves as the credential).
 
         Args:
           code: Handoff code from start endpoint
@@ -441,6 +447,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
             cast_to=InvocationExchangeResponse,
         )
 
+    @typing_extensions.deprecated("deprecated")
     @overload
     async def submit(
         self,
@@ -454,11 +461,10 @@ class AsyncInvocationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthSubmitResponse:
-        """Submits field values for the discovered login form.
-
-        Returns immediately after
-        submission is accepted. Poll the invocation endpoint to track progress and get
-        results.
+        """
+        **Deprecated: Use POST /auth/connections/{id}/submit instead.** Submits field
+        values for the discovered login form. Returns immediately after submission is
+        accepted. Poll the invocation endpoint to track progress and get results.
 
         Args:
           field_values: Values for the discovered login fields
@@ -473,6 +479,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
         """
         ...
 
+    @typing_extensions.deprecated("deprecated")
     @overload
     async def submit(
         self,
@@ -486,11 +493,10 @@ class AsyncInvocationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthSubmitResponse:
-        """Submits field values for the discovered login form.
-
-        Returns immediately after
-        submission is accepted. Poll the invocation endpoint to track progress and get
-        results.
+        """
+        **Deprecated: Use POST /auth/connections/{id}/submit instead.** Submits field
+        values for the discovered login form. Returns immediately after submission is
+        accepted. Poll the invocation endpoint to track progress and get results.
 
         Args:
           sso_button: Selector of SSO button to click
@@ -505,12 +511,13 @@ class AsyncInvocationsResource(AsyncAPIResource):
         """
         ...
 
+    @typing_extensions.deprecated("deprecated")
     @overload
     async def submit(
         self,
         invocation_id: str,
         *,
-        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "security_key"],
+        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "password"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -518,14 +525,13 @@ class AsyncInvocationsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AgentAuthSubmitResponse:
-        """Submits field values for the discovered login form.
-
-        Returns immediately after
-        submission is accepted. Poll the invocation endpoint to track progress and get
-        results.
+        """
+        **Deprecated: Use POST /auth/connections/{id}/submit instead.** Submits field
+        values for the discovered login form. Returns immediately after submission is
+        accepted. Poll the invocation endpoint to track progress and get results.
 
         Args:
-          selected_mfa_type: The MFA delivery method type
+          selected_mfa_type: The MFA delivery method type (includes password for auth method selection pages)
 
           extra_headers: Send extra headers
 
@@ -537,6 +543,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
         """
         ...
 
+    @typing_extensions.deprecated("deprecated")
     @required_args(["field_values"], ["sso_button"], ["selected_mfa_type"])
     async def submit(
         self,
@@ -544,7 +551,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
         *,
         field_values: Dict[str, str] | Omit = omit,
         sso_button: str | Omit = omit,
-        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "security_key"] | Omit = omit,
+        selected_mfa_type: Literal["sms", "call", "email", "totp", "push", "password"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -575,17 +582,25 @@ class InvocationsResourceWithRawResponse:
     def __init__(self, invocations: InvocationsResource) -> None:
         self._invocations = invocations
 
-        self.create = to_raw_response_wrapper(
-            invocations.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                invocations.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = to_raw_response_wrapper(
-            invocations.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                invocations.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.exchange = to_raw_response_wrapper(
-            invocations.exchange,
+        self.exchange = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                invocations.exchange,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.submit = to_raw_response_wrapper(
-            invocations.submit,
+        self.submit = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                invocations.submit,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -593,17 +608,25 @@ class AsyncInvocationsResourceWithRawResponse:
     def __init__(self, invocations: AsyncInvocationsResource) -> None:
         self._invocations = invocations
 
-        self.create = async_to_raw_response_wrapper(
-            invocations.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                invocations.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = async_to_raw_response_wrapper(
-            invocations.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                invocations.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.exchange = async_to_raw_response_wrapper(
-            invocations.exchange,
+        self.exchange = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                invocations.exchange,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.submit = async_to_raw_response_wrapper(
-            invocations.submit,
+        self.submit = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                invocations.submit,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -611,17 +634,25 @@ class InvocationsResourceWithStreamingResponse:
     def __init__(self, invocations: InvocationsResource) -> None:
         self._invocations = invocations
 
-        self.create = to_streamed_response_wrapper(
-            invocations.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                invocations.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = to_streamed_response_wrapper(
-            invocations.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                invocations.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.exchange = to_streamed_response_wrapper(
-            invocations.exchange,
+        self.exchange = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                invocations.exchange,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.submit = to_streamed_response_wrapper(
-            invocations.submit,
+        self.submit = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                invocations.submit,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -629,15 +660,23 @@ class AsyncInvocationsResourceWithStreamingResponse:
     def __init__(self, invocations: AsyncInvocationsResource) -> None:
         self._invocations = invocations
 
-        self.create = async_to_streamed_response_wrapper(
-            invocations.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                invocations.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = async_to_streamed_response_wrapper(
-            invocations.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                invocations.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.exchange = async_to_streamed_response_wrapper(
-            invocations.exchange,
+        self.exchange = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                invocations.exchange,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.submit = async_to_streamed_response_wrapper(
-            invocations.submit,
+        self.submit = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                invocations.submit,  # pyright: ignore[reportDeprecated],
+            )
         )

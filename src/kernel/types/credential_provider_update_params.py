@@ -17,5 +17,8 @@ class CredentialProviderUpdateParams(TypedDict, total=False):
     enabled: bool
     """Whether the provider is enabled for credential lookups"""
 
+    name: str
+    """Human-readable name for this provider instance"""
+
     priority: int
     """Priority order for credential lookups (lower numbers are checked first)"""

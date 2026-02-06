@@ -23,6 +23,12 @@ class DiscoveredField(BaseModel):
     type: Literal["text", "email", "password", "tel", "number", "url", "code", "totp"]
     """Field type"""
 
+    linked_mfa_type: Optional[Literal["sms", "call", "email", "totp", "push", "password"]] = None
+    """
+    If this field is associated with an MFA option, the type of that option (e.g.,
+    password field linked to "Enter password" option)
+    """
+
     placeholder: Optional[str] = None
     """Field placeholder"""
 
