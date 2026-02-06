@@ -18,6 +18,7 @@ from .f_file_info_response import FFileInfoResponse as FFileInfoResponse
 from .process_spawn_params import ProcessSpawnParams as ProcessSpawnParams
 from .process_stdin_params import ProcessStdinParams as ProcessStdinParams
 from .replay_list_response import ReplayListResponse as ReplayListResponse
+from .computer_batch_params import ComputerBatchParams as ComputerBatchParams
 from .f_list_files_response import FListFilesResponse as FListFilesResponse
 from .process_exec_response import ProcessExecResponse as ProcessExecResponse
 from .process_kill_response import ProcessKillResponse as ProcessKillResponse
@@ -41,6 +42,7 @@ from .playwright_execute_response import PlaywrightExecuteResponse as Playwright
 from .f_set_file_permissions_params import FSetFilePermissionsParams as FSetFilePermissionsParams
 from .process_stdout_stream_response import ProcessStdoutStreamResponse as ProcessStdoutStreamResponse
 from .computer_capture_screenshot_params import ComputerCaptureScreenshotParams as ComputerCaptureScreenshotParams
+from .computer_get_mouse_position_response import ComputerGetMousePositionResponse as ComputerGetMousePositionResponse
 from .computer_set_cursor_visibility_params import (
     ComputerSetCursorVisibilityParams as ComputerSetCursorVisibilityParams,
 )

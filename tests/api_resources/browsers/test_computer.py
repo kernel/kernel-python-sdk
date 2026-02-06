@@ -18,6 +18,7 @@ from kernel._response import (
     AsyncStreamedBinaryAPIResponse,
 )
 from kernel.types.browsers import (
+    ComputerGetMousePositionResponse,
     ComputerSetCursorVisibilityResponse,
 )
 
@@ -26,6 +27,52 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 class TestComputer:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_batch(self, client: Kernel) -> None:
+        computer = client.browsers.computer.batch(
+            id="id",
+            actions=[{"type": "click_mouse"}],
+        )
+        assert computer is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_batch(self, client: Kernel) -> None:
+        response = client.browsers.computer.with_raw_response.batch(
+            id="id",
+            actions=[{"type": "click_mouse"}],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        computer = response.parse()
+        assert computer is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_batch(self, client: Kernel) -> None:
+        with client.browsers.computer.with_streaming_response.batch(
+            id="id",
+            actions=[{"type": "click_mouse"}],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            computer = response.parse()
+            assert computer is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_batch(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.browsers.computer.with_raw_response.batch(
+                id="",
+                actions=[{"type": "click_mouse"}],
+            )
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
@@ -217,6 +264,48 @@ class TestComputer:
             client.browsers.computer.with_raw_response.drag_mouse(
                 id="",
                 path=[[0, 0], [0, 0]],
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_method_get_mouse_position(self, client: Kernel) -> None:
+        computer = client.browsers.computer.get_mouse_position(
+            "id",
+        )
+        assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_get_mouse_position(self, client: Kernel) -> None:
+        response = client.browsers.computer.with_raw_response.get_mouse_position(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        computer = response.parse()
+        assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_get_mouse_position(self, client: Kernel) -> None:
+        with client.browsers.computer.with_streaming_response.get_mouse_position(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            computer = response.parse()
+            assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_get_mouse_position(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.browsers.computer.with_raw_response.get_mouse_position(
+                "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -508,6 +597,52 @@ class TestAsyncComputer:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_batch(self, async_client: AsyncKernel) -> None:
+        computer = await async_client.browsers.computer.batch(
+            id="id",
+            actions=[{"type": "click_mouse"}],
+        )
+        assert computer is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_batch(self, async_client: AsyncKernel) -> None:
+        response = await async_client.browsers.computer.with_raw_response.batch(
+            id="id",
+            actions=[{"type": "click_mouse"}],
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        computer = await response.parse()
+        assert computer is None
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_batch(self, async_client: AsyncKernel) -> None:
+        async with async_client.browsers.computer.with_streaming_response.batch(
+            id="id",
+            actions=[{"type": "click_mouse"}],
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            computer = await response.parse()
+            assert computer is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_batch(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.browsers.computer.with_raw_response.batch(
+                id="",
+                actions=[{"type": "click_mouse"}],
+            )
+
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_method_capture_screenshot(self, async_client: AsyncKernel, respx_mock: MockRouter) -> None:
@@ -702,6 +837,48 @@ class TestAsyncComputer:
             await async_client.browsers.computer.with_raw_response.drag_mouse(
                 id="",
                 path=[[0, 0], [0, 0]],
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_get_mouse_position(self, async_client: AsyncKernel) -> None:
+        computer = await async_client.browsers.computer.get_mouse_position(
+            "id",
+        )
+        assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_get_mouse_position(self, async_client: AsyncKernel) -> None:
+        response = await async_client.browsers.computer.with_raw_response.get_mouse_position(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        computer = await response.parse()
+        assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_get_mouse_position(self, async_client: AsyncKernel) -> None:
+        async with async_client.browsers.computer.with_streaming_response.get_mouse_position(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            computer = await response.parse()
+            assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_get_mouse_position(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.browsers.computer.with_raw_response.get_mouse_position(
+                "",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
