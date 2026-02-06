@@ -21,6 +21,7 @@ from .._base_client import make_request_options
 from ..types.credential_provider import CredentialProvider
 from ..types.credential_provider_test_result import CredentialProviderTestResult
 from ..types.credential_provider_list_response import CredentialProviderListResponse
+from ..types.credential_provider_list_items_response import CredentialProviderListItemsResponse
 
 __all__ = ["CredentialProvidersResource", "AsyncCredentialProvidersResource"]
 
@@ -49,6 +50,7 @@ class CredentialProvidersResource(SyncAPIResource):
         self,
         *,
         token: str,
+        name: str,
         provider_type: Literal["onepassword"],
         cache_ttl_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -65,6 +67,8 @@ class CredentialProvidersResource(SyncAPIResource):
         Args:
           token: Service account token for the provider (e.g., 1Password service account token)
 
+          name: Human-readable name for this provider instance (unique per org)
+
           provider_type: Type of credential provider
 
           cache_ttl_seconds: How long to cache credential lists (default 300 seconds)
@@ -78,10 +82,11 @@ class CredentialProvidersResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._post(
-            "/org/credential-providers",
+            "/org/credential_providers",
             body=maybe_transform(
                 {
                     "token": token,
+                    "name": name,
                     "provider_type": provider_type,
                     "cache_ttl_seconds": cache_ttl_seconds,
                 },
@@ -119,7 +124,7 @@ class CredentialProvidersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/org/credential-providers/{id}",
+            f"/org/credential_providers/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -133,6 +138,7 @@ class CredentialProvidersResource(SyncAPIResource):
         token: str | Omit = omit,
         cache_ttl_seconds: int | Omit = omit,
         enabled: bool | Omit = omit,
+        name: str | Omit = omit,
         priority: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -151,6 +157,8 @@ class CredentialProvidersResource(SyncAPIResource):
 
           enabled: Whether the provider is enabled for credential lookups
 
+          name: Human-readable name for this provider instance
+
           priority: Priority order for credential lookups (lower numbers are checked first)
 
           extra_headers: Send extra headers
@@ -164,12 +172,13 @@ class CredentialProvidersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._patch(
-            f"/org/credential-providers/{id}",
+            f"/org/credential_providers/{id}",
             body=maybe_transform(
                 {
                     "token": token,
                     "cache_ttl_seconds": cache_ttl_seconds,
                     "enabled": enabled,
+                    "name": name,
                     "priority": priority,
                 },
                 credential_provider_update_params.CredentialProviderUpdateParams,
@@ -192,7 +201,7 @@ class CredentialProvidersResource(SyncAPIResource):
     ) -> CredentialProviderListResponse:
         """List external credential providers configured for the organization."""
         return self._get(
-            "/org/credential-providers",
+            "/org/credential_providers",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -226,11 +235,45 @@ class CredentialProvidersResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/org/credential-providers/{id}",
+            f"/org/credential_providers/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    def list_items(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CredentialProviderListItemsResponse:
+        """
+        Returns available credential items (e.g., 1Password login items) from the
+        provider.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._get(
+            f"/org/credential_providers/{id}/items",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CredentialProviderListItemsResponse,
         )
 
     def test(
@@ -259,7 +302,7 @@ class CredentialProvidersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/org/credential-providers/{id}/test",
+            f"/org/credential_providers/{id}/test",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -291,6 +334,7 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
         self,
         *,
         token: str,
+        name: str,
         provider_type: Literal["onepassword"],
         cache_ttl_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -307,6 +351,8 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
         Args:
           token: Service account token for the provider (e.g., 1Password service account token)
 
+          name: Human-readable name for this provider instance (unique per org)
+
           provider_type: Type of credential provider
 
           cache_ttl_seconds: How long to cache credential lists (default 300 seconds)
@@ -320,10 +366,11 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._post(
-            "/org/credential-providers",
+            "/org/credential_providers",
             body=await async_maybe_transform(
                 {
                     "token": token,
+                    "name": name,
                     "provider_type": provider_type,
                     "cache_ttl_seconds": cache_ttl_seconds,
                 },
@@ -361,7 +408,7 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/org/credential-providers/{id}",
+            f"/org/credential_providers/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -375,6 +422,7 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
         token: str | Omit = omit,
         cache_ttl_seconds: int | Omit = omit,
         enabled: bool | Omit = omit,
+        name: str | Omit = omit,
         priority: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -393,6 +441,8 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
 
           enabled: Whether the provider is enabled for credential lookups
 
+          name: Human-readable name for this provider instance
+
           priority: Priority order for credential lookups (lower numbers are checked first)
 
           extra_headers: Send extra headers
@@ -406,12 +456,13 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._patch(
-            f"/org/credential-providers/{id}",
+            f"/org/credential_providers/{id}",
             body=await async_maybe_transform(
                 {
                     "token": token,
                     "cache_ttl_seconds": cache_ttl_seconds,
                     "enabled": enabled,
+                    "name": name,
                     "priority": priority,
                 },
                 credential_provider_update_params.CredentialProviderUpdateParams,
@@ -434,7 +485,7 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
     ) -> CredentialProviderListResponse:
         """List external credential providers configured for the organization."""
         return await self._get(
-            "/org/credential-providers",
+            "/org/credential_providers",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -468,11 +519,45 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/org/credential-providers/{id}",
+            f"/org/credential_providers/{id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    async def list_items(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CredentialProviderListItemsResponse:
+        """
+        Returns available credential items (e.g., 1Password login items) from the
+        provider.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._get(
+            f"/org/credential_providers/{id}/items",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CredentialProviderListItemsResponse,
         )
 
     async def test(
@@ -501,7 +586,7 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/org/credential-providers/{id}/test",
+            f"/org/credential_providers/{id}/test",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -528,6 +613,9 @@ class CredentialProvidersResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             credential_providers.delete,
         )
+        self.list_items = to_raw_response_wrapper(
+            credential_providers.list_items,
+        )
         self.test = to_raw_response_wrapper(
             credential_providers.test,
         )
@@ -551,6 +639,9 @@ class AsyncCredentialProvidersResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             credential_providers.delete,
+        )
+        self.list_items = async_to_raw_response_wrapper(
+            credential_providers.list_items,
         )
         self.test = async_to_raw_response_wrapper(
             credential_providers.test,
@@ -576,6 +667,9 @@ class CredentialProvidersResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             credential_providers.delete,
         )
+        self.list_items = to_streamed_response_wrapper(
+            credential_providers.list_items,
+        )
         self.test = to_streamed_response_wrapper(
             credential_providers.test,
         )
@@ -599,6 +693,9 @@ class AsyncCredentialProvidersResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             credential_providers.delete,
+        )
+        self.list_items = async_to_streamed_response_wrapper(
+            credential_providers.list_items,
         )
         self.test = async_to_streamed_response_wrapper(
             credential_providers.test,
