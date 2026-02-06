@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.31.0 (2026-02-06)
+
+Full Changelog: [v0.30.0...v0.31.0](https://github.com/kernel/kernel-python-sdk/compare/v0.30.0...v0.31.0)
+
+### Features
+
+* add batch computer action proxy endpoint ([f316e9b](https://github.com/kernel/kernel-python-sdk/commit/f316e9bf1a47e982af7af6ed8a4e8f701baf50b9))
+
 ## 0.30.0 (2026-02-03)
 
 Full Changelog: [v0.29.0...v0.30.0](https://github.com/kernel/kernel-python-sdk/compare/v0.29.0...v0.30.0)
