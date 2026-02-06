@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.31.1 (2026-02-06)
+
+Full Changelog: [v0.31.0...v0.31.1](https://github.com/kernel/kernel-python-sdk/compare/v0.31.0...v0.31.1)
+
+### Chores
+
+* add Managed Auth API planning doc ([f24a387](https://github.com/kernel/kernel-python-sdk/commit/f24a387432ff8e506c143da566e65d5674c7ff6c))
+
 ## 0.31.0 (2026-02-06)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/kernel/kernel-python-sdk/compare/v0.30.0...v0.31.0)
