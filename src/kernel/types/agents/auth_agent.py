@@ -6,7 +6,29 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["AuthAgent"]
+__all__ = ["AuthAgent", "Credential"]
+
+
+class Credential(BaseModel):
+    """Reference to credentials for managed auth.
+
+    Use one of:
+    - { name } for Kernel credentials
+    - { provider, path } for external provider item
+    - { provider, auto: true } for external provider domain lookup
+    """
+
+    auto: Optional[bool] = None
+    """If true, lookup by domain from the specified provider"""
+
+    name: Optional[str] = None
+    """Kernel credential name"""
+
+    path: Optional[str] = None
+    """Provider-specific path (e.g., "VaultName/ItemName" for 1Password)"""
+
+    provider: Optional[str] = None
+    """External provider name (e.g., "my-1p")"""
 
 
 class AuthAgent(BaseModel):
@@ -31,6 +53,21 @@ class AuthAgent(BaseModel):
     Additional domains that are valid for this auth agent's authentication flow
     (besides the primary domain). Useful when login pages redirect to different
     domains.
+
+    The following SSO/OAuth provider domains are automatically allowed by default
+    and do not need to be specified:
+
+    - Google: accounts.google.com
+    - Microsoft/Azure AD: login.microsoftonline.com, login.live.com
+    - Okta: _.okta.com, _.oktapreview.com
+    - Auth0: _.auth0.com, _.us.auth0.com, _.eu.auth0.com, _.au.auth0.com
+    - Apple: appleid.apple.com
+    - GitHub: github.com
+    - Facebook/Meta: www.facebook.com
+    - LinkedIn: www.linkedin.com
+    - Amazon Cognito: \\**.amazoncognito.com
+    - OneLogin: \\**.onelogin.com
+    - Ping Identity: _.pingone.com, _.pingidentity.com
     """
 
     can_reauth: Optional[bool] = None
@@ -39,11 +76,19 @@ class AuthAgent(BaseModel):
     and login_url)
     """
 
-    credential_id: Optional[str] = None
-    """ID of the linked credential for automatic re-authentication"""
+    credential: Optional[Credential] = None
+    """Reference to credentials for managed auth. Use one of:
 
-    credential_name: Optional[str] = None
-    """Name of the linked credential for automatic re-authentication"""
+    - { name } for Kernel credentials
+    - { provider, path } for external provider item
+    - { provider, auto: true } for external provider domain lookup
+    """
+
+    credential_id: Optional[str] = None
+    """
+    ID of the linked Kernel credential for automatic re-authentication (deprecated,
+    use credential)
+    """
 
     has_selectors: Optional[bool] = None
     """

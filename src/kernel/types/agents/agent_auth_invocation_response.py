@@ -16,8 +16,10 @@ class MfaOption(BaseModel):
     label: str
     """The visible option text"""
 
-    type: Literal["sms", "call", "email", "totp", "push", "security_key"]
-    """The MFA delivery method type"""
+    type: Literal["sms", "call", "email", "totp", "push", "password"]
+    """
+    The MFA delivery method type (includes password for auth method selection pages)
+    """
 
     description: Optional[str] = None
     """Additional instructions from the site"""
@@ -59,12 +61,11 @@ class AgentAuthInvocationResponse(BaseModel):
     ]
     """Current step in the invocation workflow"""
 
-    type: Literal["login", "auto_login", "reauth"]
-    """The invocation type:
+    type: Literal["login", "reauth"]
+    """The session type:
 
-    - login: First-time authentication
-    - reauth: Re-authentication for previously authenticated agents
-    - auto_login: Legacy type (no longer created, kept for backward compatibility)
+    - login: User-initiated authentication
+    - reauth: System-triggered re-authentication (via health check)
     """
 
     error_message: Optional[str] = None

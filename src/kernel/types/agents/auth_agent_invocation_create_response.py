@@ -23,10 +23,9 @@ class AuthAgentInvocationCreateResponse(BaseModel):
     invocation_id: str
     """Unique identifier for the invocation."""
 
-    type: Literal["login", "auto_login", "reauth"]
-    """The invocation type:
+    type: Literal["login", "reauth"]
+    """The session type:
 
-    - login: First-time authentication
-    - reauth: Re-authentication for previously authenticated agents
-    - auto_login: Legacy type (no longer created, kept for backward compatibility)
+    - login: User-initiated authentication
+    - reauth: System-triggered re-authentication (via health check)
     """

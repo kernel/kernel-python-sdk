@@ -234,6 +234,34 @@ Methods:
 - <code title="delete /profiles/{id_or_name}">client.profiles.<a href="./src/kernel/resources/profiles.py">delete</a>(id_or_name) -> None</code>
 - <code title="get /profiles/{id_or_name}/download">client.profiles.<a href="./src/kernel/resources/profiles.py">download</a>(id_or_name) -> BinaryAPIResponse</code>
 
+# Auth
+
+## Connections
+
+Types:
+
+```python
+from kernel.types.auth import (
+    LoginRequest,
+    LoginResponse,
+    ManagedAuth,
+    ManagedAuthCreateRequest,
+    SubmitFieldsRequest,
+    SubmitFieldsResponse,
+    ConnectionFollowResponse,
+)
+```
+
+Methods:
+
+- <code title="post /auth/connections">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">create</a>(\*\*<a href="src/kernel/types/auth/connection_create_params.py">params</a>) -> <a href="./src/kernel/types/auth/managed_auth.py">ManagedAuth</a></code>
+- <code title="get /auth/connections/{id}">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">retrieve</a>(id) -> <a href="./src/kernel/types/auth/managed_auth.py">ManagedAuth</a></code>
+- <code title="get /auth/connections">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">list</a>(\*\*<a href="src/kernel/types/auth/connection_list_params.py">params</a>) -> <a href="./src/kernel/types/auth/managed_auth.py">SyncOffsetPagination[ManagedAuth]</a></code>
+- <code title="delete /auth/connections/{id}">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">delete</a>(id) -> None</code>
+- <code title="get /auth/connections/{id}/events">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">follow</a>(id) -> <a href="./src/kernel/types/auth/connection_follow_response.py">ConnectionFollowResponse</a></code>
+- <code title="post /auth/connections/{id}/login">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">login</a>(id, \*\*<a href="src/kernel/types/auth/connection_login_params.py">params</a>) -> <a href="./src/kernel/types/auth/login_response.py">LoginResponse</a></code>
+- <code title="post /auth/connections/{id}/submit">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">submit</a>(id, \*\*<a href="src/kernel/types/auth/connection_submit_params.py">params</a>) -> <a href="./src/kernel/types/auth/submit_fields_response.py">SubmitFieldsResponse</a></code>
+
 # Proxies
 
 Types:
@@ -360,17 +388,20 @@ Types:
 from kernel.types import (
     CreateCredentialProviderRequest,
     CredentialProvider,
+    CredentialProviderItem,
     CredentialProviderTestResult,
     UpdateCredentialProviderRequest,
     CredentialProviderListResponse,
+    CredentialProviderListItemsResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /org/credential-providers">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">create</a>(\*\*<a href="src/kernel/types/credential_provider_create_params.py">params</a>) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
-- <code title="get /org/credential-providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">retrieve</a>(id) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
-- <code title="patch /org/credential-providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">update</a>(id, \*\*<a href="src/kernel/types/credential_provider_update_params.py">params</a>) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
-- <code title="get /org/credential-providers">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">list</a>() -> <a href="./src/kernel/types/credential_provider_list_response.py">CredentialProviderListResponse</a></code>
-- <code title="delete /org/credential-providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">delete</a>(id) -> None</code>
-- <code title="post /org/credential-providers/{id}/test">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">test</a>(id) -> <a href="./src/kernel/types/credential_provider_test_result.py">CredentialProviderTestResult</a></code>
+- <code title="post /org/credential_providers">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">create</a>(\*\*<a href="src/kernel/types/credential_provider_create_params.py">params</a>) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
+- <code title="get /org/credential_providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">retrieve</a>(id) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
+- <code title="patch /org/credential_providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">update</a>(id, \*\*<a href="src/kernel/types/credential_provider_update_params.py">params</a>) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
+- <code title="get /org/credential_providers">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">list</a>() -> <a href="./src/kernel/types/credential_provider_list_response.py">CredentialProviderListResponse</a></code>
+- <code title="delete /org/credential_providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">delete</a>(id) -> None</code>
+- <code title="get /org/credential_providers/{id}/items">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">list_items</a>(id) -> <a href="./src/kernel/types/credential_provider_list_items_response.py">CredentialProviderListItemsResponse</a></code>
+- <code title="post /org/credential_providers/{id}/test">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">test</a>(id) -> <a href="./src/kernel/types/credential_provider_test_result.py">CredentialProviderTestResult</a></code>

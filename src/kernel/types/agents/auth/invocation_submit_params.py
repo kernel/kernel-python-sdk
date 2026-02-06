@@ -19,8 +19,10 @@ class Variant1(TypedDict, total=False):
 
 
 class Variant2(TypedDict, total=False):
-    selected_mfa_type: Required[Literal["sms", "call", "email", "totp", "push", "security_key"]]
-    """The MFA delivery method type"""
+    selected_mfa_type: Required[Literal["sms", "call", "email", "totp", "push", "password"]]
+    """
+    The MFA delivery method type (includes password for auth method selection pages)
+    """
 
 
 InvocationSubmitParams: TypeAlias = Union[Variant0, Variant1, Variant2]

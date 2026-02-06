@@ -13,6 +13,7 @@ from kernel.types import (
     CredentialProvider,
     CredentialProviderTestResult,
     CredentialProviderListResponse,
+    CredentialProviderListItemsResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -26,6 +27,7 @@ class TestCredentialProviders:
     def test_method_create(self, client: Kernel) -> None:
         credential_provider = client.credential_providers.create(
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            name="my-1password",
             provider_type="onepassword",
         )
         assert_matches_type(CredentialProvider, credential_provider, path=["response"])
@@ -35,6 +37,7 @@ class TestCredentialProviders:
     def test_method_create_with_all_params(self, client: Kernel) -> None:
         credential_provider = client.credential_providers.create(
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            name="my-1password",
             provider_type="onepassword",
             cache_ttl_seconds=300,
         )
@@ -45,6 +48,7 @@ class TestCredentialProviders:
     def test_raw_response_create(self, client: Kernel) -> None:
         response = client.credential_providers.with_raw_response.create(
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            name="my-1password",
             provider_type="onepassword",
         )
 
@@ -58,6 +62,7 @@ class TestCredentialProviders:
     def test_streaming_response_create(self, client: Kernel) -> None:
         with client.credential_providers.with_streaming_response.create(
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            name="my-1password",
             provider_type="onepassword",
         ) as response:
             assert not response.is_closed
@@ -126,6 +131,7 @@ class TestCredentialProviders:
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
             cache_ttl_seconds=300,
             enabled=True,
+            name="my-1password",
             priority=0,
         )
         assert_matches_type(CredentialProvider, credential_provider, path=["response"])
@@ -236,6 +242,48 @@ class TestCredentialProviders:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
+    def test_method_list_items(self, client: Kernel) -> None:
+        credential_provider = client.credential_providers.list_items(
+            "id",
+        )
+        assert_matches_type(CredentialProviderListItemsResponse, credential_provider, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_raw_response_list_items(self, client: Kernel) -> None:
+        response = client.credential_providers.with_raw_response.list_items(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        credential_provider = response.parse()
+        assert_matches_type(CredentialProviderListItemsResponse, credential_provider, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_streaming_response_list_items(self, client: Kernel) -> None:
+        with client.credential_providers.with_streaming_response.list_items(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            credential_provider = response.parse()
+            assert_matches_type(CredentialProviderListItemsResponse, credential_provider, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    def test_path_params_list_items(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.credential_providers.with_raw_response.list_items(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
     def test_method_test(self, client: Kernel) -> None:
         credential_provider = client.credential_providers.test(
             "id",
@@ -287,6 +335,7 @@ class TestAsyncCredentialProviders:
     async def test_method_create(self, async_client: AsyncKernel) -> None:
         credential_provider = await async_client.credential_providers.create(
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            name="my-1password",
             provider_type="onepassword",
         )
         assert_matches_type(CredentialProvider, credential_provider, path=["response"])
@@ -296,6 +345,7 @@ class TestAsyncCredentialProviders:
     async def test_method_create_with_all_params(self, async_client: AsyncKernel) -> None:
         credential_provider = await async_client.credential_providers.create(
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            name="my-1password",
             provider_type="onepassword",
             cache_ttl_seconds=300,
         )
@@ -306,6 +356,7 @@ class TestAsyncCredentialProviders:
     async def test_raw_response_create(self, async_client: AsyncKernel) -> None:
         response = await async_client.credential_providers.with_raw_response.create(
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            name="my-1password",
             provider_type="onepassword",
         )
 
@@ -319,6 +370,7 @@ class TestAsyncCredentialProviders:
     async def test_streaming_response_create(self, async_client: AsyncKernel) -> None:
         async with async_client.credential_providers.with_streaming_response.create(
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            name="my-1password",
             provider_type="onepassword",
         ) as response:
             assert not response.is_closed
@@ -387,6 +439,7 @@ class TestAsyncCredentialProviders:
             token="ops_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
             cache_ttl_seconds=300,
             enabled=True,
+            name="my-1password",
             priority=0,
         )
         assert_matches_type(CredentialProvider, credential_provider, path=["response"])
@@ -492,6 +545,48 @@ class TestAsyncCredentialProviders:
     async def test_path_params_delete(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.credential_providers.with_raw_response.delete(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_method_list_items(self, async_client: AsyncKernel) -> None:
+        credential_provider = await async_client.credential_providers.list_items(
+            "id",
+        )
+        assert_matches_type(CredentialProviderListItemsResponse, credential_provider, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_raw_response_list_items(self, async_client: AsyncKernel) -> None:
+        response = await async_client.credential_providers.with_raw_response.list_items(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        credential_provider = await response.parse()
+        assert_matches_type(CredentialProviderListItemsResponse, credential_provider, path=["response"])
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_items(self, async_client: AsyncKernel) -> None:
+        async with async_client.credential_providers.with_streaming_response.list_items(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            credential_provider = await response.parse()
+            assert_matches_type(CredentialProviderListItemsResponse, credential_provider, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Prism tests are disabled")
+    @parametrize
+    async def test_path_params_list_items(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.credential_providers.with_raw_response.list_items(
                 "",
             )
 
