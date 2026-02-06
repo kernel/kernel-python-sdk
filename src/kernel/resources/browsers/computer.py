@@ -27,6 +27,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.browsers import (
+    computer_batch_params,
     computer_scroll_params,
     computer_press_key_params,
     computer_type_text_params,
@@ -36,6 +37,7 @@ from ...types.browsers import (
     computer_capture_screenshot_params,
     computer_set_cursor_visibility_params,
 )
+from ...types.browsers.computer_get_mouse_position_response import ComputerGetMousePositionResponse
 from ...types.browsers.computer_set_cursor_visibility_response import ComputerSetCursorVisibilityResponse
 
 __all__ = ["ComputerResource", "AsyncComputerResource"]
@@ -60,6 +62,46 @@ class ComputerResource(SyncAPIResource):
         For more information, see https://www.github.com/kernel/kernel-python-sdk#with_streaming_response
         """
         return ComputerResourceWithStreamingResponse(self)
+
+    def batch(
+        self,
+        id: str,
+        *,
+        actions: Iterable[computer_batch_params.Action],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Send an array of computer actions to execute in order on the browser instance.
+        Execution stops on the first error. This reduces network latency compared to
+        sending individual action requests.
+
+        Args:
+          actions: Ordered list of actions to execute. Execution stops on the first error.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            f"/browsers/{id}/computer/batch",
+            body=maybe_transform({"actions": actions}, computer_batch_params.ComputerBatchParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
 
     def capture_screenshot(
         self,
@@ -225,6 +267,39 @@ class ComputerResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    def get_mouse_position(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ComputerGetMousePositionResponse:
+        """
+        Get the current mouse cursor position on the browser instance
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            f"/browsers/{id}/computer/get_mouse_position",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ComputerGetMousePositionResponse,
         )
 
     def move_mouse(
@@ -499,6 +574,46 @@ class AsyncComputerResource(AsyncAPIResource):
         """
         return AsyncComputerResourceWithStreamingResponse(self)
 
+    async def batch(
+        self,
+        id: str,
+        *,
+        actions: Iterable[computer_batch_params.Action],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Send an array of computer actions to execute in order on the browser instance.
+        Execution stops on the first error. This reduces network latency compared to
+        sending individual action requests.
+
+        Args:
+          actions: Ordered list of actions to execute. Execution stops on the first error.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            f"/browsers/{id}/computer/batch",
+            body=await async_maybe_transform({"actions": actions}, computer_batch_params.ComputerBatchParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
     async def capture_screenshot(
         self,
         id: str,
@@ -663,6 +778,39 @@ class AsyncComputerResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    async def get_mouse_position(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ComputerGetMousePositionResponse:
+        """
+        Get the current mouse cursor position on the browser instance
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            f"/browsers/{id}/computer/get_mouse_position",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ComputerGetMousePositionResponse,
         )
 
     async def move_mouse(
@@ -921,6 +1069,9 @@ class ComputerResourceWithRawResponse:
     def __init__(self, computer: ComputerResource) -> None:
         self._computer = computer
 
+        self.batch = to_raw_response_wrapper(
+            computer.batch,
+        )
         self.capture_screenshot = to_custom_raw_response_wrapper(
             computer.capture_screenshot,
             BinaryAPIResponse,
@@ -930,6 +1081,9 @@ class ComputerResourceWithRawResponse:
         )
         self.drag_mouse = to_raw_response_wrapper(
             computer.drag_mouse,
+        )
+        self.get_mouse_position = to_raw_response_wrapper(
+            computer.get_mouse_position,
         )
         self.move_mouse = to_raw_response_wrapper(
             computer.move_mouse,
@@ -952,6 +1106,9 @@ class AsyncComputerResourceWithRawResponse:
     def __init__(self, computer: AsyncComputerResource) -> None:
         self._computer = computer
 
+        self.batch = async_to_raw_response_wrapper(
+            computer.batch,
+        )
         self.capture_screenshot = async_to_custom_raw_response_wrapper(
             computer.capture_screenshot,
             AsyncBinaryAPIResponse,
@@ -961,6 +1118,9 @@ class AsyncComputerResourceWithRawResponse:
         )
         self.drag_mouse = async_to_raw_response_wrapper(
             computer.drag_mouse,
+        )
+        self.get_mouse_position = async_to_raw_response_wrapper(
+            computer.get_mouse_position,
         )
         self.move_mouse = async_to_raw_response_wrapper(
             computer.move_mouse,
@@ -983,6 +1143,9 @@ class ComputerResourceWithStreamingResponse:
     def __init__(self, computer: ComputerResource) -> None:
         self._computer = computer
 
+        self.batch = to_streamed_response_wrapper(
+            computer.batch,
+        )
         self.capture_screenshot = to_custom_streamed_response_wrapper(
             computer.capture_screenshot,
             StreamedBinaryAPIResponse,
@@ -992,6 +1155,9 @@ class ComputerResourceWithStreamingResponse:
         )
         self.drag_mouse = to_streamed_response_wrapper(
             computer.drag_mouse,
+        )
+        self.get_mouse_position = to_streamed_response_wrapper(
+            computer.get_mouse_position,
         )
         self.move_mouse = to_streamed_response_wrapper(
             computer.move_mouse,
@@ -1014,6 +1180,9 @@ class AsyncComputerResourceWithStreamingResponse:
     def __init__(self, computer: AsyncComputerResource) -> None:
         self._computer = computer
 
+        self.batch = async_to_streamed_response_wrapper(
+            computer.batch,
+        )
         self.capture_screenshot = async_to_custom_streamed_response_wrapper(
             computer.capture_screenshot,
             AsyncStreamedBinaryAPIResponse,
@@ -1023,6 +1192,9 @@ class AsyncComputerResourceWithStreamingResponse:
         )
         self.drag_mouse = async_to_streamed_response_wrapper(
             computer.drag_mouse,
+        )
+        self.get_mouse_position = async_to_streamed_response_wrapper(
+            computer.get_mouse_position,
         )
         self.move_mouse = async_to_streamed_response_wrapper(
             computer.move_mouse,
