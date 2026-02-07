@@ -76,6 +76,9 @@ class AuthAgent(BaseModel):
     and login_url)
     """
 
+    can_reauth_reason: Optional[str] = None
+    """Reason why automatic re-authentication is or is not possible"""
+
     credential: Optional[Credential] = None
     """Reference to credentials for managed auth. Use one of:
 
