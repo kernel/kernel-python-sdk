@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.32.0 (2026-02-07)
+
+Full Changelog: [v0.31.1...v0.32.0](https://github.com/kernel/kernel-python-sdk/compare/v0.31.1...v0.32.0)
+
+### Features
+
+* **auth:** add reauth circuit breaker logic ([b65b6b6](https://github.com/kernel/kernel-python-sdk/commit/b65b6b6dc5cf0b0fdbe08bb1010970143c7e3b85))
+
 ## 0.31.1 (2026-02-06)
 
 Full Changelog: [v0.31.0...v0.31.1](https://github.com/kernel/kernel-python-sdk/compare/v0.31.0...v0.31.1)
