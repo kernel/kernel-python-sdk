@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.33.0 (2026-02-07)
+
+Full Changelog: [v0.32.0...v0.33.0](https://github.com/kernel/kernel-python-sdk/compare/v0.32.0...v0.33.0)
+
+### Features
+
+* Browser API endpoint grouping ([25054a8](https://github.com/kernel/kernel-python-sdk/commit/25054a8a77d7c9964133f545339526243f049469))
+
 ## 0.32.0 (2026-02-07)
 
 Full Changelog: [v0.31.1...v0.32.0](https://github.com/kernel/kernel-python-sdk/compare/v0.31.1...v0.32.0)
