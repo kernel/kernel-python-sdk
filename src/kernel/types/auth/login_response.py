@@ -13,7 +13,7 @@ class LoginResponse(BaseModel):
     """Response from starting a login flow"""
 
     id: str
-    """Managed auth ID"""
+    """Auth connection ID"""
 
     flow_expires_at: datetime
     """When the login flow expires"""

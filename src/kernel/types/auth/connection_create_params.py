@@ -38,7 +38,7 @@ class ConnectionCreateParams(TypedDict, total=False):
     """
 
     credential: Credential
-    """Reference to credentials for managed auth. Use one of:
+    """Reference to credentials for the auth connection. Use one of:
 
     - { name } for Kernel credentials
     - { provider, path } for external provider item
@@ -61,7 +61,7 @@ class ConnectionCreateParams(TypedDict, total=False):
 
 
 class Credential(TypedDict, total=False):
-    """Reference to credentials for managed auth.
+    """Reference to credentials for the auth connection.
 
     Use one of:
     - { name } for Kernel credentials
