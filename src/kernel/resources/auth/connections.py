@@ -70,10 +70,10 @@ class ConnectionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ManagedAuth:
-        """Creates managed authentication for a profile and domain combination.
+        """Creates an auth connection for a profile and domain combination.
 
         Returns 409
-        Conflict if managed auth already exists for the given profile and domain.
+        Conflict if an auth connection already exists for the given profile and domain.
 
         Args:
           domain: Domain for authentication
@@ -99,7 +99,7 @@ class ConnectionsResource(SyncAPIResource):
               - Ping Identity: _.pingone.com, _.pingidentity.com
 
           credential:
-              Reference to credentials for managed auth. Use one of:
+              Reference to credentials for the auth connection. Use one of:
 
               - { name } for Kernel credentials
               - { provider, path } for external provider item
@@ -153,10 +153,10 @@ class ConnectionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ManagedAuth:
-        """Retrieve managed auth by its ID.
+        """Retrieve an auth connection by its ID.
 
-        Includes current flow state if a login is in
-        progress.
+        Includes current flow state if a login is
+        in progress.
 
         Args:
           extra_headers: Send extra headers
@@ -192,7 +192,7 @@ class ConnectionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncOffsetPagination[ManagedAuth]:
         """
-        List managed auths with optional filters for profile_name and domain.
+        List auth connections with optional filters for profile_name and domain.
 
         Args:
           domain: Filter by domain
@@ -243,11 +243,11 @@ class ConnectionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Deletes managed auth and terminates its workflow.
+        """Deletes an auth connection and terminates its workflow.
 
         This will:
 
-        - Delete the managed auth record
+        - Delete the auth connection record
         - Terminate the Temporal workflow
         - Cancel any in-progress login flows
 
@@ -323,10 +323,10 @@ class ConnectionsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LoginResponse:
-        """Starts a login flow for the managed auth.
+        """Starts a login flow for the auth connection.
 
-        Returns immediately with a hosted URL
-        for the user to complete authentication, or triggers automatic re-auth if
+        Returns immediately with a hosted
+        URL for the user to complete authentication, or triggers automatic re-auth if
         credentials are stored.
 
         Args:
@@ -369,8 +369,8 @@ class ConnectionsResource(SyncAPIResource):
     ) -> SubmitFieldsResponse:
         """Submits field values for the login form.
 
-        Poll the managed auth to track progress
-        and get results.
+        Poll the auth connection to track
+        progress and get results.
 
         Args:
           fields: Map of field name to value
@@ -443,10 +443,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ManagedAuth:
-        """Creates managed authentication for a profile and domain combination.
+        """Creates an auth connection for a profile and domain combination.
 
         Returns 409
-        Conflict if managed auth already exists for the given profile and domain.
+        Conflict if an auth connection already exists for the given profile and domain.
 
         Args:
           domain: Domain for authentication
@@ -472,7 +472,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
               - Ping Identity: _.pingone.com, _.pingidentity.com
 
           credential:
-              Reference to credentials for managed auth. Use one of:
+              Reference to credentials for the auth connection. Use one of:
 
               - { name } for Kernel credentials
               - { provider, path } for external provider item
@@ -526,10 +526,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ManagedAuth:
-        """Retrieve managed auth by its ID.
+        """Retrieve an auth connection by its ID.
 
-        Includes current flow state if a login is in
-        progress.
+        Includes current flow state if a login is
+        in progress.
 
         Args:
           extra_headers: Send extra headers
@@ -565,7 +565,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[ManagedAuth, AsyncOffsetPagination[ManagedAuth]]:
         """
-        List managed auths with optional filters for profile_name and domain.
+        List auth connections with optional filters for profile_name and domain.
 
         Args:
           domain: Filter by domain
@@ -616,11 +616,11 @@ class AsyncConnectionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """Deletes managed auth and terminates its workflow.
+        """Deletes an auth connection and terminates its workflow.
 
         This will:
 
-        - Delete the managed auth record
+        - Delete the auth connection record
         - Terminate the Temporal workflow
         - Cancel any in-progress login flows
 
@@ -696,10 +696,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LoginResponse:
-        """Starts a login flow for the managed auth.
+        """Starts a login flow for the auth connection.
 
-        Returns immediately with a hosted URL
-        for the user to complete authentication, or triggers automatic re-auth if
+        Returns immediately with a hosted
+        URL for the user to complete authentication, or triggers automatic re-auth if
         credentials are stored.
 
         Args:
@@ -742,8 +742,8 @@ class AsyncConnectionsResource(AsyncAPIResource):
     ) -> SubmitFieldsResponse:
         """Submits field values for the login form.
 
-        Poll the managed auth to track progress
-        and get results.
+        Poll the auth connection to track
+        progress and get results.
 
         Args:
           fields: Map of field name to value
