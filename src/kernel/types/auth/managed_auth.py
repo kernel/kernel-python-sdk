@@ -11,7 +11,7 @@ __all__ = ["ManagedAuth", "Credential", "MfaOption", "PendingSSOButton"]
 
 
 class Credential(BaseModel):
-    """Reference to credentials for managed auth.
+    """Reference to credentials for the auth connection.
 
     Use one of:
     - { name } for Kernel credentials
@@ -70,13 +70,13 @@ class ManagedAuth(BaseModel):
     """
 
     id: str
-    """Unique identifier for the managed auth"""
+    """Unique identifier for the auth connection"""
 
     domain: str
     """Target domain for authentication"""
 
     profile_name: str
-    """Name of the profile associated with this managed auth"""
+    """Name of the profile associated with this auth connection"""
 
     status: Literal["AUTHENTICATED", "NEEDS_AUTH"]
     """Current authentication status of the managed profile"""
@@ -112,7 +112,7 @@ class ManagedAuth(BaseModel):
     """Reason why automatic re-authentication is or is not possible"""
 
     credential: Optional[Credential] = None
-    """Reference to credentials for managed auth. Use one of:
+    """Reference to credentials for the auth connection. Use one of:
 
     - { name } for Kernel credentials
     - { provider, path } for external provider item

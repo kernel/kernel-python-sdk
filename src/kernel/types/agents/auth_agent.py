@@ -10,7 +10,7 @@ __all__ = ["AuthAgent", "Credential"]
 
 
 class Credential(BaseModel):
-    """Reference to credentials for managed auth.
+    """Reference to credentials for the auth connection.
 
     Use one of:
     - { name } for Kernel credentials
@@ -80,7 +80,7 @@ class AuthAgent(BaseModel):
     """Reason why automatic re-authentication is or is not possible"""
 
     credential: Optional[Credential] = None
-    """Reference to credentials for managed auth. Use one of:
+    """Reference to credentials for the auth connection. Use one of:
 
     - { name } for Kernel credentials
     - { provider, path } for external provider item
