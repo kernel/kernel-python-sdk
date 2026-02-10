@@ -5,9 +5,8 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from ..._models import BaseModel
-from ..agents.discovered_field import DiscoveredField
 
-__all__ = ["ManagedAuth", "Credential", "MfaOption", "PendingSSOButton"]
+__all__ = ["ManagedAuth", "Credential", "DiscoveredField", "MfaOption", "PendingSSOButton"]
 
 
 class Credential(BaseModel):
@@ -30,6 +29,34 @@ class Credential(BaseModel):
 
     provider: Optional[str] = None
     """External provider name (e.g., "my-1p")"""
+
+
+class DiscoveredField(BaseModel):
+    """A discovered form field"""
+
+    label: str
+    """Field label"""
+
+    name: str
+    """Field name"""
+
+    selector: str
+    """CSS selector for the field"""
+
+    type: Literal["text", "email", "password", "tel", "number", "url", "code", "totp"]
+    """Field type"""
+
+    linked_mfa_type: Optional[Literal["sms", "call", "email", "totp", "push", "password"]] = None
+    """
+    If this field is associated with an MFA option, the type of that option (e.g.,
+    password field linked to "Enter password" option)
+    """
+
+    placeholder: Optional[str] = None
+    """Field placeholder"""
+
+    required: Optional[bool] = None
+    """Whether field is required"""
 
 
 class MfaOption(BaseModel):
