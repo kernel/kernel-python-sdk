@@ -34,7 +34,6 @@ if TYPE_CHECKING:
     from .resources import (
         apps,
         auth,
-        agents,
         proxies,
         browsers,
         profiles,
@@ -53,7 +52,6 @@ if TYPE_CHECKING:
     from .resources.credentials import CredentialsResource, AsyncCredentialsResource
     from .resources.deployments import DeploymentsResource, AsyncDeploymentsResource
     from .resources.invocations import InvocationsResource, AsyncInvocationsResource
-    from .resources.agents.agents import AgentsResource, AsyncAgentsResource
     from .resources.browser_pools import BrowserPoolsResource, AsyncBrowserPoolsResource
     from .resources.browsers.browsers import BrowsersResource, AsyncBrowsersResource
     from .resources.credential_providers import CredentialProvidersResource, AsyncCredentialProvidersResource
@@ -208,12 +206,6 @@ class Kernel(SyncAPIClient):
         from .resources.browser_pools import BrowserPoolsResource
 
         return BrowserPoolsResource(self)
-
-    @cached_property
-    def agents(self) -> AgentsResource:
-        from .resources.agents import AgentsResource
-
-        return AgentsResource(self)
 
     @cached_property
     def credentials(self) -> CredentialsResource:
@@ -476,12 +468,6 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncBrowserPoolsResource(self)
 
     @cached_property
-    def agents(self) -> AsyncAgentsResource:
-        from .resources.agents import AsyncAgentsResource
-
-        return AsyncAgentsResource(self)
-
-    @cached_property
     def credentials(self) -> AsyncCredentialsResource:
         from .resources.credentials import AsyncCredentialsResource
 
@@ -669,12 +655,6 @@ class KernelWithRawResponse:
         return BrowserPoolsResourceWithRawResponse(self._client.browser_pools)
 
     @cached_property
-    def agents(self) -> agents.AgentsResourceWithRawResponse:
-        from .resources.agents import AgentsResourceWithRawResponse
-
-        return AgentsResourceWithRawResponse(self._client.agents)
-
-    @cached_property
     def credentials(self) -> credentials.CredentialsResourceWithRawResponse:
         from .resources.credentials import CredentialsResourceWithRawResponse
 
@@ -746,12 +726,6 @@ class AsyncKernelWithRawResponse:
         from .resources.browser_pools import AsyncBrowserPoolsResourceWithRawResponse
 
         return AsyncBrowserPoolsResourceWithRawResponse(self._client.browser_pools)
-
-    @cached_property
-    def agents(self) -> agents.AsyncAgentsResourceWithRawResponse:
-        from .resources.agents import AsyncAgentsResourceWithRawResponse
-
-        return AsyncAgentsResourceWithRawResponse(self._client.agents)
 
     @cached_property
     def credentials(self) -> credentials.AsyncCredentialsResourceWithRawResponse:
@@ -827,12 +801,6 @@ class KernelWithStreamedResponse:
         return BrowserPoolsResourceWithStreamingResponse(self._client.browser_pools)
 
     @cached_property
-    def agents(self) -> agents.AgentsResourceWithStreamingResponse:
-        from .resources.agents import AgentsResourceWithStreamingResponse
-
-        return AgentsResourceWithStreamingResponse(self._client.agents)
-
-    @cached_property
     def credentials(self) -> credentials.CredentialsResourceWithStreamingResponse:
         from .resources.credentials import CredentialsResourceWithStreamingResponse
 
@@ -904,12 +872,6 @@ class AsyncKernelWithStreamedResponse:
         from .resources.browser_pools import AsyncBrowserPoolsResourceWithStreamingResponse
 
         return AsyncBrowserPoolsResourceWithStreamingResponse(self._client.browser_pools)
-
-    @cached_property
-    def agents(self) -> agents.AsyncAgentsResourceWithStreamingResponse:
-        from .resources.agents import AsyncAgentsResourceWithStreamingResponse
-
-        return AsyncAgentsResourceWithStreamingResponse(self._client.agents)
 
     @cached_property
     def credentials(self) -> credentials.AsyncCredentialsResourceWithStreamingResponse:
