@@ -112,7 +112,8 @@ class ConnectionsResource(SyncAPIResource):
 
           login_url: Optional login page URL to skip discovery
 
-          proxy: Optional proxy configuration
+          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
+              caller's org.
 
           extra_headers: Send extra headers
 
@@ -315,6 +316,7 @@ class ConnectionsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        proxy: connection_login_params.Proxy | Omit = omit,
         save_credential_as: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -330,6 +332,9 @@ class ConnectionsResource(SyncAPIResource):
         credentials are stored.
 
         Args:
+          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
+              caller's org.
+
           save_credential_as: If provided, saves credentials under this name upon successful login
 
           extra_headers: Send extra headers
@@ -345,7 +350,11 @@ class ConnectionsResource(SyncAPIResource):
         return self._post(
             f"/auth/connections/{id}/login",
             body=maybe_transform(
-                {"save_credential_as": save_credential_as}, connection_login_params.ConnectionLoginParams
+                {
+                    "proxy": proxy,
+                    "save_credential_as": save_credential_as,
+                },
+                connection_login_params.ConnectionLoginParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -485,7 +494,8 @@ class AsyncConnectionsResource(AsyncAPIResource):
 
           login_url: Optional login page URL to skip discovery
 
-          proxy: Optional proxy configuration
+          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
+              caller's org.
 
           extra_headers: Send extra headers
 
@@ -688,6 +698,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        proxy: connection_login_params.Proxy | Omit = omit,
         save_credential_as: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -703,6 +714,9 @@ class AsyncConnectionsResource(AsyncAPIResource):
         credentials are stored.
 
         Args:
+          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
+              caller's org.
+
           save_credential_as: If provided, saves credentials under this name upon successful login
 
           extra_headers: Send extra headers
@@ -718,7 +732,11 @@ class AsyncConnectionsResource(AsyncAPIResource):
         return await self._post(
             f"/auth/connections/{id}/login",
             body=await async_maybe_transform(
-                {"save_credential_as": save_credential_as}, connection_login_params.ConnectionLoginParams
+                {
+                    "proxy": proxy,
+                    "save_credential_as": save_credential_as,
+                },
+                connection_login_params.ConnectionLoginParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout

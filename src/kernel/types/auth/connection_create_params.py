@@ -57,7 +57,10 @@ class ConnectionCreateParams(TypedDict, total=False):
     """Optional login page URL to skip discovery"""
 
     proxy: Proxy
-    """Optional proxy configuration"""
+    """Proxy selection.
+
+    Provide either id or name. The proxy must belong to the caller's org.
+    """
 
 
 class Credential(TypedDict, total=False):
@@ -83,7 +86,13 @@ class Credential(TypedDict, total=False):
 
 
 class Proxy(TypedDict, total=False):
-    """Optional proxy configuration"""
+    """Proxy selection.
 
-    proxy_id: str
-    """ID of the proxy to use"""
+    Provide either id or name. The proxy must belong to the caller's org.
+    """
+
+    id: str
+    """Proxy ID"""
+
+    name: str
+    """Proxy name"""
