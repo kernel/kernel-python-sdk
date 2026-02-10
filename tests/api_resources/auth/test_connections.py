@@ -46,7 +46,10 @@ class TestConnections:
             },
             health_check_interval=3600,
             login_url="https://netflix.com/login",
-            proxy={"proxy_id": "proxy_id"},
+            proxy={
+                "id": "id",
+                "name": "name",
+            },
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
@@ -255,6 +258,10 @@ class TestConnections:
     def test_method_login_with_all_params(self, client: Kernel) -> None:
         connection = client.auth.connections.login(
             id="id",
+            proxy={
+                "id": "id",
+                "name": "name",
+            },
             save_credential_as="my-netflix-login",
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
@@ -395,7 +402,10 @@ class TestAsyncConnections:
             },
             health_check_interval=3600,
             login_url="https://netflix.com/login",
-            proxy={"proxy_id": "proxy_id"},
+            proxy={
+                "id": "id",
+                "name": "name",
+            },
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
@@ -604,6 +614,10 @@ class TestAsyncConnections:
     async def test_method_login_with_all_params(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.login(
             id="id",
+            proxy={
+                "id": "id",
+                "name": "name",
+            },
             save_credential_as="my-netflix-login",
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
