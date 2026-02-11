@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.33.0 (2026-02-11)
+
+Full Changelog: [v0.32.0...v0.33.0](https://github.com/kernel/kernel-python-sdk/compare/v0.32.0...v0.33.0)
+
+### Features
+
+* **auth:** add save_credentials support ([be702dc](https://github.com/kernel/kernel-python-sdk/commit/be702dc9f39f5b4c0424ec29cc4a51c1e0e5773e))
+* **auth:** plan-based min health check intervals ([3f6e730](https://github.com/kernel/kernel-python-sdk/commit/3f6e7302524074fa51885551f22f7866874f4f8f))
+* Browser API endpoint grouping ([25054a8](https://github.com/kernel/kernel-python-sdk/commit/25054a8a77d7c9964133f545339526243f049469))
+
+
+### Chores
+
+* **internal:** bump dependencies ([8e144ab](https://github.com/kernel/kernel-python-sdk/commit/8e144ab2740f5d9161123840296f3d8809b0a79d))
+
+
+### Refactors
+
+* **api:** remove deprecated agent-auth endpoints from stainless.… ([4f7f783](https://github.com/kernel/kernel-python-sdk/commit/4f7f7830489ea83488b06f9723a8e5f472c1ccd4))
+* **auth:** simplify proxy configuration in OpenAPI schema ([9a615e4](https://github.com/kernel/kernel-python-sdk/commit/9a615e45804402ce12064c1b078d631197a04585))
+
 ## 0.32.0 (2026-02-07)
 
 Full Changelog: [v0.31.1...v0.32.0](https://github.com/kernel/kernel-python-sdk/compare/v0.31.1...v0.32.0)
