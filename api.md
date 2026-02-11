@@ -242,7 +242,6 @@ Types:
 
 ```python
 from kernel.types.auth import (
-    LoginRequest,
     LoginResponse,
     ManagedAuth,
     ManagedAuthCreateRequest,

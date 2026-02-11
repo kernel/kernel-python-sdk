@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 from typing import Dict
-from typing_extensions import Required, TypedDict
+from typing_extensions import TypedDict
 
 __all__ = ["ConnectionSubmitParams"]
 
 
 class ConnectionSubmitParams(TypedDict, total=False):
-    fields: Required[Dict[str, str]]
+    fields: Dict[str, str]
     """Map of field name to value"""
 
     mfa_option_id: str
