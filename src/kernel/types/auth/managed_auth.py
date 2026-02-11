@@ -105,6 +105,12 @@ class ManagedAuth(BaseModel):
     profile_name: str
     """Name of the profile associated with this auth connection"""
 
+    save_credentials: bool
+    """Whether credentials are saved after every successful login.
+
+    One-time codes (TOTP, SMS, etc.) are not saved.
+    """
+
     status: Literal["AUTHENTICATED", "NEEDS_AUTH"]
     """Current authentication status of the managed profile"""
 
@@ -201,6 +207,9 @@ class ManagedAuth(BaseModel):
 
     post_login_url: Optional[str] = None
     """URL where the browser landed after successful login"""
+
+    proxy_id: Optional[str] = None
+    """ID of the proxy associated with this connection, if any."""
 
     sso_provider: Optional[str] = None
     """SSO provider being used (e.g., google, github, microsoft)"""

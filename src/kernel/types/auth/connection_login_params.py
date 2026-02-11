@@ -14,9 +14,6 @@ class ConnectionLoginParams(TypedDict, total=False):
     Provide either id or name. The proxy must belong to the caller's org.
     """
 
-    save_credential_as: str
-    """If provided, saves credentials under this name upon successful login"""
-
 
 class Proxy(TypedDict, total=False):
     """Proxy selection.
