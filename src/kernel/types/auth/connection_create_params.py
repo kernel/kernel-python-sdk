@@ -49,8 +49,9 @@ class ConnectionCreateParams(TypedDict, total=False):
     """Interval in seconds between automatic health checks.
 
     When set, the system periodically verifies the authentication status and
-    triggers re-authentication if needed. Must be between 300 (5 minutes) and 86400
-    (24 hours). Default is 3600 (1 hour).
+    triggers re-authentication if needed. Maximum is 86400 (24 hours). Default is
+    3600 (1 hour). The minimum depends on your plan: Enterprise: 300 (5 minutes),
+    Startup: 1200 (20 minutes), Hobbyist: 3600 (1 hour).
     """
 
     login_url: str
