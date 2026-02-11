@@ -29,6 +29,9 @@ class Credential(BaseModel):
     has_totp_secret: Optional[bool] = None
     """Whether this credential has a TOTP secret configured for automatic 2FA"""
 
+    has_values: Optional[bool] = None
+    """Whether this credential has stored values (email, password, etc.)"""
+
     sso_provider: Optional[str] = None
     """
     If set, indicates this credential should be used with the specified SSO provider

@@ -50,6 +50,7 @@ class TestConnections:
                 "id": "id",
                 "name": "name",
             },
+            save_credentials=True,
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
@@ -262,7 +263,6 @@ class TestConnections:
                 "id": "id",
                 "name": "name",
             },
-            save_credential_as="my-netflix-login",
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 
@@ -305,10 +305,6 @@ class TestConnections:
     def test_method_submit(self, client: Kernel) -> None:
         connection = client.auth.connections.submit(
             id="id",
-            fields={
-                "email": "user@example.com",
-                "password": "secret",
-            },
         )
         assert_matches_type(SubmitFieldsResponse, connection, path=["response"])
 
@@ -331,10 +327,6 @@ class TestConnections:
     def test_raw_response_submit(self, client: Kernel) -> None:
         response = client.auth.connections.with_raw_response.submit(
             id="id",
-            fields={
-                "email": "user@example.com",
-                "password": "secret",
-            },
         )
 
         assert response.is_closed is True
@@ -347,10 +339,6 @@ class TestConnections:
     def test_streaming_response_submit(self, client: Kernel) -> None:
         with client.auth.connections.with_streaming_response.submit(
             id="id",
-            fields={
-                "email": "user@example.com",
-                "password": "secret",
-            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -366,10 +354,6 @@ class TestConnections:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.auth.connections.with_raw_response.submit(
                 id="",
-                fields={
-                    "email": "user@example.com",
-                    "password": "secret",
-                },
             )
 
 
@@ -406,6 +390,7 @@ class TestAsyncConnections:
                 "id": "id",
                 "name": "name",
             },
+            save_credentials=True,
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
@@ -618,7 +603,6 @@ class TestAsyncConnections:
                 "id": "id",
                 "name": "name",
             },
-            save_credential_as="my-netflix-login",
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 
@@ -661,10 +645,6 @@ class TestAsyncConnections:
     async def test_method_submit(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.submit(
             id="id",
-            fields={
-                "email": "user@example.com",
-                "password": "secret",
-            },
         )
         assert_matches_type(SubmitFieldsResponse, connection, path=["response"])
 
@@ -687,10 +667,6 @@ class TestAsyncConnections:
     async def test_raw_response_submit(self, async_client: AsyncKernel) -> None:
         response = await async_client.auth.connections.with_raw_response.submit(
             id="id",
-            fields={
-                "email": "user@example.com",
-                "password": "secret",
-            },
         )
 
         assert response.is_closed is True
@@ -703,10 +679,6 @@ class TestAsyncConnections:
     async def test_streaming_response_submit(self, async_client: AsyncKernel) -> None:
         async with async_client.auth.connections.with_streaming_response.submit(
             id="id",
-            fields={
-                "email": "user@example.com",
-                "password": "secret",
-            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -722,8 +694,4 @@ class TestAsyncConnections:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.auth.connections.with_raw_response.submit(
                 id="",
-                fields={
-                    "email": "user@example.com",
-                    "password": "secret",
-                },
             )

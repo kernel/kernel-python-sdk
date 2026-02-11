@@ -63,6 +63,12 @@ class ConnectionCreateParams(TypedDict, total=False):
     Provide either id or name. The proxy must belong to the caller's org.
     """
 
+    save_credentials: bool
+    """Whether to save credentials after every successful login.
+
+    Defaults to true. One-time codes (TOTP, SMS, etc.) are not saved.
+    """
+
 
 class Credential(TypedDict, total=False):
     """Reference to credentials for the auth connection.
