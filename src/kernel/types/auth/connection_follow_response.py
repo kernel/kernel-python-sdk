@@ -95,6 +95,9 @@ class ManagedAuthStateEvent(BaseModel):
     discovered_fields: Optional[List[ManagedAuthStateEventDiscoveredField]] = None
     """Fields awaiting input (present when flow_step=AWAITING_INPUT)."""
 
+    error_code: Optional[str] = None
+    """Machine-readable error code (present when flow_status=FAILED)."""
+
     error_message: Optional[str] = None
     """Error message (present when flow_status=FAILED)."""
 

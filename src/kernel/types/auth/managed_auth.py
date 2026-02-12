@@ -155,6 +155,9 @@ class ManagedAuth(BaseModel):
     discovered_fields: Optional[List[DiscoveredField]] = None
     """Fields awaiting input (present when flow_step=awaiting_input)"""
 
+    error_code: Optional[str] = None
+    """Machine-readable error code (present when flow_status=failed)"""
+
     error_message: Optional[str] = None
     """Error message (present when flow_status=failed)"""
 
