@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.34.0 (2026-02-13)
+
+Full Changelog: [v0.33.0...v0.34.0](https://github.com/kernel/kernel-python-sdk/compare/v0.33.0...v0.34.0)
+
+### Features
+
+* Add error_code field to ManagedAuthSession and related components ([9d160d7](https://github.com/kernel/kernel-python-sdk/commit/9d160d798b25fc5416a2cce84b2ad8e2fc46f801))
+* Allow arbitrary viewport dimensions ([6463d9f](https://github.com/kernel/kernel-python-sdk/commit/6463d9fdb94477867d82fd69630688878c79b182))
+
+
+### Chores
+
+* format all `api.md` files ([c4ea333](https://github.com/kernel/kernel-python-sdk/commit/c4ea333ede664dbaa38911b1f97310e0b8a9618f))
+* **internal:** fix lint error on Python 3.14 ([96a4f24](https://github.com/kernel/kernel-python-sdk/commit/96a4f241bdf8dffe57c91140bf33f54a2c21a223))
+
 ## 0.33.0 (2026-02-11)
 
 Full Changelog: [v0.32.0...v0.33.0](https://github.com/kernel/kernel-python-sdk/compare/v0.32.0...v0.33.0)
