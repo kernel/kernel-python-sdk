@@ -39,6 +39,9 @@ class BrowserRetrieveResponse(BaseModel):
     deleted_at: Optional[datetime] = None
     """When the browser session was soft-deleted. Only present for deleted sessions."""
 
+    gpu: Optional[bool] = None
+    """Whether the browser session has hardware-accelerated GPU rendering."""
+
     kiosk_mode: Optional[bool] = None
     """Whether the browser session is running in kiosk mode."""
 
