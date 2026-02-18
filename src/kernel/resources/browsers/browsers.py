@@ -136,6 +136,7 @@ class BrowsersResource(SyncAPIResource):
         self,
         *,
         extensions: Iterable[BrowserExtension] | Omit = omit,
+        gpu: bool | Omit = omit,
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
         kiosk_mode: bool | Omit = omit,
@@ -157,6 +158,9 @@ class BrowsersResource(SyncAPIResource):
 
         Args:
           extensions: List of browser extensions to load into the session. Provide each by id or name.
+
+          gpu: If true, launches a hardware-accelerated browser with GPU rendering. Requires
+              Start-Up or Enterprise plan.
 
           headless: If true, launches the browser using a headless image (no VNC/GUI). Defaults to
               false.
@@ -206,6 +210,7 @@ class BrowsersResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "extensions": extensions,
+                    "gpu": gpu,
                     "headless": headless,
                     "invocation_id": invocation_id,
                     "kiosk_mode": kiosk_mode,
@@ -547,6 +552,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         self,
         *,
         extensions: Iterable[BrowserExtension] | Omit = omit,
+        gpu: bool | Omit = omit,
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
         kiosk_mode: bool | Omit = omit,
@@ -568,6 +574,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
         Args:
           extensions: List of browser extensions to load into the session. Provide each by id or name.
+
+          gpu: If true, launches a hardware-accelerated browser with GPU rendering. Requires
+              Start-Up or Enterprise plan.
 
           headless: If true, launches the browser using a headless image (no VNC/GUI). Defaults to
               false.
@@ -617,6 +626,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "extensions": extensions,
+                    "gpu": gpu,
                     "headless": headless,
                     "invocation_id": invocation_id,
                     "kiosk_mode": kiosk_mode,

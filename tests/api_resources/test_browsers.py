@@ -41,6 +41,7 @@ class TestBrowsers:
                     "name": "name",
                 }
             ],
+            gpu=False,
             headless=False,
             invocation_id="rr33xuugxj9h0bkf1rdt2bet",
             kiosk_mode=True,
@@ -402,6 +403,7 @@ class TestAsyncBrowsers:
                     "name": "name",
                 }
             ],
+            gpu=False,
             headless=False,
             invocation_id="rr33xuugxj9h0bkf1rdt2bet",
             kiosk_mode=True,
