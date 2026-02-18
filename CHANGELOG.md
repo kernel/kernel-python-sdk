@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.35.0 (2026-02-18)
+
+Full Changelog: [v0.34.0...v0.35.0](https://github.com/kernel/kernel-python-sdk/compare/v0.34.0...v0.35.0)
+
+### Features
+
+* GPU pools ([a417ea7](https://github.com/kernel/kernel-python-sdk/commit/a417ea79722eb78dd7b425cf515485f3b18af5b4))
+
 ## 0.34.0 (2026-02-18)
 
 Full Changelog: [v0.33.0...v0.34.0](https://github.com/kernel/kernel-python-sdk/compare/v0.33.0...v0.34.0)
