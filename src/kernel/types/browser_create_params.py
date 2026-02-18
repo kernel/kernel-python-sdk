@@ -20,6 +20,12 @@ class BrowserCreateParams(TypedDict, total=False):
     Provide each by id or name.
     """
 
+    gpu: bool
+    """If true, launches a hardware-accelerated browser with GPU rendering.
+
+    Requires Start-Up or Enterprise plan.
+    """
+
     headless: bool
     """If true, launches the browser using a headless image (no VNC/GUI).
 
