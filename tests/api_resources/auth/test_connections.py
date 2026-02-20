@@ -205,7 +205,7 @@ class TestConnections:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_follow(self, client: Kernel) -> None:
         connection_stream = client.auth.connections.follow(
@@ -213,7 +213,7 @@ class TestConnections:
         )
         connection_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_follow(self, client: Kernel) -> None:
         response = client.auth.connections.with_raw_response.follow(
@@ -224,7 +224,7 @@ class TestConnections:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_follow(self, client: Kernel) -> None:
         with client.auth.connections.with_streaming_response.follow(
@@ -238,7 +238,7 @@ class TestConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_follow(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -545,7 +545,7 @@ class TestAsyncConnections:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_follow(self, async_client: AsyncKernel) -> None:
         connection_stream = await async_client.auth.connections.follow(
@@ -553,7 +553,7 @@ class TestAsyncConnections:
         )
         await connection_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_follow(self, async_client: AsyncKernel) -> None:
         response = await async_client.auth.connections.with_raw_response.follow(
@@ -564,7 +564,7 @@ class TestAsyncConnections:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_follow(self, async_client: AsyncKernel) -> None:
         async with async_client.auth.connections.with_streaming_response.follow(
@@ -578,7 +578,7 @@ class TestAsyncConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_follow(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
