@@ -25,13 +25,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestBrowsers:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Kernel) -> None:
         browser = client.browsers.create()
         assert_matches_type(BrowserCreateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Kernel) -> None:
         browser = client.browsers.create(
@@ -62,7 +62,7 @@ class TestBrowsers:
         )
         assert_matches_type(BrowserCreateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Kernel) -> None:
         response = client.browsers.with_raw_response.create()
@@ -72,7 +72,7 @@ class TestBrowsers:
         browser = response.parse()
         assert_matches_type(BrowserCreateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Kernel) -> None:
         with client.browsers.with_streaming_response.create() as response:
@@ -84,7 +84,7 @@ class TestBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Kernel) -> None:
         browser = client.browsers.retrieve(
@@ -92,7 +92,7 @@ class TestBrowsers:
         )
         assert_matches_type(BrowserRetrieveResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Kernel) -> None:
         browser = client.browsers.retrieve(
@@ -101,7 +101,7 @@ class TestBrowsers:
         )
         assert_matches_type(BrowserRetrieveResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Kernel) -> None:
         response = client.browsers.with_raw_response.retrieve(
@@ -113,7 +113,7 @@ class TestBrowsers:
         browser = response.parse()
         assert_matches_type(BrowserRetrieveResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Kernel) -> None:
         with client.browsers.with_streaming_response.retrieve(
@@ -127,7 +127,7 @@ class TestBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -135,7 +135,7 @@ class TestBrowsers:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: Kernel) -> None:
         browser = client.browsers.update(
@@ -143,7 +143,7 @@ class TestBrowsers:
         )
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: Kernel) -> None:
         browser = client.browsers.update(
@@ -162,7 +162,7 @@ class TestBrowsers:
         )
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: Kernel) -> None:
         response = client.browsers.with_raw_response.update(
@@ -174,7 +174,7 @@ class TestBrowsers:
         browser = response.parse()
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: Kernel) -> None:
         with client.browsers.with_streaming_response.update(
@@ -188,7 +188,7 @@ class TestBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -196,13 +196,13 @@ class TestBrowsers:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Kernel) -> None:
         browser = client.browsers.list()
         assert_matches_type(SyncOffsetPagination[BrowserListResponse], browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         browser = client.browsers.list(
@@ -213,7 +213,7 @@ class TestBrowsers:
         )
         assert_matches_type(SyncOffsetPagination[BrowserListResponse], browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Kernel) -> None:
         response = client.browsers.with_raw_response.list()
@@ -223,7 +223,7 @@ class TestBrowsers:
         browser = response.parse()
         assert_matches_type(SyncOffsetPagination[BrowserListResponse], browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Kernel) -> None:
         with client.browsers.with_streaming_response.list() as response:
@@ -235,7 +235,7 @@ class TestBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Kernel) -> None:
         with pytest.warns(DeprecationWarning):
@@ -245,7 +245,7 @@ class TestBrowsers:
 
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Kernel) -> None:
         with pytest.warns(DeprecationWarning):
@@ -258,7 +258,7 @@ class TestBrowsers:
         browser = response.parse()
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Kernel) -> None:
         with pytest.warns(DeprecationWarning):
@@ -273,7 +273,7 @@ class TestBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete_by_id(self, client: Kernel) -> None:
         browser = client.browsers.delete_by_id(
@@ -281,7 +281,7 @@ class TestBrowsers:
         )
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete_by_id(self, client: Kernel) -> None:
         response = client.browsers.with_raw_response.delete_by_id(
@@ -293,7 +293,7 @@ class TestBrowsers:
         browser = response.parse()
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete_by_id(self, client: Kernel) -> None:
         with client.browsers.with_streaming_response.delete_by_id(
@@ -307,7 +307,7 @@ class TestBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete_by_id(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -315,7 +315,7 @@ class TestBrowsers:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_load_extensions(self, client: Kernel) -> None:
         browser = client.browsers.load_extensions(
@@ -329,7 +329,7 @@ class TestBrowsers:
         )
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_load_extensions(self, client: Kernel) -> None:
         response = client.browsers.with_raw_response.load_extensions(
@@ -347,7 +347,7 @@ class TestBrowsers:
         browser = response.parse()
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_load_extensions(self, client: Kernel) -> None:
         with client.browsers.with_streaming_response.load_extensions(
@@ -367,7 +367,7 @@ class TestBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_load_extensions(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -387,13 +387,13 @@ class TestAsyncBrowsers:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.create()
         assert_matches_type(BrowserCreateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.create(
@@ -424,7 +424,7 @@ class TestAsyncBrowsers:
         )
         assert_matches_type(BrowserCreateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.with_raw_response.create()
@@ -434,7 +434,7 @@ class TestAsyncBrowsers:
         browser = await response.parse()
         assert_matches_type(BrowserCreateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.with_streaming_response.create() as response:
@@ -446,7 +446,7 @@ class TestAsyncBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.retrieve(
@@ -454,7 +454,7 @@ class TestAsyncBrowsers:
         )
         assert_matches_type(BrowserRetrieveResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.retrieve(
@@ -463,7 +463,7 @@ class TestAsyncBrowsers:
         )
         assert_matches_type(BrowserRetrieveResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.with_raw_response.retrieve(
@@ -475,7 +475,7 @@ class TestAsyncBrowsers:
         browser = await response.parse()
         assert_matches_type(BrowserRetrieveResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.with_streaming_response.retrieve(
@@ -489,7 +489,7 @@ class TestAsyncBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -497,7 +497,7 @@ class TestAsyncBrowsers:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.update(
@@ -505,7 +505,7 @@ class TestAsyncBrowsers:
         )
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.update(
@@ -524,7 +524,7 @@ class TestAsyncBrowsers:
         )
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.with_raw_response.update(
@@ -536,7 +536,7 @@ class TestAsyncBrowsers:
         browser = await response.parse()
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.with_streaming_response.update(
@@ -550,7 +550,7 @@ class TestAsyncBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -558,13 +558,13 @@ class TestAsyncBrowsers:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.list()
         assert_matches_type(AsyncOffsetPagination[BrowserListResponse], browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.list(
@@ -575,7 +575,7 @@ class TestAsyncBrowsers:
         )
         assert_matches_type(AsyncOffsetPagination[BrowserListResponse], browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.with_raw_response.list()
@@ -585,7 +585,7 @@ class TestAsyncBrowsers:
         browser = await response.parse()
         assert_matches_type(AsyncOffsetPagination[BrowserListResponse], browser, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.with_streaming_response.list() as response:
@@ -597,7 +597,7 @@ class TestAsyncBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncKernel) -> None:
         with pytest.warns(DeprecationWarning):
@@ -607,7 +607,7 @@ class TestAsyncBrowsers:
 
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncKernel) -> None:
         with pytest.warns(DeprecationWarning):
@@ -620,7 +620,7 @@ class TestAsyncBrowsers:
         browser = await response.parse()
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncKernel) -> None:
         with pytest.warns(DeprecationWarning):
@@ -635,7 +635,7 @@ class TestAsyncBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete_by_id(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.delete_by_id(
@@ -643,7 +643,7 @@ class TestAsyncBrowsers:
         )
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete_by_id(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.with_raw_response.delete_by_id(
@@ -655,7 +655,7 @@ class TestAsyncBrowsers:
         browser = await response.parse()
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete_by_id(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.with_streaming_response.delete_by_id(
@@ -669,7 +669,7 @@ class TestAsyncBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete_by_id(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -677,7 +677,7 @@ class TestAsyncBrowsers:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_load_extensions(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.load_extensions(
@@ -691,7 +691,7 @@ class TestAsyncBrowsers:
         )
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_load_extensions(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.with_raw_response.load_extensions(
@@ -709,7 +709,7 @@ class TestAsyncBrowsers:
         browser = await response.parse()
         assert browser is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_load_extensions(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.with_streaming_response.load_extensions(
@@ -729,7 +729,7 @@ class TestAsyncBrowsers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_load_extensions(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

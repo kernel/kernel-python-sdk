@@ -22,7 +22,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestConnections:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: Kernel) -> None:
         connection = client.auth.connections.create(
@@ -31,7 +31,7 @@ class TestConnections:
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: Kernel) -> None:
         connection = client.auth.connections.create(
@@ -54,7 +54,7 @@ class TestConnections:
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: Kernel) -> None:
         response = client.auth.connections.with_raw_response.create(
@@ -67,7 +67,7 @@ class TestConnections:
         connection = response.parse()
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: Kernel) -> None:
         with client.auth.connections.with_streaming_response.create(
@@ -82,7 +82,7 @@ class TestConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: Kernel) -> None:
         connection = client.auth.connections.retrieve(
@@ -90,7 +90,7 @@ class TestConnections:
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: Kernel) -> None:
         response = client.auth.connections.with_raw_response.retrieve(
@@ -102,7 +102,7 @@ class TestConnections:
         connection = response.parse()
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: Kernel) -> None:
         with client.auth.connections.with_streaming_response.retrieve(
@@ -116,7 +116,7 @@ class TestConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -124,13 +124,13 @@ class TestConnections:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: Kernel) -> None:
         connection = client.auth.connections.list()
         assert_matches_type(SyncOffsetPagination[ManagedAuth], connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         connection = client.auth.connections.list(
@@ -141,7 +141,7 @@ class TestConnections:
         )
         assert_matches_type(SyncOffsetPagination[ManagedAuth], connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: Kernel) -> None:
         response = client.auth.connections.with_raw_response.list()
@@ -151,7 +151,7 @@ class TestConnections:
         connection = response.parse()
         assert_matches_type(SyncOffsetPagination[ManagedAuth], connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: Kernel) -> None:
         with client.auth.connections.with_streaming_response.list() as response:
@@ -163,7 +163,7 @@ class TestConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: Kernel) -> None:
         connection = client.auth.connections.delete(
@@ -171,7 +171,7 @@ class TestConnections:
         )
         assert connection is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: Kernel) -> None:
         response = client.auth.connections.with_raw_response.delete(
@@ -183,7 +183,7 @@ class TestConnections:
         connection = response.parse()
         assert connection is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: Kernel) -> None:
         with client.auth.connections.with_streaming_response.delete(
@@ -197,7 +197,7 @@ class TestConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -205,7 +205,7 @@ class TestConnections:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_follow(self, client: Kernel) -> None:
         connection_stream = client.auth.connections.follow(
@@ -213,7 +213,7 @@ class TestConnections:
         )
         connection_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_follow(self, client: Kernel) -> None:
         response = client.auth.connections.with_raw_response.follow(
@@ -224,7 +224,7 @@ class TestConnections:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_follow(self, client: Kernel) -> None:
         with client.auth.connections.with_streaming_response.follow(
@@ -238,7 +238,7 @@ class TestConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_follow(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -246,7 +246,7 @@ class TestConnections:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_login(self, client: Kernel) -> None:
         connection = client.auth.connections.login(
@@ -254,7 +254,7 @@ class TestConnections:
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_login_with_all_params(self, client: Kernel) -> None:
         connection = client.auth.connections.login(
@@ -266,7 +266,7 @@ class TestConnections:
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_login(self, client: Kernel) -> None:
         response = client.auth.connections.with_raw_response.login(
@@ -278,7 +278,7 @@ class TestConnections:
         connection = response.parse()
         assert_matches_type(LoginResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_login(self, client: Kernel) -> None:
         with client.auth.connections.with_streaming_response.login(
@@ -292,7 +292,7 @@ class TestConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_login(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -300,7 +300,7 @@ class TestConnections:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_submit(self, client: Kernel) -> None:
         connection = client.auth.connections.submit(
@@ -308,7 +308,7 @@ class TestConnections:
         )
         assert_matches_type(SubmitFieldsResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_submit_with_all_params(self, client: Kernel) -> None:
         connection = client.auth.connections.submit(
@@ -322,7 +322,7 @@ class TestConnections:
         )
         assert_matches_type(SubmitFieldsResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_submit(self, client: Kernel) -> None:
         response = client.auth.connections.with_raw_response.submit(
@@ -334,7 +334,7 @@ class TestConnections:
         connection = response.parse()
         assert_matches_type(SubmitFieldsResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_submit(self, client: Kernel) -> None:
         with client.auth.connections.with_streaming_response.submit(
@@ -348,7 +348,7 @@ class TestConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_submit(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -362,7 +362,7 @@ class TestAsyncConnections:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.create(
@@ -371,7 +371,7 @@ class TestAsyncConnections:
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.create(
@@ -394,7 +394,7 @@ class TestAsyncConnections:
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncKernel) -> None:
         response = await async_client.auth.connections.with_raw_response.create(
@@ -407,7 +407,7 @@ class TestAsyncConnections:
         connection = await response.parse()
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncKernel) -> None:
         async with async_client.auth.connections.with_streaming_response.create(
@@ -422,7 +422,7 @@ class TestAsyncConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.retrieve(
@@ -430,7 +430,7 @@ class TestAsyncConnections:
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncKernel) -> None:
         response = await async_client.auth.connections.with_raw_response.retrieve(
@@ -442,7 +442,7 @@ class TestAsyncConnections:
         connection = await response.parse()
         assert_matches_type(ManagedAuth, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncKernel) -> None:
         async with async_client.auth.connections.with_streaming_response.retrieve(
@@ -456,7 +456,7 @@ class TestAsyncConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -464,13 +464,13 @@ class TestAsyncConnections:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.list()
         assert_matches_type(AsyncOffsetPagination[ManagedAuth], connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.list(
@@ -481,7 +481,7 @@ class TestAsyncConnections:
         )
         assert_matches_type(AsyncOffsetPagination[ManagedAuth], connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncKernel) -> None:
         response = await async_client.auth.connections.with_raw_response.list()
@@ -491,7 +491,7 @@ class TestAsyncConnections:
         connection = await response.parse()
         assert_matches_type(AsyncOffsetPagination[ManagedAuth], connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncKernel) -> None:
         async with async_client.auth.connections.with_streaming_response.list() as response:
@@ -503,7 +503,7 @@ class TestAsyncConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.delete(
@@ -511,7 +511,7 @@ class TestAsyncConnections:
         )
         assert connection is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncKernel) -> None:
         response = await async_client.auth.connections.with_raw_response.delete(
@@ -523,7 +523,7 @@ class TestAsyncConnections:
         connection = await response.parse()
         assert connection is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncKernel) -> None:
         async with async_client.auth.connections.with_streaming_response.delete(
@@ -537,7 +537,7 @@ class TestAsyncConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -545,7 +545,7 @@ class TestAsyncConnections:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_follow(self, async_client: AsyncKernel) -> None:
         connection_stream = await async_client.auth.connections.follow(
@@ -553,7 +553,7 @@ class TestAsyncConnections:
         )
         await connection_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_follow(self, async_client: AsyncKernel) -> None:
         response = await async_client.auth.connections.with_raw_response.follow(
@@ -564,7 +564,7 @@ class TestAsyncConnections:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_follow(self, async_client: AsyncKernel) -> None:
         async with async_client.auth.connections.with_streaming_response.follow(
@@ -578,7 +578,7 @@ class TestAsyncConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_follow(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -586,7 +586,7 @@ class TestAsyncConnections:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_login(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.login(
@@ -594,7 +594,7 @@ class TestAsyncConnections:
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_login_with_all_params(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.login(
@@ -606,7 +606,7 @@ class TestAsyncConnections:
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_login(self, async_client: AsyncKernel) -> None:
         response = await async_client.auth.connections.with_raw_response.login(
@@ -618,7 +618,7 @@ class TestAsyncConnections:
         connection = await response.parse()
         assert_matches_type(LoginResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_login(self, async_client: AsyncKernel) -> None:
         async with async_client.auth.connections.with_streaming_response.login(
@@ -632,7 +632,7 @@ class TestAsyncConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_login(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -640,7 +640,7 @@ class TestAsyncConnections:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_submit(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.submit(
@@ -648,7 +648,7 @@ class TestAsyncConnections:
         )
         assert_matches_type(SubmitFieldsResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_submit_with_all_params(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.submit(
@@ -662,7 +662,7 @@ class TestAsyncConnections:
         )
         assert_matches_type(SubmitFieldsResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_submit(self, async_client: AsyncKernel) -> None:
         response = await async_client.auth.connections.with_raw_response.submit(
@@ -674,7 +674,7 @@ class TestAsyncConnections:
         connection = await response.parse()
         assert_matches_type(SubmitFieldsResponse, connection, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_submit(self, async_client: AsyncKernel) -> None:
         async with async_client.auth.connections.with_streaming_response.submit(
@@ -688,7 +688,7 @@ class TestAsyncConnections:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_submit(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
