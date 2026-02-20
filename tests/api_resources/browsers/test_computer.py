@@ -28,7 +28,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestComputer:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_batch(self, client: Kernel) -> None:
         computer = client.browsers.computer.batch(
@@ -37,7 +37,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_batch(self, client: Kernel) -> None:
         response = client.browsers.computer.with_raw_response.batch(
@@ -50,7 +50,7 @@ class TestComputer:
         computer = response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_batch(self, client: Kernel) -> None:
         with client.browsers.computer.with_streaming_response.batch(
@@ -65,7 +65,7 @@ class TestComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_batch(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -142,7 +142,7 @@ class TestComputer:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_click_mouse(self, client: Kernel) -> None:
         computer = client.browsers.computer.click_mouse(
@@ -152,7 +152,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_click_mouse_with_all_params(self, client: Kernel) -> None:
         computer = client.browsers.computer.click_mouse(
@@ -166,7 +166,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_click_mouse(self, client: Kernel) -> None:
         response = client.browsers.computer.with_raw_response.click_mouse(
@@ -180,7 +180,7 @@ class TestComputer:
         computer = response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_click_mouse(self, client: Kernel) -> None:
         with client.browsers.computer.with_streaming_response.click_mouse(
@@ -196,7 +196,7 @@ class TestComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_click_mouse(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -206,7 +206,7 @@ class TestComputer:
                 y=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_drag_mouse(self, client: Kernel) -> None:
         computer = client.browsers.computer.drag_mouse(
@@ -215,7 +215,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_drag_mouse_with_all_params(self, client: Kernel) -> None:
         computer = client.browsers.computer.drag_mouse(
@@ -229,7 +229,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_drag_mouse(self, client: Kernel) -> None:
         response = client.browsers.computer.with_raw_response.drag_mouse(
@@ -242,7 +242,7 @@ class TestComputer:
         computer = response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_drag_mouse(self, client: Kernel) -> None:
         with client.browsers.computer.with_streaming_response.drag_mouse(
@@ -257,7 +257,7 @@ class TestComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_drag_mouse(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -266,7 +266,7 @@ class TestComputer:
                 path=[[0, 0], [0, 0]],
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_get_mouse_position(self, client: Kernel) -> None:
         computer = client.browsers.computer.get_mouse_position(
@@ -274,7 +274,7 @@ class TestComputer:
         )
         assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_get_mouse_position(self, client: Kernel) -> None:
         response = client.browsers.computer.with_raw_response.get_mouse_position(
@@ -286,7 +286,7 @@ class TestComputer:
         computer = response.parse()
         assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_get_mouse_position(self, client: Kernel) -> None:
         with client.browsers.computer.with_streaming_response.get_mouse_position(
@@ -300,7 +300,7 @@ class TestComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_get_mouse_position(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -308,7 +308,7 @@ class TestComputer:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_move_mouse(self, client: Kernel) -> None:
         computer = client.browsers.computer.move_mouse(
@@ -318,7 +318,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_move_mouse_with_all_params(self, client: Kernel) -> None:
         computer = client.browsers.computer.move_mouse(
@@ -329,7 +329,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_move_mouse(self, client: Kernel) -> None:
         response = client.browsers.computer.with_raw_response.move_mouse(
@@ -343,7 +343,7 @@ class TestComputer:
         computer = response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_move_mouse(self, client: Kernel) -> None:
         with client.browsers.computer.with_streaming_response.move_mouse(
@@ -359,7 +359,7 @@ class TestComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_move_mouse(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -369,7 +369,7 @@ class TestComputer:
                 y=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_press_key(self, client: Kernel) -> None:
         computer = client.browsers.computer.press_key(
@@ -378,7 +378,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_press_key_with_all_params(self, client: Kernel) -> None:
         computer = client.browsers.computer.press_key(
@@ -389,7 +389,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_press_key(self, client: Kernel) -> None:
         response = client.browsers.computer.with_raw_response.press_key(
@@ -402,7 +402,7 @@ class TestComputer:
         computer = response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_press_key(self, client: Kernel) -> None:
         with client.browsers.computer.with_streaming_response.press_key(
@@ -417,7 +417,7 @@ class TestComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_press_key(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -426,7 +426,7 @@ class TestComputer:
                 keys=["string"],
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_scroll(self, client: Kernel) -> None:
         computer = client.browsers.computer.scroll(
@@ -436,7 +436,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_scroll_with_all_params(self, client: Kernel) -> None:
         computer = client.browsers.computer.scroll(
@@ -449,7 +449,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_scroll(self, client: Kernel) -> None:
         response = client.browsers.computer.with_raw_response.scroll(
@@ -463,7 +463,7 @@ class TestComputer:
         computer = response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_scroll(self, client: Kernel) -> None:
         with client.browsers.computer.with_streaming_response.scroll(
@@ -479,7 +479,7 @@ class TestComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_scroll(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -489,7 +489,7 @@ class TestComputer:
                 y=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_set_cursor_visibility(self, client: Kernel) -> None:
         computer = client.browsers.computer.set_cursor_visibility(
@@ -498,7 +498,7 @@ class TestComputer:
         )
         assert_matches_type(ComputerSetCursorVisibilityResponse, computer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_set_cursor_visibility(self, client: Kernel) -> None:
         response = client.browsers.computer.with_raw_response.set_cursor_visibility(
@@ -511,7 +511,7 @@ class TestComputer:
         computer = response.parse()
         assert_matches_type(ComputerSetCursorVisibilityResponse, computer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_set_cursor_visibility(self, client: Kernel) -> None:
         with client.browsers.computer.with_streaming_response.set_cursor_visibility(
@@ -526,7 +526,7 @@ class TestComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_set_cursor_visibility(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -535,7 +535,7 @@ class TestComputer:
                 hidden=True,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_type_text(self, client: Kernel) -> None:
         computer = client.browsers.computer.type_text(
@@ -544,7 +544,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_type_text_with_all_params(self, client: Kernel) -> None:
         computer = client.browsers.computer.type_text(
@@ -554,7 +554,7 @@ class TestComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_type_text(self, client: Kernel) -> None:
         response = client.browsers.computer.with_raw_response.type_text(
@@ -567,7 +567,7 @@ class TestComputer:
         computer = response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_type_text(self, client: Kernel) -> None:
         with client.browsers.computer.with_streaming_response.type_text(
@@ -582,7 +582,7 @@ class TestComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_type_text(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -597,7 +597,7 @@ class TestAsyncComputer:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_batch(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.batch(
@@ -606,7 +606,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_batch(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.computer.with_raw_response.batch(
@@ -619,7 +619,7 @@ class TestAsyncComputer:
         computer = await response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_batch(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.computer.with_streaming_response.batch(
@@ -634,7 +634,7 @@ class TestAsyncComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_batch(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -715,7 +715,7 @@ class TestAsyncComputer:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_click_mouse(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.click_mouse(
@@ -725,7 +725,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_click_mouse_with_all_params(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.click_mouse(
@@ -739,7 +739,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_click_mouse(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.computer.with_raw_response.click_mouse(
@@ -753,7 +753,7 @@ class TestAsyncComputer:
         computer = await response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_click_mouse(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.computer.with_streaming_response.click_mouse(
@@ -769,7 +769,7 @@ class TestAsyncComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_click_mouse(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -779,7 +779,7 @@ class TestAsyncComputer:
                 y=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_drag_mouse(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.drag_mouse(
@@ -788,7 +788,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_drag_mouse_with_all_params(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.drag_mouse(
@@ -802,7 +802,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_drag_mouse(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.computer.with_raw_response.drag_mouse(
@@ -815,7 +815,7 @@ class TestAsyncComputer:
         computer = await response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_drag_mouse(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.computer.with_streaming_response.drag_mouse(
@@ -830,7 +830,7 @@ class TestAsyncComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_drag_mouse(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -839,7 +839,7 @@ class TestAsyncComputer:
                 path=[[0, 0], [0, 0]],
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_get_mouse_position(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.get_mouse_position(
@@ -847,7 +847,7 @@ class TestAsyncComputer:
         )
         assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_get_mouse_position(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.computer.with_raw_response.get_mouse_position(
@@ -859,7 +859,7 @@ class TestAsyncComputer:
         computer = await response.parse()
         assert_matches_type(ComputerGetMousePositionResponse, computer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_get_mouse_position(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.computer.with_streaming_response.get_mouse_position(
@@ -873,7 +873,7 @@ class TestAsyncComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_get_mouse_position(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -881,7 +881,7 @@ class TestAsyncComputer:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_move_mouse(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.move_mouse(
@@ -891,7 +891,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_move_mouse_with_all_params(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.move_mouse(
@@ -902,7 +902,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_move_mouse(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.computer.with_raw_response.move_mouse(
@@ -916,7 +916,7 @@ class TestAsyncComputer:
         computer = await response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_move_mouse(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.computer.with_streaming_response.move_mouse(
@@ -932,7 +932,7 @@ class TestAsyncComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_move_mouse(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -942,7 +942,7 @@ class TestAsyncComputer:
                 y=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_press_key(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.press_key(
@@ -951,7 +951,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_press_key_with_all_params(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.press_key(
@@ -962,7 +962,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_press_key(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.computer.with_raw_response.press_key(
@@ -975,7 +975,7 @@ class TestAsyncComputer:
         computer = await response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_press_key(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.computer.with_streaming_response.press_key(
@@ -990,7 +990,7 @@ class TestAsyncComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_press_key(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -999,7 +999,7 @@ class TestAsyncComputer:
                 keys=["string"],
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_scroll(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.scroll(
@@ -1009,7 +1009,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_scroll_with_all_params(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.scroll(
@@ -1022,7 +1022,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_scroll(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.computer.with_raw_response.scroll(
@@ -1036,7 +1036,7 @@ class TestAsyncComputer:
         computer = await response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_scroll(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.computer.with_streaming_response.scroll(
@@ -1052,7 +1052,7 @@ class TestAsyncComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_scroll(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1062,7 +1062,7 @@ class TestAsyncComputer:
                 y=0,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_set_cursor_visibility(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.set_cursor_visibility(
@@ -1071,7 +1071,7 @@ class TestAsyncComputer:
         )
         assert_matches_type(ComputerSetCursorVisibilityResponse, computer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_set_cursor_visibility(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.computer.with_raw_response.set_cursor_visibility(
@@ -1084,7 +1084,7 @@ class TestAsyncComputer:
         computer = await response.parse()
         assert_matches_type(ComputerSetCursorVisibilityResponse, computer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_set_cursor_visibility(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.computer.with_streaming_response.set_cursor_visibility(
@@ -1099,7 +1099,7 @@ class TestAsyncComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_set_cursor_visibility(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -1108,7 +1108,7 @@ class TestAsyncComputer:
                 hidden=True,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_type_text(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.type_text(
@@ -1117,7 +1117,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_type_text_with_all_params(self, async_client: AsyncKernel) -> None:
         computer = await async_client.browsers.computer.type_text(
@@ -1127,7 +1127,7 @@ class TestAsyncComputer:
         )
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_type_text(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.computer.with_raw_response.type_text(
@@ -1140,7 +1140,7 @@ class TestAsyncComputer:
         computer = await response.parse()
         assert computer is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_type_text(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.computer.with_streaming_response.type_text(
@@ -1155,7 +1155,7 @@ class TestAsyncComputer:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_type_text(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

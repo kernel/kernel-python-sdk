@@ -17,7 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestWatch:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events(self, client: Kernel) -> None:
         watch_stream = client.browsers.fs.watch.events(
@@ -26,7 +26,7 @@ class TestWatch:
         )
         watch_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_events(self, client: Kernel) -> None:
         response = client.browsers.fs.watch.with_raw_response.events(
@@ -38,7 +38,7 @@ class TestWatch:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_events(self, client: Kernel) -> None:
         with client.browsers.fs.watch.with_streaming_response.events(
@@ -53,7 +53,7 @@ class TestWatch:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_events(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -68,7 +68,7 @@ class TestWatch:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_start(self, client: Kernel) -> None:
         watch = client.browsers.fs.watch.start(
@@ -77,7 +77,7 @@ class TestWatch:
         )
         assert_matches_type(WatchStartResponse, watch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_start_with_all_params(self, client: Kernel) -> None:
         watch = client.browsers.fs.watch.start(
@@ -87,7 +87,7 @@ class TestWatch:
         )
         assert_matches_type(WatchStartResponse, watch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_start(self, client: Kernel) -> None:
         response = client.browsers.fs.watch.with_raw_response.start(
@@ -100,7 +100,7 @@ class TestWatch:
         watch = response.parse()
         assert_matches_type(WatchStartResponse, watch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_start(self, client: Kernel) -> None:
         with client.browsers.fs.watch.with_streaming_response.start(
@@ -115,7 +115,7 @@ class TestWatch:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_start(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -124,7 +124,7 @@ class TestWatch:
                 path="path",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_stop(self, client: Kernel) -> None:
         watch = client.browsers.fs.watch.stop(
@@ -133,7 +133,7 @@ class TestWatch:
         )
         assert watch is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_stop(self, client: Kernel) -> None:
         response = client.browsers.fs.watch.with_raw_response.stop(
@@ -146,7 +146,7 @@ class TestWatch:
         watch = response.parse()
         assert watch is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_stop(self, client: Kernel) -> None:
         with client.browsers.fs.watch.with_streaming_response.stop(
@@ -161,7 +161,7 @@ class TestWatch:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_stop(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -182,7 +182,7 @@ class TestAsyncWatch:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events(self, async_client: AsyncKernel) -> None:
         watch_stream = await async_client.browsers.fs.watch.events(
@@ -191,7 +191,7 @@ class TestAsyncWatch:
         )
         await watch_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_events(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.fs.watch.with_raw_response.events(
@@ -203,7 +203,7 @@ class TestAsyncWatch:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_events(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.fs.watch.with_streaming_response.events(
@@ -218,7 +218,7 @@ class TestAsyncWatch:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_events(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -233,7 +233,7 @@ class TestAsyncWatch:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_start(self, async_client: AsyncKernel) -> None:
         watch = await async_client.browsers.fs.watch.start(
@@ -242,7 +242,7 @@ class TestAsyncWatch:
         )
         assert_matches_type(WatchStartResponse, watch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_start_with_all_params(self, async_client: AsyncKernel) -> None:
         watch = await async_client.browsers.fs.watch.start(
@@ -252,7 +252,7 @@ class TestAsyncWatch:
         )
         assert_matches_type(WatchStartResponse, watch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_start(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.fs.watch.with_raw_response.start(
@@ -265,7 +265,7 @@ class TestAsyncWatch:
         watch = await response.parse()
         assert_matches_type(WatchStartResponse, watch, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_start(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.fs.watch.with_streaming_response.start(
@@ -280,7 +280,7 @@ class TestAsyncWatch:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_start(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -289,7 +289,7 @@ class TestAsyncWatch:
                 path="path",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_stop(self, async_client: AsyncKernel) -> None:
         watch = await async_client.browsers.fs.watch.stop(
@@ -298,7 +298,7 @@ class TestAsyncWatch:
         )
         assert watch is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_stop(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.fs.watch.with_raw_response.stop(
@@ -311,7 +311,7 @@ class TestAsyncWatch:
         watch = await response.parse()
         assert watch is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_stop(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.fs.watch.with_streaming_response.stop(
@@ -326,7 +326,7 @@ class TestAsyncWatch:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_stop(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
