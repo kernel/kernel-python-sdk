@@ -24,7 +24,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestProcess:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_exec(self, client: Kernel) -> None:
         process = client.browsers.process.exec(
@@ -33,7 +33,7 @@ class TestProcess:
         )
         assert_matches_type(ProcessExecResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_exec_with_all_params(self, client: Kernel) -> None:
         process = client.browsers.process.exec(
@@ -48,7 +48,7 @@ class TestProcess:
         )
         assert_matches_type(ProcessExecResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_exec(self, client: Kernel) -> None:
         response = client.browsers.process.with_raw_response.exec(
@@ -61,7 +61,7 @@ class TestProcess:
         process = response.parse()
         assert_matches_type(ProcessExecResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_exec(self, client: Kernel) -> None:
         with client.browsers.process.with_streaming_response.exec(
@@ -76,7 +76,7 @@ class TestProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_exec(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -85,7 +85,7 @@ class TestProcess:
                 command="command",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_kill(self, client: Kernel) -> None:
         process = client.browsers.process.kill(
@@ -95,7 +95,7 @@ class TestProcess:
         )
         assert_matches_type(ProcessKillResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_kill(self, client: Kernel) -> None:
         response = client.browsers.process.with_raw_response.kill(
@@ -109,7 +109,7 @@ class TestProcess:
         process = response.parse()
         assert_matches_type(ProcessKillResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_kill(self, client: Kernel) -> None:
         with client.browsers.process.with_streaming_response.kill(
@@ -125,7 +125,7 @@ class TestProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_kill(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -142,7 +142,7 @@ class TestProcess:
                 signal="TERM",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_resize(self, client: Kernel) -> None:
         process = client.browsers.process.resize(
@@ -153,7 +153,7 @@ class TestProcess:
         )
         assert_matches_type(ProcessResizeResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_resize(self, client: Kernel) -> None:
         response = client.browsers.process.with_raw_response.resize(
@@ -168,7 +168,7 @@ class TestProcess:
         process = response.parse()
         assert_matches_type(ProcessResizeResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_resize(self, client: Kernel) -> None:
         with client.browsers.process.with_streaming_response.resize(
@@ -185,7 +185,7 @@ class TestProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_resize(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -204,7 +204,7 @@ class TestProcess:
                 rows=1,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_spawn(self, client: Kernel) -> None:
         process = client.browsers.process.spawn(
@@ -213,7 +213,7 @@ class TestProcess:
         )
         assert_matches_type(ProcessSpawnResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_spawn_with_all_params(self, client: Kernel) -> None:
         process = client.browsers.process.spawn(
@@ -231,7 +231,7 @@ class TestProcess:
         )
         assert_matches_type(ProcessSpawnResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_spawn(self, client: Kernel) -> None:
         response = client.browsers.process.with_raw_response.spawn(
@@ -244,7 +244,7 @@ class TestProcess:
         process = response.parse()
         assert_matches_type(ProcessSpawnResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_spawn(self, client: Kernel) -> None:
         with client.browsers.process.with_streaming_response.spawn(
@@ -259,7 +259,7 @@ class TestProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_spawn(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -268,7 +268,7 @@ class TestProcess:
                 command="command",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_status(self, client: Kernel) -> None:
         process = client.browsers.process.status(
@@ -277,7 +277,7 @@ class TestProcess:
         )
         assert_matches_type(ProcessStatusResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_status(self, client: Kernel) -> None:
         response = client.browsers.process.with_raw_response.status(
@@ -290,7 +290,7 @@ class TestProcess:
         process = response.parse()
         assert_matches_type(ProcessStatusResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_status(self, client: Kernel) -> None:
         with client.browsers.process.with_streaming_response.status(
@@ -305,7 +305,7 @@ class TestProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_status(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -320,7 +320,7 @@ class TestProcess:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_stdin(self, client: Kernel) -> None:
         process = client.browsers.process.stdin(
@@ -330,7 +330,7 @@ class TestProcess:
         )
         assert_matches_type(ProcessStdinResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_stdin(self, client: Kernel) -> None:
         response = client.browsers.process.with_raw_response.stdin(
@@ -344,7 +344,7 @@ class TestProcess:
         process = response.parse()
         assert_matches_type(ProcessStdinResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_stdin(self, client: Kernel) -> None:
         with client.browsers.process.with_streaming_response.stdin(
@@ -360,7 +360,7 @@ class TestProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_stdin(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -377,7 +377,7 @@ class TestProcess:
                 data_b64="data_b64",
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_stdout_stream(self, client: Kernel) -> None:
         process_stream = client.browsers.process.stdout_stream(
@@ -386,7 +386,7 @@ class TestProcess:
         )
         process_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_stdout_stream(self, client: Kernel) -> None:
         response = client.browsers.process.with_raw_response.stdout_stream(
@@ -398,7 +398,7 @@ class TestProcess:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_stdout_stream(self, client: Kernel) -> None:
         with client.browsers.process.with_streaming_response.stdout_stream(
@@ -413,7 +413,7 @@ class TestProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_stdout_stream(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -434,7 +434,7 @@ class TestAsyncProcess:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_exec(self, async_client: AsyncKernel) -> None:
         process = await async_client.browsers.process.exec(
@@ -443,7 +443,7 @@ class TestAsyncProcess:
         )
         assert_matches_type(ProcessExecResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_exec_with_all_params(self, async_client: AsyncKernel) -> None:
         process = await async_client.browsers.process.exec(
@@ -458,7 +458,7 @@ class TestAsyncProcess:
         )
         assert_matches_type(ProcessExecResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_exec(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.process.with_raw_response.exec(
@@ -471,7 +471,7 @@ class TestAsyncProcess:
         process = await response.parse()
         assert_matches_type(ProcessExecResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_exec(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.process.with_streaming_response.exec(
@@ -486,7 +486,7 @@ class TestAsyncProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_exec(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -495,7 +495,7 @@ class TestAsyncProcess:
                 command="command",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_kill(self, async_client: AsyncKernel) -> None:
         process = await async_client.browsers.process.kill(
@@ -505,7 +505,7 @@ class TestAsyncProcess:
         )
         assert_matches_type(ProcessKillResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_kill(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.process.with_raw_response.kill(
@@ -519,7 +519,7 @@ class TestAsyncProcess:
         process = await response.parse()
         assert_matches_type(ProcessKillResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_kill(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.process.with_streaming_response.kill(
@@ -535,7 +535,7 @@ class TestAsyncProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_kill(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -552,7 +552,7 @@ class TestAsyncProcess:
                 signal="TERM",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_resize(self, async_client: AsyncKernel) -> None:
         process = await async_client.browsers.process.resize(
@@ -563,7 +563,7 @@ class TestAsyncProcess:
         )
         assert_matches_type(ProcessResizeResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_resize(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.process.with_raw_response.resize(
@@ -578,7 +578,7 @@ class TestAsyncProcess:
         process = await response.parse()
         assert_matches_type(ProcessResizeResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_resize(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.process.with_streaming_response.resize(
@@ -595,7 +595,7 @@ class TestAsyncProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_resize(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -614,7 +614,7 @@ class TestAsyncProcess:
                 rows=1,
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_spawn(self, async_client: AsyncKernel) -> None:
         process = await async_client.browsers.process.spawn(
@@ -623,7 +623,7 @@ class TestAsyncProcess:
         )
         assert_matches_type(ProcessSpawnResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_spawn_with_all_params(self, async_client: AsyncKernel) -> None:
         process = await async_client.browsers.process.spawn(
@@ -641,7 +641,7 @@ class TestAsyncProcess:
         )
         assert_matches_type(ProcessSpawnResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_spawn(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.process.with_raw_response.spawn(
@@ -654,7 +654,7 @@ class TestAsyncProcess:
         process = await response.parse()
         assert_matches_type(ProcessSpawnResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_spawn(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.process.with_streaming_response.spawn(
@@ -669,7 +669,7 @@ class TestAsyncProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_spawn(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -678,7 +678,7 @@ class TestAsyncProcess:
                 command="command",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_status(self, async_client: AsyncKernel) -> None:
         process = await async_client.browsers.process.status(
@@ -687,7 +687,7 @@ class TestAsyncProcess:
         )
         assert_matches_type(ProcessStatusResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_status(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.process.with_raw_response.status(
@@ -700,7 +700,7 @@ class TestAsyncProcess:
         process = await response.parse()
         assert_matches_type(ProcessStatusResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_status(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.process.with_streaming_response.status(
@@ -715,7 +715,7 @@ class TestAsyncProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_status(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -730,7 +730,7 @@ class TestAsyncProcess:
                 id="id",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_stdin(self, async_client: AsyncKernel) -> None:
         process = await async_client.browsers.process.stdin(
@@ -740,7 +740,7 @@ class TestAsyncProcess:
         )
         assert_matches_type(ProcessStdinResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_stdin(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.process.with_raw_response.stdin(
@@ -754,7 +754,7 @@ class TestAsyncProcess:
         process = await response.parse()
         assert_matches_type(ProcessStdinResponse, process, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_stdin(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.process.with_streaming_response.stdin(
@@ -770,7 +770,7 @@ class TestAsyncProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_stdin(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -787,7 +787,7 @@ class TestAsyncProcess:
                 data_b64="data_b64",
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_stdout_stream(self, async_client: AsyncKernel) -> None:
         process_stream = await async_client.browsers.process.stdout_stream(
@@ -796,7 +796,7 @@ class TestAsyncProcess:
         )
         await process_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_stdout_stream(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.process.with_raw_response.stdout_stream(
@@ -808,7 +808,7 @@ class TestAsyncProcess:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_stdout_stream(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.process.with_streaming_response.stdout_stream(
@@ -823,7 +823,7 @@ class TestAsyncProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_stdout_stream(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
