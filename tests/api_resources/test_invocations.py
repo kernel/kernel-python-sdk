@@ -260,7 +260,7 @@ class TestInvocations:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_follow(self, client: Kernel) -> None:
         invocation_stream = client.invocations.follow(
@@ -268,7 +268,7 @@ class TestInvocations:
         )
         invocation_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_follow_with_all_params(self, client: Kernel) -> None:
         invocation_stream = client.invocations.follow(
@@ -277,7 +277,7 @@ class TestInvocations:
         )
         invocation_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_follow(self, client: Kernel) -> None:
         response = client.invocations.with_raw_response.follow(
@@ -288,7 +288,7 @@ class TestInvocations:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_follow(self, client: Kernel) -> None:
         with client.invocations.with_streaming_response.follow(
@@ -302,7 +302,7 @@ class TestInvocations:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_follow(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -594,7 +594,7 @@ class TestAsyncInvocations:
                 "",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_follow(self, async_client: AsyncKernel) -> None:
         invocation_stream = await async_client.invocations.follow(
@@ -602,7 +602,7 @@ class TestAsyncInvocations:
         )
         await invocation_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_follow_with_all_params(self, async_client: AsyncKernel) -> None:
         invocation_stream = await async_client.invocations.follow(
@@ -611,7 +611,7 @@ class TestAsyncInvocations:
         )
         await invocation_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_follow(self, async_client: AsyncKernel) -> None:
         response = await async_client.invocations.with_raw_response.follow(
@@ -622,7 +622,7 @@ class TestAsyncInvocations:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_follow(self, async_client: AsyncKernel) -> None:
         async with async_client.invocations.with_streaming_response.follow(
@@ -636,7 +636,7 @@ class TestAsyncInvocations:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_follow(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
