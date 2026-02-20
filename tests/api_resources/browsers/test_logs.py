@@ -15,7 +15,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestLogs:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_stream(self, client: Kernel) -> None:
         log_stream = client.browsers.logs.stream(
@@ -24,7 +24,7 @@ class TestLogs:
         )
         log_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_stream_with_all_params(self, client: Kernel) -> None:
         log_stream = client.browsers.logs.stream(
@@ -36,7 +36,7 @@ class TestLogs:
         )
         log_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_stream(self, client: Kernel) -> None:
         response = client.browsers.logs.with_raw_response.stream(
@@ -48,7 +48,7 @@ class TestLogs:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_stream(self, client: Kernel) -> None:
         with client.browsers.logs.with_streaming_response.stream(
@@ -63,7 +63,7 @@ class TestLogs:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_stream(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -78,7 +78,7 @@ class TestAsyncLogs:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_stream(self, async_client: AsyncKernel) -> None:
         log_stream = await async_client.browsers.logs.stream(
@@ -87,7 +87,7 @@ class TestAsyncLogs:
         )
         await log_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_stream_with_all_params(self, async_client: AsyncKernel) -> None:
         log_stream = await async_client.browsers.logs.stream(
@@ -99,7 +99,7 @@ class TestAsyncLogs:
         )
         await log_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_stream(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.logs.with_raw_response.stream(
@@ -111,7 +111,7 @@ class TestAsyncLogs:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_stream(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.logs.with_streaming_response.stream(
@@ -126,7 +126,7 @@ class TestAsyncLogs:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_stream(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

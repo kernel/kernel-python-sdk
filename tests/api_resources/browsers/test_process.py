@@ -377,7 +377,7 @@ class TestProcess:
                 data_b64="data_b64",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_stdout_stream(self, client: Kernel) -> None:
         process_stream = client.browsers.process.stdout_stream(
@@ -386,7 +386,7 @@ class TestProcess:
         )
         process_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_stdout_stream(self, client: Kernel) -> None:
         response = client.browsers.process.with_raw_response.stdout_stream(
@@ -398,7 +398,7 @@ class TestProcess:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_stdout_stream(self, client: Kernel) -> None:
         with client.browsers.process.with_streaming_response.stdout_stream(
@@ -413,7 +413,7 @@ class TestProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_stdout_stream(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -787,7 +787,7 @@ class TestAsyncProcess:
                 data_b64="data_b64",
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_stdout_stream(self, async_client: AsyncKernel) -> None:
         process_stream = await async_client.browsers.process.stdout_stream(
@@ -796,7 +796,7 @@ class TestAsyncProcess:
         )
         await process_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_stdout_stream(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.process.with_raw_response.stdout_stream(
@@ -808,7 +808,7 @@ class TestAsyncProcess:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_stdout_stream(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.process.with_streaming_response.stdout_stream(
@@ -823,7 +823,7 @@ class TestAsyncProcess:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_stdout_stream(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
