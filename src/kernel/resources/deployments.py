@@ -156,6 +156,7 @@ class DeploymentsResource(SyncAPIResource):
         self,
         *,
         app_name: str | Omit = omit,
+        app_version: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -167,10 +168,12 @@ class DeploymentsResource(SyncAPIResource):
     ) -> SyncOffsetPagination[DeploymentListResponse]:
         """List deployments.
 
-        Optionally filter by application name.
+        Optionally filter by application name and version.
 
         Args:
           app_name: Filter results by application name.
+
+          app_version: Filter results by application version. Requires app_name to be set.
 
           limit: Limit the number of deployments to return.
 
@@ -195,6 +198,7 @@ class DeploymentsResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "app_name": app_name,
+                        "app_version": app_version,
                         "limit": limit,
                         "offset": offset,
                     },
@@ -415,6 +419,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         self,
         *,
         app_name: str | Omit = omit,
+        app_version: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -426,10 +431,12 @@ class AsyncDeploymentsResource(AsyncAPIResource):
     ) -> AsyncPaginator[DeploymentListResponse, AsyncOffsetPagination[DeploymentListResponse]]:
         """List deployments.
 
-        Optionally filter by application name.
+        Optionally filter by application name and version.
 
         Args:
           app_name: Filter results by application name.
+
+          app_version: Filter results by application version. Requires app_name to be set.
 
           limit: Limit the number of deployments to return.
 
@@ -454,6 +461,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
                 query=maybe_transform(
                     {
                         "app_name": app_name,
+                        "app_version": app_version,
                         "limit": limit,
                         "offset": offset,
                     },
