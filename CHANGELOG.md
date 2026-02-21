@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.36.0 (2026-02-21)
+
+Full Changelog: [v0.35.0...v0.36.0](https://github.com/kernel/kernel-python-sdk/compare/v0.35.0...v0.36.0)
+
+### Features
+
+* Add DELETE /deployments/{id} API endpoint ([509a49c](https://github.com/kernel/kernel-python-sdk/commit/509a49ca1ffd55f92309de62cefcc60a1d0fa84c))
+
+
+### Chores
+
+* **internal:** remove mock server code ([0d315e0](https://github.com/kernel/kernel-python-sdk/commit/0d315e0393c991fc96fc89ddba2792d2abb984c6))
+* **test:** update skip reason message ([78129c9](https://github.com/kernel/kernel-python-sdk/commit/78129c999887442f99ca6442a46626ba475a85d0))
+* update mock server docs ([e545bce](https://github.com/kernel/kernel-python-sdk/commit/e545bced8ac751eac0dc8c5e7b800d9b06d6d35a))
+
 ## 0.35.0 (2026-02-18)
 
 Full Changelog: [v0.34.0...v0.35.0](https://github.com/kernel/kernel-python-sdk/compare/v0.34.0...v0.35.0)
