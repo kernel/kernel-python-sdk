@@ -11,6 +11,9 @@ class DeploymentListParams(TypedDict, total=False):
     app_name: str
     """Filter results by application name."""
 
+    app_version: str
+    """Filter results by application version. Requires app_name to be set."""
+
     limit: int
     """Limit the number of deployments to return."""
 

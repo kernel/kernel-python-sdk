@@ -127,6 +127,7 @@ class TestDeployments:
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         deployment = client.deployments.list(
             app_name="app_name",
+            app_version="app_version",
             limit=1,
             offset=0,
         )
@@ -357,6 +358,7 @@ class TestAsyncDeployments:
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         deployment = await async_client.deployments.list(
             app_name="app_name",
+            app_version="app_version",
             limit=1,
             offset=0,
         )
