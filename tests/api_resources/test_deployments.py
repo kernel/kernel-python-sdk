@@ -156,6 +156,48 @@ class TestDeployments:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_delete(self, client: Kernel) -> None:
+        deployment = client.deployments.delete(
+            "id",
+        )
+        assert deployment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_delete(self, client: Kernel) -> None:
+        response = client.deployments.with_raw_response.delete(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        deployment = response.parse()
+        assert deployment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_delete(self, client: Kernel) -> None:
+        with client.deployments.with_streaming_response.delete(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            deployment = response.parse()
+            assert deployment is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_delete(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.deployments.with_raw_response.delete(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_follow(self, client: Kernel) -> None:
         deployment_stream = client.deployments.follow(
             id="id",
@@ -341,6 +383,48 @@ class TestAsyncDeployments:
             assert_matches_type(AsyncOffsetPagination[DeploymentListResponse], deployment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_delete(self, async_client: AsyncKernel) -> None:
+        deployment = await async_client.deployments.delete(
+            "id",
+        )
+        assert deployment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_delete(self, async_client: AsyncKernel) -> None:
+        response = await async_client.deployments.with_raw_response.delete(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        deployment = await response.parse()
+        assert deployment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_delete(self, async_client: AsyncKernel) -> None:
+        async with async_client.deployments.with_streaming_response.delete(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            deployment = await response.parse()
+            assert deployment is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_delete(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.deployments.with_raw_response.delete(
+                "",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
