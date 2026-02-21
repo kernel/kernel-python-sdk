@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.36.1 (2026-02-21)
+
+Full Changelog: [v0.36.0...v0.36.1](https://github.com/kernel/kernel-python-sdk/compare/v0.36.0...v0.36.1)
+
+### Features
+
+* Add version filter to GET /deployments endpoint ([b4cb1ac](https://github.com/kernel/kernel-python-sdk/commit/b4cb1ac6658900c71fb75e16a54da3ad96113eec))
+
 ## 0.36.0 (2026-02-21)
 
 Full Changelog: [v0.35.0...v0.36.0](https://github.com/kernel/kernel-python-sdk/compare/v0.35.0...v0.36.0)
