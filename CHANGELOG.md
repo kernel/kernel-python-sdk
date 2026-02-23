@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.37.0 (2026-02-23)
+
+Full Changelog: [v0.36.1...v0.37.0](https://github.com/kernel/kernel-python-sdk/compare/v0.36.1...v0.37.0)
+
+### Features
+
+* Neil/kernel 1017 profile pagination query parameter ([fc068ec](https://github.com/kernel/kernel-python-sdk/commit/fc068ec7dc7b4bbed0d11322f52b49065e7680fd))
+
 ## 0.36.1 (2026-02-21)
 
 Full Changelog: [v0.36.0...v0.36.1](https://github.com/kernel/kernel-python-sdk/compare/v0.36.0...v0.36.1)
