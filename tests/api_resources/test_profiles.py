@@ -11,13 +11,14 @@ from respx import MockRouter
 
 from kernel import Kernel, AsyncKernel
 from tests.utils import assert_matches_type
-from kernel.types import Profile, ProfileListResponse
+from kernel.types import Profile
 from kernel._response import (
     BinaryAPIResponse,
     AsyncBinaryAPIResponse,
     StreamedBinaryAPIResponse,
     AsyncStreamedBinaryAPIResponse,
 )
+from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -107,7 +108,17 @@ class TestProfiles:
     @parametrize
     def test_method_list(self, client: Kernel) -> None:
         profile = client.profiles.list()
-        assert_matches_type(ProfileListResponse, profile, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Profile], profile, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_with_all_params(self, client: Kernel) -> None:
+        profile = client.profiles.list(
+            limit=1,
+            offset=0,
+            query="query",
+        )
+        assert_matches_type(SyncOffsetPagination[Profile], profile, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -117,7 +128,7 @@ class TestProfiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         profile = response.parse()
-        assert_matches_type(ProfileListResponse, profile, path=["response"])
+        assert_matches_type(SyncOffsetPagination[Profile], profile, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -127,7 +138,7 @@ class TestProfiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             profile = response.parse()
-            assert_matches_type(ProfileListResponse, profile, path=["response"])
+            assert_matches_type(SyncOffsetPagination[Profile], profile, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -311,7 +322,17 @@ class TestAsyncProfiles:
     @parametrize
     async def test_method_list(self, async_client: AsyncKernel) -> None:
         profile = await async_client.profiles.list()
-        assert_matches_type(ProfileListResponse, profile, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Profile], profile, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
+        profile = await async_client.profiles.list(
+            limit=1,
+            offset=0,
+            query="query",
+        )
+        assert_matches_type(AsyncOffsetPagination[Profile], profile, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -321,7 +342,7 @@ class TestAsyncProfiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         profile = await response.parse()
-        assert_matches_type(ProfileListResponse, profile, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[Profile], profile, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -331,7 +352,7 @@ class TestAsyncProfiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             profile = await response.parse()
-            assert_matches_type(ProfileListResponse, profile, path=["response"])
+            assert_matches_type(AsyncOffsetPagination[Profile], profile, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
