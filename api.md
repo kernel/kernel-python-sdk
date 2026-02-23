@@ -221,17 +221,11 @@ Methods:
 
 # Profiles
 
-Types:
-
-```python
-from kernel.types import ProfileListResponse
-```
-
 Methods:
 
 - <code title="post /profiles">client.profiles.<a href="./src/kernel/resources/profiles.py">create</a>(\*\*<a href="src/kernel/types/profile_create_params.py">params</a>) -> <a href="./src/kernel/types/profile.py">Profile</a></code>
 - <code title="get /profiles/{id_or_name}">client.profiles.<a href="./src/kernel/resources/profiles.py">retrieve</a>(id_or_name) -> <a href="./src/kernel/types/profile.py">Profile</a></code>
-- <code title="get /profiles">client.profiles.<a href="./src/kernel/resources/profiles.py">list</a>() -> <a href="./src/kernel/types/profile_list_response.py">ProfileListResponse</a></code>
+- <code title="get /profiles">client.profiles.<a href="./src/kernel/resources/profiles.py">list</a>(\*\*<a href="src/kernel/types/profile_list_params.py">params</a>) -> <a href="./src/kernel/types/profile.py">SyncOffsetPagination[Profile]</a></code>
 - <code title="delete /profiles/{id_or_name}">client.profiles.<a href="./src/kernel/resources/profiles.py">delete</a>(id_or_name) -> None</code>
 - <code title="get /profiles/{id_or_name}/download">client.profiles.<a href="./src/kernel/resources/profiles.py">download</a>(id_or_name) -> BinaryAPIResponse</code>
 
