@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..types import profile_create_params
+from ..types import profile_list_params, profile_create_params
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -23,9 +23,9 @@ from .._response import (
     async_to_custom_raw_response_wrapper,
     async_to_custom_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
+from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
+from .._base_client import AsyncPaginator, make_request_options
 from ..types.profile import Profile
-from ..types.profile_list_response import ProfileListResponse
 
 __all__ = ["ProfilesResource", "AsyncProfilesResource"]
 
@@ -121,20 +121,52 @@ class ProfilesResource(SyncAPIResource):
     def list(
         self,
         *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileListResponse:
-        """List profiles with optional filtering and pagination."""
-        return self._get(
+    ) -> SyncOffsetPagination[Profile]:
+        """
+        List profiles with optional filtering and pagination.
+
+        Args:
+          limit: Limit the number of profiles to return.
+
+          offset: Offset the number of profiles to return.
+
+          query: Search profiles by name or ID.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
             "/profiles",
+            page=SyncOffsetPagination[Profile],
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                        "query": query,
+                    },
+                    profile_list_params.ProfileListParams,
+                ),
             ),
-            cast_to=ProfileListResponse,
+            model=Profile,
         )
 
     def delete(
@@ -296,23 +328,55 @@ class AsyncProfilesResource(AsyncAPIResource):
             cast_to=Profile,
         )
 
-    async def list(
+    def list(
         self,
         *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ProfileListResponse:
-        """List profiles with optional filtering and pagination."""
-        return await self._get(
+    ) -> AsyncPaginator[Profile, AsyncOffsetPagination[Profile]]:
+        """
+        List profiles with optional filtering and pagination.
+
+        Args:
+          limit: Limit the number of profiles to return.
+
+          offset: Offset the number of profiles to return.
+
+          query: Search profiles by name or ID.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
             "/profiles",
+            page=AsyncOffsetPagination[Profile],
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                        "query": query,
+                    },
+                    profile_list_params.ProfileListParams,
+                ),
             ),
-            cast_to=ProfileListResponse,
+            model=Profile,
         )
 
     async def delete(
