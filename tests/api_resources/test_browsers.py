@@ -209,6 +209,7 @@ class TestBrowsers:
             include_deleted=True,
             limit=1,
             offset=0,
+            query="query",
             status="active",
         )
         assert_matches_type(SyncOffsetPagination[BrowserListResponse], browser, path=["response"])
@@ -571,6 +572,7 @@ class TestAsyncBrowsers:
             include_deleted=True,
             limit=1,
             offset=0,
+            query="query",
             status="active",
         )
         assert_matches_type(AsyncOffsetPagination[BrowserListResponse], browser, path=["response"])

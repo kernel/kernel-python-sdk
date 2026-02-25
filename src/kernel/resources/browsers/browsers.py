@@ -329,6 +329,7 @@ class BrowsersResource(SyncAPIResource):
         include_deleted: bool | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         status: Literal["active", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -349,6 +350,8 @@ class BrowsersResource(SyncAPIResource):
           limit: Maximum number of results to return. Defaults to 20, maximum 100.
 
           offset: Number of results to skip. Defaults to 0.
+
+          query: Search browsers by session ID, profile ID, or proxy ID.
 
           status: Filter sessions by status. "active" returns only active sessions (default),
               "deleted" returns only soft-deleted sessions, "all" returns both.
@@ -374,6 +377,7 @@ class BrowsersResource(SyncAPIResource):
                         "include_deleted": include_deleted,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                         "status": status,
                     },
                     browser_list_params.BrowserListParams,
@@ -745,6 +749,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         include_deleted: bool | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         status: Literal["active", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -765,6 +770,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
           limit: Maximum number of results to return. Defaults to 20, maximum 100.
 
           offset: Number of results to skip. Defaults to 0.
+
+          query: Search browsers by session ID, profile ID, or proxy ID.
 
           status: Filter sessions by status. "active" returns only active sessions (default),
               "deleted" returns only soft-deleted sessions, "all" returns both.
@@ -790,6 +797,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                         "include_deleted": include_deleted,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                         "status": status,
                     },
                     browser_list_params.BrowserListParams,
