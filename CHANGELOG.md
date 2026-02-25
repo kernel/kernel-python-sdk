@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.39.0 (2026-02-25)
+
+Full Changelog: [v0.38.0...v0.39.0](https://github.com/kernel/kernel-python-sdk/compare/v0.38.0...v0.39.0)
+
+### Features
+
+* Add proxy hostname bypass hosts ([24905be](https://github.com/kernel/kernel-python-sdk/commit/24905be21884e5ecefe9e1f631fff271052b5268))
+
 ## 0.38.0 (2026-02-25)
 
 Full Changelog: [v0.37.0...v0.38.0](https://github.com/kernel/kernel-python-sdk/compare/v0.37.0...v0.38.0)
