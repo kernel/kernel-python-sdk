@@ -180,6 +180,9 @@ class ProxyListResponseItem(BaseModel):
 
     id: Optional[str] = None
 
+    bypass_hosts: Optional[List[str]] = None
+    """Hostnames that should bypass the parent proxy and connect directly."""
+
     config: Optional[ProxyListResponseItemConfig] = None
     """Configuration specific to the selected proxy `type`."""
 
