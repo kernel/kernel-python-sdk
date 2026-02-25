@@ -21,6 +21,9 @@ class BrowserListParams(TypedDict, total=False):
     offset: int
     """Number of results to skip. Defaults to 0."""
 
+    query: str
+    """Search browsers by session ID, profile ID, or proxy ID."""
+
     status: Literal["active", "deleted", "all"]
     """Filter sessions by status.
 
