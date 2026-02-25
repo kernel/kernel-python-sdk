@@ -5,6 +5,8 @@ from __future__ import annotations
 from typing import Union
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
+from .._types import SequenceNotStr
+
 __all__ = [
     "ProxyCreateParams",
     "Config",
@@ -23,6 +25,9 @@ class ProxyCreateParams(TypedDict, total=False):
     In terms of quality for avoiding bot-detection, from best to worst: `mobile` >
     `residential` > `isp` > `datacenter`.
     """
+
+    bypass_hosts: SequenceNotStr[str]
+    """Hostnames that should bypass the parent proxy and connect directly."""
 
     config: Config
     """Configuration specific to the selected proxy `type`."""
