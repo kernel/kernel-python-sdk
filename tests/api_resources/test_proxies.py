@@ -35,6 +35,7 @@ class TestProxies:
     def test_method_create_with_all_params(self, client: Kernel) -> None:
         proxy = client.proxies.create(
             type="datacenter",
+            bypass_hosts=["string"],
             config={"country": "US"},
             name="name",
             protocol="http",
@@ -240,6 +241,7 @@ class TestAsyncProxies:
     async def test_method_create_with_all_params(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.create(
             type="datacenter",
+            bypass_hosts=["string"],
             config={"country": "US"},
             name="name",
             protocol="http",

@@ -7,7 +7,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..types import proxy_create_params
-from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -50,6 +50,7 @@ class ProxiesResource(SyncAPIResource):
         self,
         *,
         type: Literal["datacenter", "isp", "residential", "mobile", "custom"],
+        bypass_hosts: SequenceNotStr[str] | Omit = omit,
         config: proxy_create_params.Config | Omit = omit,
         name: str | Omit = omit,
         protocol: Literal["http", "https"] | Omit = omit,
@@ -66,6 +67,8 @@ class ProxiesResource(SyncAPIResource):
         Args:
           type: Proxy type to use. In terms of quality for avoiding bot-detection, from best to
               worst: `mobile` > `residential` > `isp` > `datacenter`.
+
+          bypass_hosts: Hostnames that should bypass the parent proxy and connect directly.
 
           config: Configuration specific to the selected proxy `type`.
 
@@ -86,6 +89,7 @@ class ProxiesResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "type": type,
+                    "bypass_hosts": bypass_hosts,
                     "config": config,
                     "name": name,
                     "protocol": protocol,
@@ -243,6 +247,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         self,
         *,
         type: Literal["datacenter", "isp", "residential", "mobile", "custom"],
+        bypass_hosts: SequenceNotStr[str] | Omit = omit,
         config: proxy_create_params.Config | Omit = omit,
         name: str | Omit = omit,
         protocol: Literal["http", "https"] | Omit = omit,
@@ -259,6 +264,8 @@ class AsyncProxiesResource(AsyncAPIResource):
         Args:
           type: Proxy type to use. In terms of quality for avoiding bot-detection, from best to
               worst: `mobile` > `residential` > `isp` > `datacenter`.
+
+          bypass_hosts: Hostnames that should bypass the parent proxy and connect directly.
 
           config: Configuration specific to the selected proxy `type`.
 
@@ -279,6 +286,7 @@ class AsyncProxiesResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "type": type,
+                    "bypass_hosts": bypass_hosts,
                     "config": config,
                     "name": name,
                     "protocol": protocol,
