@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.38.0 (2026-02-25)
+
+Full Changelog: [v0.37.0...v0.38.0](https://github.com/kernel/kernel-python-sdk/compare/v0.37.0...v0.38.0)
+
+### Features
+
+* Neil/kernel 1029 past session search ([657da45](https://github.com/kernel/kernel-python-sdk/commit/657da45a969b52a8497efbcd597fe8b705dab370))
+
+
+### Chores
+
+* **internal:** add request options to SSE classes ([6287415](https://github.com/kernel/kernel-python-sdk/commit/628741509bbaf2b693afc71cc28ad82a8dc7b231))
+* **internal:** make `test_proxy_environment_variables` more resilient ([3345fc6](https://github.com/kernel/kernel-python-sdk/commit/3345fc63467e18401a501a6df0b71dae46f70113))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([6a629ee](https://github.com/kernel/kernel-python-sdk/commit/6a629ee6e943bac9b87154ac440c760765185206))
+
 ## 0.37.0 (2026-02-23)
 
 Full Changelog: [v0.36.1...v0.37.0](https://github.com/kernel/kernel-python-sdk/compare/v0.36.1...v0.37.0)
