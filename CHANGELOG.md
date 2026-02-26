@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.40.0 (2026-02-26)
+
+Full Changelog: [v0.39.0...v0.40.0](https://github.com/kernel/kernel-python-sdk/compare/v0.39.0...v0.40.0)
+
+### Features
+
+* show pool browsers in dashboard and API ([fb8d38c](https://github.com/kernel/kernel-python-sdk/commit/fb8d38c8dff3795a549f20f66723d0df1947ae64))
+
 ## 0.39.0 (2026-02-25)
 
 Full Changelog: [v0.38.0...v0.39.0](https://github.com/kernel/kernel-python-sdk/compare/v0.38.0...v0.39.0)
