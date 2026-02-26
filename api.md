@@ -81,6 +81,7 @@ Types:
 ```python
 from kernel.types import (
     BrowserPersistence,
+    BrowserPoolRef,
     Profile,
     BrowserCreateResponse,
     BrowserRetrieveResponse,

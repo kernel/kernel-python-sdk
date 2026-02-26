@@ -17,6 +17,7 @@ from .profile import Profile as Profile
 from .credential import Credential as Credential
 from .browser_pool import BrowserPool as BrowserPool
 from .app_list_params import AppListParams as AppListParams
+from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
 from .app_list_response import AppListResponse as AppListResponse
 from .browser_list_params import BrowserListParams as BrowserListParams
 from .browser_persistence import BrowserPersistence as BrowserPersistence
