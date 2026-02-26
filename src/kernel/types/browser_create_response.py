@@ -5,6 +5,7 @@ from datetime import datetime
 
 from .profile import Profile
 from .._models import BaseModel
+from .browser_pool_ref import BrowserPoolRef
 from .browser_persistence import BrowserPersistence
 from .shared.browser_viewport import BrowserViewport
 
@@ -47,6 +48,9 @@ class BrowserCreateResponse(BaseModel):
 
     persistence: Optional[BrowserPersistence] = None
     """DEPRECATED: Use timeout_seconds (up to 72 hours) and Profiles instead."""
+
+    pool: Optional[BrowserPoolRef] = None
+    """Browser pool this session was acquired from, if any."""
 
     profile: Optional[Profile] = None
     """Browser profile metadata."""
