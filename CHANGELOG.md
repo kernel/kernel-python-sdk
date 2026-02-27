@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.41.0 (2026-02-27)
+
+Full Changelog: [v0.40.0...v0.41.0](https://github.com/kernel/kernel-python-sdk/compare/v0.40.0...v0.41.0)
+
+### Features
+
+* Return uptime_ms for deleted browser sessions ([067207f](https://github.com/kernel/kernel-python-sdk/commit/067207fb709eb78064118d6d71fdb390ff9e31e8))
+
 ## 0.40.0 (2026-02-26)
 
 Full Changelog: [v0.39.0...v0.40.0](https://github.com/kernel/kernel-python-sdk/compare/v0.39.0...v0.40.0)
