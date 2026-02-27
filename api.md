@@ -82,6 +82,7 @@ Types:
 from kernel.types import (
     BrowserPersistence,
     BrowserPoolRef,
+    BrowserUsage,
     Profile,
     BrowserCreateResponse,
     BrowserRetrieveResponse,

@@ -5,6 +5,7 @@ from datetime import datetime
 
 from .profile import Profile
 from .._models import BaseModel
+from .browser_usage import BrowserUsage
 from .browser_pool_ref import BrowserPoolRef
 from .browser_persistence import BrowserPersistence
 from .shared.browser_viewport import BrowserViewport
@@ -57,6 +58,9 @@ class BrowserUpdateResponse(BaseModel):
 
     proxy_id: Optional[str] = None
     """ID of the proxy associated with this browser session, if any."""
+
+    usage: Optional[BrowserUsage] = None
+    """Session usage metrics."""
 
     viewport: Optional[BrowserViewport] = None
     """Initial browser window size in pixels with optional refresh rate.

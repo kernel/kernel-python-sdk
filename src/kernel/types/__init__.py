@@ -16,6 +16,7 @@ from .shared import (
 from .profile import Profile as Profile
 from .credential import Credential as Credential
 from .browser_pool import BrowserPool as BrowserPool
+from .browser_usage import BrowserUsage as BrowserUsage
 from .app_list_params import AppListParams as AppListParams
 from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
 from .app_list_response import AppListResponse as AppListResponse
