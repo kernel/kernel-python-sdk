@@ -17,5 +17,8 @@ class AppListParams(TypedDict, total=False):
     offset: int
     """Offset the number of apps to return."""
 
+    query: str
+    """Search apps by name."""
+
     version: str
     """Filter results by version label."""

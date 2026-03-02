@@ -48,6 +48,7 @@ class AppsResource(SyncAPIResource):
         app_name: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         version: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -66,6 +67,8 @@ class AppsResource(SyncAPIResource):
           limit: Limit the number of apps to return.
 
           offset: Offset the number of apps to return.
+
+          query: Search apps by name.
 
           version: Filter results by version label.
 
@@ -90,6 +93,7 @@ class AppsResource(SyncAPIResource):
                         "app_name": app_name,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                         "version": version,
                     },
                     app_list_params.AppListParams,
@@ -125,6 +129,7 @@ class AsyncAppsResource(AsyncAPIResource):
         app_name: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         version: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -143,6 +148,8 @@ class AsyncAppsResource(AsyncAPIResource):
           limit: Limit the number of apps to return.
 
           offset: Offset the number of apps to return.
+
+          query: Search apps by name.
 
           version: Filter results by version label.
 
@@ -167,6 +174,7 @@ class AsyncAppsResource(AsyncAPIResource):
                         "app_name": app_name,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                         "version": version,
                     },
                     app_list_params.AppListParams,
