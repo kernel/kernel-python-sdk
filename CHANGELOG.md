@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.42.0 (2026-03-02)
+
+Full Changelog: [v0.41.0...v0.42.0](https://github.com/kernel/kernel-python-sdk/compare/v0.41.0...v0.42.0)
+
+### Features
+
+* Neil/kernel 1052 deployments list endpoint ([45ba6bb](https://github.com/kernel/kernel-python-sdk/commit/45ba6bbba291e9cca45a30c8ba2b1fb57f1f10bb))
+
 ## 0.41.0 (2026-02-27)
 
 Full Changelog: [v0.40.0...v0.41.0](https://github.com/kernel/kernel-python-sdk/compare/v0.40.0...v0.41.0)
