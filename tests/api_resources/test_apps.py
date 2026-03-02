@@ -31,6 +31,7 @@ class TestApps:
             app_name="app_name",
             limit=1,
             offset=0,
+            query="query",
             version="version",
         )
         assert_matches_type(SyncOffsetPagination[AppListResponse], app, path=["response"])
@@ -76,6 +77,7 @@ class TestAsyncApps:
             app_name="app_name",
             limit=1,
             offset=0,
+            query="query",
             version="version",
         )
         assert_matches_type(AsyncOffsetPagination[AppListResponse], app, path=["response"])
