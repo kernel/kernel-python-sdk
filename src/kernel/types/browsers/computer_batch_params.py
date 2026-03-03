@@ -79,8 +79,17 @@ class ActionMoveMouse(TypedDict, total=False):
     y: Required[int]
     """Y coordinate to move the cursor to"""
 
+    duration_ms: int
+    """Target total duration in milliseconds for the mouse movement when smooth=true.
+
+    Omit for automatic timing based on distance.
+    """
+
     hold_keys: SequenceNotStr[str]
     """Modifier keys to hold during the move"""
+
+    smooth: bool
+    """Use human-like Bezier curve path instead of instant mouse movement."""
 
 
 class ActionPressKey(TypedDict, total=False):

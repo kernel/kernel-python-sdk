@@ -310,7 +310,9 @@ class ComputerResource(SyncAPIResource):
         *,
         x: int,
         y: int,
+        duration_ms: int | Omit = omit,
         hold_keys: SequenceNotStr[str] | Omit = omit,
+        smooth: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -326,7 +328,12 @@ class ComputerResource(SyncAPIResource):
 
           y: Y coordinate to move the cursor to
 
+          duration_ms: Target total duration in milliseconds for the mouse movement when smooth=true.
+              Omit for automatic timing based on distance.
+
           hold_keys: Modifier keys to hold during the move
+
+          smooth: Use human-like Bezier curve path instead of instant mouse movement.
 
           extra_headers: Send extra headers
 
@@ -345,7 +352,9 @@ class ComputerResource(SyncAPIResource):
                 {
                     "x": x,
                     "y": y,
+                    "duration_ms": duration_ms,
                     "hold_keys": hold_keys,
+                    "smooth": smooth,
                 },
                 computer_move_mouse_params.ComputerMoveMouseParams,
             ),
@@ -892,7 +901,9 @@ class AsyncComputerResource(AsyncAPIResource):
         *,
         x: int,
         y: int,
+        duration_ms: int | Omit = omit,
         hold_keys: SequenceNotStr[str] | Omit = omit,
+        smooth: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -908,7 +919,12 @@ class AsyncComputerResource(AsyncAPIResource):
 
           y: Y coordinate to move the cursor to
 
+          duration_ms: Target total duration in milliseconds for the mouse movement when smooth=true.
+              Omit for automatic timing based on distance.
+
           hold_keys: Modifier keys to hold during the move
+
+          smooth: Use human-like Bezier curve path instead of instant mouse movement.
 
           extra_headers: Send extra headers
 
@@ -927,7 +943,9 @@ class AsyncComputerResource(AsyncAPIResource):
                 {
                     "x": x,
                     "y": y,
+                    "duration_ms": duration_ms,
                     "hold_keys": hold_keys,
+                    "smooth": smooth,
                 },
                 computer_move_mouse_params.ComputerMoveMouseParams,
             ),
