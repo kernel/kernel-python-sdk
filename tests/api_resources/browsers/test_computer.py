@@ -326,7 +326,9 @@ class TestComputer:
             id="id",
             x=0,
             y=0,
+            duration_ms=50,
             hold_keys=["string"],
+            smooth=True,
         )
         assert computer is None
 
@@ -987,7 +989,9 @@ class TestAsyncComputer:
             id="id",
             x=0,
             y=0,
+            duration_ms=50,
             hold_keys=["string"],
+            smooth=True,
         )
         assert computer is None
 
