@@ -24,6 +24,8 @@ __all__ = ["WatchResource", "AsyncWatchResource"]
 
 
 class WatchResource(SyncAPIResource):
+    """Read, write, and manage files on the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> WatchResourceWithRawResponse:
         """
@@ -167,6 +169,8 @@ class WatchResource(SyncAPIResource):
 
 
 class AsyncWatchResource(AsyncAPIResource):
+    """Read, write, and manage files on the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> AsyncWatchResourceWithRawResponse:
         """

@@ -27,6 +27,8 @@ __all__ = ["CredentialProvidersResource", "AsyncCredentialProvidersResource"]
 
 
 class CredentialProvidersResource(SyncAPIResource):
+    """Configure external credential providers like 1Password."""
+
     @cached_property
     def with_raw_response(self) -> CredentialProvidersResourceWithRawResponse:
         """
@@ -311,6 +313,8 @@ class CredentialProvidersResource(SyncAPIResource):
 
 
 class AsyncCredentialProvidersResource(AsyncAPIResource):
+    """Configure external credential providers like 1Password."""
+
     @cached_property
     def with_raw_response(self) -> AsyncCredentialProvidersResourceWithRawResponse:
         """

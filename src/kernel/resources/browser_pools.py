@@ -35,6 +35,8 @@ __all__ = ["BrowserPoolsResource", "AsyncBrowserPoolsResource"]
 
 
 class BrowserPoolsResource(SyncAPIResource):
+    """Create and manage browser pools for acquiring and releasing browsers."""
+
     @cached_property
     def with_raw_response(self) -> BrowserPoolsResourceWithRawResponse:
         """
@@ -473,6 +475,8 @@ class BrowserPoolsResource(SyncAPIResource):
 
 
 class AsyncBrowserPoolsResource(AsyncAPIResource):
+    """Create and manage browser pools for acquiring and releasing browsers."""
+
     @cached_property
     def with_raw_response(self) -> AsyncBrowserPoolsResourceWithRawResponse:
         """
