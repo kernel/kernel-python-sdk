@@ -34,9 +34,11 @@ from ...types.browsers import (
     computer_drag_mouse_params,
     computer_move_mouse_params,
     computer_click_mouse_params,
+    computer_write_clipboard_params,
     computer_capture_screenshot_params,
     computer_set_cursor_visibility_params,
 )
+from ...types.browsers.computer_read_clipboard_response import ComputerReadClipboardResponse
 from ...types.browsers.computer_get_mouse_position_response import ComputerGetMousePositionResponse
 from ...types.browsers.computer_set_cursor_visibility_response import ComputerSetCursorVisibilityResponse
 
@@ -408,6 +410,39 @@ class ComputerResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def read_clipboard(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ComputerReadClipboardResponse:
+        """
+        Read text from the clipboard on the browser instance
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            f"/browsers/{id}/computer/clipboard/read",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ComputerReadClipboardResponse,
+        )
+
     def scroll(
         self,
         id: str,
@@ -547,6 +582,44 @@ class ComputerResource(SyncAPIResource):
                 },
                 computer_type_text_params.ComputerTypeTextParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
+    def write_clipboard(
+        self,
+        id: str,
+        *,
+        text: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Write text to the clipboard on the browser instance
+
+        Args:
+          text: Text to write to the system clipboard
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return self._post(
+            f"/browsers/{id}/computer/clipboard/write",
+            body=maybe_transform({"text": text}, computer_write_clipboard_params.ComputerWriteClipboardParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -919,6 +992,39 @@ class AsyncComputerResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def read_clipboard(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ComputerReadClipboardResponse:
+        """
+        Read text from the clipboard on the browser instance
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            f"/browsers/{id}/computer/clipboard/read",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ComputerReadClipboardResponse,
+        )
+
     async def scroll(
         self,
         id: str,
@@ -1064,6 +1170,46 @@ class AsyncComputerResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def write_clipboard(
+        self,
+        id: str,
+        *,
+        text: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> None:
+        """
+        Write text to the clipboard on the browser instance
+
+        Args:
+          text: Text to write to the system clipboard
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
+        return await self._post(
+            f"/browsers/{id}/computer/clipboard/write",
+            body=await async_maybe_transform(
+                {"text": text}, computer_write_clipboard_params.ComputerWriteClipboardParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=NoneType,
+        )
+
 
 class ComputerResourceWithRawResponse:
     def __init__(self, computer: ComputerResource) -> None:
@@ -1091,6 +1237,9 @@ class ComputerResourceWithRawResponse:
         self.press_key = to_raw_response_wrapper(
             computer.press_key,
         )
+        self.read_clipboard = to_raw_response_wrapper(
+            computer.read_clipboard,
+        )
         self.scroll = to_raw_response_wrapper(
             computer.scroll,
         )
@@ -1099,6 +1248,9 @@ class ComputerResourceWithRawResponse:
         )
         self.type_text = to_raw_response_wrapper(
             computer.type_text,
+        )
+        self.write_clipboard = to_raw_response_wrapper(
+            computer.write_clipboard,
         )
 
 
@@ -1128,6 +1280,9 @@ class AsyncComputerResourceWithRawResponse:
         self.press_key = async_to_raw_response_wrapper(
             computer.press_key,
         )
+        self.read_clipboard = async_to_raw_response_wrapper(
+            computer.read_clipboard,
+        )
         self.scroll = async_to_raw_response_wrapper(
             computer.scroll,
         )
@@ -1136,6 +1291,9 @@ class AsyncComputerResourceWithRawResponse:
         )
         self.type_text = async_to_raw_response_wrapper(
             computer.type_text,
+        )
+        self.write_clipboard = async_to_raw_response_wrapper(
+            computer.write_clipboard,
         )
 
 
@@ -1165,6 +1323,9 @@ class ComputerResourceWithStreamingResponse:
         self.press_key = to_streamed_response_wrapper(
             computer.press_key,
         )
+        self.read_clipboard = to_streamed_response_wrapper(
+            computer.read_clipboard,
+        )
         self.scroll = to_streamed_response_wrapper(
             computer.scroll,
         )
@@ -1173,6 +1334,9 @@ class ComputerResourceWithStreamingResponse:
         )
         self.type_text = to_streamed_response_wrapper(
             computer.type_text,
+        )
+        self.write_clipboard = to_streamed_response_wrapper(
+            computer.write_clipboard,
         )
 
 
@@ -1202,6 +1366,9 @@ class AsyncComputerResourceWithStreamingResponse:
         self.press_key = async_to_streamed_response_wrapper(
             computer.press_key,
         )
+        self.read_clipboard = async_to_streamed_response_wrapper(
+            computer.read_clipboard,
+        )
         self.scroll = async_to_streamed_response_wrapper(
             computer.scroll,
         )
@@ -1210,4 +1377,7 @@ class AsyncComputerResourceWithStreamingResponse:
         )
         self.type_text = async_to_streamed_response_wrapper(
             computer.type_text,
+        )
+        self.write_clipboard = async_to_streamed_response_wrapper(
+            computer.write_clipboard,
         )

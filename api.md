@@ -192,6 +192,7 @@ Types:
 ```python
 from kernel.types.browsers import (
     ComputerGetMousePositionResponse,
+    ComputerReadClipboardResponse,
     ComputerSetCursorVisibilityResponse,
 )
 ```
@@ -205,9 +206,11 @@ Methods:
 - <code title="post /browsers/{id}/computer/get_mouse_position">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">get_mouse_position</a>(id) -> <a href="./src/kernel/types/browsers/computer_get_mouse_position_response.py">ComputerGetMousePositionResponse</a></code>
 - <code title="post /browsers/{id}/computer/move_mouse">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">move_mouse</a>(id, \*\*<a href="src/kernel/types/browsers/computer_move_mouse_params.py">params</a>) -> None</code>
 - <code title="post /browsers/{id}/computer/press_key">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">press_key</a>(id, \*\*<a href="src/kernel/types/browsers/computer_press_key_params.py">params</a>) -> None</code>
+- <code title="post /browsers/{id}/computer/clipboard/read">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">read_clipboard</a>(id) -> <a href="./src/kernel/types/browsers/computer_read_clipboard_response.py">ComputerReadClipboardResponse</a></code>
 - <code title="post /browsers/{id}/computer/scroll">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">scroll</a>(id, \*\*<a href="src/kernel/types/browsers/computer_scroll_params.py">params</a>) -> None</code>
 - <code title="post /browsers/{id}/computer/cursor">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">set_cursor_visibility</a>(id, \*\*<a href="src/kernel/types/browsers/computer_set_cursor_visibility_params.py">params</a>) -> <a href="./src/kernel/types/browsers/computer_set_cursor_visibility_response.py">ComputerSetCursorVisibilityResponse</a></code>
 - <code title="post /browsers/{id}/computer/type">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">type_text</a>(id, \*\*<a href="src/kernel/types/browsers/computer_type_text_params.py">params</a>) -> None</code>
+- <code title="post /browsers/{id}/computer/clipboard/write">client.browsers.computer.<a href="./src/kernel/resources/browsers/computer.py">write_clipboard</a>(id, \*\*<a href="src/kernel/types/browsers/computer_write_clipboard_params.py">params</a>) -> None</code>
 
 ## Playwright
 
