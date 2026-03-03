@@ -34,6 +34,8 @@ __all__ = ["ExtensionsResource", "AsyncExtensionsResource"]
 
 
 class ExtensionsResource(SyncAPIResource):
+    """Create, list, retrieve, and delete browser extensions."""
+
     @cached_property
     def with_raw_response(self) -> ExtensionsResourceWithRawResponse:
         """
@@ -241,6 +243,8 @@ class ExtensionsResource(SyncAPIResource):
 
 
 class AsyncExtensionsResource(AsyncAPIResource):
+    """Create, list, retrieve, and delete browser extensions."""
+
     @cached_property
     def with_raw_response(self) -> AsyncExtensionsResourceWithRawResponse:
         """

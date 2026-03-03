@@ -69,8 +69,11 @@ __all__ = ["FsResource", "AsyncFsResource"]
 
 
 class FsResource(SyncAPIResource):
+    """Read, write, and manage files on the browser instance."""
+
     @cached_property
     def watch(self) -> WatchResource:
+        """Read, write, and manage files on the browser instance."""
         return WatchResource(self._client)
 
     @cached_property
@@ -628,8 +631,11 @@ class FsResource(SyncAPIResource):
 
 
 class AsyncFsResource(AsyncAPIResource):
+    """Read, write, and manage files on the browser instance."""
+
     @cached_property
     def watch(self) -> AsyncWatchResource:
+        """Read, write, and manage files on the browser instance."""
         return AsyncWatchResource(self._client)
 
     @cached_property
@@ -1231,6 +1237,7 @@ class FsResourceWithRawResponse:
 
     @cached_property
     def watch(self) -> WatchResourceWithRawResponse:
+        """Read, write, and manage files on the browser instance."""
         return WatchResourceWithRawResponse(self._fs.watch)
 
 
@@ -1279,6 +1286,7 @@ class AsyncFsResourceWithRawResponse:
 
     @cached_property
     def watch(self) -> AsyncWatchResourceWithRawResponse:
+        """Read, write, and manage files on the browser instance."""
         return AsyncWatchResourceWithRawResponse(self._fs.watch)
 
 
@@ -1327,6 +1335,7 @@ class FsResourceWithStreamingResponse:
 
     @cached_property
     def watch(self) -> WatchResourceWithStreamingResponse:
+        """Read, write, and manage files on the browser instance."""
         return WatchResourceWithStreamingResponse(self._fs.watch)
 
 
@@ -1375,4 +1384,5 @@ class AsyncFsResourceWithStreamingResponse:
 
     @cached_property
     def watch(self) -> AsyncWatchResourceWithStreamingResponse:
+        """Read, write, and manage files on the browser instance."""
         return AsyncWatchResourceWithStreamingResponse(self._fs.watch)

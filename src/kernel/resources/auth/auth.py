@@ -19,6 +19,7 @@ __all__ = ["AuthResource", "AsyncAuthResource"]
 class AuthResource(SyncAPIResource):
     @cached_property
     def connections(self) -> ConnectionsResource:
+        """Create and manage auth connections for automated credential capture and login."""
         return ConnectionsResource(self._client)
 
     @cached_property
@@ -44,6 +45,7 @@ class AuthResource(SyncAPIResource):
 class AsyncAuthResource(AsyncAPIResource):
     @cached_property
     def connections(self) -> AsyncConnectionsResource:
+        """Create and manage auth connections for automated credential capture and login."""
         return AsyncConnectionsResource(self._client)
 
     @cached_property
@@ -72,6 +74,7 @@ class AuthResourceWithRawResponse:
 
     @cached_property
     def connections(self) -> ConnectionsResourceWithRawResponse:
+        """Create and manage auth connections for automated credential capture and login."""
         return ConnectionsResourceWithRawResponse(self._auth.connections)
 
 
@@ -81,6 +84,7 @@ class AsyncAuthResourceWithRawResponse:
 
     @cached_property
     def connections(self) -> AsyncConnectionsResourceWithRawResponse:
+        """Create and manage auth connections for automated credential capture and login."""
         return AsyncConnectionsResourceWithRawResponse(self._auth.connections)
 
 
@@ -90,6 +94,7 @@ class AuthResourceWithStreamingResponse:
 
     @cached_property
     def connections(self) -> ConnectionsResourceWithStreamingResponse:
+        """Create and manage auth connections for automated credential capture and login."""
         return ConnectionsResourceWithStreamingResponse(self._auth.connections)
 
 
@@ -99,4 +104,5 @@ class AsyncAuthResourceWithStreamingResponse:
 
     @cached_property
     def connections(self) -> AsyncConnectionsResourceWithStreamingResponse:
+        """Create and manage auth connections for automated credential capture and login."""
         return AsyncConnectionsResourceWithStreamingResponse(self._auth.connections)

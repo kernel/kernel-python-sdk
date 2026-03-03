@@ -27,6 +27,8 @@ __all__ = ["ProxiesResource", "AsyncProxiesResource"]
 
 
 class ProxiesResource(SyncAPIResource):
+    """Create and manage proxy configurations for routing browser traffic."""
+
     @cached_property
     def with_raw_response(self) -> ProxiesResourceWithRawResponse:
         """
@@ -224,6 +226,8 @@ class ProxiesResource(SyncAPIResource):
 
 
 class AsyncProxiesResource(AsyncAPIResource):
+    """Create and manage proxy configurations for routing browser traffic."""
+
     @cached_property
     def with_raw_response(self) -> AsyncProxiesResourceWithRawResponse:
         """

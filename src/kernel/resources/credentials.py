@@ -26,6 +26,8 @@ __all__ = ["CredentialsResource", "AsyncCredentialsResource"]
 
 
 class CredentialsResource(SyncAPIResource):
+    """Create and manage credentials for authentication."""
+
     @cached_property
     def with_raw_response(self) -> CredentialsResourceWithRawResponse:
         """
@@ -321,6 +323,8 @@ class CredentialsResource(SyncAPIResource):
 
 
 class AsyncCredentialsResource(AsyncAPIResource):
+    """Create and manage credentials for authentication."""
+
     @cached_property
     def with_raw_response(self) -> AsyncCredentialsResourceWithRawResponse:
         """

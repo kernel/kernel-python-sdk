@@ -31,6 +31,8 @@ __all__ = ["ReplaysResource", "AsyncReplaysResource"]
 
 
 class ReplaysResource(SyncAPIResource):
+    """Record and manage browser session video replays."""
+
     @cached_property
     def with_raw_response(self) -> ReplaysResourceWithRawResponse:
         """
@@ -205,6 +207,8 @@ class ReplaysResource(SyncAPIResource):
 
 
 class AsyncReplaysResource(AsyncAPIResource):
+    """Record and manage browser session video replays."""
+
     @cached_property
     def with_raw_response(self) -> AsyncReplaysResourceWithRawResponse:
         """

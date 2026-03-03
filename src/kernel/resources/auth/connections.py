@@ -34,6 +34,8 @@ __all__ = ["ConnectionsResource", "AsyncConnectionsResource"]
 
 
 class ConnectionsResource(SyncAPIResource):
+    """Create and manage auth connections for automated credential capture and login."""
+
     @cached_property
     def with_raw_response(self) -> ConnectionsResourceWithRawResponse:
         """
@@ -413,6 +415,8 @@ class ConnectionsResource(SyncAPIResource):
 
 
 class AsyncConnectionsResource(AsyncAPIResource):
+    """Create and manage auth connections for automated credential capture and login."""
+
     @cached_property
     def with_raw_response(self) -> AsyncConnectionsResourceWithRawResponse:
         """
