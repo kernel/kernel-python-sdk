@@ -25,6 +25,8 @@ __all__ = ["LogsResource", "AsyncLogsResource"]
 
 
 class LogsResource(SyncAPIResource):
+    """Stream logs from the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> LogsResourceWithRawResponse:
         """
@@ -102,6 +104,8 @@ class LogsResource(SyncAPIResource):
 
 
 class AsyncLogsResource(AsyncAPIResource):
+    """Stream logs from the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> AsyncLogsResourceWithRawResponse:
         """

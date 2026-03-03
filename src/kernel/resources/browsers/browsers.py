@@ -89,20 +89,26 @@ __all__ = ["BrowsersResource", "AsyncBrowsersResource"]
 
 
 class BrowsersResource(SyncAPIResource):
+    """Create and manage browser sessions."""
+
     @cached_property
     def replays(self) -> ReplaysResource:
+        """Record and manage browser session video replays."""
         return ReplaysResource(self._client)
 
     @cached_property
     def fs(self) -> FsResource:
+        """Read, write, and manage files on the browser instance."""
         return FsResource(self._client)
 
     @cached_property
     def process(self) -> ProcessResource:
+        """Execute and manage processes on the browser instance."""
         return ProcessResource(self._client)
 
     @cached_property
     def logs(self) -> LogsResource:
+        """Stream logs from the browser instance."""
         return LogsResource(self._client)
 
     @cached_property
@@ -111,6 +117,7 @@ class BrowsersResource(SyncAPIResource):
 
     @cached_property
     def playwright(self) -> PlaywrightResource:
+        """Execute Playwright code against the browser instance."""
         return PlaywrightResource(self._client)
 
     @cached_property
@@ -509,20 +516,26 @@ class BrowsersResource(SyncAPIResource):
 
 
 class AsyncBrowsersResource(AsyncAPIResource):
+    """Create and manage browser sessions."""
+
     @cached_property
     def replays(self) -> AsyncReplaysResource:
+        """Record and manage browser session video replays."""
         return AsyncReplaysResource(self._client)
 
     @cached_property
     def fs(self) -> AsyncFsResource:
+        """Read, write, and manage files on the browser instance."""
         return AsyncFsResource(self._client)
 
     @cached_property
     def process(self) -> AsyncProcessResource:
+        """Execute and manage processes on the browser instance."""
         return AsyncProcessResource(self._client)
 
     @cached_property
     def logs(self) -> AsyncLogsResource:
+        """Stream logs from the browser instance."""
         return AsyncLogsResource(self._client)
 
     @cached_property
@@ -531,6 +544,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
     @cached_property
     def playwright(self) -> AsyncPlaywrightResource:
+        """Execute Playwright code against the browser instance."""
         return AsyncPlaywrightResource(self._client)
 
     @cached_property
@@ -960,18 +974,22 @@ class BrowsersResourceWithRawResponse:
 
     @cached_property
     def replays(self) -> ReplaysResourceWithRawResponse:
+        """Record and manage browser session video replays."""
         return ReplaysResourceWithRawResponse(self._browsers.replays)
 
     @cached_property
     def fs(self) -> FsResourceWithRawResponse:
+        """Read, write, and manage files on the browser instance."""
         return FsResourceWithRawResponse(self._browsers.fs)
 
     @cached_property
     def process(self) -> ProcessResourceWithRawResponse:
+        """Execute and manage processes on the browser instance."""
         return ProcessResourceWithRawResponse(self._browsers.process)
 
     @cached_property
     def logs(self) -> LogsResourceWithRawResponse:
+        """Stream logs from the browser instance."""
         return LogsResourceWithRawResponse(self._browsers.logs)
 
     @cached_property
@@ -980,6 +998,7 @@ class BrowsersResourceWithRawResponse:
 
     @cached_property
     def playwright(self) -> PlaywrightResourceWithRawResponse:
+        """Execute Playwright code against the browser instance."""
         return PlaywrightResourceWithRawResponse(self._browsers.playwright)
 
 
@@ -1013,18 +1032,22 @@ class AsyncBrowsersResourceWithRawResponse:
 
     @cached_property
     def replays(self) -> AsyncReplaysResourceWithRawResponse:
+        """Record and manage browser session video replays."""
         return AsyncReplaysResourceWithRawResponse(self._browsers.replays)
 
     @cached_property
     def fs(self) -> AsyncFsResourceWithRawResponse:
+        """Read, write, and manage files on the browser instance."""
         return AsyncFsResourceWithRawResponse(self._browsers.fs)
 
     @cached_property
     def process(self) -> AsyncProcessResourceWithRawResponse:
+        """Execute and manage processes on the browser instance."""
         return AsyncProcessResourceWithRawResponse(self._browsers.process)
 
     @cached_property
     def logs(self) -> AsyncLogsResourceWithRawResponse:
+        """Stream logs from the browser instance."""
         return AsyncLogsResourceWithRawResponse(self._browsers.logs)
 
     @cached_property
@@ -1033,6 +1056,7 @@ class AsyncBrowsersResourceWithRawResponse:
 
     @cached_property
     def playwright(self) -> AsyncPlaywrightResourceWithRawResponse:
+        """Execute Playwright code against the browser instance."""
         return AsyncPlaywrightResourceWithRawResponse(self._browsers.playwright)
 
 
@@ -1066,18 +1090,22 @@ class BrowsersResourceWithStreamingResponse:
 
     @cached_property
     def replays(self) -> ReplaysResourceWithStreamingResponse:
+        """Record and manage browser session video replays."""
         return ReplaysResourceWithStreamingResponse(self._browsers.replays)
 
     @cached_property
     def fs(self) -> FsResourceWithStreamingResponse:
+        """Read, write, and manage files on the browser instance."""
         return FsResourceWithStreamingResponse(self._browsers.fs)
 
     @cached_property
     def process(self) -> ProcessResourceWithStreamingResponse:
+        """Execute and manage processes on the browser instance."""
         return ProcessResourceWithStreamingResponse(self._browsers.process)
 
     @cached_property
     def logs(self) -> LogsResourceWithStreamingResponse:
+        """Stream logs from the browser instance."""
         return LogsResourceWithStreamingResponse(self._browsers.logs)
 
     @cached_property
@@ -1086,6 +1114,7 @@ class BrowsersResourceWithStreamingResponse:
 
     @cached_property
     def playwright(self) -> PlaywrightResourceWithStreamingResponse:
+        """Execute Playwright code against the browser instance."""
         return PlaywrightResourceWithStreamingResponse(self._browsers.playwright)
 
 
@@ -1119,18 +1148,22 @@ class AsyncBrowsersResourceWithStreamingResponse:
 
     @cached_property
     def replays(self) -> AsyncReplaysResourceWithStreamingResponse:
+        """Record and manage browser session video replays."""
         return AsyncReplaysResourceWithStreamingResponse(self._browsers.replays)
 
     @cached_property
     def fs(self) -> AsyncFsResourceWithStreamingResponse:
+        """Read, write, and manage files on the browser instance."""
         return AsyncFsResourceWithStreamingResponse(self._browsers.fs)
 
     @cached_property
     def process(self) -> AsyncProcessResourceWithStreamingResponse:
+        """Execute and manage processes on the browser instance."""
         return AsyncProcessResourceWithStreamingResponse(self._browsers.process)
 
     @cached_property
     def logs(self) -> AsyncLogsResourceWithStreamingResponse:
+        """Stream logs from the browser instance."""
         return AsyncLogsResourceWithStreamingResponse(self._browsers.logs)
 
     @cached_property
@@ -1139,4 +1172,5 @@ class AsyncBrowsersResourceWithStreamingResponse:
 
     @cached_property
     def playwright(self) -> AsyncPlaywrightResourceWithStreamingResponse:
+        """Execute Playwright code against the browser instance."""
         return AsyncPlaywrightResourceWithStreamingResponse(self._browsers.playwright)

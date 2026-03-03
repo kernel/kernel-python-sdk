@@ -38,6 +38,8 @@ __all__ = ["ProcessResource", "AsyncProcessResource"]
 
 
 class ProcessResource(SyncAPIResource):
+    """Execute and manage processes on the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> ProcessResourceWithRawResponse:
         """
@@ -407,6 +409,8 @@ class ProcessResource(SyncAPIResource):
 
 
 class AsyncProcessResource(AsyncAPIResource):
+    """Execute and manage processes on the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> AsyncProcessResourceWithRawResponse:
         """

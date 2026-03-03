@@ -22,6 +22,8 @@ __all__ = ["PlaywrightResource", "AsyncPlaywrightResource"]
 
 
 class PlaywrightResource(SyncAPIResource):
+    """Execute Playwright code against the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> PlaywrightResourceWithRawResponse:
         """
@@ -96,6 +98,8 @@ class PlaywrightResource(SyncAPIResource):
 
 
 class AsyncPlaywrightResource(AsyncAPIResource):
+    """Execute Playwright code against the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> AsyncPlaywrightResourceWithRawResponse:
         """

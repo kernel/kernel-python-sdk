@@ -155,30 +155,35 @@ class Kernel(SyncAPIClient):
 
     @cached_property
     def deployments(self) -> DeploymentsResource:
+        """Create and manage app deployments and stream deployment events."""
         from .resources.deployments import DeploymentsResource
 
         return DeploymentsResource(self)
 
     @cached_property
     def apps(self) -> AppsResource:
+        """List applications and versions."""
         from .resources.apps import AppsResource
 
         return AppsResource(self)
 
     @cached_property
     def invocations(self) -> InvocationsResource:
+        """Invoke actions and stream or query invocation status and events."""
         from .resources.invocations import InvocationsResource
 
         return InvocationsResource(self)
 
     @cached_property
     def browsers(self) -> BrowsersResource:
+        """Create and manage browser sessions."""
         from .resources.browsers import BrowsersResource
 
         return BrowsersResource(self)
 
     @cached_property
     def profiles(self) -> ProfilesResource:
+        """Create, list, retrieve, and delete browser profiles."""
         from .resources.profiles import ProfilesResource
 
         return ProfilesResource(self)
@@ -191,30 +196,35 @@ class Kernel(SyncAPIClient):
 
     @cached_property
     def proxies(self) -> ProxiesResource:
+        """Create and manage proxy configurations for routing browser traffic."""
         from .resources.proxies import ProxiesResource
 
         return ProxiesResource(self)
 
     @cached_property
     def extensions(self) -> ExtensionsResource:
+        """Create, list, retrieve, and delete browser extensions."""
         from .resources.extensions import ExtensionsResource
 
         return ExtensionsResource(self)
 
     @cached_property
     def browser_pools(self) -> BrowserPoolsResource:
+        """Create and manage browser pools for acquiring and releasing browsers."""
         from .resources.browser_pools import BrowserPoolsResource
 
         return BrowserPoolsResource(self)
 
     @cached_property
     def credentials(self) -> CredentialsResource:
+        """Create and manage credentials for authentication."""
         from .resources.credentials import CredentialsResource
 
         return CredentialsResource(self)
 
     @cached_property
     def credential_providers(self) -> CredentialProvidersResource:
+        """Configure external credential providers like 1Password."""
         from .resources.credential_providers import CredentialProvidersResource
 
         return CredentialProvidersResource(self)
@@ -415,30 +425,35 @@ class AsyncKernel(AsyncAPIClient):
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResource:
+        """Create and manage app deployments and stream deployment events."""
         from .resources.deployments import AsyncDeploymentsResource
 
         return AsyncDeploymentsResource(self)
 
     @cached_property
     def apps(self) -> AsyncAppsResource:
+        """List applications and versions."""
         from .resources.apps import AsyncAppsResource
 
         return AsyncAppsResource(self)
 
     @cached_property
     def invocations(self) -> AsyncInvocationsResource:
+        """Invoke actions and stream or query invocation status and events."""
         from .resources.invocations import AsyncInvocationsResource
 
         return AsyncInvocationsResource(self)
 
     @cached_property
     def browsers(self) -> AsyncBrowsersResource:
+        """Create and manage browser sessions."""
         from .resources.browsers import AsyncBrowsersResource
 
         return AsyncBrowsersResource(self)
 
     @cached_property
     def profiles(self) -> AsyncProfilesResource:
+        """Create, list, retrieve, and delete browser profiles."""
         from .resources.profiles import AsyncProfilesResource
 
         return AsyncProfilesResource(self)
@@ -451,30 +466,35 @@ class AsyncKernel(AsyncAPIClient):
 
     @cached_property
     def proxies(self) -> AsyncProxiesResource:
+        """Create and manage proxy configurations for routing browser traffic."""
         from .resources.proxies import AsyncProxiesResource
 
         return AsyncProxiesResource(self)
 
     @cached_property
     def extensions(self) -> AsyncExtensionsResource:
+        """Create, list, retrieve, and delete browser extensions."""
         from .resources.extensions import AsyncExtensionsResource
 
         return AsyncExtensionsResource(self)
 
     @cached_property
     def browser_pools(self) -> AsyncBrowserPoolsResource:
+        """Create and manage browser pools for acquiring and releasing browsers."""
         from .resources.browser_pools import AsyncBrowserPoolsResource
 
         return AsyncBrowserPoolsResource(self)
 
     @cached_property
     def credentials(self) -> AsyncCredentialsResource:
+        """Create and manage credentials for authentication."""
         from .resources.credentials import AsyncCredentialsResource
 
         return AsyncCredentialsResource(self)
 
     @cached_property
     def credential_providers(self) -> AsyncCredentialProvidersResource:
+        """Configure external credential providers like 1Password."""
         from .resources.credential_providers import AsyncCredentialProvidersResource
 
         return AsyncCredentialProvidersResource(self)
@@ -602,30 +622,35 @@ class KernelWithRawResponse:
 
     @cached_property
     def deployments(self) -> deployments.DeploymentsResourceWithRawResponse:
+        """Create and manage app deployments and stream deployment events."""
         from .resources.deployments import DeploymentsResourceWithRawResponse
 
         return DeploymentsResourceWithRawResponse(self._client.deployments)
 
     @cached_property
     def apps(self) -> apps.AppsResourceWithRawResponse:
+        """List applications and versions."""
         from .resources.apps import AppsResourceWithRawResponse
 
         return AppsResourceWithRawResponse(self._client.apps)
 
     @cached_property
     def invocations(self) -> invocations.InvocationsResourceWithRawResponse:
+        """Invoke actions and stream or query invocation status and events."""
         from .resources.invocations import InvocationsResourceWithRawResponse
 
         return InvocationsResourceWithRawResponse(self._client.invocations)
 
     @cached_property
     def browsers(self) -> browsers.BrowsersResourceWithRawResponse:
+        """Create and manage browser sessions."""
         from .resources.browsers import BrowsersResourceWithRawResponse
 
         return BrowsersResourceWithRawResponse(self._client.browsers)
 
     @cached_property
     def profiles(self) -> profiles.ProfilesResourceWithRawResponse:
+        """Create, list, retrieve, and delete browser profiles."""
         from .resources.profiles import ProfilesResourceWithRawResponse
 
         return ProfilesResourceWithRawResponse(self._client.profiles)
@@ -638,30 +663,35 @@ class KernelWithRawResponse:
 
     @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithRawResponse:
+        """Create and manage proxy configurations for routing browser traffic."""
         from .resources.proxies import ProxiesResourceWithRawResponse
 
         return ProxiesResourceWithRawResponse(self._client.proxies)
 
     @cached_property
     def extensions(self) -> extensions.ExtensionsResourceWithRawResponse:
+        """Create, list, retrieve, and delete browser extensions."""
         from .resources.extensions import ExtensionsResourceWithRawResponse
 
         return ExtensionsResourceWithRawResponse(self._client.extensions)
 
     @cached_property
     def browser_pools(self) -> browser_pools.BrowserPoolsResourceWithRawResponse:
+        """Create and manage browser pools for acquiring and releasing browsers."""
         from .resources.browser_pools import BrowserPoolsResourceWithRawResponse
 
         return BrowserPoolsResourceWithRawResponse(self._client.browser_pools)
 
     @cached_property
     def credentials(self) -> credentials.CredentialsResourceWithRawResponse:
+        """Create and manage credentials for authentication."""
         from .resources.credentials import CredentialsResourceWithRawResponse
 
         return CredentialsResourceWithRawResponse(self._client.credentials)
 
     @cached_property
     def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithRawResponse:
+        """Configure external credential providers like 1Password."""
         from .resources.credential_providers import CredentialProvidersResourceWithRawResponse
 
         return CredentialProvidersResourceWithRawResponse(self._client.credential_providers)
@@ -675,30 +705,35 @@ class AsyncKernelWithRawResponse:
 
     @cached_property
     def deployments(self) -> deployments.AsyncDeploymentsResourceWithRawResponse:
+        """Create and manage app deployments and stream deployment events."""
         from .resources.deployments import AsyncDeploymentsResourceWithRawResponse
 
         return AsyncDeploymentsResourceWithRawResponse(self._client.deployments)
 
     @cached_property
     def apps(self) -> apps.AsyncAppsResourceWithRawResponse:
+        """List applications and versions."""
         from .resources.apps import AsyncAppsResourceWithRawResponse
 
         return AsyncAppsResourceWithRawResponse(self._client.apps)
 
     @cached_property
     def invocations(self) -> invocations.AsyncInvocationsResourceWithRawResponse:
+        """Invoke actions and stream or query invocation status and events."""
         from .resources.invocations import AsyncInvocationsResourceWithRawResponse
 
         return AsyncInvocationsResourceWithRawResponse(self._client.invocations)
 
     @cached_property
     def browsers(self) -> browsers.AsyncBrowsersResourceWithRawResponse:
+        """Create and manage browser sessions."""
         from .resources.browsers import AsyncBrowsersResourceWithRawResponse
 
         return AsyncBrowsersResourceWithRawResponse(self._client.browsers)
 
     @cached_property
     def profiles(self) -> profiles.AsyncProfilesResourceWithRawResponse:
+        """Create, list, retrieve, and delete browser profiles."""
         from .resources.profiles import AsyncProfilesResourceWithRawResponse
 
         return AsyncProfilesResourceWithRawResponse(self._client.profiles)
@@ -711,30 +746,35 @@ class AsyncKernelWithRawResponse:
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithRawResponse:
+        """Create and manage proxy configurations for routing browser traffic."""
         from .resources.proxies import AsyncProxiesResourceWithRawResponse
 
         return AsyncProxiesResourceWithRawResponse(self._client.proxies)
 
     @cached_property
     def extensions(self) -> extensions.AsyncExtensionsResourceWithRawResponse:
+        """Create, list, retrieve, and delete browser extensions."""
         from .resources.extensions import AsyncExtensionsResourceWithRawResponse
 
         return AsyncExtensionsResourceWithRawResponse(self._client.extensions)
 
     @cached_property
     def browser_pools(self) -> browser_pools.AsyncBrowserPoolsResourceWithRawResponse:
+        """Create and manage browser pools for acquiring and releasing browsers."""
         from .resources.browser_pools import AsyncBrowserPoolsResourceWithRawResponse
 
         return AsyncBrowserPoolsResourceWithRawResponse(self._client.browser_pools)
 
     @cached_property
     def credentials(self) -> credentials.AsyncCredentialsResourceWithRawResponse:
+        """Create and manage credentials for authentication."""
         from .resources.credentials import AsyncCredentialsResourceWithRawResponse
 
         return AsyncCredentialsResourceWithRawResponse(self._client.credentials)
 
     @cached_property
     def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithRawResponse:
+        """Configure external credential providers like 1Password."""
         from .resources.credential_providers import AsyncCredentialProvidersResourceWithRawResponse
 
         return AsyncCredentialProvidersResourceWithRawResponse(self._client.credential_providers)
@@ -748,30 +788,35 @@ class KernelWithStreamedResponse:
 
     @cached_property
     def deployments(self) -> deployments.DeploymentsResourceWithStreamingResponse:
+        """Create and manage app deployments and stream deployment events."""
         from .resources.deployments import DeploymentsResourceWithStreamingResponse
 
         return DeploymentsResourceWithStreamingResponse(self._client.deployments)
 
     @cached_property
     def apps(self) -> apps.AppsResourceWithStreamingResponse:
+        """List applications and versions."""
         from .resources.apps import AppsResourceWithStreamingResponse
 
         return AppsResourceWithStreamingResponse(self._client.apps)
 
     @cached_property
     def invocations(self) -> invocations.InvocationsResourceWithStreamingResponse:
+        """Invoke actions and stream or query invocation status and events."""
         from .resources.invocations import InvocationsResourceWithStreamingResponse
 
         return InvocationsResourceWithStreamingResponse(self._client.invocations)
 
     @cached_property
     def browsers(self) -> browsers.BrowsersResourceWithStreamingResponse:
+        """Create and manage browser sessions."""
         from .resources.browsers import BrowsersResourceWithStreamingResponse
 
         return BrowsersResourceWithStreamingResponse(self._client.browsers)
 
     @cached_property
     def profiles(self) -> profiles.ProfilesResourceWithStreamingResponse:
+        """Create, list, retrieve, and delete browser profiles."""
         from .resources.profiles import ProfilesResourceWithStreamingResponse
 
         return ProfilesResourceWithStreamingResponse(self._client.profiles)
@@ -784,30 +829,35 @@ class KernelWithStreamedResponse:
 
     @cached_property
     def proxies(self) -> proxies.ProxiesResourceWithStreamingResponse:
+        """Create and manage proxy configurations for routing browser traffic."""
         from .resources.proxies import ProxiesResourceWithStreamingResponse
 
         return ProxiesResourceWithStreamingResponse(self._client.proxies)
 
     @cached_property
     def extensions(self) -> extensions.ExtensionsResourceWithStreamingResponse:
+        """Create, list, retrieve, and delete browser extensions."""
         from .resources.extensions import ExtensionsResourceWithStreamingResponse
 
         return ExtensionsResourceWithStreamingResponse(self._client.extensions)
 
     @cached_property
     def browser_pools(self) -> browser_pools.BrowserPoolsResourceWithStreamingResponse:
+        """Create and manage browser pools for acquiring and releasing browsers."""
         from .resources.browser_pools import BrowserPoolsResourceWithStreamingResponse
 
         return BrowserPoolsResourceWithStreamingResponse(self._client.browser_pools)
 
     @cached_property
     def credentials(self) -> credentials.CredentialsResourceWithStreamingResponse:
+        """Create and manage credentials for authentication."""
         from .resources.credentials import CredentialsResourceWithStreamingResponse
 
         return CredentialsResourceWithStreamingResponse(self._client.credentials)
 
     @cached_property
     def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithStreamingResponse:
+        """Configure external credential providers like 1Password."""
         from .resources.credential_providers import CredentialProvidersResourceWithStreamingResponse
 
         return CredentialProvidersResourceWithStreamingResponse(self._client.credential_providers)
@@ -821,30 +871,35 @@ class AsyncKernelWithStreamedResponse:
 
     @cached_property
     def deployments(self) -> deployments.AsyncDeploymentsResourceWithStreamingResponse:
+        """Create and manage app deployments and stream deployment events."""
         from .resources.deployments import AsyncDeploymentsResourceWithStreamingResponse
 
         return AsyncDeploymentsResourceWithStreamingResponse(self._client.deployments)
 
     @cached_property
     def apps(self) -> apps.AsyncAppsResourceWithStreamingResponse:
+        """List applications and versions."""
         from .resources.apps import AsyncAppsResourceWithStreamingResponse
 
         return AsyncAppsResourceWithStreamingResponse(self._client.apps)
 
     @cached_property
     def invocations(self) -> invocations.AsyncInvocationsResourceWithStreamingResponse:
+        """Invoke actions and stream or query invocation status and events."""
         from .resources.invocations import AsyncInvocationsResourceWithStreamingResponse
 
         return AsyncInvocationsResourceWithStreamingResponse(self._client.invocations)
 
     @cached_property
     def browsers(self) -> browsers.AsyncBrowsersResourceWithStreamingResponse:
+        """Create and manage browser sessions."""
         from .resources.browsers import AsyncBrowsersResourceWithStreamingResponse
 
         return AsyncBrowsersResourceWithStreamingResponse(self._client.browsers)
 
     @cached_property
     def profiles(self) -> profiles.AsyncProfilesResourceWithStreamingResponse:
+        """Create, list, retrieve, and delete browser profiles."""
         from .resources.profiles import AsyncProfilesResourceWithStreamingResponse
 
         return AsyncProfilesResourceWithStreamingResponse(self._client.profiles)
@@ -857,30 +912,35 @@ class AsyncKernelWithStreamedResponse:
 
     @cached_property
     def proxies(self) -> proxies.AsyncProxiesResourceWithStreamingResponse:
+        """Create and manage proxy configurations for routing browser traffic."""
         from .resources.proxies import AsyncProxiesResourceWithStreamingResponse
 
         return AsyncProxiesResourceWithStreamingResponse(self._client.proxies)
 
     @cached_property
     def extensions(self) -> extensions.AsyncExtensionsResourceWithStreamingResponse:
+        """Create, list, retrieve, and delete browser extensions."""
         from .resources.extensions import AsyncExtensionsResourceWithStreamingResponse
 
         return AsyncExtensionsResourceWithStreamingResponse(self._client.extensions)
 
     @cached_property
     def browser_pools(self) -> browser_pools.AsyncBrowserPoolsResourceWithStreamingResponse:
+        """Create and manage browser pools for acquiring and releasing browsers."""
         from .resources.browser_pools import AsyncBrowserPoolsResourceWithStreamingResponse
 
         return AsyncBrowserPoolsResourceWithStreamingResponse(self._client.browser_pools)
 
     @cached_property
     def credentials(self) -> credentials.AsyncCredentialsResourceWithStreamingResponse:
+        """Create and manage credentials for authentication."""
         from .resources.credentials import AsyncCredentialsResourceWithStreamingResponse
 
         return AsyncCredentialsResourceWithStreamingResponse(self._client.credentials)
 
     @cached_property
     def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithStreamingResponse:
+        """Configure external credential providers like 1Password."""
         from .resources.credential_providers import AsyncCredentialProvidersResourceWithStreamingResponse
 
         return AsyncCredentialProvidersResourceWithStreamingResponse(self._client.credential_providers)

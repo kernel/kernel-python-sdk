@@ -32,6 +32,8 @@ __all__ = ["InvocationsResource", "AsyncInvocationsResource"]
 
 
 class InvocationsResource(SyncAPIResource):
+    """Invoke actions and stream or query invocation status and events."""
+
     @cached_property
     def with_raw_response(self) -> InvocationsResourceWithRawResponse:
         """
@@ -383,6 +385,8 @@ class InvocationsResource(SyncAPIResource):
 
 
 class AsyncInvocationsResource(AsyncAPIResource):
+    """Invoke actions and stream or query invocation status and events."""
+
     @cached_property
     def with_raw_response(self) -> AsyncInvocationsResourceWithRawResponse:
         """
