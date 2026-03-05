@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.42.1 (2026-03-05)
+
+Full Changelog: [v0.42.0...v0.42.1](https://github.com/kernel/kernel-python-sdk/compare/v0.42.0...v0.42.1)
+
+### Features
+
+* [kernel-1028] add api clipboard support ([077a61c](https://github.com/kernel/kernel-python-sdk/commit/077a61c3c3f287eaddd3f90cf4f5cf04dc7baf39))
+* add force flag to viewport resize to bypass live view/recording check ([c4b8c62](https://github.com/kernel/kernel-python-sdk/commit/c4b8c62622354859847c13234ee9f54611f4175f))
+* expose smooth mouse movement via public API ([8b3db28](https://github.com/kernel/kernel-python-sdk/commit/8b3db281a64cafba5dac7effdc264f30a94c38ea))
+
+
+### Chores
+
+* **internal:** codegen related update ([e9265c4](https://github.com/kernel/kernel-python-sdk/commit/e9265c4ffba59e8cfd8a02e12653b83a471aced3))
+
 ## 0.42.0 (2026-03-02)
 
 Full Changelog: [v0.41.0...v0.42.0](https://github.com/kernel/kernel-python-sdk/compare/v0.41.0...v0.42.0)
