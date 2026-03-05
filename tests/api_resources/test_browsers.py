@@ -158,6 +158,7 @@ class TestBrowsers:
                 "height": 800,
                 "width": 1280,
                 "refresh_rate": 60,
+                "force": True,
             },
         )
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
@@ -521,6 +522,7 @@ class TestAsyncBrowsers:
                 "height": 800,
                 "width": 1280,
                 "refresh_rate": 60,
+                "force": True,
             },
         )
         assert_matches_type(BrowserUpdateResponse, browser, path=["response"])
