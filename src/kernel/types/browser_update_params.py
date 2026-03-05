@@ -8,7 +8,7 @@ from typing_extensions import TypedDict
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
 
-__all__ = ["BrowserUpdateParams"]
+__all__ = ["BrowserUpdateParams", "Viewport"]
 
 
 class BrowserUpdateParams(TypedDict, total=False):
@@ -24,5 +24,17 @@ class BrowserUpdateParams(TypedDict, total=False):
     Omit to leave unchanged, set to empty string to remove proxy.
     """
 
-    viewport: BrowserViewport
+    viewport: Viewport
     """Viewport configuration to apply to the browser session."""
+
+
+class Viewport(BrowserViewport, total=False):
+    """Viewport configuration to apply to the browser session."""
+
+    force: bool
+    """
+    If true, allow the viewport change even when a live view or recording/replay is
+    active. Active recordings will be gracefully stopped and restarted at the new
+    resolution as separate segments. If false (default), the resize is refused when
+    a live view or recording is active.
+    """
