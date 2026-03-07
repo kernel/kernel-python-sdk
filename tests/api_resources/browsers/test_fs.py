@@ -496,7 +496,7 @@ class TestFs:
             files=[
                 {
                     "dest_path": "/J!",
-                    "file": b"raw file contents",
+                    "file": b"Example data",
                 }
             ],
         )
@@ -510,7 +510,7 @@ class TestFs:
             files=[
                 {
                     "dest_path": "/J!",
-                    "file": b"raw file contents",
+                    "file": b"Example data",
                 }
             ],
         )
@@ -528,7 +528,7 @@ class TestFs:
             files=[
                 {
                     "dest_path": "/J!",
-                    "file": b"raw file contents",
+                    "file": b"Example data",
                 }
             ],
         ) as response:
@@ -549,7 +549,7 @@ class TestFs:
                 files=[
                     {
                         "dest_path": "/J!",
-                        "file": b"raw file contents",
+                        "file": b"Example data",
                     }
                 ],
             )
@@ -560,7 +560,7 @@ class TestFs:
         f = client.browsers.fs.upload_zip(
             id="id",
             dest_path="/J!",
-            zip_file=b"raw file contents",
+            zip_file=b"Example data",
         )
         assert f is None
 
@@ -570,7 +570,7 @@ class TestFs:
         response = client.browsers.fs.with_raw_response.upload_zip(
             id="id",
             dest_path="/J!",
-            zip_file=b"raw file contents",
+            zip_file=b"Example data",
         )
 
         assert response.is_closed is True
@@ -584,7 +584,7 @@ class TestFs:
         with client.browsers.fs.with_streaming_response.upload_zip(
             id="id",
             dest_path="/J!",
-            zip_file=b"raw file contents",
+            zip_file=b"Example data",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -601,7 +601,7 @@ class TestFs:
             client.browsers.fs.with_raw_response.upload_zip(
                 id="",
                 dest_path="/J!",
-                zip_file=b"raw file contents",
+                zip_file=b"Example data",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -609,7 +609,7 @@ class TestFs:
     def test_method_write_file(self, client: Kernel) -> None:
         f = client.browsers.fs.write_file(
             id="id",
-            contents=b"raw file contents",
+            contents=b"Example data",
             path="/J!",
         )
         assert f is None
@@ -619,7 +619,7 @@ class TestFs:
     def test_method_write_file_with_all_params(self, client: Kernel) -> None:
         f = client.browsers.fs.write_file(
             id="id",
-            contents=b"raw file contents",
+            contents=b"Example data",
             path="/J!",
             mode="0611",
         )
@@ -630,7 +630,7 @@ class TestFs:
     def test_raw_response_write_file(self, client: Kernel) -> None:
         response = client.browsers.fs.with_raw_response.write_file(
             id="id",
-            contents=b"raw file contents",
+            contents=b"Example data",
             path="/J!",
         )
 
@@ -644,7 +644,7 @@ class TestFs:
     def test_streaming_response_write_file(self, client: Kernel) -> None:
         with client.browsers.fs.with_streaming_response.write_file(
             id="id",
-            contents=b"raw file contents",
+            contents=b"Example data",
             path="/J!",
         ) as response:
             assert not response.is_closed
@@ -661,7 +661,7 @@ class TestFs:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.browsers.fs.with_raw_response.write_file(
                 id="",
-                contents=b"raw file contents",
+                contents=b"Example data",
                 path="/J!",
             )
 
@@ -1139,7 +1139,7 @@ class TestAsyncFs:
             files=[
                 {
                     "dest_path": "/J!",
-                    "file": b"raw file contents",
+                    "file": b"Example data",
                 }
             ],
         )
@@ -1153,7 +1153,7 @@ class TestAsyncFs:
             files=[
                 {
                     "dest_path": "/J!",
-                    "file": b"raw file contents",
+                    "file": b"Example data",
                 }
             ],
         )
@@ -1171,7 +1171,7 @@ class TestAsyncFs:
             files=[
                 {
                     "dest_path": "/J!",
-                    "file": b"raw file contents",
+                    "file": b"Example data",
                 }
             ],
         ) as response:
@@ -1192,7 +1192,7 @@ class TestAsyncFs:
                 files=[
                     {
                         "dest_path": "/J!",
-                        "file": b"raw file contents",
+                        "file": b"Example data",
                     }
                 ],
             )
@@ -1203,7 +1203,7 @@ class TestAsyncFs:
         f = await async_client.browsers.fs.upload_zip(
             id="id",
             dest_path="/J!",
-            zip_file=b"raw file contents",
+            zip_file=b"Example data",
         )
         assert f is None
 
@@ -1213,7 +1213,7 @@ class TestAsyncFs:
         response = await async_client.browsers.fs.with_raw_response.upload_zip(
             id="id",
             dest_path="/J!",
-            zip_file=b"raw file contents",
+            zip_file=b"Example data",
         )
 
         assert response.is_closed is True
@@ -1227,7 +1227,7 @@ class TestAsyncFs:
         async with async_client.browsers.fs.with_streaming_response.upload_zip(
             id="id",
             dest_path="/J!",
-            zip_file=b"raw file contents",
+            zip_file=b"Example data",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1244,7 +1244,7 @@ class TestAsyncFs:
             await async_client.browsers.fs.with_raw_response.upload_zip(
                 id="",
                 dest_path="/J!",
-                zip_file=b"raw file contents",
+                zip_file=b"Example data",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -1252,7 +1252,7 @@ class TestAsyncFs:
     async def test_method_write_file(self, async_client: AsyncKernel) -> None:
         f = await async_client.browsers.fs.write_file(
             id="id",
-            contents=b"raw file contents",
+            contents=b"Example data",
             path="/J!",
         )
         assert f is None
@@ -1262,7 +1262,7 @@ class TestAsyncFs:
     async def test_method_write_file_with_all_params(self, async_client: AsyncKernel) -> None:
         f = await async_client.browsers.fs.write_file(
             id="id",
-            contents=b"raw file contents",
+            contents=b"Example data",
             path="/J!",
             mode="0611",
         )
@@ -1273,7 +1273,7 @@ class TestAsyncFs:
     async def test_raw_response_write_file(self, async_client: AsyncKernel) -> None:
         response = await async_client.browsers.fs.with_raw_response.write_file(
             id="id",
-            contents=b"raw file contents",
+            contents=b"Example data",
             path="/J!",
         )
 
@@ -1287,7 +1287,7 @@ class TestAsyncFs:
     async def test_streaming_response_write_file(self, async_client: AsyncKernel) -> None:
         async with async_client.browsers.fs.with_streaming_response.write_file(
             id="id",
-            contents=b"raw file contents",
+            contents=b"Example data",
             path="/J!",
         ) as response:
             assert not response.is_closed
@@ -1304,6 +1304,6 @@ class TestAsyncFs:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.browsers.fs.with_raw_response.write_file(
                 id="",
-                contents=b"raw file contents",
+                contents=b"Example data",
                 path="/J!",
             )
