@@ -325,7 +325,7 @@ class TestBrowsers:
             extensions=[
                 {
                     "name": "name",
-                    "zip_file": b"raw file contents",
+                    "zip_file": b"Example data",
                 }
             ],
         )
@@ -339,7 +339,7 @@ class TestBrowsers:
             extensions=[
                 {
                     "name": "name",
-                    "zip_file": b"raw file contents",
+                    "zip_file": b"Example data",
                 }
             ],
         )
@@ -357,7 +357,7 @@ class TestBrowsers:
             extensions=[
                 {
                     "name": "name",
-                    "zip_file": b"raw file contents",
+                    "zip_file": b"Example data",
                 }
             ],
         ) as response:
@@ -378,7 +378,7 @@ class TestBrowsers:
                 extensions=[
                     {
                         "name": "name",
-                        "zip_file": b"raw file contents",
+                        "zip_file": b"Example data",
                     }
                 ],
             )
@@ -689,7 +689,7 @@ class TestAsyncBrowsers:
             extensions=[
                 {
                     "name": "name",
-                    "zip_file": b"raw file contents",
+                    "zip_file": b"Example data",
                 }
             ],
         )
@@ -703,7 +703,7 @@ class TestAsyncBrowsers:
             extensions=[
                 {
                     "name": "name",
-                    "zip_file": b"raw file contents",
+                    "zip_file": b"Example data",
                 }
             ],
         )
@@ -721,7 +721,7 @@ class TestAsyncBrowsers:
             extensions=[
                 {
                     "name": "name",
-                    "zip_file": b"raw file contents",
+                    "zip_file": b"Example data",
                 }
             ],
         ) as response:
@@ -742,7 +742,7 @@ class TestAsyncBrowsers:
                 extensions=[
                     {
                         "name": "name",
-                        "zip_file": b"raw file contents",
+                        "zip_file": b"Example data",
                     }
                 ],
             )

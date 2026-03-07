@@ -34,7 +34,7 @@ class TestDeployments:
         deployment = client.deployments.create(
             entrypoint_rel_path="src/app.py",
             env_vars={"FOO": "bar"},
-            file=b"raw file contents",
+            file=b"Example data",
             force=False,
             region="aws.us-east-1a",
             source={
@@ -265,7 +265,7 @@ class TestAsyncDeployments:
         deployment = await async_client.deployments.create(
             entrypoint_rel_path="src/app.py",
             env_vars={"FOO": "bar"},
-            file=b"raw file contents",
+            file=b"Example data",
             force=False,
             region="aws.us-east-1a",
             source={
