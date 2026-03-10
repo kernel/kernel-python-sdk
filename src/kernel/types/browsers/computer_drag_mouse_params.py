@@ -23,8 +23,20 @@ class ComputerDragMouseParams(TypedDict, total=False):
     delay: int
     """Delay in milliseconds between button down and starting to move along the path."""
 
+    duration_ms: int
+    """
+    Target total duration in milliseconds for the entire drag movement when
+    smooth=true. Omit for automatic timing based on total path length.
+    """
+
     hold_keys: SequenceNotStr[str]
     """Modifier keys to hold during the drag"""
+
+    smooth: bool
+    """
+    Use human-like Bezier curves between path waypoints instead of linear
+    interpolation. When true, steps_per_segment and step_delay_ms are ignored.
+    """
 
     step_delay_ms: int
     """
