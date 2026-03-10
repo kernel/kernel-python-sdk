@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.43.0 (2026-03-10)
+
+Full Changelog: [v0.42.1...v0.43.0](https://github.com/kernel/kernel-python-sdk/compare/v0.42.1...v0.43.0)
+
+### Features
+
+* Add webdriver_ws_url and metro webdriver session proxy ([66c7364](https://github.com/kernel/kernel-python-sdk/commit/66c73649f84a3e481672ba876b6882bd79069f16))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([52a392c](https://github.com/kernel/kernel-python-sdk/commit/52a392ca2bca701c3c1136fad0ef0d09f526918a))
+* update placeholder string ([6e71435](https://github.com/kernel/kernel-python-sdk/commit/6e71435500ee1eca1b243e73e0dfd316343ca21e))
+
 ## 0.42.1 (2026-03-05)
 
 Full Changelog: [v0.42.0...v0.42.1](https://github.com/kernel/kernel-python-sdk/compare/v0.42.0...v0.42.1)
