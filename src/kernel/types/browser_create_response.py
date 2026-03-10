@@ -32,6 +32,9 @@ class BrowserCreateResponse(BaseModel):
     timeout_seconds: int
     """The number of seconds of inactivity before the browser session is terminated."""
 
+    webdriver_ws_url: str
+    """Websocket URL for WebDriver BiDi connections to the browser session"""
+
     browser_live_view_url: Optional[str] = None
     """Remote URL for live viewing the browser session.
 
