@@ -224,7 +224,9 @@ class TestComputer:
             path=[[0, 0], [0, 0]],
             button="left",
             delay=0,
+            duration_ms=50,
             hold_keys=["string"],
+            smooth=True,
             step_delay_ms=0,
             steps_per_segment=1,
         )
@@ -887,7 +889,9 @@ class TestAsyncComputer:
             path=[[0, 0], [0, 0]],
             button="left",
             delay=0,
+            duration_ms=50,
             hold_keys=["string"],
+            smooth=True,
             step_delay_ms=0,
             steps_per_segment=1,
         )

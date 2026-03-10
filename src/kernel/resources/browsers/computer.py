@@ -213,7 +213,9 @@ class ComputerResource(SyncAPIResource):
         path: Iterable[Iterable[int]],
         button: Literal["left", "middle", "right"] | Omit = omit,
         delay: int | Omit = omit,
+        duration_ms: int | Omit = omit,
         hold_keys: SequenceNotStr[str] | Omit = omit,
+        smooth: bool | Omit = omit,
         step_delay_ms: int | Omit = omit,
         steps_per_segment: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -234,7 +236,13 @@ class ComputerResource(SyncAPIResource):
 
           delay: Delay in milliseconds between button down and starting to move along the path.
 
+          duration_ms: Target total duration in milliseconds for the entire drag movement when
+              smooth=true. Omit for automatic timing based on total path length.
+
           hold_keys: Modifier keys to hold during the drag
+
+          smooth: Use human-like Bezier curves between path waypoints instead of linear
+              interpolation. When true, steps_per_segment and step_delay_ms are ignored.
 
           step_delay_ms: Delay in milliseconds between relative steps while dragging (not the initial
               delay).
@@ -259,7 +267,9 @@ class ComputerResource(SyncAPIResource):
                     "path": path,
                     "button": button,
                     "delay": delay,
+                    "duration_ms": duration_ms,
                     "hold_keys": hold_keys,
+                    "smooth": smooth,
                     "step_delay_ms": step_delay_ms,
                     "steps_per_segment": steps_per_segment,
                 },
@@ -804,7 +814,9 @@ class AsyncComputerResource(AsyncAPIResource):
         path: Iterable[Iterable[int]],
         button: Literal["left", "middle", "right"] | Omit = omit,
         delay: int | Omit = omit,
+        duration_ms: int | Omit = omit,
         hold_keys: SequenceNotStr[str] | Omit = omit,
+        smooth: bool | Omit = omit,
         step_delay_ms: int | Omit = omit,
         steps_per_segment: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -825,7 +837,13 @@ class AsyncComputerResource(AsyncAPIResource):
 
           delay: Delay in milliseconds between button down and starting to move along the path.
 
+          duration_ms: Target total duration in milliseconds for the entire drag movement when
+              smooth=true. Omit for automatic timing based on total path length.
+
           hold_keys: Modifier keys to hold during the drag
+
+          smooth: Use human-like Bezier curves between path waypoints instead of linear
+              interpolation. When true, steps_per_segment and step_delay_ms are ignored.
 
           step_delay_ms: Delay in milliseconds between relative steps while dragging (not the initial
               delay).
@@ -850,7 +868,9 @@ class AsyncComputerResource(AsyncAPIResource):
                     "path": path,
                     "button": button,
                     "delay": delay,
+                    "duration_ms": duration_ms,
                     "hold_keys": hold_keys,
+                    "smooth": smooth,
                     "step_delay_ms": step_delay_ms,
                     "steps_per_segment": steps_per_segment,
                 },
