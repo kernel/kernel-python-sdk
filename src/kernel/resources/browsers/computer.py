@@ -486,9 +486,11 @@ class ComputerResource(SyncAPIResource):
 
           y: Y coordinate at which to perform the scroll
 
-          delta_x: Horizontal scroll amount. Positive scrolls right, negative scrolls left.
+          delta_x: Horizontal scroll amount in xdotool "wheel units." Positive scrolls right,
+              negative scrolls left.
 
-          delta_y: Vertical scroll amount. Positive scrolls down, negative scrolls up.
+          delta_y: Vertical scroll amount in xdotool "wheel units." Positive scrolls down, negative
+              scrolls up.
 
           hold_keys: Modifier keys to hold during the scroll
 
@@ -1087,9 +1089,11 @@ class AsyncComputerResource(AsyncAPIResource):
 
           y: Y coordinate at which to perform the scroll
 
-          delta_x: Horizontal scroll amount. Positive scrolls right, negative scrolls left.
+          delta_x: Horizontal scroll amount in xdotool "wheel units." Positive scrolls right,
+              negative scrolls left.
 
-          delta_y: Vertical scroll amount. Positive scrolls down, negative scrolls up.
+          delta_y: Vertical scroll amount in xdotool "wheel units." Positive scrolls down, negative
+              scrolls up.
 
           hold_keys: Modifier keys to hold during the scroll
 
