@@ -17,10 +17,16 @@ class ComputerScrollParams(TypedDict, total=False):
     """Y coordinate at which to perform the scroll"""
 
     delta_x: int
-    """Horizontal scroll amount. Positive scrolls right, negative scrolls left."""
+    """
+    Horizontal scroll amount in xdotool "wheel units." Positive scrolls right,
+    negative scrolls left.
+    """
 
     delta_y: int
-    """Vertical scroll amount. Positive scrolls down, negative scrolls up."""
+    """
+    Vertical scroll amount in xdotool "wheel units." Positive scrolls down, negative
+    scrolls up.
+    """
 
     hold_keys: SequenceNotStr[str]
     """Modifier keys to hold during the scroll"""

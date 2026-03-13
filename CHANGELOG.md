@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.44.0 (2026-03-13)
+
+Full Changelog: [v0.43.0...v0.44.0](https://github.com/kernel/kernel-python-sdk/compare/v0.43.0...v0.44.0)
+
+### Features
+
+* Add GPU viewport presets and GPU encoder defaults ([0735b45](https://github.com/kernel/kernel-python-sdk/commit/0735b45fc92950cef3afea92a879712ea0ebdf0f))
+* Adds description to OAS spec for docs about delta_x, delta_y ([9841aac](https://github.com/kernel/kernel-python-sdk/commit/9841aac21588beb0c6a22baf5c5b0bf8e8cdd024))
+* expose smooth drag mouse movement via public API ([c6f6862](https://github.com/kernel/kernel-python-sdk/commit/c6f6862d03620bb218a99c85431e384c5c8e5e4c))
+
 ## 0.43.0 (2026-03-10)
 
 Full Changelog: [v0.42.1...v0.43.0](https://github.com/kernel/kernel-python-sdk/compare/v0.42.1...v0.43.0)
