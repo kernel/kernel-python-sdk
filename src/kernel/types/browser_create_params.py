@@ -21,7 +21,7 @@ class BrowserCreateParams(TypedDict, total=False):
     """
 
     gpu: bool
-    """If true, launches a hardware-accelerated browser with GPU rendering.
+    """If true, enables GPU acceleration for the browser session.
 
     Requires Start-Up or Enterprise plan.
     """
