@@ -45,7 +45,10 @@ class BrowserPoolAcquireResponse(BaseModel):
     """When the browser session was soft-deleted. Only present for deleted sessions."""
 
     gpu: Optional[bool] = None
-    """Whether GPU acceleration is enabled for the browser session."""
+    """
+    Whether GPU acceleration is enabled for the browser session (only supported for
+    headful sessions).
+    """
 
     kiosk_mode: Optional[bool] = None
     """Whether the browser session is running in kiosk mode."""

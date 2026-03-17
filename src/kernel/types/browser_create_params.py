@@ -23,7 +23,7 @@ class BrowserCreateParams(TypedDict, total=False):
     gpu: bool
     """If true, enables GPU acceleration for the browser session.
 
-    Requires Start-Up or Enterprise plan.
+    Requires Start-Up or Enterprise plan and headless=false.
     """
 
     headless: bool
