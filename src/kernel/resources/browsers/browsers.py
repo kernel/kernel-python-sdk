@@ -49,7 +49,7 @@ from .replays import (
     AsyncReplaysResourceWithStreamingResponse,
 )
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from ..._utils import extract_files, path_template, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .computer import (
     ComputerResource,
     AsyncComputerResource,
@@ -269,7 +269,7 @@ class BrowsersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -319,7 +319,7 @@ class BrowsersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._patch(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             body=maybe_transform(
                 {
                     "profile": profile,
@@ -465,7 +465,7 @@ class BrowsersResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -509,7 +509,7 @@ class BrowsersResource(SyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return self._post(
-            f"/browsers/{id}/extensions",
+            path_template("/browsers/{id}/extensions", id=id),
             body=maybe_transform(body, browser_load_extensions_params.BrowserLoadExtensionsParams),
             files=files,
             options=make_request_options(
@@ -700,7 +700,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -750,7 +750,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._patch(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             body=await async_maybe_transform(
                 {
                     "profile": profile,
@@ -898,7 +898,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -942,7 +942,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return await self._post(
-            f"/browsers/{id}/extensions",
+            path_template("/browsers/{id}/extensions", id=id),
             body=await async_maybe_transform(body, browser_load_extensions_params.BrowserLoadExtensionsParams),
             files=files,
             options=make_request_options(
