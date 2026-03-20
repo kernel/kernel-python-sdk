@@ -15,6 +15,7 @@ __all__ = [
     "ManagedAuthStateEventDiscoveredField",
     "ManagedAuthStateEventMfaOption",
     "ManagedAuthStateEventPendingSSOButton",
+    "ManagedAuthStateEventSignInOption",
 ]
 
 
@@ -77,6 +78,22 @@ class ManagedAuthStateEventPendingSSOButton(BaseModel):
     """XPath selector for the button"""
 
 
+class ManagedAuthStateEventSignInOption(BaseModel):
+    """A non-MFA choice presented during the auth flow (e.g.
+
+    account selection, org picker)
+    """
+
+    id: str
+    """Unique identifier for this option (used to submit selection back)"""
+
+    label: str
+    """Display text for the option"""
+
+    description: Optional[str] = None
+    """Additional context such as email address or org name"""
+
+
 class ManagedAuthStateEvent(BaseModel):
     """An event representing the current state of a managed auth flow."""
 
@@ -127,6 +144,12 @@ class ManagedAuthStateEvent(BaseModel):
 
     post_login_url: Optional[str] = None
     """URL where the browser landed after successful login."""
+
+    sign_in_options: Optional[List[ManagedAuthStateEventSignInOption]] = None
+    """
+    Non-MFA choices presented during the auth flow, such as account selection or org
+    pickers (present when flow_step=AWAITING_INPUT).
+    """
 
     website_error: Optional[str] = None
     """Visible error message from the website (e.g., 'Incorrect password').

@@ -23,6 +23,7 @@ from ...types.auth import (
     connection_login_params,
     connection_create_params,
     connection_submit_params,
+    connection_update_params,
 )
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.auth.managed_auth import ManagedAuth
@@ -180,6 +181,76 @@ class ConnectionsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
             path_template("/auth/connections/{id}", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ManagedAuth,
+        )
+
+    def update(
+        self,
+        id: str,
+        *,
+        allowed_domains: SequenceNotStr[str] | Omit = omit,
+        credential: connection_update_params.Credential | Omit = omit,
+        health_check_interval: int | Omit = omit,
+        login_url: str | Omit = omit,
+        proxy: connection_update_params.Proxy | Omit = omit,
+        save_credentials: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ManagedAuth:
+        """Update an auth connection's configuration.
+
+        Only the fields provided will be
+        updated.
+
+        Args:
+          allowed_domains: Additional domains valid for this auth flow (replaces existing list)
+
+          credential:
+              Reference to credentials for the auth connection. Use one of:
+
+              - { name } for Kernel credentials
+              - { provider, path } for external provider item
+              - { provider, auto: true } for external provider domain lookup
+
+          health_check_interval: Interval in seconds between automatic health checks
+
+          login_url: Login page URL. Set to empty string to clear.
+
+          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
+              caller's org.
+
+          save_credentials: Whether to save credentials after every successful login
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._patch(
+            path_template("/auth/connections/{id}", id=id),
+            body=maybe_transform(
+                {
+                    "allowed_domains": allowed_domains,
+                    "credential": credential,
+                    "health_check_interval": health_check_interval,
+                    "login_url": login_url,
+                    "proxy": proxy,
+                    "save_credentials": save_credentials,
+                },
+                connection_update_params.ConnectionUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -367,7 +438,9 @@ class ConnectionsResource(SyncAPIResource):
         *,
         fields: Dict[str, str] | Omit = omit,
         mfa_option_id: str | Omit = omit,
+        sign_in_option_id: str | Omit = omit,
         sso_button_selector: str | Omit = omit,
+        sso_provider: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -383,9 +456,15 @@ class ConnectionsResource(SyncAPIResource):
         Args:
           fields: Map of field name to value
 
-          mfa_option_id: Optional MFA option ID if user selected an MFA method
+          mfa_option_id: The MFA method type to select (when mfa_options were returned)
 
-          sso_button_selector: Optional XPath selector if user chose to click an SSO button instead
+          sign_in_option_id: The sign-in option ID to select (when sign_in_options were returned)
+
+          sso_button_selector: XPath selector for the SSO button to click (ODA). Use sso_provider instead for
+              CUA.
+
+          sso_provider: SSO provider to click, matching the provider field from pending_sso_buttons
+              (e.g., "google", "github"). Cannot be used with sso_button_selector.
 
           extra_headers: Send extra headers
 
@@ -403,7 +482,9 @@ class ConnectionsResource(SyncAPIResource):
                 {
                     "fields": fields,
                     "mfa_option_id": mfa_option_id,
+                    "sign_in_option_id": sign_in_option_id,
                     "sso_button_selector": sso_button_selector,
+                    "sso_provider": sso_provider,
                 },
                 connection_submit_params.ConnectionSubmitParams,
             ),
@@ -561,6 +642,76 @@ class AsyncConnectionsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
             path_template("/auth/connections/{id}", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ManagedAuth,
+        )
+
+    async def update(
+        self,
+        id: str,
+        *,
+        allowed_domains: SequenceNotStr[str] | Omit = omit,
+        credential: connection_update_params.Credential | Omit = omit,
+        health_check_interval: int | Omit = omit,
+        login_url: str | Omit = omit,
+        proxy: connection_update_params.Proxy | Omit = omit,
+        save_credentials: bool | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ManagedAuth:
+        """Update an auth connection's configuration.
+
+        Only the fields provided will be
+        updated.
+
+        Args:
+          allowed_domains: Additional domains valid for this auth flow (replaces existing list)
+
+          credential:
+              Reference to credentials for the auth connection. Use one of:
+
+              - { name } for Kernel credentials
+              - { provider, path } for external provider item
+              - { provider, auto: true } for external provider domain lookup
+
+          health_check_interval: Interval in seconds between automatic health checks
+
+          login_url: Login page URL. Set to empty string to clear.
+
+          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
+              caller's org.
+
+          save_credentials: Whether to save credentials after every successful login
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._patch(
+            path_template("/auth/connections/{id}", id=id),
+            body=await async_maybe_transform(
+                {
+                    "allowed_domains": allowed_domains,
+                    "credential": credential,
+                    "health_check_interval": health_check_interval,
+                    "login_url": login_url,
+                    "proxy": proxy,
+                    "save_credentials": save_credentials,
+                },
+                connection_update_params.ConnectionUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -748,7 +899,9 @@ class AsyncConnectionsResource(AsyncAPIResource):
         *,
         fields: Dict[str, str] | Omit = omit,
         mfa_option_id: str | Omit = omit,
+        sign_in_option_id: str | Omit = omit,
         sso_button_selector: str | Omit = omit,
+        sso_provider: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -764,9 +917,15 @@ class AsyncConnectionsResource(AsyncAPIResource):
         Args:
           fields: Map of field name to value
 
-          mfa_option_id: Optional MFA option ID if user selected an MFA method
+          mfa_option_id: The MFA method type to select (when mfa_options were returned)
 
-          sso_button_selector: Optional XPath selector if user chose to click an SSO button instead
+          sign_in_option_id: The sign-in option ID to select (when sign_in_options were returned)
+
+          sso_button_selector: XPath selector for the SSO button to click (ODA). Use sso_provider instead for
+              CUA.
+
+          sso_provider: SSO provider to click, matching the provider field from pending_sso_buttons
+              (e.g., "google", "github"). Cannot be used with sso_button_selector.
 
           extra_headers: Send extra headers
 
@@ -784,7 +943,9 @@ class AsyncConnectionsResource(AsyncAPIResource):
                 {
                     "fields": fields,
                     "mfa_option_id": mfa_option_id,
+                    "sign_in_option_id": sign_in_option_id,
                     "sso_button_selector": sso_button_selector,
+                    "sso_provider": sso_provider,
                 },
                 connection_submit_params.ConnectionSubmitParams,
             ),
@@ -804,6 +965,9 @@ class ConnectionsResourceWithRawResponse:
         )
         self.retrieve = to_raw_response_wrapper(
             connections.retrieve,
+        )
+        self.update = to_raw_response_wrapper(
+            connections.update,
         )
         self.list = to_raw_response_wrapper(
             connections.list,
@@ -832,6 +996,9 @@ class AsyncConnectionsResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             connections.retrieve,
         )
+        self.update = async_to_raw_response_wrapper(
+            connections.update,
+        )
         self.list = async_to_raw_response_wrapper(
             connections.list,
         )
@@ -859,6 +1026,9 @@ class ConnectionsResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             connections.retrieve,
         )
+        self.update = to_streamed_response_wrapper(
+            connections.update,
+        )
         self.list = to_streamed_response_wrapper(
             connections.list,
         )
@@ -885,6 +1055,9 @@ class AsyncConnectionsResourceWithStreamingResponse:
         )
         self.retrieve = async_to_streamed_response_wrapper(
             connections.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            connections.update,
         )
         self.list = async_to_streamed_response_wrapper(
             connections.list,
