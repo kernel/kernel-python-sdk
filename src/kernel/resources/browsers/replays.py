@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -78,7 +78,7 @@ class ReplaysResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/browsers/{id}/replays",
+            path_template("/browsers/{id}/replays", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -115,7 +115,7 @@ class ReplaysResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `replay_id` but received {replay_id!r}")
         extra_headers = {"Accept": "video/mp4", **(extra_headers or {})}
         return self._get(
-            f"/browsers/{id}/replays/{replay_id}",
+            path_template("/browsers/{id}/replays/{replay_id}", id=id, replay_id=replay_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -154,7 +154,7 @@ class ReplaysResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/browsers/{id}/replays",
+            path_template("/browsers/{id}/replays", id=id),
             body=maybe_transform(
                 {
                     "framerate": framerate,
@@ -198,7 +198,7 @@ class ReplaysResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `replay_id` but received {replay_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/replays/{replay_id}/stop",
+            path_template("/browsers/{id}/replays/{replay_id}/stop", id=id, replay_id=replay_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -254,7 +254,7 @@ class AsyncReplaysResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/browsers/{id}/replays",
+            path_template("/browsers/{id}/replays", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -291,7 +291,7 @@ class AsyncReplaysResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `replay_id` but received {replay_id!r}")
         extra_headers = {"Accept": "video/mp4", **(extra_headers or {})}
         return await self._get(
-            f"/browsers/{id}/replays/{replay_id}",
+            path_template("/browsers/{id}/replays/{replay_id}", id=id, replay_id=replay_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -330,7 +330,7 @@ class AsyncReplaysResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/browsers/{id}/replays",
+            path_template("/browsers/{id}/replays", id=id),
             body=await async_maybe_transform(
                 {
                     "framerate": framerate,
@@ -374,7 +374,7 @@ class AsyncReplaysResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `replay_id` but received {replay_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/replays/{replay_id}/stop",
+            path_template("/browsers/{id}/replays/{replay_id}/stop", id=id, replay_id=replay_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

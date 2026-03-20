@@ -49,7 +49,7 @@ from .replays import (
     AsyncReplaysResourceWithStreamingResponse,
 )
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from ..._utils import extract_files, path_template, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .computer import (
     ComputerResource,
     AsyncComputerResource,
@@ -166,8 +166,8 @@ class BrowsersResource(SyncAPIResource):
         Args:
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
-          gpu: If true, launches a hardware-accelerated browser with GPU rendering. Requires
-              Start-Up or Enterprise plan.
+          gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
+              Enterprise plan and headless=false.
 
           headless: If true, launches the browser using a headless image (no VNC/GUI). Defaults to
               false.
@@ -196,9 +196,13 @@ class BrowsersResource(SyncAPIResource):
               see is +/- 5 seconds around the specified value.
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
-              image defaults apply (1920x1080@25). Arbitrary viewport dimensions are accepted,
-              but the following configurations are known-good and fully tested: 2560x1440@10,
-              1920x1080@25, 1920x1200@25, 1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60.
+              image defaults apply (1920x1080@25). For GPU images, the default is
+              1920x1080@60. Arbitrary viewport dimensions and refresh rates are accepted.
+              Known-good presets include: 2560x1440@10, 1920x1080@25, 1920x1200@25,
+              1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60. For GPU images, recommended
+              presets use one of these resolutions with refresh rates 60, 30, 25, or 10:
+              800x600, 960x720, 1024x576, 1024x768, 1152x648, 1200x800, 1280x720, 1368x768,
+              1440x900, 1600x900, 1920x1080, 1920x1200, 390x844, 360x250, 768x1024, 800x1600.
               Viewports outside this list may exhibit unstable live view or recording
               behavior. If refresh_rate is not provided, it will be automatically determined
               based on the resolution (higher resolutions use lower refresh rates to keep
@@ -265,7 +269,7 @@ class BrowsersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -315,7 +319,7 @@ class BrowsersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._patch(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             body=maybe_transform(
                 {
                     "profile": profile,
@@ -461,7 +465,7 @@ class BrowsersResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -505,7 +509,7 @@ class BrowsersResource(SyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return self._post(
-            f"/browsers/{id}/extensions",
+            path_template("/browsers/{id}/extensions", id=id),
             body=maybe_transform(body, browser_load_extensions_params.BrowserLoadExtensionsParams),
             files=files,
             options=make_request_options(
@@ -593,8 +597,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Args:
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
-          gpu: If true, launches a hardware-accelerated browser with GPU rendering. Requires
-              Start-Up or Enterprise plan.
+          gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
+              Enterprise plan and headless=false.
 
           headless: If true, launches the browser using a headless image (no VNC/GUI). Defaults to
               false.
@@ -623,9 +627,13 @@ class AsyncBrowsersResource(AsyncAPIResource):
               see is +/- 5 seconds around the specified value.
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
-              image defaults apply (1920x1080@25). Arbitrary viewport dimensions are accepted,
-              but the following configurations are known-good and fully tested: 2560x1440@10,
-              1920x1080@25, 1920x1200@25, 1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60.
+              image defaults apply (1920x1080@25). For GPU images, the default is
+              1920x1080@60. Arbitrary viewport dimensions and refresh rates are accepted.
+              Known-good presets include: 2560x1440@10, 1920x1080@25, 1920x1200@25,
+              1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60. For GPU images, recommended
+              presets use one of these resolutions with refresh rates 60, 30, 25, or 10:
+              800x600, 960x720, 1024x576, 1024x768, 1152x648, 1200x800, 1280x720, 1368x768,
+              1440x900, 1600x900, 1920x1080, 1920x1200, 390x844, 360x250, 768x1024, 800x1600.
               Viewports outside this list may exhibit unstable live view or recording
               behavior. If refresh_rate is not provided, it will be automatically determined
               based on the resolution (higher resolutions use lower refresh rates to keep
@@ -692,7 +700,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -742,7 +750,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._patch(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             body=await async_maybe_transform(
                 {
                     "profile": profile,
@@ -890,7 +898,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/browsers/{id}",
+            path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -934,7 +942,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return await self._post(
-            f"/browsers/{id}/extensions",
+            path_template("/browsers/{id}/extensions", id=id),
             body=await async_maybe_transform(body, browser_load_extensions_params.BrowserLoadExtensionsParams),
             files=files,
             options=make_request_options(

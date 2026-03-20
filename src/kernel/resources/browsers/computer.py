@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -97,7 +97,7 @@ class ComputerResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/computer/batch",
+            path_template("/browsers/{id}/computer/batch", id=id),
             body=maybe_transform({"actions": actions}, computer_batch_params.ComputerBatchParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -133,7 +133,7 @@ class ComputerResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "image/png", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/computer/screenshot",
+            path_template("/browsers/{id}/computer/screenshot", id=id),
             body=maybe_transform(
                 {"region": region}, computer_capture_screenshot_params.ComputerCaptureScreenshotParams
             ),
@@ -188,7 +188,7 @@ class ComputerResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/computer/click_mouse",
+            path_template("/browsers/{id}/computer/click_mouse", id=id),
             body=maybe_transform(
                 {
                     "x": x,
@@ -213,7 +213,9 @@ class ComputerResource(SyncAPIResource):
         path: Iterable[Iterable[int]],
         button: Literal["left", "middle", "right"] | Omit = omit,
         delay: int | Omit = omit,
+        duration_ms: int | Omit = omit,
         hold_keys: SequenceNotStr[str] | Omit = omit,
+        smooth: bool | Omit = omit,
         step_delay_ms: int | Omit = omit,
         steps_per_segment: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -234,7 +236,13 @@ class ComputerResource(SyncAPIResource):
 
           delay: Delay in milliseconds between button down and starting to move along the path.
 
+          duration_ms: Target total duration in milliseconds for the entire drag movement when
+              smooth=true. Omit for automatic timing based on total path length.
+
           hold_keys: Modifier keys to hold during the drag
+
+          smooth: Use human-like Bezier curves between path waypoints instead of linear
+              interpolation. When true, steps_per_segment and step_delay_ms are ignored.
 
           step_delay_ms: Delay in milliseconds between relative steps while dragging (not the initial
               delay).
@@ -253,13 +261,15 @@ class ComputerResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/computer/drag_mouse",
+            path_template("/browsers/{id}/computer/drag_mouse", id=id),
             body=maybe_transform(
                 {
                     "path": path,
                     "button": button,
                     "delay": delay,
+                    "duration_ms": duration_ms,
                     "hold_keys": hold_keys,
+                    "smooth": smooth,
                     "step_delay_ms": step_delay_ms,
                     "steps_per_segment": steps_per_segment,
                 },
@@ -297,7 +307,7 @@ class ComputerResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/browsers/{id}/computer/get_mouse_position",
+            path_template("/browsers/{id}/computer/get_mouse_position", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -347,7 +357,7 @@ class ComputerResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/computer/move_mouse",
+            path_template("/browsers/{id}/computer/move_mouse", id=id),
             body=maybe_transform(
                 {
                     "x": x,
@@ -404,7 +414,7 @@ class ComputerResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/computer/press_key",
+            path_template("/browsers/{id}/computer/press_key", id=id),
             body=maybe_transform(
                 {
                     "keys": keys,
@@ -445,7 +455,7 @@ class ComputerResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/browsers/{id}/computer/clipboard/read",
+            path_template("/browsers/{id}/computer/clipboard/read", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -476,9 +486,11 @@ class ComputerResource(SyncAPIResource):
 
           y: Y coordinate at which to perform the scroll
 
-          delta_x: Horizontal scroll amount. Positive scrolls right, negative scrolls left.
+          delta_x: Horizontal scroll amount in xdotool "wheel units." Positive scrolls right,
+              negative scrolls left.
 
-          delta_y: Vertical scroll amount. Positive scrolls down, negative scrolls up.
+          delta_y: Vertical scroll amount in xdotool "wheel units." Positive scrolls down, negative
+              scrolls up.
 
           hold_keys: Modifier keys to hold during the scroll
 
@@ -494,7 +506,7 @@ class ComputerResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/computer/scroll",
+            path_template("/browsers/{id}/computer/scroll", id=id),
             body=maybe_transform(
                 {
                     "x": x,
@@ -540,7 +552,7 @@ class ComputerResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/browsers/{id}/computer/cursor",
+            path_template("/browsers/{id}/computer/cursor", id=id),
             body=maybe_transform(
                 {"hidden": hidden}, computer_set_cursor_visibility_params.ComputerSetCursorVisibilityParams
             ),
@@ -583,7 +595,7 @@ class ComputerResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/computer/type",
+            path_template("/browsers/{id}/computer/type", id=id),
             body=maybe_transform(
                 {
                     "text": text,
@@ -627,7 +639,7 @@ class ComputerResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browsers/{id}/computer/clipboard/write",
+            path_template("/browsers/{id}/computer/clipboard/write", id=id),
             body=maybe_transform({"text": text}, computer_write_clipboard_params.ComputerWriteClipboardParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -688,7 +700,7 @@ class AsyncComputerResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/computer/batch",
+            path_template("/browsers/{id}/computer/batch", id=id),
             body=await async_maybe_transform({"actions": actions}, computer_batch_params.ComputerBatchParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -724,7 +736,7 @@ class AsyncComputerResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "image/png", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/computer/screenshot",
+            path_template("/browsers/{id}/computer/screenshot", id=id),
             body=await async_maybe_transform(
                 {"region": region}, computer_capture_screenshot_params.ComputerCaptureScreenshotParams
             ),
@@ -779,7 +791,7 @@ class AsyncComputerResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/computer/click_mouse",
+            path_template("/browsers/{id}/computer/click_mouse", id=id),
             body=await async_maybe_transform(
                 {
                     "x": x,
@@ -804,7 +816,9 @@ class AsyncComputerResource(AsyncAPIResource):
         path: Iterable[Iterable[int]],
         button: Literal["left", "middle", "right"] | Omit = omit,
         delay: int | Omit = omit,
+        duration_ms: int | Omit = omit,
         hold_keys: SequenceNotStr[str] | Omit = omit,
+        smooth: bool | Omit = omit,
         step_delay_ms: int | Omit = omit,
         steps_per_segment: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -825,7 +839,13 @@ class AsyncComputerResource(AsyncAPIResource):
 
           delay: Delay in milliseconds between button down and starting to move along the path.
 
+          duration_ms: Target total duration in milliseconds for the entire drag movement when
+              smooth=true. Omit for automatic timing based on total path length.
+
           hold_keys: Modifier keys to hold during the drag
+
+          smooth: Use human-like Bezier curves between path waypoints instead of linear
+              interpolation. When true, steps_per_segment and step_delay_ms are ignored.
 
           step_delay_ms: Delay in milliseconds between relative steps while dragging (not the initial
               delay).
@@ -844,13 +864,15 @@ class AsyncComputerResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/computer/drag_mouse",
+            path_template("/browsers/{id}/computer/drag_mouse", id=id),
             body=await async_maybe_transform(
                 {
                     "path": path,
                     "button": button,
                     "delay": delay,
+                    "duration_ms": duration_ms,
                     "hold_keys": hold_keys,
+                    "smooth": smooth,
                     "step_delay_ms": step_delay_ms,
                     "steps_per_segment": steps_per_segment,
                 },
@@ -888,7 +910,7 @@ class AsyncComputerResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/browsers/{id}/computer/get_mouse_position",
+            path_template("/browsers/{id}/computer/get_mouse_position", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -938,7 +960,7 @@ class AsyncComputerResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/computer/move_mouse",
+            path_template("/browsers/{id}/computer/move_mouse", id=id),
             body=await async_maybe_transform(
                 {
                     "x": x,
@@ -995,7 +1017,7 @@ class AsyncComputerResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/computer/press_key",
+            path_template("/browsers/{id}/computer/press_key", id=id),
             body=await async_maybe_transform(
                 {
                     "keys": keys,
@@ -1036,7 +1058,7 @@ class AsyncComputerResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/browsers/{id}/computer/clipboard/read",
+            path_template("/browsers/{id}/computer/clipboard/read", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1067,9 +1089,11 @@ class AsyncComputerResource(AsyncAPIResource):
 
           y: Y coordinate at which to perform the scroll
 
-          delta_x: Horizontal scroll amount. Positive scrolls right, negative scrolls left.
+          delta_x: Horizontal scroll amount in xdotool "wheel units." Positive scrolls right,
+              negative scrolls left.
 
-          delta_y: Vertical scroll amount. Positive scrolls down, negative scrolls up.
+          delta_y: Vertical scroll amount in xdotool "wheel units." Positive scrolls down, negative
+              scrolls up.
 
           hold_keys: Modifier keys to hold during the scroll
 
@@ -1085,7 +1109,7 @@ class AsyncComputerResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/computer/scroll",
+            path_template("/browsers/{id}/computer/scroll", id=id),
             body=await async_maybe_transform(
                 {
                     "x": x,
@@ -1131,7 +1155,7 @@ class AsyncComputerResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/browsers/{id}/computer/cursor",
+            path_template("/browsers/{id}/computer/cursor", id=id),
             body=await async_maybe_transform(
                 {"hidden": hidden}, computer_set_cursor_visibility_params.ComputerSetCursorVisibilityParams
             ),
@@ -1174,7 +1198,7 @@ class AsyncComputerResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/computer/type",
+            path_template("/browsers/{id}/computer/type", id=id),
             body=await async_maybe_transform(
                 {
                     "text": text,
@@ -1218,7 +1242,7 @@ class AsyncComputerResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browsers/{id}/computer/clipboard/write",
+            path_template("/browsers/{id}/computer/clipboard/write", id=id),
             body=await async_maybe_transform(
                 {"text": text}, computer_write_clipboard_params.ComputerWriteClipboardParams
             ),

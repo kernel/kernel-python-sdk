@@ -13,7 +13,19 @@ class ConnectionSubmitParams(TypedDict, total=False):
     """Map of field name to value"""
 
     mfa_option_id: str
-    """Optional MFA option ID if user selected an MFA method"""
+    """The MFA method type to select (when mfa_options were returned)"""
+
+    sign_in_option_id: str
+    """The sign-in option ID to select (when sign_in_options were returned)"""
 
     sso_button_selector: str
-    """Optional XPath selector if user chose to click an SSO button instead"""
+    """XPath selector for the SSO button to click (ODA).
+
+    Use sso_provider instead for CUA.
+    """
+
+    sso_provider: str
+    """
+    SSO provider to click, matching the provider field from pending_sso_buttons
+    (e.g., "google", "github"). Cannot be used with sso_button_selector.
+    """

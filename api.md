@@ -245,6 +245,7 @@ from kernel.types.auth import (
     LoginResponse,
     ManagedAuth,
     ManagedAuthCreateRequest,
+    ManagedAuthUpdateRequest,
     SubmitFieldsRequest,
     SubmitFieldsResponse,
     ConnectionFollowResponse,
@@ -255,6 +256,7 @@ Methods:
 
 - <code title="post /auth/connections">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">create</a>(\*\*<a href="src/kernel/types/auth/connection_create_params.py">params</a>) -> <a href="./src/kernel/types/auth/managed_auth.py">ManagedAuth</a></code>
 - <code title="get /auth/connections/{id}">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">retrieve</a>(id) -> <a href="./src/kernel/types/auth/managed_auth.py">ManagedAuth</a></code>
+- <code title="patch /auth/connections/{id}">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">update</a>(id, \*\*<a href="src/kernel/types/auth/connection_update_params.py">params</a>) -> <a href="./src/kernel/types/auth/managed_auth.py">ManagedAuth</a></code>
 - <code title="get /auth/connections">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">list</a>(\*\*<a href="src/kernel/types/auth/connection_list_params.py">params</a>) -> <a href="./src/kernel/types/auth/managed_auth.py">SyncOffsetPagination[ManagedAuth]</a></code>
 - <code title="delete /auth/connections/{id}">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">delete</a>(id) -> None</code>
 - <code title="get /auth/connections/{id}/events">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">follow</a>(id) -> <a href="./src/kernel/types/auth/connection_follow_response.py">ConnectionFollowResponse</a></code>

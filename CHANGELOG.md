@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.44.0 (2026-03-20)
+
+Full Changelog: [v0.43.0...v0.44.0](https://github.com/kernel/kernel-python-sdk/compare/v0.43.0...v0.44.0)
+
+### Features
+
+* Add GPU viewport presets and GPU encoder defaults ([0735b45](https://github.com/kernel/kernel-python-sdk/commit/0735b45fc92950cef3afea92a879712ea0ebdf0f))
+* Adds description to OAS spec for docs about delta_x, delta_y ([9841aac](https://github.com/kernel/kernel-python-sdk/commit/9841aac21588beb0c6a22baf5c5b0bf8e8cdd024))
+* Drop headless GPU support and disable pooling ([cda8f94](https://github.com/kernel/kernel-python-sdk/commit/cda8f94f6cebabc3b3b6f95aff765816255a9270))
+* Enhance managed authentication with CUA support and new features ([ece76c2](https://github.com/kernel/kernel-python-sdk/commit/ece76c2f7d2a20af7c00988d161c4e275623aaac))
+* expose smooth drag mouse movement via public API ([c6f6862](https://github.com/kernel/kernel-python-sdk/commit/c6f6862d03620bb218a99c85431e384c5c8e5e4c))
+* Rename hardware acceleration UI/docs wording to GPU acceleration ([9ee4d0c](https://github.com/kernel/kernel-python-sdk/commit/9ee4d0c080da7f649a3bde63640593f33d5d0f6b))
+
+
+### Bug Fixes
+
+* **deps:** bump minimum typing-extensions version ([fd55947](https://github.com/kernel/kernel-python-sdk/commit/fd55947f1776b43cca804622d0c771ebe99ead60))
+* **pydantic:** do not pass `by_alias` unless set ([a815a82](https://github.com/kernel/kernel-python-sdk/commit/a815a8237cce2098b2f5d6a8ad5def400d418fbb))
+* sanitize endpoint path params ([9b55d2b](https://github.com/kernel/kernel-python-sdk/commit/9b55d2be9472f779fe20d7d863dacae1030d2b49))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([8781c7d](https://github.com/kernel/kernel-python-sdk/commit/8781c7d9aa8759e487e5d86cbb82bfb7eb3d314e))
+
 ## 0.43.0 (2026-03-10)
 
 Full Changelog: [v0.42.1...v0.43.0](https://github.com/kernel/kernel-python-sdk/compare/v0.42.1...v0.43.0)

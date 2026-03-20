@@ -9,7 +9,7 @@ import httpx
 
 from ..types import invocation_list_params, invocation_create_params, invocation_follow_params, invocation_update_params
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -140,7 +140,7 @@ class InvocationsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/invocations/{id}",
+            path_template("/invocations/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -181,7 +181,7 @@ class InvocationsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._patch(
-            f"/invocations/{id}",
+            path_template("/invocations/{id}", id=id),
             body=maybe_transform(
                 {
                     "status": status,
@@ -296,7 +296,7 @@ class InvocationsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/invocations/{id}/browsers",
+            path_template("/invocations/{id}/browsers", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -335,7 +335,7 @@ class InvocationsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._get(
-            f"/invocations/{id}/events",
+            path_template("/invocations/{id}/events", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -376,7 +376,7 @@ class InvocationsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/invocations/{id}/browsers",
+            path_template("/invocations/{id}/browsers", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -493,7 +493,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/invocations/{id}",
+            path_template("/invocations/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -534,7 +534,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._patch(
-            f"/invocations/{id}",
+            path_template("/invocations/{id}", id=id),
             body=await async_maybe_transform(
                 {
                     "status": status,
@@ -649,7 +649,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/invocations/{id}/browsers",
+            path_template("/invocations/{id}/browsers", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -688,7 +688,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._get(
-            f"/invocations/{id}/events",
+            path_template("/invocations/{id}/events", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -729,7 +729,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/invocations/{id}/browsers",
+            path_template("/invocations/{id}/browsers", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

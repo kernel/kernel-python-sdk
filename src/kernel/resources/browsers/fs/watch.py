@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -75,7 +75,7 @@ class WatchResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `watch_id` but received {watch_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._get(
-            f"/browsers/{id}/fs/watch/{watch_id}/events",
+            path_template("/browsers/{id}/fs/watch/{watch_id}/events", id=id, watch_id=watch_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -116,7 +116,7 @@ class WatchResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/browsers/{id}/fs/watch",
+            path_template("/browsers/{id}/fs/watch", id=id),
             body=maybe_transform(
                 {
                     "path": path,
@@ -160,7 +160,7 @@ class WatchResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `watch_id` but received {watch_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/browsers/{id}/fs/watch/{watch_id}",
+            path_template("/browsers/{id}/fs/watch/{watch_id}", id=id, watch_id=watch_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -220,7 +220,7 @@ class AsyncWatchResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `watch_id` but received {watch_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._get(
-            f"/browsers/{id}/fs/watch/{watch_id}/events",
+            path_template("/browsers/{id}/fs/watch/{watch_id}/events", id=id, watch_id=watch_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -261,7 +261,7 @@ class AsyncWatchResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/browsers/{id}/fs/watch",
+            path_template("/browsers/{id}/fs/watch", id=id),
             body=await async_maybe_transform(
                 {
                     "path": path,
@@ -305,7 +305,7 @@ class AsyncWatchResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `watch_id` but received {watch_id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/browsers/{id}/fs/watch/{watch_id}",
+            path_template("/browsers/{id}/fs/watch/{watch_id}", id=id, watch_id=watch_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

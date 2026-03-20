@@ -14,7 +14,7 @@ from ..types import (
     browser_pool_release_params,
 )
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -110,9 +110,13 @@ class BrowserPoolsResource(SyncAPIResource):
               are destroyed. Defaults to 600 seconds if not specified
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
-              image defaults apply (1920x1080@25). Arbitrary viewport dimensions are accepted,
-              but the following configurations are known-good and fully tested: 2560x1440@10,
-              1920x1080@25, 1920x1200@25, 1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60.
+              image defaults apply (1920x1080@25). For GPU images, the default is
+              1920x1080@60. Arbitrary viewport dimensions and refresh rates are accepted.
+              Known-good presets include: 2560x1440@10, 1920x1080@25, 1920x1200@25,
+              1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60. For GPU images, recommended
+              presets use one of these resolutions with refresh rates 60, 30, 25, or 10:
+              800x600, 960x720, 1024x576, 1024x768, 1152x648, 1200x800, 1280x720, 1368x768,
+              1440x900, 1600x900, 1920x1080, 1920x1200, 390x844, 360x250, 768x1024, 800x1600.
               Viewports outside this list may exhibit unstable live view or recording
               behavior. If refresh_rate is not provided, it will be automatically determined
               based on the resolution (higher resolutions use lower refresh rates to keep
@@ -176,7 +180,7 @@ class BrowserPoolsResource(SyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._get(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -242,9 +246,13 @@ class BrowserPoolsResource(SyncAPIResource):
               are destroyed. Defaults to 600 seconds if not specified
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
-              image defaults apply (1920x1080@25). Arbitrary viewport dimensions are accepted,
-              but the following configurations are known-good and fully tested: 2560x1440@10,
-              1920x1080@25, 1920x1200@25, 1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60.
+              image defaults apply (1920x1080@25). For GPU images, the default is
+              1920x1080@60. Arbitrary viewport dimensions and refresh rates are accepted.
+              Known-good presets include: 2560x1440@10, 1920x1080@25, 1920x1200@25,
+              1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60. For GPU images, recommended
+              presets use one of these resolutions with refresh rates 60, 30, 25, or 10:
+              800x600, 960x720, 1024x576, 1024x768, 1152x648, 1200x800, 1280x720, 1368x768,
+              1440x900, 1600x900, 1920x1080, 1920x1200, 390x844, 360x250, 768x1024, 800x1600.
               Viewports outside this list may exhibit unstable live view or recording
               behavior. If refresh_rate is not provided, it will be automatically determined
               based on the resolution (higher resolutions use lower refresh rates to keep
@@ -261,7 +269,7 @@ class BrowserPoolsResource(SyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._patch(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform(
                 {
                     "size": size,
@@ -337,7 +345,7 @@ class BrowserPoolsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform({"force": force}, browser_pool_delete_params.BrowserPoolDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -380,7 +388,7 @@ class BrowserPoolsResource(SyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._post(
-            f"/browser_pools/{id_or_name}/acquire",
+            path_template("/browser_pools/{id_or_name}/acquire", id_or_name=id_or_name),
             body=maybe_transform(
                 {"acquire_timeout_seconds": acquire_timeout_seconds},
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
@@ -418,7 +426,7 @@ class BrowserPoolsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browser_pools/{id_or_name}/flush",
+            path_template("/browser_pools/{id_or_name}/flush", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -459,7 +467,7 @@ class BrowserPoolsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browser_pools/{id_or_name}/release",
+            path_template("/browser_pools/{id_or_name}/release", id_or_name=id_or_name),
             body=maybe_transform(
                 {
                     "session_id": session_id,
@@ -550,9 +558,13 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               are destroyed. Defaults to 600 seconds if not specified
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
-              image defaults apply (1920x1080@25). Arbitrary viewport dimensions are accepted,
-              but the following configurations are known-good and fully tested: 2560x1440@10,
-              1920x1080@25, 1920x1200@25, 1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60.
+              image defaults apply (1920x1080@25). For GPU images, the default is
+              1920x1080@60. Arbitrary viewport dimensions and refresh rates are accepted.
+              Known-good presets include: 2560x1440@10, 1920x1080@25, 1920x1200@25,
+              1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60. For GPU images, recommended
+              presets use one of these resolutions with refresh rates 60, 30, 25, or 10:
+              800x600, 960x720, 1024x576, 1024x768, 1152x648, 1200x800, 1280x720, 1368x768,
+              1440x900, 1600x900, 1920x1080, 1920x1200, 390x844, 360x250, 768x1024, 800x1600.
               Viewports outside this list may exhibit unstable live view or recording
               behavior. If refresh_rate is not provided, it will be automatically determined
               based on the resolution (higher resolutions use lower refresh rates to keep
@@ -616,7 +628,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._get(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -682,9 +694,13 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               are destroyed. Defaults to 600 seconds if not specified
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
-              image defaults apply (1920x1080@25). Arbitrary viewport dimensions are accepted,
-              but the following configurations are known-good and fully tested: 2560x1440@10,
-              1920x1080@25, 1920x1200@25, 1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60.
+              image defaults apply (1920x1080@25). For GPU images, the default is
+              1920x1080@60. Arbitrary viewport dimensions and refresh rates are accepted.
+              Known-good presets include: 2560x1440@10, 1920x1080@25, 1920x1200@25,
+              1440x900@25, 1280x800@60, 1024x768@60, 1200x800@60. For GPU images, recommended
+              presets use one of these resolutions with refresh rates 60, 30, 25, or 10:
+              800x600, 960x720, 1024x576, 1024x768, 1152x648, 1200x800, 1280x720, 1368x768,
+              1440x900, 1600x900, 1920x1080, 1920x1200, 390x844, 360x250, 768x1024, 800x1600.
               Viewports outside this list may exhibit unstable live view or recording
               behavior. If refresh_rate is not provided, it will be automatically determined
               based on the resolution (higher resolutions use lower refresh rates to keep
@@ -701,7 +717,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._patch(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {
                     "size": size,
@@ -777,7 +793,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform({"force": force}, browser_pool_delete_params.BrowserPoolDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -820,7 +836,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._post(
-            f"/browser_pools/{id_or_name}/acquire",
+            path_template("/browser_pools/{id_or_name}/acquire", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {"acquire_timeout_seconds": acquire_timeout_seconds},
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
@@ -858,7 +874,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browser_pools/{id_or_name}/flush",
+            path_template("/browser_pools/{id_or_name}/flush", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -899,7 +915,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browser_pools/{id_or_name}/release",
+            path_template("/browser_pools/{id_or_name}/release", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {
                     "session_id": session_id,
