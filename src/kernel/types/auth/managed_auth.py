@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["ManagedAuth", "Credential", "DiscoveredField", "MfaOption", "PendingSSOButton"]
+__all__ = ["ManagedAuth", "Credential", "DiscoveredField", "MfaOption", "PendingSSOButton", "SignInOption"]
 
 
 class Credential(BaseModel):
@@ -88,6 +88,22 @@ class PendingSSOButton(BaseModel):
 
     selector: str
     """XPath selector for the button"""
+
+
+class SignInOption(BaseModel):
+    """A non-MFA choice presented during the auth flow (e.g.
+
+    account selection, org picker)
+    """
+
+    id: str
+    """Unique identifier for this option (used to submit selection back)"""
+
+    label: str
+    """Display text for the option"""
+
+    description: Optional[str] = None
+    """Additional context such as email address or org name"""
 
 
 class ManagedAuth(BaseModel):
@@ -213,6 +229,12 @@ class ManagedAuth(BaseModel):
 
     proxy_id: Optional[str] = None
     """ID of the proxy associated with this connection, if any."""
+
+    sign_in_options: Optional[List[SignInOption]] = None
+    """
+    Non-MFA choices presented during the auth flow, such as account selection or org
+    pickers (present when flow_step=awaiting_input).
+    """
 
     sso_provider: Optional[str] = None
     """SSO provider being used (e.g., google, github, microsoft)"""
