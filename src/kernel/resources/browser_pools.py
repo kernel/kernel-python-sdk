@@ -14,7 +14,7 @@ from ..types import (
     browser_pool_release_params,
 )
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -180,7 +180,7 @@ class BrowserPoolsResource(SyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._get(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -269,7 +269,7 @@ class BrowserPoolsResource(SyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._patch(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform(
                 {
                     "size": size,
@@ -345,7 +345,7 @@ class BrowserPoolsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform({"force": force}, browser_pool_delete_params.BrowserPoolDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -388,7 +388,7 @@ class BrowserPoolsResource(SyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._post(
-            f"/browser_pools/{id_or_name}/acquire",
+            path_template("/browser_pools/{id_or_name}/acquire", id_or_name=id_or_name),
             body=maybe_transform(
                 {"acquire_timeout_seconds": acquire_timeout_seconds},
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
@@ -426,7 +426,7 @@ class BrowserPoolsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browser_pools/{id_or_name}/flush",
+            path_template("/browser_pools/{id_or_name}/flush", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -467,7 +467,7 @@ class BrowserPoolsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
-            f"/browser_pools/{id_or_name}/release",
+            path_template("/browser_pools/{id_or_name}/release", id_or_name=id_or_name),
             body=maybe_transform(
                 {
                     "session_id": session_id,
@@ -628,7 +628,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._get(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -717,7 +717,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._patch(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {
                     "size": size,
@@ -793,7 +793,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/browser_pools/{id_or_name}",
+            path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform({"force": force}, browser_pool_delete_params.BrowserPoolDeleteParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -836,7 +836,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._post(
-            f"/browser_pools/{id_or_name}/acquire",
+            path_template("/browser_pools/{id_or_name}/acquire", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {"acquire_timeout_seconds": acquire_timeout_seconds},
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
@@ -874,7 +874,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browser_pools/{id_or_name}/flush",
+            path_template("/browser_pools/{id_or_name}/flush", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -915,7 +915,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
-            f"/browser_pools/{id_or_name}/release",
+            path_template("/browser_pools/{id_or_name}/release", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {
                     "session_id": session_id,

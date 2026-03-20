@@ -30,7 +30,7 @@ from ...._types import (
     omit,
     not_given,
 )
-from ...._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from ...._utils import extract_files, path_template, maybe_transform, deepcopy_minimal, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -128,7 +128,7 @@ class FsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._put(
-            f"/browsers/{id}/fs/create_directory",
+            path_template("/browsers/{id}/fs/create_directory", id=id),
             body=maybe_transform(
                 {
                     "path": path,
@@ -172,7 +172,7 @@ class FsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._put(
-            f"/browsers/{id}/fs/delete_directory",
+            path_template("/browsers/{id}/fs/delete_directory", id=id),
             body=maybe_transform({"path": path}, f_delete_directory_params.FDeleteDirectoryParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -210,7 +210,7 @@ class FsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._put(
-            f"/browsers/{id}/fs/delete_file",
+            path_template("/browsers/{id}/fs/delete_file", id=id),
             body=maybe_transform({"path": path}, f_delete_file_params.FDeleteFileParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -248,7 +248,7 @@ class FsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "application/zip", **(extra_headers or {})}
         return self._get(
-            f"/browsers/{id}/fs/download_dir_zip",
+            path_template("/browsers/{id}/fs/download_dir_zip", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -288,7 +288,7 @@ class FsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/browsers/{id}/fs/file_info",
+            path_template("/browsers/{id}/fs/file_info", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -328,7 +328,7 @@ class FsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/browsers/{id}/fs/list_files",
+            path_template("/browsers/{id}/fs/list_files", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -372,7 +372,7 @@ class FsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._put(
-            f"/browsers/{id}/fs/move",
+            path_template("/browsers/{id}/fs/move", id=id),
             body=maybe_transform(
                 {
                     "dest_path": dest_path,
@@ -416,7 +416,7 @@ class FsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return self._get(
-            f"/browsers/{id}/fs/read_file",
+            path_template("/browsers/{id}/fs/read_file", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -466,7 +466,7 @@ class FsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._put(
-            f"/browsers/{id}/fs/set_file_permissions",
+            path_template("/browsers/{id}/fs/set_file_permissions", id=id),
             body=maybe_transform(
                 {
                     "mode": mode,
@@ -516,7 +516,7 @@ class FsResource(SyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return self._post(
-            f"/browsers/{id}/fs/upload",
+            path_template("/browsers/{id}/fs/upload", id=id),
             body=maybe_transform(body, f_upload_params.FUploadParams),
             files=extracted_files,
             options=make_request_options(
@@ -567,7 +567,7 @@ class FsResource(SyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return self._post(
-            f"/browsers/{id}/fs/upload_zip",
+            path_template("/browsers/{id}/fs/upload_zip", id=id),
             body=maybe_transform(body, f_upload_zip_params.FUploadZipParams),
             files=files,
             options=make_request_options(
@@ -611,7 +611,7 @@ class FsResource(SyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers["Content-Type"] = "application/octet-stream"
         return self._put(
-            f"/browsers/{id}/fs/write_file",
+            path_template("/browsers/{id}/fs/write_file", id=id),
             content=read_file_content(contents) if isinstance(contents, os.PathLike) else contents,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -690,7 +690,7 @@ class AsyncFsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._put(
-            f"/browsers/{id}/fs/create_directory",
+            path_template("/browsers/{id}/fs/create_directory", id=id),
             body=await async_maybe_transform(
                 {
                     "path": path,
@@ -734,7 +734,7 @@ class AsyncFsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._put(
-            f"/browsers/{id}/fs/delete_directory",
+            path_template("/browsers/{id}/fs/delete_directory", id=id),
             body=await async_maybe_transform({"path": path}, f_delete_directory_params.FDeleteDirectoryParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -772,7 +772,7 @@ class AsyncFsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._put(
-            f"/browsers/{id}/fs/delete_file",
+            path_template("/browsers/{id}/fs/delete_file", id=id),
             body=await async_maybe_transform({"path": path}, f_delete_file_params.FDeleteFileParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -810,7 +810,7 @@ class AsyncFsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "application/zip", **(extra_headers or {})}
         return await self._get(
-            f"/browsers/{id}/fs/download_dir_zip",
+            path_template("/browsers/{id}/fs/download_dir_zip", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -850,7 +850,7 @@ class AsyncFsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/browsers/{id}/fs/file_info",
+            path_template("/browsers/{id}/fs/file_info", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -890,7 +890,7 @@ class AsyncFsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/browsers/{id}/fs/list_files",
+            path_template("/browsers/{id}/fs/list_files", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -934,7 +934,7 @@ class AsyncFsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._put(
-            f"/browsers/{id}/fs/move",
+            path_template("/browsers/{id}/fs/move", id=id),
             body=await async_maybe_transform(
                 {
                     "dest_path": dest_path,
@@ -978,7 +978,7 @@ class AsyncFsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return await self._get(
-            f"/browsers/{id}/fs/read_file",
+            path_template("/browsers/{id}/fs/read_file", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1028,7 +1028,7 @@ class AsyncFsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._put(
-            f"/browsers/{id}/fs/set_file_permissions",
+            path_template("/browsers/{id}/fs/set_file_permissions", id=id),
             body=await async_maybe_transform(
                 {
                     "mode": mode,
@@ -1078,7 +1078,7 @@ class AsyncFsResource(AsyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return await self._post(
-            f"/browsers/{id}/fs/upload",
+            path_template("/browsers/{id}/fs/upload", id=id),
             body=await async_maybe_transform(body, f_upload_params.FUploadParams),
             files=extracted_files,
             options=make_request_options(
@@ -1129,7 +1129,7 @@ class AsyncFsResource(AsyncAPIResource):
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return await self._post(
-            f"/browsers/{id}/fs/upload_zip",
+            path_template("/browsers/{id}/fs/upload_zip", id=id),
             body=await async_maybe_transform(body, f_upload_zip_params.FUploadZipParams),
             files=files,
             options=make_request_options(
@@ -1173,7 +1173,7 @@ class AsyncFsResource(AsyncAPIResource):
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers["Content-Type"] = "application/octet-stream"
         return await self._put(
-            f"/browsers/{id}/fs/write_file",
+            path_template("/browsers/{id}/fs/write_file", id=id),
             content=await async_read_file_content(contents) if isinstance(contents, os.PathLike) else contents,
             options=make_request_options(
                 extra_headers=extra_headers,

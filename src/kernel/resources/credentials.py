@@ -8,7 +8,7 @@ import httpx
 
 from ..types import credential_list_params, credential_create_params, credential_update_params
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -133,7 +133,7 @@ class CredentialsResource(SyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._get(
-            f"/credentials/{id_or_name}",
+            path_template("/credentials/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -183,7 +183,7 @@ class CredentialsResource(SyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._patch(
-            f"/credentials/{id_or_name}",
+            path_template("/credentials/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform(
                 {
                     "name": name,
@@ -279,7 +279,7 @@ class CredentialsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            f"/credentials/{id_or_name}",
+            path_template("/credentials/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -314,7 +314,7 @@ class CredentialsResource(SyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._get(
-            f"/credentials/{id_or_name}/totp-code",
+            path_template("/credentials/{id_or_name}/totp-code", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -430,7 +430,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._get(
-            f"/credentials/{id_or_name}",
+            path_template("/credentials/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -480,7 +480,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._patch(
-            f"/credentials/{id_or_name}",
+            path_template("/credentials/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {
                     "name": name,
@@ -576,7 +576,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            f"/credentials/{id_or_name}",
+            path_template("/credentials/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -611,7 +611,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._get(
-            f"/credentials/{id_or_name}/totp-code",
+            path_template("/credentials/{id_or_name}/totp-code", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
