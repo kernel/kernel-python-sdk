@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Dict, Iterable
 from typing_extensions import Required, TypedDict
 
 from .shared_params.browser_profile import BrowserProfile
@@ -18,6 +18,14 @@ class BrowserPoolCreateParams(TypedDict, total=False):
 
     The maximum size is determined by your organization's pooled sessions limit (the
     sum of all pool sizes cannot exceed your limit).
+    """
+
+    chrome_policy: Dict[str, object]
+    """Custom Chrome enterprise policy overrides applied to all browsers in this pool.
+
+    Keys are Chrome enterprise policy names; values must match their expected types.
+    Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
+    https://chromeenterprise.google/policies/
     """
 
     extensions: Iterable[BrowserExtension]

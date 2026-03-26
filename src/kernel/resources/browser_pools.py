@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Dict, Iterable
 
 import httpx
 
@@ -60,6 +60,7 @@ class BrowserPoolsResource(SyncAPIResource):
         self,
         *,
         size: int,
+        chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
@@ -84,6 +85,11 @@ class BrowserPoolsResource(SyncAPIResource):
           size: Number of browsers to maintain in the pool. The maximum size is determined by
               your organization's pooled sessions limit (the sum of all pool sizes cannot
               exceed your limit).
+
+          chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
+              Keys are Chrome enterprise policy names; values must match their expected types.
+              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
+              https://chromeenterprise.google/policies/
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
@@ -135,6 +141,7 @@ class BrowserPoolsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "size": size,
+                    "chrome_policy": chrome_policy,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,
@@ -192,6 +199,7 @@ class BrowserPoolsResource(SyncAPIResource):
         id_or_name: str,
         *,
         size: int,
+        chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
@@ -217,6 +225,11 @@ class BrowserPoolsResource(SyncAPIResource):
           size: Number of browsers to maintain in the pool. The maximum size is determined by
               your organization's pooled sessions limit (the sum of all pool sizes cannot
               exceed your limit).
+
+          chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
+              Keys are Chrome enterprise policy names; values must match their expected types.
+              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
+              https://chromeenterprise.google/policies/
 
           discard_all_idle: Whether to discard all idle browsers and rebuild the pool immediately. Defaults
               to false.
@@ -273,6 +286,7 @@ class BrowserPoolsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "size": size,
+                    "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,
@@ -508,6 +522,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         self,
         *,
         size: int,
+        chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
@@ -532,6 +547,11 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           size: Number of browsers to maintain in the pool. The maximum size is determined by
               your organization's pooled sessions limit (the sum of all pool sizes cannot
               exceed your limit).
+
+          chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
+              Keys are Chrome enterprise policy names; values must match their expected types.
+              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
+              https://chromeenterprise.google/policies/
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
@@ -583,6 +603,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "size": size,
+                    "chrome_policy": chrome_policy,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,
@@ -640,6 +661,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         id_or_name: str,
         *,
         size: int,
+        chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
@@ -665,6 +687,11 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           size: Number of browsers to maintain in the pool. The maximum size is determined by
               your organization's pooled sessions limit (the sum of all pool sizes cannot
               exceed your limit).
+
+          chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
+              Keys are Chrome enterprise policy names; values must match their expected types.
+              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
+              https://chromeenterprise.google/policies/
 
           discard_all_idle: Whether to discard all idle browsers and rebuild the pool immediately. Defaults
               to false.
@@ -721,6 +748,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "size": size,
+                    "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,

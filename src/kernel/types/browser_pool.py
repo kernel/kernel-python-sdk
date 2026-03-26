@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 from datetime import datetime
 
 from .._models import BaseModel
@@ -19,6 +19,14 @@ class BrowserPoolConfig(BaseModel):
 
     The maximum size is determined by your organization's pooled sessions limit (the
     sum of all pool sizes cannot exceed your limit).
+    """
+
+    chrome_policy: Optional[Dict[str, object]] = None
+    """Custom Chrome enterprise policy overrides applied to all browsers in this pool.
+
+    Keys are Chrome enterprise policy names; values must match their expected types.
+    Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
+    https://chromeenterprise.google/policies/
     """
 
     extensions: Optional[List[BrowserExtension]] = None
