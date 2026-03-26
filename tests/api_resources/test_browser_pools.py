@@ -34,6 +34,7 @@ class TestBrowserPools:
     def test_method_create_with_all_params(self, client: Kernel) -> None:
         browser_pool = client.browser_pools.create(
             size=10,
+            chrome_policy={"foo": "bar"},
             extensions=[
                 {
                     "id": "id",
@@ -143,6 +144,7 @@ class TestBrowserPools:
         browser_pool = client.browser_pools.update(
             id_or_name="id_or_name",
             size=10,
+            chrome_policy={"foo": "bar"},
             discard_all_idle=False,
             extensions=[
                 {
@@ -454,6 +456,7 @@ class TestAsyncBrowserPools:
     async def test_method_create_with_all_params(self, async_client: AsyncKernel) -> None:
         browser_pool = await async_client.browser_pools.create(
             size=10,
+            chrome_policy={"foo": "bar"},
             extensions=[
                 {
                     "id": "id",
@@ -563,6 +566,7 @@ class TestAsyncBrowserPools:
         browser_pool = await async_client.browser_pools.update(
             id_or_name="id_or_name",
             size=10,
+            chrome_policy={"foo": "bar"},
             discard_all_idle=False,
             extensions=[
                 {
