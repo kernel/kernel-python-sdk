@@ -286,6 +286,7 @@ class BrowsersResource(SyncAPIResource):
         self,
         id: str,
         *,
+        disable_default_proxy: bool | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
@@ -300,6 +301,9 @@ class BrowsersResource(SyncAPIResource):
         Update a browser session.
 
         Args:
+          disable_default_proxy: If true, stealth browsers connect directly instead of using the default stealth
+              proxy.
+
           profile: Profile to load into the browser session. Only allowed if the session does not
               already have a profile loaded.
 
@@ -322,6 +326,7 @@ class BrowsersResource(SyncAPIResource):
             path_template("/browsers/{id}", id=id),
             body=maybe_transform(
                 {
+                    "disable_default_proxy": disable_default_proxy,
                     "profile": profile,
                     "proxy_id": proxy_id,
                     "viewport": viewport,
@@ -717,6 +722,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        disable_default_proxy: bool | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
@@ -731,6 +737,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Update a browser session.
 
         Args:
+          disable_default_proxy: If true, stealth browsers connect directly instead of using the default stealth
+              proxy.
+
           profile: Profile to load into the browser session. Only allowed if the session does not
               already have a profile loaded.
 
@@ -753,6 +762,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
             path_template("/browsers/{id}", id=id),
             body=await async_maybe_transform(
                 {
+                    "disable_default_proxy": disable_default_proxy,
                     "profile": profile,
                     "proxy_id": proxy_id,
                     "viewport": viewport,
