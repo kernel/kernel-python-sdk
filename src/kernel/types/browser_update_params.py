@@ -12,6 +12,12 @@ __all__ = ["BrowserUpdateParams", "Viewport"]
 
 
 class BrowserUpdateParams(TypedDict, total=False):
+    disable_default_proxy: bool
+    """
+    If true, stealth browsers connect directly instead of using the default stealth
+    proxy.
+    """
+
     profile: BrowserProfile
     """Profile to load into the browser session.
 
