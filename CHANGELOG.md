@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.45.0 (2026-03-30)
+
+Full Changelog: [v0.44.0...v0.45.0](https://github.com/kernel/kernel-python-sdk/compare/v0.44.0...v0.45.0)
+
+### Features
+
+* [kernel-1008] browser pools add custom policy ([09f8520](https://github.com/kernel/kernel-python-sdk/commit/09f85209bc3c646d8a2a1231ed3925cad830f3dc))
+* Add disable_default_proxy for stealth browsers ([3a75e81](https://github.com/kernel/kernel-python-sdk/commit/3a75e819e6e7caffdfba74a9627ed418de247de7))
+* **internal:** implement indices array format for query and form serialization ([c798c39](https://github.com/kernel/kernel-python-sdk/commit/c798c39251def1447d61215c187f0e285f225f3d))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([f0815a8](https://github.com/kernel/kernel-python-sdk/commit/f0815a8d36799444220552cb599a19b79c9b5e12))
+* **internal:** update gitignore ([34b47ab](https://github.com/kernel/kernel-python-sdk/commit/34b47ab40aeb12ad9f78e923493caaca88a554b4))
+
 ## 0.44.0 (2026-03-20)
 
 Full Changelog: [v0.43.0...v0.44.0](https://github.com/kernel/kernel-python-sdk/compare/v0.43.0...v0.44.0)
