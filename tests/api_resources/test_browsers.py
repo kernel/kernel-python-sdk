@@ -148,6 +148,7 @@ class TestBrowsers:
     def test_method_update_with_all_params(self, client: Kernel) -> None:
         browser = client.browsers.update(
             id="htzv5orfit78e1m2biiifpbv",
+            disable_default_proxy=True,
             profile={
                 "id": "id",
                 "name": "name",
@@ -512,6 +513,7 @@ class TestAsyncBrowsers:
     async def test_method_update_with_all_params(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.update(
             id="htzv5orfit78e1m2biiifpbv",
+            disable_default_proxy=True,
             profile={
                 "id": "id",
                 "name": "name",
