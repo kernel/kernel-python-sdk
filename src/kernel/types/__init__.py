@@ -20,6 +20,7 @@ from .browser_usage import BrowserUsage as BrowserUsage
 from .app_list_params import AppListParams as AppListParams
 from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
 from .app_list_response import AppListResponse as AppListResponse
+from .proxy_check_params import ProxyCheckParams as ProxyCheckParams
 from .browser_list_params import BrowserListParams as BrowserListParams
 from .browser_persistence import BrowserPersistence as BrowserPersistence
 from .credential_provider import CredentialProvider as CredentialProvider
