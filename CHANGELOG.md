@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.46.0 (2026-04-06)
+
+Full Changelog: [v0.45.0...v0.46.0](https://github.com/kernel/kernel-python-sdk/compare/v0.45.0...v0.46.0)
+
+### Features
+
+* Add optional url parameter to proxy check endpoint ([cdd4b02](https://github.com/kernel/kernel-python-sdk/commit/cdd4b026fc01b1118cbc35cbc61890d15af3e021))
+
 ## 0.45.0 (2026-03-30)
 
 Full Changelog: [v0.44.0...v0.45.0](https://github.com/kernel/kernel-python-sdk/compare/v0.44.0...v0.45.0)
