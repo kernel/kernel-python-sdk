@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import proxy_create_params
+from ..types import proxy_check_params, proxy_create_params
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -195,6 +195,7 @@ class ProxiesResource(SyncAPIResource):
         self,
         id: str,
         *,
+        url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -202,10 +203,27 @@ class ProxiesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyCheckResponse:
-        """
-        Run a health check on the proxy to verify it's working.
+        """Run a health check on the proxy to verify it's working.
+
+        Optionally specify a URL
+        to test reachability against a specific target. For ISP and datacenter proxies,
+        this reliably tests whether the target site is reachable from the proxy's stable
+        exit IP. For residential and mobile proxies, the exit node varies between
+        requests, so this validates proxy configuration and connectivity rather than
+        guaranteeing site-specific reachability.
 
         Args:
+          url: An optional URL to test reachability against. If provided, the proxy check will
+              test connectivity to this URL instead of the default test URLs. Only HTTP and
+              HTTPS schemes are allowed, and the URL must resolve to a public IP address. For
+              ISP and datacenter proxies, the exit IP is stable, so a successful check
+              reliably indicates that subsequent browser sessions will reach the target site
+              with the same IP. For residential and mobile proxies, the exit node changes
+              between requests, so a successful check validates proxy configuration but does
+              not guarantee that a subsequent browser session will use the same exit IP or
+              reach the same site — it is useful for verifying credentials and connectivity,
+              not for predicting site-specific behavior.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -218,6 +236,7 @@ class ProxiesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             path_template("/proxies/{id}/check", id=id),
+            body=maybe_transform({"url": url}, proxy_check_params.ProxyCheckParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -394,6 +413,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -401,10 +421,27 @@ class AsyncProxiesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyCheckResponse:
-        """
-        Run a health check on the proxy to verify it's working.
+        """Run a health check on the proxy to verify it's working.
+
+        Optionally specify a URL
+        to test reachability against a specific target. For ISP and datacenter proxies,
+        this reliably tests whether the target site is reachable from the proxy's stable
+        exit IP. For residential and mobile proxies, the exit node varies between
+        requests, so this validates proxy configuration and connectivity rather than
+        guaranteeing site-specific reachability.
 
         Args:
+          url: An optional URL to test reachability against. If provided, the proxy check will
+              test connectivity to this URL instead of the default test URLs. Only HTTP and
+              HTTPS schemes are allowed, and the URL must resolve to a public IP address. For
+              ISP and datacenter proxies, the exit IP is stable, so a successful check
+              reliably indicates that subsequent browser sessions will reach the target site
+              with the same IP. For residential and mobile proxies, the exit node changes
+              between requests, so a successful check validates proxy configuration but does
+              not guarantee that a subsequent browser session will use the same exit IP or
+              reach the same site — it is useful for verifying credentials and connectivity,
+              not for predicting site-specific behavior.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -417,6 +454,7 @@ class AsyncProxiesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             path_template("/proxies/{id}/check", id=id),
+            body=await async_maybe_transform({"url": url}, proxy_check_params.ProxyCheckParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
