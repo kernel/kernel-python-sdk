@@ -14,7 +14,10 @@ class ConnectionCreateParams(TypedDict, total=False):
     """Domain for authentication"""
 
     profile_name: Required[str]
-    """Name of the profile to manage authentication for"""
+    """Name of the profile to manage authentication for.
+
+    If the profile does not exist, it is created automatically.
+    """
 
     allowed_domains: SequenceNotStr[str]
     """Additional domains valid for this auth flow (besides the primary domain).
