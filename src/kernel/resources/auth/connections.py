@@ -76,13 +76,15 @@ class ConnectionsResource(SyncAPIResource):
     ) -> ManagedAuth:
         """Creates an auth connection for a profile and domain combination.
 
-        Returns 409
-        Conflict if an auth connection already exists for the given profile and domain.
+        If the provided
+        profile_name does not exist, it is created automatically. Returns 409 Conflict
+        if an auth connection already exists for the given profile and domain.
 
         Args:
           domain: Domain for authentication
 
-          profile_name: Name of the profile to manage authentication for
+          profile_name: Name of the profile to manage authentication for. If the profile does not exist,
+              it is created automatically.
 
           allowed_domains: Additional domains valid for this auth flow (besides the primary domain). Useful
               when login pages redirect to different domains.
@@ -537,13 +539,15 @@ class AsyncConnectionsResource(AsyncAPIResource):
     ) -> ManagedAuth:
         """Creates an auth connection for a profile and domain combination.
 
-        Returns 409
-        Conflict if an auth connection already exists for the given profile and domain.
+        If the provided
+        profile_name does not exist, it is created automatically. Returns 409 Conflict
+        if an auth connection already exists for the given profile and domain.
 
         Args:
           domain: Domain for authentication
 
-          profile_name: Name of the profile to manage authentication for
+          profile_name: Name of the profile to manage authentication for. If the profile does not exist,
+              it is created automatically.
 
           allowed_domains: Additional domains valid for this auth flow (besides the primary domain). Useful
               when login pages redirect to different domains.
