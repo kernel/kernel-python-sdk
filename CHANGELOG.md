@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.47.0 (2026-04-07)
+
+Full Changelog: [v0.46.0...v0.47.0](https://github.com/kernel/kernel-python-sdk/compare/v0.46.0...v0.47.0)
+
+### Features
+
+* Include login_url in managed auth connection response ([b97b320](https://github.com/kernel/kernel-python-sdk/commit/b97b3203c612f3883d7d08d6f3f6282ce726ec59))
+
 ## 0.46.0 (2026-04-06)
 
 Full Changelog: [v0.45.0...v0.46.0](https://github.com/kernel/kernel-python-sdk/compare/v0.45.0...v0.46.0)
