@@ -215,6 +215,9 @@ class ManagedAuth(BaseModel):
     live_view_url: Optional[str] = None
     """Browser live view URL for debugging (present when flow in progress)"""
 
+    login_url: Optional[str] = None
+    """Optional login page URL to skip discovery"""
+
     mfa_options: Optional[List[MfaOption]] = None
     """
     MFA method options (present when flow_step=awaiting_input and MFA selection
