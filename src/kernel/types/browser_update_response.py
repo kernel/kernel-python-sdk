@@ -35,6 +35,9 @@ class BrowserUpdateResponse(BaseModel):
     webdriver_ws_url: str
     """Websocket URL for WebDriver BiDi connections to the browser session"""
 
+    base_url: Optional[str] = None
+    """Metro-API HTTP base URL for this browser session."""
+
     browser_live_view_url: Optional[str] = None
     """Remote URL for live viewing the browser session.
 
