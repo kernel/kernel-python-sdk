@@ -40,6 +40,14 @@ from .profiles import (
     ProfilesResourceWithStreamingResponse,
     AsyncProfilesResourceWithStreamingResponse,
 )
+from .projects import (
+    ProjectsResource,
+    AsyncProjectsResource,
+    ProjectsResourceWithRawResponse,
+    AsyncProjectsResourceWithRawResponse,
+    ProjectsResourceWithStreamingResponse,
+    AsyncProjectsResourceWithStreamingResponse,
+)
 from .extensions import (
     ExtensionsResource,
     AsyncExtensionsResource,
@@ -150,6 +158,12 @@ __all__ = [
     "AsyncCredentialsResourceWithRawResponse",
     "CredentialsResourceWithStreamingResponse",
     "AsyncCredentialsResourceWithStreamingResponse",
+    "ProjectsResource",
+    "AsyncProjectsResource",
+    "ProjectsResourceWithRawResponse",
+    "AsyncProjectsResourceWithRawResponse",
+    "ProjectsResourceWithStreamingResponse",
+    "AsyncProjectsResourceWithStreamingResponse",
     "CredentialProvidersResource",
     "AsyncCredentialProvidersResource",
     "CredentialProvidersResourceWithRawResponse",

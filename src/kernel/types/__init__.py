@@ -14,6 +14,7 @@ from .shared import (
     BrowserExtension as BrowserExtension,
 )
 from .profile import Profile as Profile
+from .project import Project as Project
 from .credential import Credential as Credential
 from .browser_pool import BrowserPool as BrowserPool
 from .browser_usage import BrowserUsage as BrowserUsage
@@ -25,6 +26,7 @@ from .browser_list_params import BrowserListParams as BrowserListParams
 from .browser_persistence import BrowserPersistence as BrowserPersistence
 from .credential_provider import CredentialProvider as CredentialProvider
 from .profile_list_params import ProfileListParams as ProfileListParams
+from .project_list_params import ProjectListParams as ProjectListParams
 from .proxy_create_params import ProxyCreateParams as ProxyCreateParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
@@ -33,6 +35,8 @@ from .browser_delete_params import BrowserDeleteParams as BrowserDeleteParams
 from .browser_list_response import BrowserListResponse as BrowserListResponse
 from .browser_update_params import BrowserUpdateParams as BrowserUpdateParams
 from .profile_create_params import ProfileCreateParams as ProfileCreateParams
+from .project_create_params import ProjectCreateParams as ProjectCreateParams
+from .project_update_params import ProjectUpdateParams as ProjectUpdateParams
 from .proxy_create_response import ProxyCreateResponse as ProxyCreateResponse
 from .credential_list_params import CredentialListParams as CredentialListParams
 from .deployment_list_params import DeploymentListParams as DeploymentListParams
