@@ -139,7 +139,8 @@ class ReplaysResource(SyncAPIResource):
         Start recording the browser session and return a replay ID.
 
         Args:
-          framerate: Recording framerate in fps.
+          framerate: Recording framerate in fps. Values above 20 require GPU to be enabled on the
+              browser session.
 
           max_duration_in_seconds: Maximum recording duration in seconds.
 
@@ -315,7 +316,8 @@ class AsyncReplaysResource(AsyncAPIResource):
         Start recording the browser session and return a replay ID.
 
         Args:
-          framerate: Recording framerate in fps.
+          framerate: Recording framerate in fps. Values above 20 require GPU to be enabled on the
+              browser session.
 
           max_duration_in_seconds: Maximum recording duration in seconds.
 
