@@ -37,6 +37,7 @@ if TYPE_CHECKING:
         proxies,
         browsers,
         profiles,
+        projects,
         extensions,
         credentials,
         deployments,
@@ -54,6 +55,7 @@ if TYPE_CHECKING:
     from .resources.invocations import InvocationsResource, AsyncInvocationsResource
     from .resources.browser_pools import BrowserPoolsResource, AsyncBrowserPoolsResource
     from .resources.browsers.browsers import BrowsersResource, AsyncBrowsersResource
+    from .resources.projects.projects import ProjectsResource, AsyncProjectsResource
     from .resources.credential_providers import CredentialProvidersResource, AsyncCredentialProvidersResource
 
 __all__ = [
@@ -221,6 +223,13 @@ class Kernel(SyncAPIClient):
         from .resources.credentials import CredentialsResource
 
         return CredentialsResource(self)
+
+    @cached_property
+    def projects(self) -> ProjectsResource:
+        """Create and manage projects for resource isolation within an organization."""
+        from .resources.projects import ProjectsResource
+
+        return ProjectsResource(self)
 
     @cached_property
     def credential_providers(self) -> CredentialProvidersResource:
@@ -493,6 +502,13 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncCredentialsResource(self)
 
     @cached_property
+    def projects(self) -> AsyncProjectsResource:
+        """Create and manage projects for resource isolation within an organization."""
+        from .resources.projects import AsyncProjectsResource
+
+        return AsyncProjectsResource(self)
+
+    @cached_property
     def credential_providers(self) -> AsyncCredentialProvidersResource:
         """Configure external credential providers like 1Password."""
         from .resources.credential_providers import AsyncCredentialProvidersResource
@@ -690,6 +706,13 @@ class KernelWithRawResponse:
         return CredentialsResourceWithRawResponse(self._client.credentials)
 
     @cached_property
+    def projects(self) -> projects.ProjectsResourceWithRawResponse:
+        """Create and manage projects for resource isolation within an organization."""
+        from .resources.projects import ProjectsResourceWithRawResponse
+
+        return ProjectsResourceWithRawResponse(self._client.projects)
+
+    @cached_property
     def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithRawResponse:
         """Configure external credential providers like 1Password."""
         from .resources.credential_providers import CredentialProvidersResourceWithRawResponse
@@ -771,6 +794,13 @@ class AsyncKernelWithRawResponse:
         from .resources.credentials import AsyncCredentialsResourceWithRawResponse
 
         return AsyncCredentialsResourceWithRawResponse(self._client.credentials)
+
+    @cached_property
+    def projects(self) -> projects.AsyncProjectsResourceWithRawResponse:
+        """Create and manage projects for resource isolation within an organization."""
+        from .resources.projects import AsyncProjectsResourceWithRawResponse
+
+        return AsyncProjectsResourceWithRawResponse(self._client.projects)
 
     @cached_property
     def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithRawResponse:
@@ -856,6 +886,13 @@ class KernelWithStreamedResponse:
         return CredentialsResourceWithStreamingResponse(self._client.credentials)
 
     @cached_property
+    def projects(self) -> projects.ProjectsResourceWithStreamingResponse:
+        """Create and manage projects for resource isolation within an organization."""
+        from .resources.projects import ProjectsResourceWithStreamingResponse
+
+        return ProjectsResourceWithStreamingResponse(self._client.projects)
+
+    @cached_property
     def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithStreamingResponse:
         """Configure external credential providers like 1Password."""
         from .resources.credential_providers import CredentialProvidersResourceWithStreamingResponse
@@ -937,6 +974,13 @@ class AsyncKernelWithStreamedResponse:
         from .resources.credentials import AsyncCredentialsResourceWithStreamingResponse
 
         return AsyncCredentialsResourceWithStreamingResponse(self._client.credentials)
+
+    @cached_property
+    def projects(self) -> projects.AsyncProjectsResourceWithStreamingResponse:
+        """Create and manage projects for resource isolation within an organization."""
+        from .resources.projects import AsyncProjectsResourceWithStreamingResponse
+
+        return AsyncProjectsResourceWithStreamingResponse(self._client.projects)
 
     @cached_property
     def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithStreamingResponse:
