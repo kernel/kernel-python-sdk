@@ -9,7 +9,10 @@ __all__ = ["ReplayStartParams"]
 
 class ReplayStartParams(TypedDict, total=False):
     framerate: int
-    """Recording framerate in fps."""
+    """Recording framerate in fps.
+
+    Values above 20 require GPU to be enabled on the browser session.
+    """
 
     max_duration_in_seconds: int
     """Maximum recording duration in seconds."""
