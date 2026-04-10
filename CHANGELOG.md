@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.48.0 (2026-04-10)
+
+Full Changelog: [v0.47.0...v0.48.0](https://github.com/kernel/kernel-python-sdk/compare/v0.47.0...v0.48.0)
+
+### Features
+
+* [kernel-1116] add base_url field to browser session response ([335d9e0](https://github.com/kernel/kernel-python-sdk/commit/335d9e04998dd9e581f47d8869dd7f07a8f2db74))
+
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([6dfd882](https://github.com/kernel/kernel-python-sdk/commit/6dfd8826b84ed191d72ac114df986c398fa83c5c))
+
+
+### Chores
+
+* retrigger Stainless codegen for projects resource ([ca22fd9](https://github.com/kernel/kernel-python-sdk/commit/ca22fd9dc4b5f4cd70e15ecb1ddd3607d8a99df8))
+
 ## 0.47.0 (2026-04-07)
 
 Full Changelog: [v0.46.0...v0.47.0](https://github.com/kernel/kernel-python-sdk/compare/v0.46.0...v0.47.0)
