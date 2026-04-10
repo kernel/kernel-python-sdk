@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.49.0 (2026-04-10)
+
+Full Changelog: [v0.48.0...v0.49.0](https://github.com/kernel/kernel-python-sdk/compare/v0.48.0...v0.49.0)
+
+### Features
+
+* Neil/kernel 1180 fuzzy matching for browser pools ([4089baf](https://github.com/kernel/kernel-python-sdk/commit/4089bafcec6fe6029b0b3730767e7428e2ab6e07))
+* Raise replay framerate limit from 20 to 60 fps ([707b339](https://github.com/kernel/kernel-python-sdk/commit/707b3398f435ebaf1a801e6310e2c827b1766e82))
+
 ## 0.48.0 (2026-04-10)
 
 Full Changelog: [v0.47.0...v0.48.0](https://github.com/kernel/kernel-python-sdk/compare/v0.47.0...v0.48.0)
