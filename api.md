@@ -88,6 +88,7 @@ from kernel.types import (
     BrowserRetrieveResponse,
     BrowserUpdateResponse,
     BrowserListResponse,
+    BrowserCurlResponse,
 )
 ```
 
@@ -98,6 +99,7 @@ Methods:
 - <code title="patch /browsers/{id}">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">update</a>(id, \*\*<a href="src/kernel/types/browser_update_params.py">params</a>) -> <a href="./src/kernel/types/browser_update_response.py">BrowserUpdateResponse</a></code>
 - <code title="get /browsers">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">list</a>(\*\*<a href="src/kernel/types/browser_list_params.py">params</a>) -> <a href="./src/kernel/types/browser_list_response.py">SyncOffsetPagination[BrowserListResponse]</a></code>
 - <code title="delete /browsers">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">delete</a>(\*\*<a href="src/kernel/types/browser_delete_params.py">params</a>) -> None</code>
+- <code title="post /browsers/{id}/curl">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">curl</a>(id, \*\*<a href="src/kernel/types/browser_curl_params.py">params</a>) -> <a href="./src/kernel/types/browser_curl_response.py">BrowserCurlResponse</a></code>
 - <code title="delete /browsers/{id}">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">delete_by_id</a>(id) -> None</code>
 - <code title="post /browsers/{id}/extensions">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">load_extensions</a>(id, \*\*<a href="src/kernel/types/browser_load_extensions_params.py">params</a>) -> None</code>
 
