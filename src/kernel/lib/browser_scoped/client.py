@@ -133,10 +133,10 @@ class BrowserScopedClient:
             method=method.upper(),
             url="/curl/raw",
             params=q,
-            headers=headers if headers is not None else not_given,
-            content=content,
+            headers=_normalize_headers(headers),
+            content=_normalize_binary_content(content),
             json_data=json,
-            timeout=timeout,
+            timeout=_normalize_timeout(timeout),
         )
         return self._http.request(httpx.Response, opts)
 
@@ -165,8 +165,8 @@ class BrowserScopedClient:
             self._http._prepare_url("/curl/raw"),
             params=q,
             headers=h,
-            content=content,
-            timeout=eff_timeout,
+            content=_normalize_binary_content(content),
+            timeout=_normalize_timeout(eff_timeout),
         )
         with cm as resp:
             yield resp
@@ -248,10 +248,10 @@ class AsyncBrowserScopedClient:
             method=method.upper(),
             url="/curl/raw",
             params=q,
-            headers=headers if headers is not None else not_given,
-            content=content,
+            headers=_normalize_headers(headers),
+            content=_normalize_binary_content(content),
             json_data=json,
-            timeout=timeout,
+            timeout=_normalize_timeout(timeout),
         )
         return await self._http.request(httpx.Response, opts)
 
@@ -280,8 +280,8 @@ class AsyncBrowserScopedClient:
             self._http._prepare_url("/curl/raw"),
             params=q,
             headers=h,
-            content=content,
-            timeout=eff_timeout,
+            content=_normalize_binary_content(content),
+            timeout=_normalize_timeout(eff_timeout),
         ) as resp:
             yield resp
 
@@ -306,3 +306,21 @@ def async_browser_scoped_from_browser(parent: AsyncKernel, browser: Any) -> Asyn
     if not jwt:
         raise ValueError("could not parse jwt from browser.cdp_ws_url; required for browser session HTTP")
     return AsyncBrowserScopedClient(parent, session_id=session_id, session_base_url=session_base, jwt=jwt)
+
+
+def _normalize_headers(headers: Mapping[str, str] | None) -> Mapping[str, str]:
+    return headers if headers is not None else {}
+
+
+def _normalize_timeout(timeout: float | Timeout | None | NotGiven) -> float | Timeout | None:
+    return None if isinstance(timeout, NotGiven) else timeout
+
+
+def _normalize_binary_content(content: BinaryTypes | None) -> httpx._types.RequestContent | None:
+    if content is None:
+        return None
+    if isinstance(content, bytearray):
+        return bytes(content)
+    if isinstance(content, memoryview):
+        return content.tobytes()
+    return cast(httpx._types.RequestContent, content)
