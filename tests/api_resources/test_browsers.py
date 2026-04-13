@@ -10,6 +10,7 @@ import pytest
 from kernel import Kernel, AsyncKernel
 from tests.utils import assert_matches_type
 from kernel.types import (
+    BrowserCurlResponse,
     BrowserListResponse,
     BrowserCreateResponse,
     BrowserUpdateResponse,
@@ -275,6 +276,66 @@ class TestBrowsers:
                 assert browser is None
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_curl(self, client: Kernel) -> None:
+        browser = client.browsers.curl(
+            id="id",
+            url="url",
+        )
+        assert_matches_type(BrowserCurlResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_curl_with_all_params(self, client: Kernel) -> None:
+        browser = client.browsers.curl(
+            id="id",
+            url="url",
+            body="body",
+            headers={"foo": "string"},
+            method="GET",
+            response_encoding="utf8",
+            timeout_ms=1000,
+        )
+        assert_matches_type(BrowserCurlResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_curl(self, client: Kernel) -> None:
+        response = client.browsers.with_raw_response.curl(
+            id="id",
+            url="url",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        browser = response.parse()
+        assert_matches_type(BrowserCurlResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_curl(self, client: Kernel) -> None:
+        with client.browsers.with_streaming_response.curl(
+            id="id",
+            url="url",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            browser = response.parse()
+            assert_matches_type(BrowserCurlResponse, browser, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_curl(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.browsers.with_raw_response.curl(
+                id="",
+                url="url",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -640,6 +701,66 @@ class TestAsyncBrowsers:
                 assert browser is None
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_curl(self, async_client: AsyncKernel) -> None:
+        browser = await async_client.browsers.curl(
+            id="id",
+            url="url",
+        )
+        assert_matches_type(BrowserCurlResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_curl_with_all_params(self, async_client: AsyncKernel) -> None:
+        browser = await async_client.browsers.curl(
+            id="id",
+            url="url",
+            body="body",
+            headers={"foo": "string"},
+            method="GET",
+            response_encoding="utf8",
+            timeout_ms=1000,
+        )
+        assert_matches_type(BrowserCurlResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_curl(self, async_client: AsyncKernel) -> None:
+        response = await async_client.browsers.with_raw_response.curl(
+            id="id",
+            url="url",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        browser = await response.parse()
+        assert_matches_type(BrowserCurlResponse, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_curl(self, async_client: AsyncKernel) -> None:
+        async with async_client.browsers.with_streaming_response.curl(
+            id="id",
+            url="url",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            browser = await response.parse()
+            assert_matches_type(BrowserCurlResponse, browser, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_curl(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.browsers.with_raw_response.curl(
+                id="",
+                url="url",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize

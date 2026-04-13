@@ -22,6 +22,7 @@ from .app_list_params import AppListParams as AppListParams
 from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
 from .app_list_response import AppListResponse as AppListResponse
 from .proxy_check_params import ProxyCheckParams as ProxyCheckParams
+from .browser_curl_params import BrowserCurlParams as BrowserCurlParams
 from .browser_list_params import BrowserListParams as BrowserListParams
 from .browser_persistence import BrowserPersistence as BrowserPersistence
 from .credential_provider import CredentialProvider as CredentialProvider
@@ -31,6 +32,7 @@ from .proxy_create_params import ProxyCreateParams as ProxyCreateParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
 from .browser_create_params import BrowserCreateParams as BrowserCreateParams
+from .browser_curl_response import BrowserCurlResponse as BrowserCurlResponse
 from .browser_delete_params import BrowserDeleteParams as BrowserDeleteParams
 from .browser_list_response import BrowserListResponse as BrowserListResponse
 from .browser_update_params import BrowserUpdateParams as BrowserUpdateParams
