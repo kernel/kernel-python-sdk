@@ -4,6 +4,13 @@ set -e
 
 cd "$(dirname "$0")/.."
 
+echo "==> Regenerating browser-scoped bindings"
+python3 scripts/generate_browser_scoped.py
+rye run ruff format src/kernel/lib/browser_scoped/generated_bindings.py
+
+echo "==> Verifying generated browser-scoped bindings are committed"
+git diff --exit-code -- src/kernel/lib/browser_scoped/generated_bindings.py
+
 if [ "$1" = "--fix" ]; then
   echo "==> Running lints with --fix"
   rye run fix:ruff
