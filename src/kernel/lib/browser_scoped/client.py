@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import IO, TYPE_CHECKING, Any, Mapping
+from typing import IO, TYPE_CHECKING, Any, Mapping, cast
 from contextlib import contextmanager, asynccontextmanager
 from collections.abc import Iterable, Iterator, AsyncIterator
 
@@ -68,7 +68,7 @@ class BrowserScopedClient(BrowserScopedFacadeMixin):
             json_data=json,
             timeout=_normalize_timeout(timeout),
         )
-        return self._http.request(httpx.Response, opts)
+        return cast(httpx.Response, self._http.request(httpx.Response, opts))
 
     @contextmanager
     def stream(
@@ -143,7 +143,7 @@ class AsyncBrowserScopedClient(AsyncBrowserScopedFacadeMixin):
             json_data=json,
             timeout=_normalize_timeout(timeout),
         )
-        return await self._http.request(httpx.Response, opts)
+        return cast(httpx.Response, await self._http.request(httpx.Response, opts))
 
     @asynccontextmanager
     async def stream(
