@@ -1,4 +1,4 @@
-"""Example: browser-scoped client for metro-backed process and raw HTTP."""
+"""Example: browser-scoped client for browser VM process exec and raw HTTP."""
 
 from kernel import Kernel
 

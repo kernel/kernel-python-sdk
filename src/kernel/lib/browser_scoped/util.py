@@ -3,6 +3,16 @@ from __future__ import annotations
 from typing import Any, Mapping
 from urllib.parse import parse_qs, urlparse
 
+# Query keys reserved for /curl/raw; user-supplied `params` must not override these.
+CURL_RAW_RESERVED_QUERY_KEYS: frozenset[str] = frozenset({"url", "jwt"})
+
+
+def sanitize_curl_raw_params(params: Mapping[str, object] | None) -> dict[str, object]:
+    """Drop reserved keys from user params so they cannot override the target URL or auth."""
+    if not params:
+        return {}
+    return {k: v for k, v in dict(params).items() if k not in CURL_RAW_RESERVED_QUERY_KEYS}
+
 
 def jwt_from_cdp_ws_url(cdp_ws_url: str) -> str | None:
     parsed = urlparse(cdp_ws_url)
