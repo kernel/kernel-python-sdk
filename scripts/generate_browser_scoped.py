@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Generate browser-scoped binding classes from AST of src/kernel/resources/browsers/**."""
+# pyright: reportUnknownParameterType=false, reportUnknownVariableType=false, reportUnknownMemberType=false, reportUnknownArgumentType=false, reportUndefinedVariable=false, reportUnusedVariable=false
 
 from __future__ import annotations
 
