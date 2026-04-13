@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import ast
+from typing import Iterable
 from pathlib import Path
 from dataclasses import dataclass
 
@@ -618,9 +619,9 @@ def _emit_module() -> str:
         parts.append("")
 
     facade_entries = _facade_entries_from_browsers_py()
-    for _prop, sync_cls in facade_entries:
-        if sync_cls not in _class_file_cache:
-            raise RuntimeError(f"facade references unknown resource class {sync_cls!r}")
+    for _prop, facade_sync_name in facade_entries:
+        if facade_sync_name not in _class_file_cache:
+            raise RuntimeError(f"facade references unknown resource class {facade_sync_name!r}")
     parts.append(_emit_facade_mixins(facade_entries))
     parts.append("")
 
