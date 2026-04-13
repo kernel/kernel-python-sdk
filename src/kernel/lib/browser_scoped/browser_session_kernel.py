@@ -1,4 +1,4 @@
-"""Internal HTTP clients that speak to metro-api /browser/kernel paths."""
+"""Internal Kernel clones for browser session HTTP (base_url + /browser/kernel paths)."""
 
 from __future__ import annotations
 
@@ -9,8 +9,8 @@ from ..._compat import model_copy
 from ..._models import FinalRequestOptions
 
 
-class _BrowserMetroKernel(Kernel):
-    """Kernel client clone whose requests hit metro base_url with /browsers/{id} stripped."""
+class _BrowserSessionKernel(Kernel):
+    """Kernel clone whose HTTP base is the browser session; strips /browsers/{id} from paths."""
 
     _scoped_session_id: str
 
@@ -33,7 +33,7 @@ class _BrowserMetroKernel(Kernel):
         return cast(FinalRequestOptions, out)
 
 
-class _BrowserMetroAsyncKernel(AsyncKernel):
+class _BrowserSessionAsyncKernel(AsyncKernel):
     _scoped_session_id: str
 
     def __init__(self, *, browser_session_id: str, **kwargs: Any) -> None:
@@ -55,15 +55,17 @@ class _BrowserMetroAsyncKernel(AsyncKernel):
         return cast(FinalRequestOptions, out)
 
 
-def metro_kernel_from_browser(parent: Kernel, *, session_id: str, metro_base_url: str, jwt: str) -> _BrowserMetroKernel:
-    """Build a sync metro-scoped client sharing the parent's httpx transport."""
+def build_browser_session_kernel(
+    parent: Kernel, *, session_id: str, session_base_url: str, jwt: str
+) -> _BrowserSessionKernel:
+    """Build a sync client sharing the parent's httpx transport; requests use session_base_url."""
     base_q = getattr(parent, "_custom_query", None) or {}
     dq = {str(k): v for k, v in dict(base_q).items()}
     dq["jwt"] = jwt
-    return _BrowserMetroKernel(
+    return _BrowserSessionKernel(
         browser_session_id=session_id,
         api_key=parent.api_key,
-        base_url=metro_base_url,
+        base_url=session_base_url,
         timeout=parent.timeout,
         max_retries=parent.max_retries,
         http_client=parent._client,
@@ -73,16 +75,16 @@ def metro_kernel_from_browser(parent: Kernel, *, session_id: str, metro_base_url
     )
 
 
-def metro_async_kernel_from_browser(
-    parent: AsyncKernel, *, session_id: str, metro_base_url: str, jwt: str
-) -> _BrowserMetroAsyncKernel:
+def build_async_browser_session_kernel(
+    parent: AsyncKernel, *, session_id: str, session_base_url: str, jwt: str
+) -> _BrowserSessionAsyncKernel:
     base_q = getattr(parent, "_custom_query", None) or {}
     dq = {str(k): v for k, v in dict(base_q).items()}
     dq["jwt"] = jwt
-    return _BrowserMetroAsyncKernel(
+    return _BrowserSessionAsyncKernel(
         browser_session_id=session_id,
         api_key=parent.api_key,
-        base_url=metro_base_url,
+        base_url=session_base_url,
         timeout=parent.timeout,
         max_retries=parent.max_retries,
         http_client=parent._client,

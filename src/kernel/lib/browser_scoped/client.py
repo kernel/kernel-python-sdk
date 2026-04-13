@@ -1,4 +1,4 @@
-"""Browser-scoped view over a session: metro-routed subresources and raw HTTP via /curl/raw."""
+"""Browser-scoped view over a session: VM subresources and raw HTTP via internal /curl/raw."""
 
 from __future__ import annotations
 
@@ -11,13 +11,14 @@ import httpx
 
 from .util import (
     jwt_from_cdp_ws_url,
+    sanitize_curl_raw_params,
     base_url_from_browser_like,
     cdp_ws_url_from_browser_like,
     session_id_from_browser_like,
 )
 from ..._types import Body, Timeout, NotGiven, BinaryTypes, not_given
 from ..._models import FinalRequestOptions
-from .metro_client import metro_kernel_from_browser, metro_async_kernel_from_browser
+from .browser_session_kernel import build_browser_session_kernel, build_async_browser_session_kernel
 
 if TYPE_CHECKING:
     from ..._client import Kernel, AsyncKernel
@@ -60,12 +61,14 @@ class _BoundBrowserSubresource:
 class BrowserScopedClient:
     """Session-scoped API: subresources without repeating session id; HTTP via browser /curl/raw."""
 
-    def __init__(self, parent: Kernel, *, session_id: str, metro_base_url: str, jwt: str) -> None:
+    def __init__(self, parent: Kernel, *, session_id: str, session_base_url: str, jwt: str) -> None:
         self._parent = parent
         self.session_id = session_id
-        self._metro_base_url = metro_base_url
+        self._session_base_url = session_base_url
         self._jwt = jwt
-        self._metro = metro_kernel_from_browser(parent, session_id=session_id, metro_base_url=metro_base_url, jwt=jwt)
+        self._http = build_browser_session_kernel(
+            parent, session_id=session_id, session_base_url=session_base_url, jwt=jwt
+        )
 
     @property
     def parent(self) -> Kernel:
@@ -74,43 +77,43 @@ class BrowserScopedClient:
 
     @property
     def base_url(self) -> str:
-        return self._metro_base_url
+        return self._session_base_url
 
     @property
     def process(self) -> ProcessResource:
         from ...resources.browsers.process import ProcessResource
 
-        return cast(ProcessResource, _BoundBrowserSubresource(ProcessResource(self._metro), self.session_id))
+        return cast(ProcessResource, _BoundBrowserSubresource(ProcessResource(self._http), self.session_id))
 
     @property
     def computer(self) -> ComputerResource:
         from ...resources.browsers.computer import ComputerResource
 
-        return cast(ComputerResource, _BoundBrowserSubresource(ComputerResource(self._metro), self.session_id))
+        return cast(ComputerResource, _BoundBrowserSubresource(ComputerResource(self._http), self.session_id))
 
     @property
     def fs(self) -> FsResource:
         from ...resources.browsers.fs.fs import FsResource
 
-        return cast(FsResource, _BoundBrowserSubresource(FsResource(self._metro), self.session_id))
+        return cast(FsResource, _BoundBrowserSubresource(FsResource(self._http), self.session_id))
 
     @property
     def logs(self) -> LogsResource:
         from ...resources.browsers.logs import LogsResource
 
-        return cast(LogsResource, _BoundBrowserSubresource(LogsResource(self._metro), self.session_id))
+        return cast(LogsResource, _BoundBrowserSubresource(LogsResource(self._http), self.session_id))
 
     @property
     def playwright(self) -> PlaywrightResource:
         from ...resources.browsers.playwright import PlaywrightResource
 
-        return cast(PlaywrightResource, _BoundBrowserSubresource(PlaywrightResource(self._metro), self.session_id))
+        return cast(PlaywrightResource, _BoundBrowserSubresource(PlaywrightResource(self._http), self.session_id))
 
     @property
     def replays(self) -> ReplaysResource:
         from ...resources.browsers.replays import ReplaysResource
 
-        return cast(ReplaysResource, _BoundBrowserSubresource(ReplaysResource(self._metro), self.session_id))
+        return cast(ReplaysResource, _BoundBrowserSubresource(ReplaysResource(self._http), self.session_id))
 
     def request(
         self,
@@ -125,9 +128,7 @@ class BrowserScopedClient:
     ) -> httpx.Response:
         if json is not None and content is not None:
             raise TypeError("Passing both `json` and `content` is not supported")
-        q: dict[str, object] = {"url": url}
-        if params:
-            q.update(dict(params))
+        q: dict[str, object] = {**sanitize_curl_raw_params(params), "url": url}
         opts = FinalRequestOptions.construct(
             method=method.upper(),
             url="/curl/raw",
@@ -137,7 +138,7 @@ class BrowserScopedClient:
             json_data=json,
             timeout=timeout,
         )
-        return self._metro.request(httpx.Response, opts)
+        return self._http.request(httpx.Response, opts)
 
     @contextmanager
     def stream(
@@ -150,19 +151,18 @@ class BrowserScopedClient:
         params: Mapping[str, object] | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> Iterator[httpx.Response]:
-        q: dict[str, Any] = dict(self._metro.default_query)
+        q: dict[str, Any] = dict(self._http.default_query)
+        q.update(sanitize_curl_raw_params(params))
         q["url"] = url
-        if params:
-            q.update(dict(params))
-        h = {k: v for k, v in self._metro.default_headers.items() if isinstance(v, str)}
+        h = {k: v for k, v in self._http.default_headers.items() if isinstance(v, str)}
         if content is None:
             h.pop("Content-Type", None)
         if headers:
             h.update(headers)
-        eff_timeout = self._metro.timeout if isinstance(timeout, NotGiven) else timeout
-        cm = self._metro._client.stream(
+        eff_timeout = self._http.timeout if isinstance(timeout, NotGiven) else timeout
+        cm = self._http._client.stream(
             method.upper(),
-            self._metro._prepare_url("/curl/raw"),
+            self._http._prepare_url("/curl/raw"),
             params=q,
             headers=h,
             content=content,
@@ -173,13 +173,13 @@ class BrowserScopedClient:
 
 
 class AsyncBrowserScopedClient:
-    def __init__(self, parent: AsyncKernel, *, session_id: str, metro_base_url: str, jwt: str) -> None:
+    def __init__(self, parent: AsyncKernel, *, session_id: str, session_base_url: str, jwt: str) -> None:
         self._parent = parent
         self.session_id = session_id
-        self._metro_base_url = metro_base_url
+        self._session_base_url = session_base_url
         self._jwt = jwt
-        self._metro = metro_async_kernel_from_browser(
-            parent, session_id=session_id, metro_base_url=metro_base_url, jwt=jwt
+        self._http = build_async_browser_session_kernel(
+            parent, session_id=session_id, session_base_url=session_base_url, jwt=jwt
         )
 
     @property
@@ -188,47 +188,47 @@ class AsyncBrowserScopedClient:
 
     @property
     def base_url(self) -> str:
-        return self._metro_base_url
+        return self._session_base_url
 
     @property
     def process(self) -> AsyncProcessResource:
         from ...resources.browsers.process import AsyncProcessResource
 
-        return cast(AsyncProcessResource, _BoundBrowserSubresource(AsyncProcessResource(self._metro), self.session_id))
+        return cast(AsyncProcessResource, _BoundBrowserSubresource(AsyncProcessResource(self._http), self.session_id))
 
     @property
     def computer(self) -> AsyncComputerResource:
         from ...resources.browsers.computer import AsyncComputerResource
 
         return cast(
-            AsyncComputerResource, _BoundBrowserSubresource(AsyncComputerResource(self._metro), self.session_id)
+            AsyncComputerResource, _BoundBrowserSubresource(AsyncComputerResource(self._http), self.session_id)
         )
 
     @property
     def fs(self) -> AsyncFsResource:
         from ...resources.browsers.fs.fs import AsyncFsResource
 
-        return cast(AsyncFsResource, _BoundBrowserSubresource(AsyncFsResource(self._metro), self.session_id))
+        return cast(AsyncFsResource, _BoundBrowserSubresource(AsyncFsResource(self._http), self.session_id))
 
     @property
     def logs(self) -> AsyncLogsResource:
         from ...resources.browsers.logs import AsyncLogsResource
 
-        return cast(AsyncLogsResource, _BoundBrowserSubresource(AsyncLogsResource(self._metro), self.session_id))
+        return cast(AsyncLogsResource, _BoundBrowserSubresource(AsyncLogsResource(self._http), self.session_id))
 
     @property
     def playwright(self) -> AsyncPlaywrightResource:
         from ...resources.browsers.playwright import AsyncPlaywrightResource
 
         return cast(
-            AsyncPlaywrightResource, _BoundBrowserSubresource(AsyncPlaywrightResource(self._metro), self.session_id)
+            AsyncPlaywrightResource, _BoundBrowserSubresource(AsyncPlaywrightResource(self._http), self.session_id)
         )
 
     @property
     def replays(self) -> AsyncReplaysResource:
         from ...resources.browsers.replays import AsyncReplaysResource
 
-        return cast(AsyncReplaysResource, _BoundBrowserSubresource(AsyncReplaysResource(self._metro), self.session_id))
+        return cast(AsyncReplaysResource, _BoundBrowserSubresource(AsyncReplaysResource(self._http), self.session_id))
 
     async def request(
         self,
@@ -243,9 +243,7 @@ class AsyncBrowserScopedClient:
     ) -> httpx.Response:
         if json is not None and content is not None:
             raise TypeError("Passing both `json` and `content` is not supported")
-        q: dict[str, object] = {"url": url}
-        if params:
-            q.update(dict(params))
+        q: dict[str, object] = {**sanitize_curl_raw_params(params), "url": url}
         opts = FinalRequestOptions.construct(
             method=method.upper(),
             url="/curl/raw",
@@ -255,7 +253,7 @@ class AsyncBrowserScopedClient:
             json_data=json,
             timeout=timeout,
         )
-        return await self._metro.request(httpx.Response, opts)
+        return await self._http.request(httpx.Response, opts)
 
     @asynccontextmanager
     async def stream(
@@ -268,19 +266,18 @@ class AsyncBrowserScopedClient:
         params: Mapping[str, object] | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
     ) -> AsyncIterator[httpx.Response]:
-        q: dict[str, Any] = dict(self._metro.default_query)
+        q: dict[str, Any] = dict(self._http.default_query)
+        q.update(sanitize_curl_raw_params(params))
         q["url"] = url
-        if params:
-            q.update(dict(params))
-        h = {k: v for k, v in self._metro.default_headers.items() if isinstance(v, str)}
+        h = {k: v for k, v in self._http.default_headers.items() if isinstance(v, str)}
         if content is None:
             h.pop("Content-Type", None)
         if headers:
             h.update(headers)
-        eff_timeout = self._metro.timeout if isinstance(timeout, NotGiven) else timeout
-        async with self._metro._client.stream(
+        eff_timeout = self._http.timeout if isinstance(timeout, NotGiven) else timeout
+        async with self._http._client.stream(
             method.upper(),
-            self._metro._prepare_url("/curl/raw"),
+            self._http._prepare_url("/curl/raw"),
             params=q,
             headers=h,
             content=content,
@@ -291,21 +288,21 @@ class AsyncBrowserScopedClient:
 
 def browser_scoped_from_browser(parent: Kernel, browser: Any) -> BrowserScopedClient:
     session_id = session_id_from_browser_like(browser)
-    metro = base_url_from_browser_like(browser)
-    if not metro:
+    session_base = base_url_from_browser_like(browser)
+    if not session_base:
         raise ValueError("browser.base_url is required for a browser-scoped client")
     jwt = jwt_from_cdp_ws_url(cdp_ws_url_from_browser_like(browser))
     if not jwt:
-        raise ValueError("could not parse jwt from browser.cdp_ws_url; required for metro requests")
-    return BrowserScopedClient(parent, session_id=session_id, metro_base_url=metro, jwt=jwt)
+        raise ValueError("could not parse jwt from browser.cdp_ws_url; required for browser session HTTP")
+    return BrowserScopedClient(parent, session_id=session_id, session_base_url=session_base, jwt=jwt)
 
 
 def async_browser_scoped_from_browser(parent: AsyncKernel, browser: Any) -> AsyncBrowserScopedClient:
     session_id = session_id_from_browser_like(browser)
-    metro = base_url_from_browser_like(browser)
-    if not metro:
+    session_base = base_url_from_browser_like(browser)
+    if not session_base:
         raise ValueError("browser.base_url is required for a browser-scoped client")
     jwt = jwt_from_cdp_ws_url(cdp_ws_url_from_browser_like(browser))
     if not jwt:
-        raise ValueError("could not parse jwt from browser.cdp_ws_url; required for metro requests")
-    return AsyncBrowserScopedClient(parent, session_id=session_id, metro_base_url=metro, jwt=jwt)
+        raise ValueError("could not parse jwt from browser.cdp_ws_url; required for browser session HTTP")
+    return AsyncBrowserScopedClient(parent, session_id=session_id, session_base_url=session_base, jwt=jwt)
