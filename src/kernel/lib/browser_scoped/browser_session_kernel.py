@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any, cast
+from typing import Any, Mapping, cast
+from typing_extensions import override
 
 from ..._client import Kernel, AsyncKernel
 from ..._compat import model_copy
@@ -18,11 +19,10 @@ class _BrowserSessionKernel(Kernel):
         self._scoped_session_id = browser_session_id
         super().__init__(**kwargs)
 
+    @override
     def _prepare_options(self, options: FinalRequestOptions) -> FinalRequestOptions:
         options = super()._prepare_options(options)
         url = options.url
-        if not isinstance(url, str):
-            return options
         prefix = f"/browsers/{self._scoped_session_id}/"
         if not url.startswith(prefix):
             return options
@@ -30,7 +30,7 @@ class _BrowserSessionKernel(Kernel):
         new_url = f"/{suffix}" if suffix else "/"
         out = model_copy(options)
         out.url = new_url
-        return cast(FinalRequestOptions, out)
+        return out
 
 
 class _BrowserSessionAsyncKernel(AsyncKernel):
@@ -40,11 +40,10 @@ class _BrowserSessionAsyncKernel(AsyncKernel):
         self._scoped_session_id = browser_session_id
         super().__init__(**kwargs)
 
+    @override
     async def _prepare_options(self, options: FinalRequestOptions) -> FinalRequestOptions:
         options = await super()._prepare_options(options)
         url = options.url
-        if not isinstance(url, str):
-            return options
         prefix = f"/browsers/{self._scoped_session_id}/"
         if not url.startswith(prefix):
             return options
@@ -52,15 +51,19 @@ class _BrowserSessionAsyncKernel(AsyncKernel):
         new_url = f"/{suffix}" if suffix else "/"
         out = model_copy(options)
         out.url = new_url
-        return cast(FinalRequestOptions, out)
+        return out
 
 
 def build_browser_session_kernel(
     parent: Kernel, *, session_id: str, session_base_url: str, jwt: str
 ) -> _BrowserSessionKernel:
     """Build a sync client sharing the parent's httpx transport; requests use session_base_url."""
-    base_q = getattr(parent, "_custom_query", None) or {}
-    dq = {str(k): v for k, v in dict(base_q).items()}
+    base_q_raw = getattr(parent, "_custom_query", None)
+    if isinstance(base_q_raw, Mapping):
+        base_q = {str(k): v for k, v in cast(Mapping[str, object], base_q_raw).items()}
+    else:
+        base_q = {}
+    dq = dict(base_q)
     dq["jwt"] = jwt
     return _BrowserSessionKernel(
         browser_session_id=session_id,
@@ -78,8 +81,12 @@ def build_browser_session_kernel(
 def build_async_browser_session_kernel(
     parent: AsyncKernel, *, session_id: str, session_base_url: str, jwt: str
 ) -> _BrowserSessionAsyncKernel:
-    base_q = getattr(parent, "_custom_query", None) or {}
-    dq = {str(k): v for k, v in dict(base_q).items()}
+    base_q_raw = getattr(parent, "_custom_query", None)
+    if isinstance(base_q_raw, Mapping):
+        base_q = {str(k): v for k, v in cast(Mapping[str, object], base_q_raw).items()}
+    else:
+        base_q = {}
+    dq = dict(base_q)
     dq["jwt"] = jwt
     return _BrowserSessionAsyncKernel(
         browser_session_id=session_id,
