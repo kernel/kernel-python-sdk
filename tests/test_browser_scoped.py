@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 import json
-from typing import cast
+from typing import Any, cast
 
 import httpx
 import respx
@@ -48,7 +48,8 @@ def test_for_browser_process_exec_routes_to_session_base() -> None:
         b = client.for_browser(_fake_browser())
         out = b.process.exec(command="echo", args=["hi"])
     assert route.called
-    request = cast(httpx.Request, route.calls[0].request)
+    call = cast(Any, route.calls[0])
+    request = cast(httpx.Request, call.request)
     sent = request.read().decode()
     body = json.loads(sent)
     assert body["command"] == "echo"
@@ -67,7 +68,8 @@ def test_browser_request_uses_curl_raw() -> None:
     assert r.status_code == 200
     assert r.content == b"ok"
     assert route.called
-    request = cast(httpx.Request, route.calls[0].request)
+    call = cast(Any, route.calls[0])
+    request = cast(httpx.Request, call.request)
     assert "curl/raw" in str(request.url)
     assert "jwt=token-abc" in str(request.url)
 
@@ -85,7 +87,8 @@ def test_browser_request_params_cannot_override_target_url_or_jwt() -> None:
             params={"url": "https://evil.example", "jwt": "other", "timeout_ms": 1},
         )
     assert route.called
-    request = cast(httpx.Request, route.calls[0].request)
+    call = cast(Any, route.calls[0])
+    request = cast(httpx.Request, call.request)
     req_url = request.url
     assert str(req_url.params.get("url")) == "https://example.com"
     assert str(req_url.params.get("jwt")) == "token-abc"
@@ -107,7 +110,8 @@ def test_browser_stream_params_cannot_override_target_url_or_jwt() -> None:
             assert resp.status_code == 200
             assert resp.read() == b"streamed"
     assert route.called
-    request = cast(httpx.Request, route.calls[0].request)
+    call = cast(Any, route.calls[0])
+    request = cast(httpx.Request, call.request)
     req_url = request.url
     assert str(req_url.params.get("url")) == "https://example.com"
     assert str(req_url.params.get("jwt")) == "token-abc"
