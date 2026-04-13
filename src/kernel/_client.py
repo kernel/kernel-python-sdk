@@ -319,6 +319,12 @@ class Kernel(SyncAPIClient):
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
 
+    def for_browser(self, browser: Any) -> Any:
+        """Return a browser-scoped client for session subresources and raw HTTP through the session base_url."""
+        from .lib.browser_scoped.client import browser_scoped_from_browser
+
+        return browser_scoped_from_browser(self, browser)
+
     @override
     def _make_status_error(
         self,
@@ -595,6 +601,12 @@ class AsyncKernel(AsyncAPIClient):
     # Alias for `copy` for nicer inline usage, e.g.
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
+
+    def for_browser(self, browser: Any) -> Any:
+        """Return a browser-scoped client for session subresources and raw HTTP through the session base_url."""
+        from .lib.browser_scoped.client import async_browser_scoped_from_browser
+
+        return async_browser_scoped_from_browser(self, browser)
 
     @override
     def _make_status_error(
