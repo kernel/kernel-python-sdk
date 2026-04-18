@@ -15,7 +15,7 @@ from .watch import (
     WatchResourceWithStreamingResponse,
     AsyncWatchResourceWithStreamingResponse,
 )
-from ...._files import read_file_content, async_read_file_content
+from ...._files import read_file_content, deepcopy_with_paths, async_read_file_content
 from ...._types import (
     Body,
     Omit,
@@ -30,7 +30,7 @@ from ...._types import (
     omit,
     not_given,
 )
-from ...._utils import extract_files, path_template, maybe_transform, deepcopy_minimal, async_maybe_transform
+from ...._utils import extract_files, path_template, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -509,7 +509,7 @@ class FsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        body = deepcopy_minimal({"files": files})
+        body = deepcopy_with_paths({"files": files}, [["files", "<array>", "file"]])
         extracted_files = extract_files(cast(Mapping[str, object], body), paths=[["files", "<array>", "file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
@@ -555,11 +555,12 @@ class FsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        body = deepcopy_minimal(
+        body = deepcopy_with_paths(
             {
                 "dest_path": dest_path,
                 "zip_file": zip_file,
-            }
+            },
+            [["zip_file"]],
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["zip_file"]])
         # It should be noted that the actual Content-Type header that will be
@@ -1071,7 +1072,7 @@ class AsyncFsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        body = deepcopy_minimal({"files": files})
+        body = deepcopy_with_paths({"files": files}, [["files", "<array>", "file"]])
         extracted_files = extract_files(cast(Mapping[str, object], body), paths=[["files", "<array>", "file"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
@@ -1117,11 +1118,12 @@ class AsyncFsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        body = deepcopy_minimal(
+        body = deepcopy_with_paths(
             {
                 "dest_path": dest_path,
                 "zip_file": zip_file,
-            }
+            },
+            [["zip_file"]],
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["zip_file"]])
         # It should be noted that the actual Content-Type header that will be
