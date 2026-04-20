@@ -46,6 +46,12 @@ class DiscoveredField(BaseModel):
     type: Literal["text", "email", "password", "tel", "number", "url", "code", "totp"]
     """Field type"""
 
+    hint: Optional[str] = None
+    """
+    Contextual help text near the field that tells the user what to enter (e.g.,
+    "Enter the phone ending in (**_) _**-\\**\\**92")
+    """
+
     linked_mfa_type: Optional[Literal["sms", "call", "email", "totp", "push", "password"]] = None
     """
     If this field is associated with an MFA option, the type of that option (e.g.,
