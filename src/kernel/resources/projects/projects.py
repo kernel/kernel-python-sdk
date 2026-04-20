@@ -72,8 +72,8 @@ class ProjectsResource(SyncAPIResource):
     ) -> Project:
         """Create a new project within the authenticated organization.
 
-        Requires a paid plan
-        and the projects feature flag.
+        Requires the
+        projects feature flag.
 
         Args:
           name: Project name (1-255 characters)
@@ -297,8 +297,8 @@ class AsyncProjectsResource(AsyncAPIResource):
     ) -> Project:
         """Create a new project within the authenticated organization.
 
-        Requires a paid plan
-        and the projects feature flag.
+        Requires the
+        projects feature flag.
 
         Args:
           name: Project name (1-255 characters)
