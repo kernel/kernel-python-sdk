@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.50.0 (2026-04-20)
+
+Full Changelog: [v0.49.0...v0.50.0](https://github.com/kernel/kernel-python-sdk/compare/v0.49.0...v0.50.0)
+
+### Features
+
+* add POST /browsers/{id}/curl and /curl/raw endpoints ([e91bc38](https://github.com/kernel/kernel-python-sdk/commit/e91bc387e5ef74c1b02f62e19e9ae31867296af4))
+* remove paid plan gating from project endpoints ([284c2d4](https://github.com/kernel/kernel-python-sdk/commit/284c2d434be9d098efbaf33b14b416acd4c78e18))
+
+
+### Bug Fixes
+
+* ensure file data are only sent as 1 parameter ([e566aa5](https://github.com/kernel/kernel-python-sdk/commit/e566aa50a9022d5b284c6334b3704df2a96643cc))
+* include MFA and sign-in options in CUA SSO-only step response ([ea9576b](https://github.com/kernel/kernel-python-sdk/commit/ea9576b87a17b903f880ab8d14379b8ca5fe53d5))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([d46c711](https://github.com/kernel/kernel-python-sdk/commit/d46c711588904a9e249a0e852a790c3431d12aa1))
+
 ## 0.49.0 (2026-04-10)
 
 Full Changelog: [v0.48.0...v0.49.0](https://github.com/kernel/kernel-python-sdk/compare/v0.48.0...v0.49.0)
