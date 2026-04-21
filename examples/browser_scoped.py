@@ -2,17 +2,22 @@
 
 from kernel import Kernel
 
-# After creating or loading a browser session (with base_url + cdp_ws_url from the API):
-# browser = client.browsers.create(...)
-# scoped = client.for_browser(browser)
-# scoped.process.exec(command="uname", args=["-a"])
-# r = scoped.request("GET", "https://example.com")
-# with scoped.stream("GET", "https://example.com") as resp:
-#     print(resp.read())
-
 
 def main() -> None:
-    _ = Kernel
+    with Kernel() as client:
+        browser = client.browsers.create(headless=True)
+        try:
+            scoped = client.for_browser(browser)
+
+            scoped.process.exec(command="uname", args=["-a"])
+
+            response = scoped.request("GET", "https://example.com")
+            print("status", response.status_code)
+
+            with scoped.stream("GET", "https://example.com") as streamed:
+                print("streamed-bytes", len(streamed.read()))
+        finally:
+            client.browsers.delete_by_id(browser.session_id)
 
 
 if __name__ == "__main__":
