@@ -1,4 +1,4 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 __title__ = "kernel"
-__version__ = "0.48.0"  # x-release-please-version
+__version__ = "0.50.0"  # x-release-please-version
