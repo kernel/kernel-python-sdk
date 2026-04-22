@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from contextlib import asynccontextmanager, contextmanager
 import typing_extensions
-from typing import Dict, Mapping, Iterable, Optional, cast
+from typing import AsyncIterator, Dict, Iterator, Mapping, Iterable, Optional, cast
 from typing_extensions import Literal
 
 import httpx
@@ -87,6 +88,12 @@ from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.shared_params.browser_profile import BrowserProfile
 from ...types.shared_params.browser_viewport import BrowserViewport
 from ...types.shared_params.browser_extension import BrowserExtension
+from ...lib.browser_scoped.raw_http import (
+    async_request_via_browser_route,
+    async_stream_via_browser_route,
+    request_via_browser_route,
+    stream_via_browser_route,
+)
 
 __all__ = ["BrowsersResource", "AsyncBrowsersResource"]
 
@@ -219,7 +226,7 @@ class BrowsersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._post(
+        result = self._post(
             "/browsers",
             body=maybe_transform(
                 {
@@ -242,6 +249,8 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserCreateResponse,
         )
+        self._client.prime_browser_route_cache(result)
+        return result
 
     def retrieve(
         self,
@@ -271,7 +280,7 @@ class BrowsersResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._get(
+        result = self._get(
             path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -284,6 +293,8 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserRetrieveResponse,
         )
+        self._client.prime_browser_route_cache(result)
+        return result
 
     def update(
         self,
@@ -325,7 +336,7 @@ class BrowsersResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._patch(
+        result = self._patch(
             path_template("/browsers/{id}", id=id),
             body=maybe_transform(
                 {
@@ -341,6 +352,8 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserUpdateResponse,
         )
+        self._client.prime_browser_route_cache(result)
+        return result
 
     def list(
         self,
@@ -383,7 +396,7 @@ class BrowsersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get_api_list(
+        page = self._get_api_list(
             "/browsers",
             page=SyncOffsetPagination[BrowserListResponse],
             options=make_request_options(
@@ -404,6 +417,9 @@ class BrowsersResource(SyncAPIResource):
             ),
             model=BrowserListResponse,
         )
+        for item in page.items:
+            self._client.prime_browser_route_cache(item)
+        return page
 
     @typing_extensions.deprecated("deprecated")
     def delete(
@@ -509,6 +525,64 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserCurlResponse,
         )
+
+    def request(
+        self,
+        id: str,
+        method: str,
+        url: str,
+        *,
+        content: bytes | bytearray | memoryview | str | Iterable[bytes] | None = None,
+        json: Body | None = None,
+        headers: Mapping[str, str] | None = None,
+        params: Mapping[str, object] | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> httpx.Response:
+        route = self._client.browser_route_cache.get(id)
+        if route is None:
+            raise ValueError(
+                f"browser route cache does not contain session {id}; create, retrieve, or list the browser before calling browsers.request"
+            )
+        return request_via_browser_route(
+            self._client,
+            route,
+            method,
+            url,
+            content=content,
+            json=json,
+            headers=headers,
+            params=params,
+            timeout=timeout,
+        )
+
+    @contextmanager
+    def stream(
+        self,
+        id: str,
+        method: str,
+        url: str,
+        *,
+        content: bytes | bytearray | memoryview | str | Iterable[bytes] | None = None,
+        headers: Mapping[str, str] | None = None,
+        params: Mapping[str, object] | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Iterator[httpx.Response]:
+        route = self._client.browser_route_cache.get(id)
+        if route is None:
+            raise ValueError(
+                f"browser route cache does not contain session {id}; create, retrieve, or list the browser before calling browsers.stream"
+            )
+        with stream_via_browser_route(
+            self._client,
+            route,
+            method,
+            url,
+            content=content,
+            headers=headers,
+            params=params,
+            timeout=timeout,
+        ) as resp:
+            yield resp
 
     def delete_by_id(
         self,
@@ -719,7 +793,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._post(
+        result = await self._post(
             "/browsers",
             body=await async_maybe_transform(
                 {
@@ -742,6 +816,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserCreateResponse,
         )
+        self._client.prime_browser_route_cache(result)
+        return result
 
     async def retrieve(
         self,
@@ -771,7 +847,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._get(
+        result = await self._get(
             path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -784,6 +860,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserRetrieveResponse,
         )
+        self._client.prime_browser_route_cache(result)
+        return result
 
     async def update(
         self,
@@ -825,7 +903,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._patch(
+        result = await self._patch(
             path_template("/browsers/{id}", id=id),
             body=await async_maybe_transform(
                 {
@@ -841,6 +919,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserUpdateResponse,
         )
+        self._client.prime_browser_route_cache(result)
+        return result
 
     def list(
         self,
@@ -1011,6 +1091,64 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserCurlResponse,
         )
+
+    async def request(
+        self,
+        id: str,
+        method: str,
+        url: str,
+        *,
+        content: bytes | bytearray | memoryview | str | Iterable[bytes] | None = None,
+        json: Body | None = None,
+        headers: Mapping[str, str] | None = None,
+        params: Mapping[str, object] | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> httpx.Response:
+        route = self._client.browser_route_cache.get(id)
+        if route is None:
+            raise ValueError(
+                f"browser route cache does not contain session {id}; create, retrieve, or list the browser before calling browsers.request"
+            )
+        return await async_request_via_browser_route(
+            self._client,
+            route,
+            method,
+            url,
+            content=content,
+            json=json,
+            headers=headers,
+            params=params,
+            timeout=timeout,
+        )
+
+    @asynccontextmanager
+    async def stream(
+        self,
+        id: str,
+        method: str,
+        url: str,
+        *,
+        content: bytes | bytearray | memoryview | str | Iterable[bytes] | None = None,
+        headers: Mapping[str, str] | None = None,
+        params: Mapping[str, object] | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncIterator[httpx.Response]:
+        route = self._client.browser_route_cache.get(id)
+        if route is None:
+            raise ValueError(
+                f"browser route cache does not contain session {id}; create, retrieve, or list the browser before calling browsers.stream"
+            )
+        async with async_stream_via_browser_route(
+            self._client,
+            route,
+            method,
+            url,
+            content=content,
+            headers=headers,
+            params=params,
+            timeout=timeout,
+        ) as resp:
+            yield resp
 
     async def delete_by_id(
         self,

@@ -9,6 +9,7 @@ import respx
 import pytest
 
 from kernel import Kernel
+from kernel.lib.browser_scoped.routing import BrowserRoutingConfig
 from kernel.lib.browser_scoped.util import jwt_from_cdp_ws_url
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -33,7 +34,58 @@ def test_jwt_from_cdp_ws_url() -> None:
 
 
 @respx.mock
-def test_for_browser_process_exec_routes_to_session_base() -> None:
+def test_main_client_routes_allowlisted_browser_subresources_directly_to_vm() -> None:
+    route = respx.post("http://browser-session.test/browser/kernel/process/exec").mock(
+        return_value=httpx.Response(
+            200,
+            json={
+                "exit_code": 0,
+                "stdout_b64": "",
+                "stderr_b64": "",
+            },
+        )
+    )
+    with Kernel(
+        base_url=base_url,
+        api_key=api_key,
+        browser_routing=BrowserRoutingConfig(enabled=True, direct_to_vm_subresources=("process",)),
+        _strict_response_validation=True,
+    ) as client:
+        client.prime_browser_route_cache(_fake_browser())
+        out = client.browsers.process.exec("sess-1", command="echo", args=["hi"])
+    assert route.called
+    call = cast(Any, route.calls[0])
+    request = cast(httpx.Request, call.request)
+    assert request.url.params.get("jwt") == "token-abc"
+    assert request.headers.get("Authorization") is None
+    assert out.exit_code == 0
+
+
+@respx.mock
+def test_main_client_skips_direct_vm_routing_outside_allowlist() -> None:
+    route = respx.post(f"{base_url}/browsers/sess-1/process/exec").mock(
+        return_value=httpx.Response(
+            200,
+            json={
+                "exit_code": 0,
+                "stdout_b64": "",
+                "stderr_b64": "",
+            },
+        )
+    )
+    with Kernel(
+        base_url=base_url,
+        api_key=api_key,
+        browser_routing=BrowserRoutingConfig(enabled=True, direct_to_vm_subresources=("computer",)),
+        _strict_response_validation=True,
+    ) as client:
+        client.prime_browser_route_cache(_fake_browser())
+        client.browsers.process.exec("sess-1", command="echo", args=["hi"])
+    assert route.called
+
+
+@respx.mock
+def test_browser_process_exec_uses_session_id_with_cache_primed() -> None:
     route = respx.post("http://browser-session.test/browser/kernel/process/exec?jwt=token-abc").mock(
         return_value=httpx.Response(
             200,
@@ -44,9 +96,14 @@ def test_for_browser_process_exec_routes_to_session_base() -> None:
             },
         )
     )
-    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
-        b = client.for_browser(_fake_browser())
-        out = b.process.exec(command="echo", args=["hi"])
+    with Kernel(
+        base_url=base_url,
+        api_key=api_key,
+        browser_routing=BrowserRoutingConfig(enabled=True, direct_to_vm_subresources=("process",)),
+        _strict_response_validation=True,
+    ) as client:
+        client.prime_browser_route_cache(_fake_browser())
+        out = client.browsers.process.exec("sess-1", command="echo", args=["hi"])
     assert route.called
     call = cast(Any, route.calls[0])
     request = cast(httpx.Request, call.request)
@@ -63,8 +120,8 @@ def test_browser_request_uses_curl_raw() -> None:
         return_value=httpx.Response(200, content=b"ok")
     )
     with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
-        b = client.for_browser(_fake_browser())
-        r = b.request("GET", "https://example.com", params={"timeout_ms": 5000})
+        client.prime_browser_route_cache(_fake_browser())
+        r = client.browsers.request("sess-1", "GET", "https://example.com", params={"timeout_ms": 5000})
     assert r.status_code == 200
     assert r.content == b"ok"
     assert route.called
@@ -80,8 +137,9 @@ def test_browser_request_params_cannot_override_target_url_or_jwt() -> None:
         return_value=httpx.Response(200, content=b"ok")
     )
     with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
-        b = client.for_browser(_fake_browser())
-        b.request(
+        client.prime_browser_route_cache(_fake_browser())
+        client.browsers.request(
+            "sess-1",
             "GET",
             "https://example.com",
             params={"url": "https://evil.example", "jwt": "other", "timeout_ms": 1},
@@ -95,14 +153,23 @@ def test_browser_request_params_cannot_override_target_url_or_jwt() -> None:
     assert str(req_url.params.get("timeout_ms")) == "1"
 
 
+def test_browser_request_requires_cached_route() -> None:
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        client.prime_browser_route_cache(_fake_browser())
+        client.browser_route_cache.delete("sess-1")
+        with pytest.raises(ValueError, match="route cache"):
+            client.browsers.request("sess-1", "GET", "https://example.com")
+
+
 @respx.mock
 def test_browser_stream_params_cannot_override_target_url_or_jwt() -> None:
     route = respx.get("http://browser-session.test/browser/kernel/curl/raw").mock(
         return_value=httpx.Response(200, content=b"streamed")
     )
     with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
-        b = client.for_browser(_fake_browser())
-        with b.stream(
+        client.prime_browser_route_cache(_fake_browser())
+        with client.browsers.stream(
+            "sess-1",
             "GET",
             "https://example.com",
             params={"url": "https://evil.example", "jwt": "other"},
@@ -123,14 +190,14 @@ def test_browser_stream_reads_body() -> None:
         return_value=httpx.Response(200, content=b"streamed")
     )
     with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
-        b = client.for_browser(_fake_browser())
-        with b.stream("GET", "https://example.com") as resp:
+        client.prime_browser_route_cache(_fake_browser())
+        with client.browsers.stream("sess-1", "GET", "https://example.com") as resp:
             assert resp.status_code == 200
             assert resp.read() == b"streamed"
 
 
-def test_for_browser_requires_base_url() -> None:
+def test_prime_browser_route_cache_requires_base_url() -> None:
     bad = {**_fake_browser(), "base_url": None}
     with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
         with pytest.raises(ValueError, match="base_url"):
-            client.for_browser(bad)
+            client.prime_browser_route_cache(bad)
