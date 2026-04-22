@@ -28,33 +28,31 @@ def session_id_from_browser_like(browser: Any) -> str:
         return sid
     if isinstance(browser, Mapping):
         mapping = cast(Mapping[str, object], browser)
-        m = mapping.get("session_id")
-        if isinstance(m, str) and m:
-            return m
+        value = mapping.get("session_id")
+        if isinstance(value, str) and value:
+            return value
     raise TypeError("browser object must have a non-empty session_id")
 
 
 def base_url_from_browser_like(browser: Any) -> str | None:
-    bu = getattr(browser, "base_url", None)
-    if isinstance(bu, str) and bu.strip():
-        return bu.strip().rstrip("/") + "/"
+    base_url = getattr(browser, "base_url", None)
+    if isinstance(base_url, str) and base_url.strip():
+        return base_url.strip().rstrip("/") + "/"
     if isinstance(browser, Mapping):
         mapping = cast(Mapping[str, object], browser)
-        raw = mapping.get("base_url")
-        if isinstance(raw, str) and raw.strip():
-            return raw.strip().rstrip("/") + "/"
+        value = mapping.get("base_url")
+        if isinstance(value, str) and value.strip():
+            return value.strip().rstrip("/") + "/"
     return None
 
 
 def cdp_ws_url_from_browser_like(browser: Any) -> str:
-    u = getattr(browser, "cdp_ws_url", None)
-    if isinstance(u, str) and u:
-        return u
+    cdp_ws_url = getattr(browser, "cdp_ws_url", None)
+    if isinstance(cdp_ws_url, str) and cdp_ws_url:
+        return cdp_ws_url
     if isinstance(browser, Mapping):
         mapping = cast(Mapping[str, object], browser)
-        m = mapping.get("cdp_ws_url")
-        if isinstance(m, str) and m:
-            return m
+        value = mapping.get("cdp_ws_url")
+        if isinstance(value, str) and value:
+            return value
     raise TypeError("browser object must have a non-empty cdp_ws_url")
-
-

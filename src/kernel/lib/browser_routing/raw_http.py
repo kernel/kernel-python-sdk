@@ -1,13 +1,13 @@
 from __future__ import annotations
 
+from collections.abc import AsyncIterator, Iterable, Iterator
 from contextlib import asynccontextmanager, contextmanager
 from typing import IO, Any, Mapping, cast
-from collections.abc import AsyncIterator, Iterable, Iterator
 
 import httpx
 
 from ..._models import FinalRequestOptions
-from ..._types import Body, BinaryTypes, NotGiven, Timeout, not_given
+from ..._types import BinaryTypes, Body, NotGiven, Timeout, not_given
 from .routing import BrowserRoute
 from .util import sanitize_curl_raw_params
 
@@ -26,18 +26,17 @@ def request_via_browser_route(
 ) -> httpx.Response:
     if json is not None and content is not None:
         raise TypeError("Passing both `json` and `content` is not supported")
-    q: dict[str, object] = {**sanitize_curl_raw_params(params), "url": url}
-    q["jwt"] = route.jwt
-    opts = FinalRequestOptions.construct(
+    query: dict[str, object] = {**sanitize_curl_raw_params(params), "url": url, "jwt": route.jwt}
+    options = FinalRequestOptions.construct(
         method=method.upper(),
         url=route.base_url.rstrip("/") + "/curl/raw",
-        params=q,
+        params=query,
         headers=headers or {},
         content=_normalize_binary_content(content),
         json_data=json,
         timeout=timeout,
     )
-    return cast(httpx.Response, parent.request(httpx.Response, opts))
+    return cast(httpx.Response, parent.request(httpx.Response, options))
 
 
 @contextmanager
@@ -52,25 +51,25 @@ def stream_via_browser_route(
     params: Mapping[str, object] | None = None,
     timeout: float | Timeout | None | NotGiven = not_given,
 ) -> Iterator[httpx.Response]:
-    q: dict[str, Any] = sanitize_curl_raw_params(params)
-    q["jwt"] = route.jwt
-    q["url"] = url
-    h = {k: v for k, v in parent.default_headers.items() if isinstance(v, str)}
+    query: dict[str, Any] = sanitize_curl_raw_params(params)
+    query["jwt"] = route.jwt
+    query["url"] = url
+    request_headers = {k: v for k, v in parent.default_headers.items() if isinstance(v, str)}
     if content is None:
-        h.pop("Content-Type", None)
+        request_headers.pop("Content-Type", None)
     if headers:
-        h.update(headers)
-    h.pop("Authorization", None)
-    eff_timeout = parent.timeout if isinstance(timeout, NotGiven) else timeout
+        request_headers.update(headers)
+    request_headers.pop("Authorization", None)
+    effective_timeout = parent.timeout if isinstance(timeout, NotGiven) else timeout
     with parent._client.stream(
         method.upper(),
         route.base_url.rstrip("/") + "/curl/raw",
-        params=q,
-        headers=h,
+        params=query,
+        headers=request_headers,
         content=_normalize_binary_content(content),
-        timeout=_normalize_timeout(eff_timeout),
-    ) as resp:
-        yield resp
+        timeout=_normalize_timeout(effective_timeout),
+    ) as response:
+        yield response
 
 
 async def async_request_via_browser_route(
@@ -87,18 +86,17 @@ async def async_request_via_browser_route(
 ) -> httpx.Response:
     if json is not None and content is not None:
         raise TypeError("Passing both `json` and `content` is not supported")
-    q: dict[str, object] = {**sanitize_curl_raw_params(params), "url": url}
-    q["jwt"] = route.jwt
-    opts = FinalRequestOptions.construct(
+    query: dict[str, object] = {**sanitize_curl_raw_params(params), "url": url, "jwt": route.jwt}
+    options = FinalRequestOptions.construct(
         method=method.upper(),
         url=route.base_url.rstrip("/") + "/curl/raw",
-        params=q,
+        params=query,
         headers=headers or {},
         content=_normalize_binary_content(content),
         json_data=json,
         timeout=timeout,
     )
-    return cast(httpx.Response, await parent.request(httpx.Response, opts))
+    return cast(httpx.Response, await parent.request(httpx.Response, options))
 
 
 @asynccontextmanager
@@ -113,25 +111,25 @@ async def async_stream_via_browser_route(
     params: Mapping[str, object] | None = None,
     timeout: float | Timeout | None | NotGiven = not_given,
 ) -> AsyncIterator[httpx.Response]:
-    q: dict[str, Any] = sanitize_curl_raw_params(params)
-    q["jwt"] = route.jwt
-    q["url"] = url
-    h = {k: v for k, v in parent.default_headers.items() if isinstance(v, str)}
+    query: dict[str, Any] = sanitize_curl_raw_params(params)
+    query["jwt"] = route.jwt
+    query["url"] = url
+    request_headers = {k: v for k, v in parent.default_headers.items() if isinstance(v, str)}
     if content is None:
-        h.pop("Content-Type", None)
+        request_headers.pop("Content-Type", None)
     if headers:
-        h.update(headers)
-    h.pop("Authorization", None)
-    eff_timeout = parent.timeout if isinstance(timeout, NotGiven) else timeout
+        request_headers.update(headers)
+    request_headers.pop("Authorization", None)
+    effective_timeout = parent.timeout if isinstance(timeout, NotGiven) else timeout
     async with parent._client.stream(
         method.upper(),
         route.base_url.rstrip("/") + "/curl/raw",
-        params=q,
-        headers=h,
+        params=query,
+        headers=request_headers,
         content=_normalize_binary_content(content),
-        timeout=_normalize_timeout(eff_timeout),
-    ) as resp:
-        yield resp
+        timeout=_normalize_timeout(effective_timeout),
+    ) as response:
+        yield response
 
 
 def _normalize_timeout(timeout: float | Timeout | None | NotGiven) -> float | Timeout | None:
