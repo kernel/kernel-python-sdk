@@ -1,20 +1,20 @@
-"""Example: browser-scoped client for browser VM process exec and raw HTTP."""
+"""Example: direct-to-VM browser routing for process exec and raw HTTP."""
 
-from kernel import Kernel
+from kernel import BrowserRoutingConfig, Kernel
 
 
 def main() -> None:
-    with Kernel() as client:
+    with Kernel(browser_routing=BrowserRoutingConfig(enabled=True, direct_to_vm_subresources=("process",))) as client:
         browser = client.browsers.create(headless=True)
         try:
-            scoped = client.for_browser(browser)
+            client.prime_browser_route_cache(browser)
 
-            scoped.process.exec(command="uname", args=["-a"])
+            client.browsers.process.exec(browser.session_id, command="uname", args=["-a"])
 
-            response = scoped.request("GET", "https://example.com")
+            response = client.browsers.request(browser.session_id, "GET", "https://example.com")
             print("status", response.status_code)
 
-            with scoped.stream("GET", "https://example.com") as streamed:
+            with client.browsers.stream(browser.session_id, "GET", "https://example.com") as streamed:
                 print("streamed-bytes", len(streamed.read()))
         finally:
             client.browsers.delete_by_id(browser.session_id)

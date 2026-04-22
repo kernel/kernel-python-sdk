@@ -7,6 +7,7 @@ from ._types import NOT_GIVEN, Omit, NoneType, NotGiven, Transport, ProxiesTypes
 from ._utils import file_from_path
 from ._client import (
     ENVIRONMENTS,
+    BrowserRoutingConfig,
     Client,
     Kernel,
     Stream,
@@ -79,6 +80,7 @@ __all__ = [
     "RateLimitError",
     "InternalServerError",
     "Timeout",
+    "BrowserRoutingConfig",
     "RequestOptions",
     "Client",
     "AsyncClient",

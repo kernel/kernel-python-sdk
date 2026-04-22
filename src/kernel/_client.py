@@ -29,6 +29,12 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .lib.browser_scoped.routing import (
+    BrowserRouteCache,
+    BrowserRoutingConfig,
+    rewrite_direct_vm_options,
+    strip_direct_vm_auth,
+)
 
 if TYPE_CHECKING:
     from .resources import (
@@ -64,6 +70,7 @@ __all__ = [
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
+    "BrowserRoutingConfig",
     "Kernel",
     "AsyncKernel",
     "Client",
@@ -79,8 +86,10 @@ ENVIRONMENTS: Dict[str, str] = {
 class Kernel(SyncAPIClient):
     # client options
     api_key: str
+    browser_route_cache: BrowserRouteCache
 
     _environment: Literal["production", "development"] | NotGiven
+    _browser_routing: BrowserRoutingConfig | None
 
     def __init__(
         self,
@@ -92,6 +101,7 @@ class Kernel(SyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
+        browser_routing: BrowserRoutingConfig | None = None,
         # Configure a custom httpx client.
         # We provide a `DefaultHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
         # See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
@@ -105,6 +115,7 @@ class Kernel(SyncAPIClient):
         # outlining your use-case to help us decide if it should be
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
+        _browser_route_cache: BrowserRouteCache | None = None,
     ) -> None:
         """Construct a new synchronous Kernel client instance.
 
@@ -154,6 +165,8 @@ class Kernel(SyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+        self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
+        self._browser_routing = browser_routing
 
     @cached_property
     def deployments(self) -> DeploymentsResource:
@@ -266,6 +279,15 @@ class Kernel(SyncAPIClient):
             **self._custom_headers,
         }
 
+    @override
+    def _prepare_options(self, options: Any) -> Any:
+        options = cast(Any, super()._prepare_options(options))
+        return rewrite_direct_vm_options(options, cache=self.browser_route_cache, config=self._browser_routing)
+
+    @override
+    def _prepare_request(self, request: httpx.Request) -> None:
+        strip_direct_vm_auth(request, cache=self.browser_route_cache)
+
     def copy(
         self,
         *,
@@ -312,6 +334,8 @@ class Kernel(SyncAPIClient):
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
             default_headers=headers,
             default_query=params,
+            browser_routing=self._browser_routing,
+            _browser_route_cache=self.browser_route_cache,
             **_extra_kwargs,
         )
 
@@ -319,11 +343,8 @@ class Kernel(SyncAPIClient):
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
 
-    def for_browser(self, browser: Any) -> Any:
-        """Return a browser-scoped client for session subresources and raw HTTP through the session base_url."""
-        from .lib.browser_scoped.client import browser_scoped_from_browser
-
-        return browser_scoped_from_browser(self, browser)
+    def prime_browser_route_cache(self, browser: Any) -> None:
+        self.browser_route_cache.prime(browser)
 
     @override
     def _make_status_error(
@@ -362,8 +383,10 @@ class Kernel(SyncAPIClient):
 class AsyncKernel(AsyncAPIClient):
     # client options
     api_key: str
+    browser_route_cache: BrowserRouteCache
 
     _environment: Literal["production", "development"] | NotGiven
+    _browser_routing: BrowserRoutingConfig | None
 
     def __init__(
         self,
@@ -375,6 +398,7 @@ class AsyncKernel(AsyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
+        browser_routing: BrowserRoutingConfig | None = None,
         # Configure a custom httpx client.
         # We provide a `DefaultAsyncHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
         # See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
@@ -388,6 +412,7 @@ class AsyncKernel(AsyncAPIClient):
         # outlining your use-case to help us decide if it should be
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
+        _browser_route_cache: BrowserRouteCache | None = None,
     ) -> None:
         """Construct a new async AsyncKernel client instance.
 
@@ -437,6 +462,8 @@ class AsyncKernel(AsyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+        self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
+        self._browser_routing = browser_routing
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResource:
@@ -549,6 +576,15 @@ class AsyncKernel(AsyncAPIClient):
             **self._custom_headers,
         }
 
+    @override
+    async def _prepare_options(self, options: Any) -> Any:
+        options = cast(Any, await super()._prepare_options(options))
+        return rewrite_direct_vm_options(options, cache=self.browser_route_cache, config=self._browser_routing)
+
+    @override
+    async def _prepare_request(self, request: httpx.Request) -> None:
+        strip_direct_vm_auth(request, cache=self.browser_route_cache)
+
     def copy(
         self,
         *,
@@ -595,6 +631,8 @@ class AsyncKernel(AsyncAPIClient):
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
             default_headers=headers,
             default_query=params,
+            browser_routing=self._browser_routing,
+            _browser_route_cache=self.browser_route_cache,
             **_extra_kwargs,
         )
 
@@ -602,11 +640,8 @@ class AsyncKernel(AsyncAPIClient):
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
 
-    def for_browser(self, browser: Any) -> Any:
-        """Return a browser-scoped client for session subresources and raw HTTP through the session base_url."""
-        from .lib.browser_scoped.client import async_browser_scoped_from_browser
-
-        return async_browser_scoped_from_browser(self, browser)
+    def prime_browser_route_cache(self, browser: Any) -> None:
+        self.browser_route_cache.prime(browser)
 
     @override
     def _make_status_error(
