@@ -20,7 +20,7 @@ class BrowserRoute:
 @dataclass
 class BrowserRoutingConfig:
     enabled: bool = False
-    direct_to_vm_subresources: tuple[str, ...] = field(default_factory=tuple)
+    subresources: tuple[str, ...] = field(default_factory=tuple)
 
 
 class BrowserRouteCache:
@@ -75,7 +75,7 @@ def rewrite_direct_vm_options(
         return options
 
     session_id, subresource, suffix = match
-    if subresource not in set(config.direct_to_vm_subresources):
+    if subresource not in set(config.subresources):
         return options
 
     route = cache.get(session_id)
