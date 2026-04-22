@@ -94,6 +94,7 @@ from ...lib.browser_scoped.raw_http import (
     request_via_browser_route,
     stream_via_browser_route,
 )
+from ...lib.browser_scoped.routing import browser_route_from_browser
 
 __all__ = ["BrowsersResource", "AsyncBrowsersResource"]
 
@@ -249,7 +250,9 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserCreateResponse,
         )
-        self._client.prime_browser_route_cache(result)
+        route = browser_route_from_browser(result)
+        if route is not None:
+            self._client.browser_route_cache.set(route)
         return result
 
     def retrieve(
@@ -293,7 +296,9 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserRetrieveResponse,
         )
-        self._client.prime_browser_route_cache(result)
+        route = browser_route_from_browser(result)
+        if route is not None:
+            self._client.browser_route_cache.set(route)
         return result
 
     def update(
@@ -352,7 +357,9 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserUpdateResponse,
         )
-        self._client.prime_browser_route_cache(result)
+        route = browser_route_from_browser(result)
+        if route is not None:
+            self._client.browser_route_cache.set(route)
         return result
 
     def list(
@@ -418,7 +425,9 @@ class BrowsersResource(SyncAPIResource):
             model=BrowserListResponse,
         )
         for item in page.items:
-            self._client.prime_browser_route_cache(item)
+            route = browser_route_from_browser(item)
+            if route is not None:
+                self._client.browser_route_cache.set(route)
         return page
 
     @typing_extensions.deprecated("deprecated")
@@ -816,7 +825,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserCreateResponse,
         )
-        self._client.prime_browser_route_cache(result)
+        route = browser_route_from_browser(result)
+        if route is not None:
+            self._client.browser_route_cache.set(route)
         return result
 
     async def retrieve(
@@ -860,7 +871,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserRetrieveResponse,
         )
-        self._client.prime_browser_route_cache(result)
+        route = browser_route_from_browser(result)
+        if route is not None:
+            self._client.browser_route_cache.set(route)
         return result
 
     async def update(
@@ -919,7 +932,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserUpdateResponse,
         )
-        self._client.prime_browser_route_cache(result)
+        route = browser_route_from_browser(result)
+        if route is not None:
+            self._client.browser_route_cache.set(route)
         return result
 
     def list(

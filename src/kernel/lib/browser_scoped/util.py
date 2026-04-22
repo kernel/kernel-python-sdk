@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import inspect
 from typing import Any, Mapping, cast
 from urllib.parse import parse_qs, urlparse
 
@@ -59,29 +58,3 @@ def cdp_ws_url_from_browser_like(browser: Any) -> str:
     raise TypeError("browser object must have a non-empty cdp_ws_url")
 
 
-class ScopedResourceProxy:
-    """Delegates to a generated resource; injects `id` for callables that still expose it."""
-
-    def __init__(self, inner: Any, session_id: str) -> None:
-        object.__setattr__(self, "_inner", inner)
-        object.__setattr__(self, "_session_id", session_id)
-
-    def __getattr__(self, name: str) -> Any:
-        if name.startswith("_"):
-            raise AttributeError(name)
-        attr = getattr(self._inner, name)
-        if name.startswith("with_") or not callable(attr):
-            return attr
-        try:
-            sig = inspect.signature(attr)
-        except (TypeError, ValueError):
-            return attr
-        if "id" not in sig.parameters:
-            return attr
-
-        def bound(*args: Any, **kwargs: Any) -> Any:
-            kw = dict(kwargs)
-            kw["id"] = self._session_id
-            return attr(*args, **kw)
-
-        return bound

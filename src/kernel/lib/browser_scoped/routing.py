@@ -7,7 +7,6 @@ import httpx
 
 from ..._compat import model_copy
 from ..._models import FinalRequestOptions
-from ..._types import Headers
 from .util import base_url_from_browser_like, jwt_from_cdp_ws_url, cdp_ws_url_from_browser_like, session_id_from_browser_like
 
 
@@ -15,7 +14,7 @@ from .util import base_url_from_browser_like, jwt_from_cdp_ws_url, cdp_ws_url_fr
 class BrowserRoute:
     session_id: str
     base_url: str
-    jwt: str | None = None
+    jwt: str
 
 
 @dataclass
@@ -35,28 +34,31 @@ class BrowserRouteCache:
         self._routes[route.session_id] = BrowserRoute(
             session_id=route.session_id.strip(),
             base_url=route.base_url.strip().rstrip("/") + "/",
-            jwt=route.jwt.strip() if isinstance(route.jwt, str) and route.jwt.strip() else None,
+            jwt=route.jwt.strip(),
         )
 
     def delete(self, session_id: str) -> None:
         self._routes.pop(session_id, None)
 
-    def prime(self, browser: Any) -> BrowserRoute:
-        session_id = session_id_from_browser_like(browser)
-        base_url = base_url_from_browser_like(browser)
-        if not base_url:
-            raise ValueError("browser.base_url is required to prime the browser route cache")
-        jwt = None
-        try:
-            jwt = jwt_from_cdp_ws_url(cdp_ws_url_from_browser_like(browser))
-        except Exception:
-            jwt = None
-        route = BrowserRoute(session_id=session_id, base_url=base_url, jwt=jwt)
-        self.set(route)
-        return route
-
     def values(self) -> list[BrowserRoute]:
         return list(self._routes.values())
+
+
+def browser_route_from_browser(browser: Any) -> BrowserRoute | None:
+    session_id = session_id_from_browser_like(browser)
+    base_url = base_url_from_browser_like(browser)
+    if not base_url:
+        return None
+
+    jwt = None
+    try:
+        jwt = jwt_from_cdp_ws_url(cdp_ws_url_from_browser_like(browser))
+    except Exception:
+        jwt = None
+    if not jwt:
+        return None
+
+    return BrowserRoute(session_id=session_id, base_url=base_url, jwt=jwt)
 
 
 def rewrite_direct_vm_options(
@@ -86,8 +88,7 @@ def rewrite_direct_vm_options(
     params: dict[str, object] = {}
     if isinstance(options.params, Mapping):
         params.update(cast(Mapping[str, object], options.params))
-    if route.jwt:
-        params["jwt"] = route.jwt
+    params["jwt"] = route.jwt
     rewritten.params = params or options.params
     return rewritten
 
@@ -119,9 +120,3 @@ def match_direct_vm_path(path: str) -> tuple[str, str, str] | None:
     return None
 
 
-def build_direct_vm_headers(headers: Mapping[str, str] | None) -> Headers | None:
-    if headers is None:
-        return {"Authorization": None}
-    out: dict[str, str | None] = {"Authorization": None}
-    out.update(headers)
-    return out

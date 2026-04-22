@@ -27,8 +27,7 @@ def request_via_browser_route(
     if json is not None and content is not None:
         raise TypeError("Passing both `json` and `content` is not supported")
     q: dict[str, object] = {**sanitize_curl_raw_params(params), "url": url}
-    if route.jwt:
-        q["jwt"] = route.jwt
+    q["jwt"] = route.jwt
     opts = FinalRequestOptions.construct(
         method=method.upper(),
         url=route.base_url.rstrip("/") + "/curl/raw",
@@ -54,8 +53,7 @@ def stream_via_browser_route(
     timeout: float | Timeout | None | NotGiven = not_given,
 ) -> Iterator[httpx.Response]:
     q: dict[str, Any] = sanitize_curl_raw_params(params)
-    if route.jwt:
-        q["jwt"] = route.jwt
+    q["jwt"] = route.jwt
     q["url"] = url
     h = {k: v for k, v in parent.default_headers.items() if isinstance(v, str)}
     if content is None:
@@ -90,8 +88,7 @@ async def async_request_via_browser_route(
     if json is not None and content is not None:
         raise TypeError("Passing both `json` and `content` is not supported")
     q: dict[str, object] = {**sanitize_curl_raw_params(params), "url": url}
-    if route.jwt:
-        q["jwt"] = route.jwt
+    q["jwt"] = route.jwt
     opts = FinalRequestOptions.construct(
         method=method.upper(),
         url=route.base_url.rstrip("/") + "/curl/raw",
@@ -117,8 +114,7 @@ async def async_stream_via_browser_route(
     timeout: float | Timeout | None | NotGiven = not_given,
 ) -> AsyncIterator[httpx.Response]:
     q: dict[str, Any] = sanitize_curl_raw_params(params)
-    if route.jwt:
-        q["jwt"] = route.jwt
+    q["jwt"] = route.jwt
     q["url"] = url
     h = {k: v for k, v in parent.default_headers.items() if isinstance(v, str)}
     if content is None:

@@ -343,9 +343,6 @@ class Kernel(SyncAPIClient):
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
 
-    def prime_browser_route_cache(self, browser: Any) -> None:
-        self.browser_route_cache.prime(browser)
-
     @override
     def _make_status_error(
         self,
@@ -639,9 +636,6 @@ class AsyncKernel(AsyncAPIClient):
     # Alias for `copy` for nicer inline usage, e.g.
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
-
-    def prime_browser_route_cache(self, browser: Any) -> None:
-        self.browser_route_cache.prime(browser)
 
     @override
     def _make_status_error(
