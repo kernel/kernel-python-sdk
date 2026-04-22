@@ -7,8 +7,6 @@ def main() -> None:
     with Kernel(browser_routing=BrowserRoutingConfig(enabled=True, direct_to_vm_subresources=("process",))) as client:
         browser = client.browsers.create(headless=True)
         try:
-            client.prime_browser_route_cache(browser)
-
             client.browsers.process.exec(browser.session_id, command="uname", args=["-a"])
 
             response = client.browsers.request(browser.session_id, "GET", "https://example.com")
