@@ -46,7 +46,7 @@ def test_routes_allowlisted_browser_subresources_directly_to_vm() -> None:
     with Kernel(
         base_url=base_url,
         api_key=api_key,
-        browser_routing=BrowserRoutingConfig(enabled=True, direct_to_vm_subresources=("process",)),
+        browser_routing=BrowserRoutingConfig(enabled=True, subresources=("process",)),
         _strict_response_validation=True,
     ) as client:
         _cache_browser(client)
@@ -67,7 +67,7 @@ def test_skips_direct_vm_routing_outside_allowlist() -> None:
     with Kernel(
         base_url=base_url,
         api_key=api_key,
-        browser_routing=BrowserRoutingConfig(enabled=True, direct_to_vm_subresources=("computer",)),
+        browser_routing=BrowserRoutingConfig(enabled=True, subresources=("computer",)),
         _strict_response_validation=True,
     ) as client:
         _cache_browser(client)

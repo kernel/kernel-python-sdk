@@ -4,7 +4,7 @@ from kernel import BrowserRoutingConfig, Kernel
 
 
 def main() -> None:
-    with Kernel(browser_routing=BrowserRoutingConfig(enabled=True, direct_to_vm_subresources=("process",))) as client:
+    with Kernel(browser_routing=BrowserRoutingConfig(enabled=True, subresources=("process",))) as client:
         browser = client.browsers.create(headless=True)
         try:
             client.browsers.process.exec(browser.session_id, command="uname", args=["-a"])
