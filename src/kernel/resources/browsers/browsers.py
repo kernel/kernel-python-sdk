@@ -88,13 +88,13 @@ from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.shared_params.browser_profile import BrowserProfile
 from ...types.shared_params.browser_viewport import BrowserViewport
 from ...types.shared_params.browser_extension import BrowserExtension
-from ...lib.browser_scoped.raw_http import (
+from ...lib.browser_routing.raw_http import (
     async_request_via_browser_route,
     async_stream_via_browser_route,
     request_via_browser_route,
     stream_via_browser_route,
 )
-from ...lib.browser_scoped.routing import browser_route_from_browser
+from ...lib.browser_routing.routing import browser_route_from_browser
 
 __all__ = ["BrowsersResource", "AsyncBrowsersResource"]
 
@@ -978,7 +978,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get_api_list(
+        page = self._get_api_list(
             "/browsers",
             page=AsyncOffsetPagination[BrowserListResponse],
             options=make_request_options(
@@ -999,6 +999,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             model=BrowserListResponse,
         )
+        for item in page.items:
+            route = browser_route_from_browser(item)
+            if route is not None:
+                self._client.browser_route_cache.set(route)
+        return page
 
     @typing_extensions.deprecated("deprecated")
     async def delete(

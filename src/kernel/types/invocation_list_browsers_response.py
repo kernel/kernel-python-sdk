@@ -36,7 +36,7 @@ class Browser(BaseModel):
     """Websocket URL for WebDriver BiDi connections to the browser session"""
 
     base_url: Optional[str] = None
-    """HTTP base URL for this browser session (browser VM / session proxy)."""
+    """Metro-API HTTP base URL for this browser session."""
 
     browser_live_view_url: Optional[str] = None
     """Remote URL for live viewing the browser session.

@@ -7,7 +7,7 @@ import httpx
 
 from ..._compat import model_copy
 from ..._models import FinalRequestOptions
-from .util import base_url_from_browser_like, jwt_from_cdp_ws_url, cdp_ws_url_from_browser_like, session_id_from_browser_like
+from .util import base_url_from_browser_like, cdp_ws_url_from_browser_like, jwt_from_cdp_ws_url, session_id_from_browser_like
 
 
 @dataclass
@@ -118,5 +118,3 @@ def match_direct_vm_path(path: str) -> tuple[str, str, str] | None:
             suffix = "/" + "/".join(parts[index + 3 :])
         return session_id, subresource, suffix
     return None
-
-

@@ -29,7 +29,7 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .lib.browser_scoped.routing import (
+from .lib.browser_routing.routing import (
     BrowserRouteCache,
     BrowserRoutingConfig,
     rewrite_direct_vm_options,
