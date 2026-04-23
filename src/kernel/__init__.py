@@ -7,7 +7,6 @@ from ._types import NOT_GIVEN, Omit, NoneType, NotGiven, Transport, ProxiesTypes
 from ._utils import file_from_path
 from ._client import (
     ENVIRONMENTS,
-    BrowserRoutingConfig,
     Client,
     Kernel,
     Stream,
@@ -17,6 +16,7 @@ from ._client import (
     AsyncKernel,
     AsyncStream,
     RequestOptions,
+    BrowserRoutingConfig,
 )
 from ._models import BaseModel
 from ._version import __title__, __version__
