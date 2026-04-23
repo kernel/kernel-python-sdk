@@ -999,7 +999,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             model=BrowserListResponse,
         )
-        for item in page.items:
+        typed_page = cast(AsyncOffsetPagination[BrowserListResponse], page)
+        for item in typed_page.items:
             route = browser_route_from_browser(item)
             if route is not None:
                 self._client.browser_route_cache.set(route)

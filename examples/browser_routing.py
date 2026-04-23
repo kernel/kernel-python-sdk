@@ -17,7 +17,7 @@ def main() -> None:
             response = cast(httpx.Response, browsers.request(browser.session_id, "GET", "https://example.com"))
             print("status", response.status_code)
 
-            with cast(Any, browsers.stream(browser.session_id, "GET", "https://example.com")) as streamed:
+            with browsers.stream(browser.session_id, "GET", "https://example.com") as streamed:
                 print("streamed-bytes", len(streamed.read()))
         finally:
             browsers.delete_by_id(browser.session_id)
