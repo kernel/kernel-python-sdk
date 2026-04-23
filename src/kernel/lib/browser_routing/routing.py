@@ -1,13 +1,18 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from typing import Any, Mapping, cast
+from dataclasses import field, dataclass
 
 import httpx
 
+from .util import (
+    jwt_from_cdp_ws_url,
+    base_url_from_browser_like,
+    cdp_ws_url_from_browser_like,
+    session_id_from_browser_like,
+)
 from ..._compat import model_copy
 from ..._models import FinalRequestOptions
-from .util import base_url_from_browser_like, cdp_ws_url_from_browser_like, jwt_from_cdp_ws_url, session_id_from_browser_like
 
 
 @dataclass
@@ -45,7 +50,11 @@ class BrowserRouteCache:
 
 
 def browser_route_from_browser(browser: Any) -> BrowserRoute | None:
-    session_id = session_id_from_browser_like(browser)
+    try:
+        session_id = session_id_from_browser_like(browser)
+    except TypeError:
+        return None
+
     base_url = base_url_from_browser_like(browser)
     if not base_url:
         return None

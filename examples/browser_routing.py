@@ -1,21 +1,26 @@
 """Example: direct-to-VM browser routing for process exec and raw HTTP."""
 
-from kernel import BrowserRoutingConfig, Kernel
+from typing import Any, cast
+
+import httpx
+
+from kernel import Kernel, BrowserRoutingConfig
 
 
 def main() -> None:
     with Kernel(browser_routing=BrowserRoutingConfig(enabled=True, subresources=("process",))) as client:
-        browser = client.browsers.create(headless=True)
+        browsers = cast(Any, client.browsers)
+        browser = browsers.create(headless=True)
         try:
-            client.browsers.process.exec(browser.session_id, command="uname", args=["-a"])
+            browsers.process.exec(browser.session_id, command="uname", args=["-a"])
 
-            response = client.browsers.request(browser.session_id, "GET", "https://example.com")
+            response = cast(httpx.Response, browsers.request(browser.session_id, "GET", "https://example.com"))
             print("status", response.status_code)
 
-            with client.browsers.stream(browser.session_id, "GET", "https://example.com") as streamed:
+            with cast(Any, browsers.stream(browser.session_id, "GET", "https://example.com")) as streamed:
                 print("streamed-bytes", len(streamed.read()))
         finally:
-            client.browsers.delete_by_id(browser.session_id)
+            browsers.delete_by_id(browser.session_id)
 
 
 if __name__ == "__main__":

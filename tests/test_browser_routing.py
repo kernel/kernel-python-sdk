@@ -4,12 +4,12 @@ import os
 from typing import Any, cast
 
 import httpx
-import pytest
 import respx
+import pytest
 
 from kernel import Kernel
-from kernel.lib.browser_routing.routing import BrowserRoutingConfig, browser_route_from_browser
 from kernel.lib.browser_routing.util import jwt_from_cdp_ws_url
+from kernel.lib.browser_routing.routing import BrowserRoutingConfig, browser_route_from_browser
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 api_key = "sk-123"

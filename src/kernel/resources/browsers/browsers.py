@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from contextlib import asynccontextmanager, contextmanager
 import typing_extensions
-from typing import AsyncIterator, Dict, Iterator, Mapping, Iterable, Optional, cast
+from typing import Dict, Mapping, Iterable, Iterator, Optional, AsyncIterator, cast
+from contextlib import contextmanager, asynccontextmanager
 from typing_extensions import Literal
 
 import httpx
@@ -79,8 +79,15 @@ from ..._response import (
 )
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
+from ...lib.browser_routing.routing import browser_route_from_browser
 from ...types.browser_curl_response import BrowserCurlResponse
 from ...types.browser_list_response import BrowserListResponse
+from ...lib.browser_routing.raw_http import (
+    stream_via_browser_route,
+    request_via_browser_route,
+    async_stream_via_browser_route,
+    async_request_via_browser_route,
+)
 from ...types.browser_create_response import BrowserCreateResponse
 from ...types.browser_update_response import BrowserUpdateResponse
 from ...types.browser_persistence_param import BrowserPersistenceParam
@@ -88,13 +95,6 @@ from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.shared_params.browser_profile import BrowserProfile
 from ...types.shared_params.browser_viewport import BrowserViewport
 from ...types.shared_params.browser_extension import BrowserExtension
-from ...lib.browser_routing.raw_http import (
-    async_request_via_browser_route,
-    async_stream_via_browser_route,
-    request_via_browser_route,
-    stream_via_browser_route,
-)
-from ...lib.browser_routing.routing import browser_route_from_browser
 
 __all__ = ["BrowsersResource", "AsyncBrowsersResource"]
 

@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from collections.abc import AsyncIterator, Iterable, Iterator
-from contextlib import asynccontextmanager, contextmanager
 from typing import IO, Any, Mapping, cast
+from contextlib import contextmanager, asynccontextmanager
+from collections.abc import Iterable, Iterator, AsyncIterator
 
 import httpx
 
-from ..._models import FinalRequestOptions
-from ..._types import BinaryTypes, Body, NotGiven, Timeout, not_given
-from .routing import BrowserRoute
 from .util import sanitize_curl_raw_params
+from .routing import BrowserRoute
+from ..._types import Body, Timeout, NotGiven, BinaryTypes, not_given
+from ..._models import FinalRequestOptions
 
 
 def request_via_browser_route(
