@@ -138,9 +138,11 @@ def _normalize_timeout(timeout: float | Timeout | None | NotGiven) -> float | Ti
     return None if isinstance(timeout, NotGiven) else timeout
 
 
-def _normalize_binary_content(content: BrowserRawContent | None) -> bytes | str | IO[bytes] | Iterable[bytes] | None:
+def _normalize_binary_content(content: BrowserRawContent | None) -> bytes | IO[bytes] | Iterable[bytes] | None:
     if content is None:
         return None
+    if isinstance(content, str):
+        return content.encode()
     if isinstance(content, bytearray):
         return bytes(content)
     if isinstance(content, memoryview):
