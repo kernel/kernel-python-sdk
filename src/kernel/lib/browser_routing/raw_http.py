@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import IO, Any, Mapping, cast
+from typing import IO, Any, Union, Mapping, cast
 from contextlib import contextmanager, asynccontextmanager
 from collections.abc import Iterable, Iterator, AsyncIterator
 
@@ -8,8 +8,10 @@ import httpx
 
 from .util import sanitize_curl_raw_params
 from .routing import BrowserRoute
-from ..._types import Body, Timeout, NotGiven, BinaryTypes, not_given
+from ..._types import Body, Timeout, NotGiven, not_given
 from ..._models import FinalRequestOptions
+
+BrowserRawContent = Union[bytes, bytearray, memoryview, str, IO[bytes], Iterable[bytes]]
 
 
 def request_via_browser_route(
@@ -18,7 +20,7 @@ def request_via_browser_route(
     method: str,
     url: str,
     *,
-    content: BinaryTypes | None = None,
+    content: BrowserRawContent | None = None,
     json: Body | None = None,
     headers: Mapping[str, str] | None = None,
     params: Mapping[str, object] | None = None,
@@ -34,7 +36,7 @@ def request_via_browser_route(
         headers=headers or {},
         content=_normalize_binary_content(content),
         json_data=json,
-        timeout=timeout,
+        timeout=_normalize_timeout(timeout),
     )
     return cast(httpx.Response, parent.request(httpx.Response, options))
 
@@ -46,7 +48,7 @@ def stream_via_browser_route(
     method: str,
     url: str,
     *,
-    content: BinaryTypes | None = None,
+    content: BrowserRawContent | None = None,
     headers: Mapping[str, str] | None = None,
     params: Mapping[str, object] | None = None,
     timeout: float | Timeout | None | NotGiven = not_given,
@@ -78,7 +80,7 @@ async def async_request_via_browser_route(
     method: str,
     url: str,
     *,
-    content: BinaryTypes | None = None,
+    content: BrowserRawContent | None = None,
     json: Body | None = None,
     headers: Mapping[str, str] | None = None,
     params: Mapping[str, object] | None = None,
@@ -94,7 +96,7 @@ async def async_request_via_browser_route(
         headers=headers or {},
         content=_normalize_binary_content(content),
         json_data=json,
-        timeout=timeout,
+        timeout=_normalize_timeout(timeout),
     )
     return cast(httpx.Response, await parent.request(httpx.Response, options))
 
@@ -106,7 +108,7 @@ async def async_stream_via_browser_route(
     method: str,
     url: str,
     *,
-    content: BinaryTypes | None = None,
+    content: BrowserRawContent | None = None,
     headers: Mapping[str, str] | None = None,
     params: Mapping[str, object] | None = None,
     timeout: float | Timeout | None | NotGiven = not_given,
@@ -136,7 +138,7 @@ def _normalize_timeout(timeout: float | Timeout | None | NotGiven) -> float | Ti
     return None if isinstance(timeout, NotGiven) else timeout
 
 
-def _normalize_binary_content(content: BinaryTypes | None) -> bytes | IO[bytes] | Iterable[bytes] | None:
+def _normalize_binary_content(content: BrowserRawContent | None) -> bytes | str | IO[bytes] | Iterable[bytes] | None:
     if content is None:
         return None
     if isinstance(content, bytearray):

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Mapping, cast
+from typing import Any
 from dataclasses import field, dataclass
 
 import httpx
@@ -95,8 +95,7 @@ def rewrite_direct_vm_options(
     rewritten.url = f"{route.base_url.rstrip('/')}/{subresource}{suffix}"
 
     params: dict[str, object] = {}
-    if isinstance(options.params, Mapping):
-        params.update(cast(Mapping[str, object], options.params))
+    params.update(options.params)
     params["jwt"] = route.jwt
     rewritten.params = params or options.params
     return rewritten
