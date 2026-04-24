@@ -191,6 +191,24 @@ def test_only_browser_metadata_endpoints_warm_route_cache() -> None:
 
 
 @respx.mock
+def test_browser_pool_acquire_warms_route_cache() -> None:
+    acquire_route = respx.post(f"{base_url}/browser_pools/pool-1/acquire").mock(
+        return_value=httpx.Response(200, json=_fake_browser())
+    )
+    routed_request = respx.get("http://browser-session.test/browser/kernel/curl/raw").mock(
+        return_value=httpx.Response(200, content=b"ok")
+    )
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        response = client.browser_pools.with_raw_response.acquire("pool-1")
+        routed = client.browsers.request("sess-1", "GET", "https://example.com")
+
+    assert acquire_route.called
+    assert response.is_closed is True
+    assert routed.status_code == 200
+    assert routed_request.called
+
+
+@respx.mock
 def test_browser_delete_by_id_evicts_route_cache() -> None:
     delete_route = respx.delete(f"{base_url}/browsers/sess-1").mock(return_value=httpx.Response(204))
     with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
@@ -200,6 +218,19 @@ def test_browser_delete_by_id_evicts_route_cache() -> None:
             client.browsers.request("sess-1", "GET", "https://example.com")
 
     assert delete_route.called
+    assert response.is_closed is True
+
+
+@respx.mock
+def test_browser_pool_release_evicts_route_cache() -> None:
+    release_route = respx.post(f"{base_url}/browser_pools/pool-1/release").mock(return_value=httpx.Response(204))
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        response = client.browser_pools.with_raw_response.release("pool-1", session_id="sess-1")
+        with pytest.raises(ValueError, match="route cache"):
+            client.browsers.request("sess-1", "GET", "https://example.com")
+
+    assert release_route.called
     assert response.is_closed is True
 
 
@@ -220,6 +251,41 @@ def test_failed_browser_delete_by_id_keeps_route_cache() -> None:
     assert delete_route.called
     assert routed.status_code == 200
     assert routed_request.called
+
+
+@respx.mock
+def test_failed_browser_pool_release_keeps_route_cache() -> None:
+    release_route = respx.post(f"{base_url}/browser_pools/pool-1/release").mock(
+        return_value=httpx.Response(500, json={"error": "boom"})
+    )
+    routed_request = respx.get("http://browser-session.test/browser/kernel/curl/raw").mock(
+        return_value=httpx.Response(200, content=b"ok")
+    )
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        with pytest.raises(InternalServerError):
+            client.browser_pools.release("pool-1", session_id="sess-1")
+        routed = client.browsers.request("sess-1", "GET", "https://example.com")
+
+    assert release_route.called
+    assert routed.status_code == 200
+    assert routed_request.called
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_async_browser_pool_release_evicts_route_cache() -> None:
+    release_route = respx.post(f"{base_url}/browser_pools/pool-1/release").mock(return_value=httpx.Response(204))
+    async with AsyncKernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        route = browser_route_from_browser(_fake_browser())
+        assert route is not None
+        client.browser_route_cache.set(route)
+        response = await client.browser_pools.with_raw_response.release("pool-1", session_id="sess-1")
+        with pytest.raises(ValueError, match="route cache"):
+            await client.browsers.request("sess-1", "GET", "https://example.com")
+
+    assert release_route.called
+    assert response.is_closed is True
 
 
 def test_browser_route_cache_normalizes_session_id_keys() -> None:
