@@ -226,7 +226,7 @@ class BrowsersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        result = self._post(
+        return self._post(
             "/browsers",
             body=maybe_transform(
                 {
@@ -249,7 +249,6 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserCreateResponse,
         )
-        return result
 
     def retrieve(
         self,
@@ -279,7 +278,7 @@ class BrowsersResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        result = self._get(
+        return self._get(
             path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -292,7 +291,6 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserRetrieveResponse,
         )
-        return result
 
     def update(
         self,
@@ -334,7 +332,7 @@ class BrowsersResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        result = self._patch(
+        return self._patch(
             path_template("/browsers/{id}", id=id),
             body=maybe_transform(
                 {
@@ -350,7 +348,6 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserUpdateResponse,
         )
-        return result
 
     def list(
         self,
@@ -393,7 +390,7 @@ class BrowsersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        page = self._get_api_list(
+        return self._get_api_list(
             "/browsers",
             page=SyncOffsetPagination[BrowserListResponse],
             options=make_request_options(
@@ -414,7 +411,6 @@ class BrowsersResource(SyncAPIResource):
             ),
             model=BrowserListResponse,
         )
-        return page
 
     @typing_extensions.deprecated("deprecated")
     def delete(
@@ -788,7 +784,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        result = await self._post(
+        return await self._post(
             "/browsers",
             body=await async_maybe_transform(
                 {
@@ -811,7 +807,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserCreateResponse,
         )
-        return result
 
     async def retrieve(
         self,
@@ -841,7 +836,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        result = await self._get(
+        return await self._get(
             path_template("/browsers/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -854,7 +849,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserRetrieveResponse,
         )
-        return result
 
     async def update(
         self,
@@ -896,7 +890,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        result = await self._patch(
+        return await self._patch(
             path_template("/browsers/{id}", id=id),
             body=await async_maybe_transform(
                 {
@@ -912,7 +906,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserUpdateResponse,
         )
-        return result
 
     def list(
         self,
@@ -955,7 +948,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        page = self._get_api_list(
+        return self._get_api_list(
             "/browsers",
             page=AsyncOffsetPagination[BrowserListResponse],
             options=make_request_options(
@@ -976,7 +969,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             model=BrowserListResponse,
         )
-        return page
 
     @typing_extensions.deprecated("deprecated")
     async def delete(
