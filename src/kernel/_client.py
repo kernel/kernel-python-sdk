@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, Any, Dict, Mapping, cast
+from typing import TYPE_CHECKING, Any, Dict, Type, Mapping, cast
 from typing_extensions import Self, Literal, override
 
 import httpx
@@ -14,6 +14,7 @@ from ._types import (
     Omit,
     Timeout,
     NotGiven,
+    ResponseT,
     Transport,
     ProxiesTypes,
     RequestOptions,
@@ -21,6 +22,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._compat import cached_property
+from ._models import FinalRequestOptions
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import KernelError, APIStatusError
@@ -28,6 +30,15 @@ from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
     AsyncAPIClient,
+)
+from .lib.browser_routing.routing import (
+    BrowserRouteCache,
+    BrowserRoutingConfig,
+    strip_direct_vm_auth,
+    rewrite_direct_vm_options,
+    browser_routing_config_from_env,
+    maybe_evict_browser_route_from_response,
+    maybe_populate_browser_route_cache_from_response,
 )
 
 if TYPE_CHECKING:
@@ -79,8 +90,10 @@ ENVIRONMENTS: Dict[str, str] = {
 class Kernel(SyncAPIClient):
     # client options
     api_key: str
+    browser_route_cache: BrowserRouteCache
 
     _environment: Literal["production", "development"] | NotGiven
+    _browser_routing: BrowserRoutingConfig
 
     def __init__(
         self,
@@ -105,6 +118,7 @@ class Kernel(SyncAPIClient):
         # outlining your use-case to help us decide if it should be
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
+        _browser_route_cache: BrowserRouteCache | None = None,
     ) -> None:
         """Construct a new synchronous Kernel client instance.
 
@@ -154,6 +168,8 @@ class Kernel(SyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+        self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
+        self._browser_routing = browser_routing_config_from_env()
 
     @cached_property
     def deployments(self) -> DeploymentsResource:
@@ -266,6 +282,37 @@ class Kernel(SyncAPIClient):
             **self._custom_headers,
         }
 
+    @override
+    def _prepare_options(self, options: Any) -> Any:
+        options = cast(Any, super()._prepare_options(options))
+        return rewrite_direct_vm_options(options, cache=self.browser_route_cache, config=self._browser_routing)
+
+    @override
+    def _prepare_request(self, request: httpx.Request) -> None:
+        strip_direct_vm_auth(request, cache=self.browser_route_cache)
+
+    @override
+    def _process_response(
+        self,
+        *,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        response: httpx.Response,
+        stream: bool,
+        stream_cls: type[Stream[Any]] | type[AsyncStream[Any]] | None,
+        retries_taken: int = 0,
+    ) -> ResponseT:
+        maybe_populate_browser_route_cache_from_response(response, cache=self.browser_route_cache)
+        maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
+        return super()._process_response(
+            cast_to=cast_to,
+            options=options,
+            response=response,
+            stream=stream,
+            stream_cls=stream_cls,
+            retries_taken=retries_taken,
+        )
+
     def copy(
         self,
         *,
@@ -279,6 +326,7 @@ class Kernel(SyncAPIClient):
         set_default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
         set_default_query: Mapping[str, object] | None = None,
+        _browser_route_cache: BrowserRouteCache | None = None,
         _extra_kwargs: Mapping[str, Any] = {},
     ) -> Self:
         """
@@ -312,6 +360,7 @@ class Kernel(SyncAPIClient):
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
             default_headers=headers,
             default_query=params,
+            _browser_route_cache=_browser_route_cache or self.browser_route_cache,
             **_extra_kwargs,
         )
 
@@ -356,8 +405,10 @@ class Kernel(SyncAPIClient):
 class AsyncKernel(AsyncAPIClient):
     # client options
     api_key: str
+    browser_route_cache: BrowserRouteCache
 
     _environment: Literal["production", "development"] | NotGiven
+    _browser_routing: BrowserRoutingConfig
 
     def __init__(
         self,
@@ -382,6 +433,7 @@ class AsyncKernel(AsyncAPIClient):
         # outlining your use-case to help us decide if it should be
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
+        _browser_route_cache: BrowserRouteCache | None = None,
     ) -> None:
         """Construct a new async AsyncKernel client instance.
 
@@ -431,6 +483,8 @@ class AsyncKernel(AsyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+        self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
+        self._browser_routing = browser_routing_config_from_env()
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResource:
@@ -543,6 +597,37 @@ class AsyncKernel(AsyncAPIClient):
             **self._custom_headers,
         }
 
+    @override
+    async def _prepare_options(self, options: Any) -> Any:
+        options = cast(Any, await super()._prepare_options(options))
+        return rewrite_direct_vm_options(options, cache=self.browser_route_cache, config=self._browser_routing)
+
+    @override
+    async def _prepare_request(self, request: httpx.Request) -> None:
+        strip_direct_vm_auth(request, cache=self.browser_route_cache)
+
+    @override
+    async def _process_response(
+        self,
+        *,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        response: httpx.Response,
+        stream: bool,
+        stream_cls: type[Stream[Any]] | type[AsyncStream[Any]] | None,
+        retries_taken: int = 0,
+    ) -> ResponseT:
+        maybe_populate_browser_route_cache_from_response(response, cache=self.browser_route_cache)
+        maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
+        return await super()._process_response(
+            cast_to=cast_to,
+            options=options,
+            response=response,
+            stream=stream,
+            stream_cls=stream_cls,
+            retries_taken=retries_taken,
+        )
+
     def copy(
         self,
         *,
@@ -556,6 +641,7 @@ class AsyncKernel(AsyncAPIClient):
         set_default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
         set_default_query: Mapping[str, object] | None = None,
+        _browser_route_cache: BrowserRouteCache | None = None,
         _extra_kwargs: Mapping[str, Any] = {},
     ) -> Self:
         """
@@ -589,6 +675,7 @@ class AsyncKernel(AsyncAPIClient):
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
             default_headers=headers,
             default_query=params,
+            _browser_route_cache=_browser_route_cache or self.browser_route_cache,
             **_extra_kwargs,
         )
 

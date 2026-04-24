@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import typing_extensions
-from typing import Dict, Mapping, Iterable, Optional, cast
+from typing import Dict, Mapping, Iterable, Iterator, Optional, AsyncIterator, cast
+from contextlib import contextmanager, asynccontextmanager
 from typing_extensions import Literal
 
 import httpx
@@ -80,6 +81,12 @@ from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.browser_curl_response import BrowserCurlResponse
 from ...types.browser_list_response import BrowserListResponse
+from ...lib.browser_routing.raw_http import (
+    stream_via_browser_route,
+    request_via_browser_route,
+    async_stream_via_browser_route,
+    async_request_via_browser_route,
+)
 from ...types.browser_create_response import BrowserCreateResponse
 from ...types.browser_update_response import BrowserUpdateResponse
 from ...types.browser_persistence_param import BrowserPersistenceParam
@@ -509,6 +516,64 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserCurlResponse,
         )
+
+    def request(
+        self,
+        id: str,
+        method: str,
+        url: str,
+        *,
+        content: bytes | bytearray | memoryview | str | Iterable[bytes] | None = None,
+        json: Body | None = None,
+        headers: Mapping[str, str] | None = None,
+        params: Mapping[str, object] | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> httpx.Response:
+        route = self._client.browser_route_cache.get(id)
+        if route is None:
+            raise ValueError(
+                f"browser route cache does not contain session {id}; create, retrieve, or list the browser before calling browsers.request"
+            )
+        return request_via_browser_route(
+            self._client,
+            route,
+            method,
+            url,
+            content=content,
+            json=json,
+            headers=headers,
+            params=params,
+            timeout=timeout,
+        )
+
+    @contextmanager
+    def stream(
+        self,
+        id: str,
+        method: str,
+        url: str,
+        *,
+        content: bytes | bytearray | memoryview | str | Iterable[bytes] | None = None,
+        headers: Mapping[str, str] | None = None,
+        params: Mapping[str, object] | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Iterator[httpx.Response]:
+        route = self._client.browser_route_cache.get(id)
+        if route is None:
+            raise ValueError(
+                f"browser route cache does not contain session {id}; create, retrieve, or list the browser before calling browsers.stream"
+            )
+        with stream_via_browser_route(
+            self._client,
+            route,
+            method,
+            url,
+            content=content,
+            headers=headers,
+            params=params,
+            timeout=timeout,
+        ) as resp:
+            yield resp
 
     def delete_by_id(
         self,
@@ -1011,6 +1076,64 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserCurlResponse,
         )
+
+    async def request(
+        self,
+        id: str,
+        method: str,
+        url: str,
+        *,
+        content: bytes | bytearray | memoryview | str | Iterable[bytes] | None = None,
+        json: Body | None = None,
+        headers: Mapping[str, str] | None = None,
+        params: Mapping[str, object] | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> httpx.Response:
+        route = self._client.browser_route_cache.get(id)
+        if route is None:
+            raise ValueError(
+                f"browser route cache does not contain session {id}; create, retrieve, or list the browser before calling browsers.request"
+            )
+        return await async_request_via_browser_route(
+            self._client,
+            route,
+            method,
+            url,
+            content=content,
+            json=json,
+            headers=headers,
+            params=params,
+            timeout=timeout,
+        )
+
+    @asynccontextmanager
+    async def stream(
+        self,
+        id: str,
+        method: str,
+        url: str,
+        *,
+        content: bytes | bytearray | memoryview | str | Iterable[bytes] | None = None,
+        headers: Mapping[str, str] | None = None,
+        params: Mapping[str, object] | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncIterator[httpx.Response]:
+        route = self._client.browser_route_cache.get(id)
+        if route is None:
+            raise ValueError(
+                f"browser route cache does not contain session {id}; create, retrieve, or list the browser before calling browsers.stream"
+            )
+        async with async_stream_via_browser_route(
+            self._client,
+            route,
+            method,
+            url,
+            content=content,
+            headers=headers,
+            params=params,
+            timeout=timeout,
+        ) as resp:
+            yield resp
 
     async def delete_by_id(
         self,
