@@ -43,17 +43,18 @@ class BrowserRouteCache:
         self._routes: dict[str, BrowserRoute] = {}
 
     def get(self, session_id: str) -> BrowserRoute | None:
-        return self._routes.get(session_id)
+        return self._routes.get(_normalize_session_id(session_id))
 
     def set(self, route: BrowserRoute) -> None:
-        self._routes[route.session_id] = BrowserRoute(
-            session_id=route.session_id.strip(),
+        normalized_session_id = _normalize_session_id(route.session_id)
+        self._routes[normalized_session_id] = BrowserRoute(
+            session_id=normalized_session_id,
             base_url=route.base_url.strip().rstrip("/") + "/",
             jwt=route.jwt.strip(),
         )
 
     def delete(self, session_id: str) -> None:
-        self._routes.pop(session_id, None)
+        self._routes.pop(_normalize_session_id(session_id), None)
 
     def values(self) -> list[BrowserRoute]:
         return list(self._routes.values())
@@ -78,6 +79,10 @@ def browser_route_from_browser(browser: Any) -> BrowserRoute | None:
         return None
 
     return BrowserRoute(session_id=session_id, base_url=base_url, jwt=jwt)
+
+
+def _normalize_session_id(session_id: str) -> str:
+    return session_id.strip()
 
 
 def rewrite_direct_vm_options(
