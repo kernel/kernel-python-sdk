@@ -4,6 +4,7 @@ import os
 import re
 from typing import Any, Mapping, cast
 from dataclasses import field, dataclass
+from urllib.parse import unquote
 
 import httpx
 
@@ -31,6 +32,7 @@ class BrowserRoutingConfig:
 
 
 _BROWSER_ROUTE_CACHEABLE_PATH = re.compile(r"^/(?:v\d+/)?browsers(?:/[^/]+)?/?$")
+_BROWSER_DELETE_BY_ID_PATH = re.compile(r"^/(?:v\d+/)?browsers/([^/]+)/?$")
 
 
 def browser_routing_config_from_env() -> BrowserRoutingConfig:
@@ -99,6 +101,21 @@ def maybe_populate_browser_route_cache_from_response(response: httpx.Response, *
     except Exception:
         # Ignore malformed JSON in routing cache population.
         return
+
+
+def maybe_evict_deleted_browser_route_from_response(response: httpx.Response, *, cache: BrowserRouteCache) -> None:
+    if not response.is_success or response.request.method.upper() != "DELETE":
+        return
+
+    match = _BROWSER_DELETE_BY_ID_PATH.match(response.request.url.path)
+    if match is None:
+        return
+
+    session_id = unquote(match.group(1)).strip()
+    if not session_id:
+        return
+
+    cache.delete(session_id)
 
 
 def populate_browser_route_cache_from_value(value: object, *, cache: BrowserRouteCache) -> None:
