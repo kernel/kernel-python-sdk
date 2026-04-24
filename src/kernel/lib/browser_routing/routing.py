@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import os
-from typing import Any
+import re
+from typing import Any, Mapping, cast
 from dataclasses import field, dataclass
 
 import httpx
@@ -14,6 +15,7 @@ from .util import (
 )
 from ..._compat import model_copy
 from ..._models import FinalRequestOptions
+from ..._constants import RAW_RESPONSE_HEADER
 
 
 @dataclass
@@ -26,6 +28,9 @@ class BrowserRoute:
 @dataclass
 class BrowserRoutingConfig:
     subresources: tuple[str, ...] = field(default_factory=tuple)
+
+
+_BROWSER_ROUTE_CACHEABLE_PATH = re.compile(r"^/(?:v\d+/)?browsers(?:/[^/]+)?/?$")
 
 
 def browser_routing_config_from_env() -> BrowserRoutingConfig:
@@ -83,6 +88,44 @@ def browser_route_from_browser(browser: Any) -> BrowserRoute | None:
 
 def _normalize_session_id(session_id: str) -> str:
     return session_id.strip()
+
+
+def maybe_populate_browser_route_cache_from_response(response: httpx.Response, *, cache: BrowserRouteCache) -> None:
+    if not _should_populate_browser_route_cache(response):
+        return
+
+    try:
+        populate_browser_route_cache_from_value(response.json(), cache=cache)
+    except Exception:
+        # Ignore malformed JSON in routing cache population.
+        return
+
+
+def populate_browser_route_cache_from_value(value: object, *, cache: BrowserRouteCache) -> None:
+    if isinstance(value, Mapping):
+        mapping = cast(Mapping[object, object], value)
+        route = browser_route_from_browser(mapping)
+        if route is not None:
+            cache.set(route)
+
+        for child in mapping.values():
+            populate_browser_route_cache_from_value(child, cache=cache)
+        return
+
+    if isinstance(value, list):
+        for item in cast(list[object], value):
+            populate_browser_route_cache_from_value(item, cache=cache)
+
+
+def _should_populate_browser_route_cache(response: httpx.Response) -> bool:
+    if response.request.headers.get(RAW_RESPONSE_HEADER) == "stream":
+        return False
+
+    content_type = response.headers.get("content-type", "").lower()
+    if "application/json" not in content_type:
+        return False
+
+    return bool(_BROWSER_ROUTE_CACHEABLE_PATH.match(response.request.url.path))
 
 
 def rewrite_direct_vm_options(

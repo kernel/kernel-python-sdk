@@ -79,7 +79,6 @@ from ..._response import (
 )
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
-from ...lib.browser_routing.routing import browser_route_from_browser
 from ...types.browser_curl_response import BrowserCurlResponse
 from ...types.browser_list_response import BrowserListResponse
 from ...lib.browser_routing.raw_http import (
@@ -250,9 +249,6 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserCreateResponse,
         )
-        route = browser_route_from_browser(result)
-        if route is not None:
-            self._client.browser_route_cache.set(route)
         return result
 
     def retrieve(
@@ -296,9 +292,6 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserRetrieveResponse,
         )
-        route = browser_route_from_browser(result)
-        if route is not None:
-            self._client.browser_route_cache.set(route)
         return result
 
     def update(
@@ -357,9 +350,6 @@ class BrowsersResource(SyncAPIResource):
             ),
             cast_to=BrowserUpdateResponse,
         )
-        route = browser_route_from_browser(result)
-        if route is not None:
-            self._client.browser_route_cache.set(route)
         return result
 
     def list(
@@ -424,10 +414,6 @@ class BrowsersResource(SyncAPIResource):
             ),
             model=BrowserListResponse,
         )
-        for item in page.items:
-            route = browser_route_from_browser(item)
-            if route is not None:
-                self._client.browser_route_cache.set(route)
         return page
 
     @typing_extensions.deprecated("deprecated")
@@ -825,9 +811,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserCreateResponse,
         )
-        route = browser_route_from_browser(result)
-        if route is not None:
-            self._client.browser_route_cache.set(route)
         return result
 
     async def retrieve(
@@ -871,9 +854,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserRetrieveResponse,
         )
-        route = browser_route_from_browser(result)
-        if route is not None:
-            self._client.browser_route_cache.set(route)
         return result
 
     async def update(
@@ -932,9 +912,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             cast_to=BrowserUpdateResponse,
         )
-        route = browser_route_from_browser(result)
-        if route is not None:
-            self._client.browser_route_cache.set(route)
         return result
 
     def list(
@@ -999,11 +976,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
             ),
             model=BrowserListResponse,
         )
-        typed_page = cast(AsyncOffsetPagination[BrowserListResponse], page)
-        for item in typed_page.items:
-            route = browser_route_from_browser(item)
-            if route is not None:
-                self._client.browser_route_cache.set(route)
         return page
 
     @typing_extensions.deprecated("deprecated")
