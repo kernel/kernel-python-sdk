@@ -37,7 +37,7 @@ from .lib.browser_routing.routing import (
     strip_direct_vm_auth,
     rewrite_direct_vm_options,
     browser_routing_config_from_env,
-    maybe_evict_deleted_browser_route_from_response,
+    maybe_evict_browser_route_from_response,
     maybe_populate_browser_route_cache_from_response,
 )
 
@@ -303,7 +303,7 @@ class Kernel(SyncAPIClient):
         retries_taken: int = 0,
     ) -> ResponseT:
         maybe_populate_browser_route_cache_from_response(response, cache=self.browser_route_cache)
-        maybe_evict_deleted_browser_route_from_response(response, cache=self.browser_route_cache)
+        maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
         return super()._process_response(
             cast_to=cast_to,
             options=options,
@@ -618,7 +618,7 @@ class AsyncKernel(AsyncAPIClient):
         retries_taken: int = 0,
     ) -> ResponseT:
         maybe_populate_browser_route_cache_from_response(response, cache=self.browser_route_cache)
-        maybe_evict_deleted_browser_route_from_response(response, cache=self.browser_route_cache)
+        maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
         return await super()._process_response(
             cast_to=cast_to,
             options=options,

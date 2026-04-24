@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import re
+import json
 from typing import Any, Mapping, cast
 from dataclasses import field, dataclass
 from urllib.parse import unquote
@@ -33,6 +34,8 @@ class BrowserRoutingConfig:
 
 _BROWSER_ROUTE_CACHEABLE_PATH = re.compile(r"^/(?:v\d+/)?browsers(?:/[^/]+)?/?$")
 _BROWSER_DELETE_BY_ID_PATH = re.compile(r"^/(?:v\d+/)?browsers/([^/]+)/?$")
+_BROWSER_POOL_ACQUIRE_PATH = re.compile(r"^/(?:v\d+/)?browser_pools/[^/]+/acquire/?$")
+_BROWSER_POOL_RELEASE_PATH = re.compile(r"^/(?:v\d+/)?browser_pools/[^/]+/release/?$")
 
 
 def browser_routing_config_from_env() -> BrowserRoutingConfig:
@@ -103,15 +106,11 @@ def maybe_populate_browser_route_cache_from_response(response: httpx.Response, *
         return
 
 
-def maybe_evict_deleted_browser_route_from_response(response: httpx.Response, *, cache: BrowserRouteCache) -> None:
-    if not response.is_success or response.request.method.upper() != "DELETE":
+def maybe_evict_browser_route_from_response(response: httpx.Response, *, cache: BrowserRouteCache) -> None:
+    if not response.is_success:
         return
 
-    match = _BROWSER_DELETE_BY_ID_PATH.match(response.request.url.path)
-    if match is None:
-        return
-
-    session_id = unquote(match.group(1)).strip()
+    session_id = _session_id_to_evict_from_response(response)
     if not session_id:
         return
 
@@ -142,7 +141,51 @@ def _should_populate_browser_route_cache(response: httpx.Response) -> bool:
     if "application/json" not in content_type:
         return False
 
-    return bool(_BROWSER_ROUTE_CACHEABLE_PATH.match(response.request.url.path))
+    path = response.request.url.path
+    return bool(_BROWSER_ROUTE_CACHEABLE_PATH.match(path) or _BROWSER_POOL_ACQUIRE_PATH.match(path))
+
+
+def _session_id_to_evict_from_response(response: httpx.Response) -> str | None:
+    method = response.request.method.upper()
+    path = response.request.url.path
+
+    if method == "DELETE":
+        return _session_id_from_browser_delete_path(path)
+
+    if method == "POST":
+        return _session_id_from_browser_pool_release_request(response.request, path)
+
+    return None
+
+
+def _session_id_from_browser_delete_path(path: str) -> str | None:
+    match = _BROWSER_DELETE_BY_ID_PATH.match(path)
+    if match is None:
+        return None
+
+    session_id = unquote(match.group(1)).strip()
+    return session_id or None
+
+
+def _session_id_from_browser_pool_release_request(request: httpx.Request, path: str) -> str | None:
+    if _BROWSER_POOL_RELEASE_PATH.match(path) is None:
+        return None
+
+    content_type = request.headers.get("content-type", "").lower()
+    if "application/json" not in content_type:
+        return None
+
+    try:
+        body = json.loads(request.content.decode("utf-8"))
+    except Exception:
+        return None
+
+    session_id = body.get("session_id")
+    if not isinstance(session_id, str):
+        return None
+
+    normalized = session_id.strip()
+    return normalized or None
 
 
 def rewrite_direct_vm_options(
