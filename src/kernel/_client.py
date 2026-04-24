@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, Any, Dict, Mapping, cast
+from typing import TYPE_CHECKING, Any, Dict, Type, Mapping, cast
 from typing_extensions import Self, Literal, override
 
 import httpx
@@ -14,6 +14,7 @@ from ._types import (
     Omit,
     Timeout,
     NotGiven,
+    ResponseT,
     Transport,
     ProxiesTypes,
     RequestOptions,
@@ -21,6 +22,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._compat import cached_property
+from ._models import FinalRequestOptions
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import KernelError, APIStatusError
@@ -35,6 +37,7 @@ from .lib.browser_routing.routing import (
     strip_direct_vm_auth,
     rewrite_direct_vm_options,
     browser_routing_config_from_env,
+    maybe_populate_browser_route_cache_from_response,
 )
 
 if TYPE_CHECKING:
@@ -286,6 +289,27 @@ class Kernel(SyncAPIClient):
     @override
     def _prepare_request(self, request: httpx.Request) -> None:
         strip_direct_vm_auth(request, cache=self.browser_route_cache)
+
+    @override
+    def _process_response(
+        self,
+        *,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        response: httpx.Response,
+        stream: bool,
+        stream_cls: type[Stream[Any]] | type[AsyncStream[Any]] | None,
+        retries_taken: int = 0,
+    ) -> ResponseT:
+        maybe_populate_browser_route_cache_from_response(response, cache=self.browser_route_cache)
+        return super()._process_response(
+            cast_to=cast_to,
+            options=options,
+            response=response,
+            stream=stream,
+            stream_cls=stream_cls,
+            retries_taken=retries_taken,
+        )
 
     def copy(
         self,
@@ -579,6 +603,27 @@ class AsyncKernel(AsyncAPIClient):
     @override
     async def _prepare_request(self, request: httpx.Request) -> None:
         strip_direct_vm_auth(request, cache=self.browser_route_cache)
+
+    @override
+    async def _process_response(
+        self,
+        *,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        response: httpx.Response,
+        stream: bool,
+        stream_cls: type[Stream[Any]] | type[AsyncStream[Any]] | None,
+        retries_taken: int = 0,
+    ) -> ResponseT:
+        maybe_populate_browser_route_cache_from_response(response, cache=self.browser_route_cache)
+        return await super()._process_response(
+            cast_to=cast_to,
+            options=options,
+            response=response,
+            stream=stream,
+            stream_cls=stream_cls,
+            retries_taken=retries_taken,
+        )
 
     def copy(
         self,

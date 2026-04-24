@@ -7,7 +7,7 @@ import httpx
 import respx
 import pytest
 
-from kernel import Kernel
+from kernel import Kernel, AsyncKernel
 from kernel.lib.browser_routing.util import jwt_from_cdp_ws_url
 from kernel.lib.browser_routing.routing import (
     BrowserRoute,
@@ -123,6 +123,71 @@ def test_browser_request_requires_cached_route() -> None:
         client.browser_route_cache.delete("sess-1")
         with pytest.raises(ValueError, match="route cache"):
             client.browsers.request("sess-1", "GET", "https://example.com")
+
+
+@respx.mock
+def test_browser_create_warms_route_cache() -> None:
+    create_route = respx.post(f"{base_url}/browsers").mock(return_value=httpx.Response(200, json=_fake_browser()))
+    routed_request = respx.get("http://browser-session.test/browser/kernel/curl/raw").mock(
+        return_value=httpx.Response(200, content=b"ok")
+    )
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        browser = client.browsers.create()
+        routed = client.browsers.request(browser.session_id, "GET", "https://example.com")
+
+    assert create_route.called
+    assert browser.session_id == "sess-1"
+    assert routed.status_code == 200
+    assert routed_request.called
+
+
+@respx.mock
+def test_raw_browser_create_warms_route_cache() -> None:
+    create_route = respx.post(f"{base_url}/browsers").mock(return_value=httpx.Response(200, json=_fake_browser()))
+    routed_request = respx.get("http://browser-session.test/browser/kernel/curl/raw").mock(
+        return_value=httpx.Response(200, content=b"ok")
+    )
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        response = client.browsers.with_raw_response.create()
+        routed = client.browsers.request("sess-1", "GET", "https://example.com")
+
+    assert create_route.called
+    assert response.is_closed is True
+    assert routed.status_code == 200
+    assert routed.content == b"ok"
+    request = cast(httpx.Request, cast(Any, routed_request.calls[0]).request)
+    assert request.url.params.get("jwt") == "token-abc"
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_async_raw_browser_create_warms_route_cache() -> None:
+    create_route = respx.post(f"{base_url}/browsers").mock(return_value=httpx.Response(200, json=_fake_browser()))
+    routed_request = respx.get("http://browser-session.test/browser/kernel/curl/raw").mock(
+        return_value=httpx.Response(200, content=b"ok")
+    )
+    async with AsyncKernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        response = await client.browsers.with_raw_response.create()
+        routed = await client.browsers.request("sess-1", "GET", "https://example.com")
+
+    assert create_route.called
+    assert response.is_closed is True
+    assert routed.status_code == 200
+    assert routed.content == b"ok"
+    request = cast(httpx.Request, cast(Any, routed_request.calls[0]).request)
+    assert request.url.params.get("jwt") == "token-abc"
+
+
+@respx.mock
+def test_only_browser_metadata_endpoints_warm_route_cache() -> None:
+    projects_route = respx.get(f"{base_url}/projects").mock(return_value=httpx.Response(200, json=_fake_browser()))
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        response = client.projects.with_raw_response.list()
+        with pytest.raises(ValueError, match="route cache"):
+            client.browsers.request("sess-1", "GET", "https://example.com")
+
+    assert projects_route.called
+    assert response.is_closed is True
 
 
 def test_browser_route_cache_normalizes_session_id_keys() -> None:
