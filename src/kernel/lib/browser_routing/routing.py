@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from typing import Any
 from dataclasses import field, dataclass
 
@@ -24,8 +25,17 @@ class BrowserRoute:
 
 @dataclass
 class BrowserRoutingConfig:
-    enabled: bool = False
     subresources: tuple[str, ...] = field(default_factory=tuple)
+
+
+def browser_routing_config_from_env() -> BrowserRoutingConfig:
+    raw = os.environ.get("KERNEL_BROWSER_ROUTING_SUBRESOURCES")
+    if raw is None:
+        return BrowserRoutingConfig(subresources=("curl",))
+    if raw.strip() == "":
+        return BrowserRoutingConfig()
+
+    return BrowserRoutingConfig(subresources=tuple(part.strip() for part in raw.split(",") if part.strip()))
 
 
 class BrowserRouteCache:
@@ -74,11 +84,8 @@ def rewrite_direct_vm_options(
     options: FinalRequestOptions,
     *,
     cache: BrowserRouteCache,
-    config: BrowserRoutingConfig | None,
+    config: BrowserRoutingConfig,
 ) -> FinalRequestOptions:
-    if config is None or not config.enabled:
-        return options
-
     match = match_direct_vm_path(options.url)
     if match is None:
         return options
