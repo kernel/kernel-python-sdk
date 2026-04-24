@@ -9,7 +9,7 @@ import pytest
 
 from kernel import Kernel
 from kernel.lib.browser_routing.util import jwt_from_cdp_ws_url
-from kernel.lib.browser_routing.routing import BrowserRoutingConfig, browser_route_from_browser
+from kernel.lib.browser_routing.routing import browser_route_from_browser, browser_routing_config_from_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 api_key = "sk-123"
@@ -39,14 +39,14 @@ def test_jwt_from_cdp_ws_url() -> None:
 
 
 @respx.mock
-def test_routes_allowlisted_browser_subresources_directly_to_vm() -> None:
+def test_routes_allowlisted_browser_subresources_directly_to_vm(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "process")
     route = respx.post("http://browser-session.test/browser/kernel/process/exec").mock(
         return_value=httpx.Response(200, json={"exit_code": 0, "stdout_b64": "", "stderr_b64": ""})
     )
     with Kernel(
         base_url=base_url,
         api_key=api_key,
-        browser_routing=BrowserRoutingConfig(enabled=True, subresources=("process",)),
         _strict_response_validation=True,
     ) as client:
         _cache_browser(client)
@@ -60,14 +60,14 @@ def test_routes_allowlisted_browser_subresources_directly_to_vm() -> None:
 
 
 @respx.mock
-def test_skips_direct_vm_routing_outside_allowlist() -> None:
+def test_skips_direct_vm_routing_outside_allowlist(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "computer")
     route = respx.post(f"{base_url}/browsers/sess-1/process/exec").mock(
         return_value=httpx.Response(200, json={"exit_code": 0, "stdout_b64": "", "stderr_b64": ""})
     )
     with Kernel(
         base_url=base_url,
         api_key=api_key,
-        browser_routing=BrowserRoutingConfig(enabled=True, subresources=("computer",)),
         _strict_response_validation=True,
     ) as client:
         _cache_browser(client)
@@ -123,3 +123,13 @@ def test_browser_request_requires_cached_route() -> None:
 def test_browser_route_from_browser_requires_base_url_and_jwt() -> None:
     assert browser_route_from_browser({**_fake_browser(), "base_url": None}) is None
     assert browser_route_from_browser({**_fake_browser(), "cdp_ws_url": None}) is None
+
+
+def test_browser_routing_config_from_env_defaults_to_curl(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", raising=False)
+    assert browser_routing_config_from_env().subresources == ("curl",)
+
+
+def test_browser_routing_config_from_env_empty_string_disables_routing(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "")
+    assert browser_routing_config_from_env().subresources == ()

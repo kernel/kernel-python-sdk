@@ -16,7 +16,6 @@ from ._client import (
     AsyncKernel,
     AsyncStream,
     RequestOptions,
-    BrowserRoutingConfig,
 )
 from ._models import BaseModel
 from ._version import __title__, __version__
@@ -80,7 +79,6 @@ __all__ = [
     "RateLimitError",
     "InternalServerError",
     "Timeout",
-    "BrowserRoutingConfig",
     "RequestOptions",
     "Client",
     "AsyncClient",

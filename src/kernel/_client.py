@@ -34,6 +34,7 @@ from .lib.browser_routing.routing import (
     BrowserRoutingConfig,
     strip_direct_vm_auth,
     rewrite_direct_vm_options,
+    browser_routing_config_from_env,
 )
 
 if TYPE_CHECKING:
@@ -70,7 +71,6 @@ __all__ = [
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
-    "BrowserRoutingConfig",
     "Kernel",
     "AsyncKernel",
     "Client",
@@ -89,7 +89,7 @@ class Kernel(SyncAPIClient):
     browser_route_cache: BrowserRouteCache
 
     _environment: Literal["production", "development"] | NotGiven
-    _browser_routing: BrowserRoutingConfig | None
+    _browser_routing: BrowserRoutingConfig
 
     def __init__(
         self,
@@ -101,7 +101,6 @@ class Kernel(SyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        browser_routing: BrowserRoutingConfig | None = None,
         # Configure a custom httpx client.
         # We provide a `DefaultHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
         # See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
@@ -166,7 +165,7 @@ class Kernel(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
-        self._browser_routing = browser_routing
+        self._browser_routing = browser_routing_config_from_env()
 
     @cached_property
     def deployments(self) -> DeploymentsResource:
@@ -301,7 +300,6 @@ class Kernel(SyncAPIClient):
         set_default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
         set_default_query: Mapping[str, object] | None = None,
-        browser_routing: BrowserRoutingConfig | None = None,
         _browser_route_cache: BrowserRouteCache | None = None,
         _extra_kwargs: Mapping[str, Any] = {},
     ) -> Self:
@@ -336,7 +334,6 @@ class Kernel(SyncAPIClient):
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
             default_headers=headers,
             default_query=params,
-            browser_routing=browser_routing if browser_routing is not None else self._browser_routing,
             _browser_route_cache=_browser_route_cache or self.browser_route_cache,
             **_extra_kwargs,
         )
@@ -385,7 +382,7 @@ class AsyncKernel(AsyncAPIClient):
     browser_route_cache: BrowserRouteCache
 
     _environment: Literal["production", "development"] | NotGiven
-    _browser_routing: BrowserRoutingConfig | None
+    _browser_routing: BrowserRoutingConfig
 
     def __init__(
         self,
@@ -397,7 +394,6 @@ class AsyncKernel(AsyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        browser_routing: BrowserRoutingConfig | None = None,
         # Configure a custom httpx client.
         # We provide a `DefaultAsyncHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
         # See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
@@ -462,7 +458,7 @@ class AsyncKernel(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
-        self._browser_routing = browser_routing
+        self._browser_routing = browser_routing_config_from_env()
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResource:
@@ -597,7 +593,6 @@ class AsyncKernel(AsyncAPIClient):
         set_default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
         set_default_query: Mapping[str, object] | None = None,
-        browser_routing: BrowserRoutingConfig | None = None,
         _browser_route_cache: BrowserRouteCache | None = None,
         _extra_kwargs: Mapping[str, Any] = {},
     ) -> Self:
@@ -632,7 +627,6 @@ class AsyncKernel(AsyncAPIClient):
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
             default_headers=headers,
             default_query=params,
-            browser_routing=browser_routing if browser_routing is not None else self._browser_routing,
             _browser_route_cache=_browser_route_cache or self.browser_route_cache,
             **_extra_kwargs,
         )

@@ -4,16 +4,14 @@ from typing import Any, cast
 
 import httpx
 
-from kernel import Kernel, BrowserRoutingConfig
+from kernel import Kernel
 
 
 def main() -> None:
-    with Kernel(browser_routing=BrowserRoutingConfig(enabled=True, subresources=("process",))) as client:
+    with Kernel() as client:
         browsers = cast(Any, client.browsers)
         browser = browsers.create(headless=True)
         try:
-            browsers.process.exec(browser.session_id, command="uname", args=["-a"])
-
             response = cast(httpx.Response, browsers.request(browser.session_id, "GET", "https://example.com"))
             print("status", response.status_code)
 
