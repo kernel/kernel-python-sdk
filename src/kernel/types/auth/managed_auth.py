@@ -157,6 +157,13 @@ class ManagedAuth(BaseModel):
     - Ping Identity: _.pingone.com, _.pingidentity.com
     """
 
+    browser_session_id: Optional[str] = None
+    """
+    ID of the underlying browser session driving the current flow (present when flow
+    in progress). Use this to inspect or terminate the browser session via the
+    `/browsers` API.
+    """
+
     can_reauth: Optional[bool] = None
     """
     Whether automatic re-authentication is possible (has credential, selectors, and
