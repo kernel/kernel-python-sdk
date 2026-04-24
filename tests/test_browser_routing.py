@@ -9,7 +9,12 @@ import pytest
 
 from kernel import Kernel
 from kernel.lib.browser_routing.util import jwt_from_cdp_ws_url
-from kernel.lib.browser_routing.routing import browser_route_from_browser, browser_routing_config_from_env
+from kernel.lib.browser_routing.routing import (
+    BrowserRoute,
+    BrowserRouteCache,
+    browser_route_from_browser,
+    browser_routing_config_from_env,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 api_key = "sk-123"
@@ -118,6 +123,26 @@ def test_browser_request_requires_cached_route() -> None:
         client.browser_route_cache.delete("sess-1")
         with pytest.raises(ValueError, match="route cache"):
             client.browsers.request("sess-1", "GET", "https://example.com")
+
+
+def test_browser_route_cache_normalizes_session_id_keys() -> None:
+    cache = BrowserRouteCache()
+    cache.set(
+        BrowserRoute(
+            session_id="  sess-1  ",
+            base_url=" http://browser-session.test/browser/kernel/ ",
+            jwt=" token-abc ",
+        )
+    )
+
+    route = cache.get("sess-1")
+    assert route is not None
+    assert route.session_id == "sess-1"
+    assert route.base_url == "http://browser-session.test/browser/kernel/"
+    assert route.jwt == "token-abc"
+
+    cache.delete("sess-1")
+    assert cache.get("sess-1") is None
 
 
 def test_browser_route_from_browser_requires_base_url_and_jwt() -> None:
