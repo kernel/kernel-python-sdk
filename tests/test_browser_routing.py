@@ -7,7 +7,7 @@ import httpx
 import respx
 import pytest
 
-from kernel import Kernel, AsyncKernel
+from kernel import Kernel, AsyncKernel, InternalServerError
 from kernel.lib.browser_routing.util import jwt_from_cdp_ws_url
 from kernel.lib.browser_routing.routing import (
     BrowserRoute,
@@ -188,6 +188,38 @@ def test_only_browser_metadata_endpoints_warm_route_cache() -> None:
 
     assert projects_route.called
     assert response.is_closed is True
+
+
+@respx.mock
+def test_browser_delete_by_id_evicts_route_cache() -> None:
+    delete_route = respx.delete(f"{base_url}/browsers/sess-1").mock(return_value=httpx.Response(204))
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        response = client.browsers.with_raw_response.delete_by_id("sess-1")
+        with pytest.raises(ValueError, match="route cache"):
+            client.browsers.request("sess-1", "GET", "https://example.com")
+
+    assert delete_route.called
+    assert response.is_closed is True
+
+
+@respx.mock
+def test_failed_browser_delete_by_id_keeps_route_cache() -> None:
+    delete_route = respx.delete(f"{base_url}/browsers/sess-1").mock(
+        return_value=httpx.Response(500, json={"error": "boom"})
+    )
+    routed_request = respx.get("http://browser-session.test/browser/kernel/curl/raw").mock(
+        return_value=httpx.Response(200, content=b"ok")
+    )
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        with pytest.raises(InternalServerError):
+            client.browsers.delete_by_id("sess-1")
+        routed = client.browsers.request("sess-1", "GET", "https://example.com")
+
+    assert delete_route.called
+    assert routed.status_code == 200
+    assert routed_request.called
 
 
 def test_browser_route_cache_normalizes_session_id_keys() -> None:
