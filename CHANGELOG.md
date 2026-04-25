@@ -1,5 +1,54 @@
 # Changelog
 
+## 0.51.0 (2026-04-25)
+
+Full Changelog: [v0.50.0...v0.51.0](https://github.com/kernel/kernel-python-sdk/compare/v0.50.0...v0.51.0)
+
+### Features
+
+* add browser-scoped session client ([7ca6887](https://github.com/kernel/kernel-python-sdk/commit/7ca68877e7011bb83862b7cc810a20d8254ea7dd))
+* Expire stuck IN_PROGRESS managed auth sessions via background worker ([7781a3b](https://github.com/kernel/kernel-python-sdk/commit/7781a3b4635ded02dea60adf85878f50f7b7fb27))
+* Expose browser_session_id on managed auth connection ([0ccb507](https://github.com/kernel/kernel-python-sdk/commit/0ccb50744032b4c31e0575fa7b06fb20503c8f55))
+* generate browser-scoped resource bindings ([53b17c8](https://github.com/kernel/kernel-python-sdk/commit/53b17c8241cc71261d1e96f5929cbd4f05b2064b))
+
+
+### Bug Fixes
+
+* address python browser routing ci follow-ups ([9690923](https://github.com/kernel/kernel-python-sdk/commit/9690923666cfe07de76267eee050d7743a8bad6f))
+* evict deleted browser routes ([a873a18](https://github.com/kernel/kernel-python-sdk/commit/a873a18eba3f36937dc177ab981372e395722f8b))
+* finish python browser routing cleanup ([694907a](https://github.com/kernel/kernel-python-sdk/commit/694907ab3419477e7058b85a7365ac4cce941105))
+* normalize browser route cache session IDs ([f4c247b](https://github.com/kernel/kernel-python-sdk/commit/f4c247b425680b54d0ce3c7738fb82313bca7918))
+* normalize python browser request string bodies ([3ce80e7](https://github.com/kernel/kernel-python-sdk/commit/3ce80e767d373b638ba1c2959bf18bf999629db0))
+* quiet generator-script pyright noise ([0bdf85e](https://github.com/kernel/kernel-python-sdk/commit/0bdf85e0c38d4813056b61599273e88c7a64713a))
+* reserve internal browser request query params ([b2c7aac](https://github.com/kernel/kernel-python-sdk/commit/b2c7aacac09a1bb7680cf493e9985438b169286c))
+* satisfy browser-scoped lint checks ([8e8dde2](https://github.com/kernel/kernel-python-sdk/commit/8e8dde241c8817944baaacd155fe196f200868e8))
+* satisfy generated browser-scoped type checks ([b410245](https://github.com/kernel/kernel-python-sdk/commit/b410245e1ad4bf8e29c17c59a5931654567b141f))
+* sniff browser pool route cache updates ([5328730](https://github.com/kernel/kernel-python-sdk/commit/532873072f0400029768d1b7cf54b9fb1428ada9))
+* type-check browser-scoped helpers ([cfff5b4](https://github.com/kernel/kernel-python-sdk/commit/cfff5b4c3635d327dd1ac0779d4e17e395efbec0))
+
+
+### Chores
+
+* fix browser-scoped test import order ([fc34859](https://github.com/kernel/kernel-python-sdk/commit/fc34859c4f60f84038b425d9930c512e58134dea))
+* **internal:** more robust bootstrap script ([6c9cdf3](https://github.com/kernel/kernel-python-sdk/commit/6c9cdf3ce828fab358c7e060f4e3313408cad257))
+* keep browser-scoped generator lint clean ([a80716b](https://github.com/kernel/kernel-python-sdk/commit/a80716b791bf1f707aa7869290c47caefb0d9e27))
+
+
+### Documentation
+
+* flesh out browser-scoped example ([ca5d188](https://github.com/kernel/kernel-python-sdk/commit/ca5d1884b590634df5623945e9585e0a66228ec3))
+
+
+### Refactors
+
+* clean up python browser routing diff ([622f844](https://github.com/kernel/kernel-python-sdk/commit/622f8448a8a32f00b41d6e4890bfaf0a9374bd3e))
+* drop browser-scoped wrapper clients ([dba503e](https://github.com/kernel/kernel-python-sdk/commit/dba503e832d54aa8d462d3d74b3027f8a9e865b6))
+* inline browser resource passthrough returns ([02a2f59](https://github.com/kernel/kernel-python-sdk/commit/02a2f595c7e76ae7f0cea2ec1e88075df3a25be1))
+* move python browser routing rollout to env ([0647d5c](https://github.com/kernel/kernel-python-sdk/commit/0647d5cab166e680bcb3436d1b502c3215492400))
+* rename browser routing subresources config ([3ae9dab](https://github.com/kernel/kernel-python-sdk/commit/3ae9dab6b841e6f1191cdde073e36696f97feb39))
+* simplify browser routing cache ([de0476f](https://github.com/kernel/kernel-python-sdk/commit/de0476fc043df48a58dd4067bb4b3c0fe7a83f0e))
+* sniff browser routes in response hooks ([563de7d](https://github.com/kernel/kernel-python-sdk/commit/563de7d0ac8f141320edb060b4671935808e473a))
+
 ## 0.50.0 (2026-04-20)
 
 Full Changelog: [v0.49.0...v0.50.0](https://github.com/kernel/kernel-python-sdk/compare/v0.49.0...v0.50.0)
