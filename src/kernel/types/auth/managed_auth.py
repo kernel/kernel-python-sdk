@@ -197,7 +197,12 @@ class ManagedAuth(BaseModel):
     """
 
     flow_expires_at: Optional[datetime] = None
-    """When the current flow expires (null when no flow in progress)"""
+    """When the current flow expires (null when no flow in progress).
+
+    A flow past this timestamp is no longer valid and its `flow_status` will be
+    `EXPIRED`. Clients may start a new login to supersede a stale `IN_PROGRESS` flow
+    past this timestamp.
+    """
 
     flow_status: Optional[Literal["IN_PROGRESS", "SUCCESS", "FAILED", "EXPIRED", "CANCELED"]] = None
     """Current flow status (null when no flow in progress)"""
@@ -223,7 +228,20 @@ class ManagedAuth(BaseModel):
     """URL to redirect user to for hosted login (present when flow in progress)"""
 
     last_auth_at: Optional[datetime] = None
-    """When the profile was last successfully authenticated"""
+    """Deprecated alias for `last_auth_check_at`.
+
+    Despite the name, this is the last health-check timestamp, not the last
+    successful authentication. Use `last_auth_check_at` instead.
+    """
+
+    last_auth_check_at: Optional[datetime] = None
+    """
+    When the most recent auth health check ran for this connection, regardless of
+    outcome. Updated on every health check and does not by itself indicate that the
+    profile is currently authenticated - use `status` for that. May be newer than
+    `flow_expires_at` when a flow is still in progress because health checks
+    continue to run in parallel.
+    """
 
     live_view_url: Optional[str] = None
     """Browser live view URL for debugging (present when flow in progress)"""
