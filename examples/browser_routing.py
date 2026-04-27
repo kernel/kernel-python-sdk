@@ -9,8 +9,14 @@ def main() -> None:
     client = Kernel()
 
     browser = client.browsers.create()
+
+    # Raw browser curl: streams the response. Use for large responses or when you want to stream.
     response: httpx.Response = client.browsers.request(browser.session_id, "GET", "https://example.com")
     print("status", response.status_code)
+
+    # Buffered browser curl: returns the full response in a JSON envelope. Use for small responses.
+    buffered = client.browsers.curl(browser.session_id, url="https://example.com", method="GET")
+    print("buffered-status", buffered.status)
 
     client.browsers.delete_by_id(browser.session_id)
 
