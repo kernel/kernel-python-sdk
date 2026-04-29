@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.52.0 (2026-04-29)
+
+Full Changelog: [v0.51.0...v0.52.0](https://github.com/kernel/kernel-python-sdk/compare/v0.51.0...v0.52.0)
+
+### Features
+
+* profile download: 409 for empty profile + surface API errors in dashboard ([fd0c20e](https://github.com/kernel/kernel-python-sdk/commit/fd0c20eb17f0a6df382672c34830a81fac9217d9))
+* support setting headers via env ([37dda88](https://github.com/kernel/kernel-python-sdk/commit/37dda88a1f88fdf4bd8da615cbb6be1aadae3f41))
+
+
+### Bug Fixes
+
+* use correct field name format for multipart file arrays ([663f0a8](https://github.com/kernel/kernel-python-sdk/commit/663f0a8a633fd5b0f5f8b65ed169c4d780251e1d))
+
+
+### Documentation
+
+* annotate response with httpx.Response in browser routing example ([0dfa1fb](https://github.com/kernel/kernel-python-sdk/commit/0dfa1fb978da1c4fd474840ae8664f027e1feb39))
+* print buffered body and mention httpx.Response semantics ([84cb2e3](https://github.com/kernel/kernel-python-sdk/commit/84cb2e38486f330635487ed049d692f7c9716a1f))
+* show both raw streaming and buffered curl in routing example ([407e748](https://github.com/kernel/kernel-python-sdk/commit/407e74862f99db13320ea6c02a8752759d4de60a))
+* simplify browser routing example ([58b0ee2](https://github.com/kernel/kernel-python-sdk/commit/58b0ee27cdac1f4021c6e333f8157318c838ec56))
+
 ## 0.51.0 (2026-04-25)
 
 Full Changelog: [v0.50.0...v0.51.0](https://github.com/kernel/kernel-python-sdk/compare/v0.50.0...v0.51.0)
