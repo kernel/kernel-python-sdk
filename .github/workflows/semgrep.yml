@@ -1,0 +1,17 @@
+name: Semgrep
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  scan:
+    uses: kernel/security-workflows/.github/workflows/semgrep.yml@main
+    with:
+      extra-configs: '--config p/python --config p/trailofbits'
+      codebase-description: 'Stainless-generated Python SDK for the Kernel API (public PyPI package used by customers)'
+    secrets: inherit
