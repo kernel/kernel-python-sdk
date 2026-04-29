@@ -216,10 +216,8 @@ class ProfilesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BinaryAPIResponse:
-        """Download the profile.
-
-        Profiles are JSON files containing the pieces of state
-        that we save.
+        """
+        Returns a zstd-compressed tar file of the full user-data directory.
 
         Args:
           extra_headers: Send extra headers
@@ -428,10 +426,8 @@ class AsyncProfilesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncBinaryAPIResponse:
-        """Download the profile.
-
-        Profiles are JSON files containing the pieces of state
-        that we save.
+        """
+        Returns a zstd-compressed tar file of the full user-data directory.
 
         Args:
           extra_headers: Send extra headers
