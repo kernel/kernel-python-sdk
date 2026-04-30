@@ -40,7 +40,7 @@ class ManagedAuthStateEventDiscoveredField(BaseModel):
     "Enter the phone ending in (**_) _**-\\**\\**92")
     """
 
-    linked_mfa_type: Optional[Literal["sms", "call", "email", "totp", "push", "password"]] = None
+    linked_mfa_type: Optional[Literal["sms", "call", "email", "totp", "push", "password", "switch"]] = None
     """
     If this field is associated with an MFA option, the type of that option (e.g.,
     password field linked to "Enter password" option)
@@ -59,9 +59,12 @@ class ManagedAuthStateEventMfaOption(BaseModel):
     label: str
     """The visible option text"""
 
-    type: Literal["sms", "call", "email", "totp", "push", "password"]
-    """
-    The MFA delivery method type (includes password for auth method selection pages)
+    type: Literal["sms", "call", "email", "totp", "push", "password", "switch"]
+    """The MFA delivery method type.
+
+    Includes 'password' for auth method selection pages and 'switch' for generic
+    method-switcher links like "Use another method" that do not name a specific
+    method.
     """
 
     description: Optional[str] = None
