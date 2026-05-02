@@ -158,6 +158,7 @@ class TestProjects:
         project = client.projects.list(
             limit=100,
             offset=0,
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[Project], project, path=["response"])
 
@@ -371,6 +372,7 @@ class TestAsyncProjects:
         project = await async_client.projects.list(
             limit=100,
             offset=0,
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[Project], project, path=["response"])
 
