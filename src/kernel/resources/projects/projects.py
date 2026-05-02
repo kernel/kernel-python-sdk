@@ -179,6 +179,7 @@ class ProjectsResource(SyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -193,6 +194,8 @@ class ProjectsResource(SyncAPIResource):
           limit: Maximum number of results to return
 
           offset: Number of results to skip
+
+          query: Case-insensitive substring match against project name
 
           extra_headers: Send extra headers
 
@@ -214,6 +217,7 @@ class ProjectsResource(SyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     project_list_params.ProjectListParams,
                 ),
@@ -404,6 +408,7 @@ class AsyncProjectsResource(AsyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -418,6 +423,8 @@ class AsyncProjectsResource(AsyncAPIResource):
           limit: Maximum number of results to return
 
           offset: Number of results to skip
+
+          query: Case-insensitive substring match against project name
 
           extra_headers: Send extra headers
 
@@ -439,6 +446,7 @@ class AsyncProjectsResource(AsyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     project_list_params.ProjectListParams,
                 ),
