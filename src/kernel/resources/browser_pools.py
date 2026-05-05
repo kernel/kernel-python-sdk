@@ -100,7 +100,7 @@ class BrowserPoolsResource(SyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
 
-          name: Optional name for the browser pool. Must be unique within the organization.
+          name: Optional name for the browser pool. Must be unique within the project.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -243,7 +243,7 @@ class BrowserPoolsResource(SyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
 
-          name: Optional name for the browser pool. Must be unique within the organization.
+          name: Optional name for the browser pool. Must be unique within the project.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -562,7 +562,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
 
-          name: Optional name for the browser pool. Must be unique within the organization.
+          name: Optional name for the browser pool. Must be unique within the project.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -705,7 +705,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
 
-          name: Optional name for the browser pool. Must be unique within the organization.
+          name: Optional name for the browser pool. Must be unique within the project.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.

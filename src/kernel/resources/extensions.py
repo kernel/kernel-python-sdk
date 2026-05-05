@@ -211,7 +211,7 @@ class ExtensionsResource(SyncAPIResource):
         Args:
           file: ZIP file containing the browser extension.
 
-          name: Optional unique name within the organization to reference this extension.
+          name: Optional unique name within the project to reference this extension.
 
           extra_headers: Send extra headers
 
@@ -421,7 +421,7 @@ class AsyncExtensionsResource(AsyncAPIResource):
         Args:
           file: ZIP file containing the browser extension.
 
-          name: Optional unique name within the organization to reference this extension.
+          name: Optional unique name within the project to reference this extension.
 
           extra_headers: Send extra headers
 
