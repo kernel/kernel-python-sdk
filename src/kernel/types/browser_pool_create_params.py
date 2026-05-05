@@ -47,7 +47,7 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     """
 
     name: str
-    """Optional name for the browser pool. Must be unique within the organization."""
+    """Optional name for the browser pool. Must be unique within the project."""
 
     profile: BrowserProfile
     """Profile selection for the browser session.
