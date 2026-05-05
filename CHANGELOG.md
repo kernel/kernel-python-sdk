@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.53.0 (2026-05-05)
+
+Full Changelog: [v0.52.0...v0.53.0](https://github.com/kernel/kernel-python-sdk/compare/v0.52.0...v0.53.0)
+
+### Features
+
+* Add 'switch' MFA option type for generic method-switcher links ([ed6a2d2](https://github.com/kernel/kernel-python-sdk/commit/ed6a2d2e05b20a6d80c122e7baec032e21de79eb))
+* **api:** server-side search on GET /projects ([51c4f79](https://github.com/kernel/kernel-python-sdk/commit/51c4f7906d21382f10c7bb57cfe05f136edc0e42))
+* Scope name uniqueness to project for profiles, session_pools, extensions, credentials ([19a5d40](https://github.com/kernel/kernel-python-sdk/commit/19a5d40a08e13daedff5da0b695305eb9556acab))
+
+
+### Chores
+
+* **internal:** reformat pyproject.toml ([120de63](https://github.com/kernel/kernel-python-sdk/commit/120de634b59406e86e5c7f100fa665f45e81c076))
+
 ## 0.52.0 (2026-04-29)
 
 Full Changelog: [v0.51.0...v0.52.0](https://github.com/kernel/kernel-python-sdk/compare/v0.51.0...v0.52.0)
