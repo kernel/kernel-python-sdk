@@ -26,5 +26,5 @@ class ExtensionUploadResponse(BaseModel):
     name: Optional[str] = None
     """Optional, easier-to-reference name for the extension.
 
-    Must be unique within the organization.
+    Must be unique within the project.
     """

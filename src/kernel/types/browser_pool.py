@@ -48,7 +48,7 @@ class BrowserPoolConfig(BaseModel):
     """
 
     name: Optional[str] = None
-    """Optional name for the browser pool. Must be unique within the organization."""
+    """Optional name for the browser pool. Must be unique within the project."""
 
     profile: Optional[BrowserProfile] = None
     """Profile selection for the browser session.
