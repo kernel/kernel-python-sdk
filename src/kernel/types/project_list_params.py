@@ -13,3 +13,6 @@ class ProjectListParams(TypedDict, total=False):
 
     offset: int
     """Number of results to skip"""
+
+    query: str
+    """Case-insensitive substring match against project name"""

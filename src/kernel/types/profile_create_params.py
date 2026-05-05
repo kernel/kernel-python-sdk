@@ -9,4 +9,4 @@ __all__ = ["ProfileCreateParams"]
 
 class ProfileCreateParams(TypedDict, total=False):
     name: str
-    """Optional name of the profile. Must be unique within the organization."""
+    """Optional name of the profile. Must be unique within the project."""

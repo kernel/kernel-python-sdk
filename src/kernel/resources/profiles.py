@@ -68,7 +68,7 @@ class ProfilesResource(SyncAPIResource):
         sessions.
 
         Args:
-          name: Optional name of the profile. Must be unique within the organization.
+          name: Optional name of the profile. Must be unique within the project.
 
           extra_headers: Send extra headers
 
@@ -278,7 +278,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         sessions.
 
         Args:
-          name: Optional name of the profile. Must be unique within the organization.
+          name: Optional name of the profile. Must be unique within the project.
 
           extra_headers: Send extra headers
 
