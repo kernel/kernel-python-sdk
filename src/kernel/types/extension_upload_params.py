@@ -14,4 +14,4 @@ class ExtensionUploadParams(TypedDict, total=False):
     """ZIP file containing the browser extension."""
 
     name: str
-    """Optional unique name within the organization to reference this extension."""
+    """Optional unique name within the project to reference this extension."""

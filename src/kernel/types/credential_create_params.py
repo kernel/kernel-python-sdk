@@ -13,7 +13,7 @@ class CredentialCreateParams(TypedDict, total=False):
     """Target domain this credential is for"""
 
     name: Required[str]
-    """Unique name for the credential within the organization"""
+    """Unique name for the credential within the project"""
 
     values: Required[Dict[str, str]]
     """Field name to value mapping (e.g., username, password)"""

@@ -68,7 +68,7 @@ class CredentialsResource(SyncAPIResource):
         Args:
           domain: Target domain this credential is for
 
-          name: Unique name for the credential within the organization
+          name: Unique name for the credential within the project
 
           values: Field name to value mapping (e.g., username, password)
 
@@ -365,7 +365,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         Args:
           domain: Target domain this credential is for
 
-          name: Unique name for the credential within the organization
+          name: Unique name for the credential within the project
 
           values: Field name to value mapping (e.g., username, password)
 

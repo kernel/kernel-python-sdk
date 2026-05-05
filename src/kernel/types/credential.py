@@ -21,7 +21,7 @@ class Credential(BaseModel):
     """Target domain this credential is for"""
 
     name: str
-    """Unique name for the credential within the organization"""
+    """Unique name for the credential within the project"""
 
     updated_at: datetime
     """When the credential was last updated"""
