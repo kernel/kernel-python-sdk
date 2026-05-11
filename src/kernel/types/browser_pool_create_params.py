@@ -62,6 +62,15 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     Must reference a proxy belonging to the caller's org.
     """
 
+    start_url: str
+    """Optional URL to navigate to when a new browser is warmed into the pool.
+
+    Best-effort: failures to navigate do not fail pool fill. Only applied to
+    newly-warmed browsers — browsers reused via release/acquire keep whatever URL
+    the previous lease left them on. Accepts any URL Chromium can resolve, including
+    chrome:// pages.
+    """
+
     stealth: bool
     """
     If true, launches the browser in stealth mode to reduce detection by anti-bot

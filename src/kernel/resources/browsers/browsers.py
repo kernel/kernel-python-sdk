@@ -153,6 +153,7 @@ class BrowsersResource(SyncAPIResource):
         persistence: BrowserPersistenceParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: str | Omit = omit,
+        start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
@@ -188,6 +189,12 @@ class BrowsersResource(SyncAPIResource):
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
               belonging to the caller's org.
+
+          start_url: Optional URL to navigate to immediately after the browser is created.
+              Best-effort: failures to navigate do not fail browser creation. Any pre-existing
+              tabs are reduced to a single tab which is then navigated. Accepts any URL
+              Chromium can resolve, including chrome:// pages. Ignored when reusing an
+              existing persistent session.
 
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
@@ -231,6 +238,7 @@ class BrowsersResource(SyncAPIResource):
                     "persistence": persistence,
                     "profile": profile,
                     "proxy_id": proxy_id,
+                    "start_url": start_url,
                     "stealth": stealth,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
@@ -653,6 +661,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         persistence: BrowserPersistenceParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: str | Omit = omit,
+        start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
@@ -688,6 +697,12 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
               belonging to the caller's org.
+
+          start_url: Optional URL to navigate to immediately after the browser is created.
+              Best-effort: failures to navigate do not fail browser creation. Any pre-existing
+              tabs are reduced to a single tab which is then navigated. Accepts any URL
+              Chromium can resolve, including chrome:// pages. Ignored when reusing an
+              existing persistent session.
 
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
@@ -731,6 +746,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "persistence": persistence,
                     "profile": profile,
                     "proxy_id": proxy_id,
+                    "start_url": start_url,
                     "stealth": stealth,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
