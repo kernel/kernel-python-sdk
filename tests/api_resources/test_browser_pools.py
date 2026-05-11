@@ -51,6 +51,7 @@ class TestBrowserPools:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            start_url="https://example.com",
             stealth=True,
             timeout_seconds=60,
             viewport={
@@ -162,6 +163,7 @@ class TestBrowserPools:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            start_url="https://example.com",
             stealth=True,
             timeout_seconds=60,
             viewport={
@@ -473,6 +475,7 @@ class TestAsyncBrowserPools:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            start_url="https://example.com",
             stealth=True,
             timeout_seconds=60,
             viewport={
@@ -584,6 +587,7 @@ class TestAsyncBrowserPools:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            start_url="https://example.com",
             stealth=True,
             timeout_seconds=60,
             viewport={

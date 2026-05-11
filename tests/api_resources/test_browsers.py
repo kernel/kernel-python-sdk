@@ -53,6 +53,7 @@ class TestBrowsers:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            start_url="https://example.com",
             stealth=True,
             timeout_seconds=10,
             viewport={
@@ -478,6 +479,7 @@ class TestAsyncBrowsers:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            start_url="https://example.com",
             stealth=True,
             timeout_seconds=10,
             viewport={
