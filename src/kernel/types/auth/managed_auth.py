@@ -185,7 +185,10 @@ class ManagedAuth(BaseModel):
     """
 
     discovered_fields: Optional[List[DiscoveredField]] = None
-    """Fields awaiting input (present when flow_step=awaiting_input)"""
+    """
+    Fields awaiting input (present when flow_step=awaiting_input; may also be
+    present with awaiting_external_action as fallback actions)
+    """
 
     error_code: Optional[str] = None
     """Machine-readable error code (present when flow_status=failed)"""
@@ -254,12 +257,15 @@ class ManagedAuth(BaseModel):
 
     mfa_options: Optional[List[MfaOption]] = None
     """
-    MFA method options (present when flow_step=awaiting_input and MFA selection
-    required)
+    MFA method options (present when flow_step=awaiting_input; may also be present
+    with awaiting_external_action as fallback actions)
     """
 
     pending_sso_buttons: Optional[List[PendingSSOButton]] = None
-    """SSO buttons available (present when flow_step=awaiting_input)"""
+    """
+    SSO buttons available (present when flow_step=awaiting_input; may also be
+    present with awaiting_external_action as fallback actions)
+    """
 
     post_login_url: Optional[str] = None
     """URL where the browser landed after successful login"""
@@ -270,7 +276,8 @@ class ManagedAuth(BaseModel):
     sign_in_options: Optional[List[SignInOption]] = None
     """
     Non-MFA choices presented during the auth flow, such as account selection or org
-    pickers (present when flow_step=awaiting_input).
+    pickers (present when flow_step=awaiting_input; may also be present with
+    awaiting_external_action as fallback actions).
     """
 
     sso_provider: Optional[str] = None
