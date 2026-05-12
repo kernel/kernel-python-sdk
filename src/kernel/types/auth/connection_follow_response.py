@@ -119,7 +119,10 @@ class ManagedAuthStateEvent(BaseModel):
     """Time the state was reported."""
 
     discovered_fields: Optional[List[ManagedAuthStateEventDiscoveredField]] = None
-    """Fields awaiting input (present when flow_step=AWAITING_INPUT)."""
+    """
+    Fields awaiting input (present when flow_step=AWAITING_INPUT; may also be
+    present with AWAITING_EXTERNAL_ACTION as fallback actions).
+    """
 
     error_code: Optional[str] = None
     """Machine-readable error code (present when flow_status=FAILED)."""
@@ -144,12 +147,15 @@ class ManagedAuthStateEvent(BaseModel):
 
     mfa_options: Optional[List[ManagedAuthStateEventMfaOption]] = None
     """
-    MFA method options (present when flow_step=AWAITING_INPUT and MFA selection
-    required).
+    MFA method options (present when flow_step=AWAITING_INPUT; may also be present
+    with AWAITING_EXTERNAL_ACTION as fallback actions).
     """
 
     pending_sso_buttons: Optional[List[ManagedAuthStateEventPendingSSOButton]] = None
-    """SSO buttons available (present when flow_step=AWAITING_INPUT)."""
+    """
+    SSO buttons available (present when flow_step=AWAITING_INPUT; may also be
+    present with AWAITING_EXTERNAL_ACTION as fallback actions).
+    """
 
     post_login_url: Optional[str] = None
     """URL where the browser landed after successful login."""
@@ -157,7 +163,8 @@ class ManagedAuthStateEvent(BaseModel):
     sign_in_options: Optional[List[ManagedAuthStateEventSignInOption]] = None
     """
     Non-MFA choices presented during the auth flow, such as account selection or org
-    pickers (present when flow_step=AWAITING_INPUT).
+    pickers (present when flow_step=AWAITING_INPUT; may also be present with
+    AWAITING_EXTERNAL_ACTION as fallback actions).
     """
 
     website_error: Optional[str] = None
