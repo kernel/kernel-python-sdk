@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.53.0 (2026-05-12)
+
+Full Changelog: [v0.52.0...v0.53.0](https://github.com/kernel/kernel-python-sdk/compare/v0.52.0...v0.53.0)
+
+### Features
+
+* Add 'switch' MFA option type for generic method-switcher links ([82ae224](https://github.com/kernel/kernel-python-sdk/commit/82ae224a85a22b16e48a26a8058cc992ef772cf2))
+* Add opt-in record_session flag to managed auth ([53fea1c](https://github.com/kernel/kernel-python-sdk/commit/53fea1c26cd8de2b93944bb7625c401d05362b1c))
+* **api:** server-side search on GET /projects ([cacb057](https://github.com/kernel/kernel-python-sdk/commit/cacb057a5d1d3bcb26b6df1f6fe83067f936d642))
+* browser_pools: add start_url config (KERNEL-1217 PR 2) ([e3f0b8d](https://github.com/kernel/kernel-python-sdk/commit/e3f0b8db4b2d05140d112317315ba1e393f385cf))
+* **internal/types:** support eagerly validating pydantic iterators ([b30bc1e](https://github.com/kernel/kernel-python-sdk/commit/b30bc1e0c3493f12a3499eb037f13561dfdcaedf))
+* managed-auth: surface awaiting_external_action even when fallback actions exist ([fd4ffe4](https://github.com/kernel/kernel-python-sdk/commit/fd4ffe40e037e95e93f46b7773d6a5e468c7b8fd))
+* Scope name uniqueness to project for profiles, session_pools, extensions, credentials ([c510a51](https://github.com/kernel/kernel-python-sdk/commit/c510a515b3c57846f0e681638167ba87b8ee15c3))
+
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([fb5340d](https://github.com/kernel/kernel-python-sdk/commit/fb5340dbf9ea49393d87b5760a2efaaf932c9442))
+
+
+### Chores
+
+* **internal:** reformat pyproject.toml ([27c799b](https://github.com/kernel/kernel-python-sdk/commit/27c799be452cb66af59b79d24b3d5147a85b70f7))
+
 ## 0.52.0 (2026-04-29)
 
 Full Changelog: [v0.51.0...v0.52.0](https://github.com/kernel/kernel-python-sdk/compare/v0.51.0...v0.52.0)
