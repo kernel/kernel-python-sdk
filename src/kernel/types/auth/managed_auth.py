@@ -131,9 +131,9 @@ class ManagedAuth(BaseModel):
     """Name of the profile associated with this auth connection"""
 
     record_session: bool
-    """
-    Whether browser sessions for this connection are recorded by default for
-    debugging. Can be overridden per-login.
+    """Whether to record browser session replays for this connection by default.
+
+    Useful for debugging login flows. Can be overridden per-login.
     """
 
     save_credentials: bool
