@@ -66,6 +66,7 @@ class ConnectionsResource(SyncAPIResource):
         health_check_interval: int | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_create_params.Proxy | Omit = omit,
+        record_session: bool | Omit = omit,
         save_credentials: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -122,6 +123,9 @@ class ConnectionsResource(SyncAPIResource):
           proxy: Proxy selection. Provide either id or name. The proxy must belong to the
               caller's org.
 
+          record_session: Whether to record browser sessions for this connection by default. Useful for
+              debugging. Can be overridden per-login. Defaults to false.
+
           save_credentials: Whether to save credentials after every successful login. Defaults to true.
               One-time codes (TOTP, SMS, etc.) are not saved.
 
@@ -144,6 +148,7 @@ class ConnectionsResource(SyncAPIResource):
                     "health_check_interval": health_check_interval,
                     "login_url": login_url,
                     "proxy": proxy,
+                    "record_session": record_session,
                     "save_credentials": save_credentials,
                 },
                 connection_create_params.ConnectionCreateParams,
@@ -198,6 +203,7 @@ class ConnectionsResource(SyncAPIResource):
         health_check_interval: int | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_update_params.Proxy | Omit = omit,
+        record_session: bool | Omit = omit,
         save_credentials: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -228,6 +234,8 @@ class ConnectionsResource(SyncAPIResource):
           proxy: Proxy selection. Provide either id or name. The proxy must belong to the
               caller's org.
 
+          record_session: Whether to record browser sessions for this connection by default
+
           save_credentials: Whether to save credentials after every successful login
 
           extra_headers: Send extra headers
@@ -249,6 +257,7 @@ class ConnectionsResource(SyncAPIResource):
                     "health_check_interval": health_check_interval,
                     "login_url": login_url,
                     "proxy": proxy,
+                    "record_session": record_session,
                     "save_credentials": save_credentials,
                 },
                 connection_update_params.ConnectionUpdateParams,
@@ -398,6 +407,7 @@ class ConnectionsResource(SyncAPIResource):
         id: str,
         *,
         proxy: connection_login_params.Proxy | Omit = omit,
+        record_session: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -415,6 +425,9 @@ class ConnectionsResource(SyncAPIResource):
           proxy: Proxy selection. Provide either id or name. The proxy must belong to the
               caller's org.
 
+          record_session: Override the connection's default for recording this login's browser session.
+              When omitted, the connection's record_session default is used.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -427,7 +440,13 @@ class ConnectionsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
             path_template("/auth/connections/{id}/login", id=id),
-            body=maybe_transform({"proxy": proxy}, connection_login_params.ConnectionLoginParams),
+            body=maybe_transform(
+                {
+                    "proxy": proxy,
+                    "record_session": record_session,
+                },
+                connection_login_params.ConnectionLoginParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -529,6 +548,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         health_check_interval: int | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_create_params.Proxy | Omit = omit,
+        record_session: bool | Omit = omit,
         save_credentials: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -585,6 +605,9 @@ class AsyncConnectionsResource(AsyncAPIResource):
           proxy: Proxy selection. Provide either id or name. The proxy must belong to the
               caller's org.
 
+          record_session: Whether to record browser sessions for this connection by default. Useful for
+              debugging. Can be overridden per-login. Defaults to false.
+
           save_credentials: Whether to save credentials after every successful login. Defaults to true.
               One-time codes (TOTP, SMS, etc.) are not saved.
 
@@ -607,6 +630,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
                     "health_check_interval": health_check_interval,
                     "login_url": login_url,
                     "proxy": proxy,
+                    "record_session": record_session,
                     "save_credentials": save_credentials,
                 },
                 connection_create_params.ConnectionCreateParams,
@@ -661,6 +685,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         health_check_interval: int | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_update_params.Proxy | Omit = omit,
+        record_session: bool | Omit = omit,
         save_credentials: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -691,6 +716,8 @@ class AsyncConnectionsResource(AsyncAPIResource):
           proxy: Proxy selection. Provide either id or name. The proxy must belong to the
               caller's org.
 
+          record_session: Whether to record browser sessions for this connection by default
+
           save_credentials: Whether to save credentials after every successful login
 
           extra_headers: Send extra headers
@@ -712,6 +739,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
                     "health_check_interval": health_check_interval,
                     "login_url": login_url,
                     "proxy": proxy,
+                    "record_session": record_session,
                     "save_credentials": save_credentials,
                 },
                 connection_update_params.ConnectionUpdateParams,
@@ -861,6 +889,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         id: str,
         *,
         proxy: connection_login_params.Proxy | Omit = omit,
+        record_session: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -878,6 +907,9 @@ class AsyncConnectionsResource(AsyncAPIResource):
           proxy: Proxy selection. Provide either id or name. The proxy must belong to the
               caller's org.
 
+          record_session: Override the connection's default for recording this login's browser session.
+              When omitted, the connection's record_session default is used.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -890,7 +922,13 @@ class AsyncConnectionsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
             path_template("/auth/connections/{id}/login", id=id),
-            body=await async_maybe_transform({"proxy": proxy}, connection_login_params.ConnectionLoginParams),
+            body=await async_maybe_transform(
+                {
+                    "proxy": proxy,
+                    "record_session": record_session,
+                },
+                connection_login_params.ConnectionLoginParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
