@@ -130,6 +130,12 @@ class ManagedAuth(BaseModel):
     profile_name: str
     """Name of the profile associated with this auth connection"""
 
+    record_session: bool
+    """
+    Whether browser sessions for this connection are recorded by default for
+    debugging. Can be overridden per-login.
+    """
+
     save_credentials: bool
     """Whether credentials are saved after every successful login.
 
