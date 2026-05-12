@@ -50,6 +50,7 @@ class TestConnections:
                 "id": "id",
                 "name": "name",
             },
+            record_session=False,
             save_credentials=True,
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
@@ -150,6 +151,7 @@ class TestConnections:
                 "id": "id",
                 "name": "name",
             },
+            record_session=False,
             save_credentials=True,
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
@@ -327,6 +329,7 @@ class TestConnections:
                 "id": "id",
                 "name": "name",
             },
+            record_session=True,
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 
@@ -456,6 +459,7 @@ class TestAsyncConnections:
                 "id": "id",
                 "name": "name",
             },
+            record_session=False,
             save_credentials=True,
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
@@ -556,6 +560,7 @@ class TestAsyncConnections:
                 "id": "id",
                 "name": "name",
             },
+            record_session=False,
             save_credentials=True,
         )
         assert_matches_type(ManagedAuth, connection, path=["response"])
@@ -733,6 +738,7 @@ class TestAsyncConnections:
                 "id": "id",
                 "name": "name",
             },
+            record_session=True,
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 

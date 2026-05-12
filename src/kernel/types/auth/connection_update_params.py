@@ -33,6 +33,9 @@ class ConnectionUpdateParams(TypedDict, total=False):
     Provide either id or name. The proxy must belong to the caller's org.
     """
 
+    record_session: bool
+    """Whether to record browser sessions for this connection by default"""
+
     save_credentials: bool
     """Whether to save credentials after every successful login"""
 

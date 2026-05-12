@@ -14,6 +14,12 @@ class ConnectionLoginParams(TypedDict, total=False):
     Provide either id or name. The proxy must belong to the caller's org.
     """
 
+    record_session: bool
+    """Override the connection's default for recording this login's browser session.
+
+    When omitted, the connection's record_session default is used.
+    """
+
 
 class Proxy(TypedDict, total=False):
     """Proxy selection.
