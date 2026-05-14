@@ -69,10 +69,7 @@ class BrowserCreateResponse(BaseModel):
     """ID of the proxy associated with this browser session, if any."""
 
     start_url: Optional[str] = None
-    """URL the session was asked to navigate to on creation, if any.
-
-    Recorded for debugging — navigation is best-effort and may have failed.
-    """
+    """Start URL requested for the session, if provided."""
 
     usage: Optional[BrowserUsage] = None
     """Session usage metrics."""

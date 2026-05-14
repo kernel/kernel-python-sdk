@@ -110,11 +110,9 @@ class BrowserPoolsResource(SyncAPIResource):
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
               belonging to the caller's org.
 
-          start_url: Optional URL to navigate to when a new browser is warmed into the pool.
-              Best-effort: failures to navigate do not fail pool fill. Only applied to
-              newly-warmed browsers — browsers reused via release/acquire keep whatever URL
-              the previous lease left them on. Accepts any URL Chromium can resolve, including
-              chrome:// pages.
+          start_url: Optional URL to open when a browser is created for the pool. Navigation is
+              best-effort, so navigation failures do not prevent the pool from filling. Reused
+              browsers keep the page left by the previous lease.
 
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
@@ -261,11 +259,9 @@ class BrowserPoolsResource(SyncAPIResource):
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
               belonging to the caller's org.
 
-          start_url: Optional URL to navigate to when a new browser is warmed into the pool.
-              Best-effort: failures to navigate do not fail pool fill. Only applied to
-              newly-warmed browsers — browsers reused via release/acquire keep whatever URL
-              the previous lease left them on. Accepts any URL Chromium can resolve, including
-              chrome:// pages.
+          start_url: Optional URL to open when a browser is created for the pool. Navigation is
+              best-effort, so navigation failures do not prevent the pool from filling. Reused
+              browsers keep the page left by the previous lease.
 
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
@@ -588,11 +584,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
               belonging to the caller's org.
 
-          start_url: Optional URL to navigate to when a new browser is warmed into the pool.
-              Best-effort: failures to navigate do not fail pool fill. Only applied to
-              newly-warmed browsers — browsers reused via release/acquire keep whatever URL
-              the previous lease left them on. Accepts any URL Chromium can resolve, including
-              chrome:// pages.
+          start_url: Optional URL to open when a browser is created for the pool. Navigation is
+              best-effort, so navigation failures do not prevent the pool from filling. Reused
+              browsers keep the page left by the previous lease.
 
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
@@ -739,11 +733,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
               belonging to the caller's org.
 
-          start_url: Optional URL to navigate to when a new browser is warmed into the pool.
-              Best-effort: failures to navigate do not fail pool fill. Only applied to
-              newly-warmed browsers — browsers reused via release/acquire keep whatever URL
-              the previous lease left them on. Accepts any URL Chromium can resolve, including
-              chrome:// pages.
+          start_url: Optional URL to open when a browser is created for the pool. Navigation is
+              best-effort, so navigation failures do not prevent the pool from filling. Reused
+              browsers keep the page left by the previous lease.
 
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
