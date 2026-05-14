@@ -58,12 +58,10 @@ class BrowserCreateParams(TypedDict, total=False):
     """
 
     start_url: str
-    """Optional URL to navigate to immediately after the browser is created.
+    """Optional URL to open when the browser session is created.
 
-    Best-effort: failures to navigate do not fail browser creation. Any pre-existing
-    tabs are reduced to a single tab which is then navigated. Accepts any URL
-    Chromium can resolve, including chrome:// pages. Ignored when reusing an
-    existing persistent session.
+    Navigation is best-effort, so navigation failures do not prevent the session
+    from being created.
     """
 
     stealth: bool
