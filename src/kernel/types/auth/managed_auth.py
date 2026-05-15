@@ -166,6 +166,18 @@ class ManagedAuth(BaseModel):
     - Ping Identity: _.pingone.com, _.pingidentity.com
     """
 
+    auto_reauth: Optional[bool] = None
+    """Whether automatic re-authentication is permitted for this connection.
+
+    This is an opt-in flag only — it does not check whether re-auth is actually
+    feasible. Even when true, re-auth only runs when the system has what it needs to
+    perform it (for example, saved credentials for the required login fields), and
+    only after a scheduled health check detects an expired session — so this flag
+    has no effect when `health_checks` is false. When false, expired sessions
+    detected by a health check are marked as `NEEDS_AUTH` instead of attempting
+    re-auth.
+    """
+
     browser_session_id: Optional[str] = None
     """
     ID of the underlying browser session driving the current flow (present when flow
@@ -234,6 +246,15 @@ class ManagedAuth(BaseModel):
     triggers re-authentication if needed. Maximum is 86400 (24 hours). Default is
     3600 (1 hour). The minimum depends on your plan: Enterprise: 300 (5 minutes),
     Startup: 1200 (20 minutes), Hobbyist: 3600 (1 hour).
+    """
+
+    health_checks: Optional[bool] = None
+    """Whether periodic health checks are enabled for this connection.
+
+    When false, the system will not automatically verify authentication status, and
+    `auto_reauth` has no effect on the automatic flow (since re-auth is only
+    triggered by a failed scheduled health check). Manually triggering a health
+    check via the API still works regardless of this setting.
     """
 
     hosted_url: Optional[str] = None

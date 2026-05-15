@@ -62,8 +62,10 @@ class ConnectionsResource(SyncAPIResource):
         domain: str,
         profile_name: str,
         allowed_domains: SequenceNotStr[str] | Omit = omit,
+        auto_reauth: bool | Omit = omit,
         credential: connection_create_params.Credential | Omit = omit,
         health_check_interval: int | Omit = omit,
+        health_checks: bool | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_create_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
@@ -105,6 +107,15 @@ class ConnectionsResource(SyncAPIResource):
               - OneLogin: \\**.onelogin.com
               - Ping Identity: _.pingone.com, _.pingidentity.com
 
+          auto_reauth: Whether to permit automatic re-authentication when a scheduled health check
+              detects an expired session. This is an opt-in flag only — it does not check
+              whether re-auth is actually feasible. Even when true, re-auth only runs when the
+              system has what it needs to perform it (for example, saved credentials for the
+              required login fields), and only after a scheduled health check detects an
+              expired session — so this flag has no effect when `health_checks` is false. When
+              false, expired sessions are marked as `NEEDS_AUTH` instead of attempting
+              re-auth. Defaults to true.
+
           credential:
               Reference to credentials for the auth connection. Use one of:
 
@@ -117,6 +128,11 @@ class ConnectionsResource(SyncAPIResource):
               if needed. Maximum is 86400 (24 hours). Default is 3600 (1 hour). The minimum
               depends on your plan: Enterprise: 300 (5 minutes), Startup: 1200 (20 minutes),
               Hobbyist: 3600 (1 hour).
+
+          health_checks: Whether to enable periodic health checks. When false, the system will not
+              automatically verify authentication status, and `auto_reauth` has no effect on
+              the automatic flow (since re-auth is only triggered by a failed scheduled health
+              check). Defaults to true.
 
           login_url: Optional login page URL to skip discovery
 
@@ -144,8 +160,10 @@ class ConnectionsResource(SyncAPIResource):
                     "domain": domain,
                     "profile_name": profile_name,
                     "allowed_domains": allowed_domains,
+                    "auto_reauth": auto_reauth,
                     "credential": credential,
                     "health_check_interval": health_check_interval,
+                    "health_checks": health_checks,
                     "login_url": login_url,
                     "proxy": proxy,
                     "record_session": record_session,
@@ -199,8 +217,10 @@ class ConnectionsResource(SyncAPIResource):
         id: str,
         *,
         allowed_domains: SequenceNotStr[str] | Omit = omit,
+        auto_reauth: bool | Omit = omit,
         credential: connection_update_params.Credential | Omit = omit,
         health_check_interval: int | Omit = omit,
+        health_checks: bool | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_update_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
@@ -220,6 +240,14 @@ class ConnectionsResource(SyncAPIResource):
         Args:
           allowed_domains: Additional domains valid for this auth flow (replaces existing list)
 
+          auto_reauth: Whether automatic re-authentication is permitted for this connection. This is an
+              opt-in flag only — it does not check whether re-auth is actually feasible. Even
+              when true, re-auth only runs when the system has what it needs to perform it
+              (for example, saved credentials for the required login fields), and only after a
+              scheduled health check detects an expired session — so this flag has no effect
+              when `health_checks` is false. When false, expired sessions detected by a health
+              check are marked as `NEEDS_AUTH` instead of attempting re-auth.
+
           credential:
               Reference to credentials for the auth connection. Use one of:
 
@@ -228,6 +256,11 @@ class ConnectionsResource(SyncAPIResource):
               - { provider, auto: true } for external provider domain lookup
 
           health_check_interval: Interval in seconds between automatic health checks
+
+          health_checks: Whether periodic health checks are enabled. When set to false, the system will
+              not automatically verify authentication status, and `auto_reauth` has no effect
+              on the automatic flow (since re-auth is only triggered by a failed scheduled
+              health check).
 
           login_url: Login page URL. Set to empty string to clear.
 
@@ -253,8 +286,10 @@ class ConnectionsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "allowed_domains": allowed_domains,
+                    "auto_reauth": auto_reauth,
                     "credential": credential,
                     "health_check_interval": health_check_interval,
+                    "health_checks": health_checks,
                     "login_url": login_url,
                     "proxy": proxy,
                     "record_session": record_session,
@@ -544,8 +579,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
         domain: str,
         profile_name: str,
         allowed_domains: SequenceNotStr[str] | Omit = omit,
+        auto_reauth: bool | Omit = omit,
         credential: connection_create_params.Credential | Omit = omit,
         health_check_interval: int | Omit = omit,
+        health_checks: bool | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_create_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
@@ -587,6 +624,15 @@ class AsyncConnectionsResource(AsyncAPIResource):
               - OneLogin: \\**.onelogin.com
               - Ping Identity: _.pingone.com, _.pingidentity.com
 
+          auto_reauth: Whether to permit automatic re-authentication when a scheduled health check
+              detects an expired session. This is an opt-in flag only — it does not check
+              whether re-auth is actually feasible. Even when true, re-auth only runs when the
+              system has what it needs to perform it (for example, saved credentials for the
+              required login fields), and only after a scheduled health check detects an
+              expired session — so this flag has no effect when `health_checks` is false. When
+              false, expired sessions are marked as `NEEDS_AUTH` instead of attempting
+              re-auth. Defaults to true.
+
           credential:
               Reference to credentials for the auth connection. Use one of:
 
@@ -599,6 +645,11 @@ class AsyncConnectionsResource(AsyncAPIResource):
               if needed. Maximum is 86400 (24 hours). Default is 3600 (1 hour). The minimum
               depends on your plan: Enterprise: 300 (5 minutes), Startup: 1200 (20 minutes),
               Hobbyist: 3600 (1 hour).
+
+          health_checks: Whether to enable periodic health checks. When false, the system will not
+              automatically verify authentication status, and `auto_reauth` has no effect on
+              the automatic flow (since re-auth is only triggered by a failed scheduled health
+              check). Defaults to true.
 
           login_url: Optional login page URL to skip discovery
 
@@ -626,8 +677,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
                     "domain": domain,
                     "profile_name": profile_name,
                     "allowed_domains": allowed_domains,
+                    "auto_reauth": auto_reauth,
                     "credential": credential,
                     "health_check_interval": health_check_interval,
+                    "health_checks": health_checks,
                     "login_url": login_url,
                     "proxy": proxy,
                     "record_session": record_session,
@@ -681,8 +734,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
         id: str,
         *,
         allowed_domains: SequenceNotStr[str] | Omit = omit,
+        auto_reauth: bool | Omit = omit,
         credential: connection_update_params.Credential | Omit = omit,
         health_check_interval: int | Omit = omit,
+        health_checks: bool | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_update_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
@@ -702,6 +757,14 @@ class AsyncConnectionsResource(AsyncAPIResource):
         Args:
           allowed_domains: Additional domains valid for this auth flow (replaces existing list)
 
+          auto_reauth: Whether automatic re-authentication is permitted for this connection. This is an
+              opt-in flag only — it does not check whether re-auth is actually feasible. Even
+              when true, re-auth only runs when the system has what it needs to perform it
+              (for example, saved credentials for the required login fields), and only after a
+              scheduled health check detects an expired session — so this flag has no effect
+              when `health_checks` is false. When false, expired sessions detected by a health
+              check are marked as `NEEDS_AUTH` instead of attempting re-auth.
+
           credential:
               Reference to credentials for the auth connection. Use one of:
 
@@ -710,6 +773,11 @@ class AsyncConnectionsResource(AsyncAPIResource):
               - { provider, auto: true } for external provider domain lookup
 
           health_check_interval: Interval in seconds between automatic health checks
+
+          health_checks: Whether periodic health checks are enabled. When set to false, the system will
+              not automatically verify authentication status, and `auto_reauth` has no effect
+              on the automatic flow (since re-auth is only triggered by a failed scheduled
+              health check).
 
           login_url: Login page URL. Set to empty string to clear.
 
@@ -735,8 +803,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "allowed_domains": allowed_domains,
+                    "auto_reauth": auto_reauth,
                     "credential": credential,
                     "health_check_interval": health_check_interval,
+                    "health_checks": health_checks,
                     "login_url": login_url,
                     "proxy": proxy,
                     "record_session": record_session,
