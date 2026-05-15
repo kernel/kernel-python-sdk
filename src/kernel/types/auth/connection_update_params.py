@@ -13,6 +13,18 @@ class ConnectionUpdateParams(TypedDict, total=False):
     allowed_domains: SequenceNotStr[str]
     """Additional domains valid for this auth flow (replaces existing list)"""
 
+    auto_reauth: bool
+    """Whether automatic re-authentication is permitted for this connection.
+
+    This is an opt-in flag only — it does not check whether re-auth is actually
+    feasible. Even when true, re-auth only runs when the system has what it needs to
+    perform it (for example, saved credentials for the required login fields), and
+    only after a scheduled health check detects an expired session — so this flag
+    has no effect when `health_checks` is false. When false, expired sessions
+    detected by a health check are marked as `NEEDS_AUTH` instead of attempting
+    re-auth.
+    """
+
     credential: Credential
     """Reference to credentials for the auth connection. Use one of:
 
@@ -23,6 +35,14 @@ class ConnectionUpdateParams(TypedDict, total=False):
 
     health_check_interval: int
     """Interval in seconds between automatic health checks"""
+
+    health_checks: bool
+    """Whether periodic health checks are enabled.
+
+    When set to false, the system will not automatically verify authentication
+    status, and `auto_reauth` has no effect on the automatic flow (since re-auth is
+    only triggered by a failed scheduled health check).
+    """
 
     login_url: str
     """Login page URL. Set to empty string to clear."""

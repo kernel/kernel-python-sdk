@@ -38,6 +38,7 @@ class TestConnections:
             domain="netflix.com",
             profile_name="user-123",
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
+            auto_reauth=True,
             credential={
                 "auto": True,
                 "name": "my-netflix-creds",
@@ -45,6 +46,7 @@ class TestConnections:
                 "provider": "my-1p",
             },
             health_check_interval=3600,
+            health_checks=True,
             login_url="https://netflix.com/login",
             proxy={
                 "id": "id",
@@ -139,6 +141,7 @@ class TestConnections:
         connection = client.auth.connections.update(
             id="id",
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
+            auto_reauth=True,
             credential={
                 "auto": True,
                 "name": "my-netflix-creds",
@@ -146,6 +149,7 @@ class TestConnections:
                 "provider": "my-1p",
             },
             health_check_interval=3600,
+            health_checks=True,
             login_url="https://netflix.com/login",
             proxy={
                 "id": "id",
@@ -447,6 +451,7 @@ class TestAsyncConnections:
             domain="netflix.com",
             profile_name="user-123",
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
+            auto_reauth=True,
             credential={
                 "auto": True,
                 "name": "my-netflix-creds",
@@ -454,6 +459,7 @@ class TestAsyncConnections:
                 "provider": "my-1p",
             },
             health_check_interval=3600,
+            health_checks=True,
             login_url="https://netflix.com/login",
             proxy={
                 "id": "id",
@@ -548,6 +554,7 @@ class TestAsyncConnections:
         connection = await async_client.auth.connections.update(
             id="id",
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
+            auto_reauth=True,
             credential={
                 "auto": True,
                 "name": "my-netflix-creds",
@@ -555,6 +562,7 @@ class TestAsyncConnections:
                 "provider": "my-1p",
             },
             health_check_interval=3600,
+            health_checks=True,
             login_url="https://netflix.com/login",
             proxy={
                 "id": "id",
