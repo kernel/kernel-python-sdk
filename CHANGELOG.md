@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.55.0 (2026-05-15)
+
+Full Changelog: [v0.53.0...v0.55.0](https://github.com/kernel/kernel-python-sdk/compare/v0.53.0...v0.55.0)
+
+### Features
+
+* Add health check and auto-reauth controls for managed auth connections ([9a0655e](https://github.com/kernel/kernel-python-sdk/commit/9a0655efbeef25e4929397b04f492644339f839e))
+* Polish start URL OpenAPI descriptions ([4f16fb0](https://github.com/kernel/kernel-python-sdk/commit/4f16fb073e0d295fd962e8a8aabd55bdf3144e00))
+
 ## 0.53.0 (2026-05-12)
 
 Full Changelog: [v0.52.0...v0.53.0](https://github.com/kernel/kernel-python-sdk/compare/v0.52.0...v0.53.0)
