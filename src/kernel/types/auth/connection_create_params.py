@@ -40,6 +40,18 @@ class ConnectionCreateParams(TypedDict, total=False):
     - Ping Identity: _.pingone.com, _.pingidentity.com
     """
 
+    auto_reauth: bool
+    """
+    Whether to permit automatic re-authentication when a scheduled health check
+    detects an expired session. This is an opt-in flag only — it does not check
+    whether re-auth is actually feasible. Even when true, re-auth only runs when the
+    system has what it needs to perform it (for example, saved credentials for the
+    required login fields), and only after a scheduled health check detects an
+    expired session — so this flag has no effect when `health_checks` is false. When
+    false, expired sessions are marked as `NEEDS_AUTH` instead of attempting
+    re-auth. Defaults to true.
+    """
+
     credential: Credential
     """Reference to credentials for the auth connection. Use one of:
 
@@ -55,6 +67,14 @@ class ConnectionCreateParams(TypedDict, total=False):
     triggers re-authentication if needed. Maximum is 86400 (24 hours). Default is
     3600 (1 hour). The minimum depends on your plan: Enterprise: 300 (5 minutes),
     Startup: 1200 (20 minutes), Hobbyist: 3600 (1 hour).
+    """
+
+    health_checks: bool
+    """Whether to enable periodic health checks.
+
+    When false, the system will not automatically verify authentication status, and
+    `auto_reauth` has no effect on the automatic flow (since re-auth is only
+    triggered by a failed scheduled health check). Defaults to true.
     """
 
     login_url: str
