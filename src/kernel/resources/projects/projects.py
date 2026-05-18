@@ -70,10 +70,8 @@ class ProjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Project:
-        """Create a new project within the authenticated organization.
-
-        Requires the
-        projects feature flag.
+        """
+        Create a new project within the authenticated organization.
 
         Args:
           name: Project name (1-255 characters)
@@ -299,10 +297,8 @@ class AsyncProjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Project:
-        """Create a new project within the authenticated organization.
-
-        Requires the
-        projects feature flag.
+        """
+        Create a new project within the authenticated organization.
 
         Args:
           name: Project name (1-255 characters)
