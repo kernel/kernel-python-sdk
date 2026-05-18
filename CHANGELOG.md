@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.56.0 (2026-05-18)
+
+Full Changelog: [v0.55.0...v0.56.0](https://github.com/kernel/kernel-python-sdk/compare/v0.55.0...v0.56.0)
+
+### Features
+
+* Expose POST /projects in public API ([4d70271](https://github.com/kernel/kernel-python-sdk/commit/4d702711a74e050ab121f0ce7b2bbe276904a5de))
+
 ## 0.55.0 (2026-05-15)
 
 Full Changelog: [v0.53.0...v0.55.0](https://github.com/kernel/kernel-python-sdk/compare/v0.53.0...v0.55.0)
