@@ -152,6 +152,7 @@ class BrowsersResource(SyncAPIResource):
     def create(
         self,
         *,
+        chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         gpu: bool | Omit = omit,
         headless: bool | Omit = omit,
@@ -175,6 +176,12 @@ class BrowsersResource(SyncAPIResource):
         Create a new browser session from within an action.
 
         Args:
+          chrome_policy: Custom Chrome enterprise policy overrides applied to this browser session. Keys
+              are Chrome enterprise policy names; values must match their expected types.
+              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). Ignored
+              when reusing an existing persistent session. See
+              https://chromeenterprise.google/policies/
+
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
           gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
@@ -235,6 +242,7 @@ class BrowsersResource(SyncAPIResource):
             "/browsers",
             body=maybe_transform(
                 {
+                    "chrome_policy": chrome_policy,
                     "extensions": extensions,
                     "gpu": gpu,
                     "headless": headless,
@@ -716,6 +724,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         gpu: bool | Omit = omit,
         headless: bool | Omit = omit,
@@ -739,6 +748,12 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Create a new browser session from within an action.
 
         Args:
+          chrome_policy: Custom Chrome enterprise policy overrides applied to this browser session. Keys
+              are Chrome enterprise policy names; values must match their expected types.
+              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). Ignored
+              when reusing an existing persistent session. See
+              https://chromeenterprise.google/policies/
+
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
           gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
@@ -799,6 +814,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
             "/browsers",
             body=await async_maybe_transform(
                 {
+                    "chrome_policy": chrome_policy,
                     "extensions": extensions,
                     "gpu": gpu,
                     "headless": headless,

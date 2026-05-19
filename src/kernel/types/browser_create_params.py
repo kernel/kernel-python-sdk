@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Dict, Iterable
 from typing_extensions import TypedDict
 
 from .browser_persistence_param import BrowserPersistenceParam
@@ -14,6 +14,15 @@ __all__ = ["BrowserCreateParams"]
 
 
 class BrowserCreateParams(TypedDict, total=False):
+    chrome_policy: Dict[str, object]
+    """Custom Chrome enterprise policy overrides applied to this browser session.
+
+    Keys are Chrome enterprise policy names; values must match their expected types.
+    Blocked: kernel-managed policies (extensions, proxy, CDP/automation). Ignored
+    when reusing an existing persistent session. See
+    https://chromeenterprise.google/policies/
+    """
+
     extensions: Iterable[BrowserExtension]
     """List of browser extensions to load into the session.
 
