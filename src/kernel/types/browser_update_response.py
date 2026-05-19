@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import Dict, Optional
 from datetime import datetime
 
 from .profile import Profile
@@ -42,6 +42,13 @@ class BrowserUpdateResponse(BaseModel):
     """Remote URL for live viewing the browser session.
 
     Only available for non-headless browsers.
+    """
+
+    chrome_policy: Optional[Dict[str, object]] = None
+    """
+    Custom Chrome enterprise policy overrides that were applied to this browser
+    session, if any. Echoed back for verification. Keys are Chrome enterprise policy
+    names.
     """
 
     deleted_at: Optional[datetime] = None
