@@ -62,6 +62,14 @@ from .computer import (
     AsyncComputerResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
+from .telemetry import (
+    TelemetryResource,
+    AsyncTelemetryResource,
+    TelemetryResourceWithRawResponse,
+    AsyncTelemetryResourceWithRawResponse,
+    TelemetryResourceWithStreamingResponse,
+    AsyncTelemetryResourceWithStreamingResponse,
+)
 from .playwright import (
     PlaywrightResource,
     AsyncPlaywrightResource,
@@ -94,12 +102,18 @@ from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.shared_params.browser_profile import BrowserProfile
 from ...types.shared_params.browser_viewport import BrowserViewport
 from ...types.shared_params.browser_extension import BrowserExtension
+from ...types.browsers.browser_telemetry_config_param import BrowserTelemetryConfigParam
 
 __all__ = ["BrowsersResource", "AsyncBrowsersResource"]
 
 
 class BrowsersResource(SyncAPIResource):
     """Create and manage browser sessions."""
+
+    @cached_property
+    def telemetry(self) -> TelemetryResource:
+        """Stream live telemetry events from a browser session."""
+        return TelemetryResource(self._client)
 
     @cached_property
     def replays(self) -> ReplaysResource:
@@ -163,6 +177,7 @@ class BrowsersResource(SyncAPIResource):
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
+        telemetry: Optional[BrowserTelemetryConfigParam] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -211,6 +226,10 @@ class BrowsersResource(SyncAPIResource):
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
 
+          telemetry: Telemetry configuration for the browser session. If provided, telemetry capture
+              starts with the specified category filter when the session is created. If
+              omitted, no telemetry capture is started.
+
           timeout_seconds: The number of seconds of inactivity before the browser session is terminated.
               Activity includes CDP connections and live view connections. Defaults to 60
               seconds. Minimum allowed is 10 seconds. Maximum allowed is 259200 (72 hours). We
@@ -253,6 +272,7 @@ class BrowsersResource(SyncAPIResource):
                     "proxy_id": proxy_id,
                     "start_url": start_url,
                     "stealth": stealth,
+                    "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
                 },
@@ -313,6 +333,7 @@ class BrowsersResource(SyncAPIResource):
         disable_default_proxy: bool | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
+        telemetry: Optional[BrowserTelemetryConfigParam] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -334,6 +355,11 @@ class BrowsersResource(SyncAPIResource):
           proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy.
 
+          telemetry: Telemetry configuration. Omit, set to null, or set to an empty object ({}) to
+              leave the existing configuration unchanged (no-op). To enable capture for all
+              categories using VM defaults, set browser to an empty object ({"browser": {}}).
+              To stop capture, set every category's enabled to false.
+
           viewport: Viewport configuration to apply to the browser session.
 
           extra_headers: Send extra headers
@@ -353,6 +379,7 @@ class BrowsersResource(SyncAPIResource):
                     "disable_default_proxy": disable_default_proxy,
                     "profile": profile,
                     "proxy_id": proxy_id,
+                    "telemetry": telemetry,
                     "viewport": viewport,
                 },
                 browser_update_params.BrowserUpdateParams,
@@ -674,6 +701,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
     """Create and manage browser sessions."""
 
     @cached_property
+    def telemetry(self) -> AsyncTelemetryResource:
+        """Stream live telemetry events from a browser session."""
+        return AsyncTelemetryResource(self._client)
+
+    @cached_property
     def replays(self) -> AsyncReplaysResource:
         """Record and manage browser session video replays."""
         return AsyncReplaysResource(self._client)
@@ -735,6 +767,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
+        telemetry: Optional[BrowserTelemetryConfigParam] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -783,6 +816,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
 
+          telemetry: Telemetry configuration for the browser session. If provided, telemetry capture
+              starts with the specified category filter when the session is created. If
+              omitted, no telemetry capture is started.
+
           timeout_seconds: The number of seconds of inactivity before the browser session is terminated.
               Activity includes CDP connections and live view connections. Defaults to 60
               seconds. Minimum allowed is 10 seconds. Maximum allowed is 259200 (72 hours). We
@@ -825,6 +862,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "proxy_id": proxy_id,
                     "start_url": start_url,
                     "stealth": stealth,
+                    "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
                 },
@@ -885,6 +923,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         disable_default_proxy: bool | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
+        telemetry: Optional[BrowserTelemetryConfigParam] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -906,6 +945,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
           proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy.
 
+          telemetry: Telemetry configuration. Omit, set to null, or set to an empty object ({}) to
+              leave the existing configuration unchanged (no-op). To enable capture for all
+              categories using VM defaults, set browser to an empty object ({"browser": {}}).
+              To stop capture, set every category's enabled to false.
+
           viewport: Viewport configuration to apply to the browser session.
 
           extra_headers: Send extra headers
@@ -925,6 +969,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "disable_default_proxy": disable_default_proxy,
                     "profile": profile,
                     "proxy_id": proxy_id,
+                    "telemetry": telemetry,
                     "viewport": viewport,
                 },
                 browser_update_params.BrowserUpdateParams,
@@ -1276,6 +1321,11 @@ class BrowsersResourceWithRawResponse:
         )
 
     @cached_property
+    def telemetry(self) -> TelemetryResourceWithRawResponse:
+        """Stream live telemetry events from a browser session."""
+        return TelemetryResourceWithRawResponse(self._browsers.telemetry)
+
+    @cached_property
     def replays(self) -> ReplaysResourceWithRawResponse:
         """Record and manage browser session video replays."""
         return ReplaysResourceWithRawResponse(self._browsers.replays)
@@ -1335,6 +1385,11 @@ class AsyncBrowsersResourceWithRawResponse:
         self.load_extensions = async_to_raw_response_wrapper(
             browsers.load_extensions,
         )
+
+    @cached_property
+    def telemetry(self) -> AsyncTelemetryResourceWithRawResponse:
+        """Stream live telemetry events from a browser session."""
+        return AsyncTelemetryResourceWithRawResponse(self._browsers.telemetry)
 
     @cached_property
     def replays(self) -> AsyncReplaysResourceWithRawResponse:
@@ -1398,6 +1453,11 @@ class BrowsersResourceWithStreamingResponse:
         )
 
     @cached_property
+    def telemetry(self) -> TelemetryResourceWithStreamingResponse:
+        """Stream live telemetry events from a browser session."""
+        return TelemetryResourceWithStreamingResponse(self._browsers.telemetry)
+
+    @cached_property
     def replays(self) -> ReplaysResourceWithStreamingResponse:
         """Record and manage browser session video replays."""
         return ReplaysResourceWithStreamingResponse(self._browsers.replays)
@@ -1457,6 +1517,11 @@ class AsyncBrowsersResourceWithStreamingResponse:
         self.load_extensions = async_to_streamed_response_wrapper(
             browsers.load_extensions,
         )
+
+    @cached_property
+    def telemetry(self) -> AsyncTelemetryResourceWithStreamingResponse:
+        """Stream live telemetry events from a browser session."""
+        return AsyncTelemetryResourceWithStreamingResponse(self._browsers.telemetry)
 
     @cached_property
     def replays(self) -> AsyncReplaysResourceWithStreamingResponse:

@@ -9,6 +9,7 @@ from .browser_usage import BrowserUsage
 from .browser_pool_ref import BrowserPoolRef
 from .browser_persistence import BrowserPersistence
 from .shared.browser_viewport import BrowserViewport
+from .browsers.browser_telemetry_config import BrowserTelemetryConfig
 
 __all__ = ["BrowserUpdateResponse"]
 
@@ -76,7 +77,16 @@ class BrowserUpdateResponse(BaseModel):
     """ID of the proxy associated with this browser session, if any."""
 
     start_url: Optional[str] = None
-    """Start URL requested for the session, if provided."""
+    """URL the session was asked to navigate to on creation, if any.
+
+    Recorded for debugging. Navigation is fire-and-forget — the URL is dispatched to
+    the browser without waiting for it to load, and any errors (DNS failure, bad
+    status, timeout) are silently dropped. Captures what was requested, not what the
+    browser actually loaded.
+    """
+
+    telemetry: Optional[BrowserTelemetryConfig] = None
+    """Active telemetry configuration for the session, if any."""
 
     usage: Optional[BrowserUsage] = None
     """Session usage metrics."""

@@ -222,7 +222,9 @@ class ProxiesResource(SyncAPIResource):
               between requests, so a successful check validates proxy configuration but does
               not guarantee that a subsequent browser session will use the same exit IP or
               reach the same site — it is useful for verifying credentials and connectivity,
-              not for predicting site-specific behavior.
+              not for predicting site-specific behavior. When provided, the check result does
+              not update the proxy's health status, since a failure may indicate a problem
+              with the target site rather than the proxy itself.
 
           extra_headers: Send extra headers
 
@@ -440,7 +442,9 @@ class AsyncProxiesResource(AsyncAPIResource):
               between requests, so a successful check validates proxy configuration but does
               not guarantee that a subsequent browser session will use the same exit IP or
               reach the same site — it is useful for verifying credentials and connectivity,
-              not for predicting site-specific behavior.
+              not for predicting site-specific behavior. When provided, the check result does
+              not update the proxy's health status, since a failure may indicate a problem
+              with the target site rather than the proxy itself.
 
           extra_headers: Send extra headers
 

@@ -56,6 +56,14 @@ class TestBrowsers:
             proxy_id="proxy_id",
             start_url="https://example.com",
             stealth=True,
+            telemetry={
+                "browser": {
+                    "console": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                }
+            },
             timeout_seconds=10,
             viewport={
                 "height": 800,
@@ -158,6 +166,14 @@ class TestBrowsers:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            telemetry={
+                "browser": {
+                    "console": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                }
+            },
             viewport={
                 "height": 800,
                 "width": 1280,
@@ -483,6 +499,14 @@ class TestAsyncBrowsers:
             proxy_id="proxy_id",
             start_url="https://example.com",
             stealth=True,
+            telemetry={
+                "browser": {
+                    "console": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                }
+            },
             timeout_seconds=10,
             viewport={
                 "height": 800,
@@ -585,6 +609,14 @@ class TestAsyncBrowsers:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            telemetry={
+                "browser": {
+                    "console": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                }
+            },
             viewport={
                 "height": 800,
                 "width": 1280,

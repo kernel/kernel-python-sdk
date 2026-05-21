@@ -7,6 +7,7 @@ from typing_extensions import TypedDict
 
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
+from .browsers.browser_telemetry_config_param import BrowserTelemetryConfigParam
 
 __all__ = ["BrowserUpdateParams", "Viewport"]
 
@@ -28,6 +29,15 @@ class BrowserUpdateParams(TypedDict, total=False):
     """ID of the proxy to use.
 
     Omit to leave unchanged, set to empty string to remove proxy.
+    """
+
+    telemetry: Optional[BrowserTelemetryConfigParam]
+    """Telemetry configuration.
+
+    Omit, set to null, or set to an empty object ({}) to leave the existing
+    configuration unchanged (no-op). To enable capture for all categories using VM
+    defaults, set browser to an empty object ({"browser": {}}). To stop capture, set
+    every category's enabled to false.
     """
 
     viewport: Viewport
