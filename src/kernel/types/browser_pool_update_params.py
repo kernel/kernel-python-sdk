@@ -69,10 +69,12 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     """
 
     start_url: str
-    """Optional URL to open when a browser is created for the pool.
+    """Optional URL to navigate to when a new browser is warmed into the pool.
 
-    Navigation is best-effort, so navigation failures do not prevent the pool from
-    filling. Reused browsers keep the page left by the previous lease.
+    Best-effort: failures to navigate do not fail pool fill. Only applied to
+    newly-warmed browsers; browsers reused via release/acquire keep whatever URL the
+    previous lease left them on. Accepts any URL Chromium can resolve, including
+    chrome:// pages.
     """
 
     stealth: bool
