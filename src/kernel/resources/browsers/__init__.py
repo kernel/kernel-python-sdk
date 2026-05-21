@@ -48,6 +48,14 @@ from .computer import (
     ComputerResourceWithStreamingResponse,
     AsyncComputerResourceWithStreamingResponse,
 )
+from .telemetry import (
+    TelemetryResource,
+    AsyncTelemetryResource,
+    TelemetryResourceWithRawResponse,
+    AsyncTelemetryResourceWithRawResponse,
+    TelemetryResourceWithStreamingResponse,
+    AsyncTelemetryResourceWithStreamingResponse,
+)
 from .playwright import (
     PlaywrightResource,
     AsyncPlaywrightResource,
@@ -58,6 +66,12 @@ from .playwright import (
 )
 
 __all__ = [
+    "TelemetryResource",
+    "AsyncTelemetryResource",
+    "TelemetryResourceWithRawResponse",
+    "AsyncTelemetryResourceWithRawResponse",
+    "TelemetryResourceWithStreamingResponse",
+    "AsyncTelemetryResourceWithStreamingResponse",
     "ReplaysResource",
     "AsyncReplaysResource",
     "ReplaysResourceWithRawResponse",

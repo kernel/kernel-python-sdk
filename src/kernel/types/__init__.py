@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from . import browsers
+from .. import _compat
 from .shared import (
     LogEvent as LogEvent,
     AppAction as AppAction,
@@ -91,3 +93,18 @@ from .credential_provider_list_items_response import (
 from .extension_download_from_chrome_store_params import (
     ExtensionDownloadFromChromeStoreParams as ExtensionDownloadFromChromeStoreParams,
 )
+
+# Rebuild cyclical models only after all modules are imported.
+# This ensures that, when building the deferred (due to cyclical references) model schema,
+# Pydantic can resolve the necessary references.
+# See: https://github.com/pydantic/pydantic/issues/11250 for more context.
+if _compat.PYDANTIC_V1:
+    browsers.browser_call_stack.BrowserCallStack.update_forward_refs()  # type: ignore
+    browsers.browser_console_error_event.BrowserConsoleErrorEvent.update_forward_refs()  # type: ignore
+    browsers.browser_console_log_event.BrowserConsoleLogEvent.update_forward_refs()  # type: ignore
+    browsers.telemetry_stream_response.TelemetryStreamResponse.update_forward_refs()  # type: ignore
+else:
+    browsers.browser_call_stack.BrowserCallStack.model_rebuild(_parent_namespace_depth=0)
+    browsers.browser_console_error_event.BrowserConsoleErrorEvent.model_rebuild(_parent_namespace_depth=0)
+    browsers.browser_console_log_event.BrowserConsoleLogEvent.model_rebuild(_parent_namespace_depth=0)
+    browsers.telemetry_stream_response.TelemetryStreamResponse.model_rebuild(_parent_namespace_depth=0)

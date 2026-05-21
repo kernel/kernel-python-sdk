@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable
+from typing import Dict, Iterable, Optional
 from typing_extensions import TypedDict
 
 from .browser_persistence_param import BrowserPersistenceParam
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
+from .browsers.browser_telemetry_config_param import BrowserTelemetryConfigParam
 
 __all__ = ["BrowserCreateParams"]
 
@@ -77,6 +78,13 @@ class BrowserCreateParams(TypedDict, total=False):
     """
     If true, launches the browser in stealth mode to reduce detection by anti-bot
     mechanisms.
+    """
+
+    telemetry: Optional[BrowserTelemetryConfigParam]
+    """Telemetry configuration for the browser session.
+
+    If provided, telemetry capture starts with the specified category filter when
+    the session is created. If omitted, no telemetry capture is started.
     """
 
     timeout_seconds: int

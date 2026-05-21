@@ -103,6 +103,50 @@ Methods:
 - <code title="delete /browsers/{id}">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">delete_by_id</a>(id) -> None</code>
 - <code title="post /browsers/{id}/extensions">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">load_extensions</a>(id, \*\*<a href="src/kernel/types/browser_load_extensions_params.py">params</a>) -> None</code>
 
+## Telemetry
+
+Types:
+
+```python
+from kernel.types.browsers import (
+    BrowserCallStack,
+    BrowserConsoleErrorEvent,
+    BrowserConsoleLogEvent,
+    BrowserEventContext,
+    BrowserEventSource,
+    BrowserHTTPHeaders,
+    BrowserInteractionClickEvent,
+    BrowserInteractionKeyEvent,
+    BrowserInteractionScrollSettledEvent,
+    BrowserMonitorDisconnectedEvent,
+    BrowserMonitorInitFailedEvent,
+    BrowserMonitorReconnectFailedEvent,
+    BrowserMonitorReconnectedEvent,
+    BrowserMonitorScreenshotEvent,
+    BrowserNetworkIdleEvent,
+    BrowserNetworkLoadingFailedEvent,
+    BrowserNetworkRequestEvent,
+    BrowserNetworkResponseEvent,
+    BrowserPageDomContentLoadedEvent,
+    BrowserPageLayoutSettledEvent,
+    BrowserPageLayoutShiftEvent,
+    BrowserPageLcpEvent,
+    BrowserPageLoadEvent,
+    BrowserPageNavigationEvent,
+    BrowserPageNavigationSettledEvent,
+    BrowserPageTabOpenedEvent,
+    BrowserTelemetryCategoriesConfig,
+    BrowserTelemetryCategoryConfig,
+    BrowserTelemetryConfig,
+    BrowserTelemetryEvent,
+    TelemetryStreamResponse,
+)
+```
+
+Methods:
+
+- <code title="get /browsers/{id}/telemetry">client.browsers.telemetry.<a href="./src/kernel/resources/browsers/telemetry.py">stream</a>(id) -> <a href="./src/kernel/types/browsers/telemetry_stream_response.py">TelemetryStreamResponse</a></code>
+
 ## Replays
 
 Types:
