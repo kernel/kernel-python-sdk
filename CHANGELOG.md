@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.57.0 (2026-05-22)
+
+Full Changelog: [v0.56.0...v0.57.0](https://github.com/kernel/kernel-python-sdk/compare/v0.56.0...v0.57.0)
+
+### Features
+
+* [kernel-1116] browser events api integration ([bfd4043](https://github.com/kernel/kernel-python-sdk/commit/bfd404368adf8a4305aabe2fad448e7eeba40322))
+* **api:** type can_reauth_reason as an enum on ManagedAuth ([c9a6c75](https://github.com/kernel/kernel-python-sdk/commit/c9a6c7571ca9eb18b3ef11974571fa1426d2dd61))
+* browsers: accept chrome_policy on POST /browsers (KERNEL-1216) ([b1807a2](https://github.com/kernel/kernel-python-sdk/commit/b1807a2d690f206e7482f5862acde36e692d07aa))
+* EOL persistent browsers: openapi limits ([253be85](https://github.com/kernel/kernel-python-sdk/commit/253be85c497bf65329c484e28a3732b3bd5b3208))
+
 ## 0.56.0 (2026-05-18)
 
 Full Changelog: [v0.55.0...v0.56.0](https://github.com/kernel/kernel-python-sdk/compare/v0.55.0...v0.56.0)
