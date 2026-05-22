@@ -8,7 +8,9 @@ from typing_extensions import Annotated, TypeAlias
 from ..._utils import PropertyInfo
 from .browser_page_lcp_event import BrowserPageLcpEvent
 from .browser_page_load_event import BrowserPageLoadEvent
+from .browser_console_log_event import BrowserConsoleLogEvent
 from .browser_network_idle_event import BrowserNetworkIdleEvent
+from .browser_console_error_event import BrowserConsoleErrorEvent
 from .browser_interaction_key_event import BrowserInteractionKeyEvent
 from .browser_network_request_event import BrowserNetworkRequestEvent
 from .browser_page_navigation_event import BrowserPageNavigationEvent
@@ -31,8 +33,8 @@ __all__ = ["BrowserTelemetryEvent"]
 
 BrowserTelemetryEvent: TypeAlias = Annotated[
     Union[
-        "BrowserConsoleLogEvent",
-        "BrowserConsoleErrorEvent",
+        BrowserConsoleLogEvent,
+        BrowserConsoleErrorEvent,
         BrowserNetworkRequestEvent,
         BrowserNetworkResponseEvent,
         BrowserNetworkLoadingFailedEvent,
@@ -56,6 +58,3 @@ BrowserTelemetryEvent: TypeAlias = Annotated[
     ],
     PropertyInfo(discriminator="type"),
 ]
-
-from .browser_console_log_event import BrowserConsoleLogEvent
-from .browser_console_error_event import BrowserConsoleErrorEvent
