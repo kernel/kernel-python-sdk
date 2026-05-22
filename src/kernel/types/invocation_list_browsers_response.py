@@ -7,7 +7,6 @@ from .profile import Profile
 from .._models import BaseModel
 from .browser_usage import BrowserUsage
 from .browser_pool_ref import BrowserPoolRef
-from .browser_persistence import BrowserPersistence
 from .shared.browser_viewport import BrowserViewport
 from .browsers.browser_telemetry_config import BrowserTelemetryConfig
 
@@ -63,9 +62,6 @@ class Browser(BaseModel):
 
     kiosk_mode: Optional[bool] = None
     """Whether the browser session is running in kiosk mode."""
-
-    persistence: Optional[BrowserPersistence] = None
-    """DEPRECATED: Use timeout_seconds (up to 72 hours) and Profiles instead."""
 
     pool: Optional[BrowserPoolRef] = None
     """Browser pool this session was acquired from, if any."""

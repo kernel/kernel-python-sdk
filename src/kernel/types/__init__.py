@@ -26,7 +26,6 @@ from .app_list_response import AppListResponse as AppListResponse
 from .proxy_check_params import ProxyCheckParams as ProxyCheckParams
 from .browser_curl_params import BrowserCurlParams as BrowserCurlParams
 from .browser_list_params import BrowserListParams as BrowserListParams
-from .browser_persistence import BrowserPersistence as BrowserPersistence
 from .credential_provider import CredentialProvider as CredentialProvider
 from .profile_list_params import ProfileListParams as ProfileListParams
 from .project_list_params import ProjectListParams as ProjectListParams
@@ -35,7 +34,6 @@ from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
 from .browser_create_params import BrowserCreateParams as BrowserCreateParams
 from .browser_curl_response import BrowserCurlResponse as BrowserCurlResponse
-from .browser_delete_params import BrowserDeleteParams as BrowserDeleteParams
 from .browser_list_response import BrowserListResponse as BrowserListResponse
 from .browser_update_params import BrowserUpdateParams as BrowserUpdateParams
 from .profile_create_params import ProfileCreateParams as ProfileCreateParams
@@ -63,7 +61,6 @@ from .invocation_create_params import InvocationCreateParams as InvocationCreate
 from .invocation_follow_params import InvocationFollowParams as InvocationFollowParams
 from .invocation_list_response import InvocationListResponse as InvocationListResponse
 from .invocation_update_params import InvocationUpdateParams as InvocationUpdateParams
-from .browser_persistence_param import BrowserPersistenceParam as BrowserPersistenceParam
 from .browser_retrieve_response import BrowserRetrieveResponse as BrowserRetrieveResponse
 from .extension_upload_response import ExtensionUploadResponse as ExtensionUploadResponse
 from .browser_pool_create_params import BrowserPoolCreateParams as BrowserPoolCreateParams

@@ -20,12 +20,6 @@ class ProjectLimits(BaseModel):
     Null means no project-level cap.
     """
 
-    max_persistent_sessions: Optional[int] = None
-    """Maximum persistent browser sessions for this project.
-
-    Null means no project-level cap.
-    """
-
     max_pooled_sessions: Optional[int] = None
     """Maximum pooled sessions capacity for this project.
 

@@ -86,7 +86,6 @@ class LimitsResource(SyncAPIResource):
         *,
         max_concurrent_invocations: Optional[int] | Omit = omit,
         max_concurrent_sessions: Optional[int] | Omit = omit,
-        max_persistent_sessions: Optional[int] | Omit = omit,
         max_pooled_sessions: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -108,9 +107,6 @@ class LimitsResource(SyncAPIResource):
           max_concurrent_sessions: Maximum concurrent browser sessions for this project. Set to 0 to remove the
               cap; omit to leave unchanged.
 
-          max_persistent_sessions: Maximum persistent browser sessions for this project. Set to 0 to remove the
-              cap; omit to leave unchanged.
-
           max_pooled_sessions: Maximum pooled sessions capacity for this project. Set to 0 to remove the cap;
               omit to leave unchanged.
 
@@ -130,7 +126,6 @@ class LimitsResource(SyncAPIResource):
                 {
                     "max_concurrent_invocations": max_concurrent_invocations,
                     "max_concurrent_sessions": max_concurrent_sessions,
-                    "max_persistent_sessions": max_persistent_sessions,
                     "max_pooled_sessions": max_pooled_sessions,
                 },
                 limit_update_params.LimitUpdateParams,
@@ -205,7 +200,6 @@ class AsyncLimitsResource(AsyncAPIResource):
         *,
         max_concurrent_invocations: Optional[int] | Omit = omit,
         max_concurrent_sessions: Optional[int] | Omit = omit,
-        max_persistent_sessions: Optional[int] | Omit = omit,
         max_pooled_sessions: Optional[int] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -227,9 +221,6 @@ class AsyncLimitsResource(AsyncAPIResource):
           max_concurrent_sessions: Maximum concurrent browser sessions for this project. Set to 0 to remove the
               cap; omit to leave unchanged.
 
-          max_persistent_sessions: Maximum persistent browser sessions for this project. Set to 0 to remove the
-              cap; omit to leave unchanged.
-
           max_pooled_sessions: Maximum pooled sessions capacity for this project. Set to 0 to remove the cap;
               omit to leave unchanged.
 
@@ -249,7 +240,6 @@ class AsyncLimitsResource(AsyncAPIResource):
                 {
                     "max_concurrent_invocations": max_concurrent_invocations,
                     "max_concurrent_sessions": max_concurrent_sessions,
-                    "max_persistent_sessions": max_persistent_sessions,
                     "max_pooled_sessions": max_pooled_sessions,
                 },
                 limit_update_params.LimitUpdateParams,

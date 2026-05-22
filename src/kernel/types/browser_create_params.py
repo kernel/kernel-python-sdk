@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import Dict, Iterable, Optional
 from typing_extensions import TypedDict
 
-from .browser_persistence_param import BrowserPersistenceParam
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
@@ -19,8 +18,7 @@ class BrowserCreateParams(TypedDict, total=False):
     """Custom Chrome enterprise policy overrides applied to this browser session.
 
     Keys are Chrome enterprise policy names; values must match their expected types.
-    Blocked: kernel-managed policies (extensions, proxy, CDP/automation). Ignored
-    when reusing an existing persistent session. See
+    Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
     https://chromeenterprise.google/policies/
     """
 
@@ -50,9 +48,6 @@ class BrowserCreateParams(TypedDict, total=False):
     If true, launches the browser in kiosk mode to hide address bar and tabs in live
     view.
     """
-
-    persistence: BrowserPersistenceParam
-    """DEPRECATED: Use timeout_seconds (up to 72 hours) and Profiles instead."""
 
     profile: BrowserProfile
     """Profile selection for the browser session.

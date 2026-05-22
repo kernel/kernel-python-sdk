@@ -203,9 +203,9 @@ from kernel import Kernel
 client = Kernel()
 
 browser = client.browsers.create(
-    persistence={"id": "my-awesome-browser-for-user-1234"},
+    profile={},
 )
-print(browser.persistence)
+print(browser.profile)
 ```
 
 ## File uploads
