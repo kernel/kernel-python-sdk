@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import typing_extensions
 from typing import Dict, Mapping, Iterable, Iterator, Optional, AsyncIterator, cast
 from contextlib import contextmanager, asynccontextmanager
 from typing_extensions import Literal
@@ -29,7 +28,6 @@ from ...types import (
     browser_curl_params,
     browser_list_params,
     browser_create_params,
-    browser_delete_params,
     browser_update_params,
     browser_retrieve_params,
     browser_load_extensions_params,
@@ -97,7 +95,6 @@ from ...lib.browser_routing.raw_http import (
 )
 from ...types.browser_create_response import BrowserCreateResponse
 from ...types.browser_update_response import BrowserUpdateResponse
-from ...types.browser_persistence_param import BrowserPersistenceParam
 from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.shared_params.browser_profile import BrowserProfile
 from ...types.shared_params.browser_viewport import BrowserViewport
@@ -172,7 +169,6 @@ class BrowsersResource(SyncAPIResource):
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
         kiosk_mode: bool | Omit = omit,
-        persistence: BrowserPersistenceParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
@@ -193,8 +189,7 @@ class BrowsersResource(SyncAPIResource):
         Args:
           chrome_policy: Custom Chrome enterprise policy overrides applied to this browser session. Keys
               are Chrome enterprise policy names; values must match their expected types.
-              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). Ignored
-              when reusing an existing persistent session. See
+              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
               https://chromeenterprise.google/policies/
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
@@ -209,8 +204,6 @@ class BrowsersResource(SyncAPIResource):
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
-
-          persistence: DEPRECATED: Use timeout_seconds (up to 72 hours) and Profiles instead.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -267,7 +260,6 @@ class BrowsersResource(SyncAPIResource):
                     "headless": headless,
                     "invocation_id": invocation_id,
                     "kiosk_mode": kiosk_mode,
-                    "persistence": persistence,
                     "profile": profile,
                     "proxy_id": proxy_id,
                     "start_url": start_url,
@@ -451,47 +443,6 @@ class BrowsersResource(SyncAPIResource):
                 ),
             ),
             model=BrowserListResponse,
-        )
-
-    @typing_extensions.deprecated("deprecated")
-    def delete(
-        self,
-        *,
-        persistent_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """DEPRECATED: Use DELETE /browsers/{id} instead.
-
-        Delete a persistent browser
-        session by its persistent_id.
-
-        Args:
-          persistent_id: Persistent browser identifier
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return self._delete(
-            "/browsers",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"persistent_id": persistent_id}, browser_delete_params.BrowserDeleteParams),
-            ),
-            cast_to=NoneType,
         )
 
     def curl(
@@ -762,7 +713,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
         kiosk_mode: bool | Omit = omit,
-        persistence: BrowserPersistenceParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
@@ -783,8 +733,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Args:
           chrome_policy: Custom Chrome enterprise policy overrides applied to this browser session. Keys
               are Chrome enterprise policy names; values must match their expected types.
-              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). Ignored
-              when reusing an existing persistent session. See
+              Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
               https://chromeenterprise.google/policies/
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
@@ -799,8 +748,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
-
-          persistence: DEPRECATED: Use timeout_seconds (up to 72 hours) and Profiles instead.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -857,7 +804,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "headless": headless,
                     "invocation_id": invocation_id,
                     "kiosk_mode": kiosk_mode,
-                    "persistence": persistence,
                     "profile": profile,
                     "proxy_id": proxy_id,
                     "start_url": start_url,
@@ -1041,49 +987,6 @@ class AsyncBrowsersResource(AsyncAPIResource):
                 ),
             ),
             model=BrowserListResponse,
-        )
-
-    @typing_extensions.deprecated("deprecated")
-    async def delete(
-        self,
-        *,
-        persistent_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """DEPRECATED: Use DELETE /browsers/{id} instead.
-
-        Delete a persistent browser
-        session by its persistent_id.
-
-        Args:
-          persistent_id: Persistent browser identifier
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
-        return await self._delete(
-            "/browsers",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {"persistent_id": persistent_id}, browser_delete_params.BrowserDeleteParams
-                ),
-            ),
-            cast_to=NoneType,
         )
 
     async def curl(
@@ -1305,11 +1208,6 @@ class BrowsersResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             browsers.list,
         )
-        self.delete = (  # pyright: ignore[reportDeprecated]
-            to_raw_response_wrapper(
-                browsers.delete,  # pyright: ignore[reportDeprecated],
-            )
-        )
         self.curl = to_raw_response_wrapper(
             browsers.curl,
         )
@@ -1370,11 +1268,6 @@ class AsyncBrowsersResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             browsers.list,
-        )
-        self.delete = (  # pyright: ignore[reportDeprecated]
-            async_to_raw_response_wrapper(
-                browsers.delete,  # pyright: ignore[reportDeprecated],
-            )
         )
         self.curl = async_to_raw_response_wrapper(
             browsers.curl,
@@ -1437,11 +1330,6 @@ class BrowsersResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             browsers.list,
         )
-        self.delete = (  # pyright: ignore[reportDeprecated]
-            to_streamed_response_wrapper(
-                browsers.delete,  # pyright: ignore[reportDeprecated],
-            )
-        )
         self.curl = to_streamed_response_wrapper(
             browsers.curl,
         )
@@ -1502,11 +1390,6 @@ class AsyncBrowsersResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             browsers.list,
-        )
-        self.delete = (  # pyright: ignore[reportDeprecated]
-            async_to_streamed_response_wrapper(
-                browsers.delete,  # pyright: ignore[reportDeprecated],
-            )
         )
         self.curl = async_to_streamed_response_wrapper(
             browsers.curl,

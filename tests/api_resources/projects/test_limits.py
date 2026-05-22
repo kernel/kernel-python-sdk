@@ -74,7 +74,6 @@ class TestLimits:
             id="id",
             max_concurrent_invocations=0,
             max_concurrent_sessions=0,
-            max_persistent_sessions=0,
             max_pooled_sessions=0,
         )
         assert_matches_type(ProjectLimits, limit, path=["response"])
@@ -176,7 +175,6 @@ class TestAsyncLimits:
             id="id",
             max_concurrent_invocations=0,
             max_concurrent_sessions=0,
-            max_persistent_sessions=0,
             max_pooled_sessions=0,
         )
         assert_matches_type(ProjectLimits, limit, path=["response"])
