@@ -21,12 +21,6 @@ class LimitUpdateParams(TypedDict, total=False):
     Set to 0 to remove the cap; omit to leave unchanged.
     """
 
-    max_persistent_sessions: Optional[int]
-    """Maximum persistent browser sessions for this project.
-
-    Set to 0 to remove the cap; omit to leave unchanged.
-    """
-
     max_pooled_sessions: Optional[int]
     """Maximum pooled sessions capacity for this project.
 
