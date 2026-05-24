@@ -85,7 +85,7 @@ class ProjectsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._post(
-            "/projects",
+            "/org/projects",
             body=maybe_transform({"name": name}, project_create_params.ProjectCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -119,7 +119,7 @@ class ProjectsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            path_template("/projects/{id}", id=id),
+            path_template("/org/projects/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -158,7 +158,7 @@ class ProjectsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._patch(
-            path_template("/projects/{id}", id=id),
+            path_template("/org/projects/{id}", id=id),
             body=maybe_transform(
                 {
                     "name": name,
@@ -204,7 +204,7 @@ class ProjectsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get_api_list(
-            "/projects",
+            "/org/projects",
             page=SyncOffsetPagination[Project],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -251,7 +251,7 @@ class ProjectsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            path_template("/projects/{id}", id=id),
+            path_template("/org/projects/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -312,7 +312,7 @@ class AsyncProjectsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._post(
-            "/projects",
+            "/org/projects",
             body=await async_maybe_transform({"name": name}, project_create_params.ProjectCreateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -346,7 +346,7 @@ class AsyncProjectsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            path_template("/projects/{id}", id=id),
+            path_template("/org/projects/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -385,7 +385,7 @@ class AsyncProjectsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._patch(
-            path_template("/projects/{id}", id=id),
+            path_template("/org/projects/{id}", id=id),
             body=await async_maybe_transform(
                 {
                     "name": name,
@@ -431,7 +431,7 @@ class AsyncProjectsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._get_api_list(
-            "/projects",
+            "/org/projects",
             page=AsyncOffsetPagination[Project],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -478,7 +478,7 @@ class AsyncProjectsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            path_template("/projects/{id}", id=id),
+            path_template("/org/projects/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
