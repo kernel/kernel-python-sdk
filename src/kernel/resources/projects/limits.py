@@ -73,7 +73,7 @@ class LimitsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            path_template("/projects/{id}/limits", id=id),
+            path_template("/org/projects/{id}/limits", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -121,7 +121,7 @@ class LimitsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._patch(
-            path_template("/projects/{id}/limits", id=id),
+            path_template("/org/projects/{id}/limits", id=id),
             body=maybe_transform(
                 {
                     "max_concurrent_invocations": max_concurrent_invocations,
@@ -187,7 +187,7 @@ class AsyncLimitsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            path_template("/projects/{id}/limits", id=id),
+            path_template("/org/projects/{id}/limits", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -235,7 +235,7 @@ class AsyncLimitsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._patch(
-            path_template("/projects/{id}/limits", id=id),
+            path_template("/org/projects/{id}/limits", id=id),
             body=await async_maybe_transform(
                 {
                     "max_concurrent_invocations": max_concurrent_invocations,

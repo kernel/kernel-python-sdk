@@ -395,11 +395,11 @@ from kernel.types import CreateProjectRequest, Project, UpdateProjectRequest
 
 Methods:
 
-- <code title="post /projects">client.projects.<a href="./src/kernel/resources/projects/projects.py">create</a>(\*\*<a href="src/kernel/types/project_create_params.py">params</a>) -> <a href="./src/kernel/types/project.py">Project</a></code>
-- <code title="get /projects/{id}">client.projects.<a href="./src/kernel/resources/projects/projects.py">retrieve</a>(id) -> <a href="./src/kernel/types/project.py">Project</a></code>
-- <code title="patch /projects/{id}">client.projects.<a href="./src/kernel/resources/projects/projects.py">update</a>(id, \*\*<a href="src/kernel/types/project_update_params.py">params</a>) -> <a href="./src/kernel/types/project.py">Project</a></code>
-- <code title="get /projects">client.projects.<a href="./src/kernel/resources/projects/projects.py">list</a>(\*\*<a href="src/kernel/types/project_list_params.py">params</a>) -> <a href="./src/kernel/types/project.py">SyncOffsetPagination[Project]</a></code>
-- <code title="delete /projects/{id}">client.projects.<a href="./src/kernel/resources/projects/projects.py">delete</a>(id) -> None</code>
+- <code title="post /org/projects">client.projects.<a href="./src/kernel/resources/projects/projects.py">create</a>(\*\*<a href="src/kernel/types/project_create_params.py">params</a>) -> <a href="./src/kernel/types/project.py">Project</a></code>
+- <code title="get /org/projects/{id}">client.projects.<a href="./src/kernel/resources/projects/projects.py">retrieve</a>(id) -> <a href="./src/kernel/types/project.py">Project</a></code>
+- <code title="patch /org/projects/{id}">client.projects.<a href="./src/kernel/resources/projects/projects.py">update</a>(id, \*\*<a href="src/kernel/types/project_update_params.py">params</a>) -> <a href="./src/kernel/types/project.py">Project</a></code>
+- <code title="get /org/projects">client.projects.<a href="./src/kernel/resources/projects/projects.py">list</a>(\*\*<a href="src/kernel/types/project_list_params.py">params</a>) -> <a href="./src/kernel/types/project.py">SyncOffsetPagination[Project]</a></code>
+- <code title="delete /org/projects/{id}">client.projects.<a href="./src/kernel/resources/projects/projects.py">delete</a>(id) -> None</code>
 
 ## Limits
 
@@ -411,8 +411,8 @@ from kernel.types.projects import ProjectLimits, UpdateProjectLimitsRequest
 
 Methods:
 
-- <code title="get /projects/{id}/limits">client.projects.limits.<a href="./src/kernel/resources/projects/limits.py">retrieve</a>(id) -> <a href="./src/kernel/types/projects/project_limits.py">ProjectLimits</a></code>
-- <code title="patch /projects/{id}/limits">client.projects.limits.<a href="./src/kernel/resources/projects/limits.py">update</a>(id, \*\*<a href="src/kernel/types/projects/limit_update_params.py">params</a>) -> <a href="./src/kernel/types/projects/project_limits.py">ProjectLimits</a></code>
+- <code title="get /org/projects/{id}/limits">client.projects.limits.<a href="./src/kernel/resources/projects/limits.py">retrieve</a>(id) -> <a href="./src/kernel/types/projects/project_limits.py">ProjectLimits</a></code>
+- <code title="patch /org/projects/{id}/limits">client.projects.limits.<a href="./src/kernel/resources/projects/limits.py">update</a>(id, \*\*<a href="src/kernel/types/projects/limit_update_params.py">params</a>) -> <a href="./src/kernel/types/projects/project_limits.py">ProjectLimits</a></code>
 
 # CredentialProviders
 
