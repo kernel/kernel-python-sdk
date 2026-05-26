@@ -92,7 +92,6 @@ from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.shared_params.browser_profile import BrowserProfile
 from ...types.shared_params.browser_viewport import BrowserViewport
 from ...types.shared_params.browser_extension import BrowserExtension
-from ...types.browsers.browser_telemetry_request_config_param import BrowserTelemetryRequestConfigParam
 
 __all__ = ["BrowsersResource", "AsyncBrowsersResource"]
 
@@ -166,7 +165,7 @@ class BrowsersResource(SyncAPIResource):
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
-        telemetry: Optional[BrowserTelemetryRequestConfigParam] | Omit = omit,
+        telemetry: Optional[browser_create_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -320,7 +319,7 @@ class BrowsersResource(SyncAPIResource):
         disable_default_proxy: bool | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
-        telemetry: Optional[BrowserTelemetryRequestConfigParam] | Omit = omit,
+        telemetry: Optional[browser_update_params.Telemetry] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -655,7 +654,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
-        telemetry: Optional[BrowserTelemetryRequestConfigParam] | Omit = omit,
+        telemetry: Optional[browser_create_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -809,7 +808,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         disable_default_proxy: bool | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
-        telemetry: Optional[BrowserTelemetryRequestConfigParam] | Omit = omit,
+        telemetry: Optional[browser_update_params.Telemetry] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

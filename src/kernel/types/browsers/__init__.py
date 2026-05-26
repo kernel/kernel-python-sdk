@@ -82,9 +82,6 @@ from .computer_set_cursor_visibility_params import (
 from .browser_monitor_reconnect_failed_event import (
     BrowserMonitorReconnectFailedEvent as BrowserMonitorReconnectFailedEvent,
 )
-from .browser_telemetry_request_config_param import (
-    BrowserTelemetryRequestConfigParam as BrowserTelemetryRequestConfigParam,
-)
 from .browser_telemetry_category_config_param import (
     BrowserTelemetryCategoryConfigParam as BrowserTelemetryCategoryConfigParam,
 )
