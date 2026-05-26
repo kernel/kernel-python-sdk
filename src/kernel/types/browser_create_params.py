@@ -8,7 +8,7 @@ from typing_extensions import TypedDict
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
-from .browsers.browser_telemetry_config_param import BrowserTelemetryConfigParam
+from .browsers.browser_telemetry_request_config_param import BrowserTelemetryRequestConfigParam
 
 __all__ = ["BrowserCreateParams"]
 
@@ -75,11 +75,13 @@ class BrowserCreateParams(TypedDict, total=False):
     mechanisms.
     """
 
-    telemetry: Optional[BrowserTelemetryConfigParam]
+    telemetry: Optional[BrowserTelemetryRequestConfigParam]
     """Telemetry configuration for the browser session.
 
-    If provided, telemetry capture starts with the specified category filter when
-    the session is created. If omitted, no telemetry capture is started.
+    Set enabled to true to start capture using VM defaults, or provide browser
+    category settings. If omitted, null, set to an empty object ({}), set to
+    enabled: false without browser category settings, or all four categories are
+    explicitly disabled, capture is not started.
     """
 
     timeout_seconds: int

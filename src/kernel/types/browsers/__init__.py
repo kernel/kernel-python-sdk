@@ -57,7 +57,6 @@ from .browser_page_navigation_event import BrowserPageNavigationEvent as Browser
 from .browser_page_tab_opened_event import BrowserPageTabOpenedEvent as BrowserPageTabOpenedEvent
 from .f_set_file_permissions_params import FSetFilePermissionsParams as FSetFilePermissionsParams
 from .browser_network_response_event import BrowserNetworkResponseEvent as BrowserNetworkResponseEvent
-from .browser_telemetry_config_param import BrowserTelemetryConfigParam as BrowserTelemetryConfigParam
 from .process_stdout_stream_response import ProcessStdoutStreamResponse as ProcessStdoutStreamResponse
 from .browser_interaction_click_event import BrowserInteractionClickEvent as BrowserInteractionClickEvent
 from .browser_page_layout_shift_event import BrowserPageLayoutShiftEvent as BrowserPageLayoutShiftEvent
@@ -82,6 +81,9 @@ from .computer_set_cursor_visibility_params import (
 )
 from .browser_monitor_reconnect_failed_event import (
     BrowserMonitorReconnectFailedEvent as BrowserMonitorReconnectFailedEvent,
+)
+from .browser_telemetry_request_config_param import (
+    BrowserTelemetryRequestConfigParam as BrowserTelemetryRequestConfigParam,
 )
 from .browser_telemetry_category_config_param import (
     BrowserTelemetryCategoryConfigParam as BrowserTelemetryCategoryConfigParam,

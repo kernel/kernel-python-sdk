@@ -59,7 +59,8 @@ class TestBrowsers:
                     "interaction": {"enabled": True},
                     "network": {"enabled": True},
                     "page": {"enabled": True},
-                }
+                },
+                "enabled": True,
             },
             timeout_seconds=10,
             viewport={
@@ -169,7 +170,8 @@ class TestBrowsers:
                     "interaction": {"enabled": True},
                     "network": {"enabled": True},
                     "page": {"enabled": True},
-                }
+                },
+                "enabled": True,
             },
             viewport={
                 "height": 800,
@@ -463,7 +465,8 @@ class TestAsyncBrowsers:
                     "interaction": {"enabled": True},
                     "network": {"enabled": True},
                     "page": {"enabled": True},
-                }
+                },
+                "enabled": True,
             },
             timeout_seconds=10,
             viewport={
@@ -573,7 +576,8 @@ class TestAsyncBrowsers:
                     "interaction": {"enabled": True},
                     "network": {"enabled": True},
                     "page": {"enabled": True},
-                }
+                },
+                "enabled": True,
             },
             viewport={
                 "height": 800,
