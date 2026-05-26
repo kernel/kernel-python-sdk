@@ -180,7 +180,7 @@ async def test_async_raw_browser_create_warms_route_cache() -> None:
 
 @respx.mock
 def test_only_browser_metadata_endpoints_warm_route_cache() -> None:
-    projects_route = respx.get(f"{base_url}/projects").mock(return_value=httpx.Response(200, json=_fake_browser()))
+    projects_route = respx.get(f"{base_url}/org/projects").mock(return_value=httpx.Response(200, json=_fake_browser()))
     with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
         response = client.projects.with_raw_response.list()
         with pytest.raises(ValueError, match="route cache"):
