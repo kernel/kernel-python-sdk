@@ -9,7 +9,7 @@ __all__ = ["BrowserTelemetryConfig"]
 
 
 class BrowserTelemetryConfig(BaseModel):
-    """Telemetry configuration for a browser session."""
+    """Active telemetry configuration for a browser session."""
 
     browser: Optional[BrowserTelemetryCategoriesConfig] = None
-    """Per-category enable/disable flags. If omitted, all categories are captured."""
+    """Per-category enable/disable flags."""

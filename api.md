@@ -137,6 +137,7 @@ from kernel.types.browsers import (
     BrowserTelemetryCategoryConfig,
     BrowserTelemetryConfig,
     BrowserTelemetryEvent,
+    BrowserTelemetryRequestConfig,
     TelemetryStreamResponse,
 )
 ```
