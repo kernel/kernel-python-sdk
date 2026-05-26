@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.57.0 (2026-05-26)
+
+Full Changelog: [v0.57.0...v0.57.0](https://github.com/kernel/kernel-python-sdk/compare/v0.57.0...v0.57.0)
+
+### Features
+
+* api: dual-route /projects under /org/projects, deprecate /projects ([c5f21ec](https://github.com/kernel/kernel-python-sdk/commit/c5f21ecf3e1081c774ba58ad32b10e8cd5b0a94a))
+* Support telemetry enabled request config ([f48cbee](https://github.com/kernel/kernel-python-sdk/commit/f48cbee40aee158615972e6f39b92179e06efbce))
+
 ## 0.57.0 (2026-05-22)
 
 Full Changelog: [v0.56.0...v0.57.0](https://github.com/kernel/kernel-python-sdk/compare/v0.56.0...v0.57.0)
