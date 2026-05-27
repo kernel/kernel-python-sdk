@@ -8,9 +8,9 @@ from typing_extensions import TypedDict
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
-from .browsers.browser_telemetry_request_config_param import BrowserTelemetryRequestConfigParam
+from .browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
 
-__all__ = ["BrowserCreateParams"]
+__all__ = ["BrowserCreateParams", "Telemetry"]
 
 
 class BrowserCreateParams(TypedDict, total=False):
@@ -75,7 +75,7 @@ class BrowserCreateParams(TypedDict, total=False):
     mechanisms.
     """
 
-    telemetry: Optional[BrowserTelemetryRequestConfigParam]
+    telemetry: Optional[Telemetry]
     """Telemetry configuration for the browser session.
 
     Set enabled to true to start capture using VM defaults, or provide browser
@@ -107,4 +107,27 @@ class BrowserCreateParams(TypedDict, total=False):
     behavior. If refresh_rate is not provided, it will be automatically determined
     based on the resolution (higher resolutions use lower refresh rates to keep
     bandwidth reasonable).
+    """
+
+
+class Telemetry(TypedDict, total=False):
+    """Telemetry configuration for the browser session.
+
+    Set enabled to true to start capture using VM defaults, or provide browser category settings. If omitted, null, set to an empty object ({}), set to enabled: false without browser category settings, or all four categories are explicitly disabled, capture is not started.
+    """
+
+    browser: BrowserTelemetryCategoriesConfigParam
+    """Per-category enable/disable flags.
+
+    If enabled is true and browser is omitted or empty, the VM default category set
+    is used. Explicitly disabling all four categories stops capture on update and
+    starts no capture on create.
+    """
+
+    enabled: bool
+    """Request shortcut for browser telemetry capture.
+
+    True enables capture using VM defaults unless browser category settings are
+    provided. False stops capture on update and starts no capture on create.
+    enabled=false cannot be combined with browser category settings.
     """
