@@ -419,7 +419,7 @@ Methods:
 Types:
 
 ```python
-from kernel.types import APIKey, CreateAPIKeyRequest, CreatedAPIKey, UpdateAPIKeyRequest
+from kernel.types import APIKey, CreatedAPIKey
 ```
 
 Methods:
