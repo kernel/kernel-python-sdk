@@ -81,85 +81,14 @@ class ConfigResidentialProxyConfig(TypedDict, total=False):
 class ConfigMobileProxyConfig(TypedDict, total=False):
     """Configuration for mobile proxies."""
 
-    asn: str
-    """Autonomous system number. See https://bgp.potaroo.net/cidr/autnums.html"""
-
-    carrier: Literal[
-        "a1",
-        "aircel",
-        "airtel",
-        "att",
-        "celcom",
-        "chinamobile",
-        "claro",
-        "comcast",
-        "cox",
-        "digi",
-        "dt",
-        "docomo",
-        "dtac",
-        "etisalat",
-        "idea",
-        "kyivstar",
-        "meo",
-        "megafon",
-        "mtn",
-        "mtnza",
-        "mts",
-        "optus",
-        "orange",
-        "qwest",
-        "reliance_jio",
-        "robi",
-        "sprint",
-        "telefonica",
-        "telstra",
-        "tmobile",
-        "tigo",
-        "tim",
-        "verizon",
-        "vimpelcom",
-        "vodacomza",
-        "vodafone",
-        "vivo",
-        "zain",
-        "vivabo",
-        "telenormyanmar",
-        "kcelljsc",
-        "swisscom",
-        "singtel",
-        "asiacell",
-        "windit",
-        "cellc",
-        "ooredoo",
-        "drei",
-        "umobile",
-        "cableone",
-        "proximus",
-        "tele2",
-        "mobitel",
-        "o2",
-        "bouygues",
-        "free",
-        "sfr",
-        "digicel",
-    ]
-    """Mobile carrier."""
-
     city: str
-    """City name (no spaces, e.g.
-
-    `sanfrancisco`). If provided, `country` must also be provided.
-    """
+    """Provider city alias. Mobile carrier routing can make observed geo vary."""
 
     country: str
     """ISO 3166 country code"""
 
     state: str
-    """Two-letter state code."""
-
-    zip: str
-    """US ZIP code."""
+    """US-only state code. Mobile carrier routing can make observed geo vary."""
 
 
 class ConfigCreateCustomProxyConfig(TypedDict, total=False):
