@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.58.0 (2026-05-27)
+
+Full Changelog: [v0.57.0...v0.58.0](https://github.com/kernel/kernel-python-sdk/compare/v0.57.0...v0.58.0)
+
+### Features
+
+* [codex] Expose API keys in SDK config ([41b3aa2](https://github.com/kernel/kernel-python-sdk/commit/41b3aa243c39af3614154af0059b0299c4e41664))
+* Fix API key request model SDK metadata ([3ced474](https://github.com/kernel/kernel-python-sdk/commit/3ced474265441099b9fd26f26050ec799e804fac))
+* Support telemetry enabled request config and fix SDK metadata ([a1054a6](https://github.com/kernel/kernel-python-sdk/commit/a1054a6b72e79e0fffc88b1b46661683a8a953b8))
+
 ## 0.57.0 (2026-05-26)
 
 Full Changelog: [v0.57.0...v0.57.0](https://github.com/kernel/kernel-python-sdk/compare/v0.57.0...v0.57.0)
