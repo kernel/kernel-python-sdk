@@ -39,6 +39,7 @@ if TYPE_CHECKING:
         apps,
         auth,
         proxies,
+        api_keys,
         browsers,
         profiles,
         projects,
@@ -51,6 +52,7 @@ if TYPE_CHECKING:
     )
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
+    from .resources.api_keys import APIKeysResource, AsyncAPIKeysResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
     from .resources.auth.auth import AuthResource, AsyncAuthResource
     from .resources.extensions import ExtensionsResource, AsyncExtensionsResource
@@ -243,6 +245,13 @@ class Kernel(SyncAPIClient):
         from .resources.projects import ProjectsResource
 
         return ProjectsResource(self)
+
+    @cached_property
+    def api_keys(self) -> APIKeysResource:
+        """Create and manage API keys for organization and project-scoped access."""
+        from .resources.api_keys import APIKeysResource
+
+        return APIKeysResource(self)
 
     @cached_property
     def credential_providers(self) -> CredentialProvidersResource:
@@ -531,6 +540,13 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncProjectsResource(self)
 
     @cached_property
+    def api_keys(self) -> AsyncAPIKeysResource:
+        """Create and manage API keys for organization and project-scoped access."""
+        from .resources.api_keys import AsyncAPIKeysResource
+
+        return AsyncAPIKeysResource(self)
+
+    @cached_property
     def credential_providers(self) -> AsyncCredentialProvidersResource:
         """Configure external credential providers like 1Password."""
         from .resources.credential_providers import AsyncCredentialProvidersResource
@@ -735,6 +751,13 @@ class KernelWithRawResponse:
         return ProjectsResourceWithRawResponse(self._client.projects)
 
     @cached_property
+    def api_keys(self) -> api_keys.APIKeysResourceWithRawResponse:
+        """Create and manage API keys for organization and project-scoped access."""
+        from .resources.api_keys import APIKeysResourceWithRawResponse
+
+        return APIKeysResourceWithRawResponse(self._client.api_keys)
+
+    @cached_property
     def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithRawResponse:
         """Configure external credential providers like 1Password."""
         from .resources.credential_providers import CredentialProvidersResourceWithRawResponse
@@ -823,6 +846,13 @@ class AsyncKernelWithRawResponse:
         from .resources.projects import AsyncProjectsResourceWithRawResponse
 
         return AsyncProjectsResourceWithRawResponse(self._client.projects)
+
+    @cached_property
+    def api_keys(self) -> api_keys.AsyncAPIKeysResourceWithRawResponse:
+        """Create and manage API keys for organization and project-scoped access."""
+        from .resources.api_keys import AsyncAPIKeysResourceWithRawResponse
+
+        return AsyncAPIKeysResourceWithRawResponse(self._client.api_keys)
 
     @cached_property
     def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithRawResponse:
@@ -915,6 +945,13 @@ class KernelWithStreamedResponse:
         return ProjectsResourceWithStreamingResponse(self._client.projects)
 
     @cached_property
+    def api_keys(self) -> api_keys.APIKeysResourceWithStreamingResponse:
+        """Create and manage API keys for organization and project-scoped access."""
+        from .resources.api_keys import APIKeysResourceWithStreamingResponse
+
+        return APIKeysResourceWithStreamingResponse(self._client.api_keys)
+
+    @cached_property
     def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithStreamingResponse:
         """Configure external credential providers like 1Password."""
         from .resources.credential_providers import CredentialProvidersResourceWithStreamingResponse
@@ -1003,6 +1040,13 @@ class AsyncKernelWithStreamedResponse:
         from .resources.projects import AsyncProjectsResourceWithStreamingResponse
 
         return AsyncProjectsResourceWithStreamingResponse(self._client.projects)
+
+    @cached_property
+    def api_keys(self) -> api_keys.AsyncAPIKeysResourceWithStreamingResponse:
+        """Create and manage API keys for organization and project-scoped access."""
+        from .resources.api_keys import AsyncAPIKeysResourceWithStreamingResponse
+
+        return AsyncAPIKeysResourceWithStreamingResponse(self._client.api_keys)
 
     @cached_property
     def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithStreamingResponse:
