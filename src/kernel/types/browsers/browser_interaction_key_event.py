@@ -29,6 +29,8 @@ class Data(BrowserEventContext):
 class BrowserInteractionKeyEvent(BaseModel):
     """A browser keyboard event captured via injected page script."""
 
+    category: Literal["interaction"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

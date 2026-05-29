@@ -42,6 +42,8 @@ class Data(BrowserEventContext):
 class BrowserConsoleLogEvent(BaseModel):
     """A browser console log event (console.log, console.info, console.warn, etc.)."""
 
+    category: Literal["console"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

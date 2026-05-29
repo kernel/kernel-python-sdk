@@ -31,6 +31,8 @@ class BrowserPageTabOpenedEvent(BaseModel):
     A new browser tab or target was opened (CDP Target.attachedToTarget for page targets). Fires before a CDP session is attached to the new target, so session_id, frame_id, loader_id, and nav_seq are absent; this event does not compose BrowserEventContext. Consumers reading context fields generically should treat it as a special case.
     """
 
+    category: Literal["page"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

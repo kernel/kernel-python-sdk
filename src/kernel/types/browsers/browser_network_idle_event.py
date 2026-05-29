@@ -15,6 +15,8 @@ class BrowserNetworkIdleEvent(BaseModel):
     A browser network idle event emitted after a 500ms quiet period with no in-flight HTTP requests.
     """
 
+    category: Literal["network"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

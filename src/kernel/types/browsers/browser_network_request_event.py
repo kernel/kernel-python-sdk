@@ -55,6 +55,8 @@ class Data(BrowserEventContext):
 class BrowserNetworkRequestEvent(BaseModel):
     """A browser network request sent event."""
 
+    category: Literal["network"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

@@ -50,6 +50,8 @@ class BrowserPageLayoutShiftEvent(BaseModel):
     A browser cumulative layout shift (CLS) event from the Performance Timeline API.
     """
 
+    category: Literal["page"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

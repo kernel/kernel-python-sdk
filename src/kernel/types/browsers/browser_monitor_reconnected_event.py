@@ -19,6 +19,8 @@ class BrowserMonitorReconnectedEvent(BaseModel):
     The CDP connection to Chrome was successfully re-established after a disconnection. Events emitted during the gap are lost. Computed state is reset, so navigation and network tracking restart fresh from this point.
     """
 
+    category: Literal["system"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

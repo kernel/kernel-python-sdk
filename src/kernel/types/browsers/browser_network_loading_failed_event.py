@@ -39,6 +39,8 @@ class BrowserNetworkLoadingFailedEvent(BaseModel):
     If the request was already in flight when CDP attached (no prior network_request was emitted for it), url, frame_id, loader_id, and resource_type are absent; BrowserEventContext is partially populated in that case.
     """
 
+    category: Literal["network"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

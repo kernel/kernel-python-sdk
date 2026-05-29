@@ -52,6 +52,8 @@ class BrowserNetworkResponseEvent(BaseModel):
     Fired after the response body is fully received, not when headers arrive.
     """
 
+    category: Literal["network"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

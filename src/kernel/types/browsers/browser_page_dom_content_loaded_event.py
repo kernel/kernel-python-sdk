@@ -26,6 +26,8 @@ class Data(BrowserEventContext):
 class BrowserPageDomContentLoadedEvent(BaseModel):
     """A browser DOMContentLoaded event (CDP Page.domContentEventFired)."""
 
+    category: Literal["page"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 
