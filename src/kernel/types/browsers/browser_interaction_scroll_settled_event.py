@@ -37,6 +37,8 @@ class BrowserInteractionScrollSettledEvent(BaseModel):
     A browser scroll settled event emitted after scroll position stops changing, captured via injected page script.
     """
 
+    category: Literal["interaction"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

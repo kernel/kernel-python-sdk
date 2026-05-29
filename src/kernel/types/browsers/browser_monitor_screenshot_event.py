@@ -17,6 +17,8 @@ class Data(BaseModel):
 class BrowserMonitorScreenshotEvent(BaseModel):
     """A periodic screenshot of the browser viewport."""
 
+    category: Literal["system"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

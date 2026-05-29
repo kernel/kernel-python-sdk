@@ -65,6 +65,8 @@ class BrowserConsoleErrorEvent(BaseModel):
     Emitted from two distinct CDP sources with different data shapes. Runtime.consoleAPICalled (console.error calls) produces level, text, args, and stack_trace. Runtime.exceptionThrown (uncaught exceptions) produces text, line, column, source_url, and stack_trace. Fields not applicable to the source are absent.
     """
 
+    category: Literal["console"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

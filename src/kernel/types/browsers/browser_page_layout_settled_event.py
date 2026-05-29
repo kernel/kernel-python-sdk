@@ -15,6 +15,8 @@ class BrowserPageLayoutSettledEvent(BaseModel):
     A browser layout settled event emitted 1 second after page load with no intervening layout shifts, indicating visual stability. Each layout shift resets the 1-second timer.
     """
 
+    category: Literal["page"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

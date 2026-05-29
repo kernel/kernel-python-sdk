@@ -56,6 +56,8 @@ class BrowserPageLcpEvent(BaseModel):
     A browser Largest Contentful Paint (LCP) event from the Performance Timeline API.
     """
 
+    category: Literal["page"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 
