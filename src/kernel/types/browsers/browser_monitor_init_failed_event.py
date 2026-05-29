@@ -17,6 +17,8 @@ class Data(BaseModel):
 class BrowserMonitorInitFailedEvent(BaseModel):
     """The CDP session could not be initialized."""
 
+    category: Literal["system"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

@@ -41,6 +41,8 @@ class BrowserPageNavigationEvent(BaseModel):
     Carries nav context fields inline but not nav_seq, as this event resets the navigation epoch.
     """
 
+    category: Literal["page"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

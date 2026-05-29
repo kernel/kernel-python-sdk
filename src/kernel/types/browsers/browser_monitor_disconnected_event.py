@@ -20,6 +20,8 @@ class BrowserMonitorDisconnectedEvent(BaseModel):
     Telemetry events may be dropped until monitor_reconnected arrives. Treat any in-progress computed state (network_idle, page_layout_settled) as unreliable until then.
     """
 
+    category: Literal["system"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 

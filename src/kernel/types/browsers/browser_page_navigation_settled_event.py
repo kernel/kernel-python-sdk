@@ -15,6 +15,8 @@ class BrowserPageNavigationSettledEvent(BaseModel):
     Emitted when page_dom_content_loaded and page_layout_settled have both fired for the same navigation, indicating the page is loaded and visually stable. Independent of network_idle; a single pending request does not block it.
     """
 
+    category: Literal["page"]
+
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
 
