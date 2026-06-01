@@ -126,6 +126,7 @@ class BrowsersResource(SyncAPIResource):
 
     @cached_property
     def computer(self) -> ComputerResource:
+        """Control mouse, keyboard, and screen on the browser instance."""
         return ComputerResource(self._client)
 
     @cached_property
@@ -615,6 +616,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
     @cached_property
     def computer(self) -> AsyncComputerResource:
+        """Control mouse, keyboard, and screen on the browser instance."""
         return AsyncComputerResource(self._client)
 
     @cached_property
@@ -1127,6 +1129,7 @@ class BrowsersResourceWithRawResponse:
 
     @cached_property
     def computer(self) -> ComputerResourceWithRawResponse:
+        """Control mouse, keyboard, and screen on the browser instance."""
         return ComputerResourceWithRawResponse(self._browsers.computer)
 
     @cached_property
@@ -1188,6 +1191,7 @@ class AsyncBrowsersResourceWithRawResponse:
 
     @cached_property
     def computer(self) -> AsyncComputerResourceWithRawResponse:
+        """Control mouse, keyboard, and screen on the browser instance."""
         return AsyncComputerResourceWithRawResponse(self._browsers.computer)
 
     @cached_property
@@ -1249,6 +1253,7 @@ class BrowsersResourceWithStreamingResponse:
 
     @cached_property
     def computer(self) -> ComputerResourceWithStreamingResponse:
+        """Control mouse, keyboard, and screen on the browser instance."""
         return ComputerResourceWithStreamingResponse(self._browsers.computer)
 
     @cached_property
@@ -1310,6 +1315,7 @@ class AsyncBrowsersResourceWithStreamingResponse:
 
     @cached_property
     def computer(self) -> AsyncComputerResourceWithStreamingResponse:
+        """Control mouse, keyboard, and screen on the browser instance."""
         return AsyncComputerResourceWithStreamingResponse(self._browsers.computer)
 
     @cached_property

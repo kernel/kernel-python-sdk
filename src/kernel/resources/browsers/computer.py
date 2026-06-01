@@ -46,6 +46,8 @@ __all__ = ["ComputerResource", "AsyncComputerResource"]
 
 
 class ComputerResource(SyncAPIResource):
+    """Control mouse, keyboard, and screen on the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> ComputerResourceWithRawResponse:
         """
@@ -649,6 +651,8 @@ class ComputerResource(SyncAPIResource):
 
 
 class AsyncComputerResource(AsyncAPIResource):
+    """Control mouse, keyboard, and screen on the browser instance."""
+
     @cached_property
     def with_raw_response(self) -> AsyncComputerResourceWithRawResponse:
         """
