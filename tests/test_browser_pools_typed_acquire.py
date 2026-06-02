@@ -6,8 +6,8 @@ import httpx
 import respx
 import pytest
 
-from kernel import Kernel, AsyncKernel, NotFoundError
-from kernel.lib.browser_pools import Acquired, TimedOut, acquire, acquire_async
+from kernel import Kernel, AsyncKernel
+from kernel.lib.browser_pools import Acquired, TimedOut, PoolNotFound, acquire, acquire_async
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 api_key = "sk-123"
@@ -48,13 +48,14 @@ def test_acquire_returns_timed_out_on_204() -> None:
 
 
 @respx.mock
-def test_acquire_raises_not_found_on_404() -> None:
+def test_acquire_returns_pool_not_found_on_404() -> None:
     respx.post(f"{base_url}/browser_pools/missing/acquire").mock(
         return_value=httpx.Response(404, json={"code": "not_found", "message": "pool not found"})
     )
     with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
-        with pytest.raises(NotFoundError):
-            acquire(client, "missing")
+        result = acquire(client, "missing")
+
+    assert isinstance(result, PoolNotFound)
 
 
 @pytest.mark.asyncio
