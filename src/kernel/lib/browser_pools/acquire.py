@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Union
 from dataclasses import dataclass
+from typing_extensions import TypeAlias
 
 import httpx
-from typing_extensions import TypeAlias
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._exceptions import NotFoundError
