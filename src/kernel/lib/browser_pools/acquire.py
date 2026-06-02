@@ -95,4 +95,4 @@ async def acquire_async(
         return PoolNotFound()
     if raw.http_response.status_code == 204:
         return TimedOut()
-    return Acquired(browser=raw.parse())
+    return Acquired(browser=await raw.parse())
