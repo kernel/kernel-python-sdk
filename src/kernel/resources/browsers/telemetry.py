@@ -80,7 +80,7 @@ class TelemetryResource(SyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {**strip_not_given({"Last-Event-ID": last_event_id}), **(extra_headers or {})}
         return self._get(
-            path_template("/browsers/{id}/telemetry", id=id),
+            path_template("/browsers/{id}/telemetry/stream", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -149,7 +149,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {**strip_not_given({"Last-Event-ID": last_event_id}), **(extra_headers or {})}
         return await self._get(
-            path_template("/browsers/{id}/telemetry", id=id),
+            path_template("/browsers/{id}/telemetry/stream", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
