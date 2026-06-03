@@ -142,6 +142,7 @@ class TestReplays:
             id="id",
             framerate=1,
             max_duration_in_seconds=1,
+            record_audio=True,
         )
         assert_matches_type(ReplayStartResponse, replay, path=["response"])
 
@@ -354,6 +355,7 @@ class TestAsyncReplays:
             id="id",
             framerate=1,
             max_duration_in_seconds=1,
+            record_audio=True,
         )
         assert_matches_type(ReplayStartResponse, replay, path=["response"])
 

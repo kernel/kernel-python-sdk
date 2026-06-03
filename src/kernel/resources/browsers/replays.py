@@ -128,6 +128,7 @@ class ReplaysResource(SyncAPIResource):
         *,
         framerate: int | Omit = omit,
         max_duration_in_seconds: int | Omit = omit,
+        record_audio: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -143,6 +144,9 @@ class ReplaysResource(SyncAPIResource):
               browser session.
 
           max_duration_in_seconds: Maximum recording duration in seconds.
+
+          record_audio: Record audio in addition to video. When false (the default), the recording is
+              video-only.
 
           extra_headers: Send extra headers
 
@@ -160,6 +164,7 @@ class ReplaysResource(SyncAPIResource):
                 {
                     "framerate": framerate,
                     "max_duration_in_seconds": max_duration_in_seconds,
+                    "record_audio": record_audio,
                 },
                 replay_start_params.ReplayStartParams,
             ),
@@ -305,6 +310,7 @@ class AsyncReplaysResource(AsyncAPIResource):
         *,
         framerate: int | Omit = omit,
         max_duration_in_seconds: int | Omit = omit,
+        record_audio: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -320,6 +326,9 @@ class AsyncReplaysResource(AsyncAPIResource):
               browser session.
 
           max_duration_in_seconds: Maximum recording duration in seconds.
+
+          record_audio: Record audio in addition to video. When false (the default), the recording is
+              video-only.
 
           extra_headers: Send extra headers
 
@@ -337,6 +346,7 @@ class AsyncReplaysResource(AsyncAPIResource):
                 {
                     "framerate": framerate,
                     "max_duration_in_seconds": max_duration_in_seconds,
+                    "record_audio": record_audio,
                 },
                 replay_start_params.ReplayStartParams,
             ),
