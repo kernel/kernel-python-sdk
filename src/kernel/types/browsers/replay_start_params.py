@@ -16,3 +16,9 @@ class ReplayStartParams(TypedDict, total=False):
 
     max_duration_in_seconds: int
     """Maximum recording duration in seconds."""
+
+    record_audio: bool
+    """Record audio in addition to video.
+
+    When false (the default), the recording is video-only.
+    """
