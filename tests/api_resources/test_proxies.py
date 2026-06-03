@@ -15,6 +15,7 @@ from kernel.types import (
     ProxyCreateResponse,
     ProxyRetrieveResponse,
 )
+from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -114,7 +115,16 @@ class TestProxies:
     @parametrize
     def test_method_list(self, client: Kernel) -> None:
         proxy = client.proxies.list()
-        assert_matches_type(ProxyListResponse, proxy, path=["response"])
+        assert_matches_type(SyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_with_all_params(self, client: Kernel) -> None:
+        proxy = client.proxies.list(
+            limit=1,
+            offset=0,
+        )
+        assert_matches_type(SyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -124,7 +134,7 @@ class TestProxies:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         proxy = response.parse()
-        assert_matches_type(ProxyListResponse, proxy, path=["response"])
+        assert_matches_type(SyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -134,7 +144,7 @@ class TestProxies:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             proxy = response.parse()
-            assert_matches_type(ProxyListResponse, proxy, path=["response"])
+            assert_matches_type(SyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -329,7 +339,16 @@ class TestAsyncProxies:
     @parametrize
     async def test_method_list(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.list()
-        assert_matches_type(ProxyListResponse, proxy, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
+        proxy = await async_client.proxies.list(
+            limit=1,
+            offset=0,
+        )
+        assert_matches_type(AsyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -339,7 +358,7 @@ class TestAsyncProxies:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         proxy = await response.parse()
-        assert_matches_type(ProxyListResponse, proxy, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -349,7 +368,7 @@ class TestAsyncProxies:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             proxy = await response.parse()
-            assert_matches_type(ProxyListResponse, proxy, path=["response"])
+            assert_matches_type(AsyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

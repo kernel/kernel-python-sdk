@@ -25,6 +25,7 @@ from .app_list_params import AppListParams as AppListParams
 from .created_api_key import CreatedAPIKey as CreatedAPIKey
 from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
 from .app_list_response import AppListResponse as AppListResponse
+from .proxy_list_params import ProxyListParams as ProxyListParams
 from .proxy_check_params import ProxyCheckParams as ProxyCheckParams
 from .api_key_list_params import APIKeyListParams as APIKeyListParams
 from .browser_curl_params import BrowserCurlParams as BrowserCurlParams
