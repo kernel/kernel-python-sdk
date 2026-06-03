@@ -37,6 +37,54 @@ _BROWSER_DELETE_BY_ID_PATH = re.compile(r"^/(?:v\d+/)?browsers/([^/]+)/?$")
 _BROWSER_POOL_ACQUIRE_PATH = re.compile(r"^/(?:v\d+/)?browser_pools/[^/]+/acquire/?$")
 _BROWSER_POOL_RELEASE_PATH = re.compile(r"^/(?:v\d+/)?browser_pools/[^/]+/release/?$")
 
+# Body code returned by the VM proxy (metro-api, kernel#2317) when a routed
+# request targets a DELETED/GONE browser. There is intentionally no special
+# response header: we key off this body code only. A live VM's own 404s do not
+# carry this code, and transient/real upstream failures return 5xx instead.
+BROWSER_GONE_CODE = "browser_gone"
+
+# Registry of routed paths that are ELIGIBLE for control-plane fallback when the
+# VM reports the browser is gone (404 + code == "browser_gone"). Eligibility is
+# expressed against the parsed routed path as (subresource, suffix). Everything
+# not listed here is default-OFF: a browser_gone 404 on a non-eligible path
+# propagates unchanged. Adding a future eligible endpoint is a one-line edit.
+_FALLBACK_ELIGIBLE_ROUTED_PATHS: frozenset[tuple[str, str]] = frozenset(
+    {
+        # PROSPECTIVE: GET /browsers/{id}/telemetry/events. The pull endpoint /
+        # `telemetry.events(...)` method does NOT exist yet; this pre-registers
+        # the opt-in so control-plane fallback works the moment that method
+        # ships, with no further routing-layer changes required.
+        ("telemetry", "/events"),
+    }
+)
+
+
+def is_fallback_eligible_routed_path(subresource: str, suffix: str) -> bool:
+    """Return True if a routed path opted into control-plane fallback.
+
+    `subresource` and `suffix` are the components produced by
+    `match_direct_vm_path` for a `/browsers/{id}/{subresource}{suffix}` URL.
+    """
+    return (subresource, suffix) in _FALLBACK_ELIGIBLE_ROUTED_PATHS
+
+
+def response_is_browser_gone(response: httpx.Response) -> bool:
+    """Return True iff a 404 response body has JSON code == "browser_gone".
+
+    Only call this for a 404. The body is read defensively; any
+    parse/shape problem is treated as "not browser_gone" so the original
+    response propagates unchanged.
+    """
+    if response.status_code != 404:
+        return False
+    try:
+        body = response.json()
+    except Exception:
+        return False
+    if not isinstance(body, Mapping):
+        return False
+    return cast(Mapping[object, object], body).get("code") == BROWSER_GONE_CODE
+
 
 def browser_routing_config_from_env() -> BrowserRoutingConfig:
     raw = os.environ.get("KERNEL_BROWSER_ROUTING_SUBRESOURCES")
@@ -214,6 +262,42 @@ def rewrite_direct_vm_options(
     params["jwt"] = route.jwt
     rewritten.params = params or options.params
     return rewritten
+
+
+def fallback_session_id_for_options(
+    options: FinalRequestOptions,
+    *,
+    cache: BrowserRouteCache,
+    config: BrowserRoutingConfig,
+) -> str | None:
+    """Return the session id to fall back for, or None if not eligible.
+
+    Decides — from the ORIGINAL (pre-rewrite) request options — whether a
+    control-plane fallback is permitted. All must hold:
+      1. the request was actually routed to the VM (allowlisted subresource +
+         a cached route exists for the session);
+      2. the HTTP method is GET;
+      3. the routed path is in the fallback-eligible registry.
+
+    The caller is still responsible for confirming the VM returned a
+    browser_gone 404 before acting on the returned session id.
+    """
+    if options.method.upper() != "GET":
+        return None
+
+    match = match_direct_vm_path(options.url)
+    if match is None:
+        return None
+
+    session_id, subresource, suffix = match
+    if subresource not in set(config.subresources):
+        return None
+    if cache.get(session_id) is None:
+        return None
+    if not is_fallback_eligible_routed_path(subresource, suffix):
+        return None
+
+    return session_id
 
 
 def strip_direct_vm_auth(request: httpx.Request, *, cache: BrowserRouteCache) -> None:

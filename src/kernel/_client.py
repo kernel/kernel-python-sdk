@@ -25,7 +25,7 @@ from ._utils import (
     is_mapping_t,
     get_async_library,
 )
-from ._compat import cached_property
+from ._compat import model_copy, cached_property
 from ._models import FinalRequestOptions
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
@@ -39,8 +39,10 @@ from .lib.browser_routing.routing import (
     BrowserRouteCache,
     BrowserRoutingConfig,
     strip_direct_vm_auth,
+    response_is_browser_gone,
     rewrite_direct_vm_options,
     browser_routing_config_from_env,
+    fallback_session_id_for_options,
     maybe_evict_browser_route_from_response,
     maybe_populate_browser_route_cache_from_response,
 )
@@ -303,6 +305,35 @@ class Kernel(SyncAPIClient):
             "X-Stainless-Async": "false",
             **self._custom_headers,
         }
+
+    @override
+    def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[Stream[Any]] | None = None,
+    ) -> Any:
+        # Capture the ORIGINAL (pre-rewrite) options so that, if the routed VM
+        # reports the browser is gone, we can re-issue the exact same request to
+        # the control plane. `super().request` rewrites these to target the VM.
+        original_options = model_copy(options)
+        fallback_session_id = fallback_session_id_for_options(
+            original_options, cache=self.browser_route_cache, config=self._browser_routing
+        )
+        try:
+            return super().request(cast_to, options, stream=stream, stream_cls=stream_cls)
+        except APIStatusError as err:
+            if fallback_session_id is None or not response_is_browser_gone(err.response):
+                raise
+            # The browser is authoritatively gone: evict its cached route so the
+            # re-issued request is NOT rewritten back to the (dead) VM, then hit
+            # the control plane exactly once with the original request. The route
+            # is gone, so `_prepare_options` is a no-op, Authorization is restored
+            # by the normal auth flow, and the jwt query param is dropped.
+            self.browser_route_cache.delete(fallback_session_id)
+            return super().request(cast_to, model_copy(original_options), stream=stream, stream_cls=stream_cls)
 
     @override
     def _prepare_options(self, options: Any) -> Any:
@@ -634,6 +665,37 @@ class AsyncKernel(AsyncAPIClient):
             "X-Stainless-Async": f"async:{get_async_library()}",
             **self._custom_headers,
         }
+
+    @override
+    async def request(
+        self,
+        cast_to: Type[ResponseT],
+        options: FinalRequestOptions,
+        *,
+        stream: bool = False,
+        stream_cls: type[AsyncStream[Any]] | None = None,
+    ) -> Any:
+        # Capture the ORIGINAL (pre-rewrite) options so that, if the routed VM
+        # reports the browser is gone, we can re-issue the exact same request to
+        # the control plane. `super().request` rewrites these to target the VM.
+        original_options = model_copy(options)
+        fallback_session_id = fallback_session_id_for_options(
+            original_options, cache=self.browser_route_cache, config=self._browser_routing
+        )
+        try:
+            return await super().request(cast_to, options, stream=stream, stream_cls=stream_cls)
+        except APIStatusError as err:
+            if fallback_session_id is None or not response_is_browser_gone(err.response):
+                raise
+            # The browser is authoritatively gone: evict its cached route so the
+            # re-issued request is NOT rewritten back to the (dead) VM, then hit
+            # the control plane exactly once with the original request. The route
+            # is gone, so `_prepare_options` is a no-op, Authorization is restored
+            # by the normal auth flow, and the jwt query param is dropped.
+            self.browser_route_cache.delete(fallback_session_id)
+            return await super().request(
+                cast_to, model_copy(original_options), stream=stream, stream_cls=stream_cls
+            )
 
     @override
     async def _prepare_options(self, options: Any) -> Any:
