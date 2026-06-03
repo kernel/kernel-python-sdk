@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.59.0 (2026-06-03)
+
+Full Changelog: [v0.58.0...v0.59.0](https://github.com/kernel/kernel-python-sdk/compare/v0.58.0...v0.59.0)
+
+### Features
+
+* api: surface category field on browser telemetry events ([06a2f7b](https://github.com/kernel/kernel-python-sdk/commit/06a2f7babbc8f6ea31e46f3dfeb8d09dbaae88f0))
+* **api:** move browser telemetry SSE stream to /browsers/{id}/telemetry/stream ([5de851a](https://github.com/kernel/kernel-python-sdk/commit/5de851a5ff708a3e42e276e3cf9e2fe7ef0f2ed6))
+* Support Byteful mobile proxies ([8c0ce1c](https://github.com/kernel/kernel-python-sdk/commit/8c0ce1c1533a538483419f4da0937a6153eb5273))
+
+
+### Bug Fixes
+
+* **api:** move batch + get_mouse_position into Browser Computer Controls tag ([7cbc848](https://github.com/kernel/kernel-python-sdk/commit/7cbc848fe33394ee05f5eb96d62cdc8b5b9b9d9c))
+
 ## 0.58.0 (2026-05-27)
 
 Full Changelog: [v0.57.0...v0.58.0](https://github.com/kernel/kernel-python-sdk/compare/v0.57.0...v0.58.0)
