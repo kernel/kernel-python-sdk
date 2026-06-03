@@ -57,6 +57,7 @@ from .browser_update_response import BrowserUpdateResponse as BrowserUpdateRespo
 from .extension_list_response import ExtensionListResponse as ExtensionListResponse
 from .extension_upload_params import ExtensionUploadParams as ExtensionUploadParams
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
+from .browser_pool_list_params import BrowserPoolListParams as BrowserPoolListParams
 from .credential_create_params import CredentialCreateParams as CredentialCreateParams
 from .credential_provider_item import CredentialProviderItem as CredentialProviderItem
 from .credential_update_params import CredentialUpdateParams as CredentialUpdateParams
@@ -71,7 +72,6 @@ from .browser_retrieve_response import BrowserRetrieveResponse as BrowserRetriev
 from .extension_upload_response import ExtensionUploadResponse as ExtensionUploadResponse
 from .browser_pool_create_params import BrowserPoolCreateParams as BrowserPoolCreateParams
 from .browser_pool_delete_params import BrowserPoolDeleteParams as BrowserPoolDeleteParams
-from .browser_pool_list_response import BrowserPoolListResponse as BrowserPoolListResponse
 from .browser_pool_update_params import BrowserPoolUpdateParams as BrowserPoolUpdateParams
 from .deployment_create_response import DeploymentCreateResponse as DeploymentCreateResponse
 from .deployment_follow_response import DeploymentFollowResponse as DeploymentFollowResponse
