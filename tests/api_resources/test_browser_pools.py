@@ -135,7 +135,6 @@ class TestBrowserPools:
     def test_method_update(self, client: Kernel) -> None:
         browser_pool = client.browser_pools.update(
             id_or_name="id_or_name",
-            size=10,
         )
         assert_matches_type(BrowserPool, browser_pool, path=["response"])
 
@@ -144,7 +143,6 @@ class TestBrowserPools:
     def test_method_update_with_all_params(self, client: Kernel) -> None:
         browser_pool = client.browser_pools.update(
             id_or_name="id_or_name",
-            size=10,
             chrome_policy={"foo": "bar"},
             discard_all_idle=False,
             extensions=[
@@ -163,6 +161,7 @@ class TestBrowserPools:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            size=10,
             start_url="https://example.com",
             stealth=True,
             timeout_seconds=60,
@@ -179,7 +178,6 @@ class TestBrowserPools:
     def test_raw_response_update(self, client: Kernel) -> None:
         response = client.browser_pools.with_raw_response.update(
             id_or_name="id_or_name",
-            size=10,
         )
 
         assert response.is_closed is True
@@ -192,7 +190,6 @@ class TestBrowserPools:
     def test_streaming_response_update(self, client: Kernel) -> None:
         with client.browser_pools.with_streaming_response.update(
             id_or_name="id_or_name",
-            size=10,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -208,7 +205,6 @@ class TestBrowserPools:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             client.browser_pools.with_raw_response.update(
                 id_or_name="",
-                size=10,
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -559,7 +555,6 @@ class TestAsyncBrowserPools:
     async def test_method_update(self, async_client: AsyncKernel) -> None:
         browser_pool = await async_client.browser_pools.update(
             id_or_name="id_or_name",
-            size=10,
         )
         assert_matches_type(BrowserPool, browser_pool, path=["response"])
 
@@ -568,7 +563,6 @@ class TestAsyncBrowserPools:
     async def test_method_update_with_all_params(self, async_client: AsyncKernel) -> None:
         browser_pool = await async_client.browser_pools.update(
             id_or_name="id_or_name",
-            size=10,
             chrome_policy={"foo": "bar"},
             discard_all_idle=False,
             extensions=[
@@ -587,6 +581,7 @@ class TestAsyncBrowserPools:
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            size=10,
             start_url="https://example.com",
             stealth=True,
             timeout_seconds=60,
@@ -603,7 +598,6 @@ class TestAsyncBrowserPools:
     async def test_raw_response_update(self, async_client: AsyncKernel) -> None:
         response = await async_client.browser_pools.with_raw_response.update(
             id_or_name="id_or_name",
-            size=10,
         )
 
         assert response.is_closed is True
@@ -616,7 +610,6 @@ class TestAsyncBrowserPools:
     async def test_streaming_response_update(self, async_client: AsyncKernel) -> None:
         async with async_client.browser_pools.with_streaming_response.update(
             id_or_name="id_or_name",
-            size=10,
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -632,7 +625,6 @@ class TestAsyncBrowserPools:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             await async_client.browser_pools.with_raw_response.update(
                 id_or_name="",
-                size=10,
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

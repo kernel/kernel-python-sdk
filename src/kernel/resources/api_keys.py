@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -171,6 +172,9 @@ class APIKeysResource(SyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
+        sort_by: Literal["created_at", "name", "expires_at"] | Omit = omit,
+        sort_direction: Literal["asc", "desc"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -186,6 +190,13 @@ class APIKeysResource(SyncAPIResource):
           limit: Maximum number of results to return
 
           offset: Number of results to skip
+
+          query: Case-insensitive substring match against API key name, creator, and project. API
+              key identifiers and masked keys match by exact value or prefix.
+
+          sort_by: Field to sort API keys by.
+
+          sort_direction: Sort direction for API keys.
 
           extra_headers: Send extra headers
 
@@ -207,6 +218,9 @@ class APIKeysResource(SyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
+                        "sort_by": sort_by,
+                        "sort_direction": sort_direction,
                     },
                     api_key_list_params.APIKeyListParams,
                 ),
@@ -395,6 +409,9 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
+        sort_by: Literal["created_at", "name", "expires_at"] | Omit = omit,
+        sort_direction: Literal["asc", "desc"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -410,6 +427,13 @@ class AsyncAPIKeysResource(AsyncAPIResource):
           limit: Maximum number of results to return
 
           offset: Number of results to skip
+
+          query: Case-insensitive substring match against API key name, creator, and project. API
+              key identifiers and masked keys match by exact value or prefix.
+
+          sort_by: Field to sort API keys by.
+
+          sort_direction: Sort direction for API keys.
 
           extra_headers: Send extra headers
 
@@ -431,6 +455,9 @@ class AsyncAPIKeysResource(AsyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
+                        "sort_by": sort_by,
+                        "sort_direction": sort_direction,
                     },
                     api_key_list_params.APIKeyListParams,
                 ),

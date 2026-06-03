@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Iterable
-from typing_extensions import Required, TypedDict
+from typing_extensions import TypedDict
 
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
@@ -13,13 +13,6 @@ __all__ = ["BrowserPoolUpdateParams"]
 
 
 class BrowserPoolUpdateParams(TypedDict, total=False):
-    size: Required[int]
-    """Number of browsers to maintain in the pool.
-
-    The maximum size is determined by your organization's pooled sessions limit (the
-    sum of all pool sizes cannot exceed your limit).
-    """
-
     chrome_policy: Dict[str, object]
     """Custom Chrome enterprise policy overrides applied to all browsers in this pool.
 
@@ -66,6 +59,13 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     """Optional proxy to associate to the browser session.
 
     Must reference a proxy belonging to the caller's org.
+    """
+
+    size: int
+    """Number of browsers to maintain in the pool.
+
+    The maximum size is determined by your organization's pooled sessions limit (the
+    sum of all pool sizes cannot exceed your limit).
     """
 
     start_url: str

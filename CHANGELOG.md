@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.60.0 (2026-06-03)
+
+Full Changelog: [v0.59.0...v0.60.0](https://github.com/kernel/kernel-python-sdk/compare/v0.59.0...v0.60.0)
+
+### Features
+
+* Add API-backed API key management endpoints ([55bd31e](https://github.com/kernel/kernel-python-sdk/commit/55bd31edfed74f3bc4b08f83e07448e2e53378b0))
+* **examples:** add browser-telemetry example ([4c29993](https://github.com/kernel/kernel-python-sdk/commit/4c29993cdda50fcde19ee7bf696a268cd8b0eb0b))
+* Fix browser pool update schema ([903fe13](https://github.com/kernel/kernel-python-sdk/commit/903fe13b84242acea9c27bc451c16fb5cd58e40c))
+* route browser telemetry directly to the VM by default ([cb50725](https://github.com/kernel/kernel-python-sdk/commit/cb5072516416627ffde7198900484c46dda5b9dc))
+
+
+### Bug Fixes
+
+* **streaming:** don't dispatch empty SSE keepalive comment frames ([a0ee2b2](https://github.com/kernel/kernel-python-sdk/commit/a0ee2b2653c581839be11bb29be5b68166e80658))
+
 ## 0.59.0 (2026-06-03)
 
 Full Changelog: [v0.58.0...v0.59.0](https://github.com/kernel/kernel-python-sdk/compare/v0.58.0...v0.59.0)

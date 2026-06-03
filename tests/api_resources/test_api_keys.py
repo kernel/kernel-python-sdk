@@ -162,6 +162,9 @@ class TestAPIKeys:
         api_key = client.api_keys.list(
             limit=100,
             offset=0,
+            query="query",
+            sort_by="created_at",
+            sort_direction="asc",
         )
         assert_matches_type(SyncOffsetPagination[APIKey], api_key, path=["response"])
 
@@ -379,6 +382,9 @@ class TestAsyncAPIKeys:
         api_key = await async_client.api_keys.list(
             limit=100,
             offset=0,
+            query="query",
+            sort_by="created_at",
+            sort_direction="asc",
         )
         assert_matches_type(AsyncOffsetPagination[APIKey], api_key, path=["response"])
 
