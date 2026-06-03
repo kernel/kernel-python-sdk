@@ -8,31 +8,30 @@ from .._models import BaseModel
 
 __all__ = [
     "ProxyListResponse",
-    "ProxyListResponseItem",
-    "ProxyListResponseItemConfig",
-    "ProxyListResponseItemConfigDatacenterProxyConfig",
-    "ProxyListResponseItemConfigIspProxyConfig",
-    "ProxyListResponseItemConfigResidentialProxyConfig",
-    "ProxyListResponseItemConfigMobileProxyConfig",
-    "ProxyListResponseItemConfigCustomProxyConfig",
+    "Config",
+    "ConfigDatacenterProxyConfig",
+    "ConfigIspProxyConfig",
+    "ConfigResidentialProxyConfig",
+    "ConfigMobileProxyConfig",
+    "ConfigCustomProxyConfig",
 ]
 
 
-class ProxyListResponseItemConfigDatacenterProxyConfig(BaseModel):
+class ConfigDatacenterProxyConfig(BaseModel):
     """Configuration for a datacenter proxy."""
 
     country: Optional[str] = None
     """ISO 3166 country code. Defaults to US if not provided."""
 
 
-class ProxyListResponseItemConfigIspProxyConfig(BaseModel):
+class ConfigIspProxyConfig(BaseModel):
     """Configuration for an ISP proxy."""
 
     country: Optional[str] = None
     """ISO 3166 country code. Defaults to US if not provided."""
 
 
-class ProxyListResponseItemConfigResidentialProxyConfig(BaseModel):
+class ConfigResidentialProxyConfig(BaseModel):
     """Configuration for residential proxies."""
 
     asn: Optional[str] = None
@@ -57,7 +56,7 @@ class ProxyListResponseItemConfigResidentialProxyConfig(BaseModel):
     """US ZIP code."""
 
 
-class ProxyListResponseItemConfigMobileProxyConfig(BaseModel):
+class ConfigMobileProxyConfig(BaseModel):
     """Configuration for mobile proxies."""
 
     city: Optional[str] = None
@@ -70,7 +69,7 @@ class ProxyListResponseItemConfigMobileProxyConfig(BaseModel):
     """US-only state code. Mobile carrier routing can make observed geo vary."""
 
 
-class ProxyListResponseItemConfigCustomProxyConfig(BaseModel):
+class ConfigCustomProxyConfig(BaseModel):
     """Configuration for a custom proxy (e.g., private proxy server)."""
 
     host: str
@@ -86,16 +85,16 @@ class ProxyListResponseItemConfigCustomProxyConfig(BaseModel):
     """Username for proxy authentication."""
 
 
-ProxyListResponseItemConfig: TypeAlias = Union[
-    ProxyListResponseItemConfigDatacenterProxyConfig,
-    ProxyListResponseItemConfigIspProxyConfig,
-    ProxyListResponseItemConfigResidentialProxyConfig,
-    ProxyListResponseItemConfigMobileProxyConfig,
-    ProxyListResponseItemConfigCustomProxyConfig,
+Config: TypeAlias = Union[
+    ConfigDatacenterProxyConfig,
+    ConfigIspProxyConfig,
+    ConfigResidentialProxyConfig,
+    ConfigMobileProxyConfig,
+    ConfigCustomProxyConfig,
 ]
 
 
-class ProxyListResponseItem(BaseModel):
+class ProxyListResponse(BaseModel):
     """Configuration for routing traffic through a proxy."""
 
     type: Literal["datacenter", "isp", "residential", "mobile", "custom"]
@@ -110,7 +109,7 @@ class ProxyListResponseItem(BaseModel):
     bypass_hosts: Optional[List[str]] = None
     """Hostnames that should bypass the parent proxy and connect directly."""
 
-    config: Optional[ProxyListResponseItemConfig] = None
+    config: Optional[Config] = None
     """Configuration specific to the selected proxy `type`."""
 
     ip_address: Optional[str] = None
@@ -127,6 +126,3 @@ class ProxyListResponseItem(BaseModel):
 
     status: Optional[Literal["available", "unavailable"]] = None
     """Current health status of the proxy."""
-
-
-ProxyListResponse: TypeAlias = List[ProxyListResponseItem]
