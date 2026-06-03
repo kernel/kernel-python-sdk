@@ -11,9 +11,9 @@ from kernel import Kernel, AsyncKernel
 from tests.utils import assert_matches_type
 from kernel.types import (
     BrowserPool,
-    BrowserPoolListResponse,
     BrowserPoolAcquireResponse,
 )
+from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -211,7 +211,16 @@ class TestBrowserPools:
     @parametrize
     def test_method_list(self, client: Kernel) -> None:
         browser_pool = client.browser_pools.list()
-        assert_matches_type(BrowserPoolListResponse, browser_pool, path=["response"])
+        assert_matches_type(SyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_with_all_params(self, client: Kernel) -> None:
+        browser_pool = client.browser_pools.list(
+            limit=1,
+            offset=0,
+        )
+        assert_matches_type(SyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -221,7 +230,7 @@ class TestBrowserPools:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         browser_pool = response.parse()
-        assert_matches_type(BrowserPoolListResponse, browser_pool, path=["response"])
+        assert_matches_type(SyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -231,7 +240,7 @@ class TestBrowserPools:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             browser_pool = response.parse()
-            assert_matches_type(BrowserPoolListResponse, browser_pool, path=["response"])
+            assert_matches_type(SyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -631,7 +640,16 @@ class TestAsyncBrowserPools:
     @parametrize
     async def test_method_list(self, async_client: AsyncKernel) -> None:
         browser_pool = await async_client.browser_pools.list()
-        assert_matches_type(BrowserPoolListResponse, browser_pool, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
+        browser_pool = await async_client.browser_pools.list(
+            limit=1,
+            offset=0,
+        )
+        assert_matches_type(AsyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -641,7 +659,7 @@ class TestAsyncBrowserPools:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         browser_pool = await response.parse()
-        assert_matches_type(BrowserPoolListResponse, browser_pool, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -651,7 +669,7 @@ class TestAsyncBrowserPools:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             browser_pool = await response.parse()
-            assert_matches_type(BrowserPoolListResponse, browser_pool, path=["response"])
+            assert_matches_type(AsyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

@@ -7,6 +7,7 @@ from typing import Dict, Iterable
 import httpx
 
 from ..types import (
+    browser_pool_list_params,
     browser_pool_create_params,
     browser_pool_delete_params,
     browser_pool_update_params,
@@ -23,9 +24,9 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
+from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
+from .._base_client import AsyncPaginator, make_request_options
 from ..types.browser_pool import BrowserPool
-from ..types.browser_pool_list_response import BrowserPoolListResponse
 from ..types.browser_pool_acquire_response import BrowserPoolAcquireResponse
 from ..types.shared_params.browser_profile import BrowserProfile
 from ..types.shared_params.browser_viewport import BrowserViewport
@@ -326,20 +327,48 @@ class BrowserPoolsResource(SyncAPIResource):
     def list(
         self,
         *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BrowserPoolListResponse:
-        """List browser pools owned by the caller's organization."""
-        return self._get(
+    ) -> SyncOffsetPagination[BrowserPool]:
+        """
+        List browser pools owned by the caller's organization.
+
+        Args:
+          limit: Limit the number of browser pools to return.
+
+          offset: Offset the number of browser pools to return.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
             "/browser_pools",
+            page=SyncOffsetPagination[BrowserPool],
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                    browser_pool_list_params.BrowserPoolListParams,
+                ),
             ),
-            cast_to=BrowserPoolListResponse,
+            model=BrowserPool,
         )
 
     def delete(
@@ -801,23 +830,51 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             cast_to=BrowserPool,
         )
 
-    async def list(
+    def list(
         self,
         *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BrowserPoolListResponse:
-        """List browser pools owned by the caller's organization."""
-        return await self._get(
+    ) -> AsyncPaginator[BrowserPool, AsyncOffsetPagination[BrowserPool]]:
+        """
+        List browser pools owned by the caller's organization.
+
+        Args:
+          limit: Limit the number of browser pools to return.
+
+          offset: Offset the number of browser pools to return.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
             "/browser_pools",
+            page=AsyncOffsetPagination[BrowserPool],
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                    browser_pool_list_params.BrowserPoolListParams,
+                ),
             ),
-            cast_to=BrowserPoolListResponse,
+            model=BrowserPool,
         )
 
     async def delete(

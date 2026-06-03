@@ -349,7 +349,7 @@ Methods:
 Types:
 
 ```python
-from kernel.types import BrowserPool, BrowserPoolListResponse, BrowserPoolAcquireResponse
+from kernel.types import BrowserPool, BrowserPoolAcquireResponse
 ```
 
 Methods:
@@ -357,7 +357,7 @@ Methods:
 - <code title="post /browser_pools">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">create</a>(\*\*<a href="src/kernel/types/browser_pool_create_params.py">params</a>) -> <a href="./src/kernel/types/browser_pool.py">BrowserPool</a></code>
 - <code title="get /browser_pools/{id_or_name}">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">retrieve</a>(id_or_name) -> <a href="./src/kernel/types/browser_pool.py">BrowserPool</a></code>
 - <code title="patch /browser_pools/{id_or_name}">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">update</a>(id_or_name, \*\*<a href="src/kernel/types/browser_pool_update_params.py">params</a>) -> <a href="./src/kernel/types/browser_pool.py">BrowserPool</a></code>
-- <code title="get /browser_pools">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">list</a>() -> <a href="./src/kernel/types/browser_pool_list_response.py">BrowserPoolListResponse</a></code>
+- <code title="get /browser_pools">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">list</a>(\*\*<a href="src/kernel/types/browser_pool_list_params.py">params</a>) -> <a href="./src/kernel/types/browser_pool.py">SyncOffsetPagination[BrowserPool]</a></code>
 - <code title="delete /browser_pools/{id_or_name}">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">delete</a>(id_or_name, \*\*<a href="src/kernel/types/browser_pool_delete_params.py">params</a>) -> None</code>
 - <code title="post /browser_pools/{id_or_name}/acquire">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">acquire</a>(id_or_name, \*\*<a href="src/kernel/types/browser_pool_acquire_params.py">params</a>) -> <a href="./src/kernel/types/browser_pool_acquire_response.py">BrowserPoolAcquireResponse</a></code>
 - <code title="post /browser_pools/{id_or_name}/flush">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">flush</a>(id_or_name) -> None</code>
