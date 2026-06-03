@@ -41,7 +41,7 @@ _BROWSER_POOL_RELEASE_PATH = re.compile(r"^/(?:v\d+/)?browser_pools/[^/]+/releas
 def browser_routing_config_from_env() -> BrowserRoutingConfig:
     raw = os.environ.get("KERNEL_BROWSER_ROUTING_SUBRESOURCES")
     if raw is None:
-        return BrowserRoutingConfig(subresources=("curl",))
+        return BrowserRoutingConfig(subresources=("curl", "telemetry"))
     if raw.strip() == "":
         return BrowserRoutingConfig()
 

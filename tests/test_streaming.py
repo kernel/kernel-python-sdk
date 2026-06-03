@@ -28,6 +28,32 @@ async def test_basic(sync: bool, client: Kernel, async_client: AsyncKernel) -> N
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
+async def test_keepalive_comment_after_event_with_id(sync: bool, client: Kernel, async_client: AsyncKernel) -> None:
+    # A ``:`` comment frame (the server's SSE keepalive) that arrives after an event which set an
+    # id must be ignored, not dispatched as an empty event. last_event_id is sticky, so this is a
+    # regression guard against it leaking an undecodable empty frame into the typed stream.
+    def body() -> Iterator[bytes]:
+        yield b"id: 1\n"
+        yield b'data: {"foo":true}\n'
+        yield b"\n"
+        yield b":\n"
+        yield b"\n"
+        yield b'data: {"bar":false}\n'
+        yield b"\n"
+
+    iterator = make_event_iterator(content=body(), sync=sync, client=client, async_client=async_client)
+
+    sse = await iter_next(iterator)
+    assert sse.json() == {"foo": True}
+
+    sse = await iter_next(iterator)
+    assert sse.json() == {"bar": False}
+
+    await assert_empty_iter(iterator)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("sync", [True, False], ids=["sync", "async"])
 async def test_data_missing_event(sync: bool, client: Kernel, async_client: AsyncKernel) -> None:
     def body() -> Iterator[bytes]:
         yield b'data: {"foo":true}\n'

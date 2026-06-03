@@ -251,7 +251,12 @@ class SSEDecoder:
         # See: https://html.spec.whatwg.org/multipage/server-sent-events.html#event-stream-interpretation  # noqa: E501
 
         if not line:
-            if not self._event and not self._data and not self._last_event_id and self._retry is None:
+            # Whether to dispatch depends only on what was set in the *current* block. last_event_id
+            # is sticky across events (per the SSE spec, it is intentionally not reset below), so it
+            # must not be part of this check -- otherwise, once any event carries an id, every
+            # subsequent comment-only block (e.g. a ``:\n\n`` keepalive) would dispatch an empty
+            # event, which then fails to JSON-decode in the typed Stream wrapper.
+            if not self._event and not self._data and self._retry is None:
                 return None
 
             sse = ServerSentEvent(
