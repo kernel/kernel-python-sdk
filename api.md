@@ -324,7 +324,7 @@ Methods:
 
 - <code title="post /proxies">client.proxies.<a href="./src/kernel/resources/proxies.py">create</a>(\*\*<a href="src/kernel/types/proxy_create_params.py">params</a>) -> <a href="./src/kernel/types/proxy_create_response.py">ProxyCreateResponse</a></code>
 - <code title="get /proxies/{id}">client.proxies.<a href="./src/kernel/resources/proxies.py">retrieve</a>(id) -> <a href="./src/kernel/types/proxy_retrieve_response.py">ProxyRetrieveResponse</a></code>
-- <code title="get /proxies">client.proxies.<a href="./src/kernel/resources/proxies.py">list</a>() -> <a href="./src/kernel/types/proxy_list_response.py">ProxyListResponse</a></code>
+- <code title="get /proxies">client.proxies.<a href="./src/kernel/resources/proxies.py">list</a>(\*\*<a href="src/kernel/types/proxy_list_params.py">params</a>) -> <a href="./src/kernel/types/proxy_list_response.py">SyncOffsetPagination[ProxyListResponse]</a></code>
 - <code title="delete /proxies/{id}">client.proxies.<a href="./src/kernel/resources/proxies.py">delete</a>(id) -> None</code>
 - <code title="post /proxies/{id}/check">client.proxies.<a href="./src/kernel/resources/proxies.py">check</a>(id, \*\*<a href="src/kernel/types/proxy_check_params.py">params</a>) -> <a href="./src/kernel/types/proxy_check_response.py">ProxyCheckResponse</a></code>
 
