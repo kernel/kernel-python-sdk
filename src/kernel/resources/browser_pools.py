@@ -206,7 +206,6 @@ class BrowserPoolsResource(SyncAPIResource):
         self,
         id_or_name: str,
         *,
-        size: int,
         chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
@@ -216,6 +215,7 @@ class BrowserPoolsResource(SyncAPIResource):
         name: str | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: str | Omit = omit,
+        size: int | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         timeout_seconds: int | Omit = omit,
@@ -231,10 +231,6 @@ class BrowserPoolsResource(SyncAPIResource):
         Updates the configuration used to create browsers in the pool.
 
         Args:
-          size: Number of browsers to maintain in the pool. The maximum size is determined by
-              your organization's pooled sessions limit (the sum of all pool sizes cannot
-              exceed your limit).
-
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
               Keys are Chrome enterprise policy names; values must match their expected types.
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
@@ -260,6 +256,10 @@ class BrowserPoolsResource(SyncAPIResource):
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
               belonging to the caller's org.
+
+          size: Number of browsers to maintain in the pool. The maximum size is determined by
+              your organization's pooled sessions limit (the sum of all pool sizes cannot
+              exceed your limit).
 
           start_url: Optional URL to navigate to when a new browser is warmed into the pool.
               Best-effort: failures to navigate do not fail pool fill. Only applied to
@@ -300,7 +300,6 @@ class BrowserPoolsResource(SyncAPIResource):
             path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform(
                 {
-                    "size": size,
                     "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
                     "extensions": extensions,
@@ -310,6 +309,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "name": name,
                     "profile": profile,
                     "proxy_id": proxy_id,
+                    "size": size,
                     "start_url": start_url,
                     "stealth": stealth,
                     "timeout_seconds": timeout_seconds,
@@ -684,7 +684,6 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         self,
         id_or_name: str,
         *,
-        size: int,
         chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
@@ -694,6 +693,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         name: str | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: str | Omit = omit,
+        size: int | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         timeout_seconds: int | Omit = omit,
@@ -709,10 +709,6 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         Updates the configuration used to create browsers in the pool.
 
         Args:
-          size: Number of browsers to maintain in the pool. The maximum size is determined by
-              your organization's pooled sessions limit (the sum of all pool sizes cannot
-              exceed your limit).
-
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
               Keys are Chrome enterprise policy names; values must match their expected types.
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
@@ -738,6 +734,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
               belonging to the caller's org.
+
+          size: Number of browsers to maintain in the pool. The maximum size is determined by
+              your organization's pooled sessions limit (the sum of all pool sizes cannot
+              exceed your limit).
 
           start_url: Optional URL to navigate to when a new browser is warmed into the pool.
               Best-effort: failures to navigate do not fail pool fill. Only applied to
@@ -778,7 +778,6 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {
-                    "size": size,
                     "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
                     "extensions": extensions,
@@ -788,6 +787,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "name": name,
                     "profile": profile,
                     "proxy_id": proxy_id,
+                    "size": size,
                     "start_url": start_url,
                     "stealth": stealth,
                     "timeout_seconds": timeout_seconds,
