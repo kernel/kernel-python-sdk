@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import extension_upload_params, extension_download_from_chrome_store_params
+from ..types import extension_list_params, extension_upload_params, extension_download_from_chrome_store_params
 from .._files import deepcopy_with_paths
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, FileTypes, omit, not_given
 from .._utils import extract_files, path_template, maybe_transform, async_maybe_transform
@@ -27,7 +27,8 @@ from .._response import (
     async_to_custom_raw_response_wrapper,
     async_to_custom_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
+from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
+from .._base_client import AsyncPaginator, make_request_options
 from ..types.extension_list_response import ExtensionListResponse
 from ..types.extension_upload_response import ExtensionUploadResponse
 
@@ -59,20 +60,48 @@ class ExtensionsResource(SyncAPIResource):
     def list(
         self,
         *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ExtensionListResponse:
-        """List extensions owned by the caller's organization."""
-        return self._get(
+    ) -> SyncOffsetPagination[ExtensionListResponse]:
+        """
+        List extensions owned by the caller's organization.
+
+        Args:
+          limit: Limit the number of extensions to return.
+
+          offset: Offset the number of extensions to return.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
             "/extensions",
+            page=SyncOffsetPagination[ExtensionListResponse],
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                    extension_list_params.ExtensionListParams,
+                ),
             ),
-            cast_to=ExtensionListResponse,
+            model=ExtensionListResponse,
         )
 
     def delete(
@@ -266,23 +295,51 @@ class AsyncExtensionsResource(AsyncAPIResource):
         """
         return AsyncExtensionsResourceWithStreamingResponse(self)
 
-    async def list(
+    def list(
         self,
         *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> ExtensionListResponse:
-        """List extensions owned by the caller's organization."""
-        return await self._get(
+    ) -> AsyncPaginator[ExtensionListResponse, AsyncOffsetPagination[ExtensionListResponse]]:
+        """
+        List extensions owned by the caller's organization.
+
+        Args:
+          limit: Limit the number of extensions to return.
+
+          offset: Offset the number of extensions to return.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
             "/extensions",
+            page=AsyncOffsetPagination[ExtensionListResponse],
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                    extension_list_params.ExtensionListParams,
+                ),
             ),
-            cast_to=ExtensionListResponse,
+            model=ExtensionListResponse,
         )
 
     async def delete(

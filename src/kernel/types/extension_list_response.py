@@ -1,15 +1,14 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Optional
 from datetime import datetime
-from typing_extensions import TypeAlias
 
 from .._models import BaseModel
 
-__all__ = ["ExtensionListResponse", "ExtensionListResponseItem"]
+__all__ = ["ExtensionListResponse"]
 
 
-class ExtensionListResponseItem(BaseModel):
+class ExtensionListResponse(BaseModel):
     """A browser extension uploaded to Kernel."""
 
     id: str
@@ -29,6 +28,3 @@ class ExtensionListResponseItem(BaseModel):
 
     Must be unique within the project.
     """
-
-
-ExtensionListResponse: TypeAlias = List[ExtensionListResponseItem]

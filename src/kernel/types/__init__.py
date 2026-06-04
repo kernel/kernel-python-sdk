@@ -42,6 +42,7 @@ from .browser_create_params import BrowserCreateParams as BrowserCreateParams
 from .browser_curl_response import BrowserCurlResponse as BrowserCurlResponse
 from .browser_list_response import BrowserListResponse as BrowserListResponse
 from .browser_update_params import BrowserUpdateParams as BrowserUpdateParams
+from .extension_list_params import ExtensionListParams as ExtensionListParams
 from .profile_create_params import ProfileCreateParams as ProfileCreateParams
 from .project_create_params import ProjectCreateParams as ProjectCreateParams
 from .project_update_params import ProjectUpdateParams as ProjectUpdateParams

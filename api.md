@@ -338,7 +338,7 @@ from kernel.types import ExtensionListResponse, ExtensionUploadResponse
 
 Methods:
 
-- <code title="get /extensions">client.extensions.<a href="./src/kernel/resources/extensions.py">list</a>() -> <a href="./src/kernel/types/extension_list_response.py">ExtensionListResponse</a></code>
+- <code title="get /extensions">client.extensions.<a href="./src/kernel/resources/extensions.py">list</a>(\*\*<a href="src/kernel/types/extension_list_params.py">params</a>) -> <a href="./src/kernel/types/extension_list_response.py">SyncOffsetPagination[ExtensionListResponse]</a></code>
 - <code title="delete /extensions/{id_or_name}">client.extensions.<a href="./src/kernel/resources/extensions.py">delete</a>(id_or_name) -> None</code>
 - <code title="get /extensions/{id_or_name}">client.extensions.<a href="./src/kernel/resources/extensions.py">download</a>(id_or_name) -> BinaryAPIResponse</code>
 - <code title="get /extensions/from_chrome_store">client.extensions.<a href="./src/kernel/resources/extensions.py">download_from_chrome_store</a>(\*\*<a href="src/kernel/types/extension_download_from_chrome_store_params.py">params</a>) -> BinaryAPIResponse</code>
