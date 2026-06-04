@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.62.0 (2026-06-04)
+
+Full Changelog: [v0.61.0...v0.62.0](https://github.com/kernel/kernel-python-sdk/compare/v0.61.0...v0.62.0)
+
+### Features
+
+* api: paginate GET /browser_pools ([c25d693](https://github.com/kernel/kernel-python-sdk/commit/c25d693e310a1035d74654018f68b311f37545d0))
+* api: paginate GET /extensions ([55c3324](https://github.com/kernel/kernel-python-sdk/commit/55c332493f9c7efd21ef8a2fdae40c8318e704cb))
+* api: paginate GET /org/credential_providers ([01897bc](https://github.com/kernel/kernel-python-sdk/commit/01897bc9f7215580aa2f2ca41bfcf1b4d29e9005))
+* api: paginate GET /proxies ([7ff0bdf](https://github.com/kernel/kernel-python-sdk/commit/7ff0bdf181029f0711b694fb6498fbc75183b0f3))
+
 ## 0.61.0 (2026-06-03)
 
 Full Changelog: [v0.60.0...v0.61.0](https://github.com/kernel/kernel-python-sdk/compare/v0.60.0...v0.61.0)
