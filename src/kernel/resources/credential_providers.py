@@ -6,7 +6,11 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import credential_provider_create_params, credential_provider_update_params
+from ..types import (
+    credential_provider_list_params,
+    credential_provider_create_params,
+    credential_provider_update_params,
+)
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -17,10 +21,10 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
+from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
+from .._base_client import AsyncPaginator, make_request_options
 from ..types.credential_provider import CredentialProvider
 from ..types.credential_provider_test_result import CredentialProviderTestResult
-from ..types.credential_provider_list_response import CredentialProviderListResponse
 from ..types.credential_provider_list_items_response import CredentialProviderListItemsResponse
 
 __all__ = ["CredentialProvidersResource", "AsyncCredentialProvidersResource"]
@@ -194,20 +198,48 @@ class CredentialProvidersResource(SyncAPIResource):
     def list(
         self,
         *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialProviderListResponse:
-        """List external credential providers configured for the organization."""
-        return self._get(
+    ) -> SyncOffsetPagination[CredentialProvider]:
+        """
+        List external credential providers configured for the organization.
+
+        Args:
+          limit: Limit the number of credential providers to return.
+
+          offset: Offset the number of credential providers to return.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
             "/org/credential_providers",
+            page=SyncOffsetPagination[CredentialProvider],
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                    credential_provider_list_params.CredentialProviderListParams,
+                ),
             ),
-            cast_to=CredentialProviderListResponse,
+            model=CredentialProvider,
         )
 
     def delete(
@@ -477,23 +509,51 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
             cast_to=CredentialProvider,
         )
 
-    async def list(
+    def list(
         self,
         *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> CredentialProviderListResponse:
-        """List external credential providers configured for the organization."""
-        return await self._get(
+    ) -> AsyncPaginator[CredentialProvider, AsyncOffsetPagination[CredentialProvider]]:
+        """
+        List external credential providers configured for the organization.
+
+        Args:
+          limit: Limit the number of credential providers to return.
+
+          offset: Offset the number of credential providers to return.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
             "/org/credential_providers",
+            page=AsyncOffsetPagination[CredentialProvider],
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                    },
+                    credential_provider_list_params.CredentialProviderListParams,
+                ),
             ),
-            cast_to=CredentialProviderListResponse,
+            model=CredentialProvider,
         )
 
     async def delete(
