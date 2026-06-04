@@ -12,9 +12,9 @@ from tests.utils import assert_matches_type
 from kernel.types import (
     CredentialProvider,
     CredentialProviderTestResult,
-    CredentialProviderListResponse,
     CredentialProviderListItemsResponse,
 )
+from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -174,7 +174,16 @@ class TestCredentialProviders:
     @parametrize
     def test_method_list(self, client: Kernel) -> None:
         credential_provider = client.credential_providers.list()
-        assert_matches_type(CredentialProviderListResponse, credential_provider, path=["response"])
+        assert_matches_type(SyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_with_all_params(self, client: Kernel) -> None:
+        credential_provider = client.credential_providers.list(
+            limit=1,
+            offset=0,
+        )
+        assert_matches_type(SyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -184,7 +193,7 @@ class TestCredentialProviders:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         credential_provider = response.parse()
-        assert_matches_type(CredentialProviderListResponse, credential_provider, path=["response"])
+        assert_matches_type(SyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -194,7 +203,7 @@ class TestCredentialProviders:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             credential_provider = response.parse()
-            assert_matches_type(CredentialProviderListResponse, credential_provider, path=["response"])
+            assert_matches_type(SyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -482,7 +491,16 @@ class TestAsyncCredentialProviders:
     @parametrize
     async def test_method_list(self, async_client: AsyncKernel) -> None:
         credential_provider = await async_client.credential_providers.list()
-        assert_matches_type(CredentialProviderListResponse, credential_provider, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
+        credential_provider = await async_client.credential_providers.list(
+            limit=1,
+            offset=0,
+        )
+        assert_matches_type(AsyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -492,7 +510,7 @@ class TestAsyncCredentialProviders:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         credential_provider = await response.parse()
-        assert_matches_type(CredentialProviderListResponse, credential_provider, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -502,7 +520,7 @@ class TestAsyncCredentialProviders:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             credential_provider = await response.parse()
-            assert_matches_type(CredentialProviderListResponse, credential_provider, path=["response"])
+            assert_matches_type(AsyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

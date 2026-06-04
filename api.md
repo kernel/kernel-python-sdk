@@ -441,7 +441,6 @@ from kernel.types import (
     CredentialProviderItem,
     CredentialProviderTestResult,
     UpdateCredentialProviderRequest,
-    CredentialProviderListResponse,
     CredentialProviderListItemsResponse,
 )
 ```
@@ -451,7 +450,7 @@ Methods:
 - <code title="post /org/credential_providers">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">create</a>(\*\*<a href="src/kernel/types/credential_provider_create_params.py">params</a>) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
 - <code title="get /org/credential_providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">retrieve</a>(id) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
 - <code title="patch /org/credential_providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">update</a>(id, \*\*<a href="src/kernel/types/credential_provider_update_params.py">params</a>) -> <a href="./src/kernel/types/credential_provider.py">CredentialProvider</a></code>
-- <code title="get /org/credential_providers">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">list</a>() -> <a href="./src/kernel/types/credential_provider_list_response.py">CredentialProviderListResponse</a></code>
+- <code title="get /org/credential_providers">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">list</a>(\*\*<a href="src/kernel/types/credential_provider_list_params.py">params</a>) -> <a href="./src/kernel/types/credential_provider.py">SyncOffsetPagination[CredentialProvider]</a></code>
 - <code title="delete /org/credential_providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">delete</a>(id) -> None</code>
 - <code title="get /org/credential_providers/{id}/items">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">list_items</a>(id) -> <a href="./src/kernel/types/credential_provider_list_items_response.py">CredentialProviderListItemsResponse</a></code>
 - <code title="post /org/credential_providers/{id}/test">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">test</a>(id) -> <a href="./src/kernel/types/credential_provider_test_result.py">CredentialProviderTestResult</a></code>
