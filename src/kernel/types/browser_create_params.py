@@ -49,6 +49,13 @@ class BrowserCreateParams(TypedDict, total=False):
     view.
     """
 
+    name: str
+    """
+    Optional human-readable name for the browser session, used to find it later in
+    the dashboard. Must be unique among active sessions within the project. Set at
+    creation time only.
+    """
+
     profile: BrowserProfile
     """Profile selection for the browser session.
 

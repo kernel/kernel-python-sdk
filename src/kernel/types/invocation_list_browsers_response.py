@@ -63,6 +63,9 @@ class Browser(BaseModel):
     kiosk_mode: Optional[bool] = None
     """Whether the browser session is running in kiosk mode."""
 
+    name: Optional[str] = None
+    """Human-readable name of the browser session, if one was set at creation."""
+
     pool: Optional[BrowserPoolRef] = None
     """Browser pool this session was acquired from, if any."""
 
