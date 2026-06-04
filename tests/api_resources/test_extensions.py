@@ -21,6 +21,7 @@ from kernel._response import (
     StreamedBinaryAPIResponse,
     AsyncStreamedBinaryAPIResponse,
 )
+from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -32,7 +33,16 @@ class TestExtensions:
     @parametrize
     def test_method_list(self, client: Kernel) -> None:
         extension = client.extensions.list()
-        assert_matches_type(ExtensionListResponse, extension, path=["response"])
+        assert_matches_type(SyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_with_all_params(self, client: Kernel) -> None:
+        extension = client.extensions.list(
+            limit=1,
+            offset=0,
+        )
+        assert_matches_type(SyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -42,7 +52,7 @@ class TestExtensions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         extension = response.parse()
-        assert_matches_type(ExtensionListResponse, extension, path=["response"])
+        assert_matches_type(SyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -52,7 +62,7 @@ class TestExtensions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             extension = response.parse()
-            assert_matches_type(ExtensionListResponse, extension, path=["response"])
+            assert_matches_type(SyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -256,7 +266,16 @@ class TestAsyncExtensions:
     @parametrize
     async def test_method_list(self, async_client: AsyncKernel) -> None:
         extension = await async_client.extensions.list()
-        assert_matches_type(ExtensionListResponse, extension, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
+        extension = await async_client.extensions.list(
+            limit=1,
+            offset=0,
+        )
+        assert_matches_type(AsyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -266,7 +285,7 @@ class TestAsyncExtensions:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         extension = await response.parse()
-        assert_matches_type(ExtensionListResponse, extension, path=["response"])
+        assert_matches_type(AsyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -276,7 +295,7 @@ class TestAsyncExtensions:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             extension = await response.parse()
-            assert_matches_type(ExtensionListResponse, extension, path=["response"])
+            assert_matches_type(AsyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
