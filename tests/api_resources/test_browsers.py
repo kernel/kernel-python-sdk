@@ -45,6 +45,7 @@ class TestBrowsers:
             headless=False,
             invocation_id="rr33xuugxj9h0bkf1rdt2bet",
             kiosk_mode=True,
+            name="amazon-scrape-1",
             profile={
                 "id": "id",
                 "name": "name",
@@ -451,6 +452,7 @@ class TestAsyncBrowsers:
             headless=False,
             invocation_id="rr33xuugxj9h0bkf1rdt2bet",
             kiosk_mode=True,
+            name="amazon-scrape-1",
             profile={
                 "id": "id",
                 "name": "name",

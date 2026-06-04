@@ -162,6 +162,7 @@ class BrowsersResource(SyncAPIResource):
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
         kiosk_mode: bool | Omit = omit,
+        name: str | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
@@ -197,6 +198,10 @@ class BrowsersResource(SyncAPIResource):
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
+
+          name: Optional human-readable name for the browser session, used to find it later in
+              the dashboard. Must be unique among active sessions within the project. Set at
+              creation time only.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -255,6 +260,7 @@ class BrowsersResource(SyncAPIResource):
                     "headless": headless,
                     "invocation_id": invocation_id,
                     "kiosk_mode": kiosk_mode,
+                    "name": name,
                     "profile": profile,
                     "proxy_id": proxy_id,
                     "start_url": start_url,
@@ -406,7 +412,7 @@ class BrowsersResource(SyncAPIResource):
 
           offset: Number of results to skip. Defaults to 0.
 
-          query: Search browsers by session ID, profile ID, proxy ID, or pool name.
+          query: Search browsers by name, session ID, profile ID, proxy ID, or pool name.
 
           status: Filter sessions by status. "active" returns only active sessions (default),
               "deleted" returns only soft-deleted sessions, "all" returns both.
@@ -652,6 +658,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
         kiosk_mode: bool | Omit = omit,
+        name: str | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
@@ -687,6 +694,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
+
+          name: Optional human-readable name for the browser session, used to find it later in
+              the dashboard. Must be unique among active sessions within the project. Set at
+              creation time only.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -745,6 +756,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "headless": headless,
                     "invocation_id": invocation_id,
                     "kiosk_mode": kiosk_mode,
+                    "name": name,
                     "profile": profile,
                     "proxy_id": proxy_id,
                     "start_url": start_url,
@@ -896,7 +908,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           offset: Number of results to skip. Defaults to 0.
 
-          query: Search browsers by session ID, profile ID, proxy ID, or pool name.
+          query: Search browsers by name, session ID, profile ID, proxy ID, or pool name.
 
           status: Filter sessions by status. "active" returns only active sessions (default),
               "deleted" returns only soft-deleted sessions, "all" returns both.
