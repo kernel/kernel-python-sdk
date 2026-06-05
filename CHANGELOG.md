@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.64.0 (2026-06-05)
+
+Full Changelog: [v0.63.0...v0.64.0](https://github.com/kernel/kernel-python-sdk/compare/v0.63.0...v0.64.0)
+
+### Features
+
+* Telemetry: expose opt-in categories + full event taxonomy (public API) ([a1502dd](https://github.com/kernel/kernel-python-sdk/commit/a1502dd2639b97fb14ec57bfef5e37668b379db7))
+
 ## 0.63.0 (2026-06-05)
 
 Full Changelog: [v0.62.0...v0.63.0](https://github.com/kernel/kernel-python-sdk/compare/v0.62.0...v0.63.0)
