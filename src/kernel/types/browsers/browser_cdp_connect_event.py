@@ -6,18 +6,16 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from .browser_event_source import BrowserEventSource
 
-__all__ = ["BrowserMonitorScreenshotEvent", "Data"]
+__all__ = ["BrowserCdpConnectEvent"]
 
 
-class Data(BaseModel):
-    png: Optional[str] = None
-    """Base64-encoded PNG screenshot of the browser viewport."""
+class BrowserCdpConnectEvent(BaseModel):
+    """An external client (e.g.
 
+    customer SDK, Playwright, Puppeteer) connected to the CDP WebSocket proxy on this VM.
+    """
 
-class BrowserMonitorScreenshotEvent(BaseModel):
-    """A periodic screenshot of the browser viewport."""
-
-    category: Literal["screenshot"]
+    category: Literal["connection"]
 
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
@@ -25,9 +23,7 @@ class BrowserMonitorScreenshotEvent(BaseModel):
     ts: int
     """Event timestamp in Unix microseconds."""
 
-    type: Literal["monitor_screenshot"]
-
-    data: Optional[Data] = None
+    type: Literal["cdp_connect"]
 
     truncated: Optional[bool] = None
     """True if the data field was truncated due to size limits."""

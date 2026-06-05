@@ -52,19 +52,20 @@ class Telemetry(TypedDict, total=False):
     """
 
     browser: BrowserTelemetryCategoriesConfigParam
-    """Per-category enable/disable flags.
+    """Per-category capture flags.
 
-    If enabled is true and browser is omitted or empty, the VM default category set
-    is used. Explicitly disabling all four categories stops capture on update and
-    starts no capture on create.
+    Selection is opt-in: only the categories set to enabled=true are captured;
+    anything omitted is off. If enabled is true and browser is omitted or empty, the
+    default category set is used. A browser config that enables nothing stops
+    capture on update and starts no capture on create.
     """
 
     enabled: bool
     """Request shortcut for browser telemetry capture.
 
-    True enables capture using VM defaults unless browser category settings are
-    provided. False stops capture on update and starts no capture on create.
-    enabled=false cannot be combined with browser category settings.
+    True enables capture using the default category set unless browser category
+    settings are provided. False stops capture on update and starts no capture on
+    create. enabled=false cannot be combined with browser category settings.
     """
 
 

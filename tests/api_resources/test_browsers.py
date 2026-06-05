@@ -60,10 +60,15 @@ class TestBrowsers:
             },
             telemetry={
                 "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
                     "console": {"enabled": True},
+                    "control": {"enabled": True},
                     "interaction": {"enabled": True},
                     "network": {"enabled": True},
                     "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
                 },
                 "enabled": True,
             },
@@ -171,10 +176,15 @@ class TestBrowsers:
             proxy_id="proxy_id",
             telemetry={
                 "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
                     "console": {"enabled": True},
+                    "control": {"enabled": True},
                     "interaction": {"enabled": True},
                     "network": {"enabled": True},
                     "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
                 },
                 "enabled": True,
             },
@@ -472,10 +482,15 @@ class TestAsyncBrowsers:
             },
             telemetry={
                 "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
                     "console": {"enabled": True},
+                    "control": {"enabled": True},
                     "interaction": {"enabled": True},
                     "network": {"enabled": True},
                     "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
                 },
                 "enabled": True,
             },
@@ -583,10 +598,15 @@ class TestAsyncBrowsers:
             proxy_id="proxy_id",
             telemetry={
                 "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
                     "console": {"enabled": True},
+                    "control": {"enabled": True},
                     "interaction": {"enabled": True},
                     "network": {"enabled": True},
                     "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
                 },
                 "enabled": True,
             },

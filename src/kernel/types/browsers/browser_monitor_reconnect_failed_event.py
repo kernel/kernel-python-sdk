@@ -23,7 +23,7 @@ class BrowserMonitorReconnectFailedEvent(BaseModel):
     The CDP connection to Chrome could not be re-established after exhausting all reconnection attempts. No further telemetry events will arrive on this session.
     """
 
-    category: Literal["system"]
+    category: Literal["monitor"]
 
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
