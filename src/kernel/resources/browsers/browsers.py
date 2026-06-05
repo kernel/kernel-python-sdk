@@ -84,6 +84,7 @@ from ..._response import (
 )
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
+from ...types.tags_param import TagsParam
 from ...types.browser_curl_response import BrowserCurlResponse
 from ...types.browser_list_response import BrowserListResponse
 from ...types.browser_create_response import BrowserCreateResponse
@@ -167,6 +168,7 @@ class BrowsersResource(SyncAPIResource):
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
+        tags: TagsParam | Omit = omit,
         telemetry: Optional[browser_create_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
@@ -217,6 +219,9 @@ class BrowsersResource(SyncAPIResource):
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
 
+          tags: Optional user-defined key-value tags for the browser session, used to find and
+              group sessions later. Set at creation time only. Up to 50 pairs.
+
           telemetry: Telemetry configuration for the browser session. Set enabled to true to start
               capture using VM defaults, or provide browser category settings. If omitted,
               null, set to an empty object ({}), set to enabled: false without browser
@@ -265,6 +270,7 @@ class BrowsersResource(SyncAPIResource):
                     "proxy_id": proxy_id,
                     "start_url": start_url,
                     "stealth": stealth,
+                    "tags": tags,
                     "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
@@ -392,6 +398,7 @@ class BrowsersResource(SyncAPIResource):
         offset: int | Omit = omit,
         query: str | Omit = omit,
         status: Literal["active", "deleted", "all"] | Omit = omit,
+        tags: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -417,6 +424,10 @@ class BrowsersResource(SyncAPIResource):
           status: Filter sessions by status. "active" returns only active sessions (default),
               "deleted" returns only soft-deleted sessions, "all" returns both.
 
+          tags: Filter sessions by tag key-value pairs using deepObject style, e.g.
+              ?tags[team]=backend&tags[env]=staging. Multiple pairs are ANDed: a session must
+              match every supplied pair exactly.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -440,6 +451,7 @@ class BrowsersResource(SyncAPIResource):
                         "offset": offset,
                         "query": query,
                         "status": status,
+                        "tags": tags,
                     },
                     browser_list_params.BrowserListParams,
                 ),
@@ -663,6 +675,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
+        tags: TagsParam | Omit = omit,
         telemetry: Optional[browser_create_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
@@ -713,6 +726,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms.
 
+          tags: Optional user-defined key-value tags for the browser session, used to find and
+              group sessions later. Set at creation time only. Up to 50 pairs.
+
           telemetry: Telemetry configuration for the browser session. Set enabled to true to start
               capture using VM defaults, or provide browser category settings. If omitted,
               null, set to an empty object ({}), set to enabled: false without browser
@@ -761,6 +777,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "proxy_id": proxy_id,
                     "start_url": start_url,
                     "stealth": stealth,
+                    "tags": tags,
                     "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
@@ -888,6 +905,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         offset: int | Omit = omit,
         query: str | Omit = omit,
         status: Literal["active", "deleted", "all"] | Omit = omit,
+        tags: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -913,6 +931,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
           status: Filter sessions by status. "active" returns only active sessions (default),
               "deleted" returns only soft-deleted sessions, "all" returns both.
 
+          tags: Filter sessions by tag key-value pairs using deepObject style, e.g.
+              ?tags[team]=backend&tags[env]=staging. Multiple pairs are ANDed: a session must
+              match every supplied pair exactly.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -936,6 +958,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                         "offset": offset,
                         "query": query,
                         "status": status,
+                        "tags": tags,
                     },
                     browser_list_params.BrowserListParams,
                 ),

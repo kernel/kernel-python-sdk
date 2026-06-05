@@ -54,6 +54,10 @@ class TestBrowsers:
             proxy_id="proxy_id",
             start_url="https://example.com",
             stealth=True,
+            tags={
+                "team": "backend",
+                "env": "staging",
+            },
             telemetry={
                 "browser": {
                     "console": {"enabled": True},
@@ -232,6 +236,7 @@ class TestBrowsers:
             offset=0,
             query="query",
             status="active",
+            tags={"foo": "string"},
         )
         assert_matches_type(SyncOffsetPagination[BrowserListResponse], browser, path=["response"])
 
@@ -461,6 +466,10 @@ class TestAsyncBrowsers:
             proxy_id="proxy_id",
             start_url="https://example.com",
             stealth=True,
+            tags={
+                "team": "backend",
+                "env": "staging",
+            },
             telemetry={
                 "browser": {
                     "console": {"enabled": True},
@@ -639,6 +648,7 @@ class TestAsyncBrowsers:
             offset=0,
             query="query",
             status="active",
+            tags={"foo": "string"},
         )
         assert_matches_type(AsyncOffsetPagination[BrowserListResponse], browser, path=["response"])
 

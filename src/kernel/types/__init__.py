@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from . import browsers
 from .. import _compat
+from .tags import Tags as Tags
 from .shared import (
     LogEvent as LogEvent,
     AppAction as AppAction,
@@ -19,6 +20,7 @@ from .api_key import APIKey as APIKey
 from .profile import Profile as Profile
 from .project import Project as Project
 from .credential import Credential as Credential
+from .tags_param import TagsParam as TagsParam
 from .browser_pool import BrowserPool as BrowserPool
 from .browser_usage import BrowserUsage as BrowserUsage
 from .app_list_params import AppListParams as AppListParams
