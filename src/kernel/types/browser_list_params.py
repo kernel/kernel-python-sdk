@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Dict
 from typing_extensions import Literal, TypedDict
 
 __all__ = ["BrowserListParams"]
@@ -29,4 +30,11 @@ class BrowserListParams(TypedDict, total=False):
 
     "active" returns only active sessions (default), "deleted" returns only
     soft-deleted sessions, "all" returns both.
+    """
+
+    tags: Dict[str, str]
+    """Filter sessions by tag key-value pairs using deepObject style, e.g.
+
+    ?tags[team]=backend&tags[env]=staging. Multiple pairs are ANDed: a session must
+    match every supplied pair exactly.
     """
