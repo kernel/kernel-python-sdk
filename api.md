@@ -108,7 +108,11 @@ Types:
 
 ```python
 from kernel.types.browsers import (
+    BrowserAPICallEvent,
     BrowserCallStack,
+    BrowserCaptchaSolveResultEvent,
+    BrowserCdpConnectEvent,
+    BrowserCdpDisconnectEvent,
     BrowserConsoleErrorEvent,
     BrowserConsoleLogEvent,
     BrowserEventContext,
@@ -117,6 +121,8 @@ from kernel.types.browsers import (
     BrowserInteractionClickEvent,
     BrowserInteractionKeyEvent,
     BrowserInteractionScrollSettledEvent,
+    BrowserLiveViewConnectEvent,
+    BrowserLiveViewDisconnectEvent,
     BrowserMonitorDisconnectedEvent,
     BrowserMonitorInitFailedEvent,
     BrowserMonitorReconnectFailedEvent,
@@ -134,6 +140,8 @@ from kernel.types.browsers import (
     BrowserPageNavigationEvent,
     BrowserPageNavigationSettledEvent,
     BrowserPageTabOpenedEvent,
+    BrowserServiceCrashedEvent,
+    BrowserSystemOomKillEvent,
     BrowserTelemetryCategoriesConfig,
     BrowserTelemetryCategoryConfig,
     BrowserTelemetryConfig,

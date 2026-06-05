@@ -6,18 +6,27 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from .browser_event_source import BrowserEventSource
 
-__all__ = ["BrowserMonitorScreenshotEvent", "Data"]
+__all__ = ["BrowserAPICallEvent", "Data"]
 
 
 class Data(BaseModel):
-    png: Optional[str] = None
-    """Base64-encoded PNG screenshot of the browser viewport."""
+    duration_ms: float
+    """Wall-clock duration of the handler in milliseconds."""
+
+    operation_id: str
+    """OpenAPI operationId of the matched route (e.g. processExec, takeScreenshot)."""
+
+    request_id: str
+    """Per-request identifier from the in-VM API request middleware."""
+
+    status: int
+    """HTTP response status code."""
 
 
-class BrowserMonitorScreenshotEvent(BaseModel):
-    """A periodic screenshot of the browser viewport."""
+class BrowserAPICallEvent(BaseModel):
+    """An agent-driven HTTP call handled by the in-VM API server."""
 
-    category: Literal["screenshot"]
+    category: Literal["control"]
 
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
@@ -25,7 +34,7 @@ class BrowserMonitorScreenshotEvent(BaseModel):
     ts: int
     """Event timestamp in Unix microseconds."""
 
-    type: Literal["monitor_screenshot"]
+    type: Literal["api_call"]
 
     data: Optional[Data] = None
 

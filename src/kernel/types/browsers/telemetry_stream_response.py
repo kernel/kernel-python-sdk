@@ -16,11 +16,13 @@ class TelemetryStreamResponse(BaseModel):
     event: "BrowserTelemetryEvent"
     """Union type representing any browser telemetry event.
 
-    Discriminated on `type`. Events with a `monitor_` prefix (monitor_screenshot,
-    monitor_disconnected, monitor_reconnected, monitor_reconnect_failed,
-    monitor_init_failed) are always emitted regardless of the category configuration
-    in BrowserTelemetryConfig. All other event types are controlled by the
-    per-category enable/disable flags.
+    Discriminated on `type`. Each event's `category` determines when it is captured.
+    The CDP collector-health events (monitor_disconnected, monitor_reconnected,
+    monitor_reconnect_failed, monitor_init_failed) use the `monitor` category, which
+    is not user-configurable: it flows automatically whenever any CDP category
+    (console, network, page, interaction) is captured, and is silent otherwise.
+    monitor_screenshot uses the opt-in `screenshot` category. All other event types
+    are controlled by their per-category enable/disable flags.
     """
 
     seq: int

@@ -11,4 +11,7 @@ class BrowserTelemetryCategoryConfigParam(TypedDict, total=False):
     """Per-category telemetry configuration."""
 
     enabled: bool
-    """Whether this category is captured. Defaults to true if omitted."""
+    """Whether this category is captured.
+
+    Selection is opt-in, so an omitted category is not captured.
+    """
