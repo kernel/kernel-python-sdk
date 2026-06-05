@@ -6,18 +6,26 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from .browser_event_source import BrowserEventSource
 
-__all__ = ["BrowserMonitorScreenshotEvent", "Data"]
+__all__ = ["BrowserLiveViewDisconnectEvent", "Data"]
 
 
 class Data(BaseModel):
-    png: Optional[str] = None
-    """Base64-encoded PNG screenshot of the browser viewport."""
+    duration_ms: float
+    """Wall-clock duration of the connection in milliseconds."""
+
+    session_id: str
+    """
+    Live view session identifier; matches the corresponding live_view_connect event.
+    """
 
 
-class BrowserMonitorScreenshotEvent(BaseModel):
-    """A periodic screenshot of the browser viewport."""
+class BrowserLiveViewDisconnectEvent(BaseModel):
+    """A live view client disconnected from the headful browser's WebRTC server.
 
-    category: Literal["screenshot"]
+    Pair with live_view_connect by session_id.
+    """
+
+    category: Literal["connection"]
 
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
@@ -25,7 +33,7 @@ class BrowserMonitorScreenshotEvent(BaseModel):
     ts: int
     """Event timestamp in Unix microseconds."""
 
-    type: Literal["monitor_screenshot"]
+    type: Literal["live_view_disconnect"]
 
     data: Optional[Data] = None
 
