@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.63.0 (2026-06-05)
+
+Full Changelog: [v0.62.0...v0.63.0](https://github.com/kernel/kernel-python-sdk/compare/v0.62.0...v0.63.0)
+
+### Features
+
+* **api:** allow setting a custom name on a browser session at create time ([0dea358](https://github.com/kernel/kernel-python-sdk/commit/0dea35847a9559c86038774966bae28911c0a044))
+* **api:** allow setting key-value tags on a browser session at create time ([f9ca7c1](https://github.com/kernel/kernel-python-sdk/commit/f9ca7c19aa71326c97b14d723dfd79840e3e8dd7))
+
+
+### Documentation
+
+* **api:** use neutral example for browser session name field ([01b15f6](https://github.com/kernel/kernel-python-sdk/commit/01b15f602a4c21ab4e757bf46ed2d4c1481c14ce))
+
 ## 0.62.0 (2026-06-04)
 
 Full Changelog: [v0.61.0...v0.62.0](https://github.com/kernel/kernel-python-sdk/compare/v0.61.0...v0.62.0)
