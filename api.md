@@ -83,6 +83,7 @@ from kernel.types import (
     BrowserPoolRef,
     BrowserUsage,
     Profile,
+    Tags,
     BrowserCreateResponse,
     BrowserRetrieveResponse,
     BrowserUpdateResponse,
