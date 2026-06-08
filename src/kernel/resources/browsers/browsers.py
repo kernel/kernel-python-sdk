@@ -285,7 +285,7 @@ class BrowsersResource(SyncAPIResource):
 
     def retrieve(
         self,
-        id: str,
+        id_or_name: str,
         *,
         include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -309,10 +309,10 @@ class BrowsersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._get(
-            path_template("/browsers/{id}", id=id),
+            path_template("/browsers/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -327,7 +327,7 @@ class BrowsersResource(SyncAPIResource):
 
     def update(
         self,
-        id: str,
+        id_or_name: str,
         *,
         disable_default_proxy: bool | Omit = omit,
         profile: BrowserProfile | Omit = omit,
@@ -370,10 +370,10 @@ class BrowsersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._patch(
-            path_template("/browsers/{id}", id=id),
+            path_template("/browsers/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform(
                 {
                     "disable_default_proxy": disable_default_proxy,
@@ -525,7 +525,7 @@ class BrowsersResource(SyncAPIResource):
 
     def delete_by_id(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -535,7 +535,7 @@ class BrowsersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a browser session by ID
+        Delete a browser session by ID or name
 
         Args:
           extra_headers: Send extra headers
@@ -546,11 +546,11 @@ class BrowsersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            path_template("/browsers/{id}", id=id),
+            path_template("/browsers/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -792,7 +792,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
     async def retrieve(
         self,
-        id: str,
+        id_or_name: str,
         *,
         include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -816,10 +816,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._get(
-            path_template("/browsers/{id}", id=id),
+            path_template("/browsers/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -834,7 +834,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
     async def update(
         self,
-        id: str,
+        id_or_name: str,
         *,
         disable_default_proxy: bool | Omit = omit,
         profile: BrowserProfile | Omit = omit,
@@ -877,10 +877,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._patch(
-            path_template("/browsers/{id}", id=id),
+            path_template("/browsers/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {
                     "disable_default_proxy": disable_default_proxy,
@@ -1032,7 +1032,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
     async def delete_by_id(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1042,7 +1042,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a browser session by ID
+        Delete a browser session by ID or name
 
         Args:
           extra_headers: Send extra headers
@@ -1053,11 +1053,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            path_template("/browsers/{id}", id=id),
+            path_template("/browsers/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
