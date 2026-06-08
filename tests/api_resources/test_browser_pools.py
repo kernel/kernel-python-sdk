@@ -309,6 +309,11 @@ class TestBrowserPools:
         browser_pool = client.browser_pools.acquire(
             id_or_name="id_or_name",
             acquire_timeout_seconds=0,
+            name="checkout-flow-1",
+            tags={
+                "team": "backend",
+                "env": "staging",
+            },
         )
         assert_matches_type(BrowserPoolAcquireResponse, browser_pool, path=["response"])
 
@@ -738,6 +743,11 @@ class TestAsyncBrowserPools:
         browser_pool = await async_client.browser_pools.acquire(
             id_or_name="id_or_name",
             acquire_timeout_seconds=0,
+            name="checkout-flow-1",
+            tags={
+                "team": "backend",
+                "env": "staging",
+            },
         )
         assert_matches_type(BrowserPoolAcquireResponse, browser_pool, path=["response"])
 
