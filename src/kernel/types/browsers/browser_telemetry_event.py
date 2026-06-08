@@ -9,8 +9,8 @@ from ..._utils import PropertyInfo
 from .browser_api_call_event import BrowserAPICallEvent
 from .browser_page_lcp_event import BrowserPageLcpEvent
 from .browser_page_load_event import BrowserPageLoadEvent
-from .browser_console_log_event import BrowserConsoleLogEvent
 from .browser_cdp_connect_event import BrowserCdpConnectEvent
+from .browser_console_log_event import BrowserConsoleLogEvent
 from .browser_network_idle_event import BrowserNetworkIdleEvent
 from .browser_console_error_event import BrowserConsoleErrorEvent
 from .browser_cdp_disconnect_event import BrowserCdpDisconnectEvent
