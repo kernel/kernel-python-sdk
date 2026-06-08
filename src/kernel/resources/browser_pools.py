@@ -26,6 +26,7 @@ from .._response import (
 )
 from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
 from .._base_client import AsyncPaginator, make_request_options
+from ..types.tags_param import TagsParam
 from ..types.browser_pool import BrowserPool
 from ..types.browser_pool_acquire_response import BrowserPoolAcquireResponse
 from ..types.shared_params.browser_profile import BrowserProfile
@@ -417,6 +418,8 @@ class BrowserPoolsResource(SyncAPIResource):
         id_or_name: str,
         *,
         acquire_timeout_seconds: int | Omit = omit,
+        name: str | Omit = omit,
+        tags: TagsParam | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -436,6 +439,15 @@ class BrowserPoolsResource(SyncAPIResource):
               calculated time it would take to fill the pool at the currently configured fill
               rate.
 
+          name: Optional human-readable name for the acquired browser session, used to find it
+              later in the dashboard. Must be unique among active sessions within the pool's
+              project. Applies to this lease only and is cleared when the browser is released
+              back to the pool.
+
+          tags: Optional user-defined key-value tags for the acquired browser session, used to
+              find and group sessions later. Applies to this lease only and are cleared when
+              the browser is released back to the pool. Up to 50 pairs.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -449,7 +461,11 @@ class BrowserPoolsResource(SyncAPIResource):
         return self._post(
             path_template("/browser_pools/{id_or_name}/acquire", id_or_name=id_or_name),
             body=maybe_transform(
-                {"acquire_timeout_seconds": acquire_timeout_seconds},
+                {
+                    "acquire_timeout_seconds": acquire_timeout_seconds,
+                    "name": name,
+                    "tags": tags,
+                },
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
             ),
             options=make_request_options(
@@ -923,6 +939,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         id_or_name: str,
         *,
         acquire_timeout_seconds: int | Omit = omit,
+        name: str | Omit = omit,
+        tags: TagsParam | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -942,6 +960,15 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               calculated time it would take to fill the pool at the currently configured fill
               rate.
 
+          name: Optional human-readable name for the acquired browser session, used to find it
+              later in the dashboard. Must be unique among active sessions within the pool's
+              project. Applies to this lease only and is cleared when the browser is released
+              back to the pool.
+
+          tags: Optional user-defined key-value tags for the acquired browser session, used to
+              find and group sessions later. Applies to this lease only and are cleared when
+              the browser is released back to the pool. Up to 50 pairs.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -955,7 +982,11 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         return await self._post(
             path_template("/browser_pools/{id_or_name}/acquire", id_or_name=id_or_name),
             body=await async_maybe_transform(
-                {"acquire_timeout_seconds": acquire_timeout_seconds},
+                {
+                    "acquire_timeout_seconds": acquire_timeout_seconds,
+                    "name": name,
+                    "tags": tags,
+                },
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
             ),
             options=make_request_options(
