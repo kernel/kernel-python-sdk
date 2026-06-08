@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.65.0 (2026-06-08)
+
+Full Changelog: [v0.64.0...v0.65.0](https://github.com/kernel/kernel-python-sdk/compare/v0.64.0...v0.65.0)
+
+### Features
+
+* **api:** allow setting a name and tags on a pool-acquired browser session ([2977911](https://github.com/kernel/kernel-python-sdk/commit/2977911151def0f4193c5e8063ab33800d167585))
+* **api:** support id-or-name lookup on browser session get/patch/delete ([7e6d287](https://github.com/kernel/kernel-python-sdk/commit/7e6d28795b4b2b9f9e14cf14711a72053530b576))
+
 ## 0.64.0 (2026-06-05)
 
 Full Changelog: [v0.63.0...v0.64.0](https://github.com/kernel/kernel-python-sdk/compare/v0.63.0...v0.64.0)
