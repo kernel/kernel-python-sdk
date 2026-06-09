@@ -58,6 +58,7 @@ if TYPE_CHECKING:
         credentials,
         deployments,
         invocations,
+        organization,
         browser_pools,
         credential_providers,
     )
@@ -74,6 +75,7 @@ if TYPE_CHECKING:
     from .resources.browsers.browsers import BrowsersResource, AsyncBrowsersResource
     from .resources.projects.projects import ProjectsResource, AsyncProjectsResource
     from .resources.credential_providers import CredentialProvidersResource, AsyncCredentialProvidersResource
+    from .resources.organization.organization import OrganizationResource, AsyncOrganizationResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -261,6 +263,12 @@ class Kernel(SyncAPIClient):
         from .resources.projects import ProjectsResource
 
         return ProjectsResource(self)
+
+    @cached_property
+    def organization(self) -> OrganizationResource:
+        from .resources.organization import OrganizationResource
+
+        return OrganizationResource(self)
 
     @cached_property
     def api_keys(self) -> APIKeysResource:
@@ -594,6 +602,12 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncProjectsResource(self)
 
     @cached_property
+    def organization(self) -> AsyncOrganizationResource:
+        from .resources.organization import AsyncOrganizationResource
+
+        return AsyncOrganizationResource(self)
+
+    @cached_property
     def api_keys(self) -> AsyncAPIKeysResource:
         """Create and manage API keys for organization and project-scoped access."""
         from .resources.api_keys import AsyncAPIKeysResource
@@ -838,6 +852,12 @@ class KernelWithRawResponse:
         return ProjectsResourceWithRawResponse(self._client.projects)
 
     @cached_property
+    def organization(self) -> organization.OrganizationResourceWithRawResponse:
+        from .resources.organization import OrganizationResourceWithRawResponse
+
+        return OrganizationResourceWithRawResponse(self._client.organization)
+
+    @cached_property
     def api_keys(self) -> api_keys.APIKeysResourceWithRawResponse:
         """Create and manage API keys for organization and project-scoped access."""
         from .resources.api_keys import APIKeysResourceWithRawResponse
@@ -933,6 +953,12 @@ class AsyncKernelWithRawResponse:
         from .resources.projects import AsyncProjectsResourceWithRawResponse
 
         return AsyncProjectsResourceWithRawResponse(self._client.projects)
+
+    @cached_property
+    def organization(self) -> organization.AsyncOrganizationResourceWithRawResponse:
+        from .resources.organization import AsyncOrganizationResourceWithRawResponse
+
+        return AsyncOrganizationResourceWithRawResponse(self._client.organization)
 
     @cached_property
     def api_keys(self) -> api_keys.AsyncAPIKeysResourceWithRawResponse:
@@ -1032,6 +1058,12 @@ class KernelWithStreamedResponse:
         return ProjectsResourceWithStreamingResponse(self._client.projects)
 
     @cached_property
+    def organization(self) -> organization.OrganizationResourceWithStreamingResponse:
+        from .resources.organization import OrganizationResourceWithStreamingResponse
+
+        return OrganizationResourceWithStreamingResponse(self._client.organization)
+
+    @cached_property
     def api_keys(self) -> api_keys.APIKeysResourceWithStreamingResponse:
         """Create and manage API keys for organization and project-scoped access."""
         from .resources.api_keys import APIKeysResourceWithStreamingResponse
@@ -1127,6 +1159,12 @@ class AsyncKernelWithStreamedResponse:
         from .resources.projects import AsyncProjectsResourceWithStreamingResponse
 
         return AsyncProjectsResourceWithStreamingResponse(self._client.projects)
+
+    @cached_property
+    def organization(self) -> organization.AsyncOrganizationResourceWithStreamingResponse:
+        from .resources.organization import AsyncOrganizationResourceWithStreamingResponse
+
+        return AsyncOrganizationResourceWithStreamingResponse(self._client.organization)
 
     @cached_property
     def api_keys(self) -> api_keys.AsyncAPIKeysResourceWithStreamingResponse:
