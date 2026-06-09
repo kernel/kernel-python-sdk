@@ -423,6 +423,21 @@ Methods:
 - <code title="get /org/projects/{id}/limits">client.projects.limits.<a href="./src/kernel/resources/projects/limits.py">retrieve</a>(id) -> <a href="./src/kernel/types/projects/project_limits.py">ProjectLimits</a></code>
 - <code title="patch /org/projects/{id}/limits">client.projects.limits.<a href="./src/kernel/resources/projects/limits.py">update</a>(id, \*\*<a href="src/kernel/types/projects/limit_update_params.py">params</a>) -> <a href="./src/kernel/types/projects/project_limits.py">ProjectLimits</a></code>
 
+# Organization
+
+## Limits
+
+Types:
+
+```python
+from kernel.types.organization import OrgLimits, UpdateOrgLimitsRequest
+```
+
+Methods:
+
+- <code title="get /org/limits">client.organization.limits.<a href="./src/kernel/resources/organization/limits.py">retrieve</a>() -> <a href="./src/kernel/types/organization/org_limits.py">OrgLimits</a></code>
+- <code title="patch /org/limits">client.organization.limits.<a href="./src/kernel/resources/organization/limits.py">update</a>(\*\*<a href="src/kernel/types/organization/limit_update_params.py">params</a>) -> <a href="./src/kernel/types/organization/org_limits.py">OrgLimits</a></code>
+
 # APIKeys
 
 Types:
