@@ -168,12 +168,17 @@ class TestBrowsers:
         browser = client.browsers.update(
             id_or_name="htzv5orfit78e1m2biiifpbv",
             disable_default_proxy=True,
+            name="checkout-flow-1",
             profile={
                 "id": "id",
                 "name": "name",
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            tags={
+                "team": "backend",
+                "env": "staging",
+            },
             telemetry={
                 "browser": {
                     "captcha": {"enabled": True},
@@ -590,12 +595,17 @@ class TestAsyncBrowsers:
         browser = await async_client.browsers.update(
             id_or_name="htzv5orfit78e1m2biiifpbv",
             disable_default_proxy=True,
+            name="checkout-flow-1",
             profile={
                 "id": "id",
                 "name": "name",
                 "save_changes": True,
             },
             proxy_id="proxy_id",
+            tags={
+                "team": "backend",
+                "env": "staging",
+            },
             telemetry={
                 "browser": {
                     "captcha": {"enabled": True},

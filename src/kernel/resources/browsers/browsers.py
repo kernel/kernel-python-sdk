@@ -202,8 +202,8 @@ class BrowsersResource(SyncAPIResource):
               view.
 
           name: Optional human-readable name for the browser session, used to find it later in
-              the dashboard. Must be unique among active sessions within the project. Set at
-              creation time only.
+              the dashboard. Must be unique among active sessions within the project. Can be
+              changed later via PATCH /browsers/{id_or_name}.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -220,7 +220,8 @@ class BrowsersResource(SyncAPIResource):
               mechanisms.
 
           tags: Optional user-defined key-value tags for the browser session, used to find and
-              group sessions later. Set at creation time only. Up to 50 pairs.
+              group sessions later. Can be changed later via PATCH /browsers/{id_or_name}. Up
+              to 50 pairs.
 
           telemetry: Telemetry configuration for the browser session. Set enabled to true to start
               capture using VM defaults, or provide browser category settings. If omitted,
@@ -330,8 +331,10 @@ class BrowsersResource(SyncAPIResource):
         id_or_name: str,
         *,
         disable_default_proxy: bool | Omit = omit,
+        name: Optional[str] | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
+        tags: Optional[TagsParam] | Omit = omit,
         telemetry: Optional[browser_update_params.Telemetry] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -348,11 +351,19 @@ class BrowsersResource(SyncAPIResource):
           disable_default_proxy: If true, stealth browsers connect directly instead of using the default stealth
               proxy.
 
+          name: Human-readable name for the browser session. Omit to leave unchanged, set to an
+              empty string to clear the name. When set, must be unique among active sessions
+              within the project.
+
           profile: Profile to load into the browser session. Only allowed if the session does not
               already have a profile loaded.
 
           proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy.
+
+          tags: User-defined key-value tags for the browser session. Omit to leave unchanged.
+              Provide a map to replace the entire tag set (full replace, not a merge). Set to
+              an empty object ({}) to clear all tags. Up to 50 pairs.
 
           telemetry: Telemetry configuration. Omit, set to null, or set to an empty object ({}) to
               leave the existing configuration unchanged. Set enabled to true to enable
@@ -377,8 +388,10 @@ class BrowsersResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "disable_default_proxy": disable_default_proxy,
+                    "name": name,
                     "profile": profile,
                     "proxy_id": proxy_id,
+                    "tags": tags,
                     "telemetry": telemetry,
                     "viewport": viewport,
                 },
@@ -709,8 +722,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
               view.
 
           name: Optional human-readable name for the browser session, used to find it later in
-              the dashboard. Must be unique among active sessions within the project. Set at
-              creation time only.
+              the dashboard. Must be unique among active sessions within the project. Can be
+              changed later via PATCH /browsers/{id_or_name}.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -727,7 +740,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
               mechanisms.
 
           tags: Optional user-defined key-value tags for the browser session, used to find and
-              group sessions later. Set at creation time only. Up to 50 pairs.
+              group sessions later. Can be changed later via PATCH /browsers/{id_or_name}. Up
+              to 50 pairs.
 
           telemetry: Telemetry configuration for the browser session. Set enabled to true to start
               capture using VM defaults, or provide browser category settings. If omitted,
@@ -837,8 +851,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
         id_or_name: str,
         *,
         disable_default_proxy: bool | Omit = omit,
+        name: Optional[str] | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
+        tags: Optional[TagsParam] | Omit = omit,
         telemetry: Optional[browser_update_params.Telemetry] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -855,11 +871,19 @@ class AsyncBrowsersResource(AsyncAPIResource):
           disable_default_proxy: If true, stealth browsers connect directly instead of using the default stealth
               proxy.
 
+          name: Human-readable name for the browser session. Omit to leave unchanged, set to an
+              empty string to clear the name. When set, must be unique among active sessions
+              within the project.
+
           profile: Profile to load into the browser session. Only allowed if the session does not
               already have a profile loaded.
 
           proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy.
+
+          tags: User-defined key-value tags for the browser session. Omit to leave unchanged.
+              Provide a map to replace the entire tag set (full replace, not a merge). Set to
+              an empty object ({}) to clear all tags. Up to 50 pairs.
 
           telemetry: Telemetry configuration. Omit, set to null, or set to an empty object ({}) to
               leave the existing configuration unchanged. Set enabled to true to enable
@@ -884,8 +908,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "disable_default_proxy": disable_default_proxy,
+                    "name": name,
                     "profile": profile,
                     "proxy_id": proxy_id,
+                    "tags": tags,
                     "telemetry": telemetry,
                     "viewport": viewport,
                 },
