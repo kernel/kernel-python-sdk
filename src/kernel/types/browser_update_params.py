@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Optional
 from typing_extensions import TypedDict
 
+from .tags_param import TagsParam
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
 from .browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
@@ -19,6 +20,13 @@ class BrowserUpdateParams(TypedDict, total=False):
     proxy.
     """
 
+    name: Optional[str]
+    """Human-readable name for the browser session.
+
+    Omit to leave unchanged, set to an empty string to clear the name. When set,
+    must be unique among active sessions within the project.
+    """
+
     profile: BrowserProfile
     """Profile to load into the browser session.
 
@@ -29,6 +37,14 @@ class BrowserUpdateParams(TypedDict, total=False):
     """ID of the proxy to use.
 
     Omit to leave unchanged, set to empty string to remove proxy.
+    """
+
+    tags: Optional[TagsParam]
+    """User-defined key-value tags for the browser session.
+
+    Omit to leave unchanged. Provide a map to replace the entire tag set (full
+    replace, not a merge). Set to an empty object ({}) to clear all tags. Up to 50
+    pairs.
     """
 
     telemetry: Optional[Telemetry]
