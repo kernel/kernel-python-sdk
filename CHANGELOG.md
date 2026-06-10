@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.66.0 (2026-06-10)
+
+Full Changelog: [v0.65.0...v0.66.0](https://github.com/kernel/kernel-python-sdk/compare/v0.65.0...v0.66.0)
+
+### Features
+
+* Add org-level default per-project concurrency cap ([2de4525](https://github.com/kernel/kernel-python-sdk/commit/2de45255a1f5ed003ec0492461ee967bf961db2e))
+* Support updating browser session name and tags via PATCH ([e26e9c6](https://github.com/kernel/kernel-python-sdk/commit/e26e9c6b0513a1c7f9723554f4ba977988290d5e))
+
 ## 0.65.0 (2026-06-08)
 
 Full Changelog: [v0.64.0...v0.65.0](https://github.com/kernel/kernel-python-sdk/compare/v0.64.0...v0.65.0)
