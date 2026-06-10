@@ -53,8 +53,8 @@ class BrowserCreateParams(TypedDict, total=False):
     name: str
     """
     Optional human-readable name for the browser session, used to find it later in
-    the dashboard. Must be unique among active sessions within the project. Set at
-    creation time only.
+    the dashboard. Must be unique among active sessions within the project. Can be
+    changed later via PATCH /browsers/{id_or_name}.
     """
 
     profile: BrowserProfile
@@ -86,7 +86,8 @@ class BrowserCreateParams(TypedDict, total=False):
     tags: TagsParam
     """
     Optional user-defined key-value tags for the browser session, used to find and
-    group sessions later. Set at creation time only. Up to 50 pairs.
+    group sessions later. Can be changed later via PATCH /browsers/{id_or_name}. Up
+    to 50 pairs.
     """
 
     telemetry: Optional[Telemetry]
