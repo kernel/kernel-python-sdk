@@ -109,8 +109,8 @@ class BrowserPoolsResource(SyncAPIResource):
               specified, the matching profile will be loaded into the browser session.
               Profiles must be created beforehand.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
-              belonging to the caller's org.
+          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
+              the same project as the browser session.
 
           start_url: Optional URL to navigate to when a new browser is warmed into the pool.
               Best-effort: failures to navigate do not fail pool fill. Only applied to
@@ -256,8 +256,8 @@ class BrowserPoolsResource(SyncAPIResource):
               specified, the matching profile will be loaded into the browser session.
               Profiles must be created beforehand.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
-              belonging to the caller's org.
+          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
+              the same project as the browser session.
 
           size: Number of browsers to maintain in the pool. The maximum size is determined by
               your organization's pooled sessions limit (the sum of all pool sizes cannot
@@ -338,7 +338,7 @@ class BrowserPoolsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncOffsetPagination[BrowserPool]:
         """
-        List browser pools owned by the caller's organization.
+        List browser pools in the resolved project.
 
         Args:
           limit: Limit the number of browser pools to return.
@@ -630,8 +630,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               specified, the matching profile will be loaded into the browser session.
               Profiles must be created beforehand.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
-              belonging to the caller's org.
+          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
+              the same project as the browser session.
 
           start_url: Optional URL to navigate to when a new browser is warmed into the pool.
               Best-effort: failures to navigate do not fail pool fill. Only applied to
@@ -777,8 +777,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               specified, the matching profile will be loaded into the browser session.
               Profiles must be created beforehand.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
-              belonging to the caller's org.
+          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
+              the same project as the browser session.
 
           size: Number of browsers to maintain in the pool. The maximum size is determined by
               your organization's pooled sessions limit (the sum of all pool sizes cannot
@@ -859,7 +859,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[BrowserPool, AsyncOffsetPagination[BrowserPool]]:
         """
-        List browser pools owned by the caller's organization.
+        List browser pools in the resolved project.
 
         Args:
           limit: Limit the number of browser pools to return.

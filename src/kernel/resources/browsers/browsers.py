@@ -209,8 +209,8 @@ class BrowsersResource(SyncAPIResource):
               specified, the matching profile will be loaded into the browser session.
               Profiles must be created beforehand.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
-              belonging to the caller's org.
+          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
+              the same project as the browser session.
 
           start_url: Optional URL to open when the browser session is created. Navigation is
               best-effort, so navigation failures do not prevent the session from being
@@ -729,8 +729,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
               specified, the matching profile will be loaded into the browser session.
               Profiles must be created beforehand.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy
-              belonging to the caller's org.
+          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
+              the same project as the browser session.
 
           start_url: Optional URL to open when the browser session is created. Navigation is
               best-effort, so navigation failures do not prevent the session from being

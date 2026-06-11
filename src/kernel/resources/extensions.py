@@ -70,7 +70,7 @@ class ExtensionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncOffsetPagination[ExtensionListResponse]:
         """
-        List extensions owned by the caller's organization.
+        List extensions in the resolved project.
 
         Args:
           limit: Limit the number of extensions to return.
@@ -308,7 +308,7 @@ class AsyncExtensionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[ExtensionListResponse, AsyncOffsetPagination[ExtensionListResponse]]:
         """
-        List extensions owned by the caller's organization.
+        List extensions in the resolved project.
 
         Args:
           limit: Limit the number of extensions to return.

@@ -50,7 +50,8 @@ class ConnectionUpdateParams(TypedDict, total=False):
     proxy: Proxy
     """Proxy selection.
 
-    Provide either id or name. The proxy must belong to the caller's org.
+    Provide either id or name. The proxy must be in the same project as the resource
+    referencing it.
     """
 
     record_session: bool
@@ -85,7 +86,7 @@ class Credential(TypedDict, total=False):
 class Proxy(TypedDict, total=False):
     """Proxy selection.
 
-    Provide either id or name. The proxy must belong to the caller's org.
+    Provide either id or name. The proxy must be in the same project as the resource referencing it.
     """
 
     id: str

@@ -136,8 +136,8 @@ class ConnectionsResource(SyncAPIResource):
 
           login_url: Optional login page URL to skip discovery
 
-          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
-              caller's org.
+          proxy: Proxy selection. Provide either id or name. The proxy must be in the same
+              project as the resource referencing it.
 
           record_session: Whether to record browser sessions for this connection by default. Useful for
               debugging. Can be overridden per-login. Defaults to false.
@@ -264,8 +264,8 @@ class ConnectionsResource(SyncAPIResource):
 
           login_url: Login page URL. Set to empty string to clear.
 
-          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
-              caller's org.
+          proxy: Proxy selection. Provide either id or name. The proxy must be in the same
+              project as the resource referencing it.
 
           record_session: Whether to record browser sessions for this connection by default
 
@@ -457,8 +457,8 @@ class ConnectionsResource(SyncAPIResource):
         credentials are stored.
 
         Args:
-          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
-              caller's org.
+          proxy: Proxy selection. Provide either id or name. The proxy must be in the same
+              project as the resource referencing it.
 
           record_session: Override the connection's default for recording this login's browser session.
               When omitted, the connection's record_session default is used.
@@ -653,8 +653,8 @@ class AsyncConnectionsResource(AsyncAPIResource):
 
           login_url: Optional login page URL to skip discovery
 
-          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
-              caller's org.
+          proxy: Proxy selection. Provide either id or name. The proxy must be in the same
+              project as the resource referencing it.
 
           record_session: Whether to record browser sessions for this connection by default. Useful for
               debugging. Can be overridden per-login. Defaults to false.
@@ -781,8 +781,8 @@ class AsyncConnectionsResource(AsyncAPIResource):
 
           login_url: Login page URL. Set to empty string to clear.
 
-          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
-              caller's org.
+          proxy: Proxy selection. Provide either id or name. The proxy must be in the same
+              project as the resource referencing it.
 
           record_session: Whether to record browser sessions for this connection by default
 
@@ -974,8 +974,8 @@ class AsyncConnectionsResource(AsyncAPIResource):
         credentials are stored.
 
         Args:
-          proxy: Proxy selection. Provide either id or name. The proxy must belong to the
-              caller's org.
+          proxy: Proxy selection. Provide either id or name. The proxy must be in the same
+              project as the resource referencing it.
 
           record_session: Override the connection's default for recording this login's browser session.
               When omitted, the connection's record_session default is used.
