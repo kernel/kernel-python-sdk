@@ -100,6 +100,8 @@ class Kernel(SyncAPIClient):
     api_key: str
     browser_route_cache: BrowserRouteCache
 
+    project_id: str | None
+
     _environment: Literal["production", "development"] | NotGiven
     _browser_routing: BrowserRoutingConfig
 
@@ -107,6 +109,7 @@ class Kernel(SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        project_id: str | None = None,
         environment: Literal["production", "development"] | NotGiven = not_given,
         base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -139,6 +142,8 @@ class Kernel(SyncAPIClient):
                 "The api_key client option must be set either by passing api_key to the client or by setting the KERNEL_API_KEY environment variable"
             )
         self.api_key = api_key
+
+        self.project_id = project_id
 
         self._environment = environment
 
@@ -309,6 +314,7 @@ class Kernel(SyncAPIClient):
         return {
             **super().default_headers,
             "X-Stainless-Async": "false",
+            "X-Kernel-Project-Id": self.project_id if self.project_id is not None else Omit(),
             **self._custom_headers,
         }
 
@@ -347,6 +353,7 @@ class Kernel(SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        project_id: str | None = None,
         environment: Literal["production", "development"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -383,6 +390,7 @@ class Kernel(SyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             api_key=api_key or self.api_key,
+            project_id=project_id or self.project_id,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -437,6 +445,8 @@ class AsyncKernel(AsyncAPIClient):
     api_key: str
     browser_route_cache: BrowserRouteCache
 
+    project_id: str | None
+
     _environment: Literal["production", "development"] | NotGiven
     _browser_routing: BrowserRoutingConfig
 
@@ -444,6 +454,7 @@ class AsyncKernel(AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        project_id: str | None = None,
         environment: Literal["production", "development"] | NotGiven = not_given,
         base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -476,6 +487,8 @@ class AsyncKernel(AsyncAPIClient):
                 "The api_key client option must be set either by passing api_key to the client or by setting the KERNEL_API_KEY environment variable"
             )
         self.api_key = api_key
+
+        self.project_id = project_id
 
         self._environment = environment
 
@@ -646,6 +659,7 @@ class AsyncKernel(AsyncAPIClient):
         return {
             **super().default_headers,
             "X-Stainless-Async": f"async:{get_async_library()}",
+            "X-Kernel-Project-Id": self.project_id if self.project_id is not None else Omit(),
             **self._custom_headers,
         }
 
@@ -684,6 +698,7 @@ class AsyncKernel(AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        project_id: str | None = None,
         environment: Literal["production", "development"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -720,6 +735,7 @@ class AsyncKernel(AsyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             api_key=api_key or self.api_key,
+            project_id=project_id or self.project_id,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
