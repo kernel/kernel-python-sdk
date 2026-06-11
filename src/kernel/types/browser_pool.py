@@ -60,7 +60,7 @@ class BrowserPoolConfig(BaseModel):
     proxy_id: Optional[str] = None
     """Optional proxy to associate to the browser session.
 
-    Must reference a proxy belonging to the caller's org.
+    Must reference a proxy in the same project as the browser session.
     """
 
     start_url: Optional[str] = None

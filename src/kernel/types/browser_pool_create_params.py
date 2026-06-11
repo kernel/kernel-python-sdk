@@ -59,7 +59,7 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     proxy_id: str
     """Optional proxy to associate to the browser session.
 
-    Must reference a proxy belonging to the caller's org.
+    Must reference a proxy in the same project as the browser session.
     """
 
     start_url: str
