@@ -65,7 +65,7 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyCreateResponse:
         """
-        Create a new proxy configuration for the caller's organization.
+        Create a new proxy configuration in the resolved project.
 
         Args:
           type: Proxy type to use. In terms of quality for avoiding bot-detection, from best to
@@ -117,7 +117,7 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
         """
-        Retrieve a proxy belonging to the caller's organization by ID.
+        Retrieve a proxy in the resolved project by ID.
 
         Args:
           extra_headers: Send extra headers
@@ -151,7 +151,7 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncOffsetPagination[ProxyListResponse]:
         """
-        List proxies owned by the caller's organization.
+        List proxies in the resolved project.
 
         Args:
           limit: Limit the number of proxies to return.
@@ -313,7 +313,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyCreateResponse:
         """
-        Create a new proxy configuration for the caller's organization.
+        Create a new proxy configuration in the resolved project.
 
         Args:
           type: Proxy type to use. In terms of quality for avoiding bot-detection, from best to
@@ -365,7 +365,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
         """
-        Retrieve a proxy belonging to the caller's organization by ID.
+        Retrieve a proxy in the resolved project by ID.
 
         Args:
           extra_headers: Send extra headers
@@ -399,7 +399,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[ProxyListResponse, AsyncOffsetPagination[ProxyListResponse]]:
         """
-        List proxies owned by the caller's organization.
+        List proxies in the resolved project.
 
         Args:
           limit: Limit the number of proxies to return.

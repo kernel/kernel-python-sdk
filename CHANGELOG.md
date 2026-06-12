@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.67.0 (2026-06-11)
+
+Full Changelog: [v0.66.0...v0.67.0](https://github.com/kernel/kernel-python-sdk/compare/v0.66.0...v0.67.0)
+
+### Features
+
+* Add project_id SDK client option mapped to X-Kernel-Project-Id ([1799732](https://github.com/kernel/kernel-python-sdk/commit/17997322232374c6c49d99333b564a0537f247c0))
+
+
+### Documentation
+
+* **api:** correct project-scoping descriptions in OpenAPI spec ([5929332](https://github.com/kernel/kernel-python-sdk/commit/592933283ff7bf0e6596ddbfbc4851e285a1d36e))
+
 ## 0.66.0 (2026-06-10)
 
 Full Changelog: [v0.65.0...v0.66.0](https://github.com/kernel/kernel-python-sdk/compare/v0.65.0...v0.66.0)

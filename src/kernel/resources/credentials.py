@@ -212,10 +212,9 @@ class CredentialsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncOffsetPagination[Credential]:
-        """List credentials owned by the caller's organization.
+        """List credentials in the resolved project.
 
-        Credential values are not
-        returned.
+        Credential values are not returned.
 
         Args:
           domain: Filter by domain
@@ -509,10 +508,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Credential, AsyncOffsetPagination[Credential]]:
-        """List credentials owned by the caller's organization.
+        """List credentials in the resolved project.
 
-        Credential values are not
-        returned.
+        Credential values are not returned.
 
         Args:
           domain: Filter by domain
