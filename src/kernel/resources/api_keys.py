@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import api_key_list_params, api_key_create_params, api_key_update_params
+from ..types import api_key_list_params, api_key_create_params, api_key_update_params, api_key_retrieve_params
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -99,6 +99,7 @@ class APIKeysResource(SyncAPIResource):
         self,
         id: str,
         *,
+        include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -112,6 +113,9 @@ class APIKeysResource(SyncAPIResource):
         masked.
 
         Args:
+          include_deleted: When true, return the API key even if it has been deleted (soft-deleted), for
+              audit purposes. Defaults to false, which returns 404 for a deleted key.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -125,7 +129,13 @@ class APIKeysResource(SyncAPIResource):
         return self._get(
             path_template("/org/api_keys/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"include_deleted": include_deleted}, api_key_retrieve_params.APIKeyRetrieveParams
+                ),
             ),
             cast_to=APIKey,
         )
@@ -170,6 +180,7 @@ class APIKeysResource(SyncAPIResource):
     def list(
         self,
         *,
+        include_deleted: bool | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
@@ -187,6 +198,9 @@ class APIKeysResource(SyncAPIResource):
         API keys are masked.
 
         Args:
+          include_deleted: When true, include deleted (soft-deleted) API keys in the results for audit
+              purposes. Defaults to false, which returns only live keys.
+
           limit: Maximum number of results to return
 
           offset: Number of results to skip
@@ -216,6 +230,7 @@ class APIKeysResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "include_deleted": include_deleted,
                         "limit": limit,
                         "offset": offset,
                         "query": query,
@@ -336,6 +351,7 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -349,6 +365,9 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         masked.
 
         Args:
+          include_deleted: When true, return the API key even if it has been deleted (soft-deleted), for
+              audit purposes. Defaults to false, which returns 404 for a deleted key.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -362,7 +381,13 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         return await self._get(
             path_template("/org/api_keys/{id}", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"include_deleted": include_deleted}, api_key_retrieve_params.APIKeyRetrieveParams
+                ),
             ),
             cast_to=APIKey,
         )
@@ -407,6 +432,7 @@ class AsyncAPIKeysResource(AsyncAPIResource):
     def list(
         self,
         *,
+        include_deleted: bool | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
@@ -424,6 +450,9 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         API keys are masked.
 
         Args:
+          include_deleted: When true, include deleted (soft-deleted) API keys in the results for audit
+              purposes. Defaults to false, which returns only live keys.
+
           limit: Maximum number of results to return
 
           offset: Number of results to skip
@@ -453,6 +482,7 @@ class AsyncAPIKeysResource(AsyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "include_deleted": include_deleted,
                         "limit": limit,
                         "offset": offset,
                         "query": query,
