@@ -8,6 +8,12 @@ __all__ = ["APIKeyListParams"]
 
 
 class APIKeyListParams(TypedDict, total=False):
+    include_deleted: bool
+    """
+    When true, include deleted (soft-deleted) API keys in the results for audit
+    purposes. Defaults to false, which returns only live keys.
+    """
+
     limit: int
     """Maximum number of results to return"""
 
