@@ -39,8 +39,13 @@ class SyncOffsetPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
     @override
     def next_page_info(self) -> Optional[PageInfo]:
         next_offset = self.next_offset
-        if next_offset is None:
-            return None  # type: ignore[unreachable]
+        if next_offset is None:  # type: ignore[unreachable]
+            if self.has_more:
+                raise RuntimeError(
+                    "Server reported X-Has-More: true without an X-Next-Offset header; "
+                    "refusing to silently truncate pagination"
+                )
+            return None
 
         # X-Next-Offset already holds the offset where the next page starts;
         # adding the current page length on top skips a full page per iteration.
@@ -81,8 +86,13 @@ class AsyncOffsetPagination(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
     @override
     def next_page_info(self) -> Optional[PageInfo]:
         next_offset = self.next_offset
-        if next_offset is None:
-            return None  # type: ignore[unreachable]
+        if next_offset is None:  # type: ignore[unreachable]
+            if self.has_more:
+                raise RuntimeError(
+                    "Server reported X-Has-More: true without an X-Next-Offset header; "
+                    "refusing to silently truncate pagination"
+                )
+            return None
 
         # X-Next-Offset already holds the offset where the next page starts;
         # adding the current page length on top skips a full page per iteration.
