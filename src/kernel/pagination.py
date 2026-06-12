@@ -42,10 +42,9 @@ class SyncOffsetPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
         if next_offset is None:
             return None  # type: ignore[unreachable]
 
-        length = len(self._get_page_items())
-        current_count = next_offset + length
-
-        return PageInfo(params={"offset": current_count})
+        # X-Next-Offset already holds the offset where the next page starts;
+        # adding the current page length on top skips a full page per iteration.
+        return PageInfo(params={"offset": next_offset})
 
     @classmethod
     def build(cls: Type[_BaseModelT], *, response: Response, data: object) -> _BaseModelT:  # noqa: ARG003
@@ -85,10 +84,9 @@ class AsyncOffsetPagination(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
         if next_offset is None:
             return None  # type: ignore[unreachable]
 
-        length = len(self._get_page_items())
-        current_count = next_offset + length
-
-        return PageInfo(params={"offset": current_count})
+        # X-Next-Offset already holds the offset where the next page starts;
+        # adding the current page length on top skips a full page per iteration.
+        return PageInfo(params={"offset": next_offset})
 
     @classmethod
     def build(cls: Type[_BaseModelT], *, response: Response, data: object) -> _BaseModelT:  # noqa: ARG003
