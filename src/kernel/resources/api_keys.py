@@ -192,6 +192,7 @@ class APIKeysResource(SyncAPIResource):
         query: str | Omit = omit,
         sort_by: Literal["created_at", "name", "expires_at"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
+        status: Literal["active", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -204,8 +205,8 @@ class APIKeysResource(SyncAPIResource):
         API keys are masked.
 
         Args:
-          include_deleted: When true, include deleted (soft-deleted) API keys in the results for audit
-              purposes. Defaults to false, which returns only live keys.
+          include_deleted: Deprecated: use status=all instead. When true, include deleted (soft-deleted)
+              API keys in the results for audit purposes.
 
           limit: Maximum number of results to return
 
@@ -217,6 +218,10 @@ class APIKeysResource(SyncAPIResource):
           sort_by: Field to sort API keys by.
 
           sort_direction: Sort direction for API keys.
+
+          status: Filter API keys by status. "active" returns keys that are not deleted (default;
+              expired-but-not-deleted keys are still included), "deleted" returns only
+              soft-deleted keys, "all" returns both.
 
           extra_headers: Send extra headers
 
@@ -242,6 +247,7 @@ class APIKeysResource(SyncAPIResource):
                         "query": query,
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
+                        "status": status,
                     },
                     api_key_list_params.APIKeyListParams,
                 ),
@@ -495,6 +501,7 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         query: str | Omit = omit,
         sort_by: Literal["created_at", "name", "expires_at"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
+        status: Literal["active", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -507,8 +514,8 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         API keys are masked.
 
         Args:
-          include_deleted: When true, include deleted (soft-deleted) API keys in the results for audit
-              purposes. Defaults to false, which returns only live keys.
+          include_deleted: Deprecated: use status=all instead. When true, include deleted (soft-deleted)
+              API keys in the results for audit purposes.
 
           limit: Maximum number of results to return
 
@@ -520,6 +527,10 @@ class AsyncAPIKeysResource(AsyncAPIResource):
           sort_by: Field to sort API keys by.
 
           sort_direction: Sort direction for API keys.
+
+          status: Filter API keys by status. "active" returns keys that are not deleted (default;
+              expired-but-not-deleted keys are still included), "deleted" returns only
+              soft-deleted keys, "all" returns both.
 
           extra_headers: Send extra headers
 
@@ -545,6 +556,7 @@ class AsyncAPIKeysResource(AsyncAPIResource):
                         "query": query,
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
+                        "status": status,
                     },
                     api_key_list_params.APIKeyListParams,
                 ),
