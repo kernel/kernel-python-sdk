@@ -7,7 +7,13 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import api_key_list_params, api_key_create_params, api_key_update_params, api_key_retrieve_params
+from ..types import (
+    api_key_list_params,
+    api_key_create_params,
+    api_key_rotate_params,
+    api_key_update_params,
+    api_key_retrieve_params,
+)
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -277,6 +283,57 @@ class APIKeysResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def rotate(
+        self,
+        id: str,
+        *,
+        days_to_expire: Optional[int] | Omit = omit,
+        expire_in_days: Optional[int] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CreatedAPIKey:
+        """Rotate an API key.
+
+        Issues a new key that copies the name and project of the
+        rotated key, and schedules the rotated key to expire after a grace period so
+        in-flight callers can swap over. The new plaintext key is returned once.
+
+        Args:
+          days_to_expire: Lifetime in days for the new key, up to 3650. Omit to reuse the rotated key's
+              original lifetime, or never-expires if it had none.
+
+          expire_in_days: Grace period in days before the rotated key expires. Use 0 to expire it
+              immediately. Omit for the default grace period of 7 days.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/org/api_keys/{id}/rotate", id=id),
+            body=maybe_transform(
+                {
+                    "days_to_expire": days_to_expire,
+                    "expire_in_days": expire_in_days,
+                },
+                api_key_rotate_params.APIKeyRotateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CreatedAPIKey,
+        )
+
 
 class AsyncAPIKeysResource(AsyncAPIResource):
     """Create and manage API keys for organization and project-scoped access."""
@@ -529,6 +586,57 @@ class AsyncAPIKeysResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def rotate(
+        self,
+        id: str,
+        *,
+        days_to_expire: Optional[int] | Omit = omit,
+        expire_in_days: Optional[int] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> CreatedAPIKey:
+        """Rotate an API key.
+
+        Issues a new key that copies the name and project of the
+        rotated key, and schedules the rotated key to expire after a grace period so
+        in-flight callers can swap over. The new plaintext key is returned once.
+
+        Args:
+          days_to_expire: Lifetime in days for the new key, up to 3650. Omit to reuse the rotated key's
+              original lifetime, or never-expires if it had none.
+
+          expire_in_days: Grace period in days before the rotated key expires. Use 0 to expire it
+              immediately. Omit for the default grace period of 7 days.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/org/api_keys/{id}/rotate", id=id),
+            body=await async_maybe_transform(
+                {
+                    "days_to_expire": days_to_expire,
+                    "expire_in_days": expire_in_days,
+                },
+                api_key_rotate_params.APIKeyRotateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=CreatedAPIKey,
+        )
+
 
 class APIKeysResourceWithRawResponse:
     def __init__(self, api_keys: APIKeysResource) -> None:
@@ -548,6 +656,9 @@ class APIKeysResourceWithRawResponse:
         )
         self.delete = to_raw_response_wrapper(
             api_keys.delete,
+        )
+        self.rotate = to_raw_response_wrapper(
+            api_keys.rotate,
         )
 
 
@@ -570,6 +681,9 @@ class AsyncAPIKeysResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             api_keys.delete,
         )
+        self.rotate = async_to_raw_response_wrapper(
+            api_keys.rotate,
+        )
 
 
 class APIKeysResourceWithStreamingResponse:
@@ -591,6 +705,9 @@ class APIKeysResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             api_keys.delete,
         )
+        self.rotate = to_streamed_response_wrapper(
+            api_keys.rotate,
+        )
 
 
 class AsyncAPIKeysResourceWithStreamingResponse:
@@ -611,4 +728,7 @@ class AsyncAPIKeysResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             api_keys.delete,
+        )
+        self.rotate = async_to_streamed_response_wrapper(
+            api_keys.rotate,
         )
