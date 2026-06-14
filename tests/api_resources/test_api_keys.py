@@ -178,6 +178,7 @@ class TestAPIKeys:
             query="query",
             sort_by="created_at",
             sort_direction="asc",
+            status="active",
         )
         assert_matches_type(SyncOffsetPagination[APIKey], api_key, path=["response"])
 
@@ -460,6 +461,7 @@ class TestAsyncAPIKeys:
             query="query",
             sort_by="created_at",
             sort_direction="asc",
+            status="active",
         )
         assert_matches_type(AsyncOffsetPagination[APIKey], api_key, path=["response"])
 

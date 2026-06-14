@@ -2,7 +2,6 @@
 
 from typing import Optional
 from datetime import datetime
-from typing_extensions import Literal
 
 from .._models import BaseModel
 
@@ -51,12 +50,4 @@ class APIKey(BaseModel):
     """Project name for project-scoped API keys.
 
     Null means the key is org-wide or the project name is unavailable.
-    """
-
-    status: Literal["active", "expired", "deleted"]
-    """Derived lifecycle status of the API key.
-
-    `active` means usable. `expired` means past its expires_at. `deleted` means it
-    was deleted (soft-deleted) and can no longer authenticate. Deleted takes
-    precedence over expired.
     """
