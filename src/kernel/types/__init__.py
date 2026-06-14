@@ -39,6 +39,7 @@ from .proxy_create_params import ProxyCreateParams as ProxyCreateParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
 from .api_key_create_params import APIKeyCreateParams as APIKeyCreateParams
+from .api_key_rotate_params import APIKeyRotateParams as APIKeyRotateParams
 from .api_key_update_params import APIKeyUpdateParams as APIKeyUpdateParams
 from .browser_create_params import BrowserCreateParams as BrowserCreateParams
 from .browser_curl_response import BrowserCurlResponse as BrowserCurlResponse

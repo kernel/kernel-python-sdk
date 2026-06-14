@@ -245,6 +245,58 @@ class TestAPIKeys:
                 "",
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_rotate(self, client: Kernel) -> None:
+        api_key = client.api_keys.rotate(
+            id="id",
+        )
+        assert_matches_type(CreatedAPIKey, api_key, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_rotate_with_all_params(self, client: Kernel) -> None:
+        api_key = client.api_keys.rotate(
+            id="id",
+            days_to_expire=30,
+            expire_in_days=7,
+        )
+        assert_matches_type(CreatedAPIKey, api_key, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_rotate(self, client: Kernel) -> None:
+        response = client.api_keys.with_raw_response.rotate(
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        api_key = response.parse()
+        assert_matches_type(CreatedAPIKey, api_key, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_rotate(self, client: Kernel) -> None:
+        with client.api_keys.with_streaming_response.rotate(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            api_key = response.parse()
+            assert_matches_type(CreatedAPIKey, api_key, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_rotate(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.api_keys.with_raw_response.rotate(
+                id="",
+            )
+
 
 class TestAsyncAPIKeys:
     parametrize = pytest.mark.parametrize(
@@ -473,4 +525,56 @@ class TestAsyncAPIKeys:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.api_keys.with_raw_response.delete(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_rotate(self, async_client: AsyncKernel) -> None:
+        api_key = await async_client.api_keys.rotate(
+            id="id",
+        )
+        assert_matches_type(CreatedAPIKey, api_key, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_rotate_with_all_params(self, async_client: AsyncKernel) -> None:
+        api_key = await async_client.api_keys.rotate(
+            id="id",
+            days_to_expire=30,
+            expire_in_days=7,
+        )
+        assert_matches_type(CreatedAPIKey, api_key, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_rotate(self, async_client: AsyncKernel) -> None:
+        response = await async_client.api_keys.with_raw_response.rotate(
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        api_key = await response.parse()
+        assert_matches_type(CreatedAPIKey, api_key, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_rotate(self, async_client: AsyncKernel) -> None:
+        async with async_client.api_keys.with_streaming_response.rotate(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            api_key = await response.parse()
+            assert_matches_type(CreatedAPIKey, api_key, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_rotate(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.api_keys.with_raw_response.rotate(
+                id="",
             )

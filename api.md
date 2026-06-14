@@ -453,6 +453,7 @@ Methods:
 - <code title="patch /org/api_keys/{id}">client.api_keys.<a href="./src/kernel/resources/api_keys.py">update</a>(id, \*\*<a href="src/kernel/types/api_key_update_params.py">params</a>) -> <a href="./src/kernel/types/api_key.py">APIKey</a></code>
 - <code title="get /org/api_keys">client.api_keys.<a href="./src/kernel/resources/api_keys.py">list</a>(\*\*<a href="src/kernel/types/api_key_list_params.py">params</a>) -> <a href="./src/kernel/types/api_key.py">SyncOffsetPagination[APIKey]</a></code>
 - <code title="delete /org/api_keys/{id}">client.api_keys.<a href="./src/kernel/resources/api_keys.py">delete</a>(id) -> None</code>
+- <code title="post /org/api_keys/{id}/rotate">client.api_keys.<a href="./src/kernel/resources/api_keys.py">rotate</a>(id, \*\*<a href="src/kernel/types/api_key_rotate_params.py">params</a>) -> <a href="./src/kernel/types/created_api_key.py">CreatedAPIKey</a></code>
 
 # CredentialProviders
 
