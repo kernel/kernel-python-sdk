@@ -39,16 +39,20 @@ class SyncOffsetPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
     @override
     def next_page_info(self) -> Optional[PageInfo]:
         next_offset = self.next_offset
-        if next_offset is None:  # type: ignore[unreachable]
-            if self.has_more:
+        if next_offset is None:
+            if self.has_more:  # type: ignore[unreachable]
                 raise RuntimeError(
                     "Server reported X-Has-More: true without an X-Next-Offset header; "
                     "refusing to silently truncate pagination"
                 )
             return None
 
-        # X-Next-Offset already holds the offset where the next page starts;
-        # adding the current page length on top skips a full page per iteration.
+        # X-Next-Offset is the next page's absolute start, or 0 on the last page
+        # (the API's stop sentinel). Only a positive offset advances; the old code
+        # added the current page length on top, skipping a page per iteration.
+        if next_offset == 0:
+            return None
+
         return PageInfo(params={"offset": next_offset})
 
     @classmethod
@@ -86,16 +90,20 @@ class AsyncOffsetPagination(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
     @override
     def next_page_info(self) -> Optional[PageInfo]:
         next_offset = self.next_offset
-        if next_offset is None:  # type: ignore[unreachable]
-            if self.has_more:
+        if next_offset is None:
+            if self.has_more:  # type: ignore[unreachable]
                 raise RuntimeError(
                     "Server reported X-Has-More: true without an X-Next-Offset header; "
                     "refusing to silently truncate pagination"
                 )
             return None
 
-        # X-Next-Offset already holds the offset where the next page starts;
-        # adding the current page length on top skips a full page per iteration.
+        # X-Next-Offset is the next page's absolute start, or 0 on the last page
+        # (the API's stop sentinel). Only a positive offset advances; the old code
+        # added the current page length on top, skipping a page per iteration.
+        if next_offset == 0:
+            return None
+
         return PageInfo(params={"offset": next_offset})
 
     @classmethod

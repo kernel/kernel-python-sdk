@@ -41,10 +41,16 @@ def test_stops_cleanly_when_last_page_omits_x_next_offset(cls: PageClass) -> Non
 
 @both_classes
 def test_stops_when_x_has_more_false(cls: PageClass) -> None:
-    # Covers the 0 sentinel the API emits on last pages: has_more is false
-    # whenever next_offset is 0, and has_more gates first.
-    page = _page(cls, items=[{}] * 50, next_offset=0, has_more=False)
+    page = _page(cls, items=[{}] * 50, next_offset=200, has_more=False)
     assert page.has_next_page() is False
+
+
+@both_classes
+def test_stops_on_next_offset_zero_sentinel(cls: PageClass) -> None:
+    # 0 is the API's last-page sentinel. Assert via next_page_info directly,
+    # with has_more=True, so the has_more gate cannot mask the 0 handling.
+    page = _page(cls, items=[{}] * 50, next_offset=0, has_more=True)
+    assert page.next_page_info() is None
 
 
 @both_classes
