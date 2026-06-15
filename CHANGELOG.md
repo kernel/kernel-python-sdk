@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.68.0 (2026-06-15)
+
+Full Changelog: [v0.67.0...v0.68.0](https://github.com/kernel/kernel-python-sdk/compare/v0.67.0...v0.68.0)
+
+### Features
+
+* Add API key rotate endpoint ([e383f7d](https://github.com/kernel/kernel-python-sdk/commit/e383f7d4b6af4f2921200d4a0f6922e730f58e08))
+* **api:** surface deleted/expired API keys for audit trail (KERNEL-1350) ([55e32db](https://github.com/kernel/kernel-python-sdk/commit/55e32dbaf07275c63623a31ec6df88c6aa128f8f))
+
+
+### Bug Fixes
+
+* **pagination:** correct type:ignore placement; stop on 0 sentinel ([5d2afd7](https://github.com/kernel/kernel-python-sdk/commit/5d2afd7df0f2d21d754ca936286ac3a92762e9db))
+* **pagination:** fail loudly on contradictory headers; test both classes ([4554697](https://github.com/kernel/kernel-python-sdk/commit/4554697a9d850848b602a2422199fb2ce72d8efc))
+* **pagination:** stop skipping a page per auto-pagination iteration ([c0a3e14](https://github.com/kernel/kernel-python-sdk/commit/c0a3e14b51e39dfdba37bacf023b2f98d4a3be69))
+
+
+### Styles
+
+* ruff import-sort and format the pagination test ([843fade](https://github.com/kernel/kernel-python-sdk/commit/843fadeb07fb7cebd5d2689eb78511bb8ee0d293))
+
+
+### Refactors
+
+* **api:** align API key audit surface with browser sibling (KERNEL-1350) ([12868d1](https://github.com/kernel/kernel-python-sdk/commit/12868d18dbb081c0e998299b799ac693dd878d0f))
+
 ## 0.67.0 (2026-06-11)
 
 Full Changelog: [v0.66.0...v0.67.0](https://github.com/kernel/kernel-python-sdk/compare/v0.66.0...v0.67.0)
