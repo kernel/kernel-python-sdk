@@ -3,7 +3,7 @@ from typing import Any, List, Type, Union, Optional
 import httpx
 import pytest
 
-from kernel.pagination import AsyncOffsetPagination, SyncOffsetPagination
+from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
 
 PageClass = Union[Type[SyncOffsetPagination[Any]], Type[AsyncOffsetPagination[Any]]]
 
@@ -12,9 +12,7 @@ PageClass = Union[Type[SyncOffsetPagination[Any]], Type[AsyncOffsetPagination[An
 both_classes = pytest.mark.parametrize("cls", [SyncOffsetPagination, AsyncOffsetPagination])
 
 
-def _page(
-    cls: PageClass, *, items: List[Any], next_offset: Optional[int], has_more: Optional[bool]
-) -> Any:
+def _page(cls: PageClass, *, items: List[Any], next_offset: Optional[int], has_more: Optional[bool]) -> Any:
     headers: dict[str, str] = {}
     if next_offset is not None:
         headers["X-Next-Offset"] = str(next_offset)
