@@ -185,8 +185,8 @@ first_page = await client.deployments.list(
 )
 
 print(
-    f"the current start offset for this page: {first_page.next_offset}"
-)  # => "the current start offset for this page: 1"
+    f"the offset where the next page starts: {first_page.next_offset}"
+)  # => "the offset where the next page starts: 2"
 for deployment in first_page.items:
     print(deployment.id)
 

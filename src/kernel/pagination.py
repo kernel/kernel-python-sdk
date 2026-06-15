@@ -40,12 +40,20 @@ class SyncOffsetPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
     def next_page_info(self) -> Optional[PageInfo]:
         next_offset = self.next_offset
         if next_offset is None:
-            return None  # type: ignore[unreachable]
+            if self.has_more:  # type: ignore[unreachable]
+                raise RuntimeError(
+                    "Server reported X-Has-More: true without an X-Next-Offset header; "
+                    "refusing to silently truncate pagination"
+                )
+            return None
 
-        length = len(self._get_page_items())
-        current_count = next_offset + length
+        # X-Next-Offset is the next page's absolute start, or 0 on the last page
+        # (the API's stop sentinel). Only a positive offset advances; the old code
+        # added the current page length on top, skipping a page per iteration.
+        if next_offset == 0:
+            return None
 
-        return PageInfo(params={"offset": current_count})
+        return PageInfo(params={"offset": next_offset})
 
     @classmethod
     def build(cls: Type[_BaseModelT], *, response: Response, data: object) -> _BaseModelT:  # noqa: ARG003
@@ -83,12 +91,20 @@ class AsyncOffsetPagination(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
     def next_page_info(self) -> Optional[PageInfo]:
         next_offset = self.next_offset
         if next_offset is None:
-            return None  # type: ignore[unreachable]
+            if self.has_more:  # type: ignore[unreachable]
+                raise RuntimeError(
+                    "Server reported X-Has-More: true without an X-Next-Offset header; "
+                    "refusing to silently truncate pagination"
+                )
+            return None
 
-        length = len(self._get_page_items())
-        current_count = next_offset + length
+        # X-Next-Offset is the next page's absolute start, or 0 on the last page
+        # (the API's stop sentinel). Only a positive offset advances; the old code
+        # added the current page length on top, skipping a page per iteration.
+        if next_offset == 0:
+            return None
 
-        return PageInfo(params={"offset": current_count})
+        return PageInfo(params={"offset": next_offset})
 
     @classmethod
     def build(cls: Type[_BaseModelT], *, response: Response, data: object) -> _BaseModelT:  # noqa: ARG003
