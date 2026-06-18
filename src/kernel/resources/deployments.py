@@ -163,6 +163,7 @@ class DeploymentsResource(SyncAPIResource):
         app_version: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -182,6 +183,8 @@ class DeploymentsResource(SyncAPIResource):
           limit: Limit the number of deployments to return.
 
           offset: Offset the number of deployments to return.
+
+          query: Search deployments by ID or app name.
 
           extra_headers: Send extra headers
 
@@ -205,6 +208,7 @@ class DeploymentsResource(SyncAPIResource):
                         "app_version": app_version,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     deployment_list_params.DeploymentListParams,
                 ),
@@ -429,6 +433,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         app_version: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -448,6 +453,8 @@ class AsyncDeploymentsResource(AsyncAPIResource):
           limit: Limit the number of deployments to return.
 
           offset: Offset the number of deployments to return.
+
+          query: Search deployments by ID or app name.
 
           extra_headers: Send extra headers
 
@@ -471,6 +478,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
                         "app_version": app_version,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     deployment_list_params.DeploymentListParams,
                 ),

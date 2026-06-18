@@ -330,6 +330,7 @@ class BrowserPoolsResource(SyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -344,6 +345,8 @@ class BrowserPoolsResource(SyncAPIResource):
           limit: Limit the number of browser pools to return.
 
           offset: Offset the number of browser pools to return.
+
+          query: Search browser pools by name or ID.
 
           extra_headers: Send extra headers
 
@@ -365,6 +368,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     browser_pool_list_params.BrowserPoolListParams,
                 ),
@@ -851,6 +855,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -865,6 +870,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           limit: Limit the number of browser pools to return.
 
           offset: Offset the number of browser pools to return.
+
+          query: Search browser pools by name or ID.
 
           extra_headers: Send extra headers
 
@@ -886,6 +893,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     browser_pool_list_params.BrowserPoolListParams,
                 ),

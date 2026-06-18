@@ -219,6 +219,7 @@ class TestBrowserPools:
         browser_pool = client.browser_pools.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
 
@@ -653,6 +654,7 @@ class TestAsyncBrowserPools:
         browser_pool = await async_client.browser_pools.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[BrowserPool], browser_pool, path=["response"])
 

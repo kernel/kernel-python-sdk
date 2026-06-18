@@ -310,6 +310,7 @@ class ConnectionsResource(SyncAPIResource):
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         profile_name: str | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -328,6 +329,8 @@ class ConnectionsResource(SyncAPIResource):
           offset: Number of results to skip
 
           profile_name: Filter by profile name
+
+          query: Search auth connections by ID, domain, or profile name.
 
           extra_headers: Send extra headers
 
@@ -351,6 +354,7 @@ class ConnectionsResource(SyncAPIResource):
                         "limit": limit,
                         "offset": offset,
                         "profile_name": profile_name,
+                        "query": query,
                     },
                     connection_list_params.ConnectionListParams,
                 ),
@@ -827,6 +831,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         profile_name: str | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -845,6 +850,8 @@ class AsyncConnectionsResource(AsyncAPIResource):
           offset: Number of results to skip
 
           profile_name: Filter by profile name
+
+          query: Search auth connections by ID, domain, or profile name.
 
           extra_headers: Send extra headers
 
@@ -868,6 +875,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
                         "limit": limit,
                         "offset": offset,
                         "profile_name": profile_name,
+                        "query": query,
                     },
                     connection_list_params.ConnectionListParams,
                 ),

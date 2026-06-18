@@ -123,6 +123,7 @@ class TestProxies:
         proxy = client.proxies.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
 
@@ -347,6 +348,7 @@ class TestAsyncProxies:
         proxy = await async_client.proxies.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[ProxyListResponse], proxy, path=["response"])
 

@@ -13,3 +13,6 @@ class ProxyListParams(TypedDict, total=False):
 
     offset: int
     """Offset the number of proxies to return."""
+
+    query: str
+    """Search proxies by name, host, IP address, or ID."""
