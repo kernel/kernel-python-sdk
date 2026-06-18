@@ -13,3 +13,6 @@ class BrowserPoolListParams(TypedDict, total=False):
 
     offset: int
     """Offset the number of browser pools to return."""
+
+    query: str
+    """Search browser pools by name or ID."""

@@ -200,6 +200,7 @@ class CredentialProvidersResource(SyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -214,6 +215,8 @@ class CredentialProvidersResource(SyncAPIResource):
           limit: Limit the number of credential providers to return.
 
           offset: Offset the number of credential providers to return.
+
+          query: Search credential providers by name or ID.
 
           extra_headers: Send extra headers
 
@@ -235,6 +238,7 @@ class CredentialProvidersResource(SyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     credential_provider_list_params.CredentialProviderListParams,
                 ),
@@ -514,6 +518,7 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -528,6 +533,8 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
           limit: Limit the number of credential providers to return.
 
           offset: Offset the number of credential providers to return.
+
+          query: Search credential providers by name or ID.
 
           extra_headers: Send extra headers
 
@@ -549,6 +556,7 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     credential_provider_list_params.CredentialProviderListParams,
                 ),

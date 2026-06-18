@@ -19,3 +19,6 @@ class ConnectionListParams(TypedDict, total=False):
 
     profile_name: str
     """Filter by profile name"""
+
+    query: str
+    """Search auth connections by ID, domain, or profile name."""

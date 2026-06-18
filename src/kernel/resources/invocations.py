@@ -203,6 +203,7 @@ class InvocationsResource(SyncAPIResource):
         deployment_id: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         since: str | Omit = omit,
         status: Literal["queued", "running", "succeeded", "failed"] | Omit = omit,
         version: str | Omit = omit,
@@ -228,6 +229,8 @@ class InvocationsResource(SyncAPIResource):
           limit: Limit the number of invocations to return.
 
           offset: Offset the number of invocations to return.
+
+          query: Search invocations by ID, app name, or action name.
 
           since: Show invocations that have started since the given time (RFC timestamps or
               durations like 5m).
@@ -259,6 +262,7 @@ class InvocationsResource(SyncAPIResource):
                         "deployment_id": deployment_id,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                         "since": since,
                         "status": status,
                         "version": version,
@@ -556,6 +560,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
         deployment_id: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         since: str | Omit = omit,
         status: Literal["queued", "running", "succeeded", "failed"] | Omit = omit,
         version: str | Omit = omit,
@@ -581,6 +586,8 @@ class AsyncInvocationsResource(AsyncAPIResource):
           limit: Limit the number of invocations to return.
 
           offset: Offset the number of invocations to return.
+
+          query: Search invocations by ID, app name, or action name.
 
           since: Show invocations that have started since the given time (RFC timestamps or
               durations like 5m).
@@ -612,6 +619,7 @@ class AsyncInvocationsResource(AsyncAPIResource):
                         "deployment_id": deployment_id,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                         "since": since,
                         "status": status,
                         "version": version,

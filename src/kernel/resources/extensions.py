@@ -62,6 +62,7 @@ class ExtensionsResource(SyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -76,6 +77,8 @@ class ExtensionsResource(SyncAPIResource):
           limit: Limit the number of extensions to return.
 
           offset: Offset the number of extensions to return.
+
+          query: Search extensions by name or ID.
 
           extra_headers: Send extra headers
 
@@ -97,6 +100,7 @@ class ExtensionsResource(SyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     extension_list_params.ExtensionListParams,
                 ),
@@ -300,6 +304,7 @@ class AsyncExtensionsResource(AsyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -314,6 +319,8 @@ class AsyncExtensionsResource(AsyncAPIResource):
           limit: Limit the number of extensions to return.
 
           offset: Offset the number of extensions to return.
+
+          query: Search extensions by name or ID.
 
           extra_headers: Send extra headers
 
@@ -335,6 +342,7 @@ class AsyncExtensionsResource(AsyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     extension_list_params.ExtensionListParams,
                 ),

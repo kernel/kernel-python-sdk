@@ -19,3 +19,6 @@ class DeploymentListParams(TypedDict, total=False):
 
     offset: int
     """Offset the number of deployments to return."""
+
+    query: str
+    """Search deployments by ID or app name."""

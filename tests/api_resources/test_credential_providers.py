@@ -182,6 +182,7 @@ class TestCredentialProviders:
         credential_provider = client.credential_providers.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
 
@@ -499,6 +500,7 @@ class TestAsyncCredentialProviders:
         credential_provider = await async_client.credential_providers.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[CredentialProvider], credential_provider, path=["response"])
 

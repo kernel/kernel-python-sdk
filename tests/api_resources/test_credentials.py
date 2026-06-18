@@ -197,6 +197,7 @@ class TestCredentials:
             domain="domain",
             limit=100,
             offset=0,
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[Credential], credential, path=["response"])
 
@@ -488,6 +489,7 @@ class TestAsyncCredentials:
             domain="domain",
             limit=100,
             offset=0,
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[Credential], credential, path=["response"])
 

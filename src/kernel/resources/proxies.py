@@ -143,6 +143,7 @@ class ProxiesResource(SyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -157,6 +158,8 @@ class ProxiesResource(SyncAPIResource):
           limit: Limit the number of proxies to return.
 
           offset: Offset the number of proxies to return.
+
+          query: Search proxies by name, host, IP address, or ID.
 
           extra_headers: Send extra headers
 
@@ -178,6 +181,7 @@ class ProxiesResource(SyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     proxy_list_params.ProxyListParams,
                 ),
@@ -391,6 +395,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -405,6 +410,8 @@ class AsyncProxiesResource(AsyncAPIResource):
           limit: Limit the number of proxies to return.
 
           offset: Offset the number of proxies to return.
+
+          query: Search proxies by name, host, IP address, or ID.
 
           extra_headers: Send extra headers
 
@@ -426,6 +433,7 @@ class AsyncProxiesResource(AsyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     proxy_list_params.ProxyListParams,
                 ),
