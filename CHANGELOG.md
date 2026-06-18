@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.69.0 (2026-06-18)
+
+Full Changelog: [v0.68.0...v0.69.0](https://github.com/kernel/kernel-python-sdk/compare/v0.68.0...v0.69.0)
+
+### Features
+
+* Add free-text search to remaining paginated list endpoints ([b34f843](https://github.com/kernel/kernel-python-sdk/commit/b34f843f664307beeb23ec96a1162ee70fd3df1e))
+
 ## 0.68.0 (2026-06-15)
 
 Full Changelog: [v0.67.0...v0.68.0](https://github.com/kernel/kernel-python-sdk/compare/v0.67.0...v0.68.0)
