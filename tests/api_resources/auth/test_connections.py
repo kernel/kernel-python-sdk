@@ -208,6 +208,7 @@ class TestConnections:
             limit=100,
             offset=0,
             profile_name="profile_name",
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[ManagedAuth], connection, path=["response"])
 
@@ -621,6 +622,7 @@ class TestAsyncConnections:
             limit=100,
             offset=0,
             profile_name="profile_name",
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[ManagedAuth], connection, path=["response"])
 

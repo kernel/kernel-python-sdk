@@ -16,3 +16,6 @@ class CredentialListParams(TypedDict, total=False):
 
     offset: int
     """Number of results to skip"""
+
+    query: str
+    """Search credentials by name, domain, or ID."""

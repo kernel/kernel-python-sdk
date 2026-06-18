@@ -205,6 +205,7 @@ class CredentialsResource(SyncAPIResource):
         domain: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -222,6 +223,8 @@ class CredentialsResource(SyncAPIResource):
           limit: Maximum number of results to return
 
           offset: Number of results to skip
+
+          query: Search credentials by name, domain, or ID.
 
           extra_headers: Send extra headers
 
@@ -244,6 +247,7 @@ class CredentialsResource(SyncAPIResource):
                         "domain": domain,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     credential_list_params.CredentialListParams,
                 ),
@@ -501,6 +505,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         domain: str | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -518,6 +523,8 @@ class AsyncCredentialsResource(AsyncAPIResource):
           limit: Maximum number of results to return
 
           offset: Number of results to skip
+
+          query: Search credentials by name, domain, or ID.
 
           extra_headers: Send extra headers
 
@@ -540,6 +547,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
                         "domain": domain,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     credential_list_params.CredentialListParams,
                 ),

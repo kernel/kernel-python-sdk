@@ -13,3 +13,6 @@ class ExtensionListParams(TypedDict, total=False):
 
     offset: int
     """Offset the number of extensions to return."""
+
+    query: str
+    """Search extensions by name or ID."""

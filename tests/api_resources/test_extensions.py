@@ -41,6 +41,7 @@ class TestExtensions:
         extension = client.extensions.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
 
@@ -274,6 +275,7 @@ class TestAsyncExtensions:
         extension = await async_client.extensions.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[ExtensionListResponse], extension, path=["response"])
 

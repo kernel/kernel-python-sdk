@@ -13,3 +13,6 @@ class CredentialProviderListParams(TypedDict, total=False):
 
     offset: int
     """Offset the number of credential providers to return."""
+
+    query: str
+    """Search credential providers by name or ID."""

@@ -23,6 +23,9 @@ class InvocationListParams(TypedDict, total=False):
     offset: int
     """Offset the number of invocations to return."""
 
+    query: str
+    """Search invocations by ID, app name, or action name."""
+
     since: str
     """
     Show invocations that have started since the given time (RFC timestamps or

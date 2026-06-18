@@ -130,6 +130,7 @@ class TestDeployments:
             app_version="app_version",
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[DeploymentListResponse], deployment, path=["response"])
 
@@ -361,6 +362,7 @@ class TestAsyncDeployments:
             app_version="app_version",
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[DeploymentListResponse], deployment, path=["response"])
 
