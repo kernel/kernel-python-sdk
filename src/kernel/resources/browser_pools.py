@@ -96,7 +96,9 @@ class BrowserPoolsResource(SyncAPIResource):
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
-          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10%.
+          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10. The cap is 25 for
+              most organizations but can be raised per-organization, so only the lower bound
+              is enforced here.
 
           headless: If true, launches the browser using a headless image. Defaults to false.
 
@@ -122,7 +124,7 @@ class BrowserPoolsResource(SyncAPIResource):
               mechanisms.
 
           timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
-              are destroyed. Defaults to 600 seconds if not specified
+              are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is
@@ -243,7 +245,9 @@ class BrowserPoolsResource(SyncAPIResource):
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
-          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10%.
+          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10. The cap is 25 for
+              most organizations but can be raised per-organization, so only the lower bound
+              is enforced here.
 
           headless: If true, launches the browser using a headless image. Defaults to false.
 
@@ -273,7 +277,7 @@ class BrowserPoolsResource(SyncAPIResource):
               mechanisms.
 
           timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
-              are destroyed. Defaults to 600 seconds if not specified
+              are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is
@@ -621,7 +625,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
-          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10%.
+          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10. The cap is 25 for
+              most organizations but can be raised per-organization, so only the lower bound
+              is enforced here.
 
           headless: If true, launches the browser using a headless image. Defaults to false.
 
@@ -647,7 +653,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               mechanisms.
 
           timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
-              are destroyed. Defaults to 600 seconds if not specified
+              are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is
@@ -768,7 +774,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
-          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10%.
+          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10. The cap is 25 for
+              most organizations but can be raised per-organization, so only the lower bound
+              is enforced here.
 
           headless: If true, launches the browser using a headless image. Defaults to false.
 
@@ -798,7 +806,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               mechanisms.
 
           timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
-              are destroyed. Defaults to 600 seconds if not specified
+              are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is

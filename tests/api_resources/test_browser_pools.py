@@ -53,7 +53,7 @@ class TestBrowserPools:
             proxy_id="proxy_id",
             start_url="https://example.com",
             stealth=True,
-            timeout_seconds=60,
+            timeout_seconds=10,
             viewport={
                 "height": 800,
                 "width": 1280,
@@ -164,7 +164,7 @@ class TestBrowserPools:
             size=10,
             start_url="https://example.com",
             stealth=True,
-            timeout_seconds=60,
+            timeout_seconds=10,
             viewport={
                 "height": 800,
                 "width": 1280,
@@ -488,7 +488,7 @@ class TestAsyncBrowserPools:
             proxy_id="proxy_id",
             start_url="https://example.com",
             stealth=True,
-            timeout_seconds=60,
+            timeout_seconds=10,
             viewport={
                 "height": 800,
                 "width": 1280,
@@ -599,7 +599,7 @@ class TestAsyncBrowserPools:
             size=10,
             start_url="https://example.com",
             stealth=True,
-            timeout_seconds=60,
+            timeout_seconds=10,
             viewport={
                 "height": 800,
                 "width": 1280,
