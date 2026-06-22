@@ -23,13 +23,14 @@ class BrowserViewport(BaseModel):
     """
 
     height: int
-    """Browser window height in pixels."""
+    """Browser window height in pixels. Any positive integer is accepted."""
 
     width: int
-    """Browser window width in pixels."""
+    """Browser window width in pixels. Any positive integer is accepted."""
 
     refresh_rate: Optional[int] = None
     """Display refresh rate in Hz.
 
-    If omitted, automatically determined from width and height.
+    Any positive integer is accepted; if omitted, automatically determined from
+    width and height.
     """

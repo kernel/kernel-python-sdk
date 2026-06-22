@@ -36,7 +36,11 @@ class BrowserPoolConfig(BaseModel):
     """
 
     fill_rate_per_minute: Optional[int] = None
-    """Percentage of the pool to fill per minute. Defaults to 10%."""
+    """Percentage of the pool to fill per minute.
+
+    Defaults to 10. The cap is 25 for most organizations but can be raised
+    per-organization, so only the lower bound is enforced here.
+    """
 
     headless: Optional[bool] = None
     """If true, launches the browser using a headless image. Defaults to false."""
@@ -81,7 +85,7 @@ class BrowserPoolConfig(BaseModel):
     timeout_seconds: Optional[int] = None
     """
     Default idle timeout in seconds for browsers acquired from this pool before they
-    are destroyed. Defaults to 600 seconds if not specified
+    are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
     """
 
     viewport: Optional[BrowserViewport] = None
