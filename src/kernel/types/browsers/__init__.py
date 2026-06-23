@@ -37,6 +37,7 @@ from .browser_page_load_event import BrowserPageLoadEvent as BrowserPageLoadEven
 from .browser_telemetry_event import BrowserTelemetryEvent as BrowserTelemetryEvent
 from .process_resize_response import ProcessResizeResponse as ProcessResizeResponse
 from .process_status_response import ProcessStatusResponse as ProcessStatusResponse
+from .telemetry_stream_params import TelemetryStreamParams as TelemetryStreamParams
 from .browser_telemetry_config import BrowserTelemetryConfig as BrowserTelemetryConfig
 from .browser_cdp_connect_event import BrowserCdpConnectEvent as BrowserCdpConnectEvent
 from .browser_console_log_event import BrowserConsoleLogEvent as BrowserConsoleLogEvent
