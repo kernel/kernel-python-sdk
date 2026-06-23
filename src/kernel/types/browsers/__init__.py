@@ -37,6 +37,7 @@ from .browser_page_load_event import BrowserPageLoadEvent as BrowserPageLoadEven
 from .browser_telemetry_event import BrowserTelemetryEvent as BrowserTelemetryEvent
 from .process_resize_response import ProcessResizeResponse as ProcessResizeResponse
 from .process_status_response import ProcessStatusResponse as ProcessStatusResponse
+from .telemetry_events_params import TelemetryEventsParams as TelemetryEventsParams
 from .telemetry_stream_params import TelemetryStreamParams as TelemetryStreamParams
 from .browser_telemetry_config import BrowserTelemetryConfig as BrowserTelemetryConfig
 from .browser_cdp_connect_event import BrowserCdpConnectEvent as BrowserCdpConnectEvent
@@ -47,6 +48,7 @@ from .f_create_directory_params import FCreateDirectoryParams as FCreateDirector
 from .f_delete_directory_params import FDeleteDirectoryParams as FDeleteDirectoryParams
 from .f_download_dir_zip_params import FDownloadDirZipParams as FDownloadDirZipParams
 from .playwright_execute_params import PlaywrightExecuteParams as PlaywrightExecuteParams
+from .telemetry_events_response import TelemetryEventsResponse as TelemetryEventsResponse
 from .telemetry_stream_response import TelemetryStreamResponse as TelemetryStreamResponse
 from .browser_network_idle_event import BrowserNetworkIdleEvent as BrowserNetworkIdleEvent
 from .computer_drag_mouse_params import ComputerDragMouseParams as ComputerDragMouseParams
