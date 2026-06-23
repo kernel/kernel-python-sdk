@@ -342,7 +342,7 @@ Methods:
 Types:
 
 ```python
-from kernel.types import ExtensionListResponse, ExtensionUploadResponse
+from kernel.types import ExtensionListResponse, ExtensionGetResponse, ExtensionUploadResponse
 ```
 
 Methods:
@@ -351,6 +351,7 @@ Methods:
 - <code title="delete /extensions/{id_or_name}">client.extensions.<a href="./src/kernel/resources/extensions.py">delete</a>(id_or_name) -> None</code>
 - <code title="get /extensions/{id_or_name}">client.extensions.<a href="./src/kernel/resources/extensions.py">download</a>(id_or_name) -> BinaryAPIResponse</code>
 - <code title="get /extensions/from_chrome_store">client.extensions.<a href="./src/kernel/resources/extensions.py">download_from_chrome_store</a>(\*\*<a href="src/kernel/types/extension_download_from_chrome_store_params.py">params</a>) -> BinaryAPIResponse</code>
+- <code title="get /extensions/{id_or_name}/metadata">client.extensions.<a href="./src/kernel/resources/extensions.py">get</a>(id_or_name) -> <a href="./src/kernel/types/extension_get_response.py">ExtensionGetResponse</a></code>
 - <code title="post /extensions">client.extensions.<a href="./src/kernel/resources/extensions.py">upload</a>(\*\*<a href="src/kernel/types/extension_upload_params.py">params</a>) -> <a href="./src/kernel/types/extension_upload_response.py">ExtensionUploadResponse</a></code>
 
 # BrowserPools
