@@ -12,6 +12,7 @@ from respx import MockRouter
 from kernel import Kernel, AsyncKernel
 from tests.utils import assert_matches_type
 from kernel.types import (
+    ExtensionGetResponse,
     ExtensionListResponse,
     ExtensionUploadResponse,
 )
@@ -213,6 +214,48 @@ class TestExtensions:
             assert isinstance(extension, StreamedBinaryAPIResponse)
 
         assert cast(Any, extension.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_get(self, client: Kernel) -> None:
+        extension = client.extensions.get(
+            "id_or_name",
+        )
+        assert_matches_type(ExtensionGetResponse, extension, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_get(self, client: Kernel) -> None:
+        response = client.extensions.with_raw_response.get(
+            "id_or_name",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        extension = response.parse()
+        assert_matches_type(ExtensionGetResponse, extension, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_get(self, client: Kernel) -> None:
+        with client.extensions.with_streaming_response.get(
+            "id_or_name",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            extension = response.parse()
+            assert_matches_type(ExtensionGetResponse, extension, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_get(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            client.extensions.with_raw_response.get(
+                "",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -453,6 +496,48 @@ class TestAsyncExtensions:
             assert isinstance(extension, AsyncStreamedBinaryAPIResponse)
 
         assert cast(Any, extension.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_get(self, async_client: AsyncKernel) -> None:
+        extension = await async_client.extensions.get(
+            "id_or_name",
+        )
+        assert_matches_type(ExtensionGetResponse, extension, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_get(self, async_client: AsyncKernel) -> None:
+        response = await async_client.extensions.with_raw_response.get(
+            "id_or_name",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        extension = await response.parse()
+        assert_matches_type(ExtensionGetResponse, extension, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_get(self, async_client: AsyncKernel) -> None:
+        async with async_client.extensions.with_streaming_response.get(
+            "id_or_name",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            extension = await response.parse()
+            assert_matches_type(ExtensionGetResponse, extension, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_get(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            await async_client.extensions.with_raw_response.get(
+                "",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
