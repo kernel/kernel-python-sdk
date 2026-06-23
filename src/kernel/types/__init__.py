@@ -111,9 +111,11 @@ if _compat.PYDANTIC_V1:
     browsers.browser_call_stack.BrowserCallStack.update_forward_refs()  # type: ignore
     browsers.browser_console_error_event.BrowserConsoleErrorEvent.update_forward_refs()  # type: ignore
     browsers.browser_console_log_event.BrowserConsoleLogEvent.update_forward_refs()  # type: ignore
+    browsers.telemetry_events_response.TelemetryEventsResponse.update_forward_refs()  # type: ignore
     browsers.telemetry_stream_response.TelemetryStreamResponse.update_forward_refs()  # type: ignore
 else:
     browsers.browser_call_stack.BrowserCallStack.model_rebuild(_parent_namespace_depth=0)
     browsers.browser_console_error_event.BrowserConsoleErrorEvent.model_rebuild(_parent_namespace_depth=0)
     browsers.browser_console_log_event.BrowserConsoleLogEvent.model_rebuild(_parent_namespace_depth=0)
+    browsers.telemetry_events_response.TelemetryEventsResponse.model_rebuild(_parent_namespace_depth=0)
     browsers.telemetry_stream_response.TelemetryStreamResponse.model_rebuild(_parent_namespace_depth=0)

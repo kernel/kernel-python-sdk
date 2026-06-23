@@ -146,12 +146,14 @@ from kernel.types.browsers import (
     BrowserTelemetryCategoryConfig,
     BrowserTelemetryConfig,
     BrowserTelemetryEvent,
+    TelemetryEventsResponse,
     TelemetryStreamResponse,
 )
 ```
 
 Methods:
 
+- <code title="get /browsers/{id}/telemetry/events">client.browsers.telemetry.<a href="./src/kernel/resources/browsers/telemetry.py">events</a>(id, \*\*<a href="src/kernel/types/browsers/telemetry_events_params.py">params</a>) -> <a href="./src/kernel/types/browsers/telemetry_events_response.py">SyncOffsetPagination[TelemetryEventsResponse]</a></code>
 - <code title="get /browsers/{id}/telemetry/stream">client.browsers.telemetry.<a href="./src/kernel/resources/browsers/telemetry.py">stream</a>(id, \*\*<a href="src/kernel/types/browsers/telemetry_stream_params.py">params</a>) -> <a href="./src/kernel/types/browsers/telemetry_stream_response.py">TelemetryStreamResponse</a></code>
 
 ## Replays
