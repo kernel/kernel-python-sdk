@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from typing import List
+from typing_extensions import Literal
+
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
@@ -15,8 +18,10 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._streaming import Stream, AsyncStream
-from ..._base_client import make_request_options
-from ...types.browsers import telemetry_stream_params
+from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
+from ..._base_client import AsyncPaginator, make_request_options
+from ...types.browsers import telemetry_events_params, telemetry_stream_params
+from ...types.browsers.telemetry_events_response import TelemetryEventsResponse
 from ...types.browsers.telemetry_stream_response import TelemetryStreamResponse
 
 __all__ = ["TelemetryResource", "AsyncTelemetryResource"]
@@ -43,6 +48,91 @@ class TelemetryResource(SyncAPIResource):
         For more information, see https://www.github.com/kernel/kernel-python-sdk#with_streaming_response
         """
         return TelemetryResourceWithStreamingResponse(self)
+
+    def events(
+        self,
+        id: str,
+        *,
+        category: List[
+            Literal[
+                "console",
+                "network",
+                "page",
+                "interaction",
+                "control",
+                "connection",
+                "system",
+                "screenshot",
+                "captcha",
+                "monitor",
+            ]
+        ]
+        | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        since: str | Omit = omit,
+        until: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SyncOffsetPagination[TelemetryEventsResponse]:
+        """
+        Reads a page of telemetry events for the browser session in ascending sequence
+        order. To page through results, pass the X-Next-Offset value from the previous
+        response as offset and repeat while X-Has-More is true. Returns an empty list
+        when telemetry data is unavailable.
+
+        Args:
+          category: Restrict results to these event categories. Repeat the parameter for multiple
+              values.
+
+          limit: Maximum number of events per page. Defaults to 20.
+
+          offset: Opaque pagination cursor: pass the X-Next-Offset value from the previous
+              response to fetch the next page. When set, paging continues from this cursor and
+              since is ignored, while until still bounds the page. It is not an event's seq
+              field, so do not derive it from the response body.
+
+          since: Start of the window: an RFC-3339 timestamp, or a duration like 5m meaning that
+              long ago. Defaults to 5m. Ignored when offset is set.
+
+          until: End of the window (exclusive): an RFC-3339 timestamp, or a duration like 5m
+              meaning that long ago.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._get_api_list(
+            path_template("/browsers/{id}/telemetry/events", id=id),
+            page=SyncOffsetPagination[TelemetryEventsResponse],
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "category": category,
+                        "limit": limit,
+                        "offset": offset,
+                        "since": since,
+                        "until": until,
+                    },
+                    telemetry_events_params.TelemetryEventsParams,
+                ),
+            ),
+            model=TelemetryEventsResponse,
+        )
 
     def stream(
         self,
@@ -123,6 +213,91 @@ class AsyncTelemetryResource(AsyncAPIResource):
         """
         return AsyncTelemetryResourceWithStreamingResponse(self)
 
+    def events(
+        self,
+        id: str,
+        *,
+        category: List[
+            Literal[
+                "console",
+                "network",
+                "page",
+                "interaction",
+                "control",
+                "connection",
+                "system",
+                "screenshot",
+                "captcha",
+                "monitor",
+            ]
+        ]
+        | Omit = omit,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        since: str | Omit = omit,
+        until: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncPaginator[TelemetryEventsResponse, AsyncOffsetPagination[TelemetryEventsResponse]]:
+        """
+        Reads a page of telemetry events for the browser session in ascending sequence
+        order. To page through results, pass the X-Next-Offset value from the previous
+        response as offset and repeat while X-Has-More is true. Returns an empty list
+        when telemetry data is unavailable.
+
+        Args:
+          category: Restrict results to these event categories. Repeat the parameter for multiple
+              values.
+
+          limit: Maximum number of events per page. Defaults to 20.
+
+          offset: Opaque pagination cursor: pass the X-Next-Offset value from the previous
+              response to fetch the next page. When set, paging continues from this cursor and
+              since is ignored, while until still bounds the page. It is not an event's seq
+              field, so do not derive it from the response body.
+
+          since: Start of the window: an RFC-3339 timestamp, or a duration like 5m meaning that
+              long ago. Defaults to 5m. Ignored when offset is set.
+
+          until: End of the window (exclusive): an RFC-3339 timestamp, or a duration like 5m
+              meaning that long ago.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._get_api_list(
+            path_template("/browsers/{id}/telemetry/events", id=id),
+            page=AsyncOffsetPagination[TelemetryEventsResponse],
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "category": category,
+                        "limit": limit,
+                        "offset": offset,
+                        "since": since,
+                        "until": until,
+                    },
+                    telemetry_events_params.TelemetryEventsParams,
+                ),
+            ),
+            model=TelemetryEventsResponse,
+        )
+
     async def stream(
         self,
         id: str,
@@ -184,6 +359,9 @@ class TelemetryResourceWithRawResponse:
     def __init__(self, telemetry: TelemetryResource) -> None:
         self._telemetry = telemetry
 
+        self.events = to_raw_response_wrapper(
+            telemetry.events,
+        )
         self.stream = to_raw_response_wrapper(
             telemetry.stream,
         )
@@ -193,6 +371,9 @@ class AsyncTelemetryResourceWithRawResponse:
     def __init__(self, telemetry: AsyncTelemetryResource) -> None:
         self._telemetry = telemetry
 
+        self.events = async_to_raw_response_wrapper(
+            telemetry.events,
+        )
         self.stream = async_to_raw_response_wrapper(
             telemetry.stream,
         )
@@ -202,6 +383,9 @@ class TelemetryResourceWithStreamingResponse:
     def __init__(self, telemetry: TelemetryResource) -> None:
         self._telemetry = telemetry
 
+        self.events = to_streamed_response_wrapper(
+            telemetry.events,
+        )
         self.stream = to_streamed_response_wrapper(
             telemetry.stream,
         )
@@ -211,6 +395,9 @@ class AsyncTelemetryResourceWithStreamingResponse:
     def __init__(self, telemetry: AsyncTelemetryResource) -> None:
         self._telemetry = telemetry
 
+        self.events = async_to_streamed_response_wrapper(
+            telemetry.events,
+        )
         self.stream = async_to_streamed_response_wrapper(
             telemetry.stream,
         )
