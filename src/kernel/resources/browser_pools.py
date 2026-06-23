@@ -427,6 +427,7 @@ class BrowserPoolsResource(SyncAPIResource):
         *,
         acquire_timeout_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        start_url: str | Omit = omit,
         tags: TagsParam | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -452,6 +453,10 @@ class BrowserPoolsResource(SyncAPIResource):
               project. Applies to this lease only and is cleared when the browser is released
               back to the pool.
 
+          start_url: Optional URL to navigate the acquired browser to. Overrides the pool's start_url
+              for this acquire only. Best-effort: failures to navigate do not fail the
+              acquire.
+
           tags: Optional user-defined key-value tags for the acquired browser session, used to
               find and group sessions later. Applies to this lease only and are cleared when
               the browser is released back to the pool. Up to 50 pairs.
@@ -472,6 +477,7 @@ class BrowserPoolsResource(SyncAPIResource):
                 {
                     "acquire_timeout_seconds": acquire_timeout_seconds,
                     "name": name,
+                    "start_url": start_url,
                     "tags": tags,
                 },
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
@@ -956,6 +962,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         *,
         acquire_timeout_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        start_url: str | Omit = omit,
         tags: TagsParam | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -981,6 +988,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               project. Applies to this lease only and is cleared when the browser is released
               back to the pool.
 
+          start_url: Optional URL to navigate the acquired browser to. Overrides the pool's start_url
+              for this acquire only. Best-effort: failures to navigate do not fail the
+              acquire.
+
           tags: Optional user-defined key-value tags for the acquired browser session, used to
               find and group sessions later. Applies to this lease only and are cleared when
               the browser is released back to the pool. Up to 50 pairs.
@@ -1001,6 +1012,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                 {
                     "acquire_timeout_seconds": acquire_timeout_seconds,
                     "name": name,
+                    "start_url": start_url,
                     "tags": tags,
                 },
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
