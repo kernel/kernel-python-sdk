@@ -311,6 +311,7 @@ class TestBrowserPools:
             id_or_name="id_or_name",
             acquire_timeout_seconds=0,
             name="checkout-flow-1",
+            start_url="https://example.com",
             tags={
                 "team": "backend",
                 "env": "staging",
@@ -746,6 +747,7 @@ class TestAsyncBrowserPools:
             id_or_name="id_or_name",
             acquire_timeout_seconds=0,
             name="checkout-flow-1",
+            start_url="https://example.com",
             tags={
                 "team": "backend",
                 "env": "staging",

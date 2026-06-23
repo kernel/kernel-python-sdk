@@ -25,6 +25,13 @@ class BrowserPoolAcquireParams(TypedDict, total=False):
     back to the pool.
     """
 
+    start_url: str
+    """Optional URL to navigate the acquired browser to.
+
+    Overrides the pool's start_url for this acquire only. Best-effort: failures to
+    navigate do not fail the acquire.
+    """
+
     tags: TagsParam
     """
     Optional user-defined key-value tags for the acquired browser session, used to
