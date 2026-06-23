@@ -104,8 +104,9 @@ class ProjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Project:
-        """
-        Get a project by ID.
+        """Get a project by its ID or by its name.
+
+        Names are unique within an organization.
 
         Args:
           extra_headers: Send extra headers
@@ -331,8 +332,9 @@ class AsyncProjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Project:
-        """
-        Get a project by ID.
+        """Get a project by its ID or by its name.
+
+        Names are unique within an organization.
 
         Args:
           extra_headers: Send extra headers
