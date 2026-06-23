@@ -53,6 +53,7 @@ from .proxy_create_response import ProxyCreateResponse as ProxyCreateResponse
 from .credential_list_params import CredentialListParams as CredentialListParams
 from .deployment_list_params import DeploymentListParams as DeploymentListParams
 from .deployment_state_event import DeploymentStateEvent as DeploymentStateEvent
+from .extension_get_response import ExtensionGetResponse as ExtensionGetResponse
 from .invocation_list_params import InvocationListParams as InvocationListParams
 from .invocation_state_event import InvocationStateEvent as InvocationStateEvent
 from .api_key_retrieve_params import APIKeyRetrieveParams as APIKeyRetrieveParams

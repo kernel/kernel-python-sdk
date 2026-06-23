@@ -29,6 +29,7 @@ from .._response import (
 )
 from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
 from .._base_client import AsyncPaginator, make_request_options
+from ..types.extension_get_response import ExtensionGetResponse
 from ..types.extension_list_response import ExtensionListResponse
 from ..types.extension_upload_response import ExtensionUploadResponse
 
@@ -222,6 +223,40 @@ class ExtensionsResource(SyncAPIResource):
                 ),
             ),
             cast_to=BinaryAPIResponse,
+        )
+
+    def get(
+        self,
+        id_or_name: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ExtensionGetResponse:
+        """
+        Get an extension's metadata (name, size, timestamps) by ID or name, without
+        downloading the archive.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
+        return self._get(
+            path_template("/extensions/{id_or_name}/metadata", id_or_name=id_or_name),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ExtensionGetResponse,
         )
 
     def upload(
@@ -466,6 +501,40 @@ class AsyncExtensionsResource(AsyncAPIResource):
             cast_to=AsyncBinaryAPIResponse,
         )
 
+    async def get(
+        self,
+        id_or_name: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ExtensionGetResponse:
+        """
+        Get an extension's metadata (name, size, timestamps) by ID or name, without
+        downloading the archive.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
+        return await self._get(
+            path_template("/extensions/{id_or_name}/metadata", id_or_name=id_or_name),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ExtensionGetResponse,
+        )
+
     async def upload(
         self,
         *,
@@ -537,6 +606,9 @@ class ExtensionsResourceWithRawResponse:
             extensions.download_from_chrome_store,
             BinaryAPIResponse,
         )
+        self.get = to_raw_response_wrapper(
+            extensions.get,
+        )
         self.upload = to_raw_response_wrapper(
             extensions.upload,
         )
@@ -559,6 +631,9 @@ class AsyncExtensionsResourceWithRawResponse:
         self.download_from_chrome_store = async_to_custom_raw_response_wrapper(
             extensions.download_from_chrome_store,
             AsyncBinaryAPIResponse,
+        )
+        self.get = async_to_raw_response_wrapper(
+            extensions.get,
         )
         self.upload = async_to_raw_response_wrapper(
             extensions.upload,
@@ -583,6 +658,9 @@ class ExtensionsResourceWithStreamingResponse:
             extensions.download_from_chrome_store,
             StreamedBinaryAPIResponse,
         )
+        self.get = to_streamed_response_wrapper(
+            extensions.get,
+        )
         self.upload = to_streamed_response_wrapper(
             extensions.upload,
         )
@@ -605,6 +683,9 @@ class AsyncExtensionsResourceWithStreamingResponse:
         self.download_from_chrome_store = async_to_custom_streamed_response_wrapper(
             extensions.download_from_chrome_store,
             AsyncStreamedBinaryAPIResponse,
+        )
+        self.get = async_to_streamed_response_wrapper(
+            extensions.get,
         )
         self.upload = async_to_streamed_response_wrapper(
             extensions.upload,
