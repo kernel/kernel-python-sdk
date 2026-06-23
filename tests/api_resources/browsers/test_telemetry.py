@@ -28,6 +28,7 @@ class TestTelemetry:
     def test_method_stream_with_all_params(self, client: Kernel) -> None:
         telemetry_stream = client.browsers.telemetry.stream(
             id="id",
+            replay="replay",
             last_event_id="Last-Event-ID",
         )
         telemetry_stream.response.close()
@@ -84,6 +85,7 @@ class TestAsyncTelemetry:
     async def test_method_stream_with_all_params(self, async_client: AsyncKernel) -> None:
         telemetry_stream = await async_client.browsers.telemetry.stream(
             id="id",
+            replay="replay",
             last_event_id="Last-Event-ID",
         )
         await telemetry_stream.response.aclose()

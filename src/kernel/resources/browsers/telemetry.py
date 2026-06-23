@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, strip_not_given
+from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -16,6 +16,7 @@ from ..._response import (
 )
 from ..._streaming import Stream, AsyncStream
 from ..._base_client import make_request_options
+from ...types.browsers import telemetry_stream_params
 from ...types.browsers.telemetry_stream_response import TelemetryStreamResponse
 
 __all__ = ["TelemetryResource", "AsyncTelemetryResource"]
@@ -47,6 +48,7 @@ class TelemetryResource(SyncAPIResource):
         self,
         id: str,
         *,
+        replay: str | Omit = omit,
         last_event_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -64,9 +66,14 @@ class TelemetryResource(SyncAPIResource):
         set; all frames carry JSON in the data: field. A keepalive comment frame is sent
         every 15 seconds when no events arrive. Returns 404 if the browser session does
         not exist. If telemetry was not enabled on the session, the stream opens but no
-        events are delivered.
+        events are delivered. Fresh connections only see new events; pass replay=all to
+        start from the oldest retained event instead.
 
         Args:
+          replay: Pass `all` to start from the oldest retained event instead of only new events;
+              any other value is treated as from-now. The buffer is bounded, so the first
+              event id may be greater than 1 if older events were evicted.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -82,7 +89,11 @@ class TelemetryResource(SyncAPIResource):
         return self._get(
             path_template("/browsers/{id}/telemetry/stream", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"replay": replay}, telemetry_stream_params.TelemetryStreamParams),
             ),
             cast_to=TelemetryStreamResponse,
             stream=True,
@@ -116,6 +127,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        replay: str | Omit = omit,
         last_event_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -133,9 +145,14 @@ class AsyncTelemetryResource(AsyncAPIResource):
         set; all frames carry JSON in the data: field. A keepalive comment frame is sent
         every 15 seconds when no events arrive. Returns 404 if the browser session does
         not exist. If telemetry was not enabled on the session, the stream opens but no
-        events are delivered.
+        events are delivered. Fresh connections only see new events; pass replay=all to
+        start from the oldest retained event instead.
 
         Args:
+          replay: Pass `all` to start from the oldest retained event instead of only new events;
+              any other value is treated as from-now. The buffer is bounded, so the first
+              event id may be greater than 1 if older events were evicted.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -151,7 +168,11 @@ class AsyncTelemetryResource(AsyncAPIResource):
         return await self._get(
             path_template("/browsers/{id}/telemetry/stream", id=id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"replay": replay}, telemetry_stream_params.TelemetryStreamParams),
             ),
             cast_to=TelemetryStreamResponse,
             stream=True,
