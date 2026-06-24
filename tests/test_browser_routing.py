@@ -99,7 +99,7 @@ def test_browser_request_uses_curl_raw() -> None:
 
 @respx.mock
 def test_telemetry_stream_routes_directly_to_vm(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry/stream")
     route = respx.get("http://browser-session.test/browser/kernel/telemetry/stream").mock(
         return_value=httpx.Response(
             200,
@@ -337,7 +337,52 @@ def test_browser_route_from_browser_requires_base_url_and_jwt() -> None:
 
 def test_browser_routing_config_from_env_defaults_to_curl(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", raising=False)
-    assert browser_routing_config_from_env().subresources == ("curl", "telemetry")
+    assert browser_routing_config_from_env().subresources == ("curl", "telemetry/stream")
+
+
+def test_direct_vm_routing_allowlist_segment_boundary() -> None:
+    # Pins the fix: telemetry/stream (live SSE) routes to the VM; telemetry/events
+    # (historical, served by the control plane from S2) does NOT; and a
+    # stream-prefixed-but-different path is not matched.
+    from kernel.lib.browser_routing.routing import _matches_direct_vm_prefix
+
+    prefixes = ("curl", "telemetry/stream")
+    assert _matches_direct_vm_prefix("telemetry/stream", prefixes) is True
+    assert _matches_direct_vm_prefix("telemetry/stream/x", prefixes) is True
+    assert _matches_direct_vm_prefix("telemetry/events", prefixes) is False
+    assert _matches_direct_vm_prefix("telemetry/streaming-config", prefixes) is False
+    assert _matches_direct_vm_prefix("telemetry", prefixes) is False
+    assert _matches_direct_vm_prefix("curl/raw", prefixes) is True
+    assert _matches_direct_vm_prefix("fs/read", prefixes) is False
+
+
+def test_rewrite_direct_vm_options_keeps_telemetry_events_on_control_plane() -> None:
+    # Integration through the real routing hook: telemetry/events (historical,
+    # control-plane/S2) must NOT be rewritten to the VM, while telemetry/stream
+    # (live SSE) must be.
+    from kernel._models import FinalRequestOptions
+    from kernel.lib.browser_routing.routing import (
+        BrowserRoute,
+        BrowserRouteCache,
+        BrowserRoutingConfig,
+        rewrite_direct_vm_options,
+    )
+
+    cache = BrowserRouteCache()
+    cache.set(
+        BrowserRoute(session_id="sess-1", base_url="http://browser-session.test/browser/kernel", jwt="token-abc")
+    )
+    config = BrowserRoutingConfig(subresources=("curl", "telemetry/stream"))
+
+    events = rewrite_direct_vm_options(
+        FinalRequestOptions(method="get", url="/browsers/sess-1/telemetry/events"), cache=cache, config=config
+    )
+    assert events.url == "/browsers/sess-1/telemetry/events"  # unchanged -> control plane
+
+    stream = rewrite_direct_vm_options(
+        FinalRequestOptions(method="get", url="/browsers/sess-1/telemetry/stream"), cache=cache, config=config
+    )
+    assert str(stream.url).startswith("http://browser-session.test/browser/kernel/telemetry/stream")
 
 
 def test_browser_routing_config_from_env_empty_string_disables_routing(monkeypatch: pytest.MonkeyPatch) -> None:
