@@ -56,6 +56,14 @@ from .projects import (
     ProjectsResourceWithStreamingResponse,
     AsyncProjectsResourceWithStreamingResponse,
 )
+from .audit_logs import (
+    AuditLogsResource,
+    AsyncAuditLogsResource,
+    AuditLogsResourceWithRawResponse,
+    AsyncAuditLogsResourceWithRawResponse,
+    AuditLogsResourceWithStreamingResponse,
+    AsyncAuditLogsResourceWithStreamingResponse,
+)
 from .extensions import (
     ExtensionsResource,
     AsyncExtensionsResource,
@@ -186,6 +194,12 @@ __all__ = [
     "AsyncOrganizationResourceWithRawResponse",
     "OrganizationResourceWithStreamingResponse",
     "AsyncOrganizationResourceWithStreamingResponse",
+    "AuditLogsResource",
+    "AsyncAuditLogsResource",
+    "AuditLogsResourceWithRawResponse",
+    "AsyncAuditLogsResourceWithRawResponse",
+    "AuditLogsResourceWithStreamingResponse",
+    "AsyncAuditLogsResourceWithStreamingResponse",
     "APIKeysResource",
     "AsyncAPIKeysResource",
     "APIKeysResourceWithRawResponse",
