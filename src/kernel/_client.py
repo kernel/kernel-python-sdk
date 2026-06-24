@@ -54,6 +54,7 @@ if TYPE_CHECKING:
         browsers,
         profiles,
         projects,
+        audit_logs,
         extensions,
         credentials,
         deployments,
@@ -67,6 +68,7 @@ if TYPE_CHECKING:
     from .resources.api_keys import APIKeysResource, AsyncAPIKeysResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
     from .resources.auth.auth import AuthResource, AsyncAuthResource
+    from .resources.audit_logs import AuditLogsResource, AsyncAuditLogsResource
     from .resources.extensions import ExtensionsResource, AsyncExtensionsResource
     from .resources.credentials import CredentialsResource, AsyncCredentialsResource
     from .resources.deployments import DeploymentsResource, AsyncDeploymentsResource
@@ -274,6 +276,13 @@ class Kernel(SyncAPIClient):
         from .resources.organization import OrganizationResource
 
         return OrganizationResource(self)
+
+    @cached_property
+    def audit_logs(self) -> AuditLogsResource:
+        """Read audit log records for the authenticated organization."""
+        from .resources.audit_logs import AuditLogsResource
+
+        return AuditLogsResource(self)
 
     @cached_property
     def api_keys(self) -> APIKeysResource:
@@ -621,6 +630,13 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncOrganizationResource(self)
 
     @cached_property
+    def audit_logs(self) -> AsyncAuditLogsResource:
+        """Read audit log records for the authenticated organization."""
+        from .resources.audit_logs import AsyncAuditLogsResource
+
+        return AsyncAuditLogsResource(self)
+
+    @cached_property
     def api_keys(self) -> AsyncAPIKeysResource:
         """Create and manage API keys for organization and project-scoped access."""
         from .resources.api_keys import AsyncAPIKeysResource
@@ -874,6 +890,13 @@ class KernelWithRawResponse:
         return OrganizationResourceWithRawResponse(self._client.organization)
 
     @cached_property
+    def audit_logs(self) -> audit_logs.AuditLogsResourceWithRawResponse:
+        """Read audit log records for the authenticated organization."""
+        from .resources.audit_logs import AuditLogsResourceWithRawResponse
+
+        return AuditLogsResourceWithRawResponse(self._client.audit_logs)
+
+    @cached_property
     def api_keys(self) -> api_keys.APIKeysResourceWithRawResponse:
         """Create and manage API keys for organization and project-scoped access."""
         from .resources.api_keys import APIKeysResourceWithRawResponse
@@ -975,6 +998,13 @@ class AsyncKernelWithRawResponse:
         from .resources.organization import AsyncOrganizationResourceWithRawResponse
 
         return AsyncOrganizationResourceWithRawResponse(self._client.organization)
+
+    @cached_property
+    def audit_logs(self) -> audit_logs.AsyncAuditLogsResourceWithRawResponse:
+        """Read audit log records for the authenticated organization."""
+        from .resources.audit_logs import AsyncAuditLogsResourceWithRawResponse
+
+        return AsyncAuditLogsResourceWithRawResponse(self._client.audit_logs)
 
     @cached_property
     def api_keys(self) -> api_keys.AsyncAPIKeysResourceWithRawResponse:
@@ -1080,6 +1110,13 @@ class KernelWithStreamedResponse:
         return OrganizationResourceWithStreamingResponse(self._client.organization)
 
     @cached_property
+    def audit_logs(self) -> audit_logs.AuditLogsResourceWithStreamingResponse:
+        """Read audit log records for the authenticated organization."""
+        from .resources.audit_logs import AuditLogsResourceWithStreamingResponse
+
+        return AuditLogsResourceWithStreamingResponse(self._client.audit_logs)
+
+    @cached_property
     def api_keys(self) -> api_keys.APIKeysResourceWithStreamingResponse:
         """Create and manage API keys for organization and project-scoped access."""
         from .resources.api_keys import APIKeysResourceWithStreamingResponse
@@ -1181,6 +1218,13 @@ class AsyncKernelWithStreamedResponse:
         from .resources.organization import AsyncOrganizationResourceWithStreamingResponse
 
         return AsyncOrganizationResourceWithStreamingResponse(self._client.organization)
+
+    @cached_property
+    def audit_logs(self) -> audit_logs.AsyncAuditLogsResourceWithStreamingResponse:
+        """Read audit log records for the authenticated organization."""
+        from .resources.audit_logs import AsyncAuditLogsResourceWithStreamingResponse
+
+        return AsyncAuditLogsResourceWithStreamingResponse(self._client.audit_logs)
 
     @cached_property
     def api_keys(self) -> api_keys.AsyncAPIKeysResourceWithStreamingResponse:

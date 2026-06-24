@@ -24,6 +24,7 @@ from .tags_param import TagsParam as TagsParam
 from .browser_pool import BrowserPool as BrowserPool
 from .browser_usage import BrowserUsage as BrowserUsage
 from .app_list_params import AppListParams as AppListParams
+from .audit_log_entry import AuditLogEntry as AuditLogEntry
 from .created_api_key import CreatedAPIKey as CreatedAPIKey
 from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
 from .app_list_response import AppListResponse as AppListResponse
@@ -41,6 +42,7 @@ from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
 from .api_key_create_params import APIKeyCreateParams as APIKeyCreateParams
 from .api_key_rotate_params import APIKeyRotateParams as APIKeyRotateParams
 from .api_key_update_params import APIKeyUpdateParams as APIKeyUpdateParams
+from .audit_log_list_params import AuditLogListParams as AuditLogListParams
 from .browser_create_params import BrowserCreateParams as BrowserCreateParams
 from .browser_curl_response import BrowserCurlResponse as BrowserCurlResponse
 from .browser_list_response import BrowserListResponse as BrowserListResponse
