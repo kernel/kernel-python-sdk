@@ -441,6 +441,18 @@ Methods:
 - <code title="get /org/limits">client.organization.limits.<a href="./src/kernel/resources/organization/limits.py">retrieve</a>() -> <a href="./src/kernel/types/organization/org_limits.py">OrgLimits</a></code>
 - <code title="patch /org/limits">client.organization.limits.<a href="./src/kernel/resources/organization/limits.py">update</a>(\*\*<a href="src/kernel/types/organization/limit_update_params.py">params</a>) -> <a href="./src/kernel/types/organization/org_limits.py">OrgLimits</a></code>
 
+# AuditLogs
+
+Types:
+
+```python
+from kernel.types import AuditLogEntry
+```
+
+Methods:
+
+- <code title="get /audit-logs">client.audit_logs.<a href="./src/kernel/resources/audit_logs.py">list</a>(\*\*<a href="src/kernel/types/audit_log_list_params.py">params</a>) -> <a href="./src/kernel/types/audit_log_entry.py">SyncPageTokenPagination[AuditLogEntry]</a></code>
+
 # APIKeys
 
 Types:
