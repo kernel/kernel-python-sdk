@@ -337,7 +337,23 @@ def test_browser_route_from_browser_requires_base_url_and_jwt() -> None:
 
 def test_browser_routing_config_from_env_defaults_to_curl(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", raising=False)
-    assert browser_routing_config_from_env().subresources == ("curl", "telemetry")
+    assert browser_routing_config_from_env().subresources == ("curl", "telemetry/stream")
+
+
+def test_direct_vm_routing_allowlist_segment_boundary() -> None:
+    # Pins the fix: telemetry/stream (live SSE) routes to the VM; telemetry/events
+    # (historical, served by the control plane from S2) does NOT; and a
+    # stream-prefixed-but-different path is not matched.
+    from kernel.lib.browser_routing.routing import _matches_direct_vm_prefix
+
+    prefixes = ("curl", "telemetry/stream")
+    assert _matches_direct_vm_prefix("telemetry/stream", prefixes) is True
+    assert _matches_direct_vm_prefix("telemetry/stream/x", prefixes) is True
+    assert _matches_direct_vm_prefix("telemetry/events", prefixes) is False
+    assert _matches_direct_vm_prefix("telemetry/streaming-config", prefixes) is False
+    assert _matches_direct_vm_prefix("telemetry", prefixes) is False
+    assert _matches_direct_vm_prefix("curl/raw", prefixes) is True
+    assert _matches_direct_vm_prefix("fs/read", prefixes) is False
 
 
 def test_browser_routing_config_from_env_empty_string_disables_routing(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -41,7 +41,10 @@ _BROWSER_POOL_RELEASE_PATH = re.compile(r"^/(?:v\d+/)?browser_pools/[^/]+/releas
 def browser_routing_config_from_env() -> BrowserRoutingConfig:
     raw = os.environ.get("KERNEL_BROWSER_ROUTING_SUBRESOURCES")
     if raw is None:
-        return BrowserRoutingConfig(subresources=("curl", "telemetry"))
+        # Path prefixes eligible for direct-to-VM routing. "telemetry/stream" is
+        # the live SSE endpoint (VM); "telemetry/events" is a historical read
+        # served by the control plane (S2) and must NOT be here.
+        return BrowserRoutingConfig(subresources=("curl", "telemetry/stream"))
     if raw.strip() == "":
         return BrowserRoutingConfig()
 
@@ -188,6 +191,21 @@ def _session_id_from_browser_pool_release_request(request: httpx.Request, path: 
     return normalized or None
 
 
+def _matches_direct_vm_prefix(tail: str, prefixes: tuple[str, ...]) -> bool:
+    """Whether tail (the path after browsers/{id}/) is covered by an allow prefix,
+    matching on segment boundaries: "telemetry/stream" matches "telemetry/stream"
+    and "telemetry/stream/...", but not "telemetry/events" or "telemetry/streamfoo".
+    Keeps historical control-plane reads (e.g. telemetry/events, served from S2)
+    off the VM.
+    """
+    tail = tail.strip("/")
+    for prefix in prefixes:
+        prefix = prefix.strip("/")
+        if prefix and (tail == prefix or tail.startswith(prefix + "/")):
+            return True
+    return False
+
+
 def rewrite_direct_vm_options(
     options: FinalRequestOptions,
     *,
@@ -199,7 +217,7 @@ def rewrite_direct_vm_options(
         return options
 
     session_id, subresource, suffix = match
-    if subresource not in set(config.subresources):
+    if not _matches_direct_vm_prefix(f"{subresource}{suffix}", config.subresources):
         return options
 
     route = cache.get(session_id)
