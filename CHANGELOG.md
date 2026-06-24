@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.70.0 (2026-06-24)
+
+Full Changelog: [v0.69.0...v0.70.0](https://github.com/kernel/kernel-python-sdk/compare/v0.69.0...v0.70.0)
+
+### Features
+
+* Add GET /browsers/{id}/telemetry/events (read from S2) ([57eb393](https://github.com/kernel/kernel-python-sdk/commit/57eb393ea1eb5fb0d2e5211845f338610198a0fd))
+* Align browser-pool timeout/viewport/fill-rate contract with implementation; reject save_changes on update ([4fddd6b](https://github.com/kernel/kernel-python-sdk/commit/4fddd6bb3f2ccb86ec3cc492311d5fe9c061ba49))
+* api: support per-acquire start_url override on browser pool acquire ([3e11311](https://github.com/kernel/kernel-python-sdk/commit/3e11311f835d558c4fa6ab0c0fb8a9c7e3536a13))
+* **api:** add GET /extensions/{id_or_name}/metadata ([681a8fc](https://github.com/kernel/kernel-python-sdk/commit/681a8fcd7d8ec5c3373a66c81fb405a6844308eb))
+* **api:** resolve GET /org/projects/{id} by ID or name ([52eb598](https://github.com/kernel/kernel-python-sdk/commit/52eb598c7bfd6e696f0d510585439ba5658dc161))
+* Forward replay param through telemetry stream passthrough ([a8001d2](https://github.com/kernel/kernel-python-sdk/commit/a8001d239ae583fa177164e1ce900e767797c853))
+
+
+### Bug Fixes
+
+* don't misroute telemetry/events to the browser VM ([9bcc418](https://github.com/kernel/kernel-python-sdk/commit/9bcc418b4294295c0d8377adfc921c3748d42019))
+
 ## 0.69.0 (2026-06-18)
 
 Full Changelog: [v0.68.0...v0.69.0](https://github.com/kernel/kernel-python-sdk/compare/v0.68.0...v0.69.0)
