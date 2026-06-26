@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.72.0 (2026-06-26)
+
+Full Changelog: [v0.71.0...v0.72.0](https://github.com/kernel/kernel-python-sdk/compare/v0.71.0...v0.72.0)
+
+### Bug Fixes
+
+* **api:** browser pool profile omits save_changes (BrowserPoolProfile) ([34423fb](https://github.com/kernel/kernel-python-sdk/commit/34423fb99af7f43b7b9a6a023a4ec85902b1bcb2))
+
 ## 0.71.0 (2026-06-26)
 
 Full Changelog: [v0.70.0...v0.71.0](https://github.com/kernel/kernel-python-sdk/compare/v0.70.0...v0.71.0)
