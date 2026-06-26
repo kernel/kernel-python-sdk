@@ -5,11 +5,10 @@ from __future__ import annotations
 from typing import Dict, Iterable
 from typing_extensions import TypedDict
 
-from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
 
-__all__ = ["BrowserPoolUpdateParams"]
+__all__ = ["BrowserPoolUpdateParams", "Profile"]
 
 
 class BrowserPoolUpdateParams(TypedDict, total=False):
@@ -52,11 +51,15 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     name: str
     """Optional name for the browser pool. Must be unique within the project."""
 
-    profile: BrowserProfile
-    """Profile selection for the browser session.
+    profile: Profile
+    """Profile selection for browsers in a pool.
 
-    Provide either id or name. If specified, the matching profile will be loaded
-    into the browser session. Profiles must be created beforehand.
+    Provide either id or name. The matching profile is loaded into every browser in
+    the pool. Profiles must be created beforehand. Unlike single browser sessions,
+    pools load the profile read-only and never persist changes back to it, so
+    save_changes is omitted here. Any save_changes value sent on a pool profile is
+    silently ignored rather than rejected, so callers reusing a single-session
+    profile object will not error.
     """
 
     proxy_id: str
@@ -107,4 +110,24 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     behavior. If refresh_rate is not provided, it will be automatically determined
     based on the resolution (higher resolutions use lower refresh rates to keep
     bandwidth reasonable).
+    """
+
+
+class Profile(TypedDict, total=False):
+    """Profile selection for browsers in a pool.
+
+    Provide either id or name. The matching profile is
+    loaded into every browser in the pool. Profiles must be created beforehand. Unlike single
+    browser sessions, pools load the profile read-only and never persist changes back to it, so
+    save_changes is omitted here. Any save_changes value sent on a pool profile is silently
+    ignored rather than rejected, so callers reusing a single-session profile object will not error.
+    """
+
+    id: str
+    """Profile ID to load for browsers in this pool"""
+
+    name: str
+    """Profile name to load for browsers in this pool (instead of id).
+
+    Must be 1-255 characters, using letters, numbers, dots, underscores, or hyphens.
     """

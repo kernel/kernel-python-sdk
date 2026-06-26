@@ -29,7 +29,6 @@ from .._base_client import AsyncPaginator, make_request_options
 from ..types.tags_param import TagsParam
 from ..types.browser_pool import BrowserPool
 from ..types.browser_pool_acquire_response import BrowserPoolAcquireResponse
-from ..types.shared_params.browser_profile import BrowserProfile
 from ..types.shared_params.browser_viewport import BrowserViewport
 from ..types.shared_params.browser_extension import BrowserExtension
 
@@ -68,7 +67,7 @@ class BrowserPoolsResource(SyncAPIResource):
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
         name: str | Omit = omit,
-        profile: BrowserProfile | Omit = omit,
+        profile: browser_pool_create_params.Profile | Omit = omit,
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
@@ -81,8 +80,12 @@ class BrowserPoolsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BrowserPool:
-        """
-        Create a new browser pool with the specified configuration and size.
+        """Create a new browser pool with the specified configuration and size.
+
+        Pooled
+        browsers load their profile read-only: any save_changes on the profile is
+        ignored (not rejected), so pooled browsers never persist changes back to the
+        profile.
 
         Args:
           size: Number of browsers to maintain in the pool. The maximum size is determined by
@@ -107,9 +110,12 @@ class BrowserPoolsResource(SyncAPIResource):
 
           name: Optional name for the browser pool. Must be unique within the project.
 
-          profile: Profile selection for the browser session. Provide either id or name. If
-              specified, the matching profile will be loaded into the browser session.
-              Profiles must be created beforehand.
+          profile: Profile selection for browsers in a pool. Provide either id or name. The
+              matching profile is loaded into every browser in the pool. Profiles must be
+              created beforehand. Unlike single browser sessions, pools load the profile
+              read-only and never persist changes back to it, so save_changes is omitted here.
+              Any save_changes value sent on a pool profile is silently ignored rather than
+              rejected, so callers reusing a single-session profile object will not error.
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
               the same project as the browser session.
@@ -217,7 +223,7 @@ class BrowserPoolsResource(SyncAPIResource):
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
         name: str | Omit = omit,
-        profile: BrowserProfile | Omit = omit,
+        profile: browser_pool_update_params.Profile | Omit = omit,
         proxy_id: str | Omit = omit,
         size: int | Omit = omit,
         start_url: str | Omit = omit,
@@ -231,8 +237,11 @@ class BrowserPoolsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BrowserPool:
-        """
-        Updates the configuration used to create browsers in the pool.
+        """Updates the configuration used to create browsers in the pool.
+
+        As with creation,
+        save_changes on the pool profile is ignored (not rejected); pooled browsers
+        never persist changes back to the profile.
 
         Args:
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
@@ -256,9 +265,12 @@ class BrowserPoolsResource(SyncAPIResource):
 
           name: Optional name for the browser pool. Must be unique within the project.
 
-          profile: Profile selection for the browser session. Provide either id or name. If
-              specified, the matching profile will be loaded into the browser session.
-              Profiles must be created beforehand.
+          profile: Profile selection for browsers in a pool. Provide either id or name. The
+              matching profile is loaded into every browser in the pool. Profiles must be
+              created beforehand. Unlike single browser sessions, pools load the profile
+              read-only and never persist changes back to it, so save_changes is omitted here.
+              Any save_changes value sent on a pool profile is silently ignored rather than
+              rejected, so callers reusing a single-session profile object will not error.
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
               the same project as the browser session.
@@ -603,7 +615,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
         name: str | Omit = omit,
-        profile: BrowserProfile | Omit = omit,
+        profile: browser_pool_create_params.Profile | Omit = omit,
         proxy_id: str | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
@@ -616,8 +628,12 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BrowserPool:
-        """
-        Create a new browser pool with the specified configuration and size.
+        """Create a new browser pool with the specified configuration and size.
+
+        Pooled
+        browsers load their profile read-only: any save_changes on the profile is
+        ignored (not rejected), so pooled browsers never persist changes back to the
+        profile.
 
         Args:
           size: Number of browsers to maintain in the pool. The maximum size is determined by
@@ -642,9 +658,12 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           name: Optional name for the browser pool. Must be unique within the project.
 
-          profile: Profile selection for the browser session. Provide either id or name. If
-              specified, the matching profile will be loaded into the browser session.
-              Profiles must be created beforehand.
+          profile: Profile selection for browsers in a pool. Provide either id or name. The
+              matching profile is loaded into every browser in the pool. Profiles must be
+              created beforehand. Unlike single browser sessions, pools load the profile
+              read-only and never persist changes back to it, so save_changes is omitted here.
+              Any save_changes value sent on a pool profile is silently ignored rather than
+              rejected, so callers reusing a single-session profile object will not error.
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
               the same project as the browser session.
@@ -752,7 +771,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
         name: str | Omit = omit,
-        profile: BrowserProfile | Omit = omit,
+        profile: browser_pool_update_params.Profile | Omit = omit,
         proxy_id: str | Omit = omit,
         size: int | Omit = omit,
         start_url: str | Omit = omit,
@@ -766,8 +785,11 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BrowserPool:
-        """
-        Updates the configuration used to create browsers in the pool.
+        """Updates the configuration used to create browsers in the pool.
+
+        As with creation,
+        save_changes on the pool profile is ignored (not rejected); pooled browsers
+        never persist changes back to the profile.
 
         Args:
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
@@ -791,9 +813,12 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           name: Optional name for the browser pool. Must be unique within the project.
 
-          profile: Profile selection for the browser session. Provide either id or name. If
-              specified, the matching profile will be loaded into the browser session.
-              Profiles must be created beforehand.
+          profile: Profile selection for browsers in a pool. Provide either id or name. The
+              matching profile is loaded into every browser in the pool. Profiles must be
+              created beforehand. Unlike single browser sessions, pools load the profile
+              read-only and never persist changes back to it, so save_changes is omitted here.
+              Any save_changes value sent on a pool profile is silently ignored rather than
+              rejected, so callers reusing a single-session profile object will not error.
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
               the same project as the browser session.
