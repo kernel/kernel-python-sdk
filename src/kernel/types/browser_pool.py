@@ -4,11 +4,30 @@ from typing import Dict, List, Optional
 from datetime import datetime
 
 from .._models import BaseModel
-from .shared.browser_profile import BrowserProfile
 from .shared.browser_viewport import BrowserViewport
 from .shared.browser_extension import BrowserExtension
 
-__all__ = ["BrowserPool", "BrowserPoolConfig"]
+__all__ = ["BrowserPool", "BrowserPoolConfig", "BrowserPoolConfigProfile"]
+
+
+class BrowserPoolConfigProfile(BaseModel):
+    """Profile selection for browsers in a pool.
+
+    Provide either id or name. The matching profile is
+    loaded into every browser in the pool. Profiles must be created beforehand. Unlike single
+    browser sessions, pools load the profile read-only and never persist changes back to it, so
+    save_changes is omitted here. Any save_changes value sent on a pool profile is silently
+    ignored rather than rejected, so callers reusing a single-session profile object will not error.
+    """
+
+    id: Optional[str] = None
+    """Profile ID to load for browsers in this pool"""
+
+    name: Optional[str] = None
+    """Profile name to load for browsers in this pool (instead of id).
+
+    Must be 1-255 characters, using letters, numbers, dots, underscores, or hyphens.
+    """
 
 
 class BrowserPoolConfig(BaseModel):
@@ -54,11 +73,15 @@ class BrowserPoolConfig(BaseModel):
     name: Optional[str] = None
     """Optional name for the browser pool. Must be unique within the project."""
 
-    profile: Optional[BrowserProfile] = None
-    """Profile selection for the browser session.
+    profile: Optional[BrowserPoolConfigProfile] = None
+    """Profile selection for browsers in a pool.
 
-    Provide either id or name. If specified, the matching profile will be loaded
-    into the browser session. Profiles must be created beforehand.
+    Provide either id or name. The matching profile is loaded into every browser in
+    the pool. Profiles must be created beforehand. Unlike single browser sessions,
+    pools load the profile read-only and never persist changes back to it, so
+    save_changes is omitted here. Any save_changes value sent on a pool profile is
+    silently ignored rather than rejected, so callers reusing a single-session
+    profile object will not error.
     """
 
     proxy_id: Optional[str] = None

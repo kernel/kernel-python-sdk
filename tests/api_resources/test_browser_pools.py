@@ -48,7 +48,6 @@ class TestBrowserPools:
             profile={
                 "id": "id",
                 "name": "name",
-                "save_changes": True,
             },
             proxy_id="proxy_id",
             start_url="https://example.com",
@@ -158,7 +157,6 @@ class TestBrowserPools:
             profile={
                 "id": "id",
                 "name": "name",
-                "save_changes": True,
             },
             proxy_id="proxy_id",
             size=10,
@@ -484,7 +482,6 @@ class TestAsyncBrowserPools:
             profile={
                 "id": "id",
                 "name": "name",
-                "save_changes": True,
             },
             proxy_id="proxy_id",
             start_url="https://example.com",
@@ -594,7 +591,6 @@ class TestAsyncBrowserPools:
             profile={
                 "id": "id",
                 "name": "name",
-                "save_changes": True,
             },
             proxy_id="proxy_id",
             size=10,
