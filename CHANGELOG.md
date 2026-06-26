@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.71.0 (2026-06-26)
+
+Full Changelog: [v0.70.0...v0.71.0](https://github.com/kernel/kernel-python-sdk/compare/v0.70.0...v0.71.0)
+
+### Features
+
+* Add auth connection event timeline endpoint ([871432f](https://github.com/kernel/kernel-python-sdk/commit/871432f827c95b11d132f60b3547c9986e266f6b))
+* Expose audit logs in public SDK ([9c8e9ac](https://github.com/kernel/kernel-python-sdk/commit/9c8e9ace1cdddc6ce727b38fec62beaba6c6fa20))
+
 ## 0.70.0 (2026-06-24)
 
 Full Changelog: [v0.69.0...v0.70.0](https://github.com/kernel/kernel-python-sdk/compare/v0.69.0...v0.70.0)
