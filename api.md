@@ -300,6 +300,7 @@ from kernel.types.auth import (
     LoginResponse,
     ManagedAuth,
     ManagedAuthCreateRequest,
+    ManagedAuthTimelineEvent,
     ManagedAuthUpdateRequest,
     SubmitFieldsRequest,
     SubmitFieldsResponse,
@@ -317,6 +318,7 @@ Methods:
 - <code title="get /auth/connections/{id}/events">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">follow</a>(id) -> <a href="./src/kernel/types/auth/connection_follow_response.py">ConnectionFollowResponse</a></code>
 - <code title="post /auth/connections/{id}/login">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">login</a>(id, \*\*<a href="src/kernel/types/auth/connection_login_params.py">params</a>) -> <a href="./src/kernel/types/auth/login_response.py">LoginResponse</a></code>
 - <code title="post /auth/connections/{id}/submit">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">submit</a>(id, \*\*<a href="src/kernel/types/auth/connection_submit_params.py">params</a>) -> <a href="./src/kernel/types/auth/submit_fields_response.py">SubmitFieldsResponse</a></code>
+- <code title="get /auth/connections/{id}/timeline">client.auth.connections.<a href="./src/kernel/resources/auth/connections.py">timeline</a>(id, \*\*<a href="src/kernel/types/auth/connection_timeline_params.py">params</a>) -> <a href="./src/kernel/types/auth/managed_auth_timeline_event.py">SyncOffsetPagination[ManagedAuthTimelineEvent]</a></code>
 
 # Proxies
 

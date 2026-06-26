@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Any, Dict, cast
+from typing_extensions import Literal
 
 import httpx
 
@@ -24,12 +25,14 @@ from ...types.auth import (
     connection_create_params,
     connection_submit_params,
     connection_update_params,
+    connection_timeline_params,
 )
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.auth.managed_auth import ManagedAuth
 from ...types.auth.login_response import LoginResponse
 from ...types.auth.submit_fields_response import SubmitFieldsResponse
 from ...types.auth.connection_follow_response import ConnectionFollowResponse
+from ...types.auth.managed_auth_timeline_event import ManagedAuthTimelineEvent
 
 __all__ = ["ConnectionsResource", "AsyncConnectionsResource"]
 
@@ -554,6 +557,62 @@ class ConnectionsResource(SyncAPIResource):
             cast_to=SubmitFieldsResponse,
         )
 
+    def timeline(
+        self,
+        id: str,
+        *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        type: Literal["login", "reauth", "health_check"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SyncOffsetPagination[ManagedAuthTimelineEvent]:
+        """
+        Returns a chronological timeline of events for an auth connection — login
+        attempts, automatic re-auth attempts, and health checks. Events are returned
+        newest-first.
+
+        Args:
+          limit: Maximum number of events to return
+
+          offset: Number of events to skip
+
+          type: Filter the timeline to a single event type.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._get_api_list(
+            path_template("/auth/connections/{id}/timeline", id=id),
+            page=SyncOffsetPagination[ManagedAuthTimelineEvent],
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                        "type": type,
+                    },
+                    connection_timeline_params.ConnectionTimelineParams,
+                ),
+            ),
+            model=ManagedAuthTimelineEvent,
+        )
+
 
 class AsyncConnectionsResource(AsyncAPIResource):
     """Create and manage auth connections for automated credential capture and login."""
@@ -1075,6 +1134,62 @@ class AsyncConnectionsResource(AsyncAPIResource):
             cast_to=SubmitFieldsResponse,
         )
 
+    def timeline(
+        self,
+        id: str,
+        *,
+        limit: int | Omit = omit,
+        offset: int | Omit = omit,
+        type: Literal["login", "reauth", "health_check"] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncPaginator[ManagedAuthTimelineEvent, AsyncOffsetPagination[ManagedAuthTimelineEvent]]:
+        """
+        Returns a chronological timeline of events for an auth connection — login
+        attempts, automatic re-auth attempts, and health checks. Events are returned
+        newest-first.
+
+        Args:
+          limit: Maximum number of events to return
+
+          offset: Number of events to skip
+
+          type: Filter the timeline to a single event type.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._get_api_list(
+            path_template("/auth/connections/{id}/timeline", id=id),
+            page=AsyncOffsetPagination[ManagedAuthTimelineEvent],
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "offset": offset,
+                        "type": type,
+                    },
+                    connection_timeline_params.ConnectionTimelineParams,
+                ),
+            ),
+            model=ManagedAuthTimelineEvent,
+        )
+
 
 class ConnectionsResourceWithRawResponse:
     def __init__(self, connections: ConnectionsResource) -> None:
@@ -1103,6 +1218,9 @@ class ConnectionsResourceWithRawResponse:
         )
         self.submit = to_raw_response_wrapper(
             connections.submit,
+        )
+        self.timeline = to_raw_response_wrapper(
+            connections.timeline,
         )
 
 
@@ -1134,6 +1252,9 @@ class AsyncConnectionsResourceWithRawResponse:
         self.submit = async_to_raw_response_wrapper(
             connections.submit,
         )
+        self.timeline = async_to_raw_response_wrapper(
+            connections.timeline,
+        )
 
 
 class ConnectionsResourceWithStreamingResponse:
@@ -1164,6 +1285,9 @@ class ConnectionsResourceWithStreamingResponse:
         self.submit = to_streamed_response_wrapper(
             connections.submit,
         )
+        self.timeline = to_streamed_response_wrapper(
+            connections.timeline,
+        )
 
 
 class AsyncConnectionsResourceWithStreamingResponse:
@@ -1193,4 +1317,7 @@ class AsyncConnectionsResourceWithStreamingResponse:
         )
         self.submit = async_to_streamed_response_wrapper(
             connections.submit,
+        )
+        self.timeline = async_to_streamed_response_wrapper(
+            connections.timeline,
         )
