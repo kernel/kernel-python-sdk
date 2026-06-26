@@ -14,6 +14,7 @@ from kernel.types.auth import (
     ManagedAuth,
     LoginResponse,
     SubmitFieldsResponse,
+    ManagedAuthTimelineEvent,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -430,6 +431,59 @@ class TestConnections:
                 id="",
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_timeline(self, client: Kernel) -> None:
+        connection = client.auth.connections.timeline(
+            id="id",
+        )
+        assert_matches_type(SyncOffsetPagination[ManagedAuthTimelineEvent], connection, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_timeline_with_all_params(self, client: Kernel) -> None:
+        connection = client.auth.connections.timeline(
+            id="id",
+            limit=100,
+            offset=0,
+            type="login",
+        )
+        assert_matches_type(SyncOffsetPagination[ManagedAuthTimelineEvent], connection, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_timeline(self, client: Kernel) -> None:
+        response = client.auth.connections.with_raw_response.timeline(
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        connection = response.parse()
+        assert_matches_type(SyncOffsetPagination[ManagedAuthTimelineEvent], connection, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_timeline(self, client: Kernel) -> None:
+        with client.auth.connections.with_streaming_response.timeline(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            connection = response.parse()
+            assert_matches_type(SyncOffsetPagination[ManagedAuthTimelineEvent], connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_timeline(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.auth.connections.with_raw_response.timeline(
+                id="",
+            )
+
 
 class TestAsyncConnections:
     parametrize = pytest.mark.parametrize(
@@ -841,5 +895,58 @@ class TestAsyncConnections:
     async def test_path_params_submit(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.auth.connections.with_raw_response.submit(
+                id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_timeline(self, async_client: AsyncKernel) -> None:
+        connection = await async_client.auth.connections.timeline(
+            id="id",
+        )
+        assert_matches_type(AsyncOffsetPagination[ManagedAuthTimelineEvent], connection, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_timeline_with_all_params(self, async_client: AsyncKernel) -> None:
+        connection = await async_client.auth.connections.timeline(
+            id="id",
+            limit=100,
+            offset=0,
+            type="login",
+        )
+        assert_matches_type(AsyncOffsetPagination[ManagedAuthTimelineEvent], connection, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_timeline(self, async_client: AsyncKernel) -> None:
+        response = await async_client.auth.connections.with_raw_response.timeline(
+            id="id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        connection = await response.parse()
+        assert_matches_type(AsyncOffsetPagination[ManagedAuthTimelineEvent], connection, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_timeline(self, async_client: AsyncKernel) -> None:
+        async with async_client.auth.connections.with_streaming_response.timeline(
+            id="id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            connection = await response.parse()
+            assert_matches_type(AsyncOffsetPagination[ManagedAuthTimelineEvent], connection, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_timeline(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.auth.connections.with_raw_response.timeline(
                 id="",
             )

@@ -11,3 +11,5 @@ from .connection_create_params import ConnectionCreateParams as ConnectionCreate
 from .connection_submit_params import ConnectionSubmitParams as ConnectionSubmitParams
 from .connection_update_params import ConnectionUpdateParams as ConnectionUpdateParams
 from .connection_follow_response import ConnectionFollowResponse as ConnectionFollowResponse
+from .connection_timeline_params import ConnectionTimelineParams as ConnectionTimelineParams
+from .managed_auth_timeline_event import ManagedAuthTimelineEvent as ManagedAuthTimelineEvent
