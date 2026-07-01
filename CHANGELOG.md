@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.73.0 (2026-07-01)
+
+Full Changelog: [v0.72.0...v0.73.0](https://github.com/kernel/kernel-python-sdk/compare/v0.72.0...v0.73.0)
+
+### Features
+
+* Add hidden audit-logs export endpoint ([619c672](https://github.com/kernel/kernel-python-sdk/commit/619c6720f986b835393793896bb5ad4b64f8673f))
+
 ## 0.72.0 (2026-06-26)
 
 Full Changelog: [v0.71.0...v0.72.0](https://github.com/kernel/kernel-python-sdk/compare/v0.71.0...v0.72.0)
