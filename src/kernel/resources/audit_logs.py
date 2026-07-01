@@ -4,19 +4,28 @@ from __future__ import annotations
 
 from typing import Union
 from datetime import datetime
+from typing_extensions import Literal
 
 import httpx
 
-from ..types import audit_log_list_params
+from ..types import audit_log_list_params, audit_log_export_chunk_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from .._utils import maybe_transform
+from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
+    to_custom_raw_response_wrapper,
     async_to_streamed_response_wrapper,
+    to_custom_streamed_response_wrapper,
+    async_to_custom_raw_response_wrapper,
+    async_to_custom_streamed_response_wrapper,
 )
 from ..pagination import SyncPageTokenPagination, AsyncPageTokenPagination
 from .._base_client import AsyncPaginator, make_request_options
@@ -128,6 +137,91 @@ class AuditLogsResource(SyncAPIResource):
             model=AuditLogEntry,
         )
 
+    def export_chunk(
+        self,
+        *,
+        end: Union[str, datetime],
+        start: Union[str, datetime],
+        auth_strategy: str | Omit = omit,
+        cursor: str | Omit = omit,
+        exclude_method: str | Omit = omit,
+        format: Literal["jsonl", "jsonl.gz"] | Omit = omit,
+        limit: int | Omit = omit,
+        method: str | Omit = omit,
+        search: str | Omit = omit,
+        search_user_id: SequenceNotStr[str] | Omit = omit,
+        service: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> BinaryAPIResponse:
+        """
+        Download an organization's audit log records for a time range as a file, for
+        archival, compliance, or offline analysis. For interactive browsing, use GET
+        /audit-logs.
+
+        Args:
+          end: Upper bound (exclusive) for the audit record timestamp.
+
+          start: Lower bound (inclusive) for the audit record timestamp.
+
+          auth_strategy: Filter by authentication strategy.
+
+          cursor: Opaque cursor from X-Next-Cursor for the next chunk of older records.
+
+          exclude_method: Filter out results by HTTP method.
+
+          format: Encoding for the returned chunk.
+
+          limit: Maximum number of records to return in this chunk.
+
+          method: Filter by HTTP method.
+
+          search: Free-text search over path, user ID, email, client IP, and status.
+
+          search_user_id: Additional user IDs to OR into free-text search.
+
+          service: Filter by service name.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
+        return self._get(
+            "/audit-logs/export/chunk",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "end": end,
+                        "start": start,
+                        "auth_strategy": auth_strategy,
+                        "cursor": cursor,
+                        "exclude_method": exclude_method,
+                        "format": format,
+                        "limit": limit,
+                        "method": method,
+                        "search": search,
+                        "search_user_id": search_user_id,
+                        "service": service,
+                    },
+                    audit_log_export_chunk_params.AuditLogExportChunkParams,
+                ),
+            ),
+            cast_to=BinaryAPIResponse,
+        )
+
 
 class AsyncAuditLogsResource(AsyncAPIResource):
     """Read audit log records for the authenticated organization."""
@@ -232,6 +326,91 @@ class AsyncAuditLogsResource(AsyncAPIResource):
             model=AuditLogEntry,
         )
 
+    async def export_chunk(
+        self,
+        *,
+        end: Union[str, datetime],
+        start: Union[str, datetime],
+        auth_strategy: str | Omit = omit,
+        cursor: str | Omit = omit,
+        exclude_method: str | Omit = omit,
+        format: Literal["jsonl", "jsonl.gz"] | Omit = omit,
+        limit: int | Omit = omit,
+        method: str | Omit = omit,
+        search: str | Omit = omit,
+        search_user_id: SequenceNotStr[str] | Omit = omit,
+        service: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncBinaryAPIResponse:
+        """
+        Download an organization's audit log records for a time range as a file, for
+        archival, compliance, or offline analysis. For interactive browsing, use GET
+        /audit-logs.
+
+        Args:
+          end: Upper bound (exclusive) for the audit record timestamp.
+
+          start: Lower bound (inclusive) for the audit record timestamp.
+
+          auth_strategy: Filter by authentication strategy.
+
+          cursor: Opaque cursor from X-Next-Cursor for the next chunk of older records.
+
+          exclude_method: Filter out results by HTTP method.
+
+          format: Encoding for the returned chunk.
+
+          limit: Maximum number of records to return in this chunk.
+
+          method: Filter by HTTP method.
+
+          search: Free-text search over path, user ID, email, client IP, and status.
+
+          search_user_id: Additional user IDs to OR into free-text search.
+
+          service: Filter by service name.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
+        return await self._get(
+            "/audit-logs/export/chunk",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "end": end,
+                        "start": start,
+                        "auth_strategy": auth_strategy,
+                        "cursor": cursor,
+                        "exclude_method": exclude_method,
+                        "format": format,
+                        "limit": limit,
+                        "method": method,
+                        "search": search,
+                        "search_user_id": search_user_id,
+                        "service": service,
+                    },
+                    audit_log_export_chunk_params.AuditLogExportChunkParams,
+                ),
+            ),
+            cast_to=AsyncBinaryAPIResponse,
+        )
+
 
 class AuditLogsResourceWithRawResponse:
     def __init__(self, audit_logs: AuditLogsResource) -> None:
@@ -239,6 +418,10 @@ class AuditLogsResourceWithRawResponse:
 
         self.list = to_raw_response_wrapper(
             audit_logs.list,
+        )
+        self.export_chunk = to_custom_raw_response_wrapper(
+            audit_logs.export_chunk,
+            BinaryAPIResponse,
         )
 
 
@@ -249,6 +432,10 @@ class AsyncAuditLogsResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             audit_logs.list,
         )
+        self.export_chunk = async_to_custom_raw_response_wrapper(
+            audit_logs.export_chunk,
+            AsyncBinaryAPIResponse,
+        )
 
 
 class AuditLogsResourceWithStreamingResponse:
@@ -258,6 +445,10 @@ class AuditLogsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             audit_logs.list,
         )
+        self.export_chunk = to_custom_streamed_response_wrapper(
+            audit_logs.export_chunk,
+            StreamedBinaryAPIResponse,
+        )
 
 
 class AsyncAuditLogsResourceWithStreamingResponse:
@@ -266,4 +457,8 @@ class AsyncAuditLogsResourceWithStreamingResponse:
 
         self.list = async_to_streamed_response_wrapper(
             audit_logs.list,
+        )
+        self.export_chunk = async_to_custom_streamed_response_wrapper(
+            audit_logs.export_chunk,
+            AsyncStreamedBinaryAPIResponse,
         )

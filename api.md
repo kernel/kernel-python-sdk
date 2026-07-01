@@ -454,6 +454,7 @@ from kernel.types import AuditLogEntry
 Methods:
 
 - <code title="get /audit-logs">client.audit_logs.<a href="./src/kernel/resources/audit_logs.py">list</a>(\*\*<a href="src/kernel/types/audit_log_list_params.py">params</a>) -> <a href="./src/kernel/types/audit_log_entry.py">SyncPageTokenPagination[AuditLogEntry]</a></code>
+- <code title="get /audit-logs/export/chunk">client.audit_logs.<a href="./src/kernel/resources/audit_logs.py">export_chunk</a>(\*\*<a href="src/kernel/types/audit_log_export_chunk_params.py">params</a>) -> BinaryAPIResponse</code>
 
 # APIKeys
 
