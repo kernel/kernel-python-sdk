@@ -5,12 +5,20 @@ from __future__ import annotations
 import os
 from typing import Any, cast
 
+import httpx
 import pytest
+from respx import MockRouter
 
 from kernel import Kernel, AsyncKernel
 from tests.utils import assert_matches_type
 from kernel.types import AuditLogEntry
 from kernel._utils import parse_datetime
+from kernel._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
+)
 from kernel.pagination import SyncPageTokenPagination, AsyncPageTokenPagination
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -73,6 +81,73 @@ class TestAuditLogs:
 
         assert cast(Any, response.is_closed) is True
 
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_export_chunk(self, client: Kernel, respx_mock: MockRouter) -> None:
+        respx_mock.get("/audit-logs/export/chunk").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        audit_log = client.audit_logs.export_chunk(
+            end=parse_datetime("2026-01-02T00:00:00Z"),
+            start=parse_datetime("2026-01-01T00:00:00Z"),
+        )
+        assert audit_log.is_closed
+        assert audit_log.json() == {"foo": "bar"}
+        assert cast(Any, audit_log.is_closed) is True
+        assert isinstance(audit_log, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_export_chunk_with_all_params(self, client: Kernel, respx_mock: MockRouter) -> None:
+        respx_mock.get("/audit-logs/export/chunk").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        audit_log = client.audit_logs.export_chunk(
+            end=parse_datetime("2026-01-02T00:00:00Z"),
+            start=parse_datetime("2026-01-01T00:00:00Z"),
+            auth_strategy="auth_strategy",
+            cursor="cursor",
+            exclude_method="exclude_method",
+            format="jsonl",
+            limit=1,
+            method="method",
+            search="search",
+            search_user_id=["string"],
+            service="service",
+        )
+        assert audit_log.is_closed
+        assert audit_log.json() == {"foo": "bar"}
+        assert cast(Any, audit_log.is_closed) is True
+        assert isinstance(audit_log, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_raw_response_export_chunk(self, client: Kernel, respx_mock: MockRouter) -> None:
+        respx_mock.get("/audit-logs/export/chunk").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        audit_log = client.audit_logs.with_raw_response.export_chunk(
+            end=parse_datetime("2026-01-02T00:00:00Z"),
+            start=parse_datetime("2026-01-01T00:00:00Z"),
+        )
+
+        assert audit_log.is_closed is True
+        assert audit_log.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert audit_log.json() == {"foo": "bar"}
+        assert isinstance(audit_log, BinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    def test_streaming_response_export_chunk(self, client: Kernel, respx_mock: MockRouter) -> None:
+        respx_mock.get("/audit-logs/export/chunk").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        with client.audit_logs.with_streaming_response.export_chunk(
+            end=parse_datetime("2026-01-02T00:00:00Z"),
+            start=parse_datetime("2026-01-01T00:00:00Z"),
+        ) as audit_log:
+            assert not audit_log.is_closed
+            assert audit_log.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            assert audit_log.json() == {"foo": "bar"}
+            assert cast(Any, audit_log.is_closed) is True
+            assert isinstance(audit_log, StreamedBinaryAPIResponse)
+
+        assert cast(Any, audit_log.is_closed) is True
+
 
 class TestAsyncAuditLogs:
     parametrize = pytest.mark.parametrize(
@@ -132,3 +207,70 @@ class TestAsyncAuditLogs:
             assert_matches_type(AsyncPageTokenPagination[AuditLogEntry], audit_log, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_export_chunk(self, async_client: AsyncKernel, respx_mock: MockRouter) -> None:
+        respx_mock.get("/audit-logs/export/chunk").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        audit_log = await async_client.audit_logs.export_chunk(
+            end=parse_datetime("2026-01-02T00:00:00Z"),
+            start=parse_datetime("2026-01-01T00:00:00Z"),
+        )
+        assert audit_log.is_closed
+        assert await audit_log.json() == {"foo": "bar"}
+        assert cast(Any, audit_log.is_closed) is True
+        assert isinstance(audit_log, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_export_chunk_with_all_params(self, async_client: AsyncKernel, respx_mock: MockRouter) -> None:
+        respx_mock.get("/audit-logs/export/chunk").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        audit_log = await async_client.audit_logs.export_chunk(
+            end=parse_datetime("2026-01-02T00:00:00Z"),
+            start=parse_datetime("2026-01-01T00:00:00Z"),
+            auth_strategy="auth_strategy",
+            cursor="cursor",
+            exclude_method="exclude_method",
+            format="jsonl",
+            limit=1,
+            method="method",
+            search="search",
+            search_user_id=["string"],
+            service="service",
+        )
+        assert audit_log.is_closed
+        assert await audit_log.json() == {"foo": "bar"}
+        assert cast(Any, audit_log.is_closed) is True
+        assert isinstance(audit_log, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_raw_response_export_chunk(self, async_client: AsyncKernel, respx_mock: MockRouter) -> None:
+        respx_mock.get("/audit-logs/export/chunk").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        audit_log = await async_client.audit_logs.with_raw_response.export_chunk(
+            end=parse_datetime("2026-01-02T00:00:00Z"),
+            start=parse_datetime("2026-01-01T00:00:00Z"),
+        )
+
+        assert audit_log.is_closed is True
+        assert audit_log.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert await audit_log.json() == {"foo": "bar"}
+        assert isinstance(audit_log, AsyncBinaryAPIResponse)
+
+    @parametrize
+    @pytest.mark.respx(base_url=base_url)
+    async def test_streaming_response_export_chunk(self, async_client: AsyncKernel, respx_mock: MockRouter) -> None:
+        respx_mock.get("/audit-logs/export/chunk").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+        async with async_client.audit_logs.with_streaming_response.export_chunk(
+            end=parse_datetime("2026-01-02T00:00:00Z"),
+            start=parse_datetime("2026-01-01T00:00:00Z"),
+        ) as audit_log:
+            assert not audit_log.is_closed
+            assert audit_log.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            assert await audit_log.json() == {"foo": "bar"}
+            assert cast(Any, audit_log.is_closed) is True
+            assert isinstance(audit_log, AsyncStreamedBinaryAPIResponse)
+
+        assert cast(Any, audit_log.is_closed) is True
