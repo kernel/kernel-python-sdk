@@ -28,7 +28,12 @@ class DeploymentCreateResponse(BaseModel):
     """Relative path to the application entrypoint"""
 
     env_vars: Optional[Dict[str, str]] = None
-    """Environment variables configured for this deployment"""
+    """Environment variables configured for this deployment.
+
+    Values are redacted for API key, OAuth, and managed-auth callers, which receive
+    every key with an empty string value. Only dashboard sessions receive the actual
+    values.
+    """
 
     status_reason: Optional[str] = None
     """Status reason"""
