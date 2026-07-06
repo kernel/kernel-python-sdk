@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.74.0 (2026-07-06)
+
+Full Changelog: [v0.73.0...v0.74.0](https://github.com/kernel/kernel-python-sdk/compare/v0.73.0...v0.74.0)
+
+### Features
+
+* Add order=desc pagination to telemetry event reads ([763baf5](https://github.com/kernel/kernel-python-sdk/commit/763baf59f95e879d8d9f31566a99fb863354009c))
+* Add tablet and mobile viewport presets to pool dashboard ([37971a0](https://github.com/kernel/kernel-python-sdk/commit/37971a00d405787eebee58a3237c7d4963a0a764))
+
 ## 0.73.0 (2026-07-01)
 
 Full Changelog: [v0.72.0...v0.73.0](https://github.com/kernel/kernel-python-sdk/compare/v0.72.0...v0.73.0)
