@@ -40,7 +40,10 @@ class AppVersionSummaryEvent(BaseModel):
     """Version label for the application"""
 
     env_vars: Optional[Dict[str, str]] = None
-    """Environment variables configured for this app version"""
+    """Environment variables configured for this app version.
+
+    Not currently populated on streamed app_version_summary events.
+    """
 
 
 DeploymentFollowResponse: TypeAlias = Annotated[
