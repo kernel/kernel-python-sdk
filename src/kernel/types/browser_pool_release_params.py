@@ -14,5 +14,8 @@ class BrowserPoolReleaseParams(TypedDict, total=False):
     reuse: bool
     """Whether to reuse the browser instance or destroy it and create a new one.
 
-    Defaults to true.
+    Defaults to true. A reused browser keeps the configuration it was created with,
+    so it does not pick up pool configuration changes made while it was in use.
+    Release with `reuse: false`, or flush the pool afterward, to rebuild it with the
+    current configuration.
     """
