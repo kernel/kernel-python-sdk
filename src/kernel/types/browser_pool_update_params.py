@@ -21,9 +21,13 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     """
 
     discard_all_idle: bool
-    """Whether to discard all idle browsers and rebuild the pool immediately.
-
-    Defaults to false.
+    """
+    Whether to discard all idle browsers and rebuild them immediately with the new
+    configuration. Defaults to false. Only browsers that are idle when the update
+    runs are rebuilt. A browser that is in use during the update keeps its original
+    configuration, and if it is later released with `reuse: true` it returns to the
+    pool with that stale configuration until it is discarded (by this flag on a
+    later update, or by flushing the pool).
     """
 
     extensions: Iterable[BrowserExtension]

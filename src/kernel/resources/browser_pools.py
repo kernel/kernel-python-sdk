@@ -249,8 +249,12 @@ class BrowserPoolsResource(SyncAPIResource):
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
               https://chromeenterprise.google/policies/
 
-          discard_all_idle: Whether to discard all idle browsers and rebuild the pool immediately. Defaults
-              to false.
+          discard_all_idle: Whether to discard all idle browsers and rebuild them immediately with the new
+              configuration. Defaults to false. Only browsers that are idle when the update
+              runs are rebuilt. A browser that is in use during the update keeps its original
+              configuration, and if it is later released with `reuse: true` it returns to the
+              pool with that stale configuration until it is discarded (by this flag on a
+              later update, or by flushing the pool).
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
@@ -554,7 +558,10 @@ class BrowserPoolsResource(SyncAPIResource):
           session_id: Browser session ID to release back to the pool
 
           reuse: Whether to reuse the browser instance or destroy it and create a new one.
-              Defaults to true.
+              Defaults to true. A reused browser keeps the configuration it was created with,
+              so it does not pick up pool configuration changes made while it was in use.
+              Release with `reuse: false`, or flush the pool afterward, to rebuild it with the
+              current configuration.
 
           extra_headers: Send extra headers
 
@@ -797,8 +804,12 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
               https://chromeenterprise.google/policies/
 
-          discard_all_idle: Whether to discard all idle browsers and rebuild the pool immediately. Defaults
-              to false.
+          discard_all_idle: Whether to discard all idle browsers and rebuild them immediately with the new
+              configuration. Defaults to false. Only browsers that are idle when the update
+              runs are rebuilt. A browser that is in use during the update keeps its original
+              configuration, and if it is later released with `reuse: true` it returns to the
+              pool with that stale configuration until it is discarded (by this flag on a
+              later update, or by flushing the pool).
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
@@ -1102,7 +1113,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           session_id: Browser session ID to release back to the pool
 
           reuse: Whether to reuse the browser instance or destroy it and create a new one.
-              Defaults to true.
+              Defaults to true. A reused browser keeps the configuration it was created with,
+              so it does not pick up pool configuration changes made while it was in use.
+              Release with `reuse: false`, or flush the pool afterward, to rebuild it with the
+              current configuration.
 
           extra_headers: Send extra headers
 
