@@ -39,6 +39,17 @@ class TelemetryEventsParams(TypedDict, total=False):
     field, so do not derive it from the response body.
     """
 
+    order: str
+    """Read direction.
+
+    asc (default) reads oldest first, starting from since or the offset cursor. desc
+    reads newest first: each request returns one page of up to limit records ending
+    at the offset cursor (or until, or the newest archived event); combining desc
+    with since is rejected with a 400. In either direction the category filter
+    applies within the page, so a filtered page may be empty while X-Has-More is
+    true.
+    """
+
     since: str
     """
     Start of the window: an RFC-3339 timestamp, or a duration like 5m meaning that

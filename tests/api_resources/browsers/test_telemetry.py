@@ -34,6 +34,7 @@ class TestTelemetry:
             category=["console"],
             limit=1,
             offset=0,
+            order="order",
             since="since",
             until="until",
         )
@@ -146,6 +147,7 @@ class TestAsyncTelemetry:
             category=["console"],
             limit=1,
             offset=0,
+            order="order",
             since="since",
             until="until",
         )
