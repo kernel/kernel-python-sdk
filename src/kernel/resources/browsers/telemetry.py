@@ -70,6 +70,7 @@ class TelemetryResource(SyncAPIResource):
         | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        order: str | Omit = omit,
         since: str | Omit = omit,
         until: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -79,11 +80,12 @@ class TelemetryResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncOffsetPagination[TelemetryEventsResponse]:
-        """
-        Reads a page of telemetry events for the browser session in ascending sequence
-        order. To page through results, pass the X-Next-Offset value from the previous
-        response as offset and repeat while X-Has-More is true. Returns an empty list
-        when telemetry data is unavailable.
+        """Reads a page of telemetry events for the browser session.
+
+        To page through
+        results, pass the X-Next-Offset value from the previous response as offset and
+        repeat while X-Has-More is true. Returns an empty list when telemetry data is
+        unavailable.
 
         Args:
           category: Restrict results to these event categories. Repeat the parameter for multiple
@@ -95,6 +97,13 @@ class TelemetryResource(SyncAPIResource):
               response to fetch the next page. When set, paging continues from this cursor and
               since is ignored, while until still bounds the page. It is not an event's seq
               field, so do not derive it from the response body.
+
+          order: Read direction. asc (default) reads oldest first, starting from since or the
+              offset cursor. desc reads newest first: each request returns one page of up to
+              limit records ending at the offset cursor (or until, or the newest archived
+              event); combining desc with since is rejected with a 400. In either direction
+              the category filter applies within the page, so a filtered page may be empty
+              while X-Has-More is true.
 
           since: Start of the window: an RFC-3339 timestamp, or a duration like 5m meaning that
               long ago. Defaults to 5m. Ignored when offset is set.
@@ -125,6 +134,7 @@ class TelemetryResource(SyncAPIResource):
                         "category": category,
                         "limit": limit,
                         "offset": offset,
+                        "order": order,
                         "since": since,
                         "until": until,
                     },
@@ -234,6 +244,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         | Omit = omit,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        order: str | Omit = omit,
         since: str | Omit = omit,
         until: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -243,11 +254,12 @@ class AsyncTelemetryResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[TelemetryEventsResponse, AsyncOffsetPagination[TelemetryEventsResponse]]:
-        """
-        Reads a page of telemetry events for the browser session in ascending sequence
-        order. To page through results, pass the X-Next-Offset value from the previous
-        response as offset and repeat while X-Has-More is true. Returns an empty list
-        when telemetry data is unavailable.
+        """Reads a page of telemetry events for the browser session.
+
+        To page through
+        results, pass the X-Next-Offset value from the previous response as offset and
+        repeat while X-Has-More is true. Returns an empty list when telemetry data is
+        unavailable.
 
         Args:
           category: Restrict results to these event categories. Repeat the parameter for multiple
@@ -259,6 +271,13 @@ class AsyncTelemetryResource(AsyncAPIResource):
               response to fetch the next page. When set, paging continues from this cursor and
               since is ignored, while until still bounds the page. It is not an event's seq
               field, so do not derive it from the response body.
+
+          order: Read direction. asc (default) reads oldest first, starting from since or the
+              offset cursor. desc reads newest first: each request returns one page of up to
+              limit records ending at the offset cursor (or until, or the newest archived
+              event); combining desc with since is rejected with a 400. In either direction
+              the category filter applies within the page, so a filtered page may be empty
+              while X-Has-More is true.
 
           since: Start of the window: an RFC-3339 timestamp, or a duration like 5m meaning that
               long ago. Defaults to 5m. Ignored when offset is set.
@@ -289,6 +308,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
                         "category": category,
                         "limit": limit,
                         "offset": offset,
+                        "order": order,
                         "since": since,
                         "until": until,
                     },
