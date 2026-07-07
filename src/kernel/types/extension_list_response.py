@@ -20,15 +20,6 @@ class ExtensionListResponse(BaseModel):
     size_bytes: int
     """Size of the extension archive in bytes"""
 
-    checksum: Optional[str] = None
-    """
-    SHA-256 checksum, encoded as lowercase hexadecimal, of the exact uploaded
-    extension archive bytes. This is not a normalized checksum of the extension
-    contents; archive metadata, file ordering, and compression can change the
-    checksum for otherwise identical contents. Omitted for legacy rows and
-    server-repackaged Chrome Web Store extensions.
-    """
-
     last_used_at: Optional[datetime] = None
     """Timestamp when the extension was last used"""
 
