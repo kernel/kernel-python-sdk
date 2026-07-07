@@ -266,8 +266,10 @@ class APIKeysResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete an API key.
+        """Delete an API key.
+
+        A key cannot delete itself; use a different key to delete
+        this one.
 
         Args:
           extra_headers: Send extra headers
@@ -575,8 +577,10 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete an API key.
+        """Delete an API key.
+
+        A key cannot delete itself; use a different key to delete
+        this one.
 
         Args:
           extra_headers: Send extra headers
