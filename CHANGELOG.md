@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.75.0 (2026-07-08)
+
+Full Changelog: [v0.74.0...v0.75.0](https://github.com/kernel/kernel-python-sdk/compare/v0.74.0...v0.75.0)
+
+### Features
+
+* Auto-flush pools when a managed auth profile re-authenticates ([430c07f](https://github.com/kernel/kernel-python-sdk/commit/430c07fc2bfd5ab80fe25cc4677b34729bf4b4ee))
+* Document env var redaction on deployment and app reads ([51d713b](https://github.com/kernel/kernel-python-sdk/commit/51d713b92b4c0ed0c2420ea2e128568530a81a14))
+* Expose resolved profile_id and extension_ids on browser pool reads ([56876e9](https://github.com/kernel/kernel-python-sdk/commit/56876e9a49fca34ec34b58ea8f5f85130c0c0315))
+* Reject API key self-deletion ([482f920](https://github.com/kernel/kernel-python-sdk/commit/482f9209f956e5615bdbaa6ec9c58081df56587b))
+* Revert "Store and return a sha256 checksum for uploaded extensions (#… ([74dbc54](https://github.com/kernel/kernel-python-sdk/commit/74dbc54d4d8d5b330f74985227fa09f7569457a7))
+* Store and return a sha256 checksum for uploaded extensions ([b266775](https://github.com/kernel/kernel-python-sdk/commit/b266775497fec10224e965c787c146494eecdae8))
+* Store and return a sha256 checksum for uploaded extensions (reland) ([98cfb28](https://github.com/kernel/kernel-python-sdk/commit/98cfb2835be3d321799bbfd0400e1bb59b39b218))
+
+
+### Documentation
+
+* **api:** clarify reuse/discard_all_idle pool config staleness ([e8641eb](https://github.com/kernel/kernel-python-sdk/commit/e8641ebe96926b22f8874a8ff79498a4cbe7e4ed))
+
 ## 0.74.0 (2026-07-06)
 
 Full Changelog: [v0.73.0...v0.74.0](https://github.com/kernel/kernel-python-sdk/compare/v0.73.0...v0.74.0)
