@@ -150,5 +150,21 @@ class BrowserPool(BaseModel):
     created_at: datetime
     """Timestamp when the browser pool was created"""
 
+    extension_ids: List[str]
+    """Resolved extension IDs attached to the pool, in configured load order.
+
+    Empty when no extensions are attached. Authoritative for programmatic consumers;
+    the extensions inside `browser_pool_config` reflect the configured selector
+    (echoed as sent on create).
+    """
+
     name: Optional[str] = None
     """Browser pool name, if set"""
+
+    profile_id: Optional[str] = None
+    """Resolved profile ID the pool is attached to.
+
+    Omitted when no profile is attached. Authoritative for programmatic consumers;
+    the profile inside `browser_pool_config` reflects the configured selector
+    (echoed as sent on create).
+    """
