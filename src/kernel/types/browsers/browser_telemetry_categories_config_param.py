@@ -10,9 +10,9 @@ __all__ = ["BrowserTelemetryCategoriesConfigParam"]
 
 
 class BrowserTelemetryCategoriesConfigParam(TypedDict, total=False):
-    """Per-category telemetry capture settings.
+    """Per-category telemetry capture settings layered onto the default set.
 
-    Selection is opt-in: set a category to enabled=true to capture it; anything omitted is off. The default set (used by enabled=true with no per-category settings) is the lightweight operational signals: control, connection, system, captcha. The CDP categories (console, network, page, interaction) and screenshot are off by default and must be opted into.
+    The operational signals (control, connection, system, captcha) are on by default and are opt-out: set one to enabled=false to stop capturing it. The CDP categories (console, network, page, interaction) and screenshot are off by default and are opt-in: set enabled=true to capture them.
     """
 
     captcha: BrowserTelemetryCategoryConfigParam
