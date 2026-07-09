@@ -13,5 +13,7 @@ class BrowserTelemetryCategoryConfig(BaseModel):
     enabled: Optional[bool] = None
     """Whether this category is captured.
 
-    Selection is opt-in, so an omitted category is not captured.
+    Operational categories (control, connection, system, captcha) default to true;
+    set false to opt out. CDP categories (console, network, page, interaction) and
+    screenshot default to false; set true to opt in.
     """
