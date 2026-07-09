@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.76.0 (2026-07-09)
+
+Full Changelog: [v0.75.0...v0.76.0](https://github.com/kernel/kernel-python-sdk/compare/v0.75.0...v0.76.0)
+
+### Features
+
+* Layer telemetry request config onto the default set ([c6d6b65](https://github.com/kernel/kernel-python-sdk/commit/c6d6b651a377d4283af20ab631f2adf25354954f))
+* Return credential value keys and support removing values on update ([1c4af8e](https://github.com/kernel/kernel-python-sdk/commit/1c4af8ea100bd288182b38792ad87abab4136543))
+
 ## 0.75.0 (2026-07-08)
 
 Full Changelog: [v0.74.0...v0.75.0](https://github.com/kernel/kernel-python-sdk/compare/v0.74.0...v0.75.0)
