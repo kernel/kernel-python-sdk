@@ -5,12 +5,21 @@ from __future__ import annotations
 from typing import Dict, Optional
 from typing_extensions import TypedDict
 
+from .._types import SequenceNotStr
+
 __all__ = ["CredentialUpdateParams"]
 
 
 class CredentialUpdateParams(TypedDict, total=False):
     name: str
     """New name for the credential"""
+
+    remove_value_keys: SequenceNotStr[str]
+    """Field names to remove from the credential's stored values.
+
+    Removals are applied before `values` are merged, so a key present in both is
+    kept with its new value.
+    """
 
     sso_provider: Optional[str]
     """If set, indicates this credential should be used with the specified SSO

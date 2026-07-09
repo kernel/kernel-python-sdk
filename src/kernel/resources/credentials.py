@@ -7,7 +7,7 @@ from typing import Dict, Optional
 import httpx
 
 from ..types import credential_list_params, credential_create_params, credential_update_params
-from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -145,6 +145,7 @@ class CredentialsResource(SyncAPIResource):
         id_or_name: str,
         *,
         name: str | Omit = omit,
+        remove_value_keys: SequenceNotStr[str] | Omit = omit,
         sso_provider: Optional[str] | Omit = omit,
         totp_secret: str | Omit = omit,
         values: Dict[str, str] | Omit = omit,
@@ -162,6 +163,9 @@ class CredentialsResource(SyncAPIResource):
 
         Args:
           name: New name for the credential
+
+          remove_value_keys: Field names to remove from the credential's stored values. Removals are applied
+              before `values` are merged, so a key present in both is kept with its new value.
 
           sso_provider: If set, indicates this credential should be used with the specified SSO
               provider. Set to empty string or null to remove.
@@ -187,6 +191,7 @@ class CredentialsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "name": name,
+                    "remove_value_keys": remove_value_keys,
                     "sso_provider": sso_provider,
                     "totp_secret": totp_secret,
                     "values": values,
@@ -445,6 +450,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
         id_or_name: str,
         *,
         name: str | Omit = omit,
+        remove_value_keys: SequenceNotStr[str] | Omit = omit,
         sso_provider: Optional[str] | Omit = omit,
         totp_secret: str | Omit = omit,
         values: Dict[str, str] | Omit = omit,
@@ -462,6 +468,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
 
         Args:
           name: New name for the credential
+
+          remove_value_keys: Field names to remove from the credential's stored values. Removals are applied
+              before `values` are merged, so a key present in both is kept with its new value.
 
           sso_provider: If set, indicates this credential should be used with the specified SSO
               provider. Set to empty string or null to remove.
@@ -487,6 +496,7 @@ class AsyncCredentialsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "name": name,
+                    "remove_value_keys": remove_value_keys,
                     "sso_provider": sso_provider,
                     "totp_secret": totp_secret,
                     "values": values,

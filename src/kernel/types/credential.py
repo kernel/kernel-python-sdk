@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
 
 from .._models import BaseModel
@@ -48,3 +48,10 @@ class Credential(BaseModel):
 
     totp_code_expires_at: Optional[datetime] = None
     """When the totp_code expires. Only included when totp_code is present."""
+
+    value_keys: Optional[List[str]] = None
+    """The field names stored in this credential's values (e.g., username, password).
+
+    Values themselves are never returned. Included on single-credential responses
+    (create, get by id or name, update); omitted from list responses.
+    """

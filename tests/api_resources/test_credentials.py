@@ -141,6 +141,7 @@ class TestCredentials:
         credential = client.credentials.update(
             id_or_name="id_or_name",
             name="my-updated-login",
+            remove_value_keys=["old_field"],
             sso_provider="google",
             totp_secret="JBSWY3DPEHPK3PXP",
             values={
@@ -433,6 +434,7 @@ class TestAsyncCredentials:
         credential = await async_client.credentials.update(
             id_or_name="id_or_name",
             name="my-updated-login",
+            remove_value_keys=["old_field"],
             sso_provider="google",
             totp_secret="JBSWY3DPEHPK3PXP",
             values={
