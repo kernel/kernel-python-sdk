@@ -15,13 +15,14 @@ class ProjectLimits(BaseModel):
     """
 
     max_concurrent_sessions: Optional[int] = None
-    """Maximum concurrent browser sessions for this project.
-
-    Null means no project-level cap.
+    """
+    Maximum concurrent browsers for this project, covering both on-demand sessions
+    (`browsers.create()`) and browser pool reservations. Null means no project-level
+    cap.
     """
 
     max_pooled_sessions: Optional[int] = None
-    """Maximum pooled sessions capacity for this project.
+    """Deprecated: pooled browsers now count toward `max_concurrent_sessions`.
 
-    Null means no project-level cap.
+    Always null once the unified concurrency limit is enabled for your organization.
     """

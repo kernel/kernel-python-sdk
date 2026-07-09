@@ -16,13 +16,15 @@ class LimitUpdateParams(TypedDict, total=False):
     """
 
     max_concurrent_sessions: Optional[int]
-    """Maximum concurrent browser sessions for this project.
-
-    Set to 0 to remove the cap; omit to leave unchanged.
+    """
+    Maximum concurrent browsers for this project, covering both on-demand sessions
+    and browser pool reservations. Set to 0 to remove the cap; omit to leave
+    unchanged.
     """
 
     max_pooled_sessions: Optional[int]
-    """Maximum pooled sessions capacity for this project.
+    """Deprecated: pooled browsers now count toward `max_concurrent_sessions`.
 
-    Set to 0 to remove the cap; omit to leave unchanged.
+    Requests that set this field are rejected with a 400 once the unified
+    concurrency limit is enabled for your organization.
     """

@@ -56,8 +56,9 @@ class LimitsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrgLimits:
         """
-        Get the organization's concurrent session ceiling and the default per-project
-        concurrency cap applied to projects without an explicit override.
+        Get the organization's concurrency limit — the maximum browsers running at once
+        across on-demand sessions and browser pool reservations — and the default
+        per-project concurrency cap applied to projects without an explicit override.
         """
         return self._get(
             "/org/limits",
@@ -81,13 +82,12 @@ class LimitsResource(SyncAPIResource):
         """
         Set the default per-project concurrency cap applied to projects without an
         explicit override. Set the value to 0 to remove the default; omit to leave it
-        unchanged. The default cannot exceed the organization's concurrent session
-        ceiling.
+        unchanged. The default cannot exceed the organization's concurrency limit.
 
         Args:
-          default_project_max_concurrent_sessions: Default maximum concurrent browser sessions for projects without an explicit
-              override. Set to 0 to remove the default; omit to leave unchanged. Cannot exceed
-              the organization's concurrent session ceiling.
+          default_project_max_concurrent_sessions: Default maximum concurrent browsers for projects without an explicit override.
+              Set to 0 to remove the default; omit to leave unchanged. Cannot exceed the
+              organization's concurrency limit.
 
           extra_headers: Send extra headers
 
@@ -143,8 +143,9 @@ class AsyncLimitsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrgLimits:
         """
-        Get the organization's concurrent session ceiling and the default per-project
-        concurrency cap applied to projects without an explicit override.
+        Get the organization's concurrency limit — the maximum browsers running at once
+        across on-demand sessions and browser pool reservations — and the default
+        per-project concurrency cap applied to projects without an explicit override.
         """
         return await self._get(
             "/org/limits",
@@ -168,13 +169,12 @@ class AsyncLimitsResource(AsyncAPIResource):
         """
         Set the default per-project concurrency cap applied to projects without an
         explicit override. Set the value to 0 to remove the default; omit to leave it
-        unchanged. The default cannot exceed the organization's concurrent session
-        ceiling.
+        unchanged. The default cannot exceed the organization's concurrency limit.
 
         Args:
-          default_project_max_concurrent_sessions: Default maximum concurrent browser sessions for projects without an explicit
-              override. Set to 0 to remove the default; omit to leave unchanged. Cannot exceed
-              the organization's concurrent session ceiling.
+          default_project_max_concurrent_sessions: Default maximum concurrent browsers for projects without an explicit override.
+              Set to 0 to remove the default; omit to leave unchanged. Cannot exceed the
+              organization's concurrency limit.
 
           extra_headers: Send extra headers
 
