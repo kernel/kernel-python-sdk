@@ -104,11 +104,13 @@ class LimitsResource(SyncAPIResource):
           max_concurrent_invocations: Maximum concurrent app invocations for this project. Set to 0 to remove the cap;
               omit to leave unchanged.
 
-          max_concurrent_sessions: Maximum concurrent browser sessions for this project. Set to 0 to remove the
-              cap; omit to leave unchanged.
+          max_concurrent_sessions: Maximum concurrent browsers for this project, covering both on-demand sessions
+              and browser pool reservations. Set to 0 to remove the cap; omit to leave
+              unchanged.
 
-          max_pooled_sessions: Maximum pooled sessions capacity for this project. Set to 0 to remove the cap;
-              omit to leave unchanged.
+          max_pooled_sessions: Deprecated: pooled browsers now count toward `max_concurrent_sessions`. Requests
+              that set this field are rejected with a 400 once the unified concurrency limit
+              is enabled for your organization.
 
           extra_headers: Send extra headers
 
@@ -218,11 +220,13 @@ class AsyncLimitsResource(AsyncAPIResource):
           max_concurrent_invocations: Maximum concurrent app invocations for this project. Set to 0 to remove the cap;
               omit to leave unchanged.
 
-          max_concurrent_sessions: Maximum concurrent browser sessions for this project. Set to 0 to remove the
-              cap; omit to leave unchanged.
+          max_concurrent_sessions: Maximum concurrent browsers for this project, covering both on-demand sessions
+              and browser pool reservations. Set to 0 to remove the cap; omit to leave
+              unchanged.
 
-          max_pooled_sessions: Maximum pooled sessions capacity for this project. Set to 0 to remove the cap;
-              omit to leave unchanged.
+          max_pooled_sessions: Deprecated: pooled browsers now count toward `max_concurrent_sessions`. Requests
+              that set this field are rejected with a 400 once the unified concurrency limit
+              is enabled for your organization.
 
           extra_headers: Send extra headers
 

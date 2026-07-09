@@ -10,8 +10,8 @@ __all__ = ["LimitUpdateParams"]
 
 class LimitUpdateParams(TypedDict, total=False):
     default_project_max_concurrent_sessions: Optional[int]
-    """
-    Default maximum concurrent browser sessions for projects without an explicit
-    override. Set to 0 to remove the default; omit to leave unchanged. Cannot exceed
-    the organization's concurrent session ceiling.
+    """Default maximum concurrent browsers for projects without an explicit override.
+
+    Set to 0 to remove the default; omit to leave unchanged. Cannot exceed the
+    organization's concurrency limit.
     """
