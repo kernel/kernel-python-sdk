@@ -185,6 +185,7 @@ class ProxiesResource(SyncAPIResource):
         self,
         *,
         limit: int | Omit = omit,
+        name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -199,6 +200,10 @@ class ProxiesResource(SyncAPIResource):
 
         Args:
           limit: Limit the number of proxies to return.
+
+          name: Exact-match filter on proxy name using the database collation. In production,
+              matching is case- and accent-insensitive. Names are not required to be unique,
+              so multiple proxies may match.
 
           offset: Offset the number of proxies to return.
 
@@ -224,6 +229,7 @@ class ProxiesResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "limit": limit,
+                        "name": name,
                         "offset": offset,
                         "query": query,
                     },
@@ -480,6 +486,7 @@ class AsyncProxiesResource(AsyncAPIResource):
         self,
         *,
         limit: int | Omit = omit,
+        name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -494,6 +501,10 @@ class AsyncProxiesResource(AsyncAPIResource):
 
         Args:
           limit: Limit the number of proxies to return.
+
+          name: Exact-match filter on proxy name using the database collation. In production,
+              matching is case- and accent-insensitive. Names are not required to be unique,
+              so multiple proxies may match.
 
           offset: Offset the number of proxies to return.
 
@@ -519,6 +530,7 @@ class AsyncProxiesResource(AsyncAPIResource):
                 query=maybe_transform(
                     {
                         "limit": limit,
+                        "name": name,
                         "offset": offset,
                         "query": query,
                     },

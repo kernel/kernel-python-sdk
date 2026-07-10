@@ -169,6 +169,7 @@ class TestProxies:
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         proxy = client.proxies.list(
             limit=1,
+            name="name",
             offset=0,
             query="query",
         )
@@ -440,6 +441,7 @@ class TestAsyncProxies:
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.list(
             limit=1,
+            name="name",
             offset=0,
             query="query",
         )

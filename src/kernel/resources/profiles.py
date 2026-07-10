@@ -172,6 +172,7 @@ class ProfilesResource(SyncAPIResource):
         self,
         *,
         limit: int | Omit = omit,
+        name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -186,6 +187,11 @@ class ProfilesResource(SyncAPIResource):
 
         Args:
           limit: Limit the number of profiles to return.
+
+          name: Exact-match filter on profile name using the database collation. In production,
+              matching is case- and accent-insensitive. During the default-project migration,
+              unscoped requests prefer a concrete default-project profile over a legacy
+              unscoped profile with the same name.
 
           offset: Offset the number of profiles to return.
 
@@ -210,6 +216,7 @@ class ProfilesResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "limit": limit,
+                        "name": name,
                         "offset": offset,
                         "query": query,
                     },
@@ -430,6 +437,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         self,
         *,
         limit: int | Omit = omit,
+        name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -444,6 +452,11 @@ class AsyncProfilesResource(AsyncAPIResource):
 
         Args:
           limit: Limit the number of profiles to return.
+
+          name: Exact-match filter on profile name using the database collation. In production,
+              matching is case- and accent-insensitive. During the default-project migration,
+              unscoped requests prefer a concrete default-project profile over a legacy
+              unscoped profile with the same name.
 
           offset: Offset the number of profiles to return.
 
@@ -468,6 +481,7 @@ class AsyncProfilesResource(AsyncAPIResource):
                 query=maybe_transform(
                     {
                         "limit": limit,
+                        "name": name,
                         "offset": offset,
                         "query": query,
                     },

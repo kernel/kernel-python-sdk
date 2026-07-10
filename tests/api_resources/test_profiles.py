@@ -161,6 +161,7 @@ class TestProfiles:
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         profile = client.profiles.list(
             limit=1,
+            name="name",
             offset=0,
             query="query",
         )
@@ -421,6 +422,7 @@ class TestAsyncProfiles:
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         profile = await async_client.profiles.list(
             limit=1,
+            name="name",
             offset=0,
             query="query",
         )

@@ -157,6 +157,7 @@ class TestProjects:
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         project = client.projects.list(
             limit=100,
+            name="name",
             offset=0,
             query="query",
         )
@@ -371,6 +372,7 @@ class TestAsyncProjects:
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         project = await async_client.projects.list(
             limit=100,
+            name="name",
             offset=0,
             query="query",
         )

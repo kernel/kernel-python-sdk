@@ -174,6 +174,7 @@ class TestAPIKeys:
         api_key = client.api_keys.list(
             include_deleted=True,
             limit=100,
+            name="name",
             offset=0,
             query="query",
             sort_by="created_at",
@@ -457,6 +458,7 @@ class TestAsyncAPIKeys:
         api_key = await async_client.api_keys.list(
             include_deleted=True,
             limit=100,
+            name="name",
             offset=0,
             query="query",
             sort_by="created_at",

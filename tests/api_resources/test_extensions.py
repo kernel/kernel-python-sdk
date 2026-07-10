@@ -41,6 +41,7 @@ class TestExtensions:
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         extension = client.extensions.list(
             limit=1,
+            name="name",
             offset=0,
             query="query",
         )
@@ -317,6 +318,7 @@ class TestAsyncExtensions:
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         extension = await async_client.extensions.list(
             limit=1,
+            name="name",
             offset=0,
             query="query",
         )
