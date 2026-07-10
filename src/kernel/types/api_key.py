@@ -41,7 +41,11 @@ class APIKey(BaseModel):
     """Masked version of the API key"""
 
     name: str
-    """API key name"""
+    """Label for the API key.
+
+    API keys are not addressable by name; use the ID or key identifier for stable
+    references.
+    """
 
     project_id: Optional[str] = None
     """Project identifier for project-scoped API keys. Null means org-wide."""

@@ -79,7 +79,8 @@ class ExtensionsResource(SyncAPIResource):
 
           offset: Offset the number of extensions to return.
 
-          query: Search extensions by name or ID.
+          query: Case-insensitive substring match against extension name. IDs match by exact
+              value.
 
           extra_headers: Send extra headers
 
@@ -355,7 +356,8 @@ class AsyncExtensionsResource(AsyncAPIResource):
 
           offset: Offset the number of extensions to return.
 
-          query: Search extensions by name or ID.
+          query: Case-insensitive substring match against extension name. IDs match by exact
+              value.
 
           extra_headers: Send extra headers
 

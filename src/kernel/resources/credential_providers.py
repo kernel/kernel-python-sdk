@@ -216,7 +216,8 @@ class CredentialProvidersResource(SyncAPIResource):
 
           offset: Offset the number of credential providers to return.
 
-          query: Search credential providers by name or ID.
+          query: Case-insensitive substring match against credential provider name. IDs match by
+              exact value.
 
           extra_headers: Send extra headers
 
@@ -534,7 +535,8 @@ class AsyncCredentialProvidersResource(AsyncAPIResource):
 
           offset: Offset the number of credential providers to return.
 
-          query: Search credential providers by name or ID.
+          query: Case-insensitive substring match against credential provider name. IDs match by
+              exact value.
 
           extra_headers: Send extra headers
 

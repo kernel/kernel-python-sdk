@@ -15,4 +15,7 @@ class ExtensionListParams(TypedDict, total=False):
     """Offset the number of extensions to return."""
 
     query: str
-    """Search extensions by name or ID."""
+    """Case-insensitive substring match against extension name.
+
+    IDs match by exact value.
+    """
