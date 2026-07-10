@@ -15,4 +15,7 @@ class ProxyListParams(TypedDict, total=False):
     """Offset the number of proxies to return."""
 
     query: str
-    """Search proxies by name, host, IP address, or ID."""
+    """Case-insensitive substring match against proxy name, host, or IP address.
+
+    IDs match by exact value.
+    """

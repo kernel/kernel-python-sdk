@@ -202,7 +202,8 @@ class ProxiesResource(SyncAPIResource):
 
           offset: Offset the number of proxies to return.
 
-          query: Search proxies by name, host, IP address, or ID.
+          query: Case-insensitive substring match against proxy name, host, or IP address. IDs
+              match by exact value.
 
           extra_headers: Send extra headers
 
@@ -496,7 +497,8 @@ class AsyncProxiesResource(AsyncAPIResource):
 
           offset: Offset the number of proxies to return.
 
-          query: Search proxies by name, host, IP address, or ID.
+          query: Case-insensitive substring match against proxy name, host, or IP address. IDs
+              match by exact value.
 
           extra_headers: Send extra headers
 

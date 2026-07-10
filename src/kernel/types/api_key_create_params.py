@@ -10,7 +10,7 @@ __all__ = ["APIKeyCreateParams"]
 
 class APIKeyCreateParams(TypedDict, total=False):
     name: Required[str]
-    """API key name (1-255 characters)"""
+    """Label for the API key (1-255 characters). API keys are not addressable by name."""
 
     days_to_expire: Optional[int]
     """Number of days until expiry, up to 3650. Use null for never."""

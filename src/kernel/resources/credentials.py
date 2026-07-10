@@ -229,7 +229,8 @@ class CredentialsResource(SyncAPIResource):
 
           offset: Number of results to skip
 
-          query: Search credentials by name, domain, or ID.
+          query: Case-insensitive substring match against credential name or domain. IDs match by
+              exact value.
 
           extra_headers: Send extra headers
 
@@ -534,7 +535,8 @@ class AsyncCredentialsResource(AsyncAPIResource):
 
           offset: Number of results to skip
 
-          query: Search credentials by name, domain, or ID.
+          query: Case-insensitive substring match against credential name or domain. IDs match by
+              exact value.
 
           extra_headers: Send extra headers
 

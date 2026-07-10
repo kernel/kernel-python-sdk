@@ -71,7 +71,7 @@ class APIKeysResource(SyncAPIResource):
         Create a new API key within the authenticated organization.
 
         Args:
-          name: API key name (1-255 characters)
+          name: Label for the API key (1-255 characters). API keys are not addressable by name.
 
           days_to_expire: Number of days until expiry, up to 3650. Use null for never.
 
@@ -382,7 +382,7 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         Create a new API key within the authenticated organization.
 
         Args:
-          name: API key name (1-255 characters)
+          name: Label for the API key (1-255 characters). API keys are not addressable by name.
 
           days_to_expire: Number of days until expiry, up to 3650. Use null for never.
 

@@ -378,7 +378,8 @@ class BrowserPoolsResource(SyncAPIResource):
 
           offset: Offset the number of browser pools to return.
 
-          query: Search browser pools by name or ID.
+          query: Case-insensitive substring match against browser pool name. IDs match by exact
+              value.
 
           extra_headers: Send extra headers
 
@@ -945,7 +946,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           offset: Offset the number of browser pools to return.
 
-          query: Search browser pools by name or ID.
+          query: Case-insensitive substring match against browser pool name. IDs match by exact
+              value.
 
           extra_headers: Send extra headers
 

@@ -189,7 +189,7 @@ class ProfilesResource(SyncAPIResource):
 
           offset: Offset the number of profiles to return.
 
-          query: Search profiles by name or ID.
+          query: Case-insensitive substring match against profile name or ID.
 
           extra_headers: Send extra headers
 
@@ -447,7 +447,7 @@ class AsyncProfilesResource(AsyncAPIResource):
 
           offset: Offset the number of profiles to return.
 
-          query: Search profiles by name or ID.
+          query: Case-insensitive substring match against profile name or ID.
 
           extra_headers: Send extra headers
 
