@@ -38,6 +38,7 @@ from .profile_list_params import ProfileListParams as ProfileListParams
 from .project_list_params import ProjectListParams as ProjectListParams
 from .proxy_create_params import ProxyCreateParams as ProxyCreateParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
+from .proxy_update_params import ProxyUpdateParams as ProxyUpdateParams
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
 from .api_key_create_params import APIKeyCreateParams as APIKeyCreateParams
 from .api_key_rotate_params import APIKeyRotateParams as APIKeyRotateParams
@@ -49,9 +50,11 @@ from .browser_list_response import BrowserListResponse as BrowserListResponse
 from .browser_update_params import BrowserUpdateParams as BrowserUpdateParams
 from .extension_list_params import ExtensionListParams as ExtensionListParams
 from .profile_create_params import ProfileCreateParams as ProfileCreateParams
+from .profile_update_params import ProfileUpdateParams as ProfileUpdateParams
 from .project_create_params import ProjectCreateParams as ProjectCreateParams
 from .project_update_params import ProjectUpdateParams as ProjectUpdateParams
 from .proxy_create_response import ProxyCreateResponse as ProxyCreateResponse
+from .proxy_update_response import ProxyUpdateResponse as ProxyUpdateResponse
 from .credential_list_params import CredentialListParams as CredentialListParams
 from .deployment_list_params import DeploymentListParams as DeploymentListParams
 from .deployment_state_event import DeploymentStateEvent as DeploymentStateEvent

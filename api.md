@@ -285,6 +285,7 @@ Methods:
 
 - <code title="post /profiles">client.profiles.<a href="./src/kernel/resources/profiles.py">create</a>(\*\*<a href="src/kernel/types/profile_create_params.py">params</a>) -> <a href="./src/kernel/types/profile.py">Profile</a></code>
 - <code title="get /profiles/{id_or_name}">client.profiles.<a href="./src/kernel/resources/profiles.py">retrieve</a>(id_or_name) -> <a href="./src/kernel/types/profile.py">Profile</a></code>
+- <code title="patch /profiles/{id_or_name}">client.profiles.<a href="./src/kernel/resources/profiles.py">update</a>(id_or_name, \*\*<a href="src/kernel/types/profile_update_params.py">params</a>) -> <a href="./src/kernel/types/profile.py">Profile</a></code>
 - <code title="get /profiles">client.profiles.<a href="./src/kernel/resources/profiles.py">list</a>(\*\*<a href="src/kernel/types/profile_list_params.py">params</a>) -> <a href="./src/kernel/types/profile.py">SyncOffsetPagination[Profile]</a></code>
 - <code title="delete /profiles/{id_or_name}">client.profiles.<a href="./src/kernel/resources/profiles.py">delete</a>(id_or_name) -> None</code>
 - <code title="get /profiles/{id_or_name}/download">client.profiles.<a href="./src/kernel/resources/profiles.py">download</a>(id_or_name) -> BinaryAPIResponse</code>
@@ -328,6 +329,7 @@ Types:
 from kernel.types import (
     ProxyCreateResponse,
     ProxyRetrieveResponse,
+    ProxyUpdateResponse,
     ProxyListResponse,
     ProxyCheckResponse,
 )
@@ -337,6 +339,7 @@ Methods:
 
 - <code title="post /proxies">client.proxies.<a href="./src/kernel/resources/proxies.py">create</a>(\*\*<a href="src/kernel/types/proxy_create_params.py">params</a>) -> <a href="./src/kernel/types/proxy_create_response.py">ProxyCreateResponse</a></code>
 - <code title="get /proxies/{id}">client.proxies.<a href="./src/kernel/resources/proxies.py">retrieve</a>(id) -> <a href="./src/kernel/types/proxy_retrieve_response.py">ProxyRetrieveResponse</a></code>
+- <code title="patch /proxies/{id}">client.proxies.<a href="./src/kernel/resources/proxies.py">update</a>(id, \*\*<a href="src/kernel/types/proxy_update_params.py">params</a>) -> <a href="./src/kernel/types/proxy_update_response.py">ProxyUpdateResponse</a></code>
 - <code title="get /proxies">client.proxies.<a href="./src/kernel/resources/proxies.py">list</a>(\*\*<a href="src/kernel/types/proxy_list_params.py">params</a>) -> <a href="./src/kernel/types/proxy_list_response.py">SyncOffsetPagination[ProxyListResponse]</a></code>
 - <code title="delete /proxies/{id}">client.proxies.<a href="./src/kernel/resources/proxies.py">delete</a>(id) -> None</code>
 - <code title="post /proxies/{id}/check">client.proxies.<a href="./src/kernel/resources/proxies.py">check</a>(id, \*\*<a href="src/kernel/types/proxy_check_params.py">params</a>) -> <a href="./src/kernel/types/proxy_check_response.py">ProxyCheckResponse</a></code>
