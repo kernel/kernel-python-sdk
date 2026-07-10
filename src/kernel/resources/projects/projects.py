@@ -177,6 +177,7 @@ class ProjectsResource(SyncAPIResource):
         self,
         *,
         limit: int | Omit = omit,
+        name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -191,6 +192,9 @@ class ProjectsResource(SyncAPIResource):
 
         Args:
           limit: Maximum number of results to return
+
+          name: Exact-match filter on project name using the database collation. In production,
+              matching is case- and accent-insensitive.
 
           offset: Number of results to skip
 
@@ -215,6 +219,7 @@ class ProjectsResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "limit": limit,
+                        "name": name,
                         "offset": offset,
                         "query": query,
                     },
@@ -405,6 +410,7 @@ class AsyncProjectsResource(AsyncAPIResource):
         self,
         *,
         limit: int | Omit = omit,
+        name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -419,6 +425,9 @@ class AsyncProjectsResource(AsyncAPIResource):
 
         Args:
           limit: Maximum number of results to return
+
+          name: Exact-match filter on project name using the database collation. In production,
+              matching is case- and accent-insensitive.
 
           offset: Number of results to skip
 
@@ -443,6 +452,7 @@ class AsyncProjectsResource(AsyncAPIResource):
                 query=maybe_transform(
                     {
                         "limit": limit,
+                        "name": name,
                         "offset": offset,
                         "query": query,
                     },
