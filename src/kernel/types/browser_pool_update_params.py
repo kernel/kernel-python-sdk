@@ -77,7 +77,10 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     refresh_on_profile_update: bool
     """
     If provided, replaces whether idle browsers are flushed when the profile the
-    pool uses is updated. Requires a profile to be set on the pool.
+    pool uses is updated. When the pool's profile reference is changed (including
+    newly attached) and this field is omitted, it defaults to true. Re-sending the
+    same profile reference leaves this setting unchanged. Clearing the profile also
+    disables this setting. Requires a profile to be set on the pool.
     """
 
     size: int

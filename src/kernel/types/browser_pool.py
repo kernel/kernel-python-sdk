@@ -91,8 +91,8 @@ class BrowserPoolConfig(BaseModel):
     refresh_on_profile_update: Optional[bool] = None
     """
     When true, flush idle browsers when the profile the pool uses is updated, so
-    pool browsers pick up the latest profile data. Requires a profile to be set on
-    the pool.
+    pool browsers pick up the latest profile data. When a profile is provided during
+    creation, this defaults to true. Requires a profile to be set on the pool.
     """
 
     start_url: Optional[str] = None

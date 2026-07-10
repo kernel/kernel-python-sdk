@@ -122,8 +122,8 @@ class BrowserPoolsResource(SyncAPIResource):
               the same project as the browser session.
 
           refresh_on_profile_update: When true, flush idle browsers when the profile the pool uses is updated, so
-              pool browsers pick up the latest profile data. Requires a profile to be set on
-              the pool.
+              pool browsers pick up the latest profile data. When a profile is provided during
+              creation, this defaults to true. Requires a profile to be set on the pool.
 
           start_url: Optional URL to navigate to when a new browser is warmed into the pool.
               Best-effort: failures to navigate do not fail pool fill. Only applied to
@@ -291,7 +291,10 @@ class BrowserPoolsResource(SyncAPIResource):
               proxy unchanged.
 
           refresh_on_profile_update: If provided, replaces whether idle browsers are flushed when the profile the
-              pool uses is updated. Requires a profile to be set on the pool.
+              pool uses is updated. When the pool's profile reference is changed (including
+              newly attached) and this field is omitted, it defaults to true. Re-sending the
+              same profile reference leaves this setting unchanged. Clearing the profile also
+              disables this setting. Requires a profile to be set on the pool.
 
           size: If provided, replaces the number of browsers to maintain in the pool. The
               maximum size is determined by your organization's pooled sessions limit (the sum
@@ -697,8 +700,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               the same project as the browser session.
 
           refresh_on_profile_update: When true, flush idle browsers when the profile the pool uses is updated, so
-              pool browsers pick up the latest profile data. Requires a profile to be set on
-              the pool.
+              pool browsers pick up the latest profile data. When a profile is provided during
+              creation, this defaults to true. Requires a profile to be set on the pool.
 
           start_url: Optional URL to navigate to when a new browser is warmed into the pool.
               Best-effort: failures to navigate do not fail pool fill. Only applied to
@@ -866,7 +869,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               proxy unchanged.
 
           refresh_on_profile_update: If provided, replaces whether idle browsers are flushed when the profile the
-              pool uses is updated. Requires a profile to be set on the pool.
+              pool uses is updated. When the pool's profile reference is changed (including
+              newly attached) and this field is omitted, it defaults to true. Re-sending the
+              same profile reference leaves this setting unchanged. Clearing the profile also
+              disables this setting. Requires a profile to be set on the pool.
 
           size: If provided, replaces the number of browsers to maintain in the pool. The
               maximum size is determined by your organization's pooled sessions limit (the sum
