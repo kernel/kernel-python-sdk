@@ -15,4 +15,7 @@ class CredentialProviderListParams(TypedDict, total=False):
     """Offset the number of credential providers to return."""
 
     query: str
-    """Search credential providers by name or ID."""
+    """Case-insensitive substring match against credential provider name.
+
+    IDs match by exact value.
+    """

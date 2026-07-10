@@ -15,4 +15,7 @@ class BrowserPoolListParams(TypedDict, total=False):
     """Offset the number of browser pools to return."""
 
     query: str
-    """Search browser pools by name or ID."""
+    """Case-insensitive substring match against browser pool name.
+
+    IDs match by exact value.
+    """

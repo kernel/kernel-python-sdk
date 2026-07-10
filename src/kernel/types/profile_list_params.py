@@ -15,4 +15,4 @@ class ProfileListParams(TypedDict, total=False):
     """Offset the number of profiles to return."""
 
     query: str
-    """Search profiles by name or ID."""
+    """Case-insensitive substring match against profile name or ID."""

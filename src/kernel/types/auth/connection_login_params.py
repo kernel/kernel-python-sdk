@@ -12,7 +12,9 @@ class ConnectionLoginParams(TypedDict, total=False):
     """Proxy selection.
 
     Provide either id or name. The proxy must be in the same project as the resource
-    referencing it.
+    referencing it. When selecting by name, the name must match exactly one active
+    proxy in the project. Ambiguous names return a 400; use id for stable
+    references.
     """
 
     record_session: bool
@@ -26,6 +28,7 @@ class Proxy(TypedDict, total=False):
     """Proxy selection.
 
     Provide either id or name. The proxy must be in the same project as the resource referencing it.
+    When selecting by name, the name must match exactly one active proxy in the project. Ambiguous names return a 400; use id for stable references.
     """
 
     id: str

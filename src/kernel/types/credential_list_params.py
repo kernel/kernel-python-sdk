@@ -18,4 +18,7 @@ class CredentialListParams(TypedDict, total=False):
     """Number of results to skip"""
 
     query: str
-    """Search credentials by name, domain, or ID."""
+    """Case-insensitive substring match against credential name or domain.
+
+    IDs match by exact value.
+    """
