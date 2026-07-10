@@ -13,11 +13,13 @@ __all__ = ["BrowserPoolUpdateParams", "Profile"]
 
 class BrowserPoolUpdateParams(TypedDict, total=False):
     chrome_policy: Dict[str, object]
-    """Custom Chrome enterprise policy overrides applied to all browsers in this pool.
-
-    Keys are Chrome enterprise policy names; values must match their expected types.
+    """
+    If provided, replaces the custom Chrome enterprise policy overrides applied to
+    all browsers in this pool. Empty object clears any previously-set policy. Keys
+    are Chrome enterprise policy names; values must match their expected types.
     Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
-    https://chromeenterprise.google/policies/
+    https://chromeenterprise.google/policies/ The serialized JSON payload is capped
+    at 5 MiB.
     """
 
     discard_all_idle: bool
@@ -31,29 +33,31 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     """
 
     extensions: Iterable[BrowserExtension]
-    """List of browser extensions to load into the session.
+    """If provided, replaces the extension list.
 
-    Provide each by id or name.
+    Empty array clears all previously-selected extensions. Omit this field to leave
+    extensions unchanged.
     """
 
     fill_rate_per_minute: int
-    """Percentage of the pool to fill per minute.
+    """If provided, replaces the percentage of the pool to fill per minute.
 
-    Defaults to 10. The cap is 25 for most organizations but can be raised
-    per-organization, so only the lower bound is enforced here.
+    The cap is 25 for most organizations but can be raised per-organization, so only
+    the lower bound is enforced here.
     """
 
     headless: bool
-    """If true, launches the browser using a headless image. Defaults to false."""
+    """If provided, replaces whether browsers launch using a headless image."""
 
     kiosk_mode: bool
-    """
-    If true, launches the browser in kiosk mode to hide address bar and tabs in live
-    view.
-    """
+    """If provided, replaces whether browsers launch in kiosk mode."""
 
     name: str
-    """Optional name for the browser pool. Must be unique within the project."""
+    """If provided, replaces the pool name.
+
+    Empty string is a no-op; the pool name cannot be cleared or reset to empty once
+    assigned.
+    """
 
     profile: Profile
     """Profile configuration for browsers in a pool.
@@ -65,44 +69,38 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     """
 
     proxy_id: str
-    """Optional proxy to associate to the browser session.
+    """Empty string clears the previously-selected proxy.
 
-    Must reference a proxy in the same project as the browser session.
+    Omit this field to leave the proxy unchanged.
     """
 
     refresh_on_profile_update: bool
     """
-    When true, flush idle browsers when the profile the pool uses is updated, so
-    pool browsers pick up the latest profile data. Requires a profile to be set on
-    the pool.
+    If provided, replaces whether idle browsers are flushed when the profile the
+    pool uses is updated. Requires a profile to be set on the pool.
     """
 
     size: int
-    """Number of browsers to maintain in the pool.
+    """If provided, replaces the number of browsers to maintain in the pool.
 
     The maximum size is determined by your organization's pooled sessions limit (the
     sum of all pool sizes cannot exceed your limit).
     """
 
     start_url: str
-    """Optional URL to navigate to when a new browser is warmed into the pool.
-
-    Best-effort: failures to navigate do not fail pool fill. Only applied to
-    newly-warmed browsers; browsers reused via release/acquire keep whatever URL the
-    previous lease left them on. Accepts any URL Chromium can resolve, including
-    chrome:// pages.
+    """
+    If provided, replaces the URL to navigate to when a new browser is warmed into
+    the pool. Empty string clears the previously-set URL. Omit this field to leave
+    it unchanged.
     """
 
     stealth: bool
-    """
-    If true, launches the browser in stealth mode to reduce detection by anti-bot
-    mechanisms.
-    """
+    """If provided, replaces whether browsers launch in stealth mode."""
 
     timeout_seconds: int
     """
-    Default idle timeout in seconds for browsers acquired from this pool before they
-    are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
+    If provided, replaces the default idle timeout in seconds for browsers acquired
+    from this pool before they are destroyed. Minimum 10, maximum 259200 (72 hours).
     """
 
     viewport: BrowserViewport

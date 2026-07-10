@@ -33,7 +33,7 @@ class BrowserPoolConfig(BaseModel):
     """Configuration used to create all browsers in this pool"""
 
     size: int
-    """Number of browsers to maintain in the pool.
+    """Number of browsers maintained in the pool.
 
     The maximum size is determined by your organization's pooled sessions limit (the
     sum of all pool sizes cannot exceed your limit).
@@ -44,7 +44,8 @@ class BrowserPoolConfig(BaseModel):
 
     Keys are Chrome enterprise policy names; values must match their expected types.
     Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
-    https://chromeenterprise.google/policies/
+    https://chromeenterprise.google/policies/ The serialized JSON payload is capped
+    at 5 MiB.
     """
 
     extensions: Optional[List[BrowserExtension]] = None
@@ -56,12 +57,12 @@ class BrowserPoolConfig(BaseModel):
     fill_rate_per_minute: Optional[int] = None
     """Percentage of the pool to fill per minute.
 
-    Defaults to 10. The cap is 25 for most organizations but can be raised
-    per-organization, so only the lower bound is enforced here.
+    The cap is 25 for most organizations but can be raised per-organization, so only
+    the lower bound is enforced here.
     """
 
     headless: Optional[bool] = None
-    """If true, launches the browser using a headless image. Defaults to false."""
+    """If true, launches the browser using a headless image."""
 
     kiosk_mode: Optional[bool] = None
     """
@@ -82,9 +83,9 @@ class BrowserPoolConfig(BaseModel):
     """
 
     proxy_id: Optional[str] = None
-    """Optional proxy to associate to the browser session.
+    """Optional proxy associated to the browser session.
 
-    Must reference a proxy in the same project as the browser session.
+    References a proxy in the same project as the browser session.
     """
 
     refresh_on_profile_update: Optional[bool] = None
@@ -112,7 +113,7 @@ class BrowserPoolConfig(BaseModel):
     timeout_seconds: Optional[int] = None
     """
     Default idle timeout in seconds for browsers acquired from this pool before they
-    are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
+    are destroyed. Minimum 10, maximum 259200 (72 hours).
     """
 
     viewport: Optional[BrowserViewport] = None
