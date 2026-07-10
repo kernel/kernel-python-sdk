@@ -96,7 +96,8 @@ class BrowserPoolsResource(SyncAPIResource):
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
               Keys are Chrome enterprise policy names; values must match their expected types.
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
-              https://chromeenterprise.google/policies/
+              https://chromeenterprise.google/policies/ The serialized JSON payload is capped
+              at 5 MiB.
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
@@ -107,7 +108,7 @@ class BrowserPoolsResource(SyncAPIResource):
           headless: If true, launches the browser using a headless image. Defaults to false.
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
-              view.
+              view. Defaults to false.
 
           name: Optional name for the browser pool. Must be unique within the project.
 
@@ -131,7 +132,7 @@ class BrowserPoolsResource(SyncAPIResource):
               chrome:// pages.
 
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
-              mechanisms.
+              mechanisms. Defaults to false.
 
           timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
               are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
@@ -252,10 +253,12 @@ class BrowserPoolsResource(SyncAPIResource):
         `refresh_on_profile_update`.
 
         Args:
-          chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
-              Keys are Chrome enterprise policy names; values must match their expected types.
+          chrome_policy: If provided, replaces the custom Chrome enterprise policy overrides applied to
+              all browsers in this pool. Empty object clears any previously-set policy. Keys
+              are Chrome enterprise policy names; values must match their expected types.
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
-              https://chromeenterprise.google/policies/
+              https://chromeenterprise.google/policies/ The serialized JSON payload is capped
+              at 5 MiB.
 
           discard_all_idle: Whether to discard all idle browsers and rebuild them immediately with the new
               configuration. Defaults to false. Only browsers that are idle when the update
@@ -264,18 +267,19 @@ class BrowserPoolsResource(SyncAPIResource):
               pool with that stale configuration until it is discarded (by this flag on a
               later update, or by flushing the pool).
 
-          extensions: List of browser extensions to load into the session. Provide each by id or name.
+          extensions: If provided, replaces the extension list. Empty array clears all
+              previously-selected extensions. Omit this field to leave extensions unchanged.
 
-          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10. The cap is 25 for
-              most organizations but can be raised per-organization, so only the lower bound
-              is enforced here.
+          fill_rate_per_minute: If provided, replaces the percentage of the pool to fill per minute. The cap is
+              25 for most organizations but can be raised per-organization, so only the lower
+              bound is enforced here.
 
-          headless: If true, launches the browser using a headless image. Defaults to false.
+          headless: If provided, replaces whether browsers launch using a headless image.
 
-          kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
-              view.
+          kiosk_mode: If provided, replaces whether browsers launch in kiosk mode.
 
-          name: Optional name for the browser pool. Must be unique within the project.
+          name: If provided, replaces the pool name. Empty string is a no-op; the pool name
+              cannot be cleared or reset to empty once assigned.
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load
@@ -283,28 +287,24 @@ class BrowserPoolsResource(SyncAPIResource):
               omitted here. Any save_changes value sent on a pool profile is silently ignored
               rather than rejected.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
-              the same project as the browser session.
+          proxy_id: Empty string clears the previously-selected proxy. Omit this field to leave the
+              proxy unchanged.
 
-          refresh_on_profile_update: When true, flush idle browsers when the profile the pool uses is updated, so
-              pool browsers pick up the latest profile data. Requires a profile to be set on
-              the pool.
+          refresh_on_profile_update: If provided, replaces whether idle browsers are flushed when the profile the
+              pool uses is updated. Requires a profile to be set on the pool.
 
-          size: Number of browsers to maintain in the pool. The maximum size is determined by
-              your organization's pooled sessions limit (the sum of all pool sizes cannot
-              exceed your limit).
+          size: If provided, replaces the number of browsers to maintain in the pool. The
+              maximum size is determined by your organization's pooled sessions limit (the sum
+              of all pool sizes cannot exceed your limit).
 
-          start_url: Optional URL to navigate to when a new browser is warmed into the pool.
-              Best-effort: failures to navigate do not fail pool fill. Only applied to
-              newly-warmed browsers; browsers reused via release/acquire keep whatever URL the
-              previous lease left them on. Accepts any URL Chromium can resolve, including
-              chrome:// pages.
+          start_url: If provided, replaces the URL to navigate to when a new browser is warmed into
+              the pool. Empty string clears the previously-set URL. Omit this field to leave
+              it unchanged.
 
-          stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
-              mechanisms.
+          stealth: If provided, replaces whether browsers launch in stealth mode.
 
-          timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
-              are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
+          timeout_seconds: If provided, replaces the default idle timeout in seconds for browsers acquired
+              from this pool before they are destroyed. Minimum 10, maximum 259200 (72 hours).
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is
@@ -671,7 +671,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
               Keys are Chrome enterprise policy names; values must match their expected types.
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
-              https://chromeenterprise.google/policies/
+              https://chromeenterprise.google/policies/ The serialized JSON payload is capped
+              at 5 MiB.
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
@@ -682,7 +683,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           headless: If true, launches the browser using a headless image. Defaults to false.
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
-              view.
+              view. Defaults to false.
 
           name: Optional name for the browser pool. Must be unique within the project.
 
@@ -706,7 +707,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               chrome:// pages.
 
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
-              mechanisms.
+              mechanisms. Defaults to false.
 
           timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
               are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
@@ -827,10 +828,12 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         `refresh_on_profile_update`.
 
         Args:
-          chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
-              Keys are Chrome enterprise policy names; values must match their expected types.
+          chrome_policy: If provided, replaces the custom Chrome enterprise policy overrides applied to
+              all browsers in this pool. Empty object clears any previously-set policy. Keys
+              are Chrome enterprise policy names; values must match their expected types.
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
-              https://chromeenterprise.google/policies/
+              https://chromeenterprise.google/policies/ The serialized JSON payload is capped
+              at 5 MiB.
 
           discard_all_idle: Whether to discard all idle browsers and rebuild them immediately with the new
               configuration. Defaults to false. Only browsers that are idle when the update
@@ -839,18 +842,19 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               pool with that stale configuration until it is discarded (by this flag on a
               later update, or by flushing the pool).
 
-          extensions: List of browser extensions to load into the session. Provide each by id or name.
+          extensions: If provided, replaces the extension list. Empty array clears all
+              previously-selected extensions. Omit this field to leave extensions unchanged.
 
-          fill_rate_per_minute: Percentage of the pool to fill per minute. Defaults to 10. The cap is 25 for
-              most organizations but can be raised per-organization, so only the lower bound
-              is enforced here.
+          fill_rate_per_minute: If provided, replaces the percentage of the pool to fill per minute. The cap is
+              25 for most organizations but can be raised per-organization, so only the lower
+              bound is enforced here.
 
-          headless: If true, launches the browser using a headless image. Defaults to false.
+          headless: If provided, replaces whether browsers launch using a headless image.
 
-          kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
-              view.
+          kiosk_mode: If provided, replaces whether browsers launch in kiosk mode.
 
-          name: Optional name for the browser pool. Must be unique within the project.
+          name: If provided, replaces the pool name. Empty string is a no-op; the pool name
+              cannot be cleared or reset to empty once assigned.
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load
@@ -858,28 +862,24 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               omitted here. Any save_changes value sent on a pool profile is silently ignored
               rather than rejected.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
-              the same project as the browser session.
+          proxy_id: Empty string clears the previously-selected proxy. Omit this field to leave the
+              proxy unchanged.
 
-          refresh_on_profile_update: When true, flush idle browsers when the profile the pool uses is updated, so
-              pool browsers pick up the latest profile data. Requires a profile to be set on
-              the pool.
+          refresh_on_profile_update: If provided, replaces whether idle browsers are flushed when the profile the
+              pool uses is updated. Requires a profile to be set on the pool.
 
-          size: Number of browsers to maintain in the pool. The maximum size is determined by
-              your organization's pooled sessions limit (the sum of all pool sizes cannot
-              exceed your limit).
+          size: If provided, replaces the number of browsers to maintain in the pool. The
+              maximum size is determined by your organization's pooled sessions limit (the sum
+              of all pool sizes cannot exceed your limit).
 
-          start_url: Optional URL to navigate to when a new browser is warmed into the pool.
-              Best-effort: failures to navigate do not fail pool fill. Only applied to
-              newly-warmed browsers; browsers reused via release/acquire keep whatever URL the
-              previous lease left them on. Accepts any URL Chromium can resolve, including
-              chrome:// pages.
+          start_url: If provided, replaces the URL to navigate to when a new browser is warmed into
+              the pool. Empty string clears the previously-set URL. Omit this field to leave
+              it unchanged.
 
-          stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
-              mechanisms.
+          stealth: If provided, replaces whether browsers launch in stealth mode.
 
-          timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
-              are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
+          timeout_seconds: If provided, replaces the default idle timeout in seconds for browsers acquired
+              from this pool before they are destroyed. Minimum 10, maximum 259200 (72 hours).
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is
