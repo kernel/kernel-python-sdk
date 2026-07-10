@@ -106,6 +106,52 @@ class TestProfiles:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_update(self, client: Kernel) -> None:
+        profile = client.profiles.update(
+            id_or_name="id_or_name",
+            name="my-renamed-profile",
+        )
+        assert_matches_type(Profile, profile, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_update(self, client: Kernel) -> None:
+        response = client.profiles.with_raw_response.update(
+            id_or_name="id_or_name",
+            name="my-renamed-profile",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        profile = response.parse()
+        assert_matches_type(Profile, profile, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_update(self, client: Kernel) -> None:
+        with client.profiles.with_streaming_response.update(
+            id_or_name="id_or_name",
+            name="my-renamed-profile",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            profile = response.parse()
+            assert_matches_type(Profile, profile, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_update(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            client.profiles.with_raw_response.update(
+                id_or_name="",
+                name="my-renamed-profile",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_list(self, client: Kernel) -> None:
         profile = client.profiles.list()
         assert_matches_type(SyncOffsetPagination[Profile], profile, path=["response"])
@@ -316,6 +362,52 @@ class TestAsyncProfiles:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             await async_client.profiles.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_update(self, async_client: AsyncKernel) -> None:
+        profile = await async_client.profiles.update(
+            id_or_name="id_or_name",
+            name="my-renamed-profile",
+        )
+        assert_matches_type(Profile, profile, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncKernel) -> None:
+        response = await async_client.profiles.with_raw_response.update(
+            id_or_name="id_or_name",
+            name="my-renamed-profile",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        profile = await response.parse()
+        assert_matches_type(Profile, profile, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncKernel) -> None:
+        async with async_client.profiles.with_streaming_response.update(
+            id_or_name="id_or_name",
+            name="my-renamed-profile",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            profile = await response.parse()
+            assert_matches_type(Profile, profile, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            await async_client.profiles.with_raw_response.update(
+                id_or_name="",
+                name="my-renamed-profile",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

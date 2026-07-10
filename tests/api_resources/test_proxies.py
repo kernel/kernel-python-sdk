@@ -13,6 +13,7 @@ from kernel.types import (
     ProxyListResponse,
     ProxyCheckResponse,
     ProxyCreateResponse,
+    ProxyUpdateResponse,
     ProxyRetrieveResponse,
 )
 from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
@@ -109,6 +110,52 @@ class TestProxies:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.proxies.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_update(self, client: Kernel) -> None:
+        proxy = client.proxies.update(
+            id="id",
+            name="my-renamed-proxy",
+        )
+        assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_update(self, client: Kernel) -> None:
+        response = client.proxies.with_raw_response.update(
+            id="id",
+            name="my-renamed-proxy",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        proxy = response.parse()
+        assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_update(self, client: Kernel) -> None:
+        with client.proxies.with_streaming_response.update(
+            id="id",
+            name="my-renamed-proxy",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            proxy = response.parse()
+            assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_update(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.proxies.with_raw_response.update(
+                id="",
+                name="my-renamed-proxy",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -334,6 +381,52 @@ class TestAsyncProxies:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.proxies.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_update(self, async_client: AsyncKernel) -> None:
+        proxy = await async_client.proxies.update(
+            id="id",
+            name="my-renamed-proxy",
+        )
+        assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncKernel) -> None:
+        response = await async_client.proxies.with_raw_response.update(
+            id="id",
+            name="my-renamed-proxy",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        proxy = await response.parse()
+        assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncKernel) -> None:
+        async with async_client.proxies.with_streaming_response.update(
+            id="id",
+            name="my-renamed-proxy",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            proxy = await response.parse()
+            assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.proxies.with_raw_response.update(
+                id="",
+                name="my-renamed-proxy",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

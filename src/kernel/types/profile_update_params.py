@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from typing_extensions import TypedDict
+from typing_extensions import Required, TypedDict
 
-__all__ = ["ProfileCreateParams"]
+__all__ = ["ProfileUpdateParams"]
 
 
-class ProfileCreateParams(TypedDict, total=False):
-    name: str
-    """Optional name of the profile.
+class ProfileUpdateParams(TypedDict, total=False):
+    name: Required[str]
+    """New profile name.
 
     Must be unique within the logical project; during the default-project migration,
     unscoped profiles and profiles in the org default project are treated as the
