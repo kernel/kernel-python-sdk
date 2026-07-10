@@ -11,6 +11,14 @@ class ExtensionListParams(TypedDict, total=False):
     limit: int
     """Limit the number of extensions to return."""
 
+    name: str
+    """Exact-match filter on extension name using the database collation.
+
+    In production, matching is case- and accent-insensitive. During the
+    default-project migration, unscoped requests prefer a concrete default-project
+    extension over a legacy unscoped extension with the same name.
+    """
+
     offset: int
     """Offset the number of extensions to return."""
 

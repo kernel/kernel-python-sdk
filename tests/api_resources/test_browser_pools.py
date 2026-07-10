@@ -218,6 +218,7 @@ class TestBrowserPools:
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         browser_pool = client.browser_pools.list(
             limit=1,
+            name="name",
             offset=0,
             query="query",
         )
@@ -654,6 +655,7 @@ class TestAsyncBrowserPools:
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         browser_pool = await async_client.browser_pools.list(
             limit=1,
+            name="name",
             offset=0,
             query="query",
         )

@@ -11,6 +11,12 @@ class ProjectListParams(TypedDict, total=False):
     limit: int
     """Maximum number of results to return"""
 
+    name: str
+    """Exact-match filter on project name using the database collation.
+
+    In production, matching is case- and accent-insensitive.
+    """
+
     offset: int
     """Number of results to skip"""
 

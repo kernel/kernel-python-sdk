@@ -361,6 +361,7 @@ class BrowserPoolsResource(SyncAPIResource):
         self,
         *,
         limit: int | Omit = omit,
+        name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -375,6 +376,11 @@ class BrowserPoolsResource(SyncAPIResource):
 
         Args:
           limit: Limit the number of browser pools to return.
+
+          name: Exact-match filter on browser pool name using the database collation. In
+              production, matching is case- and accent-insensitive. During the default-project
+              migration, unscoped requests prefer a concrete default-project browser pool over
+              a legacy unscoped browser pool with the same name.
 
           offset: Offset the number of browser pools to return.
 
@@ -400,6 +406,7 @@ class BrowserPoolsResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "limit": limit,
+                        "name": name,
                         "offset": offset,
                         "query": query,
                     },
@@ -929,6 +936,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         self,
         *,
         limit: int | Omit = omit,
+        name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -943,6 +951,11 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
         Args:
           limit: Limit the number of browser pools to return.
+
+          name: Exact-match filter on browser pool name using the database collation. In
+              production, matching is case- and accent-insensitive. During the default-project
+              migration, unscoped requests prefer a concrete default-project browser pool over
+              a legacy unscoped browser pool with the same name.
 
           offset: Offset the number of browser pools to return.
 
@@ -968,6 +981,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                 query=maybe_transform(
                     {
                         "limit": limit,
+                        "name": name,
                         "offset": offset,
                         "query": query,
                     },
