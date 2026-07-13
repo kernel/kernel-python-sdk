@@ -25,7 +25,7 @@ class AuditLogExportChunkParams(TypedDict, total=False):
     cursor: str
     """Opaque cursor from X-Next-Cursor for the next chunk of older records."""
 
-    exclude_method: str
+    exclude_method: SequenceNotStr[str]
     """Filter out results by HTTP method."""
 
     format: Literal["jsonl", "jsonl.gz"]
