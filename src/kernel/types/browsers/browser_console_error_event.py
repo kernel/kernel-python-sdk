@@ -19,7 +19,12 @@ class Data(BrowserEventContext):
     """
 
     text: str
-    """Error message text. Present in both source paths."""
+    """Human-readable error text, as the browser console would display it.
+
+    For console.error() calls, the first argument coerced to a string. For uncaught
+    exceptions, the prefix and error message, e.g. "Uncaught Error: boom" or
+    "Uncaught (in promise) TypeError: x is not a function".
+    """
 
     args: Optional[List[str]] = None
     """All console arguments coerced to strings.
