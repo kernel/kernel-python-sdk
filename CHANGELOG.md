@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.78.0 (2026-07-13)
+
+Full Changelog: [v0.76.0...v0.78.0](https://github.com/kernel/kernel-python-sdk/compare/v0.76.0...v0.78.0)
+
+### Features
+
+* Add exact-match name filter to list endpoints ([6011556](https://github.com/kernel/kernel-python-sdk/commit/601155642a4d082d19c3b3293eea6d6105f74407))
+* Add name-only rename for profiles and proxies ([1d38266](https://github.com/kernel/kernel-python-sdk/commit/1d3826696cb2005ab6c33a7cd1df19b660d66449))
+* Auto-default refresh_on_profile_update when browser pool profile changes ([4771197](https://github.com/kernel/kernel-python-sdk/commit/4771197c55a1562d465f9b75d8a8e2a12f5e6f76))
+* Document name uniqueness and query match semantics ([e27f37d](https://github.com/kernel/kernel-python-sdk/commit/e27f37d43b1d76628c42f90e77a18af513c86280))
+* Expose telemetry exception message in API/SDK ([6575dd2](https://github.com/kernel/kernel-python-sdk/commit/6575dd21919b092a77de88e4ee8d037f601edadc))
+* Make the browser pool OpenAPI contract truthful ([20b3a7e](https://github.com/kernel/kernel-python-sdk/commit/20b3a7efc61b7de4007fdd9d096595bfab9c06c3))
+* Persist and echo deployment source identity ([5db2b01](https://github.com/kernel/kernel-python-sdk/commit/5db2b01c8ad53441cb3cc7056b8b4b7c8cbcc45c))
+* Support multiple audit log method exclusions ([f9decdd](https://github.com/kernel/kernel-python-sdk/commit/f9decdd9d2f617c4483d3a5ddd568f34ac8052f6))
+
+
+### Documentation
+
+* **openapi:** describe unified concurrency limit, deprecate max_pooled_sessions (CUS-275) ([8c85318](https://github.com/kernel/kernel-python-sdk/commit/8c85318da7d5b064b867b1e4d029937eafc08d13))
+
 ## 0.76.0 (2026-07-09)
 
 Full Changelog: [v0.75.0...v0.76.0](https://github.com/kernel/kernel-python-sdk/compare/v0.75.0...v0.76.0)
