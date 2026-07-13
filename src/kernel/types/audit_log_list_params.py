@@ -22,7 +22,7 @@ class AuditLogListParams(TypedDict, total=False):
     auth_strategy: str
     """Filter by authentication strategy."""
 
-    exclude_method: str
+    exclude_method: SequenceNotStr[str]
     """Filter out results by HTTP method."""
 
     limit: int
