@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable
+from typing import Dict, Iterable, Optional
 from typing_extensions import Required, TypedDict
 
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
+from .browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
 
-__all__ = ["BrowserPoolCreateParams", "Profile"]
+__all__ = ["BrowserPoolCreateParams", "Profile", "Telemetry"]
 
 
 class BrowserPoolCreateParams(TypedDict, total=False):
@@ -90,6 +91,16 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     mechanisms. Defaults to false.
     """
 
+    telemetry: Optional[Telemetry]
+    """Telemetry configuration applied to browsers warmed into this pool.
+
+    Set enabled to true to start capture using the default set, or provide browser
+    category settings. If omitted, null, set to an empty object ({}), set to
+    enabled: false without browser category settings, or all four CDP categories are
+    explicitly disabled, no telemetry is configured on the pool. Only applied to
+    newly-warmed browsers.
+    """
+
     timeout_seconds: int
     """
     Default idle timeout in seconds for browsers acquired from this pool before they
@@ -129,4 +140,38 @@ class Profile(TypedDict, total=False):
     """Profile name to load for browsers in this pool (instead of id).
 
     Must be 1-255 characters, using letters, numbers, dots, underscores, or hyphens.
+    """
+
+
+class Telemetry(TypedDict, total=False):
+    """Telemetry configuration applied to browsers warmed into this pool.
+
+    Set enabled to true to start capture using the default set, or provide browser category settings. If omitted, null, set to an empty object ({}), set to enabled: false without browser category settings, or all four CDP categories are explicitly disabled, no telemetry is configured on the pool. Only applied to newly-warmed browsers.
+    """
+
+    browser: BrowserTelemetryCategoriesConfigParam
+    """Per-category capture flags.
+
+    The operational categories (control, connection, system, captcha) are captured
+    whenever telemetry is enabled; set one to enabled=false to opt out. The CDP
+    categories (console, network, page, interaction) and screenshot are off by
+    default; set enabled=true to opt in. On create, provided categories layer onto
+    the default set. On update, provided categories merge onto the session's current
+    config; when no telemetry is active this falls back to the default set (matching
+    create). If browser is omitted or empty, the default set is used. A browser
+    config that disables every category stops capture on update and starts no
+    capture on create.
+    """
+
+    enabled: bool
+    """Request shortcut for browser telemetry capture.
+
+    True enables capture; with no browser category settings it captures the default
+    set (control, connection, system, captcha), and any browser category settings
+    are layered onto that default set. On update, enabled=true resolves the config
+    fresh from the default set plus any provided categories, replacing the session's
+    current selection rather than merging onto it; omit enabled to merge categories
+    onto the current selection instead. False stops capture on update and starts no
+    capture on create. enabled=false cannot be combined with browser category
+    settings.
     """

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable
+from typing import Dict, Iterable, Optional
 
 import httpx
 
@@ -72,6 +72,7 @@ class BrowserPoolsResource(SyncAPIResource):
         refresh_on_profile_update: bool | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
+        telemetry: Optional[browser_pool_create_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -134,6 +135,13 @@ class BrowserPoolsResource(SyncAPIResource):
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms. Defaults to false.
 
+          telemetry: Telemetry configuration applied to browsers warmed into this pool. Set enabled
+              to true to start capture using the default set, or provide browser category
+              settings. If omitted, null, set to an empty object ({}), set to enabled: false
+              without browser category settings, or all four CDP categories are explicitly
+              disabled, no telemetry is configured on the pool. Only applied to newly-warmed
+              browsers.
+
           timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
               are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
 
@@ -174,6 +182,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "start_url": start_url,
                     "stealth": stealth,
+                    "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
                 },
@@ -235,6 +244,7 @@ class BrowserPoolsResource(SyncAPIResource):
         size: int | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
+        telemetry: Optional[browser_pool_update_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -306,6 +316,14 @@ class BrowserPoolsResource(SyncAPIResource):
 
           stealth: If provided, replaces whether browsers launch in stealth mode.
 
+          telemetry: If provided, updates the pool's telemetry configuration. Omit, set to null, or
+              set to an empty object ({}) to leave the existing configuration unchanged. Set
+              enabled to true to enable capture using the default set. Set enabled to false to
+              clear the pool's telemetry. Provide browser category settings for per-category
+              updates, merged onto the pool's current configuration. Only applied to browsers
+              warmed after the update; browsers already in the pool keep their configuration
+              until discarded.
+
           timeout_seconds: If provided, replaces the default idle timeout in seconds for browsers acquired
               from this pool before they are destroyed. Minimum 10, maximum 259200 (72 hours).
 
@@ -349,6 +367,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "size": size,
                     "start_url": start_url,
                     "stealth": stealth,
+                    "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
                 },
@@ -468,6 +487,7 @@ class BrowserPoolsResource(SyncAPIResource):
         name: str | Omit = omit,
         start_url: str | Omit = omit,
         tags: TagsParam | Omit = omit,
+        telemetry: Optional[browser_pool_acquire_params.Telemetry] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -500,6 +520,15 @@ class BrowserPoolsResource(SyncAPIResource):
               find and group sessions later. Applies to this lease only and are cleared when
               the browser is released back to the pool. Up to 50 pairs.
 
+          telemetry: Telemetry override for the acquired browser, applied to this lease only. Merges
+              onto the browser's current (pool-inherited) telemetry using the same
+              per-category semantics as PATCH /browsers: provided categories override the
+              current configuration, omitted categories are inherited. Set enabled to true to
+              resolve the config fresh from the default set, or enabled to false to stop
+              capture. When the browser is released back to the pool with reuse, its telemetry
+              is reset to the pool's baseline, so the override does not carry over to the next
+              lease.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -518,6 +547,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "name": name,
                     "start_url": start_url,
                     "tags": tags,
+                    "telemetry": telemetry,
                 },
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
             ),
@@ -650,6 +680,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         refresh_on_profile_update: bool | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
+        telemetry: Optional[browser_pool_create_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -712,6 +743,13 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
               mechanisms. Defaults to false.
 
+          telemetry: Telemetry configuration applied to browsers warmed into this pool. Set enabled
+              to true to start capture using the default set, or provide browser category
+              settings. If omitted, null, set to an empty object ({}), set to enabled: false
+              without browser category settings, or all four CDP categories are explicitly
+              disabled, no telemetry is configured on the pool. Only applied to newly-warmed
+              browsers.
+
           timeout_seconds: Default idle timeout in seconds for browsers acquired from this pool before they
               are destroyed. Defaults to 600 seconds. Minimum 10, maximum 259200 (72 hours).
 
@@ -752,6 +790,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "start_url": start_url,
                     "stealth": stealth,
+                    "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
                 },
@@ -813,6 +852,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         size: int | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
+        telemetry: Optional[browser_pool_update_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -884,6 +924,14 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           stealth: If provided, replaces whether browsers launch in stealth mode.
 
+          telemetry: If provided, updates the pool's telemetry configuration. Omit, set to null, or
+              set to an empty object ({}) to leave the existing configuration unchanged. Set
+              enabled to true to enable capture using the default set. Set enabled to false to
+              clear the pool's telemetry. Provide browser category settings for per-category
+              updates, merged onto the pool's current configuration. Only applied to browsers
+              warmed after the update; browsers already in the pool keep their configuration
+              until discarded.
+
           timeout_seconds: If provided, replaces the default idle timeout in seconds for browsers acquired
               from this pool before they are destroyed. Minimum 10, maximum 259200 (72 hours).
 
@@ -927,6 +975,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "size": size,
                     "start_url": start_url,
                     "stealth": stealth,
+                    "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "viewport": viewport,
                 },
@@ -1046,6 +1095,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         name: str | Omit = omit,
         start_url: str | Omit = omit,
         tags: TagsParam | Omit = omit,
+        telemetry: Optional[browser_pool_acquire_params.Telemetry] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1078,6 +1128,15 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               find and group sessions later. Applies to this lease only and are cleared when
               the browser is released back to the pool. Up to 50 pairs.
 
+          telemetry: Telemetry override for the acquired browser, applied to this lease only. Merges
+              onto the browser's current (pool-inherited) telemetry using the same
+              per-category semantics as PATCH /browsers: provided categories override the
+              current configuration, omitted categories are inherited. Set enabled to true to
+              resolve the config fresh from the default set, or enabled to false to stop
+              capture. When the browser is released back to the pool with reuse, its telemetry
+              is reset to the pool's baseline, so the override does not carry over to the next
+              lease.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1096,6 +1155,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "name": name,
                     "start_url": start_url,
                     "tags": tags,
+                    "telemetry": telemetry,
                 },
                 browser_pool_acquire_params.BrowserPoolAcquireParams,
             ),
