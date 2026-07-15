@@ -6,6 +6,7 @@ from datetime import datetime
 from .._models import BaseModel
 from .shared.browser_viewport import BrowserViewport
 from .shared.browser_extension import BrowserExtension
+from .browsers.browser_telemetry_config import BrowserTelemetryConfig
 
 __all__ = ["BrowserPool", "BrowserPoolConfig", "BrowserPoolConfigProfile"]
 
@@ -108,6 +109,12 @@ class BrowserPoolConfig(BaseModel):
     """
     If true, launches the browser in stealth mode to reduce detection by anti-bot
     mechanisms.
+    """
+
+    telemetry: Optional[BrowserTelemetryConfig] = None
+    """
+    Active telemetry configuration applied to browsers warmed into this pool, if
+    any.
     """
 
     timeout_seconds: Optional[int] = None
