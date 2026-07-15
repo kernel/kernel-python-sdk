@@ -37,7 +37,7 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     fill_rate_per_minute: int
     """Percentage of the pool to fill per minute.
 
-    Defaults to 10. The cap is 25 for most organizations but can be raised
+    Defaults to 25. The cap is 25 for most organizations but can be raised
     per-organization, so only the lower bound is enforced here.
     """
 
