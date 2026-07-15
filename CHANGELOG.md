@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.78.1 (2026-07-15)
+
+Full Changelog: [v0.78.0...v0.78.1](https://github.com/kernel/kernel-python-sdk/compare/v0.78.0...v0.78.1)
+
+### Features
+
+* Default dashboard browser pools to 25% fill rate ([6a4848b](https://github.com/kernel/kernel-python-sdk/commit/6a4848bf17e5caafbd1d04639f30e3c9f9904ff9))
+
 ## 0.78.0 (2026-07-13)
 
 Full Changelog: [v0.76.0...v0.78.0](https://github.com/kernel/kernel-python-sdk/compare/v0.76.0...v0.78.0)
