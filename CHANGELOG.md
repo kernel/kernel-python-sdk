@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.79.0 (2026-07-15)
+
+Full Changelog: [v0.78.1...v0.79.0](https://github.com/kernel/kernel-python-sdk/compare/v0.78.1...v0.79.0)
+
+### Features
+
+* Add telemetry support for browser pools with BAA enforcement ([a7f5d9e](https://github.com/kernel/kernel-python-sdk/commit/a7f5d9e4909fed534df873d90ac14481b18b7d20))
+
 ## 0.78.1 (2026-07-15)
 
 Full Changelog: [v0.78.0...v0.78.1](https://github.com/kernel/kernel-python-sdk/compare/v0.78.0...v0.78.1)

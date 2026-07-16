@@ -53,6 +53,20 @@ class TestBrowserPools:
             refresh_on_profile_update=True,
             start_url="https://example.com",
             stealth=True,
+            telemetry={
+                "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
+                    "console": {"enabled": True},
+                    "control": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
+                },
+                "enabled": True,
+            },
             timeout_seconds=10,
             viewport={
                 "height": 800,
@@ -164,6 +178,20 @@ class TestBrowserPools:
             size=10,
             start_url="https://example.com",
             stealth=True,
+            telemetry={
+                "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
+                    "console": {"enabled": True},
+                    "control": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
+                },
+                "enabled": True,
+            },
             timeout_seconds=10,
             viewport={
                 "height": 800,
@@ -316,6 +344,20 @@ class TestBrowserPools:
             tags={
                 "team": "backend",
                 "env": "staging",
+            },
+            telemetry={
+                "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
+                    "console": {"enabled": True},
+                    "control": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
+                },
+                "enabled": True,
             },
         )
         assert_matches_type(BrowserPoolAcquireResponse, browser_pool, path=["response"])
@@ -490,6 +532,20 @@ class TestAsyncBrowserPools:
             refresh_on_profile_update=True,
             start_url="https://example.com",
             stealth=True,
+            telemetry={
+                "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
+                    "console": {"enabled": True},
+                    "control": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
+                },
+                "enabled": True,
+            },
             timeout_seconds=10,
             viewport={
                 "height": 800,
@@ -601,6 +657,20 @@ class TestAsyncBrowserPools:
             size=10,
             start_url="https://example.com",
             stealth=True,
+            telemetry={
+                "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
+                    "console": {"enabled": True},
+                    "control": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
+                },
+                "enabled": True,
+            },
             timeout_seconds=10,
             viewport={
                 "height": 800,
@@ -753,6 +823,20 @@ class TestAsyncBrowserPools:
             tags={
                 "team": "backend",
                 "env": "staging",
+            },
+            telemetry={
+                "browser": {
+                    "captcha": {"enabled": True},
+                    "connection": {"enabled": True},
+                    "console": {"enabled": True},
+                    "control": {"enabled": True},
+                    "interaction": {"enabled": True},
+                    "network": {"enabled": True},
+                    "page": {"enabled": True},
+                    "screenshot": {"enabled": True},
+                    "system": {"enabled": True},
+                },
+                "enabled": True,
             },
         )
         assert_matches_type(BrowserPoolAcquireResponse, browser_pool, path=["response"])
