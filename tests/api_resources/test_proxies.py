@@ -252,7 +252,7 @@ class TestProxies:
     def test_method_check_with_all_params(self, client: Kernel) -> None:
         proxy = client.proxies.check(
             id="id",
-            url="url",
+            url="https://example.com",
         )
         assert_matches_type(ProxyCheckResponse, proxy, path=["response"])
 
@@ -524,7 +524,7 @@ class TestAsyncProxies:
     async def test_method_check_with_all_params(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.check(
             id="id",
-            url="url",
+            url="https://example.com",
         )
         assert_matches_type(ProxyCheckResponse, proxy, path=["response"])
 
