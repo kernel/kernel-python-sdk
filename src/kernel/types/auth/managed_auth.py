@@ -6,7 +6,37 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["ManagedAuth", "Credential", "DiscoveredField", "MfaOption", "PendingSSOButton", "SignInOption"]
+__all__ = [
+    "ManagedAuth",
+    "Choice",
+    "Credential",
+    "DiscoveredField",
+    "Field",
+    "MfaOption",
+    "PendingSSOButton",
+    "SignInOption",
+]
+
+
+class Choice(BaseModel):
+    """Canonical auth-flow choice awaiting user selection."""
+
+    id: str
+    """Stable choice identifier for canonical submit."""
+
+    label: str
+    """Human-readable choice label."""
+
+    type: Literal[
+        "mfa_method", "sso_provider", "sign_in_method", "auth_method", "identifier_method", "account", "other"
+    ]
+    """Choice type."""
+
+    description: Optional[str] = None
+    """Additional context for the choice."""
+
+    observed_selector: Optional[str] = None
+    """Selector for the visible choice, when available."""
 
 
 class Credential(BaseModel):
@@ -63,6 +93,28 @@ class DiscoveredField(BaseModel):
 
     required: Optional[bool] = None
     """Whether field is required"""
+
+
+class Field(BaseModel):
+    """Canonical field awaiting user input."""
+
+    id: str
+    """Stable field identifier for canonical submit."""
+
+    ref: str
+    """Credential reference name to store the submitted value under."""
+
+    type: Literal["identifier", "password", "code", "totp_code", "totp_secret", "text"]
+    """Managed-auth field type."""
+
+    label: Optional[str] = None
+    """Human-readable label shown to the user."""
+
+    observed_selector: Optional[str] = None
+    """Selector for the visible field, when available."""
+
+    required: Optional[bool] = None
+    """Whether this field is required."""
 
 
 class MfaOption(BaseModel):
@@ -243,6 +295,13 @@ class ManagedAuth(BaseModel):
       automatically
     """
 
+    choices: Optional[List[Choice]] = None
+    """Canonical choices awaiting selection.
+
+    Prefer this over pending_sso_buttons, mfa_options, and sign_in_options when
+    present.
+    """
+
     credential: Optional[Credential] = None
     """Reference to credentials for the auth connection. Use one of:
 
@@ -267,6 +326,12 @@ class ManagedAuth(BaseModel):
     """
     Instructions for external action (present when
     flow_step=awaiting_external_action)
+    """
+
+    fields: Optional[List[Field]] = None
+    """Canonical fields awaiting input.
+
+    Prefer this over discovered_fields when present.
     """
 
     flow_expires_at: Optional[datetime] = None
