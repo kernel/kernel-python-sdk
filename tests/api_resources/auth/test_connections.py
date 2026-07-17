@@ -386,11 +386,16 @@ class TestConnections:
     def test_method_submit_with_all_params(self, client: Kernel) -> None:
         connection = client.auth.connections.submit(
             id="id",
+            field_values={
+                "field_email": "user@example.com",
+                "field_password": "secret",
+            },
             fields={
                 "email": "user@example.com",
                 "password": "secret",
             },
             mfa_option_id="sms",
+            selected_choice_id="google",
             sign_in_option_id="work-account",
             sso_button_selector="xpath=//button[contains(text(), 'Continue with Google')]",
             sso_provider="google",
@@ -853,11 +858,16 @@ class TestAsyncConnections:
     async def test_method_submit_with_all_params(self, async_client: AsyncKernel) -> None:
         connection = await async_client.auth.connections.submit(
             id="id",
+            field_values={
+                "field_email": "user@example.com",
+                "field_password": "secret",
+            },
             fields={
                 "email": "user@example.com",
                 "password": "secret",
             },
             mfa_option_id="sms",
+            selected_choice_id="google",
             sign_in_option_id="work-account",
             sso_button_selector="xpath=//button[contains(text(), 'Continue with Google')]",
             sso_provider="google",
