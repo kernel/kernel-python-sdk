@@ -12,11 +12,34 @@ from ..shared.heartbeat_event import HeartbeatEvent
 __all__ = [
     "ConnectionFollowResponse",
     "ManagedAuthStateEvent",
+    "ManagedAuthStateEventChoice",
     "ManagedAuthStateEventDiscoveredField",
+    "ManagedAuthStateEventField",
     "ManagedAuthStateEventMfaOption",
     "ManagedAuthStateEventPendingSSOButton",
     "ManagedAuthStateEventSignInOption",
 ]
+
+
+class ManagedAuthStateEventChoice(BaseModel):
+    """Canonical auth-flow choice awaiting user selection."""
+
+    id: str
+    """Stable choice identifier for canonical submit."""
+
+    label: str
+    """Human-readable choice label."""
+
+    type: Literal[
+        "mfa_method", "sso_provider", "sign_in_method", "auth_method", "identifier_method", "account", "other"
+    ]
+    """Choice type."""
+
+    description: Optional[str] = None
+    """Additional context for the choice."""
+
+    observed_selector: Optional[str] = None
+    """Selector for the visible choice, when available."""
 
 
 class ManagedAuthStateEventDiscoveredField(BaseModel):
@@ -51,6 +74,28 @@ class ManagedAuthStateEventDiscoveredField(BaseModel):
 
     required: Optional[bool] = None
     """Whether field is required"""
+
+
+class ManagedAuthStateEventField(BaseModel):
+    """Canonical field awaiting user input."""
+
+    id: str
+    """Stable field identifier for canonical submit."""
+
+    ref: str
+    """Credential reference name to store the submitted value under."""
+
+    type: Literal["identifier", "password", "code", "totp_code", "totp_secret", "text"]
+    """Managed-auth field type."""
+
+    label: Optional[str] = None
+    """Human-readable label shown to the user."""
+
+    observed_selector: Optional[str] = None
+    """Selector for the visible field, when available."""
+
+    required: Optional[bool] = None
+    """Whether this field is required."""
 
 
 class ManagedAuthStateEventMfaOption(BaseModel):
@@ -118,6 +163,13 @@ class ManagedAuthStateEvent(BaseModel):
     timestamp: datetime
     """Time the state was reported."""
 
+    choices: Optional[List[ManagedAuthStateEventChoice]] = None
+    """Canonical choices awaiting selection.
+
+    Prefer this over pending_sso_buttons, mfa_options, and sign_in_options when
+    present.
+    """
+
     discovered_fields: Optional[List[ManagedAuthStateEventDiscoveredField]] = None
     """
     Fields awaiting input (present when flow_step=AWAITING_INPUT; may also be
@@ -134,6 +186,12 @@ class ManagedAuthStateEvent(BaseModel):
     """
     Instructions for external action (present when
     flow_step=AWAITING_EXTERNAL_ACTION).
+    """
+
+    fields: Optional[List[ManagedAuthStateEventField]] = None
+    """Canonical fields awaiting input.
+
+    Prefer this over discovered_fields when present.
     """
 
     flow_type: Optional[Literal["LOGIN", "REAUTH"]] = None

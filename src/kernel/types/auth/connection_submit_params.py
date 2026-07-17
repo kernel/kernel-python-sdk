@@ -9,11 +9,17 @@ __all__ = ["ConnectionSubmitParams"]
 
 
 class ConnectionSubmitParams(TypedDict, total=False):
+    field_values: Dict[str, str]
+    """Canonical map of field ID to submitted value."""
+
     fields: Dict[str, str]
     """Map of field name to value"""
 
     mfa_option_id: str
     """The MFA method type to select (when mfa_options were returned)"""
+
+    selected_choice_id: str
+    """Canonical choice ID selected by the user."""
 
     sign_in_option_id: str
     """The sign-in option ID to select (when sign_in_options were returned)"""

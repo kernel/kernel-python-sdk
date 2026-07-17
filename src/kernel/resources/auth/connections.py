@@ -505,8 +505,10 @@ class ConnectionsResource(SyncAPIResource):
         self,
         id: str,
         *,
+        field_values: Dict[str, str] | Omit = omit,
         fields: Dict[str, str] | Omit = omit,
         mfa_option_id: str | Omit = omit,
+        selected_choice_id: str | Omit = omit,
         sign_in_option_id: str | Omit = omit,
         sso_button_selector: str | Omit = omit,
         sso_provider: str | Omit = omit,
@@ -523,9 +525,13 @@ class ConnectionsResource(SyncAPIResource):
         progress and get results.
 
         Args:
+          field_values: Canonical map of field ID to submitted value.
+
           fields: Map of field name to value
 
           mfa_option_id: The MFA method type to select (when mfa_options were returned)
+
+          selected_choice_id: Canonical choice ID selected by the user.
 
           sign_in_option_id: The sign-in option ID to select (when sign_in_options were returned)
 
@@ -549,8 +555,10 @@ class ConnectionsResource(SyncAPIResource):
             path_template("/auth/connections/{id}/submit", id=id),
             body=maybe_transform(
                 {
+                    "field_values": field_values,
                     "fields": fields,
                     "mfa_option_id": mfa_option_id,
+                    "selected_choice_id": selected_choice_id,
                     "sign_in_option_id": sign_in_option_id,
                     "sso_button_selector": sso_button_selector,
                     "sso_provider": sso_provider,
@@ -1088,8 +1096,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
         self,
         id: str,
         *,
+        field_values: Dict[str, str] | Omit = omit,
         fields: Dict[str, str] | Omit = omit,
         mfa_option_id: str | Omit = omit,
+        selected_choice_id: str | Omit = omit,
         sign_in_option_id: str | Omit = omit,
         sso_button_selector: str | Omit = omit,
         sso_provider: str | Omit = omit,
@@ -1106,9 +1116,13 @@ class AsyncConnectionsResource(AsyncAPIResource):
         progress and get results.
 
         Args:
+          field_values: Canonical map of field ID to submitted value.
+
           fields: Map of field name to value
 
           mfa_option_id: The MFA method type to select (when mfa_options were returned)
+
+          selected_choice_id: Canonical choice ID selected by the user.
 
           sign_in_option_id: The sign-in option ID to select (when sign_in_options were returned)
 
@@ -1132,8 +1146,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
             path_template("/auth/connections/{id}/submit", id=id),
             body=await async_maybe_transform(
                 {
+                    "field_values": field_values,
                     "fields": fields,
                     "mfa_option_id": mfa_option_id,
+                    "selected_choice_id": selected_choice_id,
                     "sign_in_option_id": sign_in_option_id,
                     "sso_button_selector": sso_button_selector,
                     "sso_provider": sso_provider,
