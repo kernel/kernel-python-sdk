@@ -7,7 +7,13 @@ import httpx
 import respx
 import pytest
 
-from kernel import Kernel, AsyncKernel, InternalServerError
+from kernel import (
+    Kernel,
+    AsyncKernel,
+    NotFoundError,
+    APIConnectionError,
+    InternalServerError,
+)
 from kernel.lib.browser_routing.util import jwt_from_cdp_ws_url
 from kernel.lib.browser_routing.routing import (
     BrowserRoute,
@@ -388,3 +394,228 @@ def test_rewrite_direct_vm_options_keeps_telemetry_events_on_control_plane() -> 
 def test_browser_routing_config_from_env_empty_string_disables_routing(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "")
     assert browser_routing_config_from_env().subresources == ()
+
+
+# ---------------------------------------------------------------------------
+# Control-plane fallback (browser_gone 404) — see kernel#2317.
+#
+# The prospective eligible endpoint is GET /browsers/{id}/telemetry/events.
+# That SDK method does not exist yet, so these tests exercise the routed GET
+# via the low-level `client.get(...)` against that exact path. `telemetry`
+# routing is enabled locally/explicitly per test (the default-subresources
+# constant is intentionally NOT modified by this PR).
+# ---------------------------------------------------------------------------
+
+_EVENTS_PATH = "/browsers/sess-1/telemetry/events"
+_VM_EVENTS_URL = "http://browser-session.test/browser/kernel/telemetry/events"
+_GONE_BODY = {"code": "browser_gone", "message": "browser not found"}
+
+
+def test_telemetry_events_is_fallback_eligible() -> None:
+    from kernel.lib.browser_routing.routing import is_fallback_eligible_routed_path
+
+    assert is_fallback_eligible_routed_path("telemetry", "/events") is True
+    assert is_fallback_eligible_routed_path("telemetry", "/stream") is False
+    assert is_fallback_eligible_routed_path("process", "/exec") is False
+
+
+@respx.mock
+def test_eligible_get_browser_gone_falls_back_to_control_plane(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.get(_VM_EVENTS_URL).mock(return_value=httpx.Response(404, json=_GONE_BODY))
+    cp_route = respx.get(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(200, json={"events": []}))
+
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        response = client.get(_EVENTS_PATH, cast_to=httpx.Response)
+
+    # VM hit exactly once, control plane hit exactly once (no loop).
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 1
+    assert response.status_code == 200
+    assert response.json() == {"events": []}
+
+    # Control-plane re-issue restores Authorization and drops the jwt param.
+    cp_request = cast(httpx.Request, cast(Any, cp_route.calls[0]).request)
+    assert cp_request.headers.get("Authorization") == f"Bearer {api_key}"
+    assert cp_request.url.params.get("jwt") is None
+
+    # The dead route is evicted authoritatively.
+    assert client.browser_route_cache.get("sess-1") is None
+
+
+@respx.mock
+def test_eligible_get_browser_gone_then_cp_errors_returns_as_is_no_loop(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.get(_VM_EVENTS_URL).mock(return_value=httpx.Response(404, json=_GONE_BODY))
+    cp_route = respx.get(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(500, json={"error": "boom"}))
+
+    with Kernel(base_url=base_url, api_key=api_key, max_retries=0, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        with pytest.raises(InternalServerError):
+            client.get(_EVENTS_PATH, cast_to=httpx.Response)
+
+    # VM once, control plane once — the CP error is surfaced, never retried/looped.
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 1
+
+
+@respx.mock
+def test_non_eligible_path_browser_gone_does_not_fall_back(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.get("http://browser-session.test/browser/kernel/telemetry/stream").mock(
+        return_value=httpx.Response(404, json=_GONE_BODY)
+    )
+    cp_route = respx.get(f"{base_url}/browsers/sess-1/telemetry/stream").mock(
+        return_value=httpx.Response(200, json={"ok": True})
+    )
+
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        with pytest.raises(NotFoundError):
+            client.get("/browsers/sess-1/telemetry/stream", cast_to=httpx.Response)
+
+    # The VM 404 propagates unchanged; no control-plane fallback; route kept.
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 0
+    assert client.browser_route_cache.get("sess-1") is not None
+
+
+@respx.mock
+def test_eligible_get_transient_5xx_does_not_fall_back(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.get(_VM_EVENTS_URL).mock(return_value=httpx.Response(502, json={"error": "bad gateway"}))
+    cp_route = respx.get(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(200, json={"events": []}))
+
+    with Kernel(base_url=base_url, api_key=api_key, max_retries=0, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        with pytest.raises(InternalServerError):
+            client.get(_EVENTS_PATH, cast_to=httpx.Response)
+
+    # Transient 5xx is just returned; we do NOT retry the dead VM then fall back.
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 0
+    assert client.browser_route_cache.get("sess-1") is not None
+
+
+@respx.mock
+def test_eligible_get_connection_error_does_not_fall_back(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.get(_VM_EVENTS_URL).mock(side_effect=httpx.ConnectError("nope"))
+    cp_route = respx.get(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(200, json={"events": []}))
+
+    with Kernel(base_url=base_url, api_key=api_key, max_retries=0, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        with pytest.raises(APIConnectionError):
+            client.get(_EVENTS_PATH, cast_to=httpx.Response)
+
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 0
+
+
+@respx.mock
+def test_eligible_get_success_does_not_fall_back(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.get(_VM_EVENTS_URL).mock(return_value=httpx.Response(200, json={"events": [1, 2]}))
+    cp_route = respx.get(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(200, json={"events": []}))
+
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        response = client.get(_EVENTS_PATH, cast_to=httpx.Response)
+
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 0
+    assert response.json() == {"events": [1, 2]}
+    assert client.browser_route_cache.get("sess-1") is not None
+
+
+@respx.mock
+def test_eligible_but_post_does_not_fall_back(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.post(_VM_EVENTS_URL).mock(return_value=httpx.Response(404, json=_GONE_BODY))
+    cp_route = respx.post(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(200, json={"events": []}))
+
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        with pytest.raises(NotFoundError):
+            client.post(_EVENTS_PATH, cast_to=httpx.Response, body={})
+
+    # POST is not GET: browser_gone 404 propagates, no fallback.
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 0
+
+
+@respx.mock
+def test_eligible_get_plain_404_without_browser_gone_does_not_fall_back(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.get(_VM_EVENTS_URL).mock(
+        return_value=httpx.Response(404, json={"code": "not_found", "message": "nope"})
+    )
+    cp_route = respx.get(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(200, json={"events": []}))
+
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        _cache_browser(client)
+        with pytest.raises(NotFoundError):
+            client.get(_EVENTS_PATH, cast_to=httpx.Response)
+
+    # A live VM's own 404 (no browser_gone code) propagates unchanged.
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 0
+    assert client.browser_route_cache.get("sess-1") is not None
+
+
+@respx.mock
+def test_non_routed_request_untouched_on_browser_gone(monkeypatch: pytest.MonkeyPatch) -> None:
+    # No cached route -> request is never routed to a VM. Even a verbatim
+    # browser_gone 404 from the control plane must NOT trigger any fallback loop.
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    cp_route = respx.get(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(404, json=_GONE_BODY))
+
+    with Kernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        with pytest.raises(NotFoundError):
+            client.get(_EVENTS_PATH, cast_to=httpx.Response)
+
+    assert cp_route.call_count == 1
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_async_eligible_get_browser_gone_falls_back_to_control_plane(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.get(_VM_EVENTS_URL).mock(return_value=httpx.Response(404, json=_GONE_BODY))
+    cp_route = respx.get(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(200, json={"events": []}))
+
+    async with AsyncKernel(base_url=base_url, api_key=api_key, _strict_response_validation=True) as client:
+        route = browser_route_from_browser(_fake_browser())
+        assert route is not None
+        client.browser_route_cache.set(route)
+        response = await client.get(_EVENTS_PATH, cast_to=httpx.Response)
+
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 1
+    assert response.json() == {"events": []}
+    cp_request = cast(httpx.Request, cast(Any, cp_route.calls[0]).request)
+    assert cp_request.headers.get("Authorization") == f"Bearer {api_key}"
+    assert cp_request.url.params.get("jwt") is None
+    assert client.browser_route_cache.get("sess-1") is None
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_async_eligible_get_transient_5xx_does_not_fall_back(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry")
+    vm_route = respx.get(_VM_EVENTS_URL).mock(return_value=httpx.Response(503, json={"error": "unavailable"}))
+    cp_route = respx.get(f"{base_url}{_EVENTS_PATH}").mock(return_value=httpx.Response(200, json={"events": []}))
+
+    async with AsyncKernel(
+        base_url=base_url, api_key=api_key, max_retries=0, _strict_response_validation=True
+    ) as client:
+        route = browser_route_from_browser(_fake_browser())
+        assert route is not None
+        client.browser_route_cache.set(route)
+        with pytest.raises(InternalServerError):
+            await client.get(_EVENTS_PATH, cast_to=httpx.Response)
+
+    assert vm_route.call_count == 1
+    assert cp_route.call_count == 0
+    assert client.browser_route_cache.get("sess-1") is not None
