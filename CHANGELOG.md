@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.80.0 (2026-07-19)
+
+Full Changelog: [v0.79.0...v0.80.0](https://github.com/kernel/kernel-python-sdk/compare/v0.79.0...v0.80.0)
+
+### Features
+
+* Add example to ProxyCheckRequest.url so API reference sample shows it ([2a288ca](https://github.com/kernel/kernel-python-sdk/commit/2a288ca546da7760cdc16e566260fd440ae36fb7))
+* Expose browser sessions on auth timeline events ([687b401](https://github.com/kernel/kernel-python-sdk/commit/687b401117d37d6db8e818cd08ee3983671a23f6))
+* **managed-auth:** add TS CUA worker contract (KERNEL-1456) ([de2fc59](https://github.com/kernel/kernel-python-sdk/commit/de2fc590e00152328ac6a4f5165da0fb727644bb))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([79f96e4](https://github.com/kernel/kernel-python-sdk/commit/79f96e4e8d8f0e04e21c37010e1faa765f17afb6))
+
 ## 0.79.0 (2026-07-15)
 
 Full Changelog: [v0.78.1...v0.79.0](https://github.com/kernel/kernel-python-sdk/compare/v0.78.1...v0.79.0)
