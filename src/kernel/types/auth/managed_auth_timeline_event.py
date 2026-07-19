@@ -35,6 +35,9 @@ class ManagedAuthTimelineEvent(BaseModel):
     session-validity check.
     """
 
+    browser_session_id: Optional[str] = None
+    """Browser session that produced the event, if one was created."""
+
     error_code: Optional[str] = None
     """Machine-readable error code. Present when a login/reauth event failed."""
 
