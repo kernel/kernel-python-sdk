@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import Union, BinaryIO
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -30,6 +30,12 @@ from .._response import (
 from ..pagination import SyncPageTokenPagination, AsyncPageTokenPagination
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.audit_log_entry import AuditLogEntry
+from ..lib.audit_log_download import (
+    ProgressCallback,
+    AuditLogDownloadResult,
+    download_audit_logs,
+    async_download_audit_logs,
+)
 
 __all__ = ["AuditLogsResource", "AsyncAuditLogsResource"]
 
@@ -222,6 +228,55 @@ class AuditLogsResource(SyncAPIResource):
             cast_to=BinaryAPIResponse,
         )
 
+    def download(
+        self,
+        *,
+        to: BinaryIO,
+        end: Union[str, datetime],
+        start: Union[str, datetime],
+        auth_strategy: str | Omit = omit,
+        exclude_method: SequenceNotStr[str] | Omit = omit,
+        format: Literal["jsonl", "jsonl.gz"] | Omit = omit,
+        limit: int | Omit = omit,
+        method: str | Omit = omit,
+        search: str | Omit = omit,
+        search_user_id: SequenceNotStr[str] | Omit = omit,
+        service: str | Omit = omit,
+        on_progress: ProgressCallback | None = None,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AuditLogDownloadResult:
+        """Download a complete audit log export to a writable binary destination.
+
+        The SDK verifies every chunk and retries transient transfer failures. It
+        does not close the destination.
+        """
+
+        resource = self._client.with_options(max_retries=0).audit_logs
+
+        def fetch_chunk(cursor: str | None) -> BinaryAPIResponse:
+            return resource.export_chunk(
+                end=end,
+                start=start,
+                auth_strategy=auth_strategy,
+                cursor=cursor if cursor is not None else omit,
+                exclude_method=exclude_method,
+                format=format,
+                limit=limit,
+                method=method,
+                search=search,
+                search_user_id=search_user_id,
+                service=service,
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+
+        return download_audit_logs(fetch_chunk, to, on_progress=on_progress)
+
 
 class AsyncAuditLogsResource(AsyncAPIResource):
     """Read audit log records for the authenticated organization."""
@@ -410,6 +465,55 @@ class AsyncAuditLogsResource(AsyncAPIResource):
             ),
             cast_to=AsyncBinaryAPIResponse,
         )
+
+    async def download(
+        self,
+        *,
+        to: BinaryIO,
+        end: Union[str, datetime],
+        start: Union[str, datetime],
+        auth_strategy: str | Omit = omit,
+        exclude_method: SequenceNotStr[str] | Omit = omit,
+        format: Literal["jsonl", "jsonl.gz"] | Omit = omit,
+        limit: int | Omit = omit,
+        method: str | Omit = omit,
+        search: str | Omit = omit,
+        search_user_id: SequenceNotStr[str] | Omit = omit,
+        service: str | Omit = omit,
+        on_progress: ProgressCallback | None = None,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AuditLogDownloadResult:
+        """Download a complete audit log export to a writable binary destination.
+
+        The SDK verifies every chunk and retries transient transfer failures. It
+        does not close the destination.
+        """
+
+        resource = self._client.with_options(max_retries=0).audit_logs
+
+        async def fetch_chunk(cursor: str | None) -> AsyncBinaryAPIResponse:
+            return await resource.export_chunk(
+                end=end,
+                start=start,
+                auth_strategy=auth_strategy,
+                cursor=cursor if cursor is not None else omit,
+                exclude_method=exclude_method,
+                format=format,
+                limit=limit,
+                method=method,
+                search=search,
+                search_user_id=search_user_id,
+                service=service,
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+
+        return await async_download_audit_logs(fetch_chunk, to, on_progress=on_progress)
 
 
 class AuditLogsResourceWithRawResponse:

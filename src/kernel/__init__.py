@@ -51,6 +51,11 @@ from .app_framework import (
     app_registry,
     export_registry,
 )
+from .lib.audit_log_download import (
+    AuditLogDownloadError,
+    AuditLogDownloadResult,
+    AuditLogDownloadProgress,
+)
 
 __all__ = [
     "types",
@@ -105,6 +110,9 @@ __all__ = [
     "App",
     "app_registry",
     "export_registry",
+    "AuditLogDownloadError",
+    "AuditLogDownloadProgress",
+    "AuditLogDownloadResult",
 ]
 
 if not _t.TYPE_CHECKING:
