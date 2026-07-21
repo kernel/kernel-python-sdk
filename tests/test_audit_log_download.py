@@ -221,6 +221,20 @@ def test_download_rejects_invalid_row_count(row_count: str, client: Kernel, resp
     assert destination.getvalue() == b""
 
 
+def test_download_accepts_zero_padded_row_count(client: Kernel, respx_mock: MockRouter) -> None:
+    response = chunk_response(b"chunk", rows=1, has_more=False)
+    response.headers["x-row-count"] = "0" * 5000 + "1"
+    respx_mock.get("/audit-logs/export/chunk").mock(return_value=response)
+
+    result = client.audit_logs.download(
+        to=BytesIO(),
+        start="2026-06-01T00:00:00Z",
+        end="2026-06-02T00:00:00Z",
+    )
+
+    assert result.rows == 1
+
+
 class InvalidWriteDestination:
     def __init__(self, result: object) -> None:
         self.result = result

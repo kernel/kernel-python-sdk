@@ -201,14 +201,12 @@ def _parse_chunk_headers(headers: httpx.Headers, current_cursor: str | None) -> 
     has_more = has_more_value == "true"
 
     row_count = headers.get("x-row-count")
-    if (
-        row_count is None
-        or not row_count.isascii()
-        or not row_count.isdecimal()
-        or len(row_count) > len(str(_MAX_CHUNK_ROWS))
-    ):
+    if row_count is None or not row_count.isascii() or not row_count.isdecimal():
         raise AuditLogDownloadError("response missing or invalid X-Row-Count header")
-    rows = int(row_count)
+    normalized_row_count = row_count.lstrip("0") or "0"
+    if len(normalized_row_count) > len(str(_MAX_CHUNK_ROWS)):
+        raise AuditLogDownloadError("response missing or invalid X-Row-Count header")
+    rows = int(normalized_row_count)
     if rows > _MAX_CHUNK_ROWS:
         raise AuditLogDownloadError("response missing or invalid X-Row-Count header")
 
