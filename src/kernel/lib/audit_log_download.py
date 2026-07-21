@@ -3,7 +3,7 @@ from __future__ import annotations
 import time
 import hashlib
 import inspect
-from typing import BinaryIO, Callable, Optional, Protocol, Awaitable
+from typing import BinaryIO, Callable, Optional, Protocol, Awaitable, ContextManager, AsyncContextManager
 from dataclasses import dataclass
 
 import anyio
@@ -51,8 +51,8 @@ class _AsyncChunkResponse(Protocol):
     async def close(self) -> None: ...
 
 
-SyncFetchChunk = Callable[[Optional[str]], _SyncChunkResponse]
-AsyncFetchChunk = Callable[[Optional[str]], Awaitable[_AsyncChunkResponse]]
+SyncFetchChunk = Callable[[Optional[str]], ContextManager[_SyncChunkResponse]]
+AsyncFetchChunk = Callable[[Optional[str]], AsyncContextManager[_AsyncChunkResponse]]
 ProgressCallback = Callable[[AuditLogDownloadProgress], None]
 AsyncProgressCallback = Callable[[AuditLogDownloadProgress], Optional[Awaitable[None]]]
 
@@ -147,19 +147,20 @@ def _fetch_verified_chunk(
     fetch_chunk: SyncFetchChunk, cursor: str | None, max_transfer_retries: int
 ) -> tuple[bytes, httpx.Headers]:
     for retries in range(max_transfer_retries + 1):
-        response = fetch_chunk(cursor)
-        try:
+        transfer_error: Exception | None = None
+        with fetch_chunk(cursor) as response:
             try:
                 body = response.read()
                 headers = httpx.Headers(response.headers)
-            finally:
-                response.close()
-            _verify_checksum(body, headers)
-            return body, headers
-        except Exception:
-            if retries == max_transfer_retries:
-                raise
-            time.sleep(min(2**retries, _MAX_RETRY_DELAY))
+                _verify_checksum(body, headers)
+            except Exception as error:
+                transfer_error = error
+            else:
+                return body, headers
+        assert transfer_error is not None
+        if retries == max_transfer_retries:
+            raise transfer_error
+        time.sleep(min(2**retries, _MAX_RETRY_DELAY))
     raise AssertionError("unreachable")
 
 
@@ -167,19 +168,20 @@ async def _async_fetch_verified_chunk(
     fetch_chunk: AsyncFetchChunk, cursor: str | None, max_transfer_retries: int
 ) -> tuple[bytes, httpx.Headers]:
     for retries in range(max_transfer_retries + 1):
-        response = await fetch_chunk(cursor)
-        try:
+        transfer_error: Exception | None = None
+        async with fetch_chunk(cursor) as response:
             try:
                 body = await response.read()
                 headers = httpx.Headers(response.headers)
-            finally:
-                await response.close()
-            await to_thread.run_sync(_verify_checksum, body, headers)
-            return body, headers
-        except Exception:
-            if retries == max_transfer_retries:
-                raise
-            await anyio.sleep(min(2**retries, _MAX_RETRY_DELAY))
+                await to_thread.run_sync(_verify_checksum, body, headers)
+            except Exception as error:
+                transfer_error = error
+            else:
+                return body, headers
+        assert transfer_error is not None
+        if retries == max_transfer_retries:
+            raise transfer_error
+        await anyio.sleep(min(2**retries, _MAX_RETRY_DELAY))
     raise AssertionError("unreachable")
 
 
@@ -199,7 +201,12 @@ def _parse_chunk_headers(headers: httpx.Headers, current_cursor: str | None) -> 
     has_more = has_more_value == "true"
 
     row_count = headers.get("x-row-count")
-    if row_count is None or not row_count.isascii() or not row_count.isdecimal():
+    if (
+        row_count is None
+        or not row_count.isascii()
+        or not row_count.isdecimal()
+        or len(row_count) > len(str(_MAX_CHUNK_ROWS))
+    ):
         raise AuditLogDownloadError("response missing or invalid X-Row-Count header")
     rows = int(row_count)
     if rows > _MAX_CHUNK_ROWS:

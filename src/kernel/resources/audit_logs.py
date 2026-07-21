@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union, BinaryIO
+from typing import Union, BinaryIO, ContextManager, AsyncContextManager
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -258,8 +258,8 @@ class AuditLogsResource(SyncAPIResource):
         when the completed export must be published atomically.
         """
 
-        def fetch_chunk(cursor: str | None) -> BinaryAPIResponse:
-            return self.export_chunk(
+        def fetch_chunk(cursor: str | None) -> ContextManager[StreamedBinaryAPIResponse]:
+            return self.with_streaming_response.export_chunk(
                 end=end,
                 start=start,
                 auth_strategy=auth_strategy,
@@ -502,8 +502,8 @@ class AsyncAuditLogsResource(AsyncAPIResource):
         when the completed export must be published atomically.
         """
 
-        async def fetch_chunk(cursor: str | None) -> AsyncBinaryAPIResponse:
-            return await self.export_chunk(
+        def fetch_chunk(cursor: str | None) -> AsyncContextManager[AsyncStreamedBinaryAPIResponse]:
+            return self.with_streaming_response.export_chunk(
                 end=end,
                 start=start,
                 auth_strategy=auth_strategy,

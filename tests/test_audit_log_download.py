@@ -3,7 +3,8 @@ from __future__ import annotations
 import hashlib
 import threading
 from io import BytesIO
-from typing import BinaryIO, cast
+from typing import BinaryIO, Iterator, AsyncIterator, cast
+from typing_extensions import override
 
 import httpx
 import pytest
@@ -13,7 +14,7 @@ from kernel import Kernel, AsyncKernel, InternalServerError, AuditLogDownloadErr
 from kernel.lib import audit_log_download
 
 
-def chunk_response(body: bytes, *, rows: int, has_more: bool, next_cursor: str | None = None) -> httpx.Response:
+def chunk_headers(body: bytes, *, rows: int, has_more: bool, next_cursor: str | None = None) -> dict[str, str]:
     headers = {
         "x-content-sha256": hashlib.sha256(body).hexdigest(),
         "x-has-more": str(has_more).lower(),
@@ -21,7 +22,29 @@ def chunk_response(body: bytes, *, rows: int, has_more: bool, next_cursor: str |
     }
     if next_cursor is not None:
         headers["x-next-cursor"] = next_cursor
-    return httpx.Response(200, content=body, headers=headers)
+    return headers
+
+
+def chunk_response(body: bytes, *, rows: int, has_more: bool, next_cursor: str | None = None) -> httpx.Response:
+    return httpx.Response(
+        200,
+        content=body,
+        headers=chunk_headers(body, rows=rows, has_more=has_more, next_cursor=next_cursor),
+    )
+
+
+class BrokenSyncByteStream(httpx.SyncByteStream):
+    @override
+    def __iter__(self) -> Iterator[bytes]:
+        yield b"partial"
+        raise httpx.ReadError("truncated response body")
+
+
+class BrokenAsyncByteStream(httpx.AsyncByteStream):
+    @override
+    async def __aiter__(self) -> AsyncIterator[bytes]:
+        yield b"partial"
+        raise httpx.ReadError("truncated response body")
 
 
 def test_download_writes_verified_chunks(client: Kernel, respx_mock: MockRouter) -> None:
@@ -98,6 +121,33 @@ async def test_async_download_writes_verified_chunks(
     assert thread_ids and all(thread_id != threading.get_ident() for thread_id in thread_ids)
 
 
+async def test_async_download_retries_body_read_failure(
+    async_client: AsyncKernel, respx_mock: MockRouter, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    async def no_sleep(_: float) -> None:
+        pass
+
+    monkeypatch.setattr(audit_log_download.anyio, "sleep", no_sleep)
+    headers = chunk_headers(b"good", rows=1, has_more=False)
+    route = respx_mock.get("/audit-logs/export/chunk").mock(
+        side_effect=[
+            httpx.Response(200, headers=headers, stream=BrokenAsyncByteStream()),
+            chunk_response(b"good", rows=1, has_more=False),
+        ]
+    )
+    destination = BytesIO()
+
+    await async_client.with_options(max_retries=0).audit_logs.download(
+        to=destination,
+        start="2026-06-01T00:00:00Z",
+        end="2026-06-02T00:00:00Z",
+        max_transfer_retries=1,
+    )
+
+    assert destination.getvalue() == b"good"
+    assert route.call_count == 2
+
+
 async def test_async_download_retries_checksum_mismatch(
     async_client: AsyncKernel, respx_mock: MockRouter, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -154,7 +204,7 @@ async def test_async_download_respects_disabled_http_retries(async_client: Async
     assert route.call_count == 1
 
 
-@pytest.mark.parametrize("row_count", ["", "1.0", "50001"])
+@pytest.mark.parametrize("row_count", ["", "1.0", "50001", "9" * 5000])
 def test_download_rejects_invalid_row_count(row_count: str, client: Kernel, respx_mock: MockRouter) -> None:
     response = chunk_response(b"chunk", rows=1, has_more=False)
     response.headers["x-row-count"] = row_count
@@ -200,6 +250,33 @@ def test_download_rejects_invalid_transfer_retry_count(max_transfer_retries: obj
             end="2026-06-02T00:00:00Z",
             max_transfer_retries=cast(int, max_transfer_retries),
         )
+
+
+def test_download_retries_body_read_failure(
+    client: Kernel, respx_mock: MockRouter, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def no_sleep(_: float) -> None:
+        pass
+
+    monkeypatch.setattr(audit_log_download.time, "sleep", no_sleep)
+    headers = chunk_headers(b"good", rows=1, has_more=False)
+    route = respx_mock.get("/audit-logs/export/chunk").mock(
+        side_effect=[
+            httpx.Response(200, headers=headers, stream=BrokenSyncByteStream()),
+            chunk_response(b"good", rows=1, has_more=False),
+        ]
+    )
+    destination = BytesIO()
+
+    client.with_options(max_retries=0).audit_logs.download(
+        to=destination,
+        start="2026-06-01T00:00:00Z",
+        end="2026-06-02T00:00:00Z",
+        max_transfer_retries=1,
+    )
+
+    assert destination.getvalue() == b"good"
+    assert route.call_count == 2
 
 
 def test_download_retries_checksum_mismatch(
