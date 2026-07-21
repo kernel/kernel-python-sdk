@@ -2,15 +2,17 @@ from __future__ import annotations
 
 import time
 import hashlib
+import inspect
 from typing import BinaryIO, Callable, Optional, Protocol, Awaitable
 from dataclasses import dataclass
 
 import anyio
 import httpx
+from anyio import to_thread
 
-from .._exceptions import KernelError, APIStatusError
+from .._exceptions import KernelError
 
-_DOWNLOAD_ATTEMPTS = 7
+_DEFAULT_MAX_TRANSFER_RETRIES = 6
 _MAX_RETRY_DELAY = 8.0
 
 
@@ -51,6 +53,7 @@ class _AsyncChunkResponse(Protocol):
 SyncFetchChunk = Callable[[Optional[str]], _SyncChunkResponse]
 AsyncFetchChunk = Callable[[Optional[str]], Awaitable[_AsyncChunkResponse]]
 ProgressCallback = Callable[[AuditLogDownloadProgress], None]
+AsyncProgressCallback = Callable[[AuditLogDownloadProgress], Optional[Awaitable[None]]]
 
 
 def download_audit_logs(
@@ -58,15 +61,22 @@ def download_audit_logs(
     destination: BinaryIO,
     *,
     on_progress: ProgressCallback | None = None,
+    max_transfer_retries: int = _DEFAULT_MAX_TRANSFER_RETRIES,
 ) -> AuditLogDownloadResult:
     if not callable(getattr(destination, "write", None)):
         raise TypeError("audit log download destination must provide write()")
+    _validate_max_transfer_retries(max_transfer_retries)
 
     cursor: str | None = None
     result = AuditLogDownloadResult(bytes_written=0, chunks=0, rows=0)
+    seen_cursors: set[str] = set()
     while True:
-        body, headers = _fetch_verified_chunk(fetch_chunk, cursor)
+        body, headers = _fetch_verified_chunk(fetch_chunk, cursor, max_transfer_retries)
         chunk_rows, next_cursor, has_more = _parse_chunk_headers(headers, cursor)
+        if has_more and next_cursor is not None:
+            if next_cursor in seen_cursors:
+                raise AuditLogDownloadError("response repeated X-Next-Cursor header")
+            seen_cursors.add(next_cursor)
         _write_chunk(destination, body)
 
         cursor = next_cursor
@@ -92,17 +102,24 @@ async def async_download_audit_logs(
     fetch_chunk: AsyncFetchChunk,
     destination: BinaryIO,
     *,
-    on_progress: ProgressCallback | None = None,
+    on_progress: AsyncProgressCallback | None = None,
+    max_transfer_retries: int = _DEFAULT_MAX_TRANSFER_RETRIES,
 ) -> AuditLogDownloadResult:
     if not callable(getattr(destination, "write", None)):
         raise TypeError("audit log download destination must provide write()")
+    _validate_max_transfer_retries(max_transfer_retries)
 
     cursor: str | None = None
     result = AuditLogDownloadResult(bytes_written=0, chunks=0, rows=0)
+    seen_cursors: set[str] = set()
     while True:
-        body, headers = await _async_fetch_verified_chunk(fetch_chunk, cursor)
+        body, headers = await _async_fetch_verified_chunk(fetch_chunk, cursor, max_transfer_retries)
         chunk_rows, next_cursor, has_more = _parse_chunk_headers(headers, cursor)
-        _write_chunk(destination, body)
+        if has_more and next_cursor is not None:
+            if next_cursor in seen_cursors:
+                raise AuditLogDownloadError("response repeated X-Next-Cursor header")
+            seen_cursors.add(next_cursor)
+        await to_thread.run_sync(_write_chunk, destination, body)
 
         cursor = next_cursor
         result = AuditLogDownloadResult(
@@ -111,7 +128,7 @@ async def async_download_audit_logs(
             rows=result.rows + chunk_rows,
         )
         if on_progress is not None:
-            on_progress(
+            callback_result = on_progress(
                 AuditLogDownloadProgress(
                     bytes_written=result.bytes_written,
                     chunks=result.chunks,
@@ -119,14 +136,18 @@ async def async_download_audit_logs(
                     chunk_rows=chunk_rows,
                 )
             )
+            if inspect.isawaitable(callback_result):
+                await callback_result
         if not has_more:
             return result
 
 
-def _fetch_verified_chunk(fetch_chunk: SyncFetchChunk, cursor: str | None) -> tuple[bytes, httpx.Headers]:
-    for attempt in range(1, _DOWNLOAD_ATTEMPTS + 1):
+def _fetch_verified_chunk(
+    fetch_chunk: SyncFetchChunk, cursor: str | None, max_transfer_retries: int
+) -> tuple[bytes, httpx.Headers]:
+    for retries in range(max_transfer_retries + 1):
+        response = fetch_chunk(cursor)
         try:
-            response = fetch_chunk(cursor)
             try:
                 body = response.read()
                 headers = httpx.Headers(response.headers)
@@ -134,28 +155,30 @@ def _fetch_verified_chunk(fetch_chunk: SyncFetchChunk, cursor: str | None) -> tu
                 response.close()
             _verify_checksum(body, headers)
             return body, headers
-        except Exception as error:
-            if attempt == _DOWNLOAD_ATTEMPTS or not _is_retryable(error):
+        except Exception:
+            if retries == max_transfer_retries:
                 raise
-            time.sleep(min(2 ** (attempt - 1), _MAX_RETRY_DELAY))
+            time.sleep(min(2**retries, _MAX_RETRY_DELAY))
     raise AssertionError("unreachable")
 
 
-async def _async_fetch_verified_chunk(fetch_chunk: AsyncFetchChunk, cursor: str | None) -> tuple[bytes, httpx.Headers]:
-    for attempt in range(1, _DOWNLOAD_ATTEMPTS + 1):
+async def _async_fetch_verified_chunk(
+    fetch_chunk: AsyncFetchChunk, cursor: str | None, max_transfer_retries: int
+) -> tuple[bytes, httpx.Headers]:
+    for retries in range(max_transfer_retries + 1):
+        response = await fetch_chunk(cursor)
         try:
-            response = await fetch_chunk(cursor)
             try:
                 body = await response.read()
                 headers = httpx.Headers(response.headers)
             finally:
                 await response.close()
-            _verify_checksum(body, headers)
+            await to_thread.run_sync(_verify_checksum, body, headers)
             return body, headers
-        except Exception as error:
-            if attempt == _DOWNLOAD_ATTEMPTS or not _is_retryable(error):
+        except Exception:
+            if retries == max_transfer_retries:
                 raise
-            await anyio.sleep(min(2 ** (attempt - 1), _MAX_RETRY_DELAY))
+            await anyio.sleep(min(2**retries, _MAX_RETRY_DELAY))
     raise AssertionError("unreachable")
 
 
@@ -199,7 +222,6 @@ def _write_chunk(destination: BinaryIO, body: bytes) -> None:
         remaining = remaining[written:]
 
 
-def _is_retryable(error: Exception) -> bool:
-    if isinstance(error, APIStatusError):
-        return error.status_code == 429 or error.status_code >= 500
-    return True
+def _validate_max_transfer_retries(max_transfer_retries: int) -> None:
+    if max_transfer_retries < 0:
+        raise ValueError("max_transfer_retries must be non-negative")

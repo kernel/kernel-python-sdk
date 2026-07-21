@@ -32,6 +32,7 @@ from .._base_client import AsyncPaginator, make_request_options
 from ..types.audit_log_entry import AuditLogEntry
 from ..lib.audit_log_download import (
     ProgressCallback,
+    AsyncProgressCallback,
     AuditLogDownloadResult,
     download_audit_logs,
     async_download_audit_logs,
@@ -243,6 +244,7 @@ class AuditLogsResource(SyncAPIResource):
         search_user_id: SequenceNotStr[str] | Omit = omit,
         service: str | Omit = omit,
         on_progress: ProgressCallback | None = None,
+        max_transfer_retries: int = 6,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -251,13 +253,13 @@ class AuditLogsResource(SyncAPIResource):
         """Download a complete audit log export to a writable binary destination.
 
         The SDK verifies every chunk and retries transient transfer failures. It
-        does not close the destination.
+        does not close the destination. If the download fails, the destination
+        may contain a partial export; use a temporary file and atomic rename
+        when the completed export must be published atomically.
         """
 
-        resource = self._client.with_options(max_retries=0).audit_logs
-
         def fetch_chunk(cursor: str | None) -> BinaryAPIResponse:
-            return resource.export_chunk(
+            return self.export_chunk(
                 end=end,
                 start=start,
                 auth_strategy=auth_strategy,
@@ -275,7 +277,12 @@ class AuditLogsResource(SyncAPIResource):
                 timeout=timeout,
             )
 
-        return download_audit_logs(fetch_chunk, to, on_progress=on_progress)
+        return download_audit_logs(
+            fetch_chunk,
+            to,
+            on_progress=on_progress,
+            max_transfer_retries=max_transfer_retries,
+        )
 
 
 class AsyncAuditLogsResource(AsyncAPIResource):
@@ -480,7 +487,8 @@ class AsyncAuditLogsResource(AsyncAPIResource):
         search: str | Omit = omit,
         search_user_id: SequenceNotStr[str] | Omit = omit,
         service: str | Omit = omit,
-        on_progress: ProgressCallback | None = None,
+        on_progress: AsyncProgressCallback | None = None,
+        max_transfer_retries: int = 6,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -489,13 +497,13 @@ class AsyncAuditLogsResource(AsyncAPIResource):
         """Download a complete audit log export to a writable binary destination.
 
         The SDK verifies every chunk and retries transient transfer failures. It
-        does not close the destination.
+        does not close the destination. If the download fails, the destination
+        may contain a partial export; use a temporary file and atomic rename
+        when the completed export must be published atomically.
         """
 
-        resource = self._client.with_options(max_retries=0).audit_logs
-
         async def fetch_chunk(cursor: str | None) -> AsyncBinaryAPIResponse:
-            return await resource.export_chunk(
+            return await self.export_chunk(
                 end=end,
                 start=start,
                 auth_strategy=auth_strategy,
@@ -513,7 +521,12 @@ class AsyncAuditLogsResource(AsyncAPIResource):
                 timeout=timeout,
             )
 
-        return await async_download_audit_logs(fetch_chunk, to, on_progress=on_progress)
+        return await async_download_audit_logs(
+            fetch_chunk,
+            to,
+            on_progress=on_progress,
+            max_transfer_retries=max_transfer_retries,
+        )
 
 
 class AuditLogsResourceWithRawResponse:
