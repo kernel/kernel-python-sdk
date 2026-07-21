@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.81.0 (2026-07-21)
+
+Full Changelog: [v0.80.0...v0.81.0](https://github.com/kernel/kernel-python-sdk/compare/v0.80.0...v0.81.0)
+
+### Features
+
+* add complete audit log downloads ([18aa8c9](https://github.com/kernel/kernel-python-sdk/commit/18aa8c925b3f7699c30a6202685447432df2da6c))
+
 ## 0.80.0 (2026-07-19)
 
 Full Changelog: [v0.79.0...v0.80.0](https://github.com/kernel/kernel-python-sdk/compare/v0.79.0...v0.80.0)
