@@ -13,6 +13,7 @@ from anyio import to_thread
 from .._exceptions import KernelError
 
 _DEFAULT_MAX_TRANSFER_RETRIES = 6
+_MAX_CHUNK_ROWS = 50_000
 _MAX_RETRY_DELAY = 8.0
 
 
@@ -198,11 +199,10 @@ def _parse_chunk_headers(headers: httpx.Headers, current_cursor: str | None) -> 
     has_more = has_more_value == "true"
 
     row_count = headers.get("x-row-count")
-    try:
-        rows = int(row_count) if row_count is not None else -1
-    except ValueError as error:
-        raise AuditLogDownloadError("response missing or invalid X-Row-Count header") from error
-    if rows < 0:
+    if row_count is None or not row_count.isascii() or not row_count.isdecimal():
+        raise AuditLogDownloadError("response missing or invalid X-Row-Count header")
+    rows = int(row_count)
+    if rows > _MAX_CHUNK_ROWS:
         raise AuditLogDownloadError("response missing or invalid X-Row-Count header")
 
     next_cursor = headers.get("x-next-cursor") or None
@@ -217,11 +217,11 @@ def _write_chunk(destination: BinaryIO, body: bytes) -> None:
     remaining = memoryview(body)
     while remaining:
         written = destination.write(remaining)
-        if written <= 0 or written > len(remaining):
+        if type(written) is not int or written <= 0 or written > len(remaining):
             raise AuditLogDownloadError("audit log download destination performed a short write")
         remaining = remaining[written:]
 
 
 def _validate_max_transfer_retries(max_transfer_retries: int) -> None:
-    if max_transfer_retries < 0:
-        raise ValueError("max_transfer_retries must be non-negative")
+    if type(max_transfer_retries) is not int or max_transfer_retries < 0:
+        raise ValueError("max_transfer_retries must be a non-negative integer")

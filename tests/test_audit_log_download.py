@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 import threading
 from io import BytesIO
-from typing import BinaryIO
+from typing import BinaryIO, cast
 
 import httpx
 import pytest
@@ -96,6 +96,110 @@ async def test_async_download_writes_verified_chunks(
     assert result.rows == 3
     assert progress_called
     assert thread_ids and all(thread_id != threading.get_ident() for thread_id in thread_ids)
+
+
+async def test_async_download_retries_checksum_mismatch(
+    async_client: AsyncKernel, respx_mock: MockRouter, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    async def no_sleep(_: float) -> None:
+        pass
+
+    monkeypatch.setattr(audit_log_download.anyio, "sleep", no_sleep)
+    bad = chunk_response(b"bad", rows=1, has_more=False)
+    bad.headers["x-content-sha256"] = hashlib.sha256(b"good").hexdigest()
+    route = respx_mock.get("/audit-logs/export/chunk").mock(
+        side_effect=[bad, chunk_response(b"good", rows=1, has_more=False)]
+    )
+    destination = BytesIO()
+
+    await async_client.audit_logs.download(
+        to=destination,
+        start="2026-06-01T00:00:00Z",
+        end="2026-06-02T00:00:00Z",
+    )
+
+    assert destination.getvalue() == b"good"
+    assert route.call_count == 2
+
+
+async def test_async_download_uses_client_http_retries(async_client: AsyncKernel, respx_mock: MockRouter) -> None:
+    route = respx_mock.get("/audit-logs/export/chunk").mock(
+        side_effect=[
+            httpx.Response(500, json={"message": "temporary failure"}),
+            chunk_response(b"good", rows=1, has_more=False),
+        ]
+    )
+
+    await async_client.audit_logs.download(
+        to=BytesIO(),
+        start="2026-06-01T00:00:00Z",
+        end="2026-06-02T00:00:00Z",
+    )
+
+    assert route.call_count == 2
+
+
+async def test_async_download_respects_disabled_http_retries(async_client: AsyncKernel, respx_mock: MockRouter) -> None:
+    route = respx_mock.get("/audit-logs/export/chunk").mock(
+        return_value=httpx.Response(500, json={"message": "temporary failure"})
+    )
+
+    with pytest.raises(InternalServerError, match="500"):
+        await async_client.with_options(max_retries=0).audit_logs.download(
+            to=BytesIO(),
+            start="2026-06-01T00:00:00Z",
+            end="2026-06-02T00:00:00Z",
+        )
+
+    assert route.call_count == 1
+
+
+@pytest.mark.parametrize("row_count", ["", "1.0", "50001"])
+def test_download_rejects_invalid_row_count(row_count: str, client: Kernel, respx_mock: MockRouter) -> None:
+    response = chunk_response(b"chunk", rows=1, has_more=False)
+    response.headers["x-row-count"] = row_count
+    respx_mock.get("/audit-logs/export/chunk").mock(return_value=response)
+    destination = BytesIO()
+
+    with pytest.raises(AuditLogDownloadError, match="response missing or invalid X-Row-Count header"):
+        client.audit_logs.download(
+            to=destination,
+            start="2026-06-01T00:00:00Z",
+            end="2026-06-02T00:00:00Z",
+        )
+
+    assert destination.getvalue() == b""
+
+
+class InvalidWriteDestination:
+    def __init__(self, result: object) -> None:
+        self.result = result
+
+    def write(self, _: object) -> object:
+        return self.result
+
+
+@pytest.mark.parametrize("write_result", [float("nan"), 0.5, True])
+def test_download_rejects_invalid_write_result(write_result: object, client: Kernel, respx_mock: MockRouter) -> None:
+    respx_mock.get("/audit-logs/export/chunk").mock(return_value=chunk_response(b"chunk", rows=1, has_more=False))
+
+    with pytest.raises(AuditLogDownloadError, match="audit log download destination performed a short write"):
+        client.audit_logs.download(
+            to=cast(BinaryIO, InvalidWriteDestination(write_result)),
+            start="2026-06-01T00:00:00Z",
+            end="2026-06-02T00:00:00Z",
+        )
+
+
+@pytest.mark.parametrize("max_transfer_retries", [True, 1.5])
+def test_download_rejects_invalid_transfer_retry_count(max_transfer_retries: object, client: Kernel) -> None:
+    with pytest.raises(ValueError, match="max_transfer_retries must be a non-negative integer"):
+        client.audit_logs.download(
+            to=BytesIO(),
+            start="2026-06-01T00:00:00Z",
+            end="2026-06-02T00:00:00Z",
+            max_transfer_retries=cast(int, max_transfer_retries),
+        )
 
 
 def test_download_retries_checksum_mismatch(
