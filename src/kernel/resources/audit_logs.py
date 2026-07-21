@@ -237,7 +237,6 @@ class AuditLogsResource(SyncAPIResource):
         start: Union[str, datetime],
         auth_strategy: str | Omit = omit,
         exclude_method: SequenceNotStr[str] | Omit = omit,
-        format: Literal["jsonl", "jsonl.gz"] | Omit = omit,
         limit: int | Omit = omit,
         method: str | Omit = omit,
         search: str | Omit = omit,
@@ -250,12 +249,13 @@ class AuditLogsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AuditLogDownloadResult:
-        """Download a complete audit log export to a writable binary destination.
+        """Download a complete gzip-compressed JSON Lines audit log export.
 
-        The SDK verifies every chunk and retries transient transfer failures. It
-        does not close the destination. If the download fails, the destination
-        may contain a partial export; use a temporary file and atomic rename
-        when the completed export must be published atomically.
+        The SDK writes the export to a writable binary destination, verifies
+        every chunk, and retries transient transfer failures. It does not close
+        the destination. If the download fails, the destination may contain a
+        partial export; use a temporary file and atomic rename when the completed
+        export must be published atomically.
         """
 
         def fetch_chunk(cursor: str | None) -> ContextManager[StreamedBinaryAPIResponse]:
@@ -265,7 +265,6 @@ class AuditLogsResource(SyncAPIResource):
                 auth_strategy=auth_strategy,
                 cursor=cursor if cursor is not None else omit,
                 exclude_method=exclude_method,
-                format=format,
                 limit=limit,
                 method=method,
                 search=search,
@@ -481,7 +480,6 @@ class AsyncAuditLogsResource(AsyncAPIResource):
         start: Union[str, datetime],
         auth_strategy: str | Omit = omit,
         exclude_method: SequenceNotStr[str] | Omit = omit,
-        format: Literal["jsonl", "jsonl.gz"] | Omit = omit,
         limit: int | Omit = omit,
         method: str | Omit = omit,
         search: str | Omit = omit,
@@ -494,12 +492,13 @@ class AsyncAuditLogsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AuditLogDownloadResult:
-        """Download a complete audit log export to a writable binary destination.
+        """Download a complete gzip-compressed JSON Lines audit log export.
 
-        The SDK verifies every chunk and retries transient transfer failures. It
-        does not close the destination. If the download fails, the destination
-        may contain a partial export; use a temporary file and atomic rename
-        when the completed export must be published atomically.
+        The SDK writes the export to a writable binary destination, verifies
+        every chunk, and retries transient transfer failures. It does not close
+        the destination. If the download fails, the destination may contain a
+        partial export; use a temporary file and atomic rename when the completed
+        export must be published atomically.
         """
 
         def fetch_chunk(cursor: str | None) -> AsyncContextManager[AsyncStreamedBinaryAPIResponse]:
@@ -509,7 +508,6 @@ class AsyncAuditLogsResource(AsyncAPIResource):
                 auth_strategy=auth_strategy,
                 cursor=cursor if cursor is not None else omit,
                 exclude_method=exclude_method,
-                format=format,
                 limit=limit,
                 method=method,
                 search=search,

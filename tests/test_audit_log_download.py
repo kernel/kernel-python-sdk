@@ -55,9 +55,11 @@ def test_download_writes_verified_chunks(client: Kernel, respx_mock: MockRouter)
         ]
     )
     cursors: list[str | None] = []
+    formats: list[str | None] = []
 
     def respond(request: httpx.Request) -> httpx.Response:
         cursors.append(request.url.params.get("cursor"))
+        formats.append(request.url.params.get("format"))
         return next(responses)
 
     respx_mock.get("/audit-logs/export/chunk").mock(side_effect=respond)
@@ -68,7 +70,6 @@ def test_download_writes_verified_chunks(client: Kernel, respx_mock: MockRouter)
         to=destination,
         start="2026-06-01T00:00:00Z",
         end="2026-06-02T00:00:00Z",
-        format="jsonl.gz",
         on_progress=lambda update: progress.append(
             (update.bytes_written, update.chunks, update.rows, update.chunk_rows)
         ),
@@ -80,17 +81,25 @@ def test_download_writes_verified_chunks(client: Kernel, respx_mock: MockRouter)
     assert result.rows == 3
     assert progress == [(5, 1, 2, 2), (11, 2, 3, 1)]
     assert cursors == [None, "next"]
+    assert formats == [None, None]
 
 
 async def test_async_download_writes_verified_chunks(
     async_client: AsyncKernel, respx_mock: MockRouter, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    respx_mock.get("/audit-logs/export/chunk").mock(
-        side_effect=[
+    responses = iter(
+        [
             chunk_response(b"first", rows=2, has_more=True, next_cursor="next"),
             chunk_response(b"second", rows=1, has_more=False),
         ]
     )
+    formats: list[str | None] = []
+
+    def respond(request: httpx.Request) -> httpx.Response:
+        formats.append(request.url.params.get("format"))
+        return next(responses)
+
+    respx_mock.get("/audit-logs/export/chunk").mock(side_effect=respond)
     thread_ids: list[int] = []
     write_chunk = audit_log_download._write_chunk
 
@@ -119,6 +128,7 @@ async def test_async_download_writes_verified_chunks(
     assert result.rows == 3
     assert progress_called
     assert thread_ids and all(thread_id != threading.get_ident() for thread_id in thread_ids)
+    assert formats == [None, None]
 
 
 async def test_async_download_retries_body_read_failure(
