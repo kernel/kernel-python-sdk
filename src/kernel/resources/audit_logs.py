@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import Union, BinaryIO, ContextManager, AsyncContextManager
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -30,6 +30,13 @@ from .._response import (
 from ..pagination import SyncPageTokenPagination, AsyncPageTokenPagination
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.audit_log_entry import AuditLogEntry
+from ..lib.audit_log_download import (
+    ProgressCallback,
+    AsyncProgressCallback,
+    AuditLogDownloadResult,
+    download_audit_logs,
+    async_download_audit_logs,
+)
 
 __all__ = ["AuditLogsResource", "AsyncAuditLogsResource"]
 
@@ -222,6 +229,60 @@ class AuditLogsResource(SyncAPIResource):
             cast_to=BinaryAPIResponse,
         )
 
+    def download(
+        self,
+        *,
+        to: BinaryIO,
+        end: Union[str, datetime],
+        start: Union[str, datetime],
+        auth_strategy: str | Omit = omit,
+        exclude_method: SequenceNotStr[str] | Omit = omit,
+        limit: int | Omit = omit,
+        method: str | Omit = omit,
+        search: str | Omit = omit,
+        search_user_id: SequenceNotStr[str] | Omit = omit,
+        service: str | Omit = omit,
+        on_progress: ProgressCallback | None = None,
+        max_transfer_retries: int = 6,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AuditLogDownloadResult:
+        """Download a complete gzip-compressed JSON Lines audit log export.
+
+        The SDK writes the export to a writable binary destination, verifies
+        every chunk, and retries transient transfer failures. It does not close
+        the destination. If the download fails, the destination may contain a
+        partial export; use a temporary file and atomic rename when the completed
+        export must be published atomically.
+        """
+
+        def fetch_chunk(cursor: str | None) -> ContextManager[StreamedBinaryAPIResponse]:
+            return self.with_streaming_response.export_chunk(
+                end=end,
+                start=start,
+                auth_strategy=auth_strategy,
+                cursor=cursor if cursor is not None else omit,
+                exclude_method=exclude_method,
+                limit=limit,
+                method=method,
+                search=search,
+                search_user_id=search_user_id,
+                service=service,
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+
+        return download_audit_logs(
+            fetch_chunk,
+            to,
+            on_progress=on_progress,
+            max_transfer_retries=max_transfer_retries,
+        )
+
 
 class AsyncAuditLogsResource(AsyncAPIResource):
     """Read audit log records for the authenticated organization."""
@@ -409,6 +470,60 @@ class AsyncAuditLogsResource(AsyncAPIResource):
                 ),
             ),
             cast_to=AsyncBinaryAPIResponse,
+        )
+
+    async def download(
+        self,
+        *,
+        to: BinaryIO,
+        end: Union[str, datetime],
+        start: Union[str, datetime],
+        auth_strategy: str | Omit = omit,
+        exclude_method: SequenceNotStr[str] | Omit = omit,
+        limit: int | Omit = omit,
+        method: str | Omit = omit,
+        search: str | Omit = omit,
+        search_user_id: SequenceNotStr[str] | Omit = omit,
+        service: str | Omit = omit,
+        on_progress: AsyncProgressCallback | None = None,
+        max_transfer_retries: int = 6,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AuditLogDownloadResult:
+        """Download a complete gzip-compressed JSON Lines audit log export.
+
+        The SDK writes the export to a writable binary destination, verifies
+        every chunk, and retries transient transfer failures. It does not close
+        the destination. If the download fails, the destination may contain a
+        partial export; use a temporary file and atomic rename when the completed
+        export must be published atomically.
+        """
+
+        def fetch_chunk(cursor: str | None) -> AsyncContextManager[AsyncStreamedBinaryAPIResponse]:
+            return self.with_streaming_response.export_chunk(
+                end=end,
+                start=start,
+                auth_strategy=auth_strategy,
+                cursor=cursor if cursor is not None else omit,
+                exclude_method=exclude_method,
+                limit=limit,
+                method=method,
+                search=search,
+                search_user_id=search_user_id,
+                service=service,
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+
+        return await async_download_audit_logs(
+            fetch_chunk,
+            to,
+            on_progress=on_progress,
+            max_transfer_retries=max_transfer_retries,
         )
 
 
