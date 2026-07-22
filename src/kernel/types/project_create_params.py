@@ -9,4 +9,4 @@ __all__ = ["ProjectCreateParams"]
 
 class ProjectCreateParams(TypedDict, total=False):
     name: Required[str]
-    """Project name (1-255 characters)"""
+    """Project name (1-255 Unicode code points)"""
