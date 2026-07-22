@@ -9,7 +9,7 @@ __all__ = ["ProjectUpdateParams"]
 
 class ProjectUpdateParams(TypedDict, total=False):
     name: str
-    """New project name"""
+    """New project name (1-255 Unicode code points)"""
 
     status: Literal["active", "archived"]
     """New project status"""

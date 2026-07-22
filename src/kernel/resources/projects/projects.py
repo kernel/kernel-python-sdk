@@ -74,7 +74,7 @@ class ProjectsResource(SyncAPIResource):
         Create a new project within the authenticated organization.
 
         Args:
-          name: Project name (1-255 characters)
+          name: Project name (1-255 Unicode code points)
 
           extra_headers: Send extra headers
 
@@ -144,7 +144,7 @@ class ProjectsResource(SyncAPIResource):
         Update a project's name or status.
 
         Args:
-          name: New project name
+          name: New project name (1-255 Unicode code points)
 
           status: New project status
 
@@ -307,7 +307,7 @@ class AsyncProjectsResource(AsyncAPIResource):
         Create a new project within the authenticated organization.
 
         Args:
-          name: Project name (1-255 characters)
+          name: Project name (1-255 Unicode code points)
 
           extra_headers: Send extra headers
 
@@ -377,7 +377,7 @@ class AsyncProjectsResource(AsyncAPIResource):
         Update a project's name or status.
 
         Args:
-          name: New project name
+          name: New project name (1-255 Unicode code points)
 
           status: New project status
 
