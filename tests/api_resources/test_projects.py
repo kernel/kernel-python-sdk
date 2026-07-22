@@ -107,7 +107,7 @@ class TestProjects:
     def test_method_update_with_all_params(self, client: Kernel) -> None:
         project = client.projects.update(
             id="id",
-            name="name",
+            name="x",
             status="active",
         )
         assert_matches_type(Project, project, path=["response"])
@@ -322,7 +322,7 @@ class TestAsyncProjects:
     async def test_method_update_with_all_params(self, async_client: AsyncKernel) -> None:
         project = await async_client.projects.update(
             id="id",
-            name="name",
+            name="x",
             status="active",
         )
         assert_matches_type(Project, project, path=["response"])
