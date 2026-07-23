@@ -67,6 +67,7 @@ from .browser_retrieve_params import BrowserRetrieveParams as BrowserRetrievePar
 from .browser_update_response import BrowserUpdateResponse as BrowserUpdateResponse
 from .extension_list_response import ExtensionListResponse as ExtensionListResponse
 from .extension_upload_params import ExtensionUploadParams as ExtensionUploadParams
+from .profile_download_params import ProfileDownloadParams as ProfileDownloadParams
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
 from .browser_pool_list_params import BrowserPoolListParams as BrowserPoolListParams
 from .credential_create_params import CredentialCreateParams as CredentialCreateParams
