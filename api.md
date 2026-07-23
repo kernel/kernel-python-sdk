@@ -288,7 +288,7 @@ Methods:
 - <code title="patch /profiles/{id_or_name}">client.profiles.<a href="./src/kernel/resources/profiles.py">update</a>(id_or_name, \*\*<a href="src/kernel/types/profile_update_params.py">params</a>) -> <a href="./src/kernel/types/profile.py">Profile</a></code>
 - <code title="get /profiles">client.profiles.<a href="./src/kernel/resources/profiles.py">list</a>(\*\*<a href="src/kernel/types/profile_list_params.py">params</a>) -> <a href="./src/kernel/types/profile.py">SyncOffsetPagination[Profile]</a></code>
 - <code title="delete /profiles/{id_or_name}">client.profiles.<a href="./src/kernel/resources/profiles.py">delete</a>(id_or_name) -> None</code>
-- <code title="get /profiles/{id_or_name}/download">client.profiles.<a href="./src/kernel/resources/profiles.py">download</a>(id_or_name) -> BinaryAPIResponse</code>
+- <code title="get /profiles/{id_or_name}/download">client.profiles.<a href="./src/kernel/resources/profiles.py">download</a>(id_or_name, \*\*<a href="src/kernel/types/profile_download_params.py">params</a>) -> BinaryAPIResponse</code>
 
 # Auth
 
