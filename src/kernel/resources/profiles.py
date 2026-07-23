@@ -295,7 +295,7 @@ class ProfilesResource(SyncAPIResource):
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
-        extra_headers = {"Accept": "application/zstd", **(extra_headers or {})}
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return self._get(
             path_template("/profiles/{id_or_name}/download", id_or_name=id_or_name),
             options=make_request_options(
@@ -572,7 +572,7 @@ class AsyncProfilesResource(AsyncAPIResource):
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
-        extra_headers = {"Accept": "application/zstd", **(extra_headers or {})}
+        extra_headers = {"Accept": "application/octet-stream", **(extra_headers or {})}
         return await self._get(
             path_template("/profiles/{id_or_name}/download", id_or_name=id_or_name),
             options=make_request_options(
