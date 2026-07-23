@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.82.0 (2026-07-23)
+
+Full Changelog: [v0.81.0...v0.82.0](https://github.com/kernel/kernel-python-sdk/compare/v0.81.0...v0.82.0)
+
+### Features
+
+* Count project names by Unicode code point ([cecdf6d](https://github.com/kernel/kernel-python-sdk/commit/cecdf6d4a4ef7919b6eef5d03f76542b6ade0906))
+* Stream profile downloads as tar archives ([3a2eb97](https://github.com/kernel/kernel-python-sdk/commit/3a2eb97686f3ecf02db16d7bccea803476cb730f))
+* Use format-neutral profile download Accept header ([95d1334](https://github.com/kernel/kernel-python-sdk/commit/95d1334660d2ebaed70d2170233e4bdf3b074958))
+
 ## 0.81.0 (2026-07-21)
 
 Full Changelog: [v0.80.0...v0.81.0](https://github.com/kernel/kernel-python-sdk/compare/v0.80.0...v0.81.0)
