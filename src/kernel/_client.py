@@ -41,6 +41,7 @@ from .lib.browser_routing.routing import (
     strip_direct_vm_auth,
     rewrite_direct_vm_options,
     browser_routing_config_from_env,
+    should_retry_stale_direct_vm_auth,
     maybe_evict_browser_route_from_response,
     maybe_populate_browser_route_cache_from_response,
 )
@@ -352,6 +353,13 @@ class Kernel(SyncAPIClient):
     @override
     def _prepare_request(self, request: httpx.Request) -> None:
         strip_direct_vm_auth(request, cache=self.browser_route_cache)
+
+    @override
+    def _should_retry(self, response: httpx.Response) -> bool:
+        if should_retry_stale_direct_vm_auth(response):
+            maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
+            return True
+        return super()._should_retry(response)
 
     @override
     def _process_response(
@@ -721,6 +729,13 @@ class AsyncKernel(AsyncAPIClient):
     @override
     async def _prepare_request(self, request: httpx.Request) -> None:
         strip_direct_vm_auth(request, cache=self.browser_route_cache)
+
+    @override
+    def _should_retry(self, response: httpx.Response) -> bool:
+        if should_retry_stale_direct_vm_auth(response):
+            maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
+            return True
+        return super()._should_retry(response)
 
     @override
     async def _process_response(

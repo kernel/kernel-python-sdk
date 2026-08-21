@@ -44,7 +44,7 @@ def browser_routing_config_from_env() -> BrowserRoutingConfig:
         # Path prefixes eligible for direct-to-VM routing. "telemetry/stream" is
         # the live SSE endpoint (VM); "telemetry/events" is a historical read
         # served by the control plane (S2) and must NOT be here.
-        return BrowserRoutingConfig(subresources=("curl", "telemetry/stream"))
+        return BrowserRoutingConfig(subresources=("curl", "telemetry/stream", "computer", "playwright"))
     if raw.strip() == "":
         return BrowserRoutingConfig()
 
@@ -68,6 +68,14 @@ class BrowserRouteCache:
 
     def delete(self, session_id: str) -> None:
         self._routes.pop(_normalize_session_id(session_id), None)
+
+    def delete_if_jwt(self, session_id: str, jwt: str) -> bool:
+        key = _normalize_session_id(session_id)
+        route = self._routes.get(key)
+        if route is None or route.jwt != jwt.strip():
+            return False
+        del self._routes[key]
+        return True
 
     def values(self) -> list[BrowserRoute]:
         return list(self._routes.values())
@@ -110,14 +118,19 @@ def maybe_populate_browser_route_cache_from_response(response: httpx.Response, *
 
 
 def maybe_evict_browser_route_from_response(response: httpx.Response, *, cache: BrowserRouteCache) -> None:
-    if not response.is_success:
+    if response.is_success:
+        session_id = _session_id_to_evict_from_response(response)
+        if session_id:
+            cache.delete(session_id)
         return
 
-    session_id = _session_id_to_evict_from_response(response)
-    if not session_id:
+    if not is_stale_direct_vm_auth_response(response):
         return
 
-    cache.delete(session_id)
+    jwt = str(response.request.url.params.get("jwt") or "").strip()
+    session_id = _session_id_from_direct_vm_response(response, cache=cache)
+    if session_id and jwt:
+        cache.delete_if_jwt(session_id, jwt)
 
 
 def populate_browser_route_cache_from_value(value: object, *, cache: BrowserRouteCache) -> None:
@@ -159,6 +172,24 @@ def _session_id_to_evict_from_response(response: httpx.Response) -> str | None:
         return _session_id_from_browser_pool_release_request(response.request, path)
 
     return None
+
+
+def _session_id_from_direct_vm_response(response: httpx.Response, *, cache: BrowserRouteCache) -> str | None:
+    raw = str(response.request.url)
+    for route in cache.values():
+        if raw.startswith(route.base_url.rstrip("/") + "/"):
+            return route.session_id
+    return None
+
+
+def is_stale_direct_vm_auth_response(response: httpx.Response) -> bool:
+    if response.status_code not in {401, 403}:
+        return False
+    return bool(response.request.url.params.get("jwt"))
+
+
+def should_retry_stale_direct_vm_auth(response: httpx.Response) -> bool:
+    return is_stale_direct_vm_auth_response(response)
 
 
 def _session_id_from_browser_delete_path(path: str) -> str | None:
