@@ -208,7 +208,7 @@ class BrowsersResource(SyncAPIResource):
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
           gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
-              Enterprise plan and headless=false.
+              Enterprise plan, headless=false, and region=us-east.
 
           headless: If true, launches the browser using a headless image (no VNC/GUI). Defaults to
               false.
@@ -828,7 +828,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
           extensions: List of browser extensions to load into the session. Provide each by id or name.
 
           gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
-              Enterprise plan and headless=false.
+              Enterprise plan, headless=false, and region=us-east.
 
           headless: If true, launches the browser using a headless image (no VNC/GUI). Defaults to
               false.

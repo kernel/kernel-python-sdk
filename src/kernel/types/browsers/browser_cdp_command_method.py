@@ -1,0 +1,46 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from typing_extensions import Literal, TypeAlias
+
+__all__ = ["BrowserCdpCommandMethod"]
+
+BrowserCdpCommandMethod: TypeAlias = Literal[
+    "Input.dispatchMouseEvent",
+    "Input.dispatchKeyEvent",
+    "Input.insertText",
+    "Input.imeSetComposition",
+    "Input.dispatchTouchEvent",
+    "Input.dispatchDragEvent",
+    "Input.cancelDragging",
+    "Input.emulateTouchFromMouseEvent",
+    "Input.synthesizePinchGesture",
+    "Input.synthesizeScrollGesture",
+    "Input.synthesizeTapGesture",
+    "DOM.setFileInputFiles",
+    "DOM.focus",
+    "DOM.scrollIntoViewIfNeeded",
+    "Page.bringToFront",
+    "Page.captureScreenshot",
+    "Page.captureSnapshot",
+    "Page.handleJavaScriptDialog",
+    "Page.navigate",
+    "Page.navigateToHistoryEntry",
+    "Page.reload",
+    "Page.printToPDF",
+    "Page.startScreencast",
+    "Page.stopScreencast",
+    "Page.stopLoading",
+    "Page.close",
+    "Page.setWebLifecycleState",
+    "Target.activateTarget",
+    "Target.closeTarget",
+    "Target.createTarget",
+    "Target.createBrowserContext",
+    "Target.disposeBrowserContext",
+    "Target.openDevTools",
+    "Browser.cancelDownload",
+    "Browser.close",
+    "Browser.setWindowBounds",
+    "Browser.setContentsSize",
+    "Autofill.trigger",
+]

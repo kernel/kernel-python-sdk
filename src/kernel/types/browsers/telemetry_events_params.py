@@ -16,6 +16,7 @@ class TelemetryEventsParams(TypedDict, total=False):
             "page",
             "interaction",
             "control",
+            "platform",
             "connection",
             "system",
             "screenshot",

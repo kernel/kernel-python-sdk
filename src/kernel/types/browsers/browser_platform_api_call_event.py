@@ -6,7 +6,7 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from .browser_event_source import BrowserEventSource
 
-__all__ = ["BrowserAPICallEvent", "Data"]
+__all__ = ["BrowserPlatformAPICallEvent", "Data"]
 
 
 class Data(BaseModel):
@@ -16,7 +16,7 @@ class Data(BaseModel):
     operation_id: str
     """Matched route's operation, named as the in-VM API names its handler (e.g.
 
-    ProcessExec, TakeScreenshot).
+    ProcessExec, StartRecording).
     """
 
     request_id: str
@@ -25,20 +25,13 @@ class Data(BaseModel):
     status: int
     """HTTP response status code."""
 
-    code: Optional[str] = None
+
+class BrowserPlatformAPICallEvent(BaseModel):
     """
-    Source submitted to the Playwright code-execution endpoint, capped at 8192 bytes
-    like every other captured string. A capped value is cut on a character boundary
-    and ends in `...[truncated]`. Absent for every other operation.
+    An HTTP call that manages the browser VM rather than driving the browser, handled by the in-VM API server — recording lifecycle, filesystem and process management, telemetry and browser configuration. Mostly platform-induced (e.g. profile save, replay capture) rather than agent actions.
     """
 
-
-class BrowserAPICallEvent(BaseModel):
-    """
-    An agent-driven HTTP call that drives the browser, handled by the in-VM API server. Calls that manage the VM instead emit platform_api_call.
-    """
-
-    category: Literal["control"]
+    category: Literal["platform"]
 
     source: BrowserEventSource
     """Provenance metadata identifying which producer emitted the event."""
@@ -46,7 +39,7 @@ class BrowserAPICallEvent(BaseModel):
     ts: int
     """Event timestamp in Unix microseconds."""
 
-    type: Literal["api_call"]
+    type: Literal["platform_api_call"]
 
     data: Optional[Data] = None
 

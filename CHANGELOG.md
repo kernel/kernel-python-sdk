@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.94.0](https://github.com/kernel/kernel-python-sdk/compare/v0.93.0...v0.94.0) (2026-08-21)
+
+
+### Features
+
+* Mirror the control/platform telemetry split into the public API ([17c38fa](https://github.com/kernel/kernel-python-sdk/commit/17c38fa6c7668a7e2bb1f058d57053d83238263a))
+
 ## [0.93.0](https://github.com/kernel/kernel-python-sdk/compare/v0.92.0...v0.93.0) (2026-08-19)
 
 

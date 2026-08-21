@@ -252,7 +252,10 @@ class ProxiesResource(SyncAPIResource):
     ) -> None:
         """Soft delete a proxy.
 
-        Sessions referencing it are not modified.
+        Session records referencing it are not modified. If egress
+        binding polling is enabled, existing tunnels for active sessions using the proxy
+        are terminated within one polling interval; subsequent connections through the
+        deleted proxy are rejected.
 
         Args:
           extra_headers: Send extra headers
@@ -553,7 +556,10 @@ class AsyncProxiesResource(AsyncAPIResource):
     ) -> None:
         """Soft delete a proxy.
 
-        Sessions referencing it are not modified.
+        Session records referencing it are not modified. If egress
+        binding polling is enabled, existing tunnels for active sessions using the proxy
+        are terminated within one polling interval; subsequent connections through the
+        deleted proxy are rejected.
 
         Args:
           extra_headers: Send extra headers

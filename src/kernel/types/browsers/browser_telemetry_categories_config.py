@@ -3,6 +3,7 @@
 from typing import Optional
 
 from ..._models import BaseModel
+from .browser_telemetry_control_config import BrowserTelemetryControlConfig
 from .browser_telemetry_category_config import BrowserTelemetryCategoryConfig
 
 __all__ = ["BrowserTelemetryCategoriesConfig"]
@@ -11,7 +12,7 @@ __all__ = ["BrowserTelemetryCategoriesConfig"]
 class BrowserTelemetryCategoriesConfig(BaseModel):
     """Per-category telemetry capture settings layered onto the default set.
 
-    The operational signals (control, connection, system, captcha) are on by default and are opt-out: set one to enabled=false to stop capturing it. The CDP categories (console, network, page, interaction) and screenshot are off by default and are opt-in: set enabled=true to capture them.
+    The operational signals (control, connection, system, captcha) are on by default and are opt-out: set one to enabled=false to stop capturing it. The CDP categories (console, network, page, interaction), screenshot and platform are off by default and are opt-in: set enabled=true to capture them.
     """
 
     captcha: Optional[BrowserTelemetryCategoryConfig] = None
@@ -26,11 +27,11 @@ class BrowserTelemetryCategoriesConfig(BaseModel):
     CDP category; off by default.
     """
 
-    control: Optional[BrowserTelemetryCategoryConfig] = None
-    """Agent-driven actions against the browser, such as inbound calls to the in-VM
-    API.
-
-    On by default.
+    control: Optional[BrowserTelemetryControlConfig] = None
+    """
+    Agent-driven actions against the browser — computer-control calls, Playwright
+    code execution, screenshots, clipboard access, and browser-control commands sent
+    over the CDP proxy. On by default.
     """
 
     interaction: Optional[BrowserTelemetryCategoryConfig] = None
@@ -52,6 +53,13 @@ class BrowserTelemetryCategoriesConfig(BaseModel):
     """
     Page lifecycle events including navigation, DOMContentLoaded, load, layout
     shifts, and LCP. CDP category; off by default.
+    """
+
+    platform: Optional[BrowserTelemetryCategoryConfig] = None
+    """
+    In-VM API calls that manage the browser VM rather than drive the browser
+    (recording, filesystem, process, telemetry and browser configuration). Mostly
+    platform-induced; off by default and must be opted into.
     """
 
     screenshot: Optional[BrowserTelemetryCategoryConfig] = None

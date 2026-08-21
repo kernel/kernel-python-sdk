@@ -9,10 +9,12 @@ from ..._utils import PropertyInfo
 from .browser_api_call_event import BrowserAPICallEvent
 from .browser_page_lcp_event import BrowserPageLcpEvent
 from .browser_page_load_event import BrowserPageLoadEvent
+from .browser_cdp_command_event import BrowserCdpCommandEvent
 from .browser_cdp_connect_event import BrowserCdpConnectEvent
 from .browser_console_log_event import BrowserConsoleLogEvent
 from .browser_proxy_error_event import BrowserProxyErrorEvent
 from .browser_network_idle_event import BrowserNetworkIdleEvent
+from .browser_page_crashed_event import BrowserPageCrashedEvent
 from .browser_console_error_event import BrowserConsoleErrorEvent
 from .browser_cdp_disconnect_event import BrowserCdpDisconnectEvent
 from .browser_interaction_key_event import BrowserInteractionKeyEvent
@@ -25,6 +27,7 @@ from .browser_network_response_event import BrowserNetworkResponseEvent
 from .browser_interaction_click_event import BrowserInteractionClickEvent
 from .browser_live_view_connect_event import BrowserLiveViewConnectEvent
 from .browser_page_layout_shift_event import BrowserPageLayoutShiftEvent
+from .browser_platform_api_call_event import BrowserPlatformAPICallEvent
 from .browser_monitor_screenshot_event import BrowserMonitorScreenshotEvent
 from .browser_monitor_init_failed_event import BrowserMonitorInitFailedEvent
 from .browser_monitor_reconnected_event import BrowserMonitorReconnectedEvent
@@ -53,6 +56,7 @@ BrowserTelemetryEvent: TypeAlias = Annotated[
         BrowserPageDomContentLoadedEvent,
         BrowserPageLoadEvent,
         BrowserPageTabOpenedEvent,
+        BrowserPageCrashedEvent,
         BrowserPageLayoutShiftEvent,
         BrowserPageLcpEvent,
         BrowserPageLayoutSettledEvent,
@@ -66,6 +70,8 @@ BrowserTelemetryEvent: TypeAlias = Annotated[
         BrowserMonitorReconnectFailedEvent,
         BrowserMonitorInitFailedEvent,
         BrowserAPICallEvent,
+        BrowserPlatformAPICallEvent,
+        BrowserCdpCommandEvent,
         BrowserCdpConnectEvent,
         BrowserCdpDisconnectEvent,
         BrowserLiveViewConnectEvent,

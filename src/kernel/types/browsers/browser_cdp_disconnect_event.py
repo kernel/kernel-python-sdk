@@ -26,6 +26,30 @@ class Data(BaseModel):
     shutdown).
     """
 
+    connection_id: Optional[str] = None
+    """
+    Identifies this CDP proxy connection, matching the connection_id on the
+    cdp_command events that arrived on it. Two clients driving the same browser are
+    told apart by this.
+    """
+
+    telemetry_dropped: Optional[int] = None
+    """
+    Number of forwarded client frames the classifier never saw, because it could not
+    keep up or because classification failed. An upper bound on lost commands rather
+    than a count: a saturated queue turns away whatever arrives next, which may be
+    library traffic that would have produced no event. Telemetry loss only; every
+    command was still relayed to the browser. Absent on events from a browser image
+    predating the field, which is not the same as zero.
+    """
+
+    telemetry_excluded: Optional[int] = None
+    """
+    Number of forwarded client commands that produced no cdp_command event because
+    their method is listed in control.cdp.excluded_methods. Configuration rather
+    than loss, so it is counted apart from telemetry_dropped.
+    """
+
 
 class BrowserCdpDisconnectEvent(BaseModel):
     """An external client disconnected from the CDP WebSocket proxy on this VM.

@@ -40,6 +40,7 @@ from .process_status_response import ProcessStatusResponse as ProcessStatusRespo
 from .telemetry_events_params import TelemetryEventsParams as TelemetryEventsParams
 from .telemetry_stream_params import TelemetryStreamParams as TelemetryStreamParams
 from .browser_telemetry_config import BrowserTelemetryConfig as BrowserTelemetryConfig
+from .browser_cdp_command_event import BrowserCdpCommandEvent as BrowserCdpCommandEvent
 from .browser_cdp_connect_event import BrowserCdpConnectEvent as BrowserCdpConnectEvent
 from .browser_console_log_event import BrowserConsoleLogEvent as BrowserConsoleLogEvent
 from .browser_proxy_error_event import BrowserProxyErrorEvent as BrowserProxyErrorEvent
@@ -51,7 +52,9 @@ from .f_download_dir_zip_params import FDownloadDirZipParams as FDownloadDirZipP
 from .playwright_execute_params import PlaywrightExecuteParams as PlaywrightExecuteParams
 from .telemetry_events_response import TelemetryEventsResponse as TelemetryEventsResponse
 from .telemetry_stream_response import TelemetryStreamResponse as TelemetryStreamResponse
+from .browser_cdp_command_method import BrowserCdpCommandMethod as BrowserCdpCommandMethod
 from .browser_network_idle_event import BrowserNetworkIdleEvent as BrowserNetworkIdleEvent
+from .browser_page_crashed_event import BrowserPageCrashedEvent as BrowserPageCrashedEvent
 from .computer_drag_mouse_params import ComputerDragMouseParams as ComputerDragMouseParams
 from .computer_move_mouse_params import ComputerMoveMouseParams as ComputerMoveMouseParams
 from .browser_console_error_event import BrowserConsoleErrorEvent as BrowserConsoleErrorEvent
@@ -70,9 +73,11 @@ from .process_stdout_stream_response import ProcessStdoutStreamResponse as Proce
 from .browser_interaction_click_event import BrowserInteractionClickEvent as BrowserInteractionClickEvent
 from .browser_live_view_connect_event import BrowserLiveViewConnectEvent as BrowserLiveViewConnectEvent
 from .browser_page_layout_shift_event import BrowserPageLayoutShiftEvent as BrowserPageLayoutShiftEvent
+from .browser_platform_api_call_event import BrowserPlatformAPICallEvent as BrowserPlatformAPICallEvent
 from .browser_telemetry_export_config import BrowserTelemetryExportConfig as BrowserTelemetryExportConfig
 from .computer_write_clipboard_params import ComputerWriteClipboardParams as ComputerWriteClipboardParams
 from .browser_monitor_screenshot_event import BrowserMonitorScreenshotEvent as BrowserMonitorScreenshotEvent
+from .browser_telemetry_control_config import BrowserTelemetryControlConfig as BrowserTelemetryControlConfig
 from .computer_read_clipboard_response import ComputerReadClipboardResponse as ComputerReadClipboardResponse
 from .browser_monitor_init_failed_event import BrowserMonitorInitFailedEvent as BrowserMonitorInitFailedEvent
 from .browser_monitor_reconnected_event import BrowserMonitorReconnectedEvent as BrowserMonitorReconnectedEvent
@@ -84,6 +89,7 @@ from .browser_monitor_disconnected_event import BrowserMonitorDisconnectedEvent 
 from .computer_capture_screenshot_params import ComputerCaptureScreenshotParams as ComputerCaptureScreenshotParams
 from .browser_telemetry_categories_config import BrowserTelemetryCategoriesConfig as BrowserTelemetryCategoriesConfig
 from .browser_network_loading_failed_event import BrowserNetworkLoadingFailedEvent as BrowserNetworkLoadingFailedEvent
+from .browser_telemetry_cdp_control_config import BrowserTelemetryCdpControlConfig as BrowserTelemetryCdpControlConfig
 from .browser_telemetry_otlp_export_config import BrowserTelemetryOtlpExportConfig as BrowserTelemetryOtlpExportConfig
 from .computer_get_mouse_position_response import ComputerGetMousePositionResponse as ComputerGetMousePositionResponse
 from .browser_page_dom_content_loaded_event import BrowserPageDomContentLoadedEvent as BrowserPageDomContentLoadedEvent
@@ -96,6 +102,9 @@ from .computer_set_cursor_visibility_params import (
 from .browser_monitor_reconnect_failed_event import (
     BrowserMonitorReconnectFailedEvent as BrowserMonitorReconnectFailedEvent,
 )
+from .browser_telemetry_control_config_param import (
+    BrowserTelemetryControlConfigParam as BrowserTelemetryControlConfigParam,
+)
 from .browser_telemetry_category_config_param import (
     BrowserTelemetryCategoryConfigParam as BrowserTelemetryCategoryConfigParam,
 )
@@ -107,4 +116,7 @@ from .browser_interaction_scroll_settled_event import (
 )
 from .browser_telemetry_categories_config_param import (
     BrowserTelemetryCategoriesConfigParam as BrowserTelemetryCategoriesConfigParam,
+)
+from .browser_telemetry_cdp_control_config_param import (
+    BrowserTelemetryCdpControlConfigParam as BrowserTelemetryCdpControlConfigParam,
 )

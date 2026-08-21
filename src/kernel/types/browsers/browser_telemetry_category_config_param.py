@@ -14,6 +14,6 @@ class BrowserTelemetryCategoryConfigParam(TypedDict, total=False):
     """Whether this category is captured.
 
     Operational categories (control, connection, system, captcha) default to true;
-    set false to opt out. CDP categories (console, network, page, interaction) and
-    screenshot default to false; set true to opt in.
+    set false to opt out. CDP categories (console, network, page, interaction),
+    screenshot and platform default to false; set true to opt in.
     """
