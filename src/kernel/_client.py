@@ -41,8 +41,11 @@ from .lib.browser_routing.routing import (
     strip_direct_vm_auth,
     rewrite_direct_vm_options,
     browser_routing_config_from_env,
+    is_stale_direct_vm_auth_response,
     should_retry_stale_direct_vm_auth,
+    install_stale_direct_vm_auth_eviction,
     maybe_evict_browser_route_from_response,
+    install_async_stale_direct_vm_auth_eviction,
     maybe_populate_browser_route_cache_from_response,
 )
 
@@ -203,6 +206,7 @@ class Kernel(SyncAPIClient):
         )
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
         self._browser_routing = browser_routing_config_from_env()
+        install_stale_direct_vm_auth_eviction(self._client, cache=self.browser_route_cache)
 
     @cached_property
     def deployments(self) -> DeploymentsResource:
@@ -365,9 +369,11 @@ class Kernel(SyncAPIClient):
 
     @override
     def _should_retry(self, response: httpx.Response) -> bool:
-        if should_retry_stale_direct_vm_auth(response):
-            maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
-            return True
+        if is_stale_direct_vm_auth_response(response):
+            # The route was already evicted by the response hook; retry only when
+            # the body can be rebuilt, otherwise the caller sees the original auth
+            # failure and a later call goes to the control plane.
+            return should_retry_stale_direct_vm_auth(response)
         return super()._should_retry(response)
 
     @override
@@ -586,6 +592,7 @@ class AsyncKernel(AsyncAPIClient):
         )
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
         self._browser_routing = browser_routing_config_from_env()
+        install_async_stale_direct_vm_auth_eviction(self._client, cache=self.browser_route_cache)
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResource:
@@ -748,9 +755,11 @@ class AsyncKernel(AsyncAPIClient):
 
     @override
     def _should_retry(self, response: httpx.Response) -> bool:
-        if should_retry_stale_direct_vm_auth(response):
-            maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
-            return True
+        if is_stale_direct_vm_auth_response(response):
+            # The route was already evicted by the response hook; retry only when
+            # the body can be rebuilt, otherwise the caller sees the original auth
+            # failure and a later call goes to the control plane.
+            return should_retry_stale_direct_vm_auth(response)
         return super()._should_retry(response)
 
     @override

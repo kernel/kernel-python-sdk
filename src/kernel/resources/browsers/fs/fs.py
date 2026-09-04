@@ -48,6 +48,7 @@ from ...._response import (
     async_to_custom_streamed_response_wrapper,
 )
 from ...._base_client import make_request_options
+from ....lib.multipart import indexed_multipart_body
 from ....types.browsers import (
     f_move_params,
     f_upload_params,
@@ -510,14 +511,19 @@ class FsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         body = deepcopy_with_paths({"files": files}, [["files", "<array>", "file"]])
-        extracted_files = extract_files(cast(Mapping[str, object], body), paths=[["files", "<array>", "file"]])
+        # The remote filesystem pairs each file part with the sibling fields of the
+        # same array entry, so both halves of the form use indexed names
+        # (`files[0][file]`, `files[0][dest_path]`).
+        extracted_files = extract_files(
+            cast(Mapping[str, object], body), paths=[["files", "<array>", "file"]], array_format="indices"
+        )
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return self._post(
             path_template("/browsers/{id_or_name}/fs/upload", id_or_name=id_or_name),
-            body=maybe_transform(body, f_upload_params.FUploadParams),
+            body=indexed_multipart_body(maybe_transform(body, f_upload_params.FUploadParams)),
             files=extracted_files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -1073,14 +1079,19 @@ class AsyncFsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         body = deepcopy_with_paths({"files": files}, [["files", "<array>", "file"]])
-        extracted_files = extract_files(cast(Mapping[str, object], body), paths=[["files", "<array>", "file"]])
+        # The remote filesystem pairs each file part with the sibling fields of the
+        # same array entry, so both halves of the form use indexed names
+        # (`files[0][file]`, `files[0][dest_path]`).
+        extracted_files = extract_files(
+            cast(Mapping[str, object], body), paths=[["files", "<array>", "file"]], array_format="indices"
+        )
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
         extra_headers["Content-Type"] = "multipart/form-data"
         return await self._post(
             path_template("/browsers/{id_or_name}/fs/upload", id_or_name=id_or_name),
-            body=await async_maybe_transform(body, f_upload_params.FUploadParams),
+            body=indexed_multipart_body(await async_maybe_transform(body, f_upload_params.FUploadParams)),
             files=extracted_files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout

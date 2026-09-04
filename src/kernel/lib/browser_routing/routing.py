@@ -32,6 +32,9 @@ class BrowserRoutingConfig:
     subresources: tuple[str, ...] = field(default_factory=tuple)
 
 
+_EVICTION_HOOK_CACHE_ATTR = "_kernel_browser_route_cache"
+
+
 _BROWSER_ROUTE_CACHEABLE_PATH = re.compile(r"^/(?:v\d+/)?browsers(?:/[^/]+)?/?$")
 _BROWSER_DELETE_BY_ID_PATH = re.compile(r"^/(?:v\d+/)?browsers/([^/]+)/?$")
 _BROWSER_POOL_ACQUIRE_PATH = re.compile(r"^/(?:v\d+/)?browser_pools/[^/]+/acquire/?$")
@@ -44,7 +47,17 @@ def browser_routing_config_from_env() -> BrowserRoutingConfig:
         # Path prefixes eligible for direct-to-VM routing. "telemetry/stream" is
         # the live SSE endpoint (VM); "telemetry/events" is a historical read
         # served by the control plane (S2) and must NOT be here.
-        return BrowserRoutingConfig(subresources=("curl", "telemetry/stream", "computer", "playwright", "process"))
+        return BrowserRoutingConfig(
+            subresources=(
+                "curl",
+                "telemetry/stream",
+                "computer",
+                "playwright",
+                "process",
+                "fs",
+                "logs/stream",
+            )
+        )
     if raw.strip() == "":
         return BrowserRoutingConfig()
 
@@ -188,8 +201,124 @@ def is_stale_direct_vm_auth_response(response: httpx.Response) -> bool:
     return bool(response.request.url.params.get("jwt"))
 
 
+def install_stale_direct_vm_auth_eviction(client: httpx.Client, *, cache: BrowserRouteCache) -> None:
+    """Evict stale direct-to-VM routes as soon as the response status is known.
+
+    httpx reads the body of a non-streamed response inside `send()`, so a caller
+    that only inspects the returned response never learns the status of a 401/403
+    whose body read fails — the read error surfaces from `send()` instead and the
+    dead route would stay cached, wedging every later call for that session. A
+    response event hook runs after the status is known and before any body is
+    read, which keeps eviction independent of the body. For a caller-supplied
+    `http_client`, the hook is installed into that client's `event_hooks` and
+    prepended so an existing hook cannot pre-empt eviction by reading a failing
+    body or raising.
+    """
+    hooks = client.event_hooks.setdefault("response", [])
+    if _has_eviction_hook(hooks, cache):
+        return
+
+    def evict(response: httpx.Response) -> None:
+        if is_stale_direct_vm_auth_response(response):
+            maybe_evict_browser_route_from_response(response, cache=cache)
+
+    setattr(evict, _EVICTION_HOOK_CACHE_ATTR, cache)
+    hooks.insert(0, evict)
+
+
+def install_async_stale_direct_vm_auth_eviction(client: httpx.AsyncClient, *, cache: BrowserRouteCache) -> None:
+    """Async counterpart of `install_stale_direct_vm_auth_eviction`."""
+    hooks = client.event_hooks.setdefault("response", [])
+    if _has_eviction_hook(hooks, cache):
+        return
+
+    async def evict(response: httpx.Response) -> None:
+        if is_stale_direct_vm_auth_response(response):
+            maybe_evict_browser_route_from_response(response, cache=cache)
+
+    setattr(evict, _EVICTION_HOOK_CACHE_ATTR, cache)
+    hooks.insert(0, evict)
+
+
+def _has_eviction_hook(hooks: list[Any], cache: BrowserRouteCache) -> bool:
+    # A copied client shares both the httpx client and the route cache, so the
+    # hook is registered once per cache instead of once per client.
+    return any(getattr(hook, _EVICTION_HOOK_CACHE_ATTR, None) is cache for hook in hooks)
+
+
 def should_retry_stale_direct_vm_auth(response: httpx.Response) -> bool:
-    return is_stale_direct_vm_auth_response(response)
+    """Whether a stale direct-to-VM auth failure can be retried on the control plane.
+
+    A retry rebuilds the request from the original options, so it is only safe when
+    the body can be serialized again byte for byte. Streamed bodies (e.g. a file
+    object passed to fs.write_file) are consumed by the direct request, so retrying
+    would send a truncated or empty body to the control plane.
+    """
+    if not is_stale_direct_vm_auth_response(response):
+        return False
+    return direct_vm_request_body_is_replayable(response.request)
+
+
+def direct_vm_request_body_is_replayable(request: httpx.Request) -> bool:
+    try:
+        _ = request.content
+    except httpx.RequestNotRead:
+        pass
+    else:
+        # httpx already buffered the body, so rebuilding it yields the same bytes.
+        return True
+
+    # httpx encodes multipart bodies as a stream of fields it re-renders per attempt.
+    fields = getattr(request.stream, "fields", None)
+    if fields is None:
+        # A streamed body (file object, iterator or async iterator) cannot be replayed.
+        return False
+    return all(_multipart_field_is_replayable(field) for field in cast("list[Any]", fields))
+
+
+def _multipart_field_is_replayable(field: Any) -> bool:
+    file = getattr(field, "file", None)
+    if file is None:
+        # A data field renders from an in-memory value.
+        return True
+    if isinstance(file, (bytes, str)):
+        return True
+    if getattr(file, "closed", False):
+        return False
+    return _rewind_succeeds(file)
+
+
+def _rewind_succeeds(file: Any) -> bool:
+    """Whether the file field can actually be rewound for another render.
+
+    `seekable()` is not proof: a wrapper can report True and still raise from
+    `seek()`, which would render the field as an empty part on the retry. The
+    only reliable check is to perform the rewind httpx would perform.
+    """
+    seek = getattr(file, "seek", None)
+    if not callable(seek):
+        return False
+
+    position: object = None
+    tell = getattr(file, "tell", None)
+    if callable(tell):
+        try:
+            position = tell()
+        except Exception:
+            position = None
+
+    try:
+        seek(0)
+    except Exception:
+        return False
+
+    if isinstance(position, int) and position > 0:
+        try:
+            seek(position)
+        except Exception:
+            # The field is left rewound, which is where httpx renders it from anyway.
+            pass
+    return True
 
 
 def _session_id_from_browser_delete_path(path: str) -> str | None:
