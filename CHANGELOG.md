@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.101.0](https://github.com/kernel/kernel-python-sdk/compare/v0.100.0...v0.101.0) (2026-09-05)
+
+
+### Features
+
+* Expose vault access in organization entitlements ([1c3b388](https://github.com/kernel/kernel-python-sdk/commit/1c3b388f1a4597f65ed3926a8ec2646f5e0fc994))
+
 ## [0.100.0](https://github.com/kernel/kernel-python-sdk/compare/v0.99.0...v0.100.0) (2026-09-04)
 
 
