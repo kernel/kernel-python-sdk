@@ -21,6 +21,7 @@ __all__ = [
     "FeaturesManagedProxies",
     "FeaturesProfiles",
     "FeaturesProxyBypassHosts",
+    "FeaturesVaults",
     "Limits",
     "Plan",
 ]
@@ -114,6 +115,15 @@ class FeaturesProxyBypassHosts(BaseModel):
     """Whether the organization is entitled to use this feature."""
 
 
+class FeaturesVaults(BaseModel):
+    """
+    Whether the organization can access vaults, using the same access check as vault API routes.
+    """
+
+    enabled: bool
+    """Whether the organization is entitled to use this feature."""
+
+
 class Features(BaseModel):
     browser_extensions: FeaturesBrowserExtensions
 
@@ -138,6 +148,12 @@ class Features(BaseModel):
     profiles: FeaturesProfiles
 
     proxy_bypass_hosts: FeaturesProxyBypassHosts
+
+    vaults: FeaturesVaults
+    """
+    Whether the organization can access vaults, using the same access check as vault
+    API routes.
+    """
 
 
 class Limits(BaseModel):
