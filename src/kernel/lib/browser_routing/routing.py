@@ -15,6 +15,7 @@ from .util import (
     cdp_ws_url_from_browser_like,
     session_id_from_browser_like,
 )
+from ..._utils import is_given
 from ..._compat import model_copy
 from ..._models import FinalRequestOptions
 from ..._constants import RAW_RESPONSE_HEADER
@@ -32,6 +33,14 @@ class BrowserRoutingConfig:
     subresources: tuple[str, ...] = field(default_factory=tuple)
 
 
+_DIRECT_VM_EVICTION_HOOK_ATTR = "_kernel_direct_vm_eviction_hook"
+_DIRECT_VM_AUTH_HOOK_ATTR = "_kernel_direct_vm_auth_hook"
+_DIRECT_VM_REQUEST_MARKER_HEADER = "x-kernel-direct-vm-request"
+_STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION = "kernel_stale_direct_vm_auth"
+_DIRECT_VM_BODY_REPLAYABLE_REQUEST_EXTENSION = "kernel_direct_vm_body_replayable"
+_DIRECT_VM_ROUTE_CACHE_REQUEST_EXTENSION = "kernel_direct_vm_route_cache"
+
+
 _BROWSER_ROUTE_CACHEABLE_PATH = re.compile(r"^/(?:v\d+/)?browsers(?:/[^/]+)?/?$")
 _BROWSER_DELETE_BY_ID_PATH = re.compile(r"^/(?:v\d+/)?browsers/([^/]+)/?$")
 _BROWSER_POOL_ACQUIRE_PATH = re.compile(r"^/(?:v\d+/)?browser_pools/[^/]+/acquire/?$")
@@ -44,7 +53,17 @@ def browser_routing_config_from_env() -> BrowserRoutingConfig:
         # Path prefixes eligible for direct-to-VM routing. "telemetry/stream" is
         # the live SSE endpoint (VM); "telemetry/events" is a historical read
         # served by the control plane (S2) and must NOT be here.
-        return BrowserRoutingConfig(subresources=("curl", "telemetry/stream", "computer", "playwright", "process"))
+        return BrowserRoutingConfig(
+            subresources=(
+                "curl",
+                "telemetry/stream",
+                "computer",
+                "playwright",
+                "process",
+                "fs",
+                "logs/stream",
+            )
+        )
     if raw.strip() == "":
         return BrowserRoutingConfig()
 
@@ -188,8 +207,187 @@ def is_stale_direct_vm_auth_response(response: httpx.Response) -> bool:
     return bool(response.request.url.params.get("jwt"))
 
 
+def install_stale_direct_vm_auth_eviction(client: httpx.Client) -> None:
+    """Evict stale direct-to-VM routes as soon as the response status is known.
+
+    httpx reads the body of a non-streamed response inside `send()`, so a caller
+    that only inspects the returned response never learns the status of a 401/403
+    whose body read fails — the read error surfaces from `send()` instead and the
+    dead route would stay cached, wedging every later call for that session. A
+    response event hook runs after the status is known and before any body is
+    read, which keeps eviction independent of the body. It also rejects redirects
+    before httpx can replay an unreplayable direct request body. For a caller-supplied
+    `http_client`, the hook is installed into that client's `event_hooks` and
+    prepended so an existing hook cannot pre-empt these safeguards by reading a
+    failing body or raising.
+    """
+    hooks = client.event_hooks.setdefault("response", [])
+    if any(getattr(hook, _DIRECT_VM_EVICTION_HOOK_ATTR, False) for hook in hooks):
+        return
+
+    def handle_response(response: httpx.Response) -> None:
+        request_cache = _direct_vm_route_cache(response.request)
+        if request_cache is None:
+            return
+        _reject_unreplayable_direct_vm_redirect(response, cache=request_cache)
+        if is_stale_direct_vm_auth_response(response):
+            response.request.extensions[_STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION] = True
+            maybe_evict_browser_route_from_response(response, cache=request_cache)
+
+    setattr(handle_response, _DIRECT_VM_EVICTION_HOOK_ATTR, True)
+    hooks.insert(0, handle_response)
+
+
+def install_async_stale_direct_vm_auth_eviction(client: httpx.AsyncClient) -> None:
+    """Async counterpart of `install_stale_direct_vm_auth_eviction`."""
+    hooks = client.event_hooks.setdefault("response", [])
+    if any(getattr(hook, _DIRECT_VM_EVICTION_HOOK_ATTR, False) for hook in hooks):
+        return
+
+    async def handle_response(response: httpx.Response) -> None:
+        request_cache = _direct_vm_route_cache(response.request)
+        if request_cache is None:
+            return
+        _reject_unreplayable_direct_vm_redirect(response, cache=request_cache)
+        if is_stale_direct_vm_auth_response(response):
+            response.request.extensions[_STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION] = True
+            maybe_evict_browser_route_from_response(response, cache=request_cache)
+
+    setattr(handle_response, _DIRECT_VM_EVICTION_HOOK_ATTR, True)
+    hooks.insert(0, handle_response)
+
+
+def install_direct_vm_auth_stripping(client: httpx.Client) -> None:
+    """Remove Authorization after httpx auth and existing request hooks run."""
+    hooks = client.event_hooks.setdefault("request", [])
+    if any(getattr(hook, _DIRECT_VM_AUTH_HOOK_ATTR, False) for hook in hooks):
+        return
+
+    def strip_auth(request: httpx.Request) -> None:
+        if _is_direct_vm_request(request):
+            request.headers.pop("Authorization", None)
+
+    setattr(strip_auth, _DIRECT_VM_AUTH_HOOK_ATTR, True)
+    hooks.append(strip_auth)
+
+
+def install_async_direct_vm_auth_stripping(client: httpx.AsyncClient) -> None:
+    """Async counterpart of `install_direct_vm_auth_stripping`."""
+    hooks = client.event_hooks.setdefault("request", [])
+    if any(getattr(hook, _DIRECT_VM_AUTH_HOOK_ATTR, False) for hook in hooks):
+        return
+
+    async def strip_auth(request: httpx.Request) -> None:
+        if _is_direct_vm_request(request):
+            request.headers.pop("Authorization", None)
+
+    setattr(strip_auth, _DIRECT_VM_AUTH_HOOK_ATTR, True)
+    hooks.append(strip_auth)
+
+
+def _reject_unreplayable_direct_vm_redirect(response: httpx.Response, *, cache: BrowserRouteCache) -> None:
+    if not response.has_redirect_location or not direct_vm_request_body_is_known_unreplayable(response.request):
+        return
+
+    jwt = str(response.request.url.params.get("jwt") or "").strip()
+    session_id = _session_id_from_direct_vm_response(response, cache=cache)
+    if session_id and jwt:
+        cache.delete_if_jwt(session_id, jwt)
+    raise httpx.RequestError("Cannot safely redirect an unreplayable direct VM request", request=response.request)
+
+
+def should_retry_direct_vm_connection_error(request: httpx.Request) -> bool:
+    """Prevent connection retries from replaying an unreplayable VM request body."""
+    if direct_vm_request_body_is_known_unreplayable(request):
+        return False
+    if not request.extensions.get(_STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION):
+        return True
+    return direct_vm_request_body_is_replayable(request)
+
+
 def should_retry_stale_direct_vm_auth(response: httpx.Response) -> bool:
-    return is_stale_direct_vm_auth_response(response)
+    """Whether a stale direct-to-VM auth failure can be retried on the control plane.
+
+    A retry rebuilds the request from the original options, so it is only safe when
+    the body can be serialized again byte for byte. Streamed bodies (e.g. a file
+    object passed to fs.write_file) are consumed by the direct request, so retrying
+    would send a truncated or empty body to the control plane.
+    """
+    if not is_stale_direct_vm_auth_response(response):
+        return False
+    return direct_vm_request_body_is_replayable(response.request)
+
+
+def direct_vm_request_body_is_known_unreplayable(request: httpx.Request) -> bool:
+    return request.extensions.get(_DIRECT_VM_BODY_REPLAYABLE_REQUEST_EXTENSION) is False
+
+
+def direct_vm_request_body_is_replayable(request: httpx.Request) -> bool:
+    replayable = request.extensions.get(_DIRECT_VM_BODY_REPLAYABLE_REQUEST_EXTENSION)
+    if isinstance(replayable, bool):
+        return replayable
+    return _classify_direct_vm_request_body_replayability(request)
+
+
+def _classify_direct_vm_request_body_replayability(request: httpx.Request) -> bool:
+    try:
+        _ = request.content
+    except httpx.RequestNotRead:
+        pass
+    else:
+        return True
+
+    # httpx encodes multipart bodies as a stream of fields it re-renders per attempt.
+    fields = getattr(request.stream, "fields", None)
+    if fields is None:
+        # A streamed body (file object, iterator or async iterator) cannot be replayed.
+        return False
+    return all(_multipart_field_is_replayable(field) for field in cast("list[Any]", fields))
+
+
+def _multipart_field_is_replayable(field: Any) -> bool:
+    file = getattr(field, "file", None)
+    if file is None:
+        # A data field renders from an in-memory value.
+        return True
+    if isinstance(file, (bytes, str)):
+        return True
+    if getattr(file, "closed", False):
+        return False
+    return _rewind_succeeds(file)
+
+
+def _rewind_succeeds(file: Any) -> bool:
+    """Whether the file field can actually be rewound for another render.
+
+    `seekable()` is not proof: a wrapper can report True and still raise from
+    `seek()`, which would render the field as an empty part on the retry. The
+    only reliable check is to perform the rewind httpx would perform.
+    """
+    seek = getattr(file, "seek", None)
+    if not callable(seek):
+        return False
+
+    position: object = None
+    tell = getattr(file, "tell", None)
+    if callable(tell):
+        try:
+            position = tell()
+        except Exception:
+            position = None
+
+    try:
+        seek(0)
+    except Exception:
+        return False
+
+    if isinstance(position, int) and position > 0:
+        try:
+            seek(position)
+        except Exception:
+            # The field is left rewound, which is where httpx renders it from anyway.
+            pass
+    return True
 
 
 def _session_id_from_browser_delete_path(path: str) -> str | None:
@@ -262,15 +460,45 @@ def rewrite_direct_vm_options(
     params.update(options.params)
     params["jwt"] = route.jwt
     rewritten.params = params or options.params
+
+    headers = dict(options.headers) if is_given(options.headers) else {}
+    headers[_DIRECT_VM_REQUEST_MARKER_HEADER] = "true"
+    rewritten.headers = headers
     return rewritten
 
 
-def strip_direct_vm_auth(request: httpx.Request, *, cache: BrowserRouteCache) -> None:
-    raw = str(request.url)
-    for route in cache.values():
-        if raw.startswith(route.base_url.rstrip("/") + "/"):
-            request.headers.pop("Authorization", None)
-            return
+def mark_direct_vm_headers(headers: Mapping[str, str] | None) -> dict[str, str]:
+    marked = dict(headers or {})
+    marked[_DIRECT_VM_REQUEST_MARKER_HEADER] = "true"
+    return marked
+
+
+def prepare_direct_vm_request(request: httpx.Request, *, cache: BrowserRouteCache) -> None:
+    if request.headers.pop(_DIRECT_VM_REQUEST_MARKER_HEADER, None) is None:
+        return
+
+    # Request hooks and custom auth can buffer this request while consuming
+    # the original body that the SDK would use to build a retry.
+    request.extensions[_DIRECT_VM_BODY_REPLAYABLE_REQUEST_EXTENSION] = _classify_direct_vm_request_body_replayability(
+        request
+    )
+    request.extensions[_DIRECT_VM_ROUTE_CACHE_REQUEST_EXTENSION] = cache
+    request.headers.pop("Authorization", None)
+
+
+def _direct_vm_route_cache(request: httpx.Request) -> BrowserRouteCache | None:
+    cache = request.extensions.get(_DIRECT_VM_ROUTE_CACHE_REQUEST_EXTENSION)
+    return cache if isinstance(cache, BrowserRouteCache) else None
+
+
+def direct_vm_request_extensions(*, cache: BrowserRouteCache) -> dict[str, object]:
+    return {_DIRECT_VM_ROUTE_CACHE_REQUEST_EXTENSION: cache}
+
+
+def _is_direct_vm_request(request: httpx.Request) -> bool:
+    return _direct_vm_route_cache(request) is not None or isinstance(
+        request.extensions.get(_DIRECT_VM_BODY_REPLAYABLE_REQUEST_EXTENSION), bool
+    )
 
 
 def match_direct_vm_path(path: str) -> tuple[str, str, str] | None:

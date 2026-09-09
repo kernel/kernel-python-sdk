@@ -38,11 +38,18 @@ from ._base_client import (
 from .lib.browser_routing.routing import (
     BrowserRouteCache,
     BrowserRoutingConfig,
-    strip_direct_vm_auth,
+    prepare_direct_vm_request,
     rewrite_direct_vm_options,
     browser_routing_config_from_env,
+    install_direct_vm_auth_stripping,
+    is_stale_direct_vm_auth_response,
     should_retry_stale_direct_vm_auth,
+    install_stale_direct_vm_auth_eviction,
+    install_async_direct_vm_auth_stripping,
     maybe_evict_browser_route_from_response,
+    should_retry_direct_vm_connection_error,
+    install_async_stale_direct_vm_auth_eviction,
+    direct_vm_request_body_is_known_unreplayable,
     maybe_populate_browser_route_cache_from_response,
 )
 
@@ -205,6 +212,8 @@ class Kernel(SyncAPIClient):
         )
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
         self._browser_routing = browser_routing_config_from_env()
+        install_direct_vm_auth_stripping(self._client)
+        install_stale_direct_vm_auth_eviction(self._client)
 
     @cached_property
     def deployments(self) -> DeploymentsResource:
@@ -369,13 +378,21 @@ class Kernel(SyncAPIClient):
 
     @override
     def _prepare_request(self, request: httpx.Request) -> None:
-        strip_direct_vm_auth(request, cache=self.browser_route_cache)
+        prepare_direct_vm_request(request, cache=self.browser_route_cache)
+
+    @override
+    def _should_retry_on_connection_error(self, request: httpx.Request) -> bool:
+        return should_retry_direct_vm_connection_error(request)
 
     @override
     def _should_retry(self, response: httpx.Response) -> bool:
-        if should_retry_stale_direct_vm_auth(response):
-            maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
-            return True
+        if direct_vm_request_body_is_known_unreplayable(response.request):
+            return False
+        if is_stale_direct_vm_auth_response(response):
+            # The route was already evicted by the response hook; retry only when
+            # the body can be rebuilt, otherwise the caller sees the original auth
+            # failure and a later call goes to the control plane.
+            return should_retry_stale_direct_vm_auth(response)
         return super()._should_retry(response)
 
     @override
@@ -594,6 +611,8 @@ class AsyncKernel(AsyncAPIClient):
         )
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
         self._browser_routing = browser_routing_config_from_env()
+        install_async_direct_vm_auth_stripping(self._client)
+        install_async_stale_direct_vm_auth_eviction(self._client)
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResource:
@@ -758,13 +777,21 @@ class AsyncKernel(AsyncAPIClient):
 
     @override
     async def _prepare_request(self, request: httpx.Request) -> None:
-        strip_direct_vm_auth(request, cache=self.browser_route_cache)
+        prepare_direct_vm_request(request, cache=self.browser_route_cache)
+
+    @override
+    def _should_retry_on_connection_error(self, request: httpx.Request) -> bool:
+        return should_retry_direct_vm_connection_error(request)
 
     @override
     def _should_retry(self, response: httpx.Response) -> bool:
-        if should_retry_stale_direct_vm_auth(response):
-            maybe_evict_browser_route_from_response(response, cache=self.browser_route_cache)
-            return True
+        if direct_vm_request_body_is_known_unreplayable(response.request):
+            return False
+        if is_stale_direct_vm_auth_response(response):
+            # The route was already evicted by the response hook; retry only when
+            # the body can be rebuilt, otherwise the caller sees the original auth
+            # failure and a later call goes to the control plane.
+            return should_retry_stale_direct_vm_auth(response)
         return super()._should_retry(response)
 
     @override

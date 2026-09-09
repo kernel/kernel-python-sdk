@@ -7,7 +7,7 @@ from collections.abc import Iterable, Iterator, AsyncIterator
 import httpx
 
 from .util import sanitize_curl_raw_params
-from .routing import BrowserRoute
+from .routing import BrowserRoute, mark_direct_vm_headers, direct_vm_request_extensions
 from ..._types import Body, Timeout, NotGiven, not_given
 from ..._models import FinalRequestOptions
 
@@ -33,7 +33,7 @@ def request_via_browser_route(
         method=method.upper(),
         url=route.base_url.rstrip("/") + "/curl/raw",
         params=query,
-        headers=headers or {},
+        headers=mark_direct_vm_headers(headers),
         content=_normalize_binary_content(content),
         json_data=json,
         timeout=_normalize_timeout(timeout),
@@ -70,6 +70,7 @@ def stream_via_browser_route(
         headers=request_headers,
         content=_normalize_binary_content(content),
         timeout=_normalize_timeout(effective_timeout),
+        extensions=direct_vm_request_extensions(cache=parent.browser_route_cache),
     ) as response:
         yield response
 
@@ -93,7 +94,7 @@ async def async_request_via_browser_route(
         method=method.upper(),
         url=route.base_url.rstrip("/") + "/curl/raw",
         params=query,
-        headers=headers or {},
+        headers=mark_direct_vm_headers(headers),
         content=_normalize_binary_content(content),
         json_data=json,
         timeout=_normalize_timeout(timeout),
@@ -130,6 +131,7 @@ async def async_stream_via_browser_route(
         headers=request_headers,
         content=_normalize_binary_content(content),
         timeout=_normalize_timeout(effective_timeout),
+        extensions=direct_vm_request_extensions(cache=parent.browser_route_cache),
     ) as response:
         yield response
 
