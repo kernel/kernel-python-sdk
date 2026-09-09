@@ -50,7 +50,10 @@ class ConfigIspProxyConfig(TypedDict, total=False):
     """Configuration for an ISP proxy."""
 
     country: str
-    """ISO 3166 country code. Defaults to US if not provided."""
+    """ISO 3166 country code.
+
+    Supported countries are US, GB, FR, DE, and SG. Defaults to US if not provided.
+    """
 
 
 class ConfigResidentialProxyConfig(TypedDict, total=False):

@@ -37,7 +37,10 @@ class ConfigRegistryManagedProxyCreateConfigIspProxyConfig(BaseModel):
     """Configuration for an ISP proxy."""
 
     country: Optional[str] = None
-    """ISO 3166 country code. Defaults to US if not provided."""
+    """ISO 3166 country code.
+
+    Supported countries are US, GB, FR, DE, and SG. Defaults to US if not provided.
+    """
 
 
 class ConfigRegistryManagedProxyCreateConfigResidentialProxyConfig(BaseModel):
