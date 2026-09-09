@@ -33,7 +33,7 @@ class BrowserRoutingConfig:
     subresources: tuple[str, ...] = field(default_factory=tuple)
 
 
-_EVICTION_HOOK_CACHE_ATTR = "_kernel_browser_route_cache"
+_DIRECT_VM_EVICTION_HOOK_ATTR = "_kernel_direct_vm_eviction_hook"
 _DIRECT_VM_AUTH_HOOK_ATTR = "_kernel_direct_vm_auth_hook"
 _DIRECT_VM_REQUEST_MARKER_HEADER = "x-kernel-direct-vm-request"
 _STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION = "kernel_stale_direct_vm_auth"
@@ -207,7 +207,7 @@ def is_stale_direct_vm_auth_response(response: httpx.Response) -> bool:
     return bool(response.request.url.params.get("jwt"))
 
 
-def install_stale_direct_vm_auth_eviction(client: httpx.Client, *, cache: BrowserRouteCache) -> None:
+def install_stale_direct_vm_auth_eviction(client: httpx.Client) -> None:
     """Evict stale direct-to-VM routes as soon as the response status is known.
 
     httpx reads the body of a non-streamed response inside `send()`, so a caller
@@ -222,34 +222,38 @@ def install_stale_direct_vm_auth_eviction(client: httpx.Client, *, cache: Browse
     failing body or raising.
     """
     hooks = client.event_hooks.setdefault("response", [])
-    if _has_eviction_hook(hooks, cache):
+    if any(getattr(hook, _DIRECT_VM_EVICTION_HOOK_ATTR, False) for hook in hooks):
         return
 
     def handle_response(response: httpx.Response) -> None:
-        request_cache = _direct_vm_route_cache(response.request) or cache
+        request_cache = _direct_vm_route_cache(response.request)
+        if request_cache is None:
+            return
         _reject_unreplayable_direct_vm_redirect(response, cache=request_cache)
         if is_stale_direct_vm_auth_response(response):
             response.request.extensions[_STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION] = True
             maybe_evict_browser_route_from_response(response, cache=request_cache)
 
-    setattr(handle_response, _EVICTION_HOOK_CACHE_ATTR, cache)
+    setattr(handle_response, _DIRECT_VM_EVICTION_HOOK_ATTR, True)
     hooks.insert(0, handle_response)
 
 
-def install_async_stale_direct_vm_auth_eviction(client: httpx.AsyncClient, *, cache: BrowserRouteCache) -> None:
+def install_async_stale_direct_vm_auth_eviction(client: httpx.AsyncClient) -> None:
     """Async counterpart of `install_stale_direct_vm_auth_eviction`."""
     hooks = client.event_hooks.setdefault("response", [])
-    if _has_eviction_hook(hooks, cache):
+    if any(getattr(hook, _DIRECT_VM_EVICTION_HOOK_ATTR, False) for hook in hooks):
         return
 
     async def handle_response(response: httpx.Response) -> None:
-        request_cache = _direct_vm_route_cache(response.request) or cache
+        request_cache = _direct_vm_route_cache(response.request)
+        if request_cache is None:
+            return
         _reject_unreplayable_direct_vm_redirect(response, cache=request_cache)
         if is_stale_direct_vm_auth_response(response):
             response.request.extensions[_STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION] = True
             maybe_evict_browser_route_from_response(response, cache=request_cache)
 
-    setattr(handle_response, _EVICTION_HOOK_CACHE_ATTR, cache)
+    setattr(handle_response, _DIRECT_VM_EVICTION_HOOK_ATTR, True)
     hooks.insert(0, handle_response)
 
 
@@ -279,12 +283,6 @@ def install_async_direct_vm_auth_stripping(client: httpx.AsyncClient) -> None:
 
     setattr(strip_auth, _DIRECT_VM_AUTH_HOOK_ATTR, True)
     hooks.append(strip_auth)
-
-
-def _has_eviction_hook(hooks: list[Any], cache: BrowserRouteCache) -> bool:
-    # A copied client shares both the httpx client and the route cache, so the
-    # hook is registered once per cache instead of once per client.
-    return any(getattr(hook, _EVICTION_HOOK_CACHE_ATTR, None) is cache for hook in hooks)
 
 
 def _reject_unreplayable_direct_vm_redirect(response: httpx.Response, *, cache: BrowserRouteCache) -> None:
@@ -467,6 +465,12 @@ def rewrite_direct_vm_options(
     headers[_DIRECT_VM_REQUEST_MARKER_HEADER] = "true"
     rewritten.headers = headers
     return rewritten
+
+
+def mark_direct_vm_headers(headers: Mapping[str, str] | None) -> dict[str, str]:
+    marked = dict(headers or {})
+    marked[_DIRECT_VM_REQUEST_MARKER_HEADER] = "true"
+    return marked
 
 
 def prepare_direct_vm_request(request: httpx.Request, *, cache: BrowserRouteCache) -> None:

@@ -213,7 +213,7 @@ class Kernel(SyncAPIClient):
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
         self._browser_routing = browser_routing_config_from_env()
         install_direct_vm_auth_stripping(self._client)
-        install_stale_direct_vm_auth_eviction(self._client, cache=self.browser_route_cache)
+        install_stale_direct_vm_auth_eviction(self._client)
 
     @cached_property
     def deployments(self) -> DeploymentsResource:
@@ -612,7 +612,7 @@ class AsyncKernel(AsyncAPIClient):
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
         self._browser_routing = browser_routing_config_from_env()
         install_async_direct_vm_auth_stripping(self._client)
-        install_async_stale_direct_vm_auth_eviction(self._client, cache=self.browser_route_cache)
+        install_async_stale_direct_vm_auth_eviction(self._client)
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResource:

@@ -190,6 +190,8 @@ def test_browser_request_uses_curl_raw() -> None:
     request = cast(httpx.Request, cast(Any, route.calls[0]).request)
     assert "curl/raw" in str(request.url)
     assert request.url.params.get("jwt") == "token-abc"
+    assert request.headers.get("Authorization") is None
+    assert request.headers.get("x-kernel-direct-vm-request") is None
 
 
 @respx.mock
@@ -344,6 +346,8 @@ async def test_async_raw_browser_create_warms_route_cache() -> None:
     assert routed.content == b"ok"
     request = cast(httpx.Request, cast(Any, routed_request.calls[0]).request)
     assert request.url.params.get("jwt") == "token-abc"
+    assert request.headers.get("Authorization") is None
+    assert request.headers.get("x-kernel-direct-vm-request") is None
 
 
 @respx.mock
@@ -1727,9 +1731,15 @@ async def test_async_direct_vm_redirect_does_not_replay_unreplayable_write(
 
 
 @pytest.mark.parametrize("origin_first", [True, False])
-def test_direct_vm_redirect_evicts_originating_cache_when_http_client_is_shared(
+@pytest.mark.parametrize(
+    ("status_code", "expected_error"),
+    [(307, APIConnectionError), (401, AuthenticationError)],
+)
+def test_direct_vm_failure_evicts_originating_cache_when_http_client_is_shared(
     monkeypatch: pytest.MonkeyPatch,
     origin_first: bool,
+    status_code: int,
+    expected_error: type[Exception],
 ) -> None:
     monkeypatch.delenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", raising=False)
     requests: list[tuple[httpx.URL, bytes]] = []
@@ -1740,7 +1750,7 @@ def test_direct_vm_redirect_evicts_originating_cache_when_http_client_is_shared(
             body = b"".join(cast(Iterator[bytes], request.stream))
             requests.append((request.url, body))
             return httpx.Response(
-                307,
+                status_code,
                 headers={"location": "http://other-vm.test/browser/kernel/fs/write_file"},
             )
 
@@ -1760,8 +1770,9 @@ def test_direct_vm_redirect_evicts_originating_cache_when_http_client_is_shared(
         other_client, client = make_client(), make_client()
 
     try:
+        assert len(http_client.event_hooks["response"]) == 1
         _cache_browser(client)
-        with pytest.raises(APIConnectionError):
+        with pytest.raises(expected_error):
             client.browsers.fs.write_file("sess-1", _UnseekableFile(b"payload"), path="/tmp/x")
         assert client.browser_route_cache.get("sess-1") is None
         assert other_client.browser_route_cache.get("sess-1") is None
@@ -1778,9 +1789,15 @@ def test_direct_vm_redirect_evicts_originating_cache_when_http_client_is_shared(
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("origin_first", [True, False])
-async def test_async_direct_vm_redirect_evicts_originating_cache_when_http_client_is_shared(
+@pytest.mark.parametrize(
+    ("status_code", "expected_error"),
+    [(308, APIConnectionError), (403, PermissionDeniedError)],
+)
+async def test_async_direct_vm_failure_evicts_originating_cache_when_http_client_is_shared(
     monkeypatch: pytest.MonkeyPatch,
     origin_first: bool,
+    status_code: int,
+    expected_error: type[Exception],
 ) -> None:
     monkeypatch.delenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", raising=False)
     requests: list[tuple[httpx.URL, bytes]] = []
@@ -1791,7 +1808,7 @@ async def test_async_direct_vm_redirect_evicts_originating_cache_when_http_clien
             body = b"".join([chunk async for chunk in cast(AsyncIterator[bytes], request.stream)])
             requests.append((request.url, body))
             return httpx.Response(
-                308,
+                status_code,
                 headers={"location": "http://other-vm.test/browser/kernel/fs/write_file"},
             )
 
@@ -1811,10 +1828,11 @@ async def test_async_direct_vm_redirect_evicts_originating_cache_when_http_clien
         other_client, client = make_client(), make_client()
 
     try:
+        assert len(http_client.event_hooks["response"]) == 1
         route = browser_route_from_browser(_fake_browser())
         assert route is not None
         client.browser_route_cache.set(route)
-        with pytest.raises(APIConnectionError):
+        with pytest.raises(expected_error):
             await client.browsers.fs.write_file(
                 "sess-1",
                 cast(Any, _UnreplayableAsyncBody(b"payload")),
