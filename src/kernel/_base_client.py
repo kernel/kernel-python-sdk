@@ -772,6 +772,9 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
         timeout = sleep_seconds * jitter
         return timeout if timeout >= 0 else 0
 
+    def _should_retry_on_connection_error(self, _request: httpx.Request) -> bool:
+        return True
+
     def _should_retry(self, response: httpx.Response) -> bool:
         # Note: this is not a standard header
         should_retry_header = response.headers.get("x-should-retry")
@@ -1012,7 +1015,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
             except httpx.TimeoutException as err:
                 log.debug("Encountered httpx.TimeoutException", exc_info=True)
 
-                if remaining_retries > 0:
+                if remaining_retries > 0 and self._should_retry_on_connection_error(request):
                     self._sleep_for_retry(
                         retries_taken=retries_taken,
                         max_retries=max_retries,
@@ -1026,7 +1029,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
             except Exception as err:
                 log.debug("Encountered Exception", exc_info=True)
 
-                if remaining_retries > 0:
+                if remaining_retries > 0 and self._should_retry_on_connection_error(request):
                     self._sleep_for_retry(
                         retries_taken=retries_taken,
                         max_retries=max_retries,
@@ -1596,7 +1599,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
             except httpx.TimeoutException as err:
                 log.debug("Encountered httpx.TimeoutException", exc_info=True)
 
-                if remaining_retries > 0:
+                if remaining_retries > 0 and self._should_retry_on_connection_error(request):
                     await self._sleep_for_retry(
                         retries_taken=retries_taken,
                         max_retries=max_retries,
@@ -1610,7 +1613,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
             except Exception as err:
                 log.debug("Encountered Exception", exc_info=True)
 
-                if remaining_retries > 0:
+                if remaining_retries > 0 and self._should_retry_on_connection_error(request):
                     await self._sleep_for_retry(
                         retries_taken=retries_taken,
                         max_retries=max_retries,
