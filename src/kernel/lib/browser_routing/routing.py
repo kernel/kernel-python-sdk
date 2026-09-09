@@ -38,6 +38,7 @@ _DIRECT_VM_AUTH_HOOK_ATTR = "_kernel_direct_vm_auth_hook"
 _DIRECT_VM_REQUEST_MARKER_HEADER = "x-kernel-direct-vm-request"
 _STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION = "kernel_stale_direct_vm_auth"
 _DIRECT_VM_BODY_REPLAYABLE_REQUEST_EXTENSION = "kernel_direct_vm_body_replayable"
+_DIRECT_VM_ROUTE_CACHE_REQUEST_EXTENSION = "kernel_direct_vm_route_cache"
 
 
 _BROWSER_ROUTE_CACHEABLE_PATH = re.compile(r"^/(?:v\d+/)?browsers(?:/[^/]+)?/?$")
@@ -225,10 +226,11 @@ def install_stale_direct_vm_auth_eviction(client: httpx.Client, *, cache: Browse
         return
 
     def handle_response(response: httpx.Response) -> None:
-        _reject_unreplayable_direct_vm_redirect(response, cache=cache)
+        request_cache = _direct_vm_route_cache(response.request) or cache
+        _reject_unreplayable_direct_vm_redirect(response, cache=request_cache)
         if is_stale_direct_vm_auth_response(response):
             response.request.extensions[_STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION] = True
-            maybe_evict_browser_route_from_response(response, cache=cache)
+            maybe_evict_browser_route_from_response(response, cache=request_cache)
 
     setattr(handle_response, _EVICTION_HOOK_CACHE_ATTR, cache)
     hooks.insert(0, handle_response)
@@ -241,10 +243,11 @@ def install_async_stale_direct_vm_auth_eviction(client: httpx.AsyncClient, *, ca
         return
 
     async def handle_response(response: httpx.Response) -> None:
-        _reject_unreplayable_direct_vm_redirect(response, cache=cache)
+        request_cache = _direct_vm_route_cache(response.request) or cache
+        _reject_unreplayable_direct_vm_redirect(response, cache=request_cache)
         if is_stale_direct_vm_auth_response(response):
             response.request.extensions[_STALE_DIRECT_VM_AUTH_REQUEST_EXTENSION] = True
-            maybe_evict_browser_route_from_response(response, cache=cache)
+            maybe_evict_browser_route_from_response(response, cache=request_cache)
 
     setattr(handle_response, _EVICTION_HOOK_CACHE_ATTR, cache)
     hooks.insert(0, handle_response)
@@ -466,7 +469,7 @@ def rewrite_direct_vm_options(
     return rewritten
 
 
-def prepare_direct_vm_request(request: httpx.Request) -> None:
+def prepare_direct_vm_request(request: httpx.Request, *, cache: BrowserRouteCache) -> None:
     if request.headers.pop(_DIRECT_VM_REQUEST_MARKER_HEADER, None) is None:
         return
 
@@ -475,7 +478,13 @@ def prepare_direct_vm_request(request: httpx.Request) -> None:
     request.extensions[_DIRECT_VM_BODY_REPLAYABLE_REQUEST_EXTENSION] = _classify_direct_vm_request_body_replayability(
         request
     )
+    request.extensions[_DIRECT_VM_ROUTE_CACHE_REQUEST_EXTENSION] = cache
     request.headers.pop("Authorization", None)
+
+
+def _direct_vm_route_cache(request: httpx.Request) -> BrowserRouteCache | None:
+    cache = request.extensions.get(_DIRECT_VM_ROUTE_CACHE_REQUEST_EXTENSION)
+    return cache if isinstance(cache, BrowserRouteCache) else None
 
 
 def _is_direct_vm_request(request: httpx.Request) -> bool:

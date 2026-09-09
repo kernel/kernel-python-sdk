@@ -378,7 +378,7 @@ class Kernel(SyncAPIClient):
 
     @override
     def _prepare_request(self, request: httpx.Request) -> None:
-        prepare_direct_vm_request(request)
+        prepare_direct_vm_request(request, cache=self.browser_route_cache)
 
     @override
     def _should_retry_on_connection_error(self, request: httpx.Request) -> bool:
@@ -777,7 +777,7 @@ class AsyncKernel(AsyncAPIClient):
 
     @override
     async def _prepare_request(self, request: httpx.Request) -> None:
-        prepare_direct_vm_request(request)
+        prepare_direct_vm_request(request, cache=self.browser_route_cache)
 
     @override
     def _should_retry_on_connection_error(self, request: httpx.Request) -> bool:

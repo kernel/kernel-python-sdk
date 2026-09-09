@@ -1726,6 +1726,113 @@ async def test_async_direct_vm_redirect_does_not_replay_unreplayable_write(
     ]
 
 
+@pytest.mark.parametrize("origin_first", [True, False])
+def test_direct_vm_redirect_evicts_originating_cache_when_http_client_is_shared(
+    monkeypatch: pytest.MonkeyPatch,
+    origin_first: bool,
+) -> None:
+    monkeypatch.delenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", raising=False)
+    requests: list[tuple[httpx.URL, bytes]] = []
+
+    class Transport(httpx.BaseTransport):
+        @override
+        def handle_request(self, request: httpx.Request) -> httpx.Response:
+            body = b"".join(cast(Iterator[bytes], request.stream))
+            requests.append((request.url, body))
+            return httpx.Response(
+                307,
+                headers={"location": "http://other-vm.test/browser/kernel/fs/write_file"},
+            )
+
+    http_client = httpx.Client(transport=Transport(), follow_redirects=True)
+
+    def make_client() -> Kernel:
+        return Kernel(
+            base_url=base_url,
+            api_key=api_key,
+            http_client=http_client,
+            _strict_response_validation=True,
+        )
+
+    if origin_first:
+        client, other_client = make_client(), make_client()
+    else:
+        other_client, client = make_client(), make_client()
+
+    try:
+        _cache_browser(client)
+        with pytest.raises(APIConnectionError):
+            client.browsers.fs.write_file("sess-1", _UnseekableFile(b"payload"), path="/tmp/x")
+        assert client.browser_route_cache.get("sess-1") is None
+        assert other_client.browser_route_cache.get("sess-1") is None
+    finally:
+        http_client.close()
+
+    assert requests == [
+        (
+            httpx.URL("http://browser-session.test/browser/kernel/fs/write_file?path=%2Ftmp%2Fx&jwt=token-abc"),
+            b"payload",
+        )
+    ]
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("origin_first", [True, False])
+async def test_async_direct_vm_redirect_evicts_originating_cache_when_http_client_is_shared(
+    monkeypatch: pytest.MonkeyPatch,
+    origin_first: bool,
+) -> None:
+    monkeypatch.delenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", raising=False)
+    requests: list[tuple[httpx.URL, bytes]] = []
+
+    class Transport(httpx.AsyncBaseTransport):
+        @override
+        async def handle_async_request(self, request: httpx.Request) -> httpx.Response:
+            body = b"".join([chunk async for chunk in cast(AsyncIterator[bytes], request.stream)])
+            requests.append((request.url, body))
+            return httpx.Response(
+                308,
+                headers={"location": "http://other-vm.test/browser/kernel/fs/write_file"},
+            )
+
+    http_client = httpx.AsyncClient(transport=Transport(), follow_redirects=True)
+
+    def make_client() -> AsyncKernel:
+        return AsyncKernel(
+            base_url=base_url,
+            api_key=api_key,
+            http_client=http_client,
+            _strict_response_validation=True,
+        )
+
+    if origin_first:
+        client, other_client = make_client(), make_client()
+    else:
+        other_client, client = make_client(), make_client()
+
+    try:
+        route = browser_route_from_browser(_fake_browser())
+        assert route is not None
+        client.browser_route_cache.set(route)
+        with pytest.raises(APIConnectionError):
+            await client.browsers.fs.write_file(
+                "sess-1",
+                cast(Any, _UnreplayableAsyncBody(b"payload")),
+                path="/tmp/x",
+            )
+        assert client.browser_route_cache.get("sess-1") is None
+        assert other_client.browser_route_cache.get("sess-1") is None
+    finally:
+        await http_client.aclose()
+
+    assert requests == [
+        (
+            httpx.URL("http://browser-session.test/browser/kernel/fs/write_file?path=%2Ftmp%2Fx&jwt=token-abc"),
+            b"payload",
+        )
+    ]
+
+
 def test_direct_vm_auth_is_removed_after_httpx_and_request_hooks(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", raising=False)
     requests: list[httpx.Request] = []
