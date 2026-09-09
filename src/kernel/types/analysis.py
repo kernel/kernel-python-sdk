@@ -17,8 +17,11 @@ class Analysis(BaseModel):
     created_at: datetime
     """Time the analysis was created."""
 
+    expires_at: datetime
+    """Deadline after which a still-running analysis becomes expired."""
+
     failure: Optional[ErrorModel] = None
-    """Present for failed or canceled analyses.
+    """Present for failed, canceled, or expired analyses.
 
     Messages contain safe retry guidance rather than internal workflow errors.
     """
@@ -26,5 +29,5 @@ class Analysis(BaseModel):
     finished_at: Optional[datetime] = None
     """Time the analysis reached a terminal status. Null while it is running."""
 
-    status: Literal["running", "completed", "failed", "canceled"]
+    status: Literal["running", "completed", "failed", "canceled", "expired"]
     """Lifecycle status of a background analysis."""
