@@ -194,6 +194,65 @@ def test_browser_request_uses_curl_raw() -> None:
     assert request.headers.get("x-kernel-direct-vm-request") is None
 
 
+def test_browser_stream_evicts_stale_route() -> None:
+    requests: list[httpx.Request] = []
+
+    def handle_request(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        if request.url.host == "browser-session.test":
+            return httpx.Response(401)
+        return httpx.Response(201)
+
+    http_client = httpx.Client(transport=httpx.MockTransport(handle_request))
+    with Kernel(
+        base_url=base_url,
+        api_key=api_key,
+        http_client=http_client,
+        _strict_response_validation=True,
+    ) as client:
+        _cache_browser(client)
+        with client.browsers.stream("sess-1", "POST", "https://example.com", content=[b"payload"]) as response:
+            assert response.status_code == 401
+        assert client.browser_route_cache.get("sess-1") is None
+        client.browsers.fs.write_file("sess-1", b"next", path="/tmp/x")
+
+    assert requests[0].url.host == "browser-session.test"
+    assert requests[0].headers.get("Authorization") is None
+    assert requests[1].url == httpx.URL(f"{base_url}/browsers/sess-1/fs/write_file?path=%2Ftmp%2Fx")
+    assert requests[1].headers.get("Authorization") == f"Bearer {api_key}"
+
+
+@pytest.mark.asyncio
+async def test_async_browser_stream_evicts_stale_route() -> None:
+    requests: list[httpx.Request] = []
+
+    async def handle_request(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        if request.url.host == "browser-session.test":
+            return httpx.Response(403)
+        return httpx.Response(201)
+
+    http_client = httpx.AsyncClient(transport=httpx.MockTransport(handle_request))
+    async with AsyncKernel(
+        base_url=base_url,
+        api_key=api_key,
+        http_client=http_client,
+        _strict_response_validation=True,
+    ) as client:
+        route = browser_route_from_browser(_fake_browser())
+        assert route is not None
+        client.browser_route_cache.set(route)
+        async with client.browsers.stream("sess-1", "POST", "https://example.com", content=b"payload") as response:
+            assert response.status_code == 403
+        assert client.browser_route_cache.get("sess-1") is None
+        await client.browsers.fs.write_file("sess-1", b"next", path="/tmp/x")
+
+    assert requests[0].url.host == "browser-session.test"
+    assert requests[0].headers.get("Authorization") is None
+    assert requests[1].url == httpx.URL(f"{base_url}/browsers/sess-1/fs/write_file?path=%2Ftmp%2Fx")
+    assert requests[1].headers.get("Authorization") == f"Bearer {api_key}"
+
+
 @respx.mock
 def test_telemetry_stream_routes_directly_to_vm(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", "telemetry/stream")

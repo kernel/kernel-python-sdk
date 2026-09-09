@@ -491,8 +491,14 @@ def _direct_vm_route_cache(request: httpx.Request) -> BrowserRouteCache | None:
     return cache if isinstance(cache, BrowserRouteCache) else None
 
 
+def direct_vm_request_extensions(*, cache: BrowserRouteCache) -> dict[str, object]:
+    return {_DIRECT_VM_ROUTE_CACHE_REQUEST_EXTENSION: cache}
+
+
 def _is_direct_vm_request(request: httpx.Request) -> bool:
-    return isinstance(request.extensions.get(_DIRECT_VM_BODY_REPLAYABLE_REQUEST_EXTENSION), bool)
+    return _direct_vm_route_cache(request) is not None or isinstance(
+        request.extensions.get(_DIRECT_VM_BODY_REPLAYABLE_REQUEST_EXTENSION), bool
+    )
 
 
 def match_direct_vm_path(path: str) -> tuple[str, str, str] | None:
