@@ -67,9 +67,12 @@ class WalletVaultItem(BaseModel):
     spec: WalletVaultItemSpec
     """AgentCard wallet.
 
-    Mode (sandbox vs live) is fixed by the deployment's AgentCard credential; there
-    is no per-item test flag. user_id may only reference a user already enrolled by
-    a wallet in this organization.
+    Omit provider_config to use Kernel-managed credentials, or select a
+    customer-owned configuration. Mode (sandbox vs live) is determined by the
+    selected credential; there is no per-item test flag. Without user_id, creation
+    returns a hosted enrollment action and Kernel polls until the user connects.
+    user_id may only reference a user already enrolled by a wallet in this
+    organization under the same configuration.
     """
 
     state: WalletVaultItemState

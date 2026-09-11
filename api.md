@@ -487,6 +487,22 @@ Methods:
 - <code title="post /browser_pools/{id_or_name}/flush">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">flush</a>(id_or_name) -> None</code>
 - <code title="post /browser_pools/{id_or_name}/release">client.browser_pools.<a href="./src/kernel/resources/browser_pools.py">release</a>(id_or_name, \*\*<a href="src/kernel/types/browser_pool_release_params.py">params</a>) -> None</code>
 
+# VaultProviderConfigs
+
+Types:
+
+```python
+from kernel.types import VaultProviderConfig
+```
+
+Methods:
+
+- <code title="post /vault-provider-configs">client.vault_provider_configs.<a href="./src/kernel/resources/vault_provider_configs.py">create</a>(\*\*<a href="src/kernel/types/vault_provider_config_create_params.py">params</a>) -> <a href="./src/kernel/types/vault_provider_config.py">VaultProviderConfig</a></code>
+- <code title="get /vault-provider-configs/{id_or_name}">client.vault_provider_configs.<a href="./src/kernel/resources/vault_provider_configs.py">retrieve</a>(id_or_name) -> <a href="./src/kernel/types/vault_provider_config.py">VaultProviderConfig</a></code>
+- <code title="patch /vault-provider-configs/{id_or_name}">client.vault_provider_configs.<a href="./src/kernel/resources/vault_provider_configs.py">update</a>(id_or_name, \*\*<a href="src/kernel/types/vault_provider_config_update_params.py">params</a>) -> <a href="./src/kernel/types/vault_provider_config.py">VaultProviderConfig</a></code>
+- <code title="get /vault-provider-configs">client.vault_provider_configs.<a href="./src/kernel/resources/vault_provider_configs.py">list</a>(\*\*<a href="src/kernel/types/vault_provider_config_list_params.py">params</a>) -> <a href="./src/kernel/types/vault_provider_config.py">SyncOffsetPagination[VaultProviderConfig]</a></code>
+- <code title="delete /vault-provider-configs/{id_or_name}">client.vault_provider_configs.<a href="./src/kernel/resources/vault_provider_configs.py">delete</a>(id_or_name) -> None</code>
+
 # Vaults
 
 Types:

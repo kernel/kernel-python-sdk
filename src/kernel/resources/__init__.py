@@ -144,6 +144,14 @@ from .credential_providers import (
     CredentialProvidersResourceWithStreamingResponse,
     AsyncCredentialProvidersResourceWithStreamingResponse,
 )
+from .vault_provider_configs import (
+    VaultProviderConfigsResource,
+    AsyncVaultProviderConfigsResource,
+    VaultProviderConfigsResourceWithRawResponse,
+    AsyncVaultProviderConfigsResourceWithRawResponse,
+    VaultProviderConfigsResourceWithStreamingResponse,
+    AsyncVaultProviderConfigsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "DeploymentsResource",
@@ -212,6 +220,12 @@ __all__ = [
     "AsyncBrowserPoolsResourceWithRawResponse",
     "BrowserPoolsResourceWithStreamingResponse",
     "AsyncBrowserPoolsResourceWithStreamingResponse",
+    "VaultProviderConfigsResource",
+    "AsyncVaultProviderConfigsResource",
+    "VaultProviderConfigsResourceWithRawResponse",
+    "AsyncVaultProviderConfigsResourceWithRawResponse",
+    "VaultProviderConfigsResourceWithStreamingResponse",
+    "AsyncVaultProviderConfigsResourceWithStreamingResponse",
     "VaultsResource",
     "AsyncVaultsResource",
     "VaultsResourceWithRawResponse",

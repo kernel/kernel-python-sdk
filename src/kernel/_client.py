@@ -66,6 +66,7 @@ if TYPE_CHECKING:
         browser_pools,
         config_registry,
         credential_providers,
+        vault_provider_configs,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
@@ -83,6 +84,7 @@ if TYPE_CHECKING:
     from .resources.telemetry.telemetry import TelemetryResource, AsyncTelemetryResource
     from .resources.credential_providers import CredentialProvidersResource, AsyncCredentialProvidersResource
     from .resources.audit_logs.audit_logs import AuditLogsResource, AsyncAuditLogsResource
+    from .resources.vault_provider_configs import VaultProviderConfigsResource, AsyncVaultProviderConfigsResource
     from .resources.organization.organization import OrganizationResource, AsyncOrganizationResource
     from .resources.config_registry.config_registry import ConfigRegistryResource, AsyncConfigRegistryResource
 
@@ -280,6 +282,12 @@ class Kernel(SyncAPIClient):
         from .resources.browser_pools import BrowserPoolsResource
 
         return BrowserPoolsResource(self)
+
+    @cached_property
+    def vault_provider_configs(self) -> VaultProviderConfigsResource:
+        from .resources.vault_provider_configs import VaultProviderConfigsResource
+
+        return VaultProviderConfigsResource(self)
 
     @cached_property
     def vaults(self) -> VaultsResource:
@@ -671,6 +679,12 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncBrowserPoolsResource(self)
 
     @cached_property
+    def vault_provider_configs(self) -> AsyncVaultProviderConfigsResource:
+        from .resources.vault_provider_configs import AsyncVaultProviderConfigsResource
+
+        return AsyncVaultProviderConfigsResource(self)
+
+    @cached_property
     def vaults(self) -> AsyncVaultsResource:
         from .resources.vaults import AsyncVaultsResource
 
@@ -964,6 +978,12 @@ class KernelWithRawResponse:
         return BrowserPoolsResourceWithRawResponse(self._client.browser_pools)
 
     @cached_property
+    def vault_provider_configs(self) -> vault_provider_configs.VaultProviderConfigsResourceWithRawResponse:
+        from .resources.vault_provider_configs import VaultProviderConfigsResourceWithRawResponse
+
+        return VaultProviderConfigsResourceWithRawResponse(self._client.vault_provider_configs)
+
+    @cached_property
     def vaults(self) -> vaults.VaultsResourceWithRawResponse:
         from .resources.vaults import VaultsResourceWithRawResponse
 
@@ -1095,6 +1115,12 @@ class AsyncKernelWithRawResponse:
         from .resources.browser_pools import AsyncBrowserPoolsResourceWithRawResponse
 
         return AsyncBrowserPoolsResourceWithRawResponse(self._client.browser_pools)
+
+    @cached_property
+    def vault_provider_configs(self) -> vault_provider_configs.AsyncVaultProviderConfigsResourceWithRawResponse:
+        from .resources.vault_provider_configs import AsyncVaultProviderConfigsResourceWithRawResponse
+
+        return AsyncVaultProviderConfigsResourceWithRawResponse(self._client.vault_provider_configs)
 
     @cached_property
     def vaults(self) -> vaults.AsyncVaultsResourceWithRawResponse:
@@ -1230,6 +1256,12 @@ class KernelWithStreamedResponse:
         return BrowserPoolsResourceWithStreamingResponse(self._client.browser_pools)
 
     @cached_property
+    def vault_provider_configs(self) -> vault_provider_configs.VaultProviderConfigsResourceWithStreamingResponse:
+        from .resources.vault_provider_configs import VaultProviderConfigsResourceWithStreamingResponse
+
+        return VaultProviderConfigsResourceWithStreamingResponse(self._client.vault_provider_configs)
+
+    @cached_property
     def vaults(self) -> vaults.VaultsResourceWithStreamingResponse:
         from .resources.vaults import VaultsResourceWithStreamingResponse
 
@@ -1361,6 +1393,12 @@ class AsyncKernelWithStreamedResponse:
         from .resources.browser_pools import AsyncBrowserPoolsResourceWithStreamingResponse
 
         return AsyncBrowserPoolsResourceWithStreamingResponse(self._client.browser_pools)
+
+    @cached_property
+    def vault_provider_configs(self) -> vault_provider_configs.AsyncVaultProviderConfigsResourceWithStreamingResponse:
+        from .resources.vault_provider_configs import AsyncVaultProviderConfigsResourceWithStreamingResponse
+
+        return AsyncVaultProviderConfigsResourceWithStreamingResponse(self._client.vault_provider_configs)
 
     @cached_property
     def vaults(self) -> vaults.AsyncVaultsResourceWithStreamingResponse:

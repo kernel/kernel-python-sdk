@@ -18,6 +18,5 @@ from .card_vault_item_state import CardVaultItemState as CardVaultItemState
 from .wallet_vault_item_spec import WalletVaultItemSpec as WalletVaultItemSpec
 from .wallet_vault_item_state import WalletVaultItemState as WalletVaultItemState
 from .card_vault_item_spec_param import CardVaultItemSpecParam as CardVaultItemSpecParam
-from .wallet_vault_item_spec_param import WalletVaultItemSpecParam as WalletVaultItemSpecParam
 from .item_perform_operation_params import ItemPerformOperationParams as ItemPerformOperationParams
 from .agentcard_checkout_authorization import AgentcardCheckoutAuthorization as AgentcardCheckoutAuthorization
