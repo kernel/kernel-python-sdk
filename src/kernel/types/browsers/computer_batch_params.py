@@ -110,7 +110,10 @@ class ActionPressKey(TypedDict, total=False):
 
     Each item should be a key symbol supported by xdotool (see X11 keysym
     definitions). Examples include "Return", "Shift", "Ctrl", "Alt", "F5". Items in
-    this list could also be combinations, e.g. "Ctrl+t" or "Ctrl+Shift+Tab".
+    this list could also be combinations, e.g. "Ctrl+t" or "Ctrl+Shift+Tab". Use X11
+    names for punctuation in combinations, such as "Ctrl+minus" or "Ctrl+plus". A
+    literal hyphen is also accepted as an alias, so "Ctrl+-" is normalized to
+    "Ctrl+minus".
     """
 
     duration: int
