@@ -143,7 +143,7 @@ class TestVaults:
     @parametrize
     def test_method_upsert(self, client: Kernel) -> None:
         vault = client.vaults.upsert(
-            name="name",
+            name="checkout",
         )
         assert_matches_type(Vault, vault, path=["response"])
 
@@ -151,7 +151,7 @@ class TestVaults:
     @parametrize
     def test_raw_response_upsert(self, client: Kernel) -> None:
         response = client.vaults.with_raw_response.upsert(
-            name="name",
+            name="checkout",
         )
 
         assert response.is_closed is True
@@ -163,7 +163,7 @@ class TestVaults:
     @parametrize
     def test_streaming_response_upsert(self, client: Kernel) -> None:
         with client.vaults.with_streaming_response.upsert(
-            name="name",
+            name="checkout",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -304,7 +304,7 @@ class TestAsyncVaults:
     @parametrize
     async def test_method_upsert(self, async_client: AsyncKernel) -> None:
         vault = await async_client.vaults.upsert(
-            name="name",
+            name="checkout",
         )
         assert_matches_type(Vault, vault, path=["response"])
 
@@ -312,7 +312,7 @@ class TestAsyncVaults:
     @parametrize
     async def test_raw_response_upsert(self, async_client: AsyncKernel) -> None:
         response = await async_client.vaults.with_raw_response.upsert(
-            name="name",
+            name="checkout",
         )
 
         assert response.is_closed is True
@@ -324,7 +324,7 @@ class TestAsyncVaults:
     @parametrize
     async def test_streaming_response_upsert(self, async_client: AsyncKernel) -> None:
         async with async_client.vaults.with_streaming_response.upsert(
-            name="name",
+            name="checkout",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

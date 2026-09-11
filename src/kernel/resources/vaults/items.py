@@ -29,7 +29,6 @@ from ...types.vaults.vault_item import VaultItem
 from ...types.vaults.item_list_response import ItemListResponse
 from ...types.vaults.item_events_response import ItemEventsResponse
 from ...types.vaults.card_vault_item_spec_param import CardVaultItemSpecParam
-from ...types.vaults.wallet_vault_item_spec_param import WalletVaultItemSpecParam
 
 __all__ = ["ItemsResource", "AsyncItemsResource"]
 
@@ -127,8 +126,15 @@ class ItemsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultItem:
-        """
-        Update a card specification before or between authorizations
+        """Requested cards accept a replacement specification.
+
+        Pending issuance requests
+        may update provider-supported fields on their existing request, subject to
+        atomic provider approval checks; omitted optional fields remain unchanged and
+        explicit empty lists clear them. Wallet/provider binding and unsupported fields
+        cannot change after authorization starts. An uncertain update enters
+        recovery_required and must not be retried. Checkout cards may be edited between
+        authorizations.
 
         Args:
           spec: Live payment card. Test-mode card creation is not supported.
@@ -203,7 +209,9 @@ class ItemsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a vault item and invalidate its secret value
+        Unresolved payment operations block deletion, including operations on child
+        cards of a wallet. Reconcile the original attempt with the provider or support
+        first; deleting or recreating an item is not proof that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -295,8 +303,10 @@ class ItemsResource(SyncAPIResource):
         """
         Retrieve the item first and invoke only an operation listed in
         `available_operations`, following its natural-language description. Operations
-        may call an external provider and can return the item's updated state. If the
-        provider rate limits spend-request creation, returns HTTP 429 with code
+        may call an external provider and return updated state. Link cards advertise
+        authorize. AgentCard cards are created with PUT and request approval when their
+        aliases are used at checkout; they do not expose this operation. If
+        spend-request creation is rate limited, returns HTTP 429 with code
         `spend_request_rate_limited`; stop and back off before retrying.
 
         Args:
@@ -330,7 +340,7 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        spec: WalletVaultItemSpecParam,
+        spec: item_upsert_params.WalletVaultItemRequestSpec,
         type: Literal["wallet"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -340,12 +350,20 @@ class ItemsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultItem:
         """
-        Create or retrieve an identical vault item by immutable key
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema.
 
         Args:
-          spec: AgentCard wallet. Mode (sandbox vs live) is fixed by the deployment's AgentCard
-              credential; there is no per-item test flag. user_id may only reference a user
-              already enrolled by a wallet in this organization.
+          spec: AgentCard wallet. Omit provider_config to use Kernel-managed credentials, or
+              select a customer-owned configuration. Mode (sandbox vs live) is determined by
+              the selected credential; there is no per-item test flag. Without user_id,
+              creation returns a hosted enrollment action and Kernel polls until the user
+              connects. user_id may only reference a user already enrolled by a wallet in this
+              organization under the same configuration.
 
           extra_headers: Send extra headers
 
@@ -373,7 +391,12 @@ class ItemsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultItem:
         """
-        Create or retrieve an identical vault item by immutable key
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema.
 
         Args:
           spec: Live payment card. Test-mode card creation is not supported.
@@ -394,7 +417,7 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        spec: WalletVaultItemSpecParam | CardVaultItemSpecParam,
+        spec: item_upsert_params.WalletVaultItemRequestSpec | CardVaultItemSpecParam,
         type: Literal["wallet"] | Literal["card"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -519,8 +542,15 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultItem:
-        """
-        Update a card specification before or between authorizations
+        """Requested cards accept a replacement specification.
+
+        Pending issuance requests
+        may update provider-supported fields on their existing request, subject to
+        atomic provider approval checks; omitted optional fields remain unchanged and
+        explicit empty lists clear them. Wallet/provider binding and unsupported fields
+        cannot change after authorization starts. An uncertain update enters
+        recovery_required and must not be retried. Checkout cards may be edited between
+        authorizations.
 
         Args:
           spec: Live payment card. Test-mode card creation is not supported.
@@ -595,7 +625,9 @@ class AsyncItemsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Delete a vault item and invalidate its secret value
+        Unresolved payment operations block deletion, including operations on child
+        cards of a wallet. Reconcile the original attempt with the provider or support
+        first; deleting or recreating an item is not proof that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -687,8 +719,10 @@ class AsyncItemsResource(AsyncAPIResource):
         """
         Retrieve the item first and invoke only an operation listed in
         `available_operations`, following its natural-language description. Operations
-        may call an external provider and can return the item's updated state. If the
-        provider rate limits spend-request creation, returns HTTP 429 with code
+        may call an external provider and return updated state. Link cards advertise
+        authorize. AgentCard cards are created with PUT and request approval when their
+        aliases are used at checkout; they do not expose this operation. If
+        spend-request creation is rate limited, returns HTTP 429 with code
         `spend_request_rate_limited`; stop and back off before retrying.
 
         Args:
@@ -724,7 +758,7 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        spec: WalletVaultItemSpecParam,
+        spec: item_upsert_params.WalletVaultItemRequestSpec,
         type: Literal["wallet"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -734,12 +768,20 @@ class AsyncItemsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultItem:
         """
-        Create or retrieve an identical vault item by immutable key
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema.
 
         Args:
-          spec: AgentCard wallet. Mode (sandbox vs live) is fixed by the deployment's AgentCard
-              credential; there is no per-item test flag. user_id may only reference a user
-              already enrolled by a wallet in this organization.
+          spec: AgentCard wallet. Omit provider_config to use Kernel-managed credentials, or
+              select a customer-owned configuration. Mode (sandbox vs live) is determined by
+              the selected credential; there is no per-item test flag. Without user_id,
+              creation returns a hosted enrollment action and Kernel polls until the user
+              connects. user_id may only reference a user already enrolled by a wallet in this
+              organization under the same configuration.
 
           extra_headers: Send extra headers
 
@@ -767,7 +809,12 @@ class AsyncItemsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultItem:
         """
-        Create or retrieve an identical vault item by immutable key
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema.
 
         Args:
           spec: Live payment card. Test-mode card creation is not supported.
@@ -788,7 +835,7 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        spec: WalletVaultItemSpecParam | CardVaultItemSpecParam,
+        spec: item_upsert_params.WalletVaultItemRequestSpec | CardVaultItemSpecParam,
         type: Literal["wallet"] | Literal["card"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

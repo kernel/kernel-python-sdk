@@ -141,8 +141,11 @@ class VaultsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete a vault and invalidate its items
+        """Unresolved payment operations block deletion.
+
+        Reconcile the original attempt
+        with the provider or support first; deleting or recreating an item is not proof
+        that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -312,8 +315,11 @@ class AsyncVaultsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete a vault and invalidate its items
+        """Unresolved payment operations block deletion.
+
+        Reconcile the original attempt
+        with the provider or support first; deleting or recreating an item is not proof
+        that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
