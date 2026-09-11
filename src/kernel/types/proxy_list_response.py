@@ -28,7 +28,10 @@ class ConfigIspProxyConfig(BaseModel):
     """Configuration for an ISP proxy."""
 
     country: Optional[str] = None
-    """ISO 3166 country code. Defaults to US if not provided."""
+    """ISO 3166 country code.
+
+    Supported countries are US, GB, FR, DE, and SG. Defaults to US if not provided.
+    """
 
 
 class ConfigResidentialProxyConfig(BaseModel):
@@ -44,7 +47,10 @@ class ConfigResidentialProxyConfig(BaseModel):
     """
 
     country: Optional[str] = None
-    """ISO 3166 country code."""
+    """ISO 3166 country code.
+
+    If omitted, the proxy uses the global pool without country targeting.
+    """
 
     os: Optional[Literal["windows", "macos", "android"]] = None
     """Operating system of the residential device."""
@@ -63,7 +69,10 @@ class ConfigMobileProxyConfig(BaseModel):
     """Provider city alias. Mobile carrier routing can make observed geo vary."""
 
     country: Optional[str] = None
-    """ISO 3166 country code"""
+    """ISO 3166 country code.
+
+    If omitted, the proxy uses the global pool without country targeting.
+    """
 
     state: Optional[str] = None
     """US-only state code. Mobile carrier routing can make observed geo vary."""

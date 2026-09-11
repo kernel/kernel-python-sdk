@@ -35,9 +35,10 @@ class InvocationListResponse(BaseModel):
     """
 
     output: Optional[str] = None
-    """Output produced by the action, rendered as a JSON string.
+    """The action result or detailed failure output.
 
-    This could be: string, number, boolean, array, object, or null.
+    Often a JSON-encoded value, but failures may contain plain text. May contain
+    sensitive application data.
     """
 
     payload: Optional[str] = None
@@ -47,4 +48,12 @@ class InvocationListResponse(BaseModel):
     """
 
     status_reason: Optional[str] = None
-    """Status reason"""
+    """
+    A nonempty, customer-safe summary of the recorded failure output, always present
+    when status is failed and omitted otherwise, including in the first failed
+    invocation_state event. Recognized messages receive a specific summary; other
+    failures receive a generic summary. Message matching does not establish whether
+    the failure originated in the platform or action code. Does not include raw
+    action output or internal error details. Available for historical invocations as
+    well. Human-readable text, not a stable identifier for retry logic.
+    """

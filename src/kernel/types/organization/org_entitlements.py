@@ -21,6 +21,7 @@ __all__ = [
     "FeaturesManagedProxies",
     "FeaturesProfiles",
     "FeaturesProxyBypassHosts",
+    "FeaturesVaults",
     "Limits",
     "Plan",
 ]
@@ -114,6 +115,15 @@ class FeaturesProxyBypassHosts(BaseModel):
     """Whether the organization is entitled to use this feature."""
 
 
+class FeaturesVaults(BaseModel):
+    """
+    Whether the organization can access vaults, using the same access check as vault API routes.
+    """
+
+    enabled: bool
+    """Whether the organization is entitled to use this feature."""
+
+
 class Features(BaseModel):
     browser_extensions: FeaturesBrowserExtensions
 
@@ -139,6 +149,12 @@ class Features(BaseModel):
 
     proxy_bypass_hosts: FeaturesProxyBypassHosts
 
+    vaults: FeaturesVaults
+    """
+    Whether the organization can access vaults, using the same access check as vault
+    API routes.
+    """
+
 
 class Limits(BaseModel):
     default_max_concurrent_invocations_per_app: int
@@ -155,6 +171,12 @@ class Limits(BaseModel):
 
     max_concurrent_invocations: int
     """Effective organization-wide concurrent app invocation ceiling."""
+
+    max_vaults: Optional[int] = None
+    """Maximum non-deleted vaults allowed org-wide across all projects.
+
+    Null means unlimited. The vaults feature flag still controls access.
+    """
 
 
 class Plan(BaseModel):

@@ -14,7 +14,7 @@ class RecommendationSummary(BaseModel):
     analysis_id: str
     """ID of the most recently requested analysis for this exact target."""
 
-    analysis_status: Literal["running", "completed", "failed", "canceled"]
+    analysis_status: Literal["running", "completed", "failed", "canceled", "expired"]
     """Lifecycle status of the most recently requested analysis for this exact target."""
 
     last_requested_at: datetime

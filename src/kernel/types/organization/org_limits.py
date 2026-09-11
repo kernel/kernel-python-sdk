@@ -22,12 +22,21 @@ class OrgLimits(BaseModel):
     projects.
     """
 
+    max_vaults: Optional[int] = None
+    """Maximum non-deleted vaults allowed org-wide across all projects.
+
+    Null means unlimited.
+    """
+
     min_health_check_interval_seconds: int
     """
     Smallest health_check_interval the organization's plan accepts on a managed auth
     connection. Requests below this are rejected with 400. Existing connections
     stored below the floor are grandfathered until edited.
     """
+
+    vaults_used: int
+    """Current non-deleted vault count across all projects in the organization."""
 
     default_project_max_concurrent_sessions: Optional[int] = None
     """

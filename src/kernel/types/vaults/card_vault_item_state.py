@@ -34,7 +34,17 @@ class LinkCardStateMasks(BaseModel):
 class LinkCardState(BaseModel):
     provider: Literal["link"]
 
-    status: Literal["requested", "pending_authorization", "ready", "consumed", "expired", "declined"]
+    status: Literal[
+        "requested", "pending_authorization", "ready", "consumed", "expired", "declined", "recovery_required"
+    ]
+    """recovery_required means an original provider operation has an unresolved
+    outcome.
+
+    Do not retry, delete, or replace it. Known references may be observed safely,
+    but unknown creation without an ID and uncertain card-material retrieval require
+    manual reconciliation with the provider or support. There is no reset or
+    caller-asserted reconciliation operation.
+    """
 
     aliases: Optional[VaultCardAliases] = None
 
@@ -66,7 +76,13 @@ class AgentCardCardStateMasks(BaseModel):
 class AgentCardCardState(BaseModel):
     provider: Literal["agentcard"]
 
-    status: Literal["requested", "ready", "pending_approval", "degraded"]
+    status: Literal["requested", "ready", "pending_approval", "degraded", "recovery_required"]
+    """recovery_required means the original checkout outcome is unresolved.
+
+    Do not retry, delete, or replace it. Known authorization IDs may be reconciled
+    through provider observations; otherwise contact the provider or support for
+    manual reconciliation. It does not mean declined or expired.
+    """
 
     aliases: Optional[VaultCardAliases] = None
 

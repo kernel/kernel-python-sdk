@@ -55,7 +55,7 @@ class LimitsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrgLimits:
-        """Get the organization's effective limits and managed auth usage."""
+        """Get the organization's effective limits and managed auth and vault usage."""
         return self._get(
             "/org/limits",
             options=make_request_options(
@@ -138,7 +138,7 @@ class AsyncLimitsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> OrgLimits:
-        """Get the organization's effective limits and managed auth usage."""
+        """Get the organization's effective limits and managed auth and vault usage."""
         return await self._get(
             "/org/limits",
             options=make_request_options(

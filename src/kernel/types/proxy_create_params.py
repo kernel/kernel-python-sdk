@@ -50,7 +50,10 @@ class ConfigIspProxyConfig(TypedDict, total=False):
     """Configuration for an ISP proxy."""
 
     country: str
-    """ISO 3166 country code. Defaults to US if not provided."""
+    """ISO 3166 country code.
+
+    Supported countries are US, GB, FR, DE, and SG. Defaults to US if not provided.
+    """
 
 
 class ConfigResidentialProxyConfig(TypedDict, total=False):
@@ -66,7 +69,10 @@ class ConfigResidentialProxyConfig(TypedDict, total=False):
     """
 
     country: str
-    """ISO 3166 country code."""
+    """ISO 3166 country code.
+
+    If omitted, the proxy uses the global pool without country targeting.
+    """
 
     os: Literal["windows", "macos", "android"]
     """Operating system of the residential device."""
@@ -85,7 +91,10 @@ class ConfigMobileProxyConfig(TypedDict, total=False):
     """Provider city alias. Mobile carrier routing can make observed geo vary."""
 
     country: str
-    """ISO 3166 country code"""
+    """ISO 3166 country code.
+
+    If omitted, the proxy uses the global pool without country targeting.
+    """
 
     state: str
     """US-only state code. Mobile carrier routing can make observed geo vary."""

@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.101.0](https://github.com/kernel/kernel-python-sdk/compare/v0.100.0...v0.101.0) (2026-09-11)
+
+
+### Features
+
+* Add config analysis lifecycle guarantees ([e0d9d71](https://github.com/kernel/kernel-python-sdk/commit/e0d9d715689585224cde848845ebaed90c404f64))
+* Brand origin TLS timeouts and classify provider failures ([b00a694](https://github.com/kernel/kernel-python-sdk/commit/b00a6942ff9c831f624e87c12923ee109f2d6cf7))
+* Clarify proxy country defaults ([bb00cda](https://github.com/kernel/kernel-python-sdk/commit/bb00cdaabdeb569ed1bf46b538d15de8768b9686))
+* Expose vault access in organization entitlements ([1c3b388](https://github.com/kernel/kernel-python-sdk/commit/1c3b388f1a4597f65ed3926a8ec2646f5e0fc994))
+* Integrate configurable vault providers across API and checkout ([478bc09](https://github.com/kernel/kernel-python-sdk/commit/478bc09cc5c8f6b2850628d02b88d699cc35328f))
+* Limit free organizations to three vaults ([b0d5628](https://github.com/kernel/kernel-python-sdk/commit/b0d5628acbe0a9d9d006a3349ba1338fdc3d4402))
+* Populate safe failure reasons on invocation responses ([7162cbb](https://github.com/kernel/kernel-python-sdk/commit/7162cbbed49eb4d0a8d431bbb84680e48bdce8a2))
+* Return vendor guidance with config registry recommendations ([938e40b](https://github.com/kernel/kernel-python-sdk/commit/938e40b2a9f4e37ef8221787debbb948e019eeeb))
+* Revert vendor guidance recommendations ([adacc13](https://github.com/kernel/kernel-python-sdk/commit/adacc1321a9c1cc1624e5adf6c2521b0f09851f4))
+* Support international ISP proxy countries ([78adb8a](https://github.com/kernel/kernel-python-sdk/commit/78adb8a4ae929028497e30b0a5988050eee7c1f4))
+
 ## [0.100.0](https://github.com/kernel/kernel-python-sdk/compare/v0.99.0...v0.100.0) (2026-09-04)
 
 

@@ -73,6 +73,7 @@ from .project_update_params import ProjectUpdateParams as ProjectUpdateParams
 from .proxy_create_response import ProxyCreateResponse as ProxyCreateResponse
 from .proxy_update_response import ProxyUpdateResponse as ProxyUpdateResponse
 from .recommendation_result import RecommendationResult as RecommendationResult
+from .vault_provider_config import VaultProviderConfig as VaultProviderConfig
 from .vault_reference_param import VaultReferenceParam as VaultReferenceParam
 from .browser_memory_request import BrowserMemoryRequest as BrowserMemoryRequest
 from .browser_network_config import BrowserNetworkConfig as BrowserNetworkConfig
@@ -131,6 +132,9 @@ from .credential_provider_test_result import CredentialProviderTestResult as Cre
 from .credential_provider_create_params import CredentialProviderCreateParams as CredentialProviderCreateParams
 from .credential_provider_update_params import CredentialProviderUpdateParams as CredentialProviderUpdateParams
 from .invocation_list_browsers_response import InvocationListBrowsersResponse as InvocationListBrowsersResponse
+from .vault_provider_config_list_params import VaultProviderConfigListParams as VaultProviderConfigListParams
+from .vault_provider_config_create_params import VaultProviderConfigCreateParams as VaultProviderConfigCreateParams
+from .vault_provider_config_update_params import VaultProviderConfigUpdateParams as VaultProviderConfigUpdateParams
 from .credential_provider_list_items_response import (
     CredentialProviderListItemsResponse as CredentialProviderListItemsResponse,
 )

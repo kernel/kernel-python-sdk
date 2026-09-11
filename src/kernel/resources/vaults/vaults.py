@@ -141,8 +141,11 @@ class VaultsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete a vault and invalidate its items
+        """Unresolved payment operations block deletion.
+
+        Reconcile the original attempt
+        with the provider or support first; deleting or recreating an item is not proof
+        that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -176,7 +179,9 @@ class VaultsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Vault:
         """
-        Create or retrieve a vault by immutable name
+        Free organizations can store up to 3 non-deleted vaults across all projects.
+        Paid plans and active trials have no vault cap. Retrieving an existing vault by
+        name succeeds even at the limit.
 
         Args:
           name: Immutable name used to create or retrieve the vault.
@@ -310,8 +315,11 @@ class AsyncVaultsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
-        """
-        Delete a vault and invalidate its items
+        """Unresolved payment operations block deletion.
+
+        Reconcile the original attempt
+        with the provider or support first; deleting or recreating an item is not proof
+        that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -345,7 +353,9 @@ class AsyncVaultsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Vault:
         """
-        Create or retrieve a vault by immutable name
+        Free organizations can store up to 3 non-deleted vaults across all projects.
+        Paid plans and active trials have no vault cap. Retrieving an existing vault by
+        name succeeds even at the limit.
 
         Args:
           name: Immutable name used to create or retrieve the vault.
