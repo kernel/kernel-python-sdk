@@ -4,13 +4,14 @@ from typing import Optional
 
 from .target import Target
 from .._models import BaseModel
-from .recommendation import Recommendation
+from .recommendation_result import RecommendationResult
 
 __all__ = ["LookupResponse"]
 
 
 class LookupResponse(BaseModel):
-    recommendation: Optional[Recommendation] = None
+    recommendation: Optional[RecommendationResult] = None
+    """A recommendation or a structured no-recommendation result."""
 
     target: Target
 
