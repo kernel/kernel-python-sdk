@@ -209,9 +209,11 @@ class ItemsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Unresolved payment operations block deletion, including operations on child
-        cards of a wallet. Reconcile the original attempt with the provider or support
-        first; deleting or recreating an item is not proof that a payment did not occur.
+        Unresolved payment operations normally block deletion, including operations on
+        child cards of a wallet. An AgentCard checkout whose create response returned no
+        authorization ID may be explicitly abandoned by deleting that card directly;
+        deleting its wallet or vault remains blocked. Deleting or recreating an item is
+        not proof that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -625,9 +627,11 @@ class AsyncItemsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
-        Unresolved payment operations block deletion, including operations on child
-        cards of a wallet. Reconcile the original attempt with the provider or support
-        first; deleting or recreating an item is not proof that a payment did not occur.
+        Unresolved payment operations normally block deletion, including operations on
+        child cards of a wallet. An AgentCard checkout whose create response returned no
+        authorization ID may be explicitly abandoned by deleting that card directly;
+        deleting its wallet or vault remains blocked. Deleting or recreating an item is
+        not proof that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
