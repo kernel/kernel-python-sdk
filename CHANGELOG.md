@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.102.0](https://github.com/kernel/kernel-python-sdk/compare/v0.101.0...v0.102.0) (2026-09-11)
+
+
+### Features
+
+* Allow replacing AgentCard cards after unknown creates ([22a8731](https://github.com/kernel/kernel-python-sdk/commit/22a87318e6ac2f1318a295b9d22de5b2306e66b2))
+* Document punctuation key sequences ([e7850fd](https://github.com/kernel/kernel-python-sdk/commit/e7850fd5757934c731373c5cb09b4444a29d7e84))
+* Reapply vendor guidance recommendations ([dfcc7ec](https://github.com/kernel/kernel-python-sdk/commit/dfcc7ecbaa087a07d11a5b0eb4738b41b8fadd8b))
+* Report proxy-restricted targets from config registry lookup ([c276ebc](https://github.com/kernel/kernel-python-sdk/commit/c276ebc6fd266924894b300b13ff02f30d0c8527))
+
 ## [0.101.0](https://github.com/kernel/kernel-python-sdk/compare/v0.100.0...v0.101.0) (2026-09-11)
 
 
