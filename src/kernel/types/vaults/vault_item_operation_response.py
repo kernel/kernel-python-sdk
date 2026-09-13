@@ -2,9 +2,8 @@
 
 from typing import List, Union, Optional
 from datetime import datetime
-from typing_extensions import Literal, Annotated, TypeAlias
+from typing_extensions import Literal, TypeAlias
 
-from ..._utils import PropertyInfo
 from ..._models import BaseModel
 from .vault_item_action import VaultItemAction
 from .card_vault_item_spec import CardVaultItemSpec
@@ -12,9 +11,10 @@ from .vault_payment_method import VaultPaymentMethod
 from .card_vault_item_state import CardVaultItemState
 from .wallet_vault_item_spec import WalletVaultItemSpec
 from .wallet_vault_item_state import WalletVaultItemState
+from .fill_vault_item_operation_result import FillVaultItemOperationResult
 
 __all__ = [
-    "VaultItem",
+    "VaultItemOperationResponse",
     "WalletVaultItem",
     "WalletVaultItemAvailableExpansion",
     "WalletVaultItemAvailableOperation",
@@ -136,4 +136,4 @@ class CardVaultItem(BaseModel):
     expires_at: Optional[datetime] = None
 
 
-VaultItem: TypeAlias = Annotated[Union[WalletVaultItem, CardVaultItem], PropertyInfo(discriminator="type")]
+VaultItemOperationResponse: TypeAlias = Union[WalletVaultItem, CardVaultItem, FillVaultItemOperationResult]

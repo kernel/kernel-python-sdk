@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, List, cast
+from typing import Any, List, Iterable, cast
 from typing_extensions import Literal, overload
 
 import httpx
@@ -29,6 +29,8 @@ from ...types.vaults.vault_item import VaultItem
 from ...types.vaults.item_list_response import ItemListResponse
 from ...types.vaults.item_events_response import ItemEventsResponse
 from ...types.vaults.card_vault_item_spec_param import CardVaultItemSpecParam
+from ...types.vaults.vault_card_fill_field_param import VaultCardFillFieldParam
+from ...types.vaults.vault_item_operation_response import VaultItemOperationResponse
 
 __all__ = ["ItemsResource", "AsyncItemsResource"]
 
@@ -289,6 +291,7 @@ class ItemsResource(SyncAPIResource):
             cast_to=ItemEventsResponse,
         )
 
+    @overload
     def perform_operation(
         self,
         key: str,
@@ -301,15 +304,23 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> VaultItem:
+    ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
-        `available_operations`, following its natural-language description. Operations
-        may call an external provider and return updated state. Link cards advertise
-        authorize. AgentCard cards are created with PUT and request approval when their
-        aliases are used at checkout; they do not expose this operation. If
-        spend-request creation is rate limited, returns HTTP 429 with code
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        may call an external provider and returns the updated item. Link cards advertise
+        authorize when eligible. AgentCard cards are created with PUT and request
+        approval when their aliases are used at checkout; they do not expose authorize.
+        If spend-request creation is rate limited, returns HTTP 429 with code
         `spend_request_rate_limited`; stop and back off before retrying.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
 
         Args:
           extra_headers: Send extra headers
@@ -320,19 +331,106 @@ class ItemsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        browser_id: str,
+        fields: Iterable[VaultCardFillFieldParam],
+        page_url: str,
+        type: Literal["fill"],
+        timeout_ms: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        may call an external provider and returns the updated item. Link cards advertise
+        authorize when eligible. AgentCard cards are created with PUT and request
+        approval when their aliases are used at checkout; they do not expose authorize.
+        If spend-request creation is rate limited, returns HTTP 429 with code
+        `spend_request_rate_limited`; stop and back off before retrying.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          browser_id: Browser session ID, not a reusable browser name.
+
+          fields: Field bindings for this step. No two bindings may resolve to the same element.
+
+          page_url: Exact current top-level page URL, including path, query, and fragment. Must
+              match exactly one open page in the browser; zero or multiple matches fail. No
+              prefix or glob matching. Must use HTTPS without embedded credentials.
+
+          timeout_ms: Total operation deadline in milliseconds, not a per-field timeout.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["id_or_name", "type"], ["id_or_name", "browser_id", "fields", "page_url", "type"])
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        type: Literal["authorize"] | Literal["fill"],
+        browser_id: str | Omit = omit,
+        fields: Iterable[VaultCardFillFieldParam] | Omit = omit,
+        page_url: str | Omit = omit,
+        timeout_ms: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         if not key:
             raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
         return cast(
-            VaultItem,
+            VaultItemOperationResponse,
             self._post(
                 path_template("/vaults/{id_or_name}/items/{key}/operations", id_or_name=id_or_name, key=key),
-                body=maybe_transform({"type": type}, item_perform_operation_params.ItemPerformOperationParams),
+                body=maybe_transform(
+                    {
+                        "type": type,
+                        "browser_id": browser_id,
+                        "fields": fields,
+                        "page_url": page_url,
+                        "timeout_ms": timeout_ms,
+                    },
+                    item_perform_operation_params.ItemPerformOperationParams,
+                ),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
-                cast_to=cast(Any, VaultItem),  # Union types cannot be passed in as arguments in the type system
+                cast_to=cast(
+                    Any, VaultItemOperationResponse
+                ),  # Union types cannot be passed in as arguments in the type system
             ),
         )
 
@@ -707,6 +805,7 @@ class AsyncItemsResource(AsyncAPIResource):
             cast_to=ItemEventsResponse,
         )
 
+    @overload
     async def perform_operation(
         self,
         key: str,
@@ -719,15 +818,23 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> VaultItem:
+    ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
-        `available_operations`, following its natural-language description. Operations
-        may call an external provider and return updated state. Link cards advertise
-        authorize. AgentCard cards are created with PUT and request approval when their
-        aliases are used at checkout; they do not expose this operation. If
-        spend-request creation is rate limited, returns HTTP 429 with code
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        may call an external provider and returns the updated item. Link cards advertise
+        authorize when eligible. AgentCard cards are created with PUT and request
+        approval when their aliases are used at checkout; they do not expose authorize.
+        If spend-request creation is rate limited, returns HTTP 429 with code
         `spend_request_rate_limited`; stop and back off before retrying.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
 
         Args:
           extra_headers: Send extra headers
@@ -738,21 +845,106 @@ class AsyncItemsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        browser_id: str,
+        fields: Iterable[VaultCardFillFieldParam],
+        page_url: str,
+        type: Literal["fill"],
+        timeout_ms: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        may call an external provider and returns the updated item. Link cards advertise
+        authorize when eligible. AgentCard cards are created with PUT and request
+        approval when their aliases are used at checkout; they do not expose authorize.
+        If spend-request creation is rate limited, returns HTTP 429 with code
+        `spend_request_rate_limited`; stop and back off before retrying.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          browser_id: Browser session ID, not a reusable browser name.
+
+          fields: Field bindings for this step. No two bindings may resolve to the same element.
+
+          page_url: Exact current top-level page URL, including path, query, and fragment. Must
+              match exactly one open page in the browser; zero or multiple matches fail. No
+              prefix or glob matching. Must use HTTPS without embedded credentials.
+
+          timeout_ms: Total operation deadline in milliseconds, not a per-field timeout.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["id_or_name", "type"], ["id_or_name", "browser_id", "fields", "page_url", "type"])
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        type: Literal["authorize"] | Literal["fill"],
+        browser_id: str | Omit = omit,
+        fields: Iterable[VaultCardFillFieldParam] | Omit = omit,
+        page_url: str | Omit = omit,
+        timeout_ms: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         if not key:
             raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
         return cast(
-            VaultItem,
+            VaultItemOperationResponse,
             await self._post(
                 path_template("/vaults/{id_or_name}/items/{key}/operations", id_or_name=id_or_name, key=key),
                 body=await async_maybe_transform(
-                    {"type": type}, item_perform_operation_params.ItemPerformOperationParams
+                    {
+                        "type": type,
+                        "browser_id": browser_id,
+                        "fields": fields,
+                        "page_url": page_url,
+                        "timeout_ms": timeout_ms,
+                    },
+                    item_perform_operation_params.ItemPerformOperationParams,
                 ),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
-                cast_to=cast(Any, VaultItem),  # Union types cannot be passed in as arguments in the type system
+                cast_to=cast(
+                    Any, VaultItemOperationResponse
+                ),  # Union types cannot be passed in as arguments in the type system
             ),
         )
 
