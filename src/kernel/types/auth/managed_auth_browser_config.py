@@ -1,6 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Optional
+from typing_extensions import Literal
 
 from ..._models import BaseModel
 from ..browser_proxy_config import BrowserProxyConfig
@@ -106,6 +107,14 @@ class ManagedAuthBrowserConfig(BaseModel):
 
     Omit on create to derive the default from stealth, or on update and login to
     preserve or inherit the connection default.
+    """
+
+    region: Optional[Literal["us-east", "eu-west", "ap-southeast"]] = None
+    """Browser region.
+
+    Omit on create to use us-east, on update to keep the current region, or on login
+    to inherit it. Login overrides apply only to that login. Non-default regions
+    require an eligible plan and organization access.
     """
 
     stealth: Optional[bool] = None
