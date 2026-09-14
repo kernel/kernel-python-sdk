@@ -43,7 +43,7 @@ class WalletVaultItemAvailableOperation(BaseModel):
 
     description: str
 
-    type: Literal["authorize", "fill"]
+    type: Literal["authorize", "prepare_checkout", "fill"]
 
 
 class WalletVaultItemExpanded(BaseModel):
@@ -107,7 +107,7 @@ class CardVaultItemAvailableOperation(BaseModel):
 
     description: str
 
-    type: Literal["authorize", "fill"]
+    type: Literal["authorize", "prepare_checkout", "fill"]
 
 
 class CardVaultItem(BaseModel):

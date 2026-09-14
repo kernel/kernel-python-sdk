@@ -30,6 +30,7 @@ from ...types.vaults.item_list_response import ItemListResponse
 from ...types.vaults.item_events_response import ItemEventsResponse
 from ...types.vaults.card_vault_item_spec_param import CardVaultItemSpecParam
 from ...types.vaults.vault_card_fill_field_param import VaultCardFillFieldParam
+from ...types.vaults.vault_checkout_context_param import VaultCheckoutContextParam
 from ...types.vaults.vault_item_operation_response import VaultItemOperationResponse
 
 __all__ = ["ItemsResource", "AsyncItemsResource"]
@@ -212,10 +213,10 @@ class ItemsResource(SyncAPIResource):
     ) -> None:
         """
         Unresolved payment operations normally block deletion, including operations on
-        child cards of a wallet. An AgentCard checkout whose create response returned no
-        authorization ID may be explicitly abandoned by deleting that card directly;
-        deleting its wallet or vault remains blocked. Deleting or recreating an item is
-        not proof that a payment did not occur.
+        child cards of a wallet. An AgentCard card in recovery_required whose checkout
+        create response returned no authorization ID may be explicitly abandoned by
+        deleting that card directly; deleting its wallet or vault remains blocked.
+        Deleting or recreating an item is not proof that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -309,10 +310,13 @@ class ItemsResource(SyncAPIResource):
         Retrieve the item first and invoke only an operation listed in
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
-        may call an external provider and returns the updated item. Link cards advertise
-        authorize when eligible. AgentCard cards are created with PUT and request
-        approval when their aliases are used at checkout; they do not expose authorize.
-        If spend-request creation is rate limited, returns HTTP 429 with code
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rate limited, returns HTTP 429 with code
         `spend_request_rate_limited`; stop and back off before retrying.
 
         Fill returns a value-free execution result. Validation failures before writing
@@ -323,6 +327,58 @@ class ItemsResource(SyncAPIResource):
         leave the outcome unknown; do not automatically retry.
 
         Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        checkout: VaultCheckoutContextParam,
+        type: Literal["prepare_checkout"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rate limited, returns HTTP 429 with code
+        `spend_request_rate_limited`; stop and back off before retrying.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          checkout: Required when preparing an unused AgentCard card for Square. Consent is bound to
+              this browser and declared merchant origin, not a tab. Wait for the item's
+              ready_to_submit status before native Pay and submit within its readiness
+              deadline. Unused preparations expire automatically; every preparation is
+              single-use, including after failure or expiry.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -355,10 +411,13 @@ class ItemsResource(SyncAPIResource):
         Retrieve the item first and invoke only an operation listed in
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
-        may call an external provider and returns the updated item. Link cards advertise
-        authorize when eligible. AgentCard cards are created with PUT and request
-        approval when their aliases are used at checkout; they do not expose authorize.
-        If spend-request creation is rate limited, returns HTTP 429 with code
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rate limited, returns HTTP 429 with code
         `spend_request_rate_limited`; stop and back off before retrying.
 
         Fill returns a value-free execution result. Validation failures before writing
@@ -389,13 +448,18 @@ class ItemsResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["id_or_name", "type"], ["id_or_name", "browser_id", "fields", "page_url", "type"])
+    @required_args(
+        ["id_or_name", "type"],
+        ["id_or_name", "checkout", "type"],
+        ["id_or_name", "browser_id", "fields", "page_url", "type"],
+    )
     def perform_operation(
         self,
         key: str,
         *,
         id_or_name: str,
-        type: Literal["authorize"] | Literal["fill"],
+        type: Literal["authorize"] | Literal["prepare_checkout"] | Literal["fill"],
+        checkout: VaultCheckoutContextParam | Omit = omit,
         browser_id: str | Omit = omit,
         fields: Iterable[VaultCardFillFieldParam] | Omit = omit,
         page_url: str | Omit = omit,
@@ -418,6 +482,7 @@ class ItemsResource(SyncAPIResource):
                 body=maybe_transform(
                     {
                         "type": type,
+                        "checkout": checkout,
                         "browser_id": browser_id,
                         "fields": fields,
                         "page_url": page_url,
@@ -726,10 +791,10 @@ class AsyncItemsResource(AsyncAPIResource):
     ) -> None:
         """
         Unresolved payment operations normally block deletion, including operations on
-        child cards of a wallet. An AgentCard checkout whose create response returned no
-        authorization ID may be explicitly abandoned by deleting that card directly;
-        deleting its wallet or vault remains blocked. Deleting or recreating an item is
-        not proof that a payment did not occur.
+        child cards of a wallet. An AgentCard card in recovery_required whose checkout
+        create response returned no authorization ID may be explicitly abandoned by
+        deleting that card directly; deleting its wallet or vault remains blocked.
+        Deleting or recreating an item is not proof that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -823,10 +888,13 @@ class AsyncItemsResource(AsyncAPIResource):
         Retrieve the item first and invoke only an operation listed in
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
-        may call an external provider and returns the updated item. Link cards advertise
-        authorize when eligible. AgentCard cards are created with PUT and request
-        approval when their aliases are used at checkout; they do not expose authorize.
-        If spend-request creation is rate limited, returns HTTP 429 with code
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rate limited, returns HTTP 429 with code
         `spend_request_rate_limited`; stop and back off before retrying.
 
         Fill returns a value-free execution result. Validation failures before writing
@@ -837,6 +905,58 @@ class AsyncItemsResource(AsyncAPIResource):
         leave the outcome unknown; do not automatically retry.
 
         Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        checkout: VaultCheckoutContextParam,
+        type: Literal["prepare_checkout"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rate limited, returns HTTP 429 with code
+        `spend_request_rate_limited`; stop and back off before retrying.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          checkout: Required when preparing an unused AgentCard card for Square. Consent is bound to
+              this browser and declared merchant origin, not a tab. Wait for the item's
+              ready_to_submit status before native Pay and submit within its readiness
+              deadline. Unused preparations expire automatically; every preparation is
+              single-use, including after failure or expiry.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -869,10 +989,13 @@ class AsyncItemsResource(AsyncAPIResource):
         Retrieve the item first and invoke only an operation listed in
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
-        may call an external provider and returns the updated item. Link cards advertise
-        authorize when eligible. AgentCard cards are created with PUT and request
-        approval when their aliases are used at checkout; they do not expose authorize.
-        If spend-request creation is rate limited, returns HTTP 429 with code
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rate limited, returns HTTP 429 with code
         `spend_request_rate_limited`; stop and back off before retrying.
 
         Fill returns a value-free execution result. Validation failures before writing
@@ -903,13 +1026,18 @@ class AsyncItemsResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["id_or_name", "type"], ["id_or_name", "browser_id", "fields", "page_url", "type"])
+    @required_args(
+        ["id_or_name", "type"],
+        ["id_or_name", "checkout", "type"],
+        ["id_or_name", "browser_id", "fields", "page_url", "type"],
+    )
     async def perform_operation(
         self,
         key: str,
         *,
         id_or_name: str,
-        type: Literal["authorize"] | Literal["fill"],
+        type: Literal["authorize"] | Literal["prepare_checkout"] | Literal["fill"],
+        checkout: VaultCheckoutContextParam | Omit = omit,
         browser_id: str | Omit = omit,
         fields: Iterable[VaultCardFillFieldParam] | Omit = omit,
         page_url: str | Omit = omit,
@@ -932,6 +1060,7 @@ class AsyncItemsResource(AsyncAPIResource):
                 body=await async_maybe_transform(
                     {
                         "type": type,
+                        "checkout": checkout,
                         "browser_id": browser_id,
                         "fields": fields,
                         "page_url": page_url,

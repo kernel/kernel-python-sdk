@@ -525,12 +525,16 @@ Types:
 ```python
 from kernel.types.vaults import (
     AgentcardCheckoutAuthorization,
+    AgentcardCheckoutPreparation,
+    AuthorizeVaultItemOperationRequest,
     CardVaultItemSpec,
     CardVaultItemState,
     FillVaultItemOperationRequest,
     FillVaultItemOperationResult,
+    PrepareCheckoutVaultItemOperationRequest,
     VaultCardAliases,
     VaultCardFillField,
+    VaultCheckoutContext,
     VaultFillFieldResult,
     VaultItem,
     VaultItemAction,
