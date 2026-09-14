@@ -5,12 +5,13 @@ from __future__ import annotations
 from typing import Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
-from .vault_card_fill_field_param import VaultCardFillFieldParam
+from .vault_fill_field_param import VaultFillFieldParam
 from .vault_checkout_context_param import VaultCheckoutContextParam
 
 __all__ = [
     "ItemPerformOperationParams",
     "AuthorizeVaultItemOperationRequest",
+    "CollectVaultItemOperationRequest",
     "PrepareCheckoutVaultItemOperationRequest",
     "FillVaultItemOperationRequest",
 ]
@@ -20,6 +21,12 @@ class AuthorizeVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
     type: Required[Literal["authorize"]]
+
+
+class CollectVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    type: Required[Literal["collect"]]
 
 
 class PrepareCheckoutVaultItemOperationRequest(TypedDict, total=False):
@@ -43,22 +50,27 @@ class FillVaultItemOperationRequest(TypedDict, total=False):
     browser_id: Required[str]
     """Browser session ID, not a reusable browser name."""
 
-    fields: Required[Iterable[VaultCardFillFieldParam]]
+    fields: Required[Iterable[VaultFillFieldParam]]
     """Field bindings for this step. No two bindings may resolve to the same element."""
 
-    page_url: Required[str]
+    type: Required[Literal["fill"]]
+
+    page_url: str
     """Exact current top-level page URL, including path, query, and fragment.
 
     Must match exactly one open page in the browser; zero or multiple matches fail.
-    No prefix or glob matching. Must use HTTPS without embedded credentials.
+    No prefix or glob matching. Required for cards, which must use HTTPS without
+    embedded credentials. Optional for credentials, where omission requires exactly
+    one open page.
     """
-
-    type: Required[Literal["fill"]]
 
     timeout_ms: int
     """Total operation deadline in milliseconds, not a per-field timeout."""
 
 
 ItemPerformOperationParams: TypeAlias = Union[
-    AuthorizeVaultItemOperationRequest, PrepareCheckoutVaultItemOperationRequest, FillVaultItemOperationRequest
+    AuthorizeVaultItemOperationRequest,
+    CollectVaultItemOperationRequest,
+    PrepareCheckoutVaultItemOperationRequest,
+    FillVaultItemOperationRequest,
 ]
