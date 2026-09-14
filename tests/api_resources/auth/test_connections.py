@@ -46,6 +46,7 @@ class TestConnections:
                     "mode": "direct",
                     "name": "x",
                 },
+                "region": "us-east",
                 "stealth": False,
                 "telemetry": {
                     "browser": {
@@ -211,6 +212,7 @@ class TestConnections:
                     "mode": "direct",
                     "name": "x",
                 },
+                "region": "us-east",
                 "stealth": False,
                 "telemetry": {
                     "browser": {
@@ -461,6 +463,7 @@ class TestConnections:
                     "mode": "direct",
                     "name": "x",
                 },
+                "region": "us-east",
                 "stealth": False,
                 "telemetry": {
                     "browser": {
@@ -705,6 +708,7 @@ class TestAsyncConnections:
                     "mode": "direct",
                     "name": "x",
                 },
+                "region": "us-east",
                 "stealth": False,
                 "telemetry": {
                     "browser": {
@@ -870,6 +874,7 @@ class TestAsyncConnections:
                     "mode": "direct",
                     "name": "x",
                 },
+                "region": "us-east",
                 "stealth": False,
                 "telemetry": {
                     "browser": {
@@ -1120,6 +1125,7 @@ class TestAsyncConnections:
                     "mode": "direct",
                     "name": "x",
                 },
+                "region": "us-east",
                 "stealth": False,
                 "telemetry": {
                     "browser": {

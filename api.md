@@ -525,12 +525,21 @@ Types:
 ```python
 from kernel.types.vaults import (
     AgentcardCheckoutAuthorization,
+    AgentcardCheckoutPreparation,
+    AuthorizeVaultItemOperationRequest,
     CardVaultItemSpec,
     CardVaultItemState,
+    FillVaultItemOperationRequest,
+    FillVaultItemOperationResult,
+    PrepareCheckoutVaultItemOperationRequest,
     VaultCardAliases,
+    VaultCardFillField,
+    VaultCheckoutContext,
+    VaultFillFieldResult,
     VaultItem,
     VaultItemAction,
     VaultItemEvent,
+    VaultItemOperationResponse,
     VaultPaymentMethod,
     WalletVaultItemSpec,
     WalletVaultItemState,
@@ -546,7 +555,7 @@ Methods:
 - <code title="get /vaults/{id_or_name}/items">client.vaults.items.<a href="./src/kernel/resources/vaults/items.py">list</a>(id_or_name) -> <a href="./src/kernel/types/vaults/item_list_response.py">ItemListResponse</a></code>
 - <code title="delete /vaults/{id_or_name}/items/{key}">client.vaults.items.<a href="./src/kernel/resources/vaults/items.py">delete</a>(key, \*, id_or_name) -> None</code>
 - <code title="get /vaults/{id_or_name}/items/{key}/events">client.vaults.items.<a href="./src/kernel/resources/vaults/items.py">events</a>(key, \*, id_or_name, \*\*<a href="src/kernel/types/vaults/item_events_params.py">params</a>) -> <a href="./src/kernel/types/vaults/item_events_response.py">ItemEventsResponse</a></code>
-- <code title="post /vaults/{id_or_name}/items/{key}/operations">client.vaults.items.<a href="./src/kernel/resources/vaults/items.py">perform_operation</a>(key, \*, id_or_name, \*\*<a href="src/kernel/types/vaults/item_perform_operation_params.py">params</a>) -> <a href="./src/kernel/types/vaults/vault_item.py">VaultItem</a></code>
+- <code title="post /vaults/{id_or_name}/items/{key}/operations">client.vaults.items.<a href="./src/kernel/resources/vaults/items.py">perform_operation</a>(key, \*, id_or_name, \*\*<a href="src/kernel/types/vaults/item_perform_operation_params.py">params</a>) -> <a href="./src/kernel/types/vaults/vault_item_operation_response.py">VaultItemOperationResponse</a></code>
 - <code title="put /vaults/{id_or_name}/items/{key}">client.vaults.items.<a href="./src/kernel/resources/vaults/items.py">upsert</a>(key, \*, id_or_name, \*\*<a href="src/kernel/types/vaults/item_upsert_params.py">params</a>) -> <a href="./src/kernel/types/vaults/vault_item.py">VaultItem</a></code>
 
 # Credentials

@@ -16,7 +16,22 @@ from .item_retrieve_params import ItemRetrieveParams as ItemRetrieveParams
 from .vault_payment_method import VaultPaymentMethod as VaultPaymentMethod
 from .card_vault_item_state import CardVaultItemState as CardVaultItemState
 from .wallet_vault_item_spec import WalletVaultItemSpec as WalletVaultItemSpec
+from .vault_fill_field_result import VaultFillFieldResult as VaultFillFieldResult
 from .wallet_vault_item_state import WalletVaultItemState as WalletVaultItemState
 from .card_vault_item_spec_param import CardVaultItemSpecParam as CardVaultItemSpecParam
+from .vault_card_fill_field_param import VaultCardFillFieldParam as VaultCardFillFieldParam
+from .vault_checkout_context_param import VaultCheckoutContextParam as VaultCheckoutContextParam
 from .item_perform_operation_params import ItemPerformOperationParams as ItemPerformOperationParams
+from .vault_item_operation_response import VaultItemOperationResponse as VaultItemOperationResponse
+from .agentcard_checkout_preparation import AgentcardCheckoutPreparation as AgentcardCheckoutPreparation
 from .agentcard_checkout_authorization import AgentcardCheckoutAuthorization as AgentcardCheckoutAuthorization
+from .fill_vault_item_operation_result import FillVaultItemOperationResult as FillVaultItemOperationResult
+from .fill_vault_item_operation_request_param import (
+    FillVaultItemOperationRequestParam as FillVaultItemOperationRequestParam,
+)
+from .authorize_vault_item_operation_request_param import (
+    AuthorizeVaultItemOperationRequestParam as AuthorizeVaultItemOperationRequestParam,
+)
+from .prepare_checkout_vault_item_operation_request_param import (
+    PrepareCheckoutVaultItemOperationRequestParam as PrepareCheckoutVaultItemOperationRequestParam,
+)

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import TypedDict
+from typing_extensions import Literal, TypedDict
 
 from ..browser_proxy_config_param import BrowserProxyConfigParam
 from ..browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
@@ -108,6 +108,14 @@ class ManagedAuthBrowserConfigParam(TypedDict, total=False):
 
     Omit on create to derive the default from stealth, or on update and login to
     preserve or inherit the connection default.
+    """
+
+    region: Literal["us-east", "eu-west", "ap-southeast"]
+    """Browser region.
+
+    Omit on create to use us-east, on update to keep the current region, or on login
+    to inherit it. Login overrides apply only to that login. Non-default regions
+    require an eligible plan and organization access.
     """
 
     stealth: bool

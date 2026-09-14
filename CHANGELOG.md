@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.102.0](https://github.com/kernel/kernel-python-sdk/compare/v0.101.0...v0.102.0) (2026-09-14)
+
+
+### Features
+
+* Accept a workload intent and use it to widen vendor coverage ([39ffff8](https://github.com/kernel/kernel-python-sdk/commit/39ffff82be3987e2220d8d5057d8d2505991a3eb))
+* Add guarded vault card fill operations ([3927c96](https://github.com/kernel/kernel-python-sdk/commit/3927c961789b4427a72c979ee5bb3dbcae1b8c74))
+* Add single-use AgentCard prepare_checkout for Square ([c439359](https://github.com/kernel/kernel-python-sdk/commit/c43935913b8a471421ef8d96c9066c442ec95171))
+* Allow replacing AgentCard cards after unknown creates ([22a8731](https://github.com/kernel/kernel-python-sdk/commit/22a87318e6ac2f1318a295b9d22de5b2306e66b2))
+* Document punctuation key sequences ([e7850fd](https://github.com/kernel/kernel-python-sdk/commit/e7850fd5757934c731373c5cb09b4444a29d7e84))
+* Honor managed auth browser regions ([0fa2fa3](https://github.com/kernel/kernel-python-sdk/commit/0fa2fa34cd72d04a12c6f9afd61d87098d43799b))
+* Reapply vendor guidance recommendations ([dfcc7ec](https://github.com/kernel/kernel-python-sdk/commit/dfcc7ecbaa087a07d11a5b0eb4738b41b8fadd8b))
+* Report proxy-restricted targets from config registry lookup ([c276ebc](https://github.com/kernel/kernel-python-sdk/commit/c276ebc6fd266924894b300b13ff02f30d0c8527))
+
 ## [0.101.0](https://github.com/kernel/kernel-python-sdk/compare/v0.100.0...v0.101.0) (2026-09-11)
 
 

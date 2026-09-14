@@ -165,6 +165,7 @@ class ConfigRegistryResource(SyncAPIResource):
         *,
         url: str,
         allowed_proxy_countries: SequenceNotStr[str] | Omit = omit,
+        intent: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -184,6 +185,14 @@ class ConfigRegistryResource(SyncAPIResource):
               configuration. Kernel may test a subset of allowed countries. When omitted,
               Kernel uses its default country selection.
 
+          intent: Plain-language description of the workload you intend to run against this
+              target, in a sentence or two. Requires an https target, because the pass treats
+              any non-HTTPS destination as off-site and will not drive an http one. Kernel
+              uses it to drive the browser further into the site, where it can observe
+              protections that only appear once a session interacts. When this target already
+              has a verified configuration, the run confirms that one instead of re-deriving
+              the whole matrix, so supplying an intent narrows what can be recommended.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -198,6 +207,7 @@ class ConfigRegistryResource(SyncAPIResource):
                 {
                     "url": url,
                     "allowed_proxy_countries": allowed_proxy_countries,
+                    "intent": intent,
                 },
                 config_registry_resolve_params.ConfigRegistryResolveParams,
             ),
@@ -339,6 +349,7 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
         *,
         url: str,
         allowed_proxy_countries: SequenceNotStr[str] | Omit = omit,
+        intent: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -358,6 +369,14 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
               configuration. Kernel may test a subset of allowed countries. When omitted,
               Kernel uses its default country selection.
 
+          intent: Plain-language description of the workload you intend to run against this
+              target, in a sentence or two. Requires an https target, because the pass treats
+              any non-HTTPS destination as off-site and will not drive an http one. Kernel
+              uses it to drive the browser further into the site, where it can observe
+              protections that only appear once a session interacts. When this target already
+              has a verified configuration, the run confirms that one instead of re-deriving
+              the whole matrix, so supplying an intent narrows what can be recommended.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -372,6 +391,7 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
                 {
                     "url": url,
                     "allowed_proxy_countries": allowed_proxy_countries,
+                    "intent": intent,
                 },
                 config_registry_resolve_params.ConfigRegistryResolveParams,
             ),
