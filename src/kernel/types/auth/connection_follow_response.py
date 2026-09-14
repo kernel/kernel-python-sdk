@@ -109,6 +109,9 @@ class ManagedAuthStateEventField(BaseModel):
     hint: Optional[str] = None
     """Context shown near the field, including a masked code destination."""
 
+    input_mode: Optional[Literal["text", "email", "tel", "numeric"]] = None
+    """Virtual keyboard hint, independent of field type and browser validation."""
+
     label: Optional[str] = None
     """Human-readable label shown to the user."""
 
