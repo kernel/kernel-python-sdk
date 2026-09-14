@@ -19,3 +19,14 @@ class ConfigRegistryResolveParams(TypedDict, total=False):
     configuration. Kernel may test a subset of allowed countries. When omitted,
     Kernel uses its default country selection.
     """
+
+    intent: str
+    """
+    Plain-language description of the workload you intend to run against this
+    target, in a sentence or two. Requires an https target, because the pass treats
+    any non-HTTPS destination as off-site and will not drive an http one. Kernel
+    uses it to drive the browser further into the site, where it can observe
+    protections that only appear once a session interacts. When this target already
+    has a verified configuration, the run confirms that one instead of re-deriving
+    the whole matrix, so supplying an intent narrows what can be recommended.
+    """

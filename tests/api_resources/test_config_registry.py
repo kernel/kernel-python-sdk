@@ -119,6 +119,7 @@ class TestConfigRegistry:
         config_registry = client.config_registry.resolve(
             url="https://example.com",
             allowed_proxy_countries=["US"],
+            intent="search for a black hoodie and add it to the cart",
         )
         assert_matches_type(ConfigRegistryResponse, config_registry, path=["response"])
 
@@ -251,6 +252,7 @@ class TestAsyncConfigRegistry:
         config_registry = await async_client.config_registry.resolve(
             url="https://example.com",
             allowed_proxy_countries=["US"],
+            intent="search for a black hoodie and add it to the cart",
         )
         assert_matches_type(ConfigRegistryResponse, config_registry, path=["response"])
 
