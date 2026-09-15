@@ -1,9 +1,10 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 
 from .target import Target
 from .._models import BaseModel
+from .recommendation import Recommendation
 from .recommendation_result import RecommendationResult
 
 __all__ = ["LookupResponse"]
@@ -14,6 +15,12 @@ class LookupResponse(BaseModel):
     """A recommendation or a structured no-recommendation result."""
 
     target: Target
+
+    working_configurations: List[Recommendation]
+    """
+    Working configurations for the target, ordered with the recommended
+    configuration first.
+    """
 
     guidance: Optional[str] = None
     """Short advisory markdown to facilitate navigating this target.
