@@ -60,11 +60,16 @@ class WebmcpResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> InvocationResult:
-        """
-        Invokes the exact live registration identified by tool_ref and waits
-        synchronously for its result. Navigation during execution is allowed. If the tab
-        or embedded frame disappears, or the request times out after invocation begins,
-        the response reports outcome_unknown and the tool is not retried.
+        """Invokes the exact live registration identified by tool_ref.
+
+        Non-autosubmit
+        declarative form tools return after their fields are populated with an
+        awaiting_submission status. Other tools wait for a terminal result, including
+        across navigation. Inspect a populated form, obtain any required confirmation,
+        then submit through Playwright or computer interaction without invoking the tool
+        again. If the tab or embedded frame disappears, or the request times out after
+        invocation begins, the response reports outcome_unknown and the tool is not
+        retried.
 
         Args:
           input: Tool input, limited to 1 MiB after JSON serialization.
@@ -168,11 +173,16 @@ class AsyncWebmcpResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> InvocationResult:
-        """
-        Invokes the exact live registration identified by tool_ref and waits
-        synchronously for its result. Navigation during execution is allowed. If the tab
-        or embedded frame disappears, or the request times out after invocation begins,
-        the response reports outcome_unknown and the tool is not retried.
+        """Invokes the exact live registration identified by tool_ref.
+
+        Non-autosubmit
+        declarative form tools return after their fields are populated with an
+        awaiting_submission status. Other tools wait for a terminal result, including
+        across navigation. Inspect a populated form, obtain any required confirmation,
+        then submit through Playwright or computer interaction without invoking the tool
+        again. If the tab or embedded frame disappears, or the request times out after
+        invocation begins, the response reports outcome_unknown and the tool is not
+        retried.
 
         Args:
           input: Tool input, limited to 1 MiB after JSON serialization.
