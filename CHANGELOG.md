@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.103.0](https://github.com/kernel/kernel-python-sdk/compare/v0.102.0...v0.103.0) (2026-09-15)
+
+
+### Features
+
+* chore(stlc): seal custom-code tracking files ([4ce4ab9](https://github.com/kernel/kernel-python-sdk/commit/4ce4ab9f533b4f5d9fe420f91f1a0054c0e13c1b))
+* Expose managed auth field input modes ([c110358](https://github.com/kernel/kernel-python-sdk/commit/c11035847c9f6dd23b7cdd5efa0a8b188d5a850a))
+* Return working config registry configurations ([0737fe9](https://github.com/kernel/kernel-python-sdk/commit/0737fe974b15c6e422c8722d1d76c97c811533d7))
+
+
+### Bug Fixes
+
+* disable automatic vault operation retries in SDKs ([aad62f9](https://github.com/kernel/kernel-python-sdk/commit/aad62f97e2f6c3ee590775916364c19980dc9456))
+
 ## [0.102.0](https://github.com/kernel/kernel-python-sdk/compare/v0.101.0...v0.102.0) (2026-09-14)
 
 
