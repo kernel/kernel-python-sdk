@@ -511,11 +511,11 @@ class ItemsResource(SyncAPIResource):
         leave the outcome unknown; do not automatically retry.
 
         Args:
-          checkout: Required when preparing an unused AgentCard card for Square. Consent is bound to
-              this browser and declared merchant origin, not a tab. Wait for the item's
-              ready_to_submit status before native Pay and submit within its readiness
-              deadline. Unused preparations expire automatically; every preparation is
-              single-use, including after failure or expiry.
+          checkout: Required when preparing an unused AgentCard card for a supported tokenization
+              processor. Consent is bound to this browser and declared merchant origin, not a
+              tab. Wait for the item's ready_to_submit status before native Pay and submit
+              within its readiness deadline. Unused preparations expire automatically; every
+              preparation is single-use, including after failure or expiry.
 
           extra_headers: Send extra headers
 
@@ -1274,11 +1274,11 @@ class AsyncItemsResource(AsyncAPIResource):
         leave the outcome unknown; do not automatically retry.
 
         Args:
-          checkout: Required when preparing an unused AgentCard card for Square. Consent is bound to
-              this browser and declared merchant origin, not a tab. Wait for the item's
-              ready_to_submit status before native Pay and submit within its readiness
-              deadline. Unused preparations expire automatically; every preparation is
-              single-use, including after failure or expiry.
+          checkout: Required when preparing an unused AgentCard card for a supported tokenization
+              processor. Consent is bound to this browser and declared merchant origin, not a
+              tab. Wait for the item's ready_to_submit status before native Pay and submit
+              within its readiness deadline. Unused preparations expire automatically; every
+              preparation is single-use, including after failure or expiry.
 
           extra_headers: Send extra headers
 

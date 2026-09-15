@@ -112,7 +112,7 @@ class AgentCardCardState(BaseModel):
     masks: Optional[AgentCardCardStateMasks] = None
 
     preparation: Optional[AgentcardCheckoutPreparation] = None
-    """One-use Square checkout preparation.
+    """One-use processor-bound checkout preparation.
 
     Keep the approval page open through token handoff. The amount is display-only
     and does not constrain the merchant's eventual charge.
