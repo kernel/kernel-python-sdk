@@ -615,7 +615,7 @@ class ItemsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
         return cast(
             VaultItemOperationResponse,
-            self._post(
+            self._client.with_options(max_retries=0).post(
                 path_template("/vaults/{id_or_name}/items/{key}/operations", id_or_name=id_or_name, key=key),
                 body=maybe_transform(
                     {
@@ -1378,7 +1378,7 @@ class AsyncItemsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
         return cast(
             VaultItemOperationResponse,
-            await self._post(
+            await self._client.with_options(max_retries=0).post(
                 path_template("/vaults/{id_or_name}/items/{key}/operations", id_or_name=id_or_name, key=key),
                 body=await async_maybe_transform(
                     {
