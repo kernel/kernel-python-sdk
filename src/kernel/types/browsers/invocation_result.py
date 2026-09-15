@@ -11,7 +11,13 @@ __all__ = ["InvocationResult"]
 class InvocationResult(BaseModel):
     invocation_id: str
 
-    status: Literal["completed", "canceled", "error"]
+    status: Literal["completed", "canceled", "error", "awaiting_submission"]
+    """
+    awaiting_submission means a non-autosubmit declarative form was populated but
+    not submitted. Inspect the form, obtain any required confirmation, then submit
+    through Playwright or computer interaction without invoking the tool again. The
+    other statuses are terminal results.
+    """
 
     error_text: Optional[str] = None
 
