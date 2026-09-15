@@ -28,10 +28,12 @@ from ...types.vaults import (
 from ...types.vaults.vault_item import VaultItem
 from ...types.vaults.item_list_response import ItemListResponse
 from ...types.vaults.item_events_response import ItemEventsResponse
+from ...types.vaults.vault_fill_field_param import VaultFillFieldParam
 from ...types.vaults.card_vault_item_spec_param import CardVaultItemSpecParam
-from ...types.vaults.vault_card_fill_field_param import VaultCardFillFieldParam
 from ...types.vaults.vault_checkout_context_param import VaultCheckoutContextParam
 from ...types.vaults.vault_item_operation_response import VaultItemOperationResponse
+from ...types.vaults.credential_vault_item_spec_input_param import CredentialVaultItemSpecInputParam
+from ...types.vaults.credential_vault_item_spec_update_param import CredentialVaultItemSpecUpdateParam
 
 __all__ = ["ItemsResource", "AsyncItemsResource"]
 
@@ -75,13 +77,19 @@ class ItemsResource(SyncAPIResource):
         and live data that can be requested through `expand`. Read each operation's
         description before using it. Expanded data is fetched from the provider and is
         not persisted in the vault item. Requesting an unavailable expansion returns 409
-        instead of a partial item.
+        instead of a partial item. Pending credential items return a collection action.
+        Kernel-hosted active collection links are renewed atomically on expiry for ready
+        or pending items without changing the item version. Invoke collect to open a
+        form for a ready item without clearing values. Sensitive credential values are
+        never returned.
 
         Args:
           expand: Live fields advertised by `available_expansions` to include in `expanded`.
 
-          wait: Hold for up to this many seconds while the item is pending authorization or
-              approval.
+          wait: Hold for up to this many seconds while the item is pending authorization,
+              approval, or credential collection. Return the current item when ready or when
+              the wait elapses. This does not wait for edits to an already-ready credential;
+              poll GET without wait and compare version to observe changes after collect.
 
           extra_headers: Send extra headers
 
@@ -116,12 +124,14 @@ class ItemsResource(SyncAPIResource):
             ),
         )
 
+    @overload
     def update(
         self,
         key: str,
         *,
         id_or_name: str,
         spec: CardVaultItemSpecParam,
+        type: Literal["card"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -129,15 +139,19 @@ class ItemsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultItem:
-        """Requested cards accept a replacement specification.
-
-        Pending issuance requests
-        may update provider-supported fields on their existing request, subject to
-        atomic provider approval checks; omitted optional fields remain unchanged and
-        explicit empty lists clear them. Wallet/provider binding and unsupported fields
-        cannot change after authorization starts. An uncertain update enters
-        recovery_required and must not be retried. Checkout cards may be edited between
-        authorizations.
+        """
+        Credential updates require type credential and the current version, and change
+        only values or description; omitted values are preserved, nonempty strings
+        replace, and null or empty strings clear supported fields. Clearing required
+        text/email/password values returns pending_collection; browser forms still
+        require nonempty required inputs. Card updates may omit type for compatibility
+        with legacy requests. Requested cards accept a replacement specification.
+        Pending issuance requests may update provider-supported fields on their existing
+        request, subject to atomic provider approval checks; omitted optional fields
+        remain unchanged and explicit empty lists clear them. Wallet/provider binding
+        and unsupported fields cannot change after authorization starts. An uncertain
+        update enters recovery_required and must not be retried. Checkout cards may be
+        edited between authorizations.
 
         Args:
           spec: Live payment card. Test-mode card creation is not supported.
@@ -150,6 +164,74 @@ class ItemsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    def update(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        spec: CredentialVaultItemSpecUpdateParam,
+        type: Literal["credential"],
+        version: int,
+        expected_item_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Credential updates require type credential and the current version, and change
+        only values or description; omitted values are preserved, nonempty strings
+        replace, and null or empty strings clear supported fields. Clearing required
+        text/email/password values returns pending_collection; browser forms still
+        require nonempty required inputs. Card updates may omit type for compatibility
+        with legacy requests. Requested cards accept a replacement specification.
+        Pending issuance requests may update provider-supported fields on their existing
+        request, subject to atomic provider approval checks; omitted optional fields
+        remain unchanged and explicit empty lists clear them. Wallet/provider binding
+        and unsupported fields cannot change after authorization starts. An uncertain
+        update enters recovery_required and must not be retried. Checkout cards may be
+        edited between authorizations.
+
+        Args:
+          version: Expected current item version from the latest read.
+
+          expected_item_id: Optional immutable item ID precondition. Returns 409 if the key now identifies a
+              different item. Accepted writes target this immutable ID, preventing
+              replacement-key races. Supply this when submitting a form bound to a previously
+              read item.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["id_or_name", "spec"], ["id_or_name", "spec", "type", "version"])
+    def update(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        spec: CardVaultItemSpecParam | CredentialVaultItemSpecUpdateParam,
+        type: Literal["card"] | Literal["credential"] | Omit = omit,
+        version: int | Omit = omit,
+        expected_item_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         if not key:
@@ -158,7 +240,15 @@ class ItemsResource(SyncAPIResource):
             VaultItem,
             self._patch(
                 path_template("/vaults/{id_or_name}/items/{key}", id_or_name=id_or_name, key=key),
-                body=maybe_transform({"spec": spec}, item_update_params.ItemUpdateParams),
+                body=maybe_transform(
+                    {
+                        "spec": spec,
+                        "type": type,
+                        "version": version,
+                        "expected_item_id": expected_item_id,
+                    },
+                    item_update_params.ItemUpdateParams,
+                ),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -177,8 +267,11 @@ class ItemsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ItemListResponse:
-        """
-        List vault items without secret values
+        """Credential entries include safe field metadata and non-sensitive values.
+
+        Listing
+        never creates or renews collection sessions; only an existing unexpired active
+        session is included. Use single-item GET or collect to obtain a fresh link.
 
         Args:
           extra_headers: Send extra headers
@@ -343,6 +436,51 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        type: Literal["collect"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rate limited, returns HTTP 429 with code
+        `spend_request_rate_limited`; stop and back off before retrying.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         checkout: VaultCheckoutContextParam,
         type: Literal["prepare_checkout"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -396,9 +534,9 @@ class ItemsResource(SyncAPIResource):
         *,
         id_or_name: str,
         browser_id: str,
-        fields: Iterable[VaultCardFillFieldParam],
-        page_url: str,
+        fields: Iterable[VaultFillFieldParam],
         type: Literal["fill"],
+        page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -434,7 +572,9 @@ class ItemsResource(SyncAPIResource):
 
           page_url: Exact current top-level page URL, including path, query, and fragment. Must
               match exactly one open page in the browser; zero or multiple matches fail. No
-              prefix or glob matching. Must use HTTPS without embedded credentials.
+              prefix or glob matching. Required for cards, which must use HTTPS without
+              embedded credentials. Optional for credentials, where omission requires exactly
+              one open page.
 
           timeout_ms: Total operation deadline in milliseconds, not a per-field timeout.
 
@@ -449,19 +589,17 @@ class ItemsResource(SyncAPIResource):
         ...
 
     @required_args(
-        ["id_or_name", "type"],
-        ["id_or_name", "checkout", "type"],
-        ["id_or_name", "browser_id", "fields", "page_url", "type"],
+        ["id_or_name", "type"], ["id_or_name", "checkout", "type"], ["id_or_name", "browser_id", "fields", "type"]
     )
     def perform_operation(
         self,
         key: str,
         *,
         id_or_name: str,
-        type: Literal["authorize"] | Literal["prepare_checkout"] | Literal["fill"],
+        type: Literal["authorize"] | Literal["collect"] | Literal["prepare_checkout"] | Literal["fill"],
         checkout: VaultCheckoutContextParam | Omit = omit,
         browser_id: str | Omit = omit,
-        fields: Iterable[VaultCardFillFieldParam] | Omit = omit,
+        fields: Iterable[VaultFillFieldParam] | Omit = omit,
         page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -477,7 +615,7 @@ class ItemsResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
         return cast(
             VaultItemOperationResponse,
-            self._post(
+            self._client.with_options(max_retries=0).post(
                 path_template("/vaults/{id_or_name}/items/{key}/operations", id_or_name=id_or_name, key=key),
                 body=maybe_transform(
                     {
@@ -520,7 +658,10 @@ class ItemsResource(SyncAPIResource):
         card in any lifecycle state without polling the provider, reauthorizing,
         replacing aliases, or resetting recovery. Conflicting specifications return 409.
         Provider-specific authorization requirements and retry behavior are described in
-        the item's request schema.
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet and card item types for credit cards and payment
+        checkout instead.
 
         Args:
           spec: AgentCard wallet. Omit provider_config to use Kernel-managed credentials, or
@@ -561,10 +702,54 @@ class ItemsResource(SyncAPIResource):
         card in any lifecycle state without polling the provider, reauthorizing,
         replacing aliases, or resetting recovery. Conflicting specifications return 409.
         Provider-specific authorization requirements and retry behavior are described in
-        the item's request schema.
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet and card item types for credit cards and payment
+        checkout instead.
 
         Args:
           spec: Live payment card. Test-mode card creation is not supported.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def upsert(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        spec: CredentialVaultItemSpecInputParam,
+        type: Literal["credential"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet and card item types for credit cards and payment
+        checkout instead.
+
+        Args:
+          spec: Credential fields are for login and other non-payment credentials. Do not store,
+              collect, or fill credit card data in credential items. Use wallet and card item
+              types for credit cards and payment checkout instead.
 
           extra_headers: Send extra headers
 
@@ -582,8 +767,10 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        spec: item_upsert_params.WalletVaultItemRequestSpec | CardVaultItemSpecParam,
-        type: Literal["wallet"] | Literal["card"],
+        spec: item_upsert_params.WalletVaultItemRequestSpec
+        | CardVaultItemSpecParam
+        | CredentialVaultItemSpecInputParam,
+        type: Literal["wallet"] | Literal["card"] | Literal["credential"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -653,13 +840,19 @@ class AsyncItemsResource(AsyncAPIResource):
         and live data that can be requested through `expand`. Read each operation's
         description before using it. Expanded data is fetched from the provider and is
         not persisted in the vault item. Requesting an unavailable expansion returns 409
-        instead of a partial item.
+        instead of a partial item. Pending credential items return a collection action.
+        Kernel-hosted active collection links are renewed atomically on expiry for ready
+        or pending items without changing the item version. Invoke collect to open a
+        form for a ready item without clearing values. Sensitive credential values are
+        never returned.
 
         Args:
           expand: Live fields advertised by `available_expansions` to include in `expanded`.
 
-          wait: Hold for up to this many seconds while the item is pending authorization or
-              approval.
+          wait: Hold for up to this many seconds while the item is pending authorization,
+              approval, or credential collection. Return the current item when ready or when
+              the wait elapses. This does not wait for edits to an already-ready credential;
+              poll GET without wait and compare version to observe changes after collect.
 
           extra_headers: Send extra headers
 
@@ -694,12 +887,14 @@ class AsyncItemsResource(AsyncAPIResource):
             ),
         )
 
+    @overload
     async def update(
         self,
         key: str,
         *,
         id_or_name: str,
         spec: CardVaultItemSpecParam,
+        type: Literal["card"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -707,15 +902,19 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> VaultItem:
-        """Requested cards accept a replacement specification.
-
-        Pending issuance requests
-        may update provider-supported fields on their existing request, subject to
-        atomic provider approval checks; omitted optional fields remain unchanged and
-        explicit empty lists clear them. Wallet/provider binding and unsupported fields
-        cannot change after authorization starts. An uncertain update enters
-        recovery_required and must not be retried. Checkout cards may be edited between
-        authorizations.
+        """
+        Credential updates require type credential and the current version, and change
+        only values or description; omitted values are preserved, nonempty strings
+        replace, and null or empty strings clear supported fields. Clearing required
+        text/email/password values returns pending_collection; browser forms still
+        require nonempty required inputs. Card updates may omit type for compatibility
+        with legacy requests. Requested cards accept a replacement specification.
+        Pending issuance requests may update provider-supported fields on their existing
+        request, subject to atomic provider approval checks; omitted optional fields
+        remain unchanged and explicit empty lists clear them. Wallet/provider binding
+        and unsupported fields cannot change after authorization starts. An uncertain
+        update enters recovery_required and must not be retried. Checkout cards may be
+        edited between authorizations.
 
         Args:
           spec: Live payment card. Test-mode card creation is not supported.
@@ -728,6 +927,74 @@ class AsyncItemsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        ...
+
+    @overload
+    async def update(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        spec: CredentialVaultItemSpecUpdateParam,
+        type: Literal["credential"],
+        version: int,
+        expected_item_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Credential updates require type credential and the current version, and change
+        only values or description; omitted values are preserved, nonempty strings
+        replace, and null or empty strings clear supported fields. Clearing required
+        text/email/password values returns pending_collection; browser forms still
+        require nonempty required inputs. Card updates may omit type for compatibility
+        with legacy requests. Requested cards accept a replacement specification.
+        Pending issuance requests may update provider-supported fields on their existing
+        request, subject to atomic provider approval checks; omitted optional fields
+        remain unchanged and explicit empty lists clear them. Wallet/provider binding
+        and unsupported fields cannot change after authorization starts. An uncertain
+        update enters recovery_required and must not be retried. Checkout cards may be
+        edited between authorizations.
+
+        Args:
+          version: Expected current item version from the latest read.
+
+          expected_item_id: Optional immutable item ID precondition. Returns 409 if the key now identifies a
+              different item. Accepted writes target this immutable ID, preventing
+              replacement-key races. Supply this when submitting a form bound to a previously
+              read item.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["id_or_name", "spec"], ["id_or_name", "spec", "type", "version"])
+    async def update(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        spec: CardVaultItemSpecParam | CredentialVaultItemSpecUpdateParam,
+        type: Literal["card"] | Literal["credential"] | Omit = omit,
+        version: int | Omit = omit,
+        expected_item_id: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         if not key:
@@ -736,7 +1003,15 @@ class AsyncItemsResource(AsyncAPIResource):
             VaultItem,
             await self._patch(
                 path_template("/vaults/{id_or_name}/items/{key}", id_or_name=id_or_name, key=key),
-                body=await async_maybe_transform({"spec": spec}, item_update_params.ItemUpdateParams),
+                body=await async_maybe_transform(
+                    {
+                        "spec": spec,
+                        "type": type,
+                        "version": version,
+                        "expected_item_id": expected_item_id,
+                    },
+                    item_update_params.ItemUpdateParams,
+                ),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -755,8 +1030,11 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ItemListResponse:
-        """
-        List vault items without secret values
+        """Credential entries include safe field metadata and non-sensitive values.
+
+        Listing
+        never creates or renews collection sessions; only an existing unexpired active
+        session is included. Use single-item GET or collect to obtain a fresh link.
 
         Args:
           extra_headers: Send extra headers
@@ -921,6 +1199,51 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        type: Literal["collect"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rate limited, returns HTTP 429 with code
+        `spend_request_rate_limited`; stop and back off before retrying.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         checkout: VaultCheckoutContextParam,
         type: Literal["prepare_checkout"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -974,9 +1297,9 @@ class AsyncItemsResource(AsyncAPIResource):
         *,
         id_or_name: str,
         browser_id: str,
-        fields: Iterable[VaultCardFillFieldParam],
-        page_url: str,
+        fields: Iterable[VaultFillFieldParam],
         type: Literal["fill"],
+        page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1012,7 +1335,9 @@ class AsyncItemsResource(AsyncAPIResource):
 
           page_url: Exact current top-level page URL, including path, query, and fragment. Must
               match exactly one open page in the browser; zero or multiple matches fail. No
-              prefix or glob matching. Must use HTTPS without embedded credentials.
+              prefix or glob matching. Required for cards, which must use HTTPS without
+              embedded credentials. Optional for credentials, where omission requires exactly
+              one open page.
 
           timeout_ms: Total operation deadline in milliseconds, not a per-field timeout.
 
@@ -1027,19 +1352,17 @@ class AsyncItemsResource(AsyncAPIResource):
         ...
 
     @required_args(
-        ["id_or_name", "type"],
-        ["id_or_name", "checkout", "type"],
-        ["id_or_name", "browser_id", "fields", "page_url", "type"],
+        ["id_or_name", "type"], ["id_or_name", "checkout", "type"], ["id_or_name", "browser_id", "fields", "type"]
     )
     async def perform_operation(
         self,
         key: str,
         *,
         id_or_name: str,
-        type: Literal["authorize"] | Literal["prepare_checkout"] | Literal["fill"],
+        type: Literal["authorize"] | Literal["collect"] | Literal["prepare_checkout"] | Literal["fill"],
         checkout: VaultCheckoutContextParam | Omit = omit,
         browser_id: str | Omit = omit,
-        fields: Iterable[VaultCardFillFieldParam] | Omit = omit,
+        fields: Iterable[VaultFillFieldParam] | Omit = omit,
         page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1055,7 +1378,7 @@ class AsyncItemsResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `key` but received {key!r}")
         return cast(
             VaultItemOperationResponse,
-            await self._post(
+            await self._client.with_options(max_retries=0).post(
                 path_template("/vaults/{id_or_name}/items/{key}/operations", id_or_name=id_or_name, key=key),
                 body=await async_maybe_transform(
                     {
@@ -1098,7 +1421,10 @@ class AsyncItemsResource(AsyncAPIResource):
         card in any lifecycle state without polling the provider, reauthorizing,
         replacing aliases, or resetting recovery. Conflicting specifications return 409.
         Provider-specific authorization requirements and retry behavior are described in
-        the item's request schema.
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet and card item types for credit cards and payment
+        checkout instead.
 
         Args:
           spec: AgentCard wallet. Omit provider_config to use Kernel-managed credentials, or
@@ -1139,10 +1465,54 @@ class AsyncItemsResource(AsyncAPIResource):
         card in any lifecycle state without polling the provider, reauthorizing,
         replacing aliases, or resetting recovery. Conflicting specifications return 409.
         Provider-specific authorization requirements and retry behavior are described in
-        the item's request schema.
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet and card item types for credit cards and payment
+        checkout instead.
 
         Args:
           spec: Live payment card. Test-mode card creation is not supported.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def upsert(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        spec: CredentialVaultItemSpecInputParam,
+        type: Literal["credential"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet and card item types for credit cards and payment
+        checkout instead.
+
+        Args:
+          spec: Credential fields are for login and other non-payment credentials. Do not store,
+              collect, or fill credit card data in credential items. Use wallet and card item
+              types for credit cards and payment checkout instead.
 
           extra_headers: Send extra headers
 
@@ -1160,8 +1530,10 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        spec: item_upsert_params.WalletVaultItemRequestSpec | CardVaultItemSpecParam,
-        type: Literal["wallet"] | Literal["card"],
+        spec: item_upsert_params.WalletVaultItemRequestSpec
+        | CardVaultItemSpecParam
+        | CredentialVaultItemSpecInputParam,
+        type: Literal["wallet"] | Literal["card"] | Literal["credential"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

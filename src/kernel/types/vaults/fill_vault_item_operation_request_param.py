@@ -5,20 +5,23 @@ from __future__ import annotations
 from typing import Iterable
 from typing_extensions import Literal, Required, TypedDict
 
-from .vault_card_fill_field_param import VaultCardFillFieldParam
+from .vault_fill_field_param import VaultFillFieldParam
 
 __all__ = ["FillVaultItemOperationRequestParam"]
 
 
 class FillVaultItemOperationRequestParam(TypedDict, total=False):
     """
-    Fill selected fields from one ready, unexpired card into a browser linked
-    to its vault. Only supported for card items created from Link wallets.
+    Fill selected fields from one ready credential or ready, unexpired Link card
+    into a browser linked to its vault.
     Only invoke when the item advertises `fill`. Browser and vault must belong
     to the same project. Kernel checks access and allowed destinations before
     filling; providing a page URL does not authorize a destination.
 
-    Find exactly one open page matching `page_url`. For each selector, search
+    Find exactly one open page matching `page_url`. Credential items may omit
+    `page_url` to require exactly one open page; cards require an HTTPS page URL.
+    Credentials have no destination allowlist. TOTP fields generate a current
+    code immediately before writing; their seeds never enter the browser. For each selector, search
     the main frame and all descendant frames for editable inputs or selects
     matched directly or contained within matching elements. Each selector must
     resolve to one unique editable element across all frames; zero or multiple
@@ -45,17 +48,19 @@ class FillVaultItemOperationRequestParam(TypedDict, total=False):
     browser_id: Required[str]
     """Browser session ID, not a reusable browser name."""
 
-    fields: Required[Iterable[VaultCardFillFieldParam]]
+    fields: Required[Iterable[VaultFillFieldParam]]
     """Field bindings for this step. No two bindings may resolve to the same element."""
 
-    page_url: Required[str]
+    type: Required[Literal["fill"]]
+
+    page_url: str
     """Exact current top-level page URL, including path, query, and fragment.
 
     Must match exactly one open page in the browser; zero or multiple matches fail.
-    No prefix or glob matching. Must use HTTPS without embedded credentials.
+    No prefix or glob matching. Required for cards, which must use HTTPS without
+    embedded credentials. Optional for credentials, where omission requires exactly
+    one open page.
     """
-
-    type: Required[Literal["fill"]]
 
     timeout_ms: int
     """Total operation deadline in milliseconds, not a per-field timeout."""

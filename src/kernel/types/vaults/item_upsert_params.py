@@ -6,6 +6,7 @@ from typing import Union
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .card_vault_item_spec_param import CardVaultItemSpecParam
+from .credential_vault_item_spec_input_param import CredentialVaultItemSpecInputParam
 
 __all__ = [
     "ItemUpsertParams",
@@ -22,6 +23,7 @@ __all__ = [
     "WalletVaultItemRequestSpecAgentCardWalletVaultItemSpec",
     "WalletVaultItemRequestSpecAgentCardWalletVaultItemSpecProviderConfig",
     "CardVaultItemRequest",
+    "CredentialVaultItemRequest",
 ]
 
 
@@ -185,4 +187,17 @@ class CardVaultItemRequest(TypedDict, total=False):
     type: Required[Literal["card"]]
 
 
-ItemUpsertParams: TypeAlias = Union[WalletVaultItemRequest, CardVaultItemRequest]
+class CredentialVaultItemRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    spec: Required[CredentialVaultItemSpecInputParam]
+    """Credential fields are for login and other non-payment credentials.
+
+    Do not store, collect, or fill credit card data in credential items. Use wallet
+    and card item types for credit cards and payment checkout instead.
+    """
+
+    type: Required[Literal["credential"]]
+
+
+ItemUpsertParams: TypeAlias = Union[WalletVaultItemRequest, CardVaultItemRequest, CredentialVaultItemRequest]

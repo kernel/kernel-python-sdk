@@ -16,6 +16,8 @@ class ItemRetrieveParams(TypedDict, total=False):
 
     wait: int
     """
-    Hold for up to this many seconds while the item is pending authorization or
-    approval.
+    Hold for up to this many seconds while the item is pending authorization,
+    approval, or credential collection. Return the current item when ready or when
+    the wait elapses. This does not wait for edits to an already-ready credential;
+    poll GET without wait and compare version to observe changes after collect.
     """

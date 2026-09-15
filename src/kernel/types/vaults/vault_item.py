@@ -10,6 +10,7 @@ from .vault_item_action import VaultItemAction
 from .card_vault_item_spec import CardVaultItemSpec
 from .vault_payment_method import VaultPaymentMethod
 from .card_vault_item_state import CardVaultItemState
+from .credential_vault_item import CredentialVaultItem
 from .wallet_vault_item_spec import WalletVaultItemSpec
 from .wallet_vault_item_state import WalletVaultItemState
 
@@ -43,7 +44,7 @@ class WalletVaultItemAvailableOperation(BaseModel):
 
     description: str
 
-    type: Literal["authorize", "prepare_checkout", "fill"]
+    type: Literal["authorize", "collect", "prepare_checkout", "fill"]
 
 
 class WalletVaultItemExpanded(BaseModel):
@@ -107,7 +108,7 @@ class CardVaultItemAvailableOperation(BaseModel):
 
     description: str
 
-    type: Literal["authorize", "prepare_checkout", "fill"]
+    type: Literal["authorize", "collect", "prepare_checkout", "fill"]
 
 
 class CardVaultItem(BaseModel):
@@ -136,4 +137,6 @@ class CardVaultItem(BaseModel):
     expires_at: Optional[datetime] = None
 
 
-VaultItem: TypeAlias = Annotated[Union[WalletVaultItem, CardVaultItem], PropertyInfo(discriminator="type")]
+VaultItem: TypeAlias = Annotated[
+    Union[WalletVaultItem, CardVaultItem, CredentialVaultItem], PropertyInfo(discriminator="type")
+]
