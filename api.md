@@ -526,6 +526,7 @@ Types:
 from kernel.types.vaults import (
     AgentcardCheckoutAuthorization,
     AgentcardCheckoutPreparation,
+    AgentcardPreparedProcessor,
     AuthorizeVaultItemOperationRequest,
     CardVaultItemSpec,
     CardVaultItemState,

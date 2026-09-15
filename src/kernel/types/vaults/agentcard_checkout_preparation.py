@@ -5,12 +5,13 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from ..._models import BaseModel
+from .agentcard_prepared_processor import AgentcardPreparedProcessor
 
 __all__ = ["AgentcardCheckoutPreparation"]
 
 
 class AgentcardCheckoutPreparation(BaseModel):
-    """One-use Square checkout preparation.
+    """One-use processor-bound checkout preparation.
 
     Keep the approval page open through token handoff. The amount is display-only and does not constrain the merchant's eventual charge.
     """
@@ -19,9 +20,11 @@ class AgentcardCheckoutPreparation(BaseModel):
 
     created_at: datetime
 
-    environment: Literal["production", "sandbox"]
+    environment: Literal["production", "sandbox", "shared"]
 
     merchant_origin: str
+
+    psp: AgentcardPreparedProcessor
 
     status: Literal["creating", "awaiting_approval", "ready", "consumed", "cancelled", "expired", "unknown"]
     """
