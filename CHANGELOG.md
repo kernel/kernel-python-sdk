@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.105.0](https://github.com/kernel/kernel-python-sdk/compare/v0.104.0...v0.105.0) (2026-09-15)
+
+
+### Features
+
+* Add processor-bound AgentCard preparation contracts ([37d5e9c](https://github.com/kernel/kernel-python-sdk/commit/37d5e9c3d5db76bece8f8ba8d5358b939bc79315))
+* Square UKP and Hypeman placement load factors ([76dee03](https://github.com/kernel/kernel-python-sdk/commit/76dee03d215481de6ee42b2cba631b5f5893c1a3))
+
 ## [0.104.0](https://github.com/kernel/kernel-python-sdk/compare/v0.103.0...v0.104.0) (2026-09-15)
 
 
