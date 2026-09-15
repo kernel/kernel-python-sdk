@@ -5,7 +5,7 @@
 
 ### Features
 
-* Rename workers bot profiler dependency ([9b5cb34](https://github.com/kernel/kernel-python-sdk/commit/9b5cb34e8fb19c22a44c42aca9e1fc61bf7744a9))
+* Expose the WebMCP `awaiting_submission` status ([9b5cb34](https://github.com/kernel/kernel-python-sdk/commit/9b5cb34e8fb19c22a44c42aca9e1fc61bf7744a9))
 
 ## [0.103.0](https://github.com/kernel/kernel-python-sdk/compare/v0.102.0...v0.103.0) (2026-09-15)
 
