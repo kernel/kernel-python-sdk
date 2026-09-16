@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.107.0](https://github.com/kernel/kernel-python-sdk/compare/v0.106.0...v0.107.0) (2026-09-16)
+
+
+### Features
+
+* Classify unevaluable config registry targets ([12ced86](https://github.com/kernel/kernel-python-sdk/commit/12ced8647c23aa43c625b288ed48c7cdf8da9125))
+* Expose persistent Browser REPL through the API ([755dba5](https://github.com/kernel/kernel-python-sdk/commit/755dba5d1273ef9083ffbc4bc7f4adf30aea2fe9))
+* Return Link spend request errors directly ([82d9f84](https://github.com/kernel/kernel-python-sdk/commit/82d9f8400a761a37debabeb79e6e5d8bec2cbe32))
+
 ## 0.106.0 (2026-09-16)
 
 Full Changelog: [v0.104.0...v0.106.0](https://github.com/kernel/kernel-python-sdk/compare/v0.104.0...v0.106.0)

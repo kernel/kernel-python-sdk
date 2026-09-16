@@ -247,7 +247,6 @@ class Kernel(SyncAPIClient):
 
     @cached_property
     def browsers(self) -> BrowsersResource:
-        """Create and manage browser sessions."""
         from .resources.browsers import BrowsersResource
 
         return BrowsersResource(self)
@@ -652,7 +651,6 @@ class AsyncKernel(AsyncAPIClient):
 
     @cached_property
     def browsers(self) -> AsyncBrowsersResource:
-        """Create and manage browser sessions."""
         from .resources.browsers import AsyncBrowsersResource
 
         return AsyncBrowsersResource(self)
@@ -959,7 +957,6 @@ class KernelWithRawResponse:
 
     @cached_property
     def browsers(self) -> browsers.BrowsersResourceWithRawResponse:
-        """Create and manage browser sessions."""
         from .resources.browsers import BrowsersResourceWithRawResponse
 
         return BrowsersResourceWithRawResponse(self._client.browsers)
@@ -1098,7 +1095,6 @@ class AsyncKernelWithRawResponse:
 
     @cached_property
     def browsers(self) -> browsers.AsyncBrowsersResourceWithRawResponse:
-        """Create and manage browser sessions."""
         from .resources.browsers import AsyncBrowsersResourceWithRawResponse
 
         return AsyncBrowsersResourceWithRawResponse(self._client.browsers)
@@ -1237,7 +1233,6 @@ class KernelWithStreamedResponse:
 
     @cached_property
     def browsers(self) -> browsers.BrowsersResourceWithStreamingResponse:
-        """Create and manage browser sessions."""
         from .resources.browsers import BrowsersResourceWithStreamingResponse
 
         return BrowsersResourceWithStreamingResponse(self._client.browsers)
@@ -1376,7 +1371,6 @@ class AsyncKernelWithStreamedResponse:
 
     @cached_property
     def browsers(self) -> browsers.AsyncBrowsersResourceWithStreamingResponse:
-        """Create and manage browser sessions."""
         from .resources.browsers import AsyncBrowsersResourceWithStreamingResponse
 
         return AsyncBrowsersResourceWithStreamingResponse(self._client.browsers)

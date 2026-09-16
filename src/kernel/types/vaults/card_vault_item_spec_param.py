@@ -58,7 +58,10 @@ class LinkCardVaultItemSpec(TypedDict, total=False):
     """Live payment card. Test-mode card creation is not supported."""
 
     amount: Required[int]
-    """Integer amount in minor currency units."""
+    """Integer amount in minor currency units.
+
+    Link permits at most 50000 per spend request.
+    """
 
     context: Required[str]
 

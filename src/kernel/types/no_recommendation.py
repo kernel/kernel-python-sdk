@@ -8,7 +8,7 @@ __all__ = ["NoRecommendation"]
 
 
 class NoRecommendation(BaseModel):
-    code: Literal["proxy_restricted", "no_working_configuration", "inconclusive"]
+    code: Literal["proxy_restricted", "target_not_evaluable", "no_working_configuration", "inconclusive"]
     """
     Machine-readable reason Kernel cannot currently provide a config recommendation.
     """
