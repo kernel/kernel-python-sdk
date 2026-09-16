@@ -394,6 +394,7 @@ class BrowsersResource(SyncAPIResource):
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
+        start_url: str | Omit = omit,
         tags: Optional[TagsParam] | Omit = omit,
         telemetry: Optional[browser_update_params.Telemetry] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
@@ -428,6 +429,11 @@ class BrowsersResource(SyncAPIResource):
           proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy. Deprecated in favor of proxy.
 
+          start_url: Optional URL to navigate the browser to after applying this update. When a
+              profile is loaded in the same update, this overrides the profile's restored
+              tabs. Navigation is best-effort, so failures do not fail the update. Omit or set
+              to an empty string to leave the current page unchanged.
+
           tags: User-defined key-value tags for the browser session. Omit to leave unchanged.
               Provide a map to replace the entire tag set (full replace, not a merge). Set to
               an empty object ({}) to clear all tags. Up to 50 pairs.
@@ -459,6 +465,7 @@ class BrowsersResource(SyncAPIResource):
                     "profile": profile,
                     "proxy": proxy,
                     "proxy_id": proxy_id,
+                    "start_url": start_url,
                     "tags": tags,
                     "telemetry": telemetry,
                     "viewport": viewport,
@@ -1024,6 +1031,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
+        start_url: str | Omit = omit,
         tags: Optional[TagsParam] | Omit = omit,
         telemetry: Optional[browser_update_params.Telemetry] | Omit = omit,
         viewport: browser_update_params.Viewport | Omit = omit,
@@ -1058,6 +1066,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
           proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy. Deprecated in favor of proxy.
 
+          start_url: Optional URL to navigate the browser to after applying this update. When a
+              profile is loaded in the same update, this overrides the profile's restored
+              tabs. Navigation is best-effort, so failures do not fail the update. Omit or set
+              to an empty string to leave the current page unchanged.
+
           tags: User-defined key-value tags for the browser session. Omit to leave unchanged.
               Provide a map to replace the entire tag set (full replace, not a merge). Set to
               an empty object ({}) to clear all tags. Up to 50 pairs.
@@ -1089,6 +1102,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "profile": profile,
                     "proxy": proxy,
                     "proxy_id": proxy_id,
+                    "start_url": start_url,
                     "tags": tags,
                     "telemetry": telemetry,
                     "viewport": viewport,
