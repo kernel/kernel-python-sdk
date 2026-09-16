@@ -126,6 +126,43 @@ class AnalysesResource(SyncAPIResource):
             model=AnalysisSummary,
         )
 
+    def cancel(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConfigRegistryResponse:
+        """Requests cancellation of a running project-scoped analysis.
+
+        Cancellation is
+        asynchronous; poll the analysis until its status becomes canceled. Repeating the
+        request after the analysis reaches a terminal state returns the existing
+        outcome.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/config-registry/analyses/{id}/cancel", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ConfigRegistryResponse,
+        )
+
 
 class AsyncAnalysesResource(AsyncAPIResource):
     """Resolve browser and proxy recommendations for bot-protected sites."""
@@ -230,6 +267,43 @@ class AsyncAnalysesResource(AsyncAPIResource):
             model=AnalysisSummary,
         )
 
+    async def cancel(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConfigRegistryResponse:
+        """Requests cancellation of a running project-scoped analysis.
+
+        Cancellation is
+        asynchronous; poll the analysis until its status becomes canceled. Repeating the
+        request after the analysis reaches a terminal state returns the existing
+        outcome.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/config-registry/analyses/{id}/cancel", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ConfigRegistryResponse,
+        )
+
 
 class AnalysesResourceWithRawResponse:
     def __init__(self, analyses: AnalysesResource) -> None:
@@ -240,6 +314,9 @@ class AnalysesResourceWithRawResponse:
         )
         self.list = to_raw_response_wrapper(
             analyses.list,
+        )
+        self.cancel = to_raw_response_wrapper(
+            analyses.cancel,
         )
 
 
@@ -253,6 +330,9 @@ class AsyncAnalysesResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             analyses.list,
         )
+        self.cancel = async_to_raw_response_wrapper(
+            analyses.cancel,
+        )
 
 
 class AnalysesResourceWithStreamingResponse:
@@ -265,6 +345,9 @@ class AnalysesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             analyses.list,
         )
+        self.cancel = to_streamed_response_wrapper(
+            analyses.cancel,
+        )
 
 
 class AsyncAnalysesResourceWithStreamingResponse:
@@ -276,4 +359,7 @@ class AsyncAnalysesResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             analyses.list,
+        )
+        self.cancel = async_to_streamed_response_wrapper(
+            analyses.cancel,
         )
