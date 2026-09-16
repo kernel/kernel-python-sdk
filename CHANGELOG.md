@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.106.0 (2026-09-16)
+
+Full Changelog: [v0.104.0...v0.106.0](https://github.com/kernel/kernel-python-sdk/compare/v0.104.0...v0.106.0)
+
+### Features
+
+* Add processor-bound AgentCard preparation contracts ([37d5e9c](https://github.com/kernel/kernel-python-sdk/commit/37d5e9c3d5db76bece8f8ba8d5358b939bc79315))
+* Add start_url to browser session updates ([82a475d](https://github.com/kernel/kernel-python-sdk/commit/82a475dae250abce535476386be88033a5314656))
+* Polish and publish the Config Registry API ([afe2fea](https://github.com/kernel/kernel-python-sdk/commit/afe2feaf2dcea1f4fc160d66cfe9f3711b61a447))
+* Square UKP and Hypeman placement load factors ([76dee03](https://github.com/kernel/kernel-python-sdk/commit/76dee03d215481de6ee42b2cba631b5f5893c1a3))
+
 ## [0.104.0](https://github.com/kernel/kernel-python-sdk/compare/v0.103.0...v0.104.0) (2026-09-15)
 
 
