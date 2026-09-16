@@ -36,6 +36,7 @@ from ...types import (
     BrowserMemoryRequest,
     browser_curl_params,
     browser_list_params,
+    browser_repl_params,
     browser_create_params,
     browser_update_params,
     browser_retrieve_params,
@@ -95,6 +96,7 @@ from ..._response import (
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.tags_param import TagsParam
+from ...types.browser_repl_result import BrowserReplResult
 from ...types.browser_curl_response import BrowserCurlResponse
 from ...types.browser_list_response import BrowserListResponse
 from ...types.vault_reference_param import VaultReferenceParam
@@ -118,8 +120,6 @@ __all__ = ["BrowsersResource", "AsyncBrowsersResource"]
 
 
 class BrowsersResource(SyncAPIResource):
-    """Create and manage browser sessions."""
-
     @cached_property
     def telemetry(self) -> TelemetryResource:
         """
@@ -753,10 +753,75 @@ class BrowsersResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
+    def repl(
+        self,
+        id_or_name: str,
+        *,
+        code: str,
+        reset: bool | Omit = omit,
+        timeout_sec: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> BrowserReplResult:
+        """
+        Execute JavaScript in a persistent Node.js runtime inside the browser VM.
+        Top-level bindings, closures, mutations, and dynamically imported modules
+        persist across calls until the REPL is reset or replaced. Start with
+        `repl.help()` to list available methods, or call `repl.help("click")` for
+        detailed help.
+
+        Expression values are ignored. Emit ordered text or image output with
+        `repl.write(...)`, console methods, or `repl.emitImage(...)`. The runtime also
+        exposes browser-control helpers, WebMCP, Patchright, Playwright, and raw CDP.
+
+        Executions are serialized. A timeout, crash, OOM, or protocol failure terminates
+        the REPL and changes its `repl_id`. This is unrestricted code execution inside
+        the browser VM and is not sandboxed.
+
+        Args:
+          code: JavaScript evaluated in a persistent Node.js runtime. Top-level bindings persist
+              until the browser VM's API process exits, the REPL is reset, or the REPL is
+              terminated after a crash or timeout. Static top-level imports are unsupported;
+              use dynamic `import()`. Expression values are ignored; emit output with
+              `repl.write(...)`, console methods, or `repl.emitImage(...)`. May be empty only
+              when `reset` is true.
+
+          reset: Terminate the current REPL, start a fresh one, and then evaluate code.
+
+          timeout_sec: Maximum execution time in seconds. Default is 60.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
+        return self._post(
+            path_template("/browsers/{id_or_name}/repl", id_or_name=id_or_name),
+            body=maybe_transform(
+                {
+                    "code": code,
+                    "reset": reset,
+                    "timeout_sec": timeout_sec,
+                },
+                browser_repl_params.BrowserReplParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=BrowserReplResult,
+        )
+
 
 class AsyncBrowsersResource(AsyncAPIResource):
-    """Create and manage browser sessions."""
-
     @cached_property
     def telemetry(self) -> AsyncTelemetryResource:
         """
@@ -1390,6 +1455,73 @@ class AsyncBrowsersResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def repl(
+        self,
+        id_or_name: str,
+        *,
+        code: str,
+        reset: bool | Omit = omit,
+        timeout_sec: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> BrowserReplResult:
+        """
+        Execute JavaScript in a persistent Node.js runtime inside the browser VM.
+        Top-level bindings, closures, mutations, and dynamically imported modules
+        persist across calls until the REPL is reset or replaced. Start with
+        `repl.help()` to list available methods, or call `repl.help("click")` for
+        detailed help.
+
+        Expression values are ignored. Emit ordered text or image output with
+        `repl.write(...)`, console methods, or `repl.emitImage(...)`. The runtime also
+        exposes browser-control helpers, WebMCP, Patchright, Playwright, and raw CDP.
+
+        Executions are serialized. A timeout, crash, OOM, or protocol failure terminates
+        the REPL and changes its `repl_id`. This is unrestricted code execution inside
+        the browser VM and is not sandboxed.
+
+        Args:
+          code: JavaScript evaluated in a persistent Node.js runtime. Top-level bindings persist
+              until the browser VM's API process exits, the REPL is reset, or the REPL is
+              terminated after a crash or timeout. Static top-level imports are unsupported;
+              use dynamic `import()`. Expression values are ignored; emit output with
+              `repl.write(...)`, console methods, or `repl.emitImage(...)`. May be empty only
+              when `reset` is true.
+
+          reset: Terminate the current REPL, start a fresh one, and then evaluate code.
+
+          timeout_sec: Maximum execution time in seconds. Default is 60.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
+        return await self._post(
+            path_template("/browsers/{id_or_name}/repl", id_or_name=id_or_name),
+            body=await async_maybe_transform(
+                {
+                    "code": code,
+                    "reset": reset,
+                    "timeout_sec": timeout_sec,
+                },
+                browser_repl_params.BrowserReplParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=BrowserReplResult,
+        )
+
 
 class BrowsersResourceWithRawResponse:
     def __init__(self, browsers: BrowsersResource) -> None:
@@ -1415,6 +1547,9 @@ class BrowsersResourceWithRawResponse:
         )
         self.load_extensions = to_raw_response_wrapper(
             browsers.load_extensions,
+        )
+        self.repl = to_raw_response_wrapper(
+            browsers.repl,
         )
 
     @cached_property
@@ -1485,6 +1620,9 @@ class AsyncBrowsersResourceWithRawResponse:
         self.load_extensions = async_to_raw_response_wrapper(
             browsers.load_extensions,
         )
+        self.repl = async_to_raw_response_wrapper(
+            browsers.repl,
+        )
 
     @cached_property
     def telemetry(self) -> AsyncTelemetryResourceWithRawResponse:
@@ -1554,6 +1692,9 @@ class BrowsersResourceWithStreamingResponse:
         self.load_extensions = to_streamed_response_wrapper(
             browsers.load_extensions,
         )
+        self.repl = to_streamed_response_wrapper(
+            browsers.repl,
+        )
 
     @cached_property
     def telemetry(self) -> TelemetryResourceWithStreamingResponse:
@@ -1622,6 +1763,9 @@ class AsyncBrowsersResourceWithStreamingResponse:
         )
         self.load_extensions = async_to_streamed_response_wrapper(
             browsers.load_extensions,
+        )
+        self.repl = async_to_streamed_response_wrapper(
+            browsers.repl,
         )
 
     @cached_property
