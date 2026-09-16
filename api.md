@@ -124,6 +124,11 @@ from kernel.types import (
     BrowserProxy,
     BrowserProxyConfig,
     BrowserProxyMode,
+    BrowserReplContent,
+    BrowserReplImageContent,
+    BrowserReplRequest,
+    BrowserReplResult,
+    BrowserReplTextContent,
     BrowserUsage,
     Profile,
     Tags,
@@ -145,6 +150,7 @@ Methods:
 - <code title="post /browsers/{id_or_name}/curl">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">curl</a>(id_or_name, \*\*<a href="src/kernel/types/browser_curl_params.py">params</a>) -> <a href="./src/kernel/types/browser_curl_response.py">BrowserCurlResponse</a></code>
 - <code title="delete /browsers/{id_or_name}">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">delete_by_id</a>(id_or_name) -> None</code>
 - <code title="post /browsers/{id_or_name}/extensions">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">load_extensions</a>(id_or_name, \*\*<a href="src/kernel/types/browser_load_extensions_params.py">params</a>) -> None</code>
+- <code title="post /browsers/{id_or_name}/repl">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">repl</a>(id_or_name, \*\*<a href="src/kernel/types/browser_repl_params.py">params</a>) -> <a href="./src/kernel/types/browser_repl_result.py">BrowserReplResult</a></code>
 
 ## Telemetry
 

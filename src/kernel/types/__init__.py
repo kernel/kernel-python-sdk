@@ -48,6 +48,8 @@ from .proxy_check_params import ProxyCheckParams as ProxyCheckParams
 from .api_key_list_params import APIKeyListParams as APIKeyListParams
 from .browser_curl_params import BrowserCurlParams as BrowserCurlParams
 from .browser_list_params import BrowserListParams as BrowserListParams
+from .browser_repl_params import BrowserReplParams as BrowserReplParams
+from .browser_repl_result import BrowserReplResult as BrowserReplResult
 from .credential_provider import CredentialProvider as CredentialProvider
 from .profile_list_params import ProfileListParams as ProfileListParams
 from .project_list_params import ProjectListParams as ProjectListParams
@@ -56,6 +58,7 @@ from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_update_params import ProxyUpdateParams as ProxyUpdateParams
 from .vault_upsert_params import VaultUpsertParams as VaultUpsertParams
 from .browser_proxy_config import BrowserProxyConfig as BrowserProxyConfig
+from .browser_repl_content import BrowserReplContent as BrowserReplContent
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
 from .api_key_create_params import APIKeyCreateParams as APIKeyCreateParams
 from .api_key_rotate_params import APIKeyRotateParams as APIKeyRotateParams
@@ -104,12 +107,14 @@ from .invocation_create_params import InvocationCreateParams as InvocationCreate
 from .invocation_follow_params import InvocationFollowParams as InvocationFollowParams
 from .invocation_list_response import InvocationListResponse as InvocationListResponse
 from .invocation_update_params import InvocationUpdateParams as InvocationUpdateParams
+from .browser_repl_text_content import BrowserReplTextContent as BrowserReplTextContent
 from .browser_retrieve_response import BrowserRetrieveResponse as BrowserRetrieveResponse
 from .extension_upload_response import ExtensionUploadResponse as ExtensionUploadResponse
 from .browser_pool_create_params import BrowserPoolCreateParams as BrowserPoolCreateParams
 from .browser_pool_delete_params import BrowserPoolDeleteParams as BrowserPoolDeleteParams
 from .browser_pool_update_params import BrowserPoolUpdateParams as BrowserPoolUpdateParams
 from .browser_proxy_config_param import BrowserProxyConfigParam as BrowserProxyConfigParam
+from .browser_repl_image_content import BrowserReplImageContent as BrowserReplImageContent
 from .deployment_create_response import DeploymentCreateResponse as DeploymentCreateResponse
 from .deployment_follow_response import DeploymentFollowResponse as DeploymentFollowResponse
 from .invocation_create_response import InvocationCreateResponse as InvocationCreateResponse
