@@ -59,7 +59,10 @@ class LinkCardVaultItemSpec(BaseModel):
     """Live payment card. Test-mode card creation is not supported."""
 
     amount: int
-    """Integer amount in minor currency units."""
+    """Integer amount in minor currency units.
+
+    Link permits at most 50000 per spend request.
+    """
 
     context: str
 
