@@ -17,7 +17,11 @@ class Recommendation(BaseModel):
     evidence: Evidence
 
     match_scope: Literal["exact", "host", "domain"]
-    """Specificity of knowledge matched for this recommendation."""
+    """Specificity of knowledge matched for this recommendation.
+
+    Exact matches use knowledge for the requested target; host and domain matches
+    use broader fallback knowledge.
+    """
 
     matched_target: str
     """Target value that supplied the recommendation."""
@@ -26,10 +30,3 @@ class Recommendation(BaseModel):
     """Proxy recipe for the recommended browser."""
 
     type: Literal["recommendation"]
-
-    verification: Literal["verified", "inferred"]
-    """
-    Exact matches meet the evidence threshold; host and domain fallbacks are
-    inferred. Check evidence.last_verified_at for successful verification age and
-    last_observed_at for the latest evidence.
-    """

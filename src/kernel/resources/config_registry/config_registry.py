@@ -190,8 +190,9 @@ class ConfigRegistryResource(SyncAPIResource):
               any non-HTTPS destination as off-site and will not drive an http one. Kernel
               uses it to drive the browser further into the site, where it can observe
               protections that only appear once a session interacts. When this target already
-              has a verified configuration, the run confirms that one instead of re-deriving
-              the whole matrix, so supplying an intent narrows what can be recommended.
+              has a recommended configuration, the run confirms that one instead of
+              re-deriving the whole matrix, so supplying an intent narrows what can be
+              recommended.
 
           extra_headers: Send extra headers
 
@@ -374,8 +375,9 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
               any non-HTTPS destination as off-site and will not drive an http one. Kernel
               uses it to drive the browser further into the site, where it can observe
               protections that only appear once a session interacts. When this target already
-              has a verified configuration, the run confirms that one instead of re-deriving
-              the whole matrix, so supplying an intent narrows what can be recommended.
+              has a recommended configuration, the run confirms that one instead of
+              re-deriving the whole matrix, so supplying an intent narrows what can be
+              recommended.
 
           extra_headers: Send extra headers
 

@@ -34,10 +34,9 @@ class FillVaultItemOperationRequestParam(TypedDict, total=False):
     Fill in request order and stop on the first failure. This operation is
     not atomic: previously filled fields are not rolled back. Never submit
     the form or click buttons, though input/change events may trigger site
-    behavior. Fill is the preferred browser-checkout path. Aliases remain an
-    alternative for explicitly chosen egress-substitution integrations. Do not
-    automatically retry or fall back to aliases after a failed or indeterminate
-    operation.
+    behavior. Link cards use fill for browser checkout and do not expose
+    aliases or support egress substitution. Do not automatically retry a
+    failed or indeterminate operation.
 
     Secret values are never returned or included in operation logs, traces,
     audit events, or error details. This does not prevent an agent with

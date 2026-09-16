@@ -31,3 +31,9 @@ class Analysis(BaseModel):
 
     status: Literal["running", "completed", "failed", "canceled", "expired"]
     """Lifecycle status of a background analysis."""
+
+    intent: Optional[str] = None
+    """The workload description supplied for this analysis.
+
+    Null when the analysis only tested connectivity.
+    """

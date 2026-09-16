@@ -207,6 +207,7 @@ class TestBrowsers:
                 "name": "x",
             },
             proxy_id="proxy_id",
+            start_url="https://example.com",
             tags={
                 "team": "backend",
                 "env": "staging",
@@ -680,6 +681,7 @@ class TestAsyncBrowsers:
                 "name": "x",
             },
             proxy_id="proxy_id",
+            start_url="https://example.com",
             tags={
                 "team": "backend",
                 "env": "staging",

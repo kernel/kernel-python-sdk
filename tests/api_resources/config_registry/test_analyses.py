@@ -98,6 +98,48 @@ class TestAnalyses:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_cancel(self, client: Kernel) -> None:
+        analysis = client.config_registry.analyses.cancel(
+            "id",
+        )
+        assert_matches_type(ConfigRegistryResponse, analysis, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_cancel(self, client: Kernel) -> None:
+        response = client.config_registry.analyses.with_raw_response.cancel(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        analysis = response.parse()
+        assert_matches_type(ConfigRegistryResponse, analysis, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_cancel(self, client: Kernel) -> None:
+        with client.config_registry.analyses.with_streaming_response.cancel(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            analysis = response.parse()
+            assert_matches_type(ConfigRegistryResponse, analysis, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_cancel(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.config_registry.analyses.with_raw_response.cancel(
+                "",
+            )
+
 
 class TestAsyncAnalyses:
     parametrize = pytest.mark.parametrize(
@@ -183,3 +225,45 @@ class TestAsyncAnalyses:
             assert_matches_type(AsyncOffsetPagination[AnalysisSummary], analysis, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_cancel(self, async_client: AsyncKernel) -> None:
+        analysis = await async_client.config_registry.analyses.cancel(
+            "id",
+        )
+        assert_matches_type(ConfigRegistryResponse, analysis, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_cancel(self, async_client: AsyncKernel) -> None:
+        response = await async_client.config_registry.analyses.with_raw_response.cancel(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        analysis = await response.parse()
+        assert_matches_type(ConfigRegistryResponse, analysis, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_cancel(self, async_client: AsyncKernel) -> None:
+        async with async_client.config_registry.analyses.with_streaming_response.cancel(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            analysis = await response.parse()
+            assert_matches_type(ConfigRegistryResponse, analysis, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_cancel(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.config_registry.analyses.with_raw_response.cancel(
+                "",
+            )

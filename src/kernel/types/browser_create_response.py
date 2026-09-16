@@ -106,7 +106,7 @@ class BrowserCreateResponse(BaseModel):
     """
 
     start_url: Optional[str] = None
-    """URL the session was asked to navigate to on creation, if any.
+    """URL the session was most recently asked to navigate to, if any.
 
     Recorded for debugging. Navigation is fire-and-forget — the URL is dispatched to
     the browser without waiting for it to load, and any errors (DNS failure, bad

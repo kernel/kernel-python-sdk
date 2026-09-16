@@ -33,12 +33,12 @@ class PrepareCheckoutVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
     checkout: Required[VaultCheckoutContextParam]
-    """Required when preparing an unused AgentCard card for Square.
-
-    Consent is bound to this browser and declared merchant origin, not a tab. Wait
-    for the item's ready_to_submit status before native Pay and submit within its
-    readiness deadline. Unused preparations expire automatically; every preparation
-    is single-use, including after failure or expiry.
+    """
+    Required when preparing an unused AgentCard card for a supported tokenization
+    processor. Consent is bound to this browser and declared merchant origin, not a
+    tab. Wait for the item's ready_to_submit status before native Pay and submit
+    within its readiness deadline. Unused preparations expire automatically; every
+    preparation is single-use, including after failure or expiry.
     """
 
     type: Required[Literal["prepare_checkout"]]

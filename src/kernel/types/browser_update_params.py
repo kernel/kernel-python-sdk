@@ -59,6 +59,14 @@ class BrowserUpdateParams(TypedDict, total=False):
     favor of proxy.
     """
 
+    start_url: str
+    """Optional URL to navigate the browser to after applying this update.
+
+    When a profile is loaded in the same update, this overrides the profile's
+    restored tabs. Navigation is best-effort, so failures do not fail the update.
+    Omit or set to an empty string to leave the current page unchanged.
+    """
+
     tags: Optional[TagsParam]
     """User-defined key-value tags for the browser session.
 

@@ -33,6 +33,11 @@ class LinkCardStateMasks(BaseModel):
 
 
 class LinkCardState(BaseModel):
+    """Issued Link cards retain encrypted card material for the fill operation.
+
+    Link cards do not expose aliases or support egress substitution.
+    """
+
     provider: Literal["link"]
 
     status: Literal[
@@ -46,8 +51,6 @@ class LinkCardState(BaseModel):
     manual reconciliation with the provider or support. There is no reset or
     caller-asserted reconciliation operation.
     """
-
-    aliases: Optional[VaultCardAliases] = None
 
     domains: Optional[List[str]] = None
 
@@ -112,7 +115,7 @@ class AgentCardCardState(BaseModel):
     masks: Optional[AgentCardCardStateMasks] = None
 
     preparation: Optional[AgentcardCheckoutPreparation] = None
-    """One-use Square checkout preparation.
+    """One-use processor-bound checkout preparation.
 
     Keep the approval page open through token handoff. The amount is display-only
     and does not constrain the merchant's eventual charge.

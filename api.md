@@ -109,6 +109,7 @@ Methods:
 
 - <code title="get /config-registry/analyses/{id}">client.config_registry.analyses.<a href="./src/kernel/resources/config_registry/analyses.py">retrieve</a>(id) -> <a href="./src/kernel/types/config_registry_response.py">ConfigRegistryResponse</a></code>
 - <code title="get /config-registry/analyses">client.config_registry.analyses.<a href="./src/kernel/resources/config_registry/analyses.py">list</a>(\*\*<a href="src/kernel/types/config_registry/analysis_list_params.py">params</a>) -> <a href="./src/kernel/types/analysis_summary.py">SyncOffsetPagination[AnalysisSummary]</a></code>
+- <code title="post /config-registry/analyses/{id}/cancel">client.config_registry.analyses.<a href="./src/kernel/resources/config_registry/analyses.py">cancel</a>(id) -> <a href="./src/kernel/types/config_registry_response.py">ConfigRegistryResponse</a></code>
 
 # Browsers
 
@@ -526,6 +527,7 @@ Types:
 from kernel.types.vaults import (
     AgentcardCheckoutAuthorization,
     AgentcardCheckoutPreparation,
+    AgentcardPreparedProcessor,
     AuthorizeVaultItemOperationRequest,
     CardVaultItemSpec,
     CardVaultItemState,

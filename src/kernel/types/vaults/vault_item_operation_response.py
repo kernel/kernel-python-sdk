@@ -127,6 +127,10 @@ class CardVaultItem(BaseModel):
     """Live payment card. Test-mode card creation is not supported."""
 
     state: CardVaultItemState
+    """Issued Link cards retain encrypted card material for the fill operation.
+
+    Link cards do not expose aliases or support egress substitution.
+    """
 
     type: Literal["card"]
 

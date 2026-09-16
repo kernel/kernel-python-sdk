@@ -30,9 +30,9 @@ class Evidence(BaseModel):
     success_rate: float
     """Accessed trials divided by judged trials. Inconclusive trials are excluded."""
 
-    last_verified_at: Optional[datetime] = None
-    """Most recent contributing run where this config met the success threshold.
-
-    Omitted for knowledge assembled from runs that did not independently meet the
-    threshold.
+    last_supported_at: Optional[datetime] = None
+    """
+    Most recent contributing run whose evidence supported recommending this
+    configuration. Omitted when no individual run independently met the
+    recommendation threshold.
     """
