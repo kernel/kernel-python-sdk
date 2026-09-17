@@ -5,7 +5,7 @@
 
 ### Features
 
-* chore(stlc): seal custom-code tracking files ([e38c887](https://github.com/kernel/kernel-python-sdk/commit/e38c8878f9f80f5d28fce9f92df6f0a18a48e2bb))
+* feat: add config registry analysis waiter ([e38c887](https://github.com/kernel/kernel-python-sdk/commit/e38c8878f9f80f5d28fce9f92df6f0a18a48e2bb))
 
 ## [0.107.0](https://github.com/kernel/kernel-python-sdk/compare/v0.106.0...v0.107.0) (2026-09-16)
 
