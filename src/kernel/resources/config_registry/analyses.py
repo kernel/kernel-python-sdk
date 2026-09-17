@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import time
+
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
@@ -18,6 +20,14 @@ from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.config_registry import analysis_list_params
 from ...types.analysis_summary import AnalysisSummary
+from ...lib.config_registry_wait import (
+    DEFAULT_CONFIG_REGISTRY_POLL_INTERVAL,
+    poll_delay,
+    poll_headers,
+    analysis_finished,
+    wait_timeout_error,
+    validate_wait_options,
+)
 from ...types.config_registry_response import ConfigRegistryResponse
 
 __all__ = ["AnalysesResource", "AsyncAnalysesResource"]
@@ -78,6 +88,54 @@ class AnalysesResource(SyncAPIResource):
             ),
             cast_to=ConfigRegistryResponse,
         )
+
+    def wait_for_result(
+        self,
+        id: str,
+        *,
+        poll_interval: float = DEFAULT_CONFIG_REGISTRY_POLL_INTERVAL,
+        max_wait_seconds: float | None = None,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConfigRegistryResponse:
+        """Wait for an analysis to finish and return its complete result.
+
+        The first retrieval happens immediately. ``max_wait_seconds`` is a soft
+        polling deadline: an in-flight request and its normal retries may finish
+        after it. Timing out does not cancel the remote analysis.
+        """
+        validate_wait_options(poll_interval, max_wait_seconds)
+        started_at = time.monotonic()
+        deadline = started_at + max_wait_seconds if max_wait_seconds is not None else None
+        headers = poll_headers(extra_headers)
+        polls = 0
+        last_status: str | None = None
+
+        while True:
+            if polls > 0 and deadline is not None and time.monotonic() >= deadline:
+                raise wait_timeout_error(id, polls, last_status, started_at)
+
+            response = self.retrieve(
+                id,
+                extra_headers=headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            polls += 1
+            finished, last_status = analysis_finished(response, id)
+            if finished:
+                return response
+
+            delay = poll_delay(poll_interval)
+            if deadline is not None:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise wait_timeout_error(id, polls, last_status, started_at)
+                delay = min(delay, remaining)
+            self._sleep(delay)
 
     def list(
         self,
@@ -219,6 +277,55 @@ class AsyncAnalysesResource(AsyncAPIResource):
             ),
             cast_to=ConfigRegistryResponse,
         )
+
+    async def wait_for_result(
+        self,
+        id: str,
+        *,
+        poll_interval: float = DEFAULT_CONFIG_REGISTRY_POLL_INTERVAL,
+        max_wait_seconds: float | None = None,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ConfigRegistryResponse:
+        """Wait for an analysis to finish and return its complete result.
+
+        The first retrieval happens immediately. ``max_wait_seconds`` is a soft
+        polling deadline: an in-flight request and its normal retries may finish
+        after it. Timing out does not cancel the remote analysis. Cancelling the
+        calling task stops the wait without cancelling the remote analysis.
+        """
+        validate_wait_options(poll_interval, max_wait_seconds)
+        started_at = time.monotonic()
+        deadline = started_at + max_wait_seconds if max_wait_seconds is not None else None
+        headers = poll_headers(extra_headers)
+        polls = 0
+        last_status: str | None = None
+
+        while True:
+            if polls > 0 and deadline is not None and time.monotonic() >= deadline:
+                raise wait_timeout_error(id, polls, last_status, started_at)
+
+            response = await self.retrieve(
+                id,
+                extra_headers=headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            polls += 1
+            finished, last_status = analysis_finished(response, id)
+            if finished:
+                return response
+
+            delay = poll_delay(poll_interval)
+            if deadline is not None:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise wait_timeout_error(id, polls, last_status, started_at)
+                delay = min(delay, remaining)
+            await self._sleep(delay)
 
     def list(
         self,
