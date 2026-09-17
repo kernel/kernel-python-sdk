@@ -194,7 +194,9 @@ class CredentialVaultItemRequest(TypedDict, total=False):
     """Credential fields are for login and other non-payment credentials.
 
     Do not store, collect, or fill credit card data in credential items. Use wallet
-    and card item types for credit cards and payment checkout instead.
+    and card item types for credit cards and payment checkout instead. Field order
+    is preserved in the user-facing collection form, so list fields in the same
+    top-to-bottom order as the website.
     """
 
     type: Required[Literal["credential"]]

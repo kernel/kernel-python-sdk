@@ -10,6 +10,9 @@ __all__ = ["CredentialVaultFieldInputParam"]
 
 
 class CredentialVaultFieldInputParam(TypedDict, total=False):
+    name: Required[str]
+    """Unique stable field name used to key values, updates, and browser fills."""
+
     type: Required[CredentialVaultFieldType]
     """
     Text, email, and password have form inputs; totp does not and is omitted from
