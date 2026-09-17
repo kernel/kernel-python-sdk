@@ -113,9 +113,10 @@ class AgentCardCardVaultItemSpec(BaseModel):
     """Wallet item key used to authorize checkouts."""
 
     card_id: Optional[str] = None
-    """AgentCard vaulted card to pay with.
+    """Opaque card ID returned by AgentCard for a card in the connected wallet.
 
-    Omitted, the cardholder picks on the approval screen.
+    Pass it through unchanged without assuming a prefix or format. Omitted, the
+    cardholder picks on the approval screen.
     """
 
 
