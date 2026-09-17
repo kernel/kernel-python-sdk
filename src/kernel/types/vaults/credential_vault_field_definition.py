@@ -7,6 +7,9 @@ __all__ = ["CredentialVaultFieldDefinition"]
 
 
 class CredentialVaultFieldDefinition(BaseModel):
+    name: str
+    """Stable field name used to key values, updates, and browser fills."""
+
     required: bool
     """Whether a nonempty value is required for readiness and form submission."""
 

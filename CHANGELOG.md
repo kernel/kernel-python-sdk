@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.109.0](https://github.com/kernel/kernel-python-sdk/compare/v0.108.0...v0.109.0) (2026-09-17)
+
+
+### Features
+
+* Accept opaque AgentCard vaulted card IDs ([569a604](https://github.com/kernel/kernel-python-sdk/commit/569a604ad58c278c83bda5068c8a6080334d085f))
+* Expose organization-wide concurrent browser capacity ([8b22180](https://github.com/kernel/kernel-python-sdk/commit/8b22180766c592d1480e26fc781ffd5e1b623051))
+* Preserve credential field order ([1a408c4](https://github.com/kernel/kernel-python-sdk/commit/1a408c41c0fd043ff69187f7d62bc721f9e5f867))
+
 ## [0.108.0](https://github.com/kernel/kernel-python-sdk/compare/v0.107.0...v0.108.0) (2026-09-17)
 
 

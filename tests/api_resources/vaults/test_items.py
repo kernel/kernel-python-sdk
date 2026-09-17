@@ -1144,7 +1144,14 @@ class TestItems:
         item = client.vaults.items.upsert(
             key="x",
             id_or_name="id_or_name",
-            spec={"fields": {"foo": {"type": "text"}}},
+            spec={
+                "fields": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                    }
+                ]
+            },
             type="credential",
         )
         assert_matches_type(VaultItem, item, path=["response"])
@@ -1156,14 +1163,15 @@ class TestItems:
             key="x",
             id_or_name="id_or_name",
             spec={
-                "fields": {
-                    "foo": {
+                "fields": [
+                    {
+                        "name": "name",
                         "type": "text",
                         "required": True,
                         "sensitive": True,
                         "value": "x",
                     }
-                },
+                ],
                 "description": "description",
             },
             type="credential",
@@ -1176,7 +1184,14 @@ class TestItems:
         response = client.vaults.items.with_raw_response.upsert(
             key="x",
             id_or_name="id_or_name",
-            spec={"fields": {"foo": {"type": "text"}}},
+            spec={
+                "fields": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                    }
+                ]
+            },
             type="credential",
         )
 
@@ -1191,7 +1206,14 @@ class TestItems:
         with client.vaults.items.with_streaming_response.upsert(
             key="x",
             id_or_name="id_or_name",
-            spec={"fields": {"foo": {"type": "text"}}},
+            spec={
+                "fields": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                    }
+                ]
+            },
             type="credential",
         ) as response:
             assert not response.is_closed
@@ -1209,7 +1231,14 @@ class TestItems:
             client.vaults.items.with_raw_response.upsert(
                 key="x",
                 id_or_name="",
-                spec={"fields": {"foo": {"type": "text"}}},
+                spec={
+                    "fields": [
+                        {
+                            "name": "name",
+                            "type": "text",
+                        }
+                    ]
+                },
                 type="credential",
             )
 
@@ -1217,7 +1246,14 @@ class TestItems:
             client.vaults.items.with_raw_response.upsert(
                 key="",
                 id_or_name="id_or_name",
-                spec={"fields": {"foo": {"type": "text"}}},
+                spec={
+                    "fields": [
+                        {
+                            "name": "name",
+                            "type": "text",
+                        }
+                    ]
+                },
                 type="credential",
             )
 
@@ -2349,7 +2385,14 @@ class TestAsyncItems:
         item = await async_client.vaults.items.upsert(
             key="x",
             id_or_name="id_or_name",
-            spec={"fields": {"foo": {"type": "text"}}},
+            spec={
+                "fields": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                    }
+                ]
+            },
             type="credential",
         )
         assert_matches_type(VaultItem, item, path=["response"])
@@ -2361,14 +2404,15 @@ class TestAsyncItems:
             key="x",
             id_or_name="id_or_name",
             spec={
-                "fields": {
-                    "foo": {
+                "fields": [
+                    {
+                        "name": "name",
                         "type": "text",
                         "required": True,
                         "sensitive": True,
                         "value": "x",
                     }
-                },
+                ],
                 "description": "description",
             },
             type="credential",
@@ -2381,7 +2425,14 @@ class TestAsyncItems:
         response = await async_client.vaults.items.with_raw_response.upsert(
             key="x",
             id_or_name="id_or_name",
-            spec={"fields": {"foo": {"type": "text"}}},
+            spec={
+                "fields": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                    }
+                ]
+            },
             type="credential",
         )
 
@@ -2396,7 +2447,14 @@ class TestAsyncItems:
         async with async_client.vaults.items.with_streaming_response.upsert(
             key="x",
             id_or_name="id_or_name",
-            spec={"fields": {"foo": {"type": "text"}}},
+            spec={
+                "fields": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                    }
+                ]
+            },
             type="credential",
         ) as response:
             assert not response.is_closed
@@ -2414,7 +2472,14 @@ class TestAsyncItems:
             await async_client.vaults.items.with_raw_response.upsert(
                 key="x",
                 id_or_name="",
-                spec={"fields": {"foo": {"type": "text"}}},
+                spec={
+                    "fields": [
+                        {
+                            "name": "name",
+                            "type": "text",
+                        }
+                    ]
+                },
                 type="credential",
             )
 
@@ -2422,6 +2487,13 @@ class TestAsyncItems:
             await async_client.vaults.items.with_raw_response.upsert(
                 key="",
                 id_or_name="id_or_name",
-                spec={"fields": {"foo": {"type": "text"}}},
+                spec={
+                    "fields": [
+                        {
+                            "name": "name",
+                            "type": "text",
+                        }
+                    ]
+                },
                 type="credential",
             )
