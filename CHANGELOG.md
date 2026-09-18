@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.111.0](https://github.com/kernel/kernel-python-sdk/compare/v0.110.0...v0.111.0) (2026-09-18)
+
+
+### Features
+
+* Publish restricted_route_unavailable and unknown proxy_error codes ([64805ae](https://github.com/kernel/kernel-python-sdk/commit/64805ae68f0978264fb77801e8e94a470a039e94))
+
 ## [0.110.0](https://github.com/kernel/kernel-python-sdk/compare/v0.109.0...v0.110.0) (2026-09-18)
 
 
