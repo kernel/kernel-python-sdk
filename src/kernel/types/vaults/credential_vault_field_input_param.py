@@ -25,6 +25,14 @@ class CredentialVaultFieldInputParam(TypedDict, total=False):
     unsupported.
     """
 
+    label: str
+    """Optional human-readable display label.
+
+    It is returned as non-secret metadata and never affects value keys, updates, or
+    browser fills. Use single-line, trimmed display text without control or
+    formatting characters. The server enforces a 128-byte UTF-8 limit.
+    """
+
     required: bool
 
     sensitive: bool
