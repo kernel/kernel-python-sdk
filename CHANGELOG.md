@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.110.0](https://github.com/kernel/kernel-python-sdk/compare/v0.109.0...v0.110.0) (2026-09-18)
+
+
+### Features
+
+* Add credential field labels to the API ([63de01f](https://github.com/kernel/kernel-python-sdk/commit/63de01fee886a6758fa613a279d6c401d32a0aff))
+
 ## [0.109.0](https://github.com/kernel/kernel-python-sdk/compare/v0.108.0...v0.109.0) (2026-09-17)
 
 
