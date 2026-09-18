@@ -22,18 +22,23 @@ class Data(BrowserEventContext):
         "provider_unreachable",
         "provider_rejected",
         "origin_tls_timeout",
+        "origin_response_incomplete",
         "proxy_unavailable",
+        "restricted_route_unavailable",
         "upstream_timeout",
         "upstream_dns_failure",
         "upstream_connect_failed",
+        "unknown",
     ]
     """
     Proxy-layer error code: the X-Kernel-Proxy-Error response header value from a
     branded 5xx error page served by the metro egress host-proxy. Values mirror what
     the proxy emits: destination_blocked, provider_blacklisted,
-    provider_unreachable, provider_rejected, origin_tls_timeout, proxy_unavailable,
-    upstream_timeout, upstream_dns_failure, upstream_connect_failed. Unknown header
-    values are dropped.
+    provider_unreachable, provider_rejected, origin_tls_timeout,
+    origin_response_incomplete, proxy_unavailable, restricted_route_unavailable,
+    upstream_timeout, upstream_dns_failure, upstream_connect_failed. A header value
+    the browser image does not recognize is reported as unknown, with the header
+    value in raw_code.
     """
 
     request_id: str
@@ -44,6 +49,14 @@ class Data(BrowserEventContext):
 
     method: Optional[str] = None
     """HTTP method of the failed request, when known."""
+
+    raw_code: Optional[str] = None
+    """Sanitized X-Kernel-Proxy-Error header value, present only when code is unknown.
+
+    Surrounding whitespace is removed, the value is lowercased, characters outside
+    [a-z0-9_] are replaced with \\__, and the result is truncated to at most 64
+    characters.
+    """
 
     resource_type: Optional[str] = None
     """CDP Network.ResourceType for the request, when known."""
