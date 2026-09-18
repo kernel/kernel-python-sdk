@@ -1167,6 +1167,7 @@ class TestItems:
                     {
                         "name": "name",
                         "type": "text",
+                        "label": "label",
                         "required": True,
                         "sensitive": True,
                         "value": "x",
@@ -2408,6 +2409,7 @@ class TestAsyncItems:
                     {
                         "name": "name",
                         "type": "text",
+                        "label": "label",
                         "required": True,
                         "sensitive": True,
                         "value": "x",

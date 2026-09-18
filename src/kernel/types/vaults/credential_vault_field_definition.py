@@ -1,5 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Optional
+
 from ..._models import BaseModel
 from .credential_vault_field_type import CredentialVaultFieldType
 
@@ -31,4 +33,12 @@ class CredentialVaultFieldDefinition(BaseModel):
     time using HMAC-SHA1, 6 digits, and a 30-second period. Preserve leading zeros;
     never fill the seed. Custom algorithms, digits, periods, and form enrollment are
     unsupported.
+    """
+
+    label: Optional[str] = None
+    """Optional human-readable display label.
+
+    It is returned as non-secret metadata and never affects value keys, updates, or
+    browser fills. Use single-line, trimmed display text without control or
+    formatting characters. The server enforces a 128-byte UTF-8 limit.
     """
