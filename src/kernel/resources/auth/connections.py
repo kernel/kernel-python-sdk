@@ -477,6 +477,7 @@ class ConnectionsResource(SyncAPIResource):
         browser_telemetry: Optional[connection_login_params.BrowserTelemetry] | Omit = omit,
         proxy: connection_login_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
+        skill_mode: Literal["enabled", "disabled"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -502,6 +503,10 @@ class ConnectionsResource(SyncAPIResource):
           record_session: Override the connection's default for recording this login's browser session.
               When omitted, the connection's record_session default is used.
 
+          skill_mode: Controls whether this login reads and writes learned domain skills. Automatic
+              reauths inherit the selected mode until a later accepted login sets enabled or
+              omits this field. Defaults to enabled when omitted.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -520,6 +525,7 @@ class ConnectionsResource(SyncAPIResource):
                     "browser_telemetry": browser_telemetry,
                     "proxy": proxy,
                     "record_session": record_session,
+                    "skill_mode": skill_mode,
                 },
                 connection_login_params.ConnectionLoginParams,
             ),
@@ -1100,6 +1106,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         browser_telemetry: Optional[connection_login_params.BrowserTelemetry] | Omit = omit,
         proxy: connection_login_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
+        skill_mode: Literal["enabled", "disabled"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1125,6 +1132,10 @@ class AsyncConnectionsResource(AsyncAPIResource):
           record_session: Override the connection's default for recording this login's browser session.
               When omitted, the connection's record_session default is used.
 
+          skill_mode: Controls whether this login reads and writes learned domain skills. Automatic
+              reauths inherit the selected mode until a later accepted login sets enabled or
+              omits this field. Defaults to enabled when omitted.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1143,6 +1154,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
                     "browser_telemetry": browser_telemetry,
                     "proxy": proxy,
                     "record_session": record_session,
+                    "skill_mode": skill_mode,
                 },
                 connection_login_params.ConnectionLoginParams,
             ),

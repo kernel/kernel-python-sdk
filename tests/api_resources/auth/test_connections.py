@@ -525,6 +525,7 @@ class TestConnections:
                 "name": "name",
             },
             record_session=True,
+            skill_mode="enabled",
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 
@@ -1187,6 +1188,7 @@ class TestAsyncConnections:
                 "name": "name",
             },
             record_session=True,
+            skill_mode="enabled",
         )
         assert_matches_type(LoginResponse, connection, path=["response"])
 
