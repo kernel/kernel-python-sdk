@@ -38,6 +38,14 @@ class ManagedAuthTimelineEvent(BaseModel):
     browser_session_id: Optional[str] = None
     """Browser session that produced the event, if one was created."""
 
+    completed_at: Optional[datetime] = None
+    """When the login/reauth attempt first reached a terminal status.
+
+    Stable across retries and subsequent cleanup writes. Absent for in-progress
+    attempts, health checks, and historical attempts without a recorded completion
+    time.
+    """
+
     error_code: Optional[str] = None
     """Machine-readable error code. Present when a login/reauth event failed."""
 
