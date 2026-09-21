@@ -34,7 +34,7 @@ class PrepareCheckoutVaultItemOperationRequest(TypedDict, total=False):
 
     checkout: Required[VaultCheckoutContextParam]
     """
-    Required when preparing an unused AgentCard card for a supported tokenization
+    Required when preparing an unused AgentCard card for a supported checkout
     processor. Consent is bound to this browser and declared merchant origin, not a
     tab. Wait for the item's ready_to_submit status before native Pay and submit
     within its readiness deadline. Unused preparations expire automatically; every
