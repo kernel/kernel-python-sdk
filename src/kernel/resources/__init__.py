@@ -16,6 +16,14 @@ from .auth import (
     AuthResourceWithStreamingResponse,
     AsyncAuthResourceWithStreamingResponse,
 )
+from .search import (
+    SearchResource,
+    AsyncSearchResource,
+    SearchResourceWithRawResponse,
+    AsyncSearchResourceWithRawResponse,
+    SearchResourceWithStreamingResponse,
+    AsyncSearchResourceWithStreamingResponse,
+)
 from .vaults import (
     VaultsResource,
     AsyncVaultsResource,
@@ -268,4 +276,10 @@ __all__ = [
     "AsyncCredentialProvidersResourceWithRawResponse",
     "CredentialProvidersResourceWithStreamingResponse",
     "AsyncCredentialProvidersResourceWithStreamingResponse",
+    "SearchResource",
+    "AsyncSearchResource",
+    "SearchResourceWithRawResponse",
+    "AsyncSearchResourceWithRawResponse",
+    "SearchResourceWithStreamingResponse",
+    "AsyncSearchResourceWithStreamingResponse",
 ]

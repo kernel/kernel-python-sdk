@@ -13,7 +13,7 @@ __all__ = ["AgentcardCheckoutPreparation"]
 class AgentcardCheckoutPreparation(BaseModel):
     """One-use processor-bound checkout preparation.
 
-    Keep the approval page open through token handoff. The amount is display-only and does not constrain the merchant's eventual charge.
+    Keep the approval page open through device handoff, including Adyen encryption. The amount is declared by the caller and does not constrain the merchant's eventual charge. Adyen device approval and browser Authorised responses are not capture or fulfillment evidence.
     """
 
     browser_id: str

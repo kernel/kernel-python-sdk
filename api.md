@@ -735,3 +735,40 @@ Methods:
 - <code title="delete /org/credential_providers/{id}">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">delete</a>(id) -> None</code>
 - <code title="get /org/credential_providers/{id}/items">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">list_items</a>(id) -> <a href="./src/kernel/types/credential_provider_list_items_response.py">CredentialProviderListItemsResponse</a></code>
 - <code title="post /org/credential_providers/{id}/test">client.credential_providers.<a href="./src/kernel/resources/credential_providers.py">test</a>(id) -> <a href="./src/kernel/types/credential_provider_test_result.py">CredentialProviderTestResult</a></code>
+
+# Search
+
+Types:
+
+```python
+from kernel.types import Attempt, ProviderTarget, Request, Result, Search, Strategy, Usage, Warning
+```
+
+Methods:
+
+- <code title="post /search">client.search.<a href="./src/kernel/resources/search/search.py">create</a>(\*\*<a href="src/kernel/types/search_create_params.py">params</a>) -> <a href="./src/kernel/types/search/search.py">Search</a></code>
+- <code title="get /search/{id}">client.search.<a href="./src/kernel/resources/search/search.py">retrieve</a>(id) -> <a href="./src/kernel/types/search/search.py">Search</a></code>
+
+## Contents
+
+Types:
+
+```python
+from kernel.types.search import FetchRequest, Response
+```
+
+Methods:
+
+- <code title="post /search/{id}/contents">client.search.contents.<a href="./src/kernel/resources/search/contents.py">fetch</a>(id, \*\*<a href="src/kernel/types/search/content_fetch_params.py">params</a>) -> None</code>
+
+## Providers
+
+Types:
+
+```python
+from kernel.types.search import Provider, ProviderListResponse
+```
+
+Methods:
+
+- <code title="get /search/providers">client.search.providers.<a href="./src/kernel/resources/search/providers.py">list</a>(\*\*<a href="src/kernel/types/search/provider_list_params.py">params</a>) -> <a href="./src/kernel/types/search/provider_list_response.py">ProviderListResponse</a></code>

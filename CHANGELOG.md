@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.111.0](https://github.com/kernel/kernel-python-sdk/compare/v0.110.0...v0.111.0) (2026-09-22)
+
+
+### Features
+
+* Allow managed auth logins to disable learned skills ([e230ce3](https://github.com/kernel/kernel-python-sdk/commit/e230ce3a684ce7723256170443ba0b84b08310a4))
+* Distinguish optimistic managed auth reauth ([41059ae](https://github.com/kernel/kernel-python-sdk/commit/41059ae6d345b924d7e508e43a8b1d0842c58556))
+* Implement Search API v1 providers ([76b3d88](https://github.com/kernel/kernel-python-sdk/commit/76b3d8871e29d47cfda20f68ab23152daf1790c6))
+* Persist stable managed auth completion timestamps ([17a7960](https://github.com/kernel/kernel-python-sdk/commit/17a7960d9304fdceb54d59b09277651b6166fdb1))
+* Publish restricted_route_unavailable and unknown proxy_error codes ([64805ae](https://github.com/kernel/kernel-python-sdk/commit/64805ae68f0978264fb77801e8e94a470a039e94))
+* Support native prepared Adyen Sessions checkout ([5f2df0a](https://github.com/kernel/kernel-python-sdk/commit/5f2df0a4170aa146eabb23f576195d1a06621925))
+
 ## [0.110.0](https://github.com/kernel/kernel-python-sdk/compare/v0.109.0...v0.110.0) (2026-09-18)
 
 

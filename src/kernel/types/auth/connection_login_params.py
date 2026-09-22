@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import TypedDict
+from typing_extensions import Literal, TypedDict
 
 from .managed_auth_browser_config_param import ManagedAuthBrowserConfigParam
 from ..browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
@@ -38,6 +38,13 @@ class ConnectionLoginParams(TypedDict, total=False):
     """Override the connection's default for recording this login's browser session.
 
     When omitted, the connection's record_session default is used.
+    """
+
+    skill_mode: Literal["enabled", "disabled"]
+    """Controls whether this login reads and writes learned domain skills.
+
+    Automatic reauths inherit the selected mode until a later accepted login sets
+    enabled or omits this field. Defaults to enabled when omitted.
     """
 
 
