@@ -28,7 +28,9 @@ class Data(BaseModel):
     target_id: Optional[str] = None
     """Browser target identifier."""
 
-    target_type: Optional[Literal["page", "background_page", "service_worker", "shared_worker", "other"]] = None
+    target_type: Optional[
+        Literal["page", "iframe", "worker", "background_page", "service_worker", "shared_worker", "other"]
+    ] = None
     """CDP target type of the page that produced the event."""
 
     url: Optional[str] = None
