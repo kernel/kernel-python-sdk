@@ -17,7 +17,7 @@ class Data(BaseModel):
 class BrowserMonitorDisconnectedEvent(BaseModel):
     """The CDP connection to Chrome was lost.
 
-    Telemetry events may be dropped until monitor_reconnected arrives. Treat any in-progress computed state (network_idle, page_layout_settled) as unreliable until then.
+    Telemetry events may be dropped until monitor_reconnected arrives. In-progress computed state is discarded rather than paused, so computed events still pending for the current navigation (network_idle, page_layout_settled, page_navigation_settled) never fire. monitor_reconnected does not restore them. After reattachment a fresh state machine starts, so computed events can resume before the next navigation and carry empty navigation context until one occurs.
     """
 
     category: Literal["monitor"]
