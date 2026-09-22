@@ -57,6 +57,7 @@ if TYPE_CHECKING:
     from .resources import (
         apps,
         auth,
+        search,
         vaults,
         proxies,
         api_keys,
@@ -85,6 +86,7 @@ if TYPE_CHECKING:
     from .resources.deployments import DeploymentsResource, AsyncDeploymentsResource
     from .resources.invocations import InvocationsResource, AsyncInvocationsResource
     from .resources.browser_pools import BrowserPoolsResource, AsyncBrowserPoolsResource
+    from .resources.search.search import SearchResource, AsyncSearchResource
     from .resources.vaults.vaults import VaultsResource, AsyncVaultsResource
     from .resources.browsers.browsers import BrowsersResource, AsyncBrowsersResource
     from .resources.projects.projects import ProjectsResource, AsyncProjectsResource
@@ -347,6 +349,13 @@ class Kernel(SyncAPIClient):
         from .resources.credential_providers import CredentialProvidersResource
 
         return CredentialProvidersResource(self)
+
+    @cached_property
+    def search(self) -> SearchResource:
+        """Search the web and retrieve content for selected results."""
+        from .resources.search import SearchResource
+
+        return SearchResource(self)
 
     @cached_property
     def with_raw_response(self) -> KernelWithRawResponse:
@@ -753,6 +762,13 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncCredentialProvidersResource(self)
 
     @cached_property
+    def search(self) -> AsyncSearchResource:
+        """Search the web and retrieve content for selected results."""
+        from .resources.search import AsyncSearchResource
+
+        return AsyncSearchResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncKernelWithRawResponse:
         return AsyncKernelWithRawResponse(self)
 
@@ -1058,6 +1074,13 @@ class KernelWithRawResponse:
 
         return CredentialProvidersResourceWithRawResponse(self._client.credential_providers)
 
+    @cached_property
+    def search(self) -> search.SearchResourceWithRawResponse:
+        """Search the web and retrieve content for selected results."""
+        from .resources.search import SearchResourceWithRawResponse
+
+        return SearchResourceWithRawResponse(self._client.search)
+
 
 class AsyncKernelWithRawResponse:
     _client: AsyncKernel
@@ -1195,6 +1218,13 @@ class AsyncKernelWithRawResponse:
         from .resources.credential_providers import AsyncCredentialProvidersResourceWithRawResponse
 
         return AsyncCredentialProvidersResourceWithRawResponse(self._client.credential_providers)
+
+    @cached_property
+    def search(self) -> search.AsyncSearchResourceWithRawResponse:
+        """Search the web and retrieve content for selected results."""
+        from .resources.search import AsyncSearchResourceWithRawResponse
+
+        return AsyncSearchResourceWithRawResponse(self._client.search)
 
 
 class KernelWithStreamedResponse:
@@ -1334,6 +1364,13 @@ class KernelWithStreamedResponse:
 
         return CredentialProvidersResourceWithStreamingResponse(self._client.credential_providers)
 
+    @cached_property
+    def search(self) -> search.SearchResourceWithStreamingResponse:
+        """Search the web and retrieve content for selected results."""
+        from .resources.search import SearchResourceWithStreamingResponse
+
+        return SearchResourceWithStreamingResponse(self._client.search)
+
 
 class AsyncKernelWithStreamedResponse:
     _client: AsyncKernel
@@ -1471,6 +1508,13 @@ class AsyncKernelWithStreamedResponse:
         from .resources.credential_providers import AsyncCredentialProvidersResourceWithStreamingResponse
 
         return AsyncCredentialProvidersResourceWithStreamingResponse(self._client.credential_providers)
+
+    @cached_property
+    def search(self) -> search.AsyncSearchResourceWithStreamingResponse:
+        """Search the web and retrieve content for selected results."""
+        from .resources.search import AsyncSearchResourceWithStreamingResponse
+
+        return AsyncSearchResourceWithStreamingResponse(self._client.search)
 
 
 Client = Kernel

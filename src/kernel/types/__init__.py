@@ -6,7 +6,10 @@ from . import browsers
 from .. import _compat
 from .tags import Tags as Tags
 from .proxy import Proxy as Proxy
+from .usage import Usage as Usage
 from .vault import Vault as Vault
+from .result import Result as Result
+from .search import Search as Search
 from .shared import (
     LogEvent as LogEvent,
     AppAction as AppAction,
@@ -20,9 +23,11 @@ from .shared import (
 )
 from .target import Target as Target
 from .api_key import APIKey as APIKey
+from .attempt import Attempt as Attempt
 from .browser import Browser as Browser
 from .profile import Profile as Profile
 from .project import Project as Project
+from .warning import Warning as Warning
 from .analysis import Analysis as Analysis
 from .evidence import Evidence as Evidence
 from .credential import Credential as Credential
@@ -32,6 +37,7 @@ from .browser_proxy import BrowserProxy as BrowserProxy
 from .browser_usage import BrowserUsage as BrowserUsage
 from .browser_memory import BrowserMemory as BrowserMemory
 from .recommendation import Recommendation as Recommendation
+from .strategy_param import StrategyParam as StrategyParam
 from .app_list_params import AppListParams as AppListParams
 from .audit_log_entry import AuditLogEntry as AuditLogEntry
 from .created_api_key import CreatedAPIKey as CreatedAPIKey
@@ -60,6 +66,7 @@ from .vault_upsert_params import VaultUpsertParams as VaultUpsertParams
 from .browser_proxy_config import BrowserProxyConfig as BrowserProxyConfig
 from .browser_repl_content import BrowserReplContent as BrowserReplContent
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
+from .search_create_params import SearchCreateParams as SearchCreateParams
 from .api_key_create_params import APIKeyCreateParams as APIKeyCreateParams
 from .api_key_rotate_params import APIKeyRotateParams as APIKeyRotateParams
 from .api_key_update_params import APIKeyUpdateParams as APIKeyUpdateParams
@@ -73,6 +80,7 @@ from .profile_create_params import ProfileCreateParams as ProfileCreateParams
 from .profile_update_params import ProfileUpdateParams as ProfileUpdateParams
 from .project_create_params import ProjectCreateParams as ProjectCreateParams
 from .project_update_params import ProjectUpdateParams as ProjectUpdateParams
+from .provider_target_param import ProviderTargetParam as ProviderTargetParam
 from .proxy_create_response import ProxyCreateResponse as ProxyCreateResponse
 from .proxy_update_response import ProxyUpdateResponse as ProxyUpdateResponse
 from .recommendation_result import RecommendationResult as RecommendationResult
