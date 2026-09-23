@@ -370,6 +370,11 @@ class TestBrowserPools:
             id_or_name="id_or_name",
             acquire_timeout_seconds=0,
             name="checkout-flow-1",
+            profile={
+                "id": "id",
+                "name": "name",
+                "save_changes": True,
+            },
             start_url="https://example.com",
             tags={
                 "team": "backend",
@@ -892,6 +897,11 @@ class TestAsyncBrowserPools:
             id_or_name="id_or_name",
             acquire_timeout_seconds=0,
             name="checkout-flow-1",
+            profile={
+                "id": "id",
+                "name": "name",
+                "save_changes": True,
+            },
             start_url="https://example.com",
             tags={
                 "team": "backend",

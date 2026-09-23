@@ -6,6 +6,7 @@ from typing import Optional
 from typing_extensions import TypedDict
 
 from .tags_param import TagsParam
+from .shared_params.browser_profile import BrowserProfile
 from .browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
 
 __all__ = [
@@ -31,6 +32,13 @@ class BrowserPoolAcquireParams(TypedDict, total=False):
     later in the dashboard. Must be unique among active sessions within the pool's
     project. Applies to this lease only and is cleared when the browser is released
     back to the pool.
+    """
+
+    profile: BrowserProfile
+    """Profile selection for the browser session.
+
+    Provide either id or name. If specified, the matching profile will be loaded
+    into the browser session. Profiles must be created beforehand.
     """
 
     start_url: str
