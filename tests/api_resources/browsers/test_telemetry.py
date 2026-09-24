@@ -36,6 +36,7 @@ class TestTelemetry:
             offset=0,
             order="order",
             since="since",
+            type=["string"],
             until="until",
         )
         assert_matches_type(SyncOffsetPagination[TelemetryEventsResponse], telemetry, path=["response"])
@@ -149,6 +150,7 @@ class TestAsyncTelemetry:
             offset=0,
             order="order",
             since="since",
+            type=["string"],
             until="until",
         )
         assert_matches_type(AsyncOffsetPagination[TelemetryEventsResponse], telemetry, path=["response"])

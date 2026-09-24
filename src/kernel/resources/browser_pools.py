@@ -31,6 +31,7 @@ from ..types.tags_param import TagsParam
 from ..types.browser_pool import BrowserPool
 from ..types.browser_network_config_param import BrowserNetworkConfigParam
 from ..types.browser_pool_acquire_response import BrowserPoolAcquireResponse
+from ..types.shared_params.browser_profile import BrowserProfile
 from ..types.shared_params.browser_viewport import BrowserViewport
 from ..types.shared_params.browser_extension import BrowserExtension
 
@@ -509,6 +510,7 @@ class BrowserPoolsResource(SyncAPIResource):
         *,
         acquire_timeout_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        profile: BrowserProfile | Omit = omit,
         start_url: str | Omit = omit,
         tags: TagsParam | Omit = omit,
         telemetry: Optional[browser_pool_acquire_params.Telemetry] | Omit = omit,
@@ -535,6 +537,10 @@ class BrowserPoolsResource(SyncAPIResource):
               later in the dashboard. Must be unique among active sessions within the pool's
               project. Applies to this lease only and is cleared when the browser is released
               back to the pool.
+
+          profile: Profile selection for the browser session. Provide either id or name. If
+              specified, the matching profile will be loaded into the browser session.
+              Profiles must be created beforehand.
 
           start_url: Optional URL to navigate the acquired browser to. Overrides the pool's start_url
               for this acquire only. Best-effort: failures to navigate do not fail the
@@ -569,6 +575,7 @@ class BrowserPoolsResource(SyncAPIResource):
                 {
                     "acquire_timeout_seconds": acquire_timeout_seconds,
                     "name": name,
+                    "profile": profile,
                     "start_url": start_url,
                     "tags": tags,
                     "telemetry": telemetry,
@@ -638,7 +645,8 @@ class BrowserPoolsResource(SyncAPIResource):
               Defaults to true. A reused browser keeps the configuration it was created with,
               so it does not pick up pool configuration changes made while it was in use.
               Release with `reuse: false`, or flush the pool afterward, to rebuild it with the
-              current configuration.
+              current configuration. Browsers loaded with an acquire-time profile are always
+              destroyed and replaced, even when reuse is true.
 
           extra_headers: Send extra headers
 
@@ -1139,6 +1147,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         *,
         acquire_timeout_seconds: int | Omit = omit,
         name: str | Omit = omit,
+        profile: BrowserProfile | Omit = omit,
         start_url: str | Omit = omit,
         tags: TagsParam | Omit = omit,
         telemetry: Optional[browser_pool_acquire_params.Telemetry] | Omit = omit,
@@ -1165,6 +1174,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               later in the dashboard. Must be unique among active sessions within the pool's
               project. Applies to this lease only and is cleared when the browser is released
               back to the pool.
+
+          profile: Profile selection for the browser session. Provide either id or name. If
+              specified, the matching profile will be loaded into the browser session.
+              Profiles must be created beforehand.
 
           start_url: Optional URL to navigate the acquired browser to. Overrides the pool's start_url
               for this acquire only. Best-effort: failures to navigate do not fail the
@@ -1199,6 +1212,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                 {
                     "acquire_timeout_seconds": acquire_timeout_seconds,
                     "name": name,
+                    "profile": profile,
                     "start_url": start_url,
                     "tags": tags,
                     "telemetry": telemetry,
@@ -1268,7 +1282,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               Defaults to true. A reused browser keeps the configuration it was created with,
               so it does not pick up pool configuration changes made while it was in use.
               Release with `reuse: false`, or flush the pool afterward, to rebuild it with the
-              current configuration.
+              current configuration. Browsers loaded with an acquire-time profile are always
+              destroyed and replaced, even when reuse is true.
 
           extra_headers: Send extra headers
 

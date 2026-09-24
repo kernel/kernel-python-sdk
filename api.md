@@ -346,12 +346,14 @@ Types:
 
 ```python
 from kernel.types.browsers import (
+    CustomToolSource,
     InvocationFailure,
     InvocationResult,
     InvokeRequest,
     Tool,
     ToolAnnotations,
     ToolFrame,
+    ToolMetadata,
     ToolSource,
     ToolsResponse,
 )
@@ -359,8 +361,22 @@ from kernel.types.browsers import (
 
 Methods:
 
-- <code title="post /browsers/{id_or_name}/webmcp/invoke">client.browsers.webmcp.<a href="./src/kernel/resources/browsers/webmcp.py">invoke_tool</a>(id_or_name, \*\*<a href="src/kernel/types/browsers/webmcp_invoke_tool_params.py">params</a>) -> <a href="./src/kernel/types/browsers/invocation_result.py">InvocationResult</a></code>
-- <code title="get /browsers/{id_or_name}/webmcp/tools">client.browsers.webmcp.<a href="./src/kernel/resources/browsers/webmcp.py">list_tools</a>(id_or_name) -> <a href="./src/kernel/types/browsers/tools_response.py">ToolsResponse</a></code>
+- <code title="post /browsers/{id_or_name}/webmcp/invoke">client.browsers.webmcp.<a href="./src/kernel/resources/browsers/webmcp/webmcp.py">invoke_tool</a>(id_or_name, \*\*<a href="src/kernel/types/browsers/webmcp_invoke_tool_params.py">params</a>) -> <a href="./src/kernel/types/browsers/invocation_result.py">InvocationResult</a></code>
+- <code title="get /browsers/{id_or_name}/webmcp/tools">client.browsers.webmcp.<a href="./src/kernel/resources/browsers/webmcp/webmcp.py">list_tools</a>(id_or_name, \*\*<a href="src/kernel/types/browsers/webmcp_list_tools_params.py">params</a>) -> <a href="./src/kernel/types/browsers/tools_response.py">ToolsResponse</a></code>
+
+### CustomTools
+
+Types:
+
+```python
+from kernel.types.browsers.webmcp import AddRequest, CustomToolsResponse, Definition, Match
+```
+
+Methods:
+
+- <code title="get /browsers/{id_or_name}/webmcp/custom-tools">client.browsers.webmcp.custom_tools.<a href="./src/kernel/resources/browsers/webmcp/custom_tools.py">list</a>(id_or_name) -> <a href="./src/kernel/types/browsers/webmcp/custom_tools_response.py">CustomToolsResponse</a></code>
+- <code title="post /browsers/{id_or_name}/webmcp/custom-tools">client.browsers.webmcp.custom_tools.<a href="./src/kernel/resources/browsers/webmcp/custom_tools.py">add</a>(id_or_name, \*\*<a href="src/kernel/types/browsers/webmcp/custom_tool_add_params.py">params</a>) -> <a href="./src/kernel/types/browsers/webmcp/custom_tools_response.py">CustomToolsResponse</a></code>
+- <code title="delete /browsers/{id_or_name}/webmcp/custom-tools/{id}">client.browsers.webmcp.custom_tools.<a href="./src/kernel/resources/browsers/webmcp/custom_tools.py">remove</a>(id, \*, id_or_name) -> None</code>
 
 # Profiles
 

@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.112.0](https://github.com/kernel/kernel-python-sdk/compare/v0.111.0...v0.112.0) (2026-09-24)
+
+
+### Features
+
+* Add profiles to browser pool acquire ([f5c540c](https://github.com/kernel/kernel-python-sdk/commit/f5c540cdd1b0cee422cf47825dbc2212a5b6532f))
+* Correct monitor_disconnected description on computed state ([2b637f5](https://github.com/kernel/kernel-python-sdk/commit/2b637f562b34ad0963b8ba4d0ecca73fa1dd6349))
+* Expose Search rollout access in org entitlements ([cbbbe4c](https://github.com/kernel/kernel-python-sdk/commit/cbbbe4c865eb72c10be0f95e472921cf61898abc))
+* Filter archived telemetry events by type ([1fdfce2](https://github.com/kernel/kernel-python-sdk/commit/1fdfce2a3b05c5af330c93cd8e37a217f4d0f99b))
+* Proxy custom WebMCP tools in the control plane ([179dcd9](https://github.com/kernel/kernel-python-sdk/commit/179dcd9f2c9c27a46bc5f37d241da0f0626ccf82))
+* Publish iframe and worker browser target types ([848805a](https://github.com/kernel/kernel-python-sdk/commit/848805abcfa585e4299742cd8f7a3ff0306febfe))
+* Route browser destinations through selected proxies ([5a0a461](https://github.com/kernel/kernel-python-sdk/commit/5a0a461f25cbb59b43b2695fea8294357f3655fb))
+
 ## [0.111.0](https://github.com/kernel/kernel-python-sdk/compare/v0.110.0...v0.111.0) (2026-09-22)
 
 

@@ -16,7 +16,9 @@ class Data(BaseModel):
     target_id: Optional[str] = None
     """CDP target identifier for the newly opened tab."""
 
-    target_type: Optional[Literal["page", "background_page", "service_worker", "shared_worker", "other"]] = None
+    target_type: Optional[
+        Literal["page", "iframe", "worker", "background_page", "service_worker", "shared_worker", "other"]
+    ] = None
     """CDP target type of the page that produced the event."""
 
     title: Optional[str] = None

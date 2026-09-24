@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -75,6 +75,7 @@ class TelemetryResource(SyncAPIResource):
         offset: int | Omit = omit,
         order: str | Omit = omit,
         since: str | Omit = omit,
+        type: SequenceNotStr[str] | Omit = omit,
         until: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -87,8 +88,9 @@ class TelemetryResource(SyncAPIResource):
 
         To page through
         results, pass the X-Next-Offset value from the previous response as offset and
-        repeat while X-Has-More is true. Returns an empty list when telemetry data is
-        unavailable.
+        repeat while X-Has-More is true. The category and type filters apply within each
+        page, so a filtered page may be empty while X-Has-More is true. Returns an empty
+        list when telemetry data is unavailable.
 
         Args:
           category: Restrict results to these event categories. Repeat the parameter for multiple
@@ -104,12 +106,14 @@ class TelemetryResource(SyncAPIResource):
           order: Read direction. asc (default) reads oldest first, starting from since or the
               offset cursor. desc reads newest first: each request returns one page of up to
               limit records ending at the offset cursor (or until, or the newest archived
-              event); combining desc with since is rejected with a 400. In either direction
-              the category filter applies within the page, so a filtered page may be empty
-              while X-Has-More is true.
+              event); combining desc with since is rejected with a 400.
 
           since: Start of the window: an RFC-3339 timestamp, or a duration like 5m meaning that
               long ago. Defaults to 5m. Ignored when offset is set.
+
+          type: Restrict results to these event types, such as page_crashed or
+              captcha_challenge_result. Repeat the parameter for multiple values. Combines
+              with category: when both are set an event must match both.
 
           until: End of the window (exclusive): an RFC-3339 timestamp, or a duration like 5m
               meaning that long ago.
@@ -139,6 +143,7 @@ class TelemetryResource(SyncAPIResource):
                         "offset": offset,
                         "order": order,
                         "since": since,
+                        "type": type,
                         "until": until,
                     },
                     telemetry_events_params.TelemetryEventsParams,
@@ -252,6 +257,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         offset: int | Omit = omit,
         order: str | Omit = omit,
         since: str | Omit = omit,
+        type: SequenceNotStr[str] | Omit = omit,
         until: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -264,8 +270,9 @@ class AsyncTelemetryResource(AsyncAPIResource):
 
         To page through
         results, pass the X-Next-Offset value from the previous response as offset and
-        repeat while X-Has-More is true. Returns an empty list when telemetry data is
-        unavailable.
+        repeat while X-Has-More is true. The category and type filters apply within each
+        page, so a filtered page may be empty while X-Has-More is true. Returns an empty
+        list when telemetry data is unavailable.
 
         Args:
           category: Restrict results to these event categories. Repeat the parameter for multiple
@@ -281,12 +288,14 @@ class AsyncTelemetryResource(AsyncAPIResource):
           order: Read direction. asc (default) reads oldest first, starting from since or the
               offset cursor. desc reads newest first: each request returns one page of up to
               limit records ending at the offset cursor (or until, or the newest archived
-              event); combining desc with since is rejected with a 400. In either direction
-              the category filter applies within the page, so a filtered page may be empty
-              while X-Has-More is true.
+              event); combining desc with since is rejected with a 400.
 
           since: Start of the window: an RFC-3339 timestamp, or a duration like 5m meaning that
               long ago. Defaults to 5m. Ignored when offset is set.
+
+          type: Restrict results to these event types, such as page_crashed or
+              captcha_challenge_result. Repeat the parameter for multiple values. Combines
+              with category: when both are set an event must match both.
 
           until: End of the window (exclusive): an RFC-3339 timestamp, or a duration like 5m
               meaning that long ago.
@@ -316,6 +325,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
                         "offset": offset,
                         "order": order,
                         "since": since,
+                        "type": type,
                         "until": until,
                     },
                     telemetry_events_params.TelemetryEventsParams,

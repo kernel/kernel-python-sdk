@@ -1,14 +1,20 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from ..._models import BaseModel
-from .tool_source import ToolSource
-from .tool_metadata import ToolMetadata
+from .match import Match
+from ...._models import BaseModel
+from ..tool_metadata import ToolMetadata
 
-__all__ = ["Tool"]
+__all__ = ["Definition"]
 
 
-class Tool(BaseModel):
-    source: ToolSource
+class Definition(BaseModel):
+    id: str
+
+    kind: str
+
+    match: Match
+
+    namespace: str
 
     tool: ToolMetadata
     """
@@ -17,10 +23,4 @@ class Tool(BaseModel):
     and the
     [WebMCP RegisteredTool definition](https://webmachinelearning.github.io/webmcp/#dictdef-registeredtool).
     outputSchema is optional for page and custom tools.
-    """
-
-    tool_ref: str
-    """Opaque reference for invoking this exact live registration.
-
-    It becomes invalid when its document or browser process is replaced.
     """

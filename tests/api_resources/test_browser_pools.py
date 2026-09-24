@@ -45,7 +45,18 @@ class TestBrowserPools:
             headless=False,
             kiosk_mode=True,
             name="my-pool",
-            network={"private_hosts": ["*.example.ts.net", "100.64.0.0/10"]},
+            network={
+                "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
+                "proxy_routes": [
+                    {
+                        "hosts": ["string"],
+                        "proxy": {
+                            "id": "x",
+                            "name": "x",
+                        },
+                    }
+                ],
+            },
             profile={
                 "id": "id",
                 "name": "name",
@@ -184,7 +195,18 @@ class TestBrowserPools:
             headless=False,
             kiosk_mode=True,
             name="my-pool",
-            network={"private_hosts": ["*.example.ts.net", "100.64.0.0/10"]},
+            network={
+                "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
+                "proxy_routes": [
+                    {
+                        "hosts": ["string"],
+                        "proxy": {
+                            "id": "x",
+                            "name": "x",
+                        },
+                    }
+                ],
+            },
             profile={
                 "id": "id",
                 "name": "name",
@@ -370,6 +392,11 @@ class TestBrowserPools:
             id_or_name="id_or_name",
             acquire_timeout_seconds=0,
             name="checkout-flow-1",
+            profile={
+                "id": "id",
+                "name": "name",
+                "save_changes": True,
+            },
             start_url="https://example.com",
             tags={
                 "team": "backend",
@@ -567,7 +594,18 @@ class TestAsyncBrowserPools:
             headless=False,
             kiosk_mode=True,
             name="my-pool",
-            network={"private_hosts": ["*.example.ts.net", "100.64.0.0/10"]},
+            network={
+                "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
+                "proxy_routes": [
+                    {
+                        "hosts": ["string"],
+                        "proxy": {
+                            "id": "x",
+                            "name": "x",
+                        },
+                    }
+                ],
+            },
             profile={
                 "id": "id",
                 "name": "name",
@@ -706,7 +744,18 @@ class TestAsyncBrowserPools:
             headless=False,
             kiosk_mode=True,
             name="my-pool",
-            network={"private_hosts": ["*.example.ts.net", "100.64.0.0/10"]},
+            network={
+                "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
+                "proxy_routes": [
+                    {
+                        "hosts": ["string"],
+                        "proxy": {
+                            "id": "x",
+                            "name": "x",
+                        },
+                    }
+                ],
+            },
             profile={
                 "id": "id",
                 "name": "name",
@@ -892,6 +941,11 @@ class TestAsyncBrowserPools:
             id_or_name="id_or_name",
             acquire_timeout_seconds=0,
             name="checkout-flow-1",
+            profile={
+                "id": "id",
+                "name": "name",
+                "save_changes": True,
+            },
             start_url="https://example.com",
             tags={
                 "team": "backend",

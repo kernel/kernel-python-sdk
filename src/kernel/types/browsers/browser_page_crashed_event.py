@@ -13,7 +13,7 @@ class Data(BaseModel):
     target_id: str
     """CDP target identifier of the crashed page."""
 
-    target_type: Literal["page", "background_page", "service_worker", "shared_worker", "other"]
+    target_type: Literal["page", "iframe", "worker", "background_page", "service_worker", "shared_worker", "other"]
     """CDP target type of the page that produced the event."""
 
     url: str

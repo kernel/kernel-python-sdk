@@ -6,26 +6,39 @@ from typing import Dict
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
-from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ...._utils import path_template, maybe_transform, async_maybe_transform
+from ...._compat import cached_property
+from ...._resource import SyncAPIResource, AsyncAPIResource
+from ...._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
-from ...types.browsers import webmcp_invoke_tool_params
-from ...types.browsers.tools_response import ToolsResponse
-from ...types.browsers.invocation_result import InvocationResult
+from .custom_tools import (
+    CustomToolsResource,
+    AsyncCustomToolsResource,
+    CustomToolsResourceWithRawResponse,
+    AsyncCustomToolsResourceWithRawResponse,
+    CustomToolsResourceWithStreamingResponse,
+    AsyncCustomToolsResourceWithStreamingResponse,
+)
+from ...._base_client import make_request_options
+from ....types.browsers import webmcp_list_tools_params, webmcp_invoke_tool_params
+from ....types.browsers.tools_response import ToolsResponse
+from ....types.browsers.invocation_result import InvocationResult
 
 __all__ = ["WebmcpResource", "AsyncWebmcpResource"]
 
 
 class WebmcpResource(SyncAPIResource):
     """Discover and invoke native page tools across the browser instance."""
+
+    @cached_property
+    def custom_tools(self) -> CustomToolsResource:
+        """Discover and invoke native page tools across the browser instance."""
+        return CustomToolsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> WebmcpResourceWithRawResponse:
@@ -69,7 +82,8 @@ class WebmcpResource(SyncAPIResource):
         then submit through Playwright or computer interaction without invoking the tool
         again. If the tab or embedded frame disappears, or the request times out after
         invocation begins, the response reports outcome_unknown and the tool is not
-        retried.
+        retried. CDP-backed custom tool outputs above 240 KiB return an error rather
+        than a truncated result.
 
         Args:
           input: Tool input, limited to 1 MiB after JSON serialization.
@@ -104,6 +118,7 @@ class WebmcpResource(SyncAPIResource):
         self,
         id_or_name: str,
         *,
+        exclude_custom: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -112,12 +127,16 @@ class WebmcpResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ToolsResponse:
         """
-        Returns a snapshot of native WebMCP tools available across every open tab and
-        embedded frame in the browser. Each tool includes an opaque tool_ref for
-        invoking that exact live registration. Tools disappear when their document
-        closes or navigates away.
+        Returns a snapshot of native and custom WebMCP tools available across every open
+        tab and embedded frame in the browser. Each tool includes an opaque tool_ref for
+        invoking that exact live registration, nested tool metadata, and source
+        information. Custom tools include their generated ID, namespace, and CDP
+        target_id in source. Tools disappear when their document closes or navigates
+        away. Use exclude_custom to return only page-provided tools.
 
         Args:
+          exclude_custom: Exclude custom tools when true.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -131,7 +150,13 @@ class WebmcpResource(SyncAPIResource):
         return self._get(
             path_template("/browsers/{id_or_name}/webmcp/tools", id_or_name=id_or_name),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"exclude_custom": exclude_custom}, webmcp_list_tools_params.WebmcpListToolsParams
+                ),
             ),
             cast_to=ToolsResponse,
         )
@@ -139,6 +164,11 @@ class WebmcpResource(SyncAPIResource):
 
 class AsyncWebmcpResource(AsyncAPIResource):
     """Discover and invoke native page tools across the browser instance."""
+
+    @cached_property
+    def custom_tools(self) -> AsyncCustomToolsResource:
+        """Discover and invoke native page tools across the browser instance."""
+        return AsyncCustomToolsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncWebmcpResourceWithRawResponse:
@@ -182,7 +212,8 @@ class AsyncWebmcpResource(AsyncAPIResource):
         then submit through Playwright or computer interaction without invoking the tool
         again. If the tab or embedded frame disappears, or the request times out after
         invocation begins, the response reports outcome_unknown and the tool is not
-        retried.
+        retried. CDP-backed custom tool outputs above 240 KiB return an error rather
+        than a truncated result.
 
         Args:
           input: Tool input, limited to 1 MiB after JSON serialization.
@@ -217,6 +248,7 @@ class AsyncWebmcpResource(AsyncAPIResource):
         self,
         id_or_name: str,
         *,
+        exclude_custom: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -225,12 +257,16 @@ class AsyncWebmcpResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ToolsResponse:
         """
-        Returns a snapshot of native WebMCP tools available across every open tab and
-        embedded frame in the browser. Each tool includes an opaque tool_ref for
-        invoking that exact live registration. Tools disappear when their document
-        closes or navigates away.
+        Returns a snapshot of native and custom WebMCP tools available across every open
+        tab and embedded frame in the browser. Each tool includes an opaque tool_ref for
+        invoking that exact live registration, nested tool metadata, and source
+        information. Custom tools include their generated ID, namespace, and CDP
+        target_id in source. Tools disappear when their document closes or navigates
+        away. Use exclude_custom to return only page-provided tools.
 
         Args:
+          exclude_custom: Exclude custom tools when true.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -244,7 +280,13 @@ class AsyncWebmcpResource(AsyncAPIResource):
         return await self._get(
             path_template("/browsers/{id_or_name}/webmcp/tools", id_or_name=id_or_name),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"exclude_custom": exclude_custom}, webmcp_list_tools_params.WebmcpListToolsParams
+                ),
             ),
             cast_to=ToolsResponse,
         )
@@ -261,6 +303,11 @@ class WebmcpResourceWithRawResponse:
             webmcp.list_tools,
         )
 
+    @cached_property
+    def custom_tools(self) -> CustomToolsResourceWithRawResponse:
+        """Discover and invoke native page tools across the browser instance."""
+        return CustomToolsResourceWithRawResponse(self._webmcp.custom_tools)
+
 
 class AsyncWebmcpResourceWithRawResponse:
     def __init__(self, webmcp: AsyncWebmcpResource) -> None:
@@ -272,6 +319,11 @@ class AsyncWebmcpResourceWithRawResponse:
         self.list_tools = async_to_raw_response_wrapper(
             webmcp.list_tools,
         )
+
+    @cached_property
+    def custom_tools(self) -> AsyncCustomToolsResourceWithRawResponse:
+        """Discover and invoke native page tools across the browser instance."""
+        return AsyncCustomToolsResourceWithRawResponse(self._webmcp.custom_tools)
 
 
 class WebmcpResourceWithStreamingResponse:
@@ -285,6 +337,11 @@ class WebmcpResourceWithStreamingResponse:
             webmcp.list_tools,
         )
 
+    @cached_property
+    def custom_tools(self) -> CustomToolsResourceWithStreamingResponse:
+        """Discover and invoke native page tools across the browser instance."""
+        return CustomToolsResourceWithStreamingResponse(self._webmcp.custom_tools)
+
 
 class AsyncWebmcpResourceWithStreamingResponse:
     def __init__(self, webmcp: AsyncWebmcpResource) -> None:
@@ -296,3 +353,8 @@ class AsyncWebmcpResourceWithStreamingResponse:
         self.list_tools = async_to_streamed_response_wrapper(
             webmcp.list_tools,
         )
+
+    @cached_property
+    def custom_tools(self) -> AsyncCustomToolsResourceWithStreamingResponse:
+        """Discover and invoke native page tools across the browser instance."""
+        return AsyncCustomToolsResourceWithStreamingResponse(self._webmcp.custom_tools)

@@ -4,6 +4,7 @@ from typing import Optional
 
 from ..._models import BaseModel
 from .tool_frame import ToolFrame
+from .custom_tool_source import CustomToolSource
 
 __all__ = ["ToolSource"]
 
@@ -31,4 +32,12 @@ class ToolSource(BaseModel):
     """
     Monotonically increasing identifier for the browser window during the current
     browser process.
+    """
+
+    custom: Optional[CustomToolSource] = None
+
+    target_id: Optional[str] = None
+    """
+    CDP target ID for a custom tool's registration tab; omitted for page-provided
+    tools.
     """
