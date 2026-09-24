@@ -6,12 +6,14 @@ from .tool import Tool as Tool
 from .tool_frame import ToolFrame as ToolFrame
 from .tool_source import ToolSource as ToolSource
 from .f_move_params import FMoveParams as FMoveParams
+from .tool_metadata import ToolMetadata as ToolMetadata
 from .tools_response import ToolsResponse as ToolsResponse
 from .f_upload_params import FUploadParams as FUploadParams
 from .tool_annotations import ToolAnnotations as ToolAnnotations
 from .invocation_result import InvocationResult as InvocationResult
 from .log_stream_params import LogStreamParams as LogStreamParams
 from .browser_call_stack import BrowserCallStack as BrowserCallStack
+from .custom_tool_source import CustomToolSource as CustomToolSource
 from .f_file_info_params import FFileInfoParams as FFileInfoParams
 from .f_read_file_params import FReadFileParams as FReadFileParams
 from .f_list_files_params import FListFilesParams as FListFilesParams
@@ -46,6 +48,7 @@ from .process_status_response import ProcessStatusResponse as ProcessStatusRespo
 from .telemetry_events_params import TelemetryEventsParams as TelemetryEventsParams
 from .telemetry_stream_params import TelemetryStreamParams as TelemetryStreamParams
 from .browser_telemetry_config import BrowserTelemetryConfig as BrowserTelemetryConfig
+from .webmcp_list_tools_params import WebmcpListToolsParams as WebmcpListToolsParams
 from .browser_cdp_command_event import BrowserCdpCommandEvent as BrowserCdpCommandEvent
 from .browser_cdp_connect_event import BrowserCdpConnectEvent as BrowserCdpConnectEvent
 from .browser_console_log_event import BrowserConsoleLogEvent as BrowserConsoleLogEvent
