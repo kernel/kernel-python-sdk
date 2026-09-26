@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.113.0](https://github.com/kernel/kernel-python-sdk/compare/v0.112.0...v0.113.0) (2026-09-26)
+
+
+### Features
+
+* Randomize automatic search provider routing ([1da4b21](https://github.com/kernel/kernel-python-sdk/commit/1da4b212644549666e19f23146b8d1e2ab9511d9))
+
 ## [0.112.0](https://github.com/kernel/kernel-python-sdk/compare/v0.111.0...v0.112.0) (2026-09-24)
 
 
