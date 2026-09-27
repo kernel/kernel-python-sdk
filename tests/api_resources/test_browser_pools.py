@@ -44,6 +44,7 @@ class TestBrowserPools:
             fill_rate_per_minute=0,
             headless=False,
             kiosk_mode=True,
+            memory="8GiB",
             name="my-pool",
             network={
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
@@ -194,6 +195,7 @@ class TestBrowserPools:
             fill_rate_per_minute=0,
             headless=False,
             kiosk_mode=True,
+            memory="8GiB",
             name="my-pool",
             network={
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
@@ -593,6 +595,7 @@ class TestAsyncBrowserPools:
             fill_rate_per_minute=0,
             headless=False,
             kiosk_mode=True,
+            memory="8GiB",
             name="my-pool",
             network={
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
@@ -743,6 +746,7 @@ class TestAsyncBrowserPools:
             fill_rate_per_minute=0,
             headless=False,
             kiosk_mode=True,
+            memory="8GiB",
             name="my-pool",
             network={
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],

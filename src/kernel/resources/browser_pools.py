@@ -8,6 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..types import (
+    BrowserMemoryRequest,
     browser_pool_list_params,
     browser_pool_create_params,
     browser_pool_delete_params,
@@ -29,6 +30,7 @@ from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.tags_param import TagsParam
 from ..types.browser_pool import BrowserPool
+from ..types.browser_memory_request import BrowserMemoryRequest
 from ..types.browser_network_config_param import BrowserNetworkConfigParam
 from ..types.browser_pool_acquire_response import BrowserPoolAcquireResponse
 from ..types.shared_params.browser_profile import BrowserProfile
@@ -69,6 +71,7 @@ class BrowserPoolsResource(SyncAPIResource):
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
+        memory: BrowserMemoryRequest | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_create_params.Profile | Omit = omit,
@@ -115,6 +118,8 @@ class BrowserPoolsResource(SyncAPIResource):
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view. Defaults to false.
+
+          memory: Memory requested for headful browsers in this pool.
 
           name: Optional name for the browser pool. Must be unique within the project.
 
@@ -187,6 +192,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,
                     "kiosk_mode": kiosk_mode,
+                    "memory": memory,
                     "name": name,
                     "network": network,
                     "profile": profile,
@@ -250,6 +256,7 @@ class BrowserPoolsResource(SyncAPIResource):
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
+        memory: Literal["8GiB", "16GiB"] | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_update_params.Profile | Omit = omit,
@@ -301,6 +308,10 @@ class BrowserPoolsResource(SyncAPIResource):
           headless: If provided, replaces whether browsers launch using a headless image.
 
           kiosk_mode: If provided, replaces whether browsers launch in kiosk mode.
+
+          memory: Memory requested for newly-warmed headful browsers in this pool. Existing
+              browsers retain their original allocation. Use discard_all_idle to replace idle
+              browsers.
 
           name: If provided, replaces the pool name. Empty string is a no-op; the pool name
               cannot be cleared or reset to empty once assigned.
@@ -380,6 +391,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,
                     "kiosk_mode": kiosk_mode,
+                    "memory": memory,
                     "name": name,
                     "network": network,
                     "profile": profile,
@@ -706,6 +718,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
+        memory: BrowserMemoryRequest | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_create_params.Profile | Omit = omit,
@@ -752,6 +765,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view. Defaults to false.
+
+          memory: Memory requested for headful browsers in this pool.
 
           name: Optional name for the browser pool. Must be unique within the project.
 
@@ -824,6 +839,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,
                     "kiosk_mode": kiosk_mode,
+                    "memory": memory,
                     "name": name,
                     "network": network,
                     "profile": profile,
@@ -887,6 +903,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
+        memory: Literal["8GiB", "16GiB"] | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_update_params.Profile | Omit = omit,
@@ -938,6 +955,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           headless: If provided, replaces whether browsers launch using a headless image.
 
           kiosk_mode: If provided, replaces whether browsers launch in kiosk mode.
+
+          memory: Memory requested for newly-warmed headful browsers in this pool. Existing
+              browsers retain their original allocation. Use discard_all_idle to replace idle
+              browsers.
 
           name: If provided, replaces the pool name. Empty string is a no-op; the pool name
               cannot be cleared or reset to empty once assigned.
@@ -1017,6 +1038,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,
                     "kiosk_mode": kiosk_mode,
+                    "memory": memory,
                     "name": name,
                     "network": network,
                     "profile": profile,

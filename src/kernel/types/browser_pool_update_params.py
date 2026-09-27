@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Iterable, Optional
-from typing_extensions import TypedDict
+from typing_extensions import Literal, TypedDict
 
 from .browser_network_config_param import BrowserNetworkConfigParam
 from .shared_params.browser_viewport import BrowserViewport
@@ -60,6 +60,13 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
 
     kiosk_mode: bool
     """If provided, replaces whether browsers launch in kiosk mode."""
+
+    memory: Literal["8GiB", "16GiB"]
+    """Memory requested for newly-warmed headful browsers in this pool.
+
+    Existing browsers retain their original allocation. Use discard_all_idle to
+    replace idle browsers.
+    """
 
     name: str
     """If provided, replaces the pool name.

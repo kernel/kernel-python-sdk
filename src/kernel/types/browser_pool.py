@@ -5,6 +5,7 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
+from .browser_memory import BrowserMemory
 from .browser_network_config import BrowserNetworkConfig
 from .shared.browser_viewport import BrowserViewport
 from .shared.browser_extension import BrowserExtension
@@ -72,6 +73,9 @@ class BrowserPoolConfig(BaseModel):
     If true, launches the browser in kiosk mode to hide address bar and tabs in live
     view.
     """
+
+    memory: Optional[BrowserMemory] = None
+    """Memory allocated to the browser session."""
 
     name: Optional[str] = None
     """Optional name for the browser pool. Must be unique within the project."""

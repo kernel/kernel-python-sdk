@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Dict, Iterable, Optional
 from typing_extensions import Literal, Required, TypedDict
 
+from .browser_memory_request import BrowserMemoryRequest
 from .browser_network_config_param import BrowserNetworkConfigParam
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
@@ -58,6 +59,9 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     If true, launches the browser in kiosk mode to hide address bar and tabs in live
     view. Defaults to false.
     """
+
+    memory: BrowserMemoryRequest
+    """Memory requested for headful browsers in this pool."""
 
     name: str
     """Optional name for the browser pool. Must be unique within the project."""
