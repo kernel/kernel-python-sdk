@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.113.0](https://github.com/kernel/kernel-python-sdk/compare/v0.112.0...v0.113.0) (2026-09-27)
+
+
+### Features
+
+* Randomize automatic search provider routing ([1da4b21](https://github.com/kernel/kernel-python-sdk/commit/1da4b212644549666e19f23146b8d1e2ab9511d9))
+* Support 16GiB memory in browser pools ([7d004de](https://github.com/kernel/kernel-python-sdk/commit/7d004def693a57505b4294307b272ba1fc4f78b2))
+
 ## [0.112.0](https://github.com/kernel/kernel-python-sdk/compare/v0.111.0...v0.112.0) (2026-09-24)
 
 

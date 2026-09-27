@@ -64,7 +64,8 @@ class ProvidersResource(SyncAPIResource):
         contains no latency benchmarks. X-Request-Id identifies the request.
 
         Args:
-          slug: Optional concrete provider slug filter. Omit to list every provider.
+          slug: Optional concrete provider slug filter. Omit to list every provider. A slug that
+              is not listed returns an empty array.
 
           extra_headers: Send extra headers
 
@@ -128,7 +129,8 @@ class AsyncProvidersResource(AsyncAPIResource):
         contains no latency benchmarks. X-Request-Id identifies the request.
 
         Args:
-          slug: Optional concrete provider slug filter. Omit to list every provider.
+          slug: Optional concrete provider slug filter. Omit to list every provider. A slug that
+              is not listed returns an empty array.
 
           extra_headers: Send extra headers
 
