@@ -229,7 +229,8 @@ class TelemetryStorage(TypedDict, total=False):
     enabled: bool
     """Whether captured telemetry is persisted to Kernel storage.
 
-    Defaults to true. Setting false is not supported yet and is rejected.
+    Defaults to true. Setting false requires an OTLP destination and cannot be
+    changed after the browser is created.
     """
 
 
