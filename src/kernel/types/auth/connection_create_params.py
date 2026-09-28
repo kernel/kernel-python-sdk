@@ -15,6 +15,7 @@ __all__ = [
     "BrowserTelemetryExport",
     "BrowserTelemetryExportOtlp",
     "BrowserTelemetryExportOtlpDestination",
+    "BrowserTelemetryStorage",
     "Credential",
     "Proxy",
 ]
@@ -166,6 +167,16 @@ class BrowserTelemetryExport(TypedDict, total=False):
     """
 
 
+class BrowserTelemetryStorage(TypedDict, total=False):
+    """Whether to persist this session's captured telemetry to Kernel storage."""
+
+    enabled: bool
+    """Whether captured telemetry is persisted to Kernel storage.
+
+    Defaults to true. Setting false is not supported yet and is rejected.
+    """
+
+
 class BrowserTelemetry(TypedDict, total=False):
     """Deprecated.
 
@@ -204,6 +215,9 @@ class BrowserTelemetry(TypedDict, total=False):
 
     Omit to capture without exporting.
     """
+
+    storage: BrowserTelemetryStorage
+    """Whether to persist this session's captured telemetry to Kernel storage."""
 
 
 class Credential(TypedDict, total=False):

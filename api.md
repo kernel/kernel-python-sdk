@@ -207,6 +207,7 @@ from kernel.types.browsers import (
     BrowserTelemetryEvent,
     BrowserTelemetryExportConfig,
     BrowserTelemetryOtlpExportConfig,
+    BrowserTelemetryStorageConfig,
     TelemetryEventsResponse,
     TelemetryStreamResponse,
 )

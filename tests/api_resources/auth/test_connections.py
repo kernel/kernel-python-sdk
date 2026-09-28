@@ -74,6 +74,7 @@ class TestConnections:
                             "enabled": True,
                         }
                     },
+                    "storage": {"enabled": True},
                 },
             },
             browser_telemetry={
@@ -102,6 +103,7 @@ class TestConnections:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             credential={
                 "auto": True,
@@ -240,6 +242,7 @@ class TestConnections:
                             "enabled": True,
                         }
                     },
+                    "storage": {"enabled": True},
                 },
             },
             browser_telemetry={
@@ -268,6 +271,7 @@ class TestConnections:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             credential={
                 "auto": True,
@@ -491,6 +495,7 @@ class TestConnections:
                             "enabled": True,
                         }
                     },
+                    "storage": {"enabled": True},
                 },
             },
             browser_telemetry={
@@ -519,6 +524,7 @@ class TestConnections:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             proxy={
                 "id": "id",
@@ -737,6 +743,7 @@ class TestAsyncConnections:
                             "enabled": True,
                         }
                     },
+                    "storage": {"enabled": True},
                 },
             },
             browser_telemetry={
@@ -765,6 +772,7 @@ class TestAsyncConnections:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             credential={
                 "auto": True,
@@ -903,6 +911,7 @@ class TestAsyncConnections:
                             "enabled": True,
                         }
                     },
+                    "storage": {"enabled": True},
                 },
             },
             browser_telemetry={
@@ -931,6 +940,7 @@ class TestAsyncConnections:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             credential={
                 "auto": True,
@@ -1154,6 +1164,7 @@ class TestAsyncConnections:
                             "enabled": True,
                         }
                     },
+                    "storage": {"enabled": True},
                 },
             },
             browser_telemetry={
@@ -1182,6 +1193,7 @@ class TestAsyncConnections:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             proxy={
                 "id": "id",
