@@ -20,6 +20,7 @@ from .vault_fill_field_param import VaultFillFieldParam as VaultFillFieldParam
 from .wallet_vault_item_spec import WalletVaultItemSpec as WalletVaultItemSpec
 from .vault_fill_field_result import VaultFillFieldResult as VaultFillFieldResult
 from .wallet_vault_item_state import WalletVaultItemState as WalletVaultItemState
+from .one_password_oauth_action import OnePasswordOAuthAction as OnePasswordOAuthAction
 from .card_vault_item_spec_param import CardVaultItemSpecParam as CardVaultItemSpecParam
 from .credential_vault_item_spec import CredentialVaultItemSpec as CredentialVaultItemSpec
 from .credential_vault_field_type import CredentialVaultFieldType as CredentialVaultFieldType
@@ -28,15 +29,22 @@ from .agentcard_prepared_processor import AgentcardPreparedProcessor as Agentcar
 from .credential_collection_action import CredentialCollectionAction as CredentialCollectionAction
 from .credential_vault_field_state import CredentialVaultFieldState as CredentialVaultFieldState
 from .vault_checkout_context_param import VaultCheckoutContextParam as VaultCheckoutContextParam
+from .credential_account_vault_item import CredentialAccountVaultItem as CredentialAccountVaultItem
 from .item_perform_operation_params import ItemPerformOperationParams as ItemPerformOperationParams
 from .vault_item_operation_response import VaultItemOperationResponse as VaultItemOperationResponse
 from .agentcard_checkout_preparation import AgentcardCheckoutPreparation as AgentcardCheckoutPreparation
 from .agentcard_checkout_authorization import AgentcardCheckoutAuthorization as AgentcardCheckoutAuthorization
 from .fill_vault_item_operation_result import FillVaultItemOperationResult as FillVaultItemOperationResult
 from .credential_vault_field_definition import CredentialVaultFieldDefinition as CredentialVaultFieldDefinition
+from .kernel_credential_vault_item_spec import KernelCredentialVaultItemSpec as KernelCredentialVaultItemSpec
 from .credential_vault_field_input_param import CredentialVaultFieldInputParam as CredentialVaultFieldInputParam
+from .kernel_credential_vault_item_state import KernelCredentialVaultItemState as KernelCredentialVaultItemState
 from .credential_vault_field_update_param import CredentialVaultFieldUpdateParam as CredentialVaultFieldUpdateParam
 from .credential_vault_item_request_param import CredentialVaultItemRequestParam as CredentialVaultItemRequestParam
+from .one_password_credential_account_spec import OnePasswordCredentialAccountSpec as OnePasswordCredentialAccountSpec
+from .one_password_credential_account_state import (
+    OnePasswordCredentialAccountState as OnePasswordCredentialAccountState,
+)
 from .credential_vault_item_spec_input_param import (
     CredentialVaultItemSpecInputParam as CredentialVaultItemSpecInputParam,
 )
@@ -46,15 +54,45 @@ from .credential_vault_item_spec_update_param import (
 from .fill_vault_item_operation_request_param import (
     FillVaultItemOperationRequestParam as FillVaultItemOperationRequestParam,
 )
+from .one_password_credential_vault_item_spec import (
+    OnePasswordCredentialVaultItemSpec as OnePasswordCredentialVaultItemSpec,
+)
+from .one_password_credential_vault_item_state import (
+    OnePasswordCredentialVaultItemState as OnePasswordCredentialVaultItemState,
+)
 from .collect_vault_item_operation_request_param import (
     CollectVaultItemOperationRequestParam as CollectVaultItemOperationRequestParam,
 )
 from .credential_vault_item_update_request_param import (
     CredentialVaultItemUpdateRequestParam as CredentialVaultItemUpdateRequestParam,
 )
+from .one_password_credential_account_spec_param import (
+    OnePasswordCredentialAccountSpecParam as OnePasswordCredentialAccountSpecParam,
+)
+from .credential_account_vault_item_request_param import (
+    CredentialAccountVaultItemRequestParam as CredentialAccountVaultItemRequestParam,
+)
 from .authorize_vault_item_operation_request_param import (
     AuthorizeVaultItemOperationRequestParam as AuthorizeVaultItemOperationRequestParam,
 )
+from .kernel_credential_vault_item_spec_input_param import (
+    KernelCredentialVaultItemSpecInputParam as KernelCredentialVaultItemSpecInputParam,
+)
+from .one_password_fill_vault_item_operation_result import (
+    OnePasswordFillVaultItemOperationResult as OnePasswordFillVaultItemOperationResult,
+)
+from .one_password_credential_vault_item_spec_input_param import (
+    OnePasswordCredentialVaultItemSpecInputParam as OnePasswordCredentialVaultItemSpecInputParam,
+)
 from .prepare_checkout_vault_item_operation_request_param import (
     PrepareCheckoutVaultItemOperationRequestParam as PrepareCheckoutVaultItemOperationRequestParam,
+)
+from .one_password_fill_vault_item_operation_request_param import (
+    OnePasswordFillVaultItemOperationRequestParam as OnePasswordFillVaultItemOperationRequestParam,
+)
+from .one_password_recover_vault_item_operation_request_param import (
+    OnePasswordRecoverVaultItemOperationRequestParam as OnePasswordRecoverVaultItemOperationRequestParam,
+)
+from .one_password_request_access_vault_item_operation_request_param import (
+    OnePasswordRequestAccessVaultItemOperationRequestParam as OnePasswordRequestAccessVaultItemOperationRequestParam,
 )

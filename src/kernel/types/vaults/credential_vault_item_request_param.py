@@ -11,19 +11,18 @@ __all__ = ["CredentialVaultItemRequestParam"]
 
 class CredentialVaultItemRequestParam(TypedDict, total=False):
     """
-    Create a credential item without a wallet or external provider.
-    Do not use credential items to store, collect, or fill credit card data,
-    including card numbers (PANs), security codes (CVV/CVC), or expiration dates.
-    Use wallet and card item types for credit cards and payment checkout instead.
-    If all required fields have values, return ready without a collection action;
-    collect can still open its form. Otherwise return pending_collection with
-    a time-scoped Kernel-hosted collection action. Missing
-    optional fields alone do not trigger collection. Repeating the original
-    creation request returns the current item without overwriting later edits;
-    a different request at the same key returns 409. Use PATCH for updates.
-    Required totp fields must include a valid seed on creation; otherwise return
-    400 rather than opening a form that cannot collect it. Optional totp fields
-    may be unset and populated later through PATCH.
+    Ask the end-user whether to link their site credential through 1Password.
+    If they choose 1Password, connect their account and request access to a login
+    in their own non-shared vault; passkeys are not supported. If they decline
+    or that path fails, collect a Kernel-hosted credential item instead. Never
+    automatically retry an uncertain 1Password request or fill.
+    Do not use credential items for credit card data. Use wallet and card item types instead.
+    Kernel credentials declare fields and may enter pending_collection.
+    1Password credentials either reference a connected credential_account or
+    store a supplied access token and integration key encrypted on the item.
+    They store no login values or selectors. Repeating the original creation
+    request returns the current item without overwriting later state. A
+    different request at the same key returns 409.
     """
 
     spec: Required[CredentialVaultItemSpecInputParam]

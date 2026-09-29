@@ -1,15 +1,22 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import List, Union, Optional
 from datetime import datetime
-from typing_extensions import Literal
+from typing_extensions import Literal, Annotated, TypeAlias
 
+from ..._utils import PropertyInfo
 from ..._models import BaseModel
 from .credential_vault_item_spec import CredentialVaultItemSpec
 from .credential_vault_item_state import CredentialVaultItemState
 from .credential_collection_action import CredentialCollectionAction
 
-__all__ = ["CredentialVaultItem", "AvailableExpansion", "AvailableOperation"]
+__all__ = [
+    "CredentialVaultItem",
+    "AvailableExpansion",
+    "AvailableOperation",
+    "Action",
+    "ActionOnePasswordAccessApprovalAction",
+]
 
 
 class AvailableExpansion(BaseModel):
@@ -30,7 +37,39 @@ class AvailableOperation(BaseModel):
 
     description: str
 
-    type: Literal["authorize", "collect", "prepare_checkout", "fill"]
+    type: Literal[
+        "authorize",
+        "collect",
+        "prepare_checkout",
+        "fill",
+        "1pw_create_access_request",
+        "1pw_access_request_status",
+        "1pw_fill",
+        "1pw_recover",
+        "1pw_update_access_token",
+    ]
+
+
+class ActionOnePasswordAccessApprovalAction(BaseModel):
+    instructions: str
+    """
+    Steps for the agent to hand approval to the human and poll the resulting
+    decision.
+    """
+
+    name: Literal["1password_access_approval"]
+
+    url: str
+    """Native 1Password approval link.
+
+    Present it to the account owner without modifying it; it does not grant access
+    until they approve in their app.
+    """
+
+
+Action: TypeAlias = Annotated[
+    Union[CredentialCollectionAction, ActionOnePasswordAccessApprovalAction], PropertyInfo(discriminator="name")
+]
 
 
 class CredentialVaultItem(BaseModel):
@@ -39,9 +78,11 @@ class CredentialVaultItem(BaseModel):
     available_expansions: List[AvailableExpansion]
 
     available_operations: List[AvailableOperation]
-    """Advertises collect for ready and pending_collection items.
+    """Kernel credentials advertise collect and fill when eligible.
 
-    Browser fill is advertised only when separately implemented and eligible.
+    1Password credentials advertise 1pw_create_access_request until a request is
+    made, 1pw_access_request_status while its approval is pending, and 1pw_fill
+    after access is granted.
     """
 
     created_at: datetime
@@ -50,6 +91,10 @@ class CredentialVaultItem(BaseModel):
     """Immutable item key assigned when the item is created."""
 
     spec: CredentialVaultItemSpec
+    """
+    Stored-token credentials omit account and never return access_token or
+    integration_key.
+    """
 
     state: CredentialVaultItemState
 
@@ -63,7 +108,7 @@ class CredentialVaultItem(BaseModel):
     collection-link renewal.
     """
 
-    action: Optional[CredentialCollectionAction] = None
+    action: Optional[Action] = None
     """
     One schema-derived form for the item, available in ready or pending_collection
     state. Render every form-supported field as editable; omit totp fields and
