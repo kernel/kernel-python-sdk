@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union
+from typing import Union, Optional
 from datetime import datetime
 from typing_extensions import Literal, Annotated, TypeAlias
 
@@ -29,6 +29,12 @@ class VaultLinkProviderConfig(BaseModel):
     provider: Literal["link"]
 
     updated_at: datetime
+
+    publishable_key: Optional[str] = None
+    """Stripe publishable key sent to Link when refreshing and revoking wallet grants.
+
+    Omitted when not configured.
+    """
 
 
 class VaultAgentCardProviderConfig(BaseModel):

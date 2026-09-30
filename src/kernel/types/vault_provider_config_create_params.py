@@ -28,6 +28,14 @@ class VaultLinkProviderConfigRequestCredentials(TypedDict, total=False):
 
     client_secret: Required[str]
 
+    publishable_key: str
+    """Stripe publishable key for the account that owns the Link OAuth client.
+
+    Link requires it as the bearer credential when Kernel refreshes or revokes
+    imported wallet grants; without it, those wallets stop working when the imported
+    access token expires.
+    """
+
 
 class VaultAgentCardProviderConfigRequest(TypedDict, total=False):
     credentials: Required[VaultAgentCardProviderConfigRequestCredentials]

@@ -1,20 +1,14 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict
-from typing_extensions import Literal
+from typing import Union
+from typing_extensions import Annotated, TypeAlias
 
-from ..._models import BaseModel
-from .credential_vault_field_state import CredentialVaultFieldState
+from ..._utils import PropertyInfo
+from .kernel_credential_vault_item_state import KernelCredentialVaultItemState
+from .one_password_credential_vault_item_state import OnePasswordCredentialVaultItemState
 
 __all__ = ["CredentialVaultItemState"]
 
-
-class CredentialVaultItemState(BaseModel):
-    fields: Dict[str, CredentialVaultFieldState]
-    """Exactly one entry for each declared field."""
-
-    status: Literal["pending_collection", "ready"]
-    """Ready means all required fields have values, not that a login succeeded.
-
-    Optional fields may remain unset.
-    """
+CredentialVaultItemState: TypeAlias = Annotated[
+    Union[KernelCredentialVaultItemState, OnePasswordCredentialVaultItemState], PropertyInfo(discriminator="provider")
+]

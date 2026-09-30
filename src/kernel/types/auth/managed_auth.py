@@ -14,6 +14,7 @@ __all__ = [
     "BrowserTelemetryExport",
     "BrowserTelemetryExportOtlp",
     "BrowserTelemetryExportOtlpDestination",
+    "BrowserTelemetryStorage",
     "Choice",
     "Credential",
     "DiscoveredField",
@@ -68,6 +69,17 @@ class BrowserTelemetryExport(BaseModel):
     """
 
 
+class BrowserTelemetryStorage(BaseModel):
+    """Whether to persist this session's captured telemetry to Kernel storage."""
+
+    enabled: Optional[bool] = None
+    """Whether captured telemetry is persisted to Kernel storage.
+
+    Defaults to true. Setting false requires an OTLP destination and cannot be
+    changed after the browser is created.
+    """
+
+
 class BrowserTelemetry(BaseModel):
     """Deprecated.
 
@@ -106,6 +118,9 @@ class BrowserTelemetry(BaseModel):
 
     Omit to capture without exporting.
     """
+
+    storage: Optional[BrowserTelemetryStorage] = None
+    """Whether to persist this session's captured telemetry to Kernel storage."""
 
 
 class Choice(BaseModel):
@@ -309,7 +324,11 @@ class ManagedAuth(BaseModel):
     """
 
     status: Literal["AUTHENTICATED", "NEEDS_AUTH"]
-    """Current authentication status of the managed profile"""
+    """Last known authentication status of the managed profile.
+
+    An inconclusive health check preserves this status and does not verify the
+    current session.
+    """
 
     allowed_domains: Optional[List[str]] = None
     """Additional hostname roots valid for this auth flow, besides the primary domain.
@@ -502,6 +521,13 @@ class ManagedAuth(BaseModel):
     3600 (1 hour) or your plan minimum, whichever is larger. The minimum depends on
     your plan: Enterprise: 300 (5 minutes), Startup: 1200 (20 minutes), Hobbyist:
     3600 (1 hour), Free: 21600 (6 hours).
+    """
+
+    health_check_unavailable_reason: Optional[Literal["no_auth_check_url"]] = None
+    """Why health checks cannot verify this connection.
+
+    Present when health checks are enabled but no auth check URL is available; a
+    recent last_auth_check_at is not evidence of a valid session.
     """
 
     health_checks: Optional[bool] = None

@@ -5,6 +5,7 @@ from typing_extensions import Literal, Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
+from .one_password_oauth_action import OnePasswordOAuthAction
 
 __all__ = [
     "VaultItemAction",
@@ -55,6 +56,7 @@ class CardEnrollmentAction(BaseModel):
 VaultItemAction: TypeAlias = Annotated[
     Union[
         LinkOAuthAction,
+        OnePasswordOAuthAction,
         SpendApprovalAction,
         PushApprovalAction,
         CollectAction,

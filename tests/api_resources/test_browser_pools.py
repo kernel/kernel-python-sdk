@@ -93,6 +93,7 @@ class TestBrowserPools:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             timeout_seconds=10,
             viewport={
@@ -244,6 +245,7 @@ class TestBrowserPools:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             timeout_seconds=10,
             viewport={
@@ -430,6 +432,7 @@ class TestBrowserPools:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
         )
         assert_matches_type(BrowserPoolAcquireResponse, browser_pool, path=["response"])
@@ -644,6 +647,7 @@ class TestAsyncBrowserPools:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             timeout_seconds=10,
             viewport={
@@ -795,6 +799,7 @@ class TestAsyncBrowserPools:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             timeout_seconds=10,
             viewport={
@@ -981,6 +986,7 @@ class TestAsyncBrowserPools:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
         )
         assert_matches_type(BrowserPoolAcquireResponse, browser_pool, path=["response"])

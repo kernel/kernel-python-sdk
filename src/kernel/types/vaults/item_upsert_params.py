@@ -7,6 +7,7 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .card_vault_item_spec_param import CardVaultItemSpecParam
 from .credential_vault_item_spec_input_param import CredentialVaultItemSpecInputParam
+from .one_password_credential_account_spec_param import OnePasswordCredentialAccountSpecParam
 
 __all__ = [
     "ItemUpsertParams",
@@ -23,6 +24,7 @@ __all__ = [
     "WalletVaultItemRequestSpecAgentCardWalletVaultItemSpec",
     "WalletVaultItemRequestSpecAgentCardWalletVaultItemSpecProviderConfig",
     "CardVaultItemRequest",
+    "CredentialAccountVaultItemRequest",
     "CredentialVaultItemRequest",
 ]
 
@@ -67,7 +69,7 @@ class WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpecAuthorizationImpor
 ):
     """Select a provider config by ID or name.
 
-    Responses return the ID. Renaming a config does not change existing wallet bindings; a wallet cannot switch to a different config after creation.
+    Responses return the ID. Renaming a config does not change existing wallet bindings; an item cannot switch to a different config after creation.
     """
 
     id: str
@@ -84,7 +86,7 @@ class WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpecAuthorizationImpor
     """Select a provider config by ID or name.
 
     Responses return the ID. Renaming a config does not change existing wallet
-    bindings; a wallet cannot switch to a different config after creation.
+    bindings; an item cannot switch to a different config after creation.
     """
 
     type: Required[Literal["customer_managed"]]
@@ -187,6 +189,14 @@ class CardVaultItemRequest(TypedDict, total=False):
     type: Required[Literal["card"]]
 
 
+class CredentialAccountVaultItemRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    spec: Required[OnePasswordCredentialAccountSpecParam]
+
+    type: Required[Literal["credential_account"]]
+
+
 class CredentialVaultItemRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
@@ -202,4 +212,6 @@ class CredentialVaultItemRequest(TypedDict, total=False):
     type: Required[Literal["credential"]]
 
 
-ItemUpsertParams: TypeAlias = Union[WalletVaultItemRequest, CardVaultItemRequest, CredentialVaultItemRequest]
+ItemUpsertParams: TypeAlias = Union[
+    WalletVaultItemRequest, CardVaultItemRequest, CredentialAccountVaultItemRequest, CredentialVaultItemRequest
+]

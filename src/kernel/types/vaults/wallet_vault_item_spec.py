@@ -26,7 +26,7 @@ class LinkWalletVaultItemSpecAuthorizationClientKernelManagedOAuthClient(BaseMod
 class LinkWalletVaultItemSpecAuthorizationClientCustomerManagedOAuthClientProviderConfig(BaseModel):
     """Select a provider config by ID or name.
 
-    Responses return the ID. Renaming a config does not change existing wallet bindings; a wallet cannot switch to a different config after creation.
+    Responses return the ID. Renaming a config does not change existing wallet bindings; an item cannot switch to a different config after creation.
     """
 
     id: Optional[str] = None
@@ -39,7 +39,7 @@ class LinkWalletVaultItemSpecAuthorizationClientCustomerManagedOAuthClient(BaseM
     """Select a provider config by ID or name.
 
     Responses return the ID. Renaming a config does not change existing wallet
-    bindings; a wallet cannot switch to a different config after creation.
+    bindings; an item cannot switch to a different config after creation.
     """
 
     type: Literal["customer_managed"]

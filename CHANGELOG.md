@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.114.0](https://github.com/kernel/kernel-python-sdk/compare/v0.113.0...v0.114.0) (2026-09-30)
+
+
+### Features
+
+* Accept telemetry.storage and settle it at browser create ([28fb2d3](https://github.com/kernel/kernel-python-sdk/commit/28fb2d3c8fd83090d83404a0b407557585bf93f6))
+* Allow export-only network and console telemetry for BAA orgs ([2ff8d4a](https://github.com/kernel/kernel-python-sdk/commit/2ff8d4acacb1b8152b9c7d1b38067c1b02167f40))
+* Expose missing managed auth check URL as verification unavailable ([74dbad8](https://github.com/kernel/kernel-python-sdk/commit/74dbad8f0cdf5b414022ad907f6e20ee54893c59))
+* Let Vaults fill credentials from 1Password ([2937b10](https://github.com/kernel/kernel-python-sdk/commit/2937b10cce135282b6badc7e5bf71d339500ffdb))
+* Send Stripe publishable key when refreshing customer-owned Link grants ([5c1bed3](https://github.com/kernel/kernel-python-sdk/commit/5c1bed353eb421bff589bcc86b2940ca750e3999))
+
 ## [0.113.0](https://github.com/kernel/kernel-python-sdk/compare/v0.112.0...v0.113.0) (2026-09-27)
 
 

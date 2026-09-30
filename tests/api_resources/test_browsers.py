@@ -104,6 +104,7 @@ class TestBrowsers:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             timeout_seconds=10,
             vaults=[
@@ -250,6 +251,7 @@ class TestBrowsers:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             viewport={
                 "height": 800,
@@ -646,6 +648,7 @@ class TestAsyncBrowsers:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             timeout_seconds=10,
             vaults=[
@@ -792,6 +795,7 @@ class TestAsyncBrowsers:
                         "enabled": True,
                     }
                 },
+                "storage": {"enabled": True},
             },
             viewport={
                 "height": 800,

@@ -13,6 +13,7 @@ __all__ = [
     "TelemetryExport",
     "TelemetryExportOtlp",
     "TelemetryExportOtlpDestination",
+    "TelemetryStorage",
 ]
 
 
@@ -60,6 +61,17 @@ class TelemetryExport(BaseModel):
     """
 
 
+class TelemetryStorage(BaseModel):
+    """Whether to persist this session's captured telemetry to Kernel storage."""
+
+    enabled: Optional[bool] = None
+    """Whether captured telemetry is persisted to Kernel storage.
+
+    Defaults to true. Setting false requires an OTLP destination and cannot be
+    changed after the browser is created.
+    """
+
+
 class Telemetry(BaseModel):
     """Browser telemetry configuration using the same semantics as browser create."""
 
@@ -95,6 +107,9 @@ class Telemetry(BaseModel):
 
     Omit to capture without exporting.
     """
+
+    storage: Optional[TelemetryStorage] = None
+    """Whether to persist this session's captured telemetry to Kernel storage."""
 
 
 class ManagedAuthBrowserConfig(BaseModel):

@@ -17,6 +17,7 @@ __all__ = [
     "TelemetryExport",
     "TelemetryExportOtlp",
     "TelemetryExportOtlpDestination",
+    "TelemetryStorage",
 ]
 
 
@@ -222,6 +223,17 @@ class TelemetryExport(TypedDict, total=False):
     """
 
 
+class TelemetryStorage(TypedDict, total=False):
+    """Whether to persist this session's captured telemetry to Kernel storage."""
+
+    enabled: bool
+    """Whether captured telemetry is persisted to Kernel storage.
+
+    Defaults to true. Setting false requires an OTLP destination and cannot be
+    changed after the browser is created.
+    """
+
+
 class Telemetry(TypedDict, total=False):
     """If provided, updates the pool's telemetry configuration.
 
@@ -260,3 +272,6 @@ class Telemetry(TypedDict, total=False):
 
     Omit to capture without exporting.
     """
+
+    storage: TelemetryStorage
+    """Whether to persist this session's captured telemetry to Kernel storage."""

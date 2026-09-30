@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Any, List, Iterable, cast
+from typing import Any, List, Union, Iterable, cast
+from datetime import datetime
 from typing_extensions import Literal, overload
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -34,6 +35,7 @@ from ...types.vaults.vault_checkout_context_param import VaultCheckoutContextPar
 from ...types.vaults.vault_item_operation_response import VaultItemOperationResponse
 from ...types.vaults.credential_vault_item_spec_input_param import CredentialVaultItemSpecInputParam
 from ...types.vaults.credential_vault_item_spec_update_param import CredentialVaultItemSpecUpdateParam
+from ...types.vaults.one_password_credential_account_spec_param import OnePasswordCredentialAccountSpecParam
 
 __all__ = ["ItemsResource", "AsyncItemsResource"]
 
@@ -596,20 +598,299 @@ class ItemsResource(SyncAPIResource):
         """
         ...
 
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        browser_id: str,
+        type: Literal["1pw_create_access_request"],
+        goal: str | Omit = omit,
+        keywords: SequenceNotStr[str] | Omit = omit,
+        reason: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          browser_id: Kernel browser session used to invoke the extension.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        browser_id: str,
+        type: Literal["1pw_access_request_status"],
+        timeout_seconds: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        browser_id: str,
+        page_url: str,
+        type: Literal["1pw_fill"],
+        entry_id: str | Omit = omit,
+        timeout_ms: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          browser_id: Browser session ID, not a reusable browser name.
+
+          page_url: Exact current top-level page URL. Must match exactly one open page in the
+              browser.
+
+          entry_id: ID of an approved request entry. Required when several approved entries have the
+              page's origin.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        type: Literal["1pw_recover"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        access_token: str,
+        type: Literal["1pw_update_access_token"],
+        access_token_expires_at: Union[str, datetime] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          access_token_expires_at: Optional supplied expiry. Omit to clear the old expiry.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
     @required_args(
-        ["id_or_name", "type"], ["id_or_name", "checkout", "type"], ["id_or_name", "browser_id", "fields", "type"]
+        ["id_or_name", "type"],
+        ["id_or_name", "checkout", "type"],
+        ["id_or_name", "browser_id", "fields", "type"],
+        ["id_or_name", "browser_id", "type"],
+        ["id_or_name", "browser_id", "page_url", "type"],
+        ["id_or_name", "access_token", "type"],
     )
     def perform_operation(
         self,
         key: str,
         *,
         id_or_name: str,
-        type: Literal["authorize"] | Literal["collect"] | Literal["prepare_checkout"] | Literal["fill"],
+        type: Literal["authorize"]
+        | Literal["collect"]
+        | Literal["prepare_checkout"]
+        | Literal["fill"]
+        | Literal["1pw_create_access_request"]
+        | Literal["1pw_access_request_status"]
+        | Literal["1pw_fill"]
+        | Literal["1pw_recover"]
+        | Literal["1pw_update_access_token"],
         checkout: VaultCheckoutContextParam | Omit = omit,
         browser_id: str | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
         page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
+        goal: str | Omit = omit,
+        keywords: SequenceNotStr[str] | Omit = omit,
+        reason: str | Omit = omit,
+        timeout_seconds: int | Omit = omit,
+        entry_id: str | Omit = omit,
+        access_token: str | Omit = omit,
+        access_token_expires_at: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -633,6 +914,13 @@ class ItemsResource(SyncAPIResource):
                         "fields": fields,
                         "page_url": page_url,
                         "timeout_ms": timeout_ms,
+                        "goal": goal,
+                        "keywords": keywords,
+                        "reason": reason,
+                        "timeout_seconds": timeout_seconds,
+                        "entry_id": entry_id,
+                        "access_token": access_token,
+                        "access_token_expires_at": access_token_expires_at,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),
@@ -734,6 +1022,43 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        spec: OnePasswordCredentialAccountSpecParam,
+        type: Literal["credential_account"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet and card item types for credit cards and payment
+        checkout instead.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def upsert(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         spec: CredentialVaultItemSpecInputParam,
         type: Literal["credential"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -779,8 +1104,9 @@ class ItemsResource(SyncAPIResource):
         id_or_name: str,
         spec: item_upsert_params.WalletVaultItemRequestSpec
         | CardVaultItemSpecParam
+        | OnePasswordCredentialAccountSpecParam
         | CredentialVaultItemSpecInputParam,
-        type: Literal["wallet"] | Literal["card"] | Literal["credential"],
+        type: Literal["wallet"] | Literal["card"] | Literal["credential_account"] | Literal["credential"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1369,20 +1695,299 @@ class AsyncItemsResource(AsyncAPIResource):
         """
         ...
 
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        browser_id: str,
+        type: Literal["1pw_create_access_request"],
+        goal: str | Omit = omit,
+        keywords: SequenceNotStr[str] | Omit = omit,
+        reason: str | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          browser_id: Kernel browser session used to invoke the extension.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        browser_id: str,
+        type: Literal["1pw_access_request_status"],
+        timeout_seconds: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        browser_id: str,
+        page_url: str,
+        type: Literal["1pw_fill"],
+        entry_id: str | Omit = omit,
+        timeout_ms: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          browser_id: Browser session ID, not a reusable browser name.
+
+          page_url: Exact current top-level page URL. Must match exactly one open page in the
+              browser.
+
+          entry_id: ID of an approved request entry. Required when several approved entries have the
+              page's origin.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        type: Literal["1pw_recover"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        access_token: str,
+        type: Literal["1pw_update_access_token"],
+        access_token_expires_at: Union[str, datetime] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          access_token_expires_at: Optional supplied expiry. Omit to clear the old expiry.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
     @required_args(
-        ["id_or_name", "type"], ["id_or_name", "checkout", "type"], ["id_or_name", "browser_id", "fields", "type"]
+        ["id_or_name", "type"],
+        ["id_or_name", "checkout", "type"],
+        ["id_or_name", "browser_id", "fields", "type"],
+        ["id_or_name", "browser_id", "type"],
+        ["id_or_name", "browser_id", "page_url", "type"],
+        ["id_or_name", "access_token", "type"],
     )
     async def perform_operation(
         self,
         key: str,
         *,
         id_or_name: str,
-        type: Literal["authorize"] | Literal["collect"] | Literal["prepare_checkout"] | Literal["fill"],
+        type: Literal["authorize"]
+        | Literal["collect"]
+        | Literal["prepare_checkout"]
+        | Literal["fill"]
+        | Literal["1pw_create_access_request"]
+        | Literal["1pw_access_request_status"]
+        | Literal["1pw_fill"]
+        | Literal["1pw_recover"]
+        | Literal["1pw_update_access_token"],
         checkout: VaultCheckoutContextParam | Omit = omit,
         browser_id: str | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
         page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
+        goal: str | Omit = omit,
+        keywords: SequenceNotStr[str] | Omit = omit,
+        reason: str | Omit = omit,
+        timeout_seconds: int | Omit = omit,
+        entry_id: str | Omit = omit,
+        access_token: str | Omit = omit,
+        access_token_expires_at: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1406,6 +2011,13 @@ class AsyncItemsResource(AsyncAPIResource):
                         "fields": fields,
                         "page_url": page_url,
                         "timeout_ms": timeout_ms,
+                        "goal": goal,
+                        "keywords": keywords,
+                        "reason": reason,
+                        "timeout_seconds": timeout_seconds,
+                        "entry_id": entry_id,
+                        "access_token": access_token,
+                        "access_token_expires_at": access_token_expires_at,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),
@@ -1507,6 +2119,43 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        spec: OnePasswordCredentialAccountSpecParam,
+        type: Literal["credential_account"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet and card item types for credit cards and payment
+        checkout instead.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def upsert(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         spec: CredentialVaultItemSpecInputParam,
         type: Literal["credential"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1552,8 +2201,9 @@ class AsyncItemsResource(AsyncAPIResource):
         id_or_name: str,
         spec: item_upsert_params.WalletVaultItemRequestSpec
         | CardVaultItemSpecParam
+        | OnePasswordCredentialAccountSpecParam
         | CredentialVaultItemSpecInputParam,
-        type: Literal["wallet"] | Literal["card"] | Literal["credential"],
+        type: Literal["wallet"] | Literal["card"] | Literal["credential_account"] | Literal["credential"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
