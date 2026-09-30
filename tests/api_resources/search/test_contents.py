@@ -8,6 +8,8 @@ from typing import Any, cast
 import pytest
 
 from kernel import Kernel, AsyncKernel
+from tests.utils import assert_matches_type
+from kernel.types.search import Response
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -21,7 +23,7 @@ class TestContents:
         content = client.search.contents.fetch(
             id="srch_abc123",
         )
-        assert content is None
+        assert_matches_type(Response, content, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -43,7 +45,7 @@ class TestContents:
             result_ids=["string"],
             timeout_ms=1000,
         )
-        assert content is None
+        assert_matches_type(Response, content, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -55,7 +57,7 @@ class TestContents:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         content = response.parse()
-        assert content is None
+        assert_matches_type(Response, content, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -67,7 +69,7 @@ class TestContents:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             content = response.parse()
-            assert content is None
+            assert_matches_type(Response, content, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -91,7 +93,7 @@ class TestAsyncContents:
         content = await async_client.search.contents.fetch(
             id="srch_abc123",
         )
-        assert content is None
+        assert_matches_type(Response, content, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -113,7 +115,7 @@ class TestAsyncContents:
             result_ids=["string"],
             timeout_ms=1000,
         )
-        assert content is None
+        assert_matches_type(Response, content, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -125,7 +127,7 @@ class TestAsyncContents:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         content = await response.parse()
-        assert content is None
+        assert_matches_type(Response, content, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -137,7 +139,7 @@ class TestAsyncContents:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             content = await response.parse()
-            assert content is None
+            assert_matches_type(Response, content, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

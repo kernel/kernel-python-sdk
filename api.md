@@ -791,7 +791,7 @@ from kernel.types.search import FetchRequest, Response
 
 Methods:
 
-- <code title="post /search/{id}/contents">client.search.contents.<a href="./src/kernel/resources/search/contents.py">fetch</a>(id, \*\*<a href="src/kernel/types/search/content_fetch_params.py">params</a>) -> None</code>
+- <code title="post /search/{id}/contents">client.search.contents.<a href="./src/kernel/resources/search/contents.py">fetch</a>(id, \*\*<a href="src/kernel/types/search/content_fetch_params.py">params</a>) -> <a href="./src/kernel/types/search/response.py">Response</a></code>
 
 ## Providers
 

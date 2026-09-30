@@ -4,9 +4,11 @@ from typing import List, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
-from .._models import BaseModel
+from ..usage import Usage
+from ..warning import Warning
+from ..._models import BaseModel
 
-__all__ = ["Result", "Content", "ContentError"]
+__all__ = ["Response", "Content", "ContentError"]
 
 
 class ContentError(BaseModel):
@@ -20,10 +22,7 @@ class ContentError(BaseModel):
 
 
 class Content(BaseModel):
-    """Portable retrieval outcome, or native content supplied by the search provider.
-
-    Identity fields remain on the enclosing result. Native excerpts are labeled excerpt rather than full_page. Omission never triggers browser retrieval.
-    """
+    result_id: str
 
     status: Literal["ok", "unavailable", "blocked", "timeout", "unsupported_type", "extraction_failed", "error"]
     """Ok means non-empty extracted content, not merely HTTP 200.
@@ -32,6 +31,9 @@ class Content(BaseModel):
     best-effort, not a guarantee of page completeness. Error details are present for
     non-ok outcomes; text is present only on ok.
     """
+
+    url: str
+    """Original result URL."""
 
     cache_status: Optional[Literal["hit", "miss", "bypass", "unknown"]] = None
     """Kernel content cache outcome.
@@ -52,12 +54,23 @@ class Content(BaseModel):
     """Extraction version when Kernel transformed the input."""
 
     fetched_at: Optional[datetime] = None
-    """When Kernel received the content from the provider."""
+    """
+    When Kernel fetched the content, or received it from the provider for retained
+    content.
+    """
 
     final_url: Optional[str] = None
-    """Final retrieval URL when known."""
+    """Final retrieval URL after redirects when known.
+
+    Curl mode follows up to 5 redirects.
+    """
 
     format: Optional[Literal["markdown", "text"]] = None
+    """Format of text.
+
+    Plain-text and JSON pages are returned unchanged as text even when markdown was
+    requested.
+    """
 
     http_status: Optional[int] = None
     """Final target HTTP status when known."""
@@ -72,48 +85,17 @@ class Content(BaseModel):
     """
 
     truncated: Optional[bool] = None
-    """Whether max_chars truncated the extracted content."""
-
-
-class Result(BaseModel):
-    id: str
-    """Kernel-generated identifier for this result.
-
-    Stable only within the retained search; not standardized across providers.
-    Provider-native IDs, when available, remain provider-specific raw fields.
+    """
+    Whether the content was cut short, by max_chars or because the page exceeded the
+    1 MiB read limit.
     """
 
-    rank: int
-    """One-based position in the returned ranking."""
 
-    url: str
-    """Provider-returned URL, not assumed canonical."""
+class Response(BaseModel):
+    contents: List[Content]
 
-    additional_snippets: Optional[List[str]] = None
+    search_id: str
 
-    content: Optional[Content] = None
-    """Portable retrieval outcome, or native content supplied by the search provider.
+    usage: Usage
 
-    Identity fields remain on the enclosing result. Native excerpts are labeled
-    excerpt rather than full_page. Omission never triggers browser retrieval.
-    """
-
-    published_date: Optional[str] = None
-    """Provider-supplied date or timestamp, preserving available precision.
-
-    No publication date is fabricated. Retains the published field name.
-    """
-
-    raw: Optional[object] = None
-    """Original provider result, included only with include_raw=true.
-
-    Provider relevance scores are not normalized. Top-level provider data is
-    available in Search.raw.
-    """
-
-    snippet: Optional[str] = None
-
-    source: Optional[str] = None
-    """Provider source name or result URL hostname, when available."""
-
-    title: Optional[str] = None
+    warnings: List[Warning]

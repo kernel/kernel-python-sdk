@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, SequenceNotStr, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -16,6 +16,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.search import content_fetch_params
+from ...types.search.response import Response
 
 __all__ = ["ContentsResource", "AsyncContentsResource"]
 
@@ -56,11 +57,18 @@ class ContentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        Deferred result-content retrieval is reserved but not available in this release.
-        Requests return 404 until the retrieval implementation is shipped. X-Request-Id
-        identifies this request separately from the search resource.
+    ) -> Response:
+        """Retrieves selected results from a retained search.
+
+        Provide exactly one of
+        result_ids or limit; the latter fetches the top results. Content defaults to
+        source:auto. Responses preserve result_ids order. Unknown result IDs are
+        rejected before retrieval starts. Missing, expired, or inaccessible searches
+        return 404. Once retrieval begins, return one outcome per selected result,
+        including timeout entries for work unfinished at the overall deadline. Browser
+        retrievals run sequentially in result order, so later results may time out when
+        earlier pages are slow. X-Request-Id identifies this request separately from the
+        search resource.
 
         Args:
           content: Defaults to source:auto when omitted.
@@ -83,7 +91,6 @@ class ContentsResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._post(
             path_template("/search/{id}/contents", id=id),
             body=maybe_transform(
@@ -98,7 +105,7 @@ class ContentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=Response,
         )
 
 
@@ -138,11 +145,18 @@ class AsyncContentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> None:
-        """
-        Deferred result-content retrieval is reserved but not available in this release.
-        Requests return 404 until the retrieval implementation is shipped. X-Request-Id
-        identifies this request separately from the search resource.
+    ) -> Response:
+        """Retrieves selected results from a retained search.
+
+        Provide exactly one of
+        result_ids or limit; the latter fetches the top results. Content defaults to
+        source:auto. Responses preserve result_ids order. Unknown result IDs are
+        rejected before retrieval starts. Missing, expired, or inaccessible searches
+        return 404. Once retrieval begins, return one outcome per selected result,
+        including timeout entries for work unfinished at the overall deadline. Browser
+        retrievals run sequentially in result order, so later results may time out when
+        earlier pages are slow. X-Request-Id identifies this request separately from the
+        search resource.
 
         Args:
           content: Defaults to source:auto when omitted.
@@ -165,7 +179,6 @@ class AsyncContentsResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._post(
             path_template("/search/{id}/contents", id=id),
             body=await async_maybe_transform(
@@ -180,7 +193,7 @@ class AsyncContentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=NoneType,
+            cast_to=Response,
         )
 
 
