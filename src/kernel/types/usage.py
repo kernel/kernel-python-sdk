@@ -10,8 +10,8 @@ __all__ = ["Usage"]
 class Usage(BaseModel):
     content_fetches: int
     """
-    Number of result URLs for which a Kernel browser retrieval was attempted,
-    excluding cache-only hits.
+    Number of result URLs for which a Kernel browser retrieval received a response
+    from the target, excluding cache-only hits.
     """
 
     results_count: int
