@@ -35,6 +35,20 @@ class TestVaultProviderConfigs:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_create_with_all_params_overload_1(self, client: Kernel) -> None:
+        vault_provider_config = client.vault_provider_configs.create(
+            credentials={
+                "client_id": "x",
+                "client_secret": "x",
+                "publishable_key": "pk_test_lK9w2kI5J1",
+            },
+            name="name",
+            provider="link",
+        )
+        assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_create_overload_1(self, client: Kernel) -> None:
         response = client.vault_provider_configs.with_raw_response.create(
             credentials={
@@ -173,7 +187,10 @@ class TestVaultProviderConfigs:
     def test_method_update_with_all_params(self, client: Kernel) -> None:
         vault_provider_config = client.vault_provider_configs.update(
             id_or_name="id_or_name",
-            credentials={"client_secret": "x"},
+            credentials={
+                "client_secret": "x",
+                "publishable_key": "pk_test_lK9w2kI5J1",
+            },
             name="renamed-link-client",
         )
         assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])
@@ -304,6 +321,20 @@ class TestAsyncVaultProviderConfigs:
             credentials={
                 "client_id": "x",
                 "client_secret": "x",
+            },
+            name="name",
+            provider="link",
+        )
+        assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncKernel) -> None:
+        vault_provider_config = await async_client.vault_provider_configs.create(
+            credentials={
+                "client_id": "x",
+                "client_secret": "x",
+                "publishable_key": "pk_test_lK9w2kI5J1",
             },
             name="name",
             provider="link",
@@ -450,7 +481,10 @@ class TestAsyncVaultProviderConfigs:
     async def test_method_update_with_all_params(self, async_client: AsyncKernel) -> None:
         vault_provider_config = await async_client.vault_provider_configs.update(
             id_or_name="id_or_name",
-            credentials={"client_secret": "x"},
+            credentials={
+                "client_secret": "x",
+                "publishable_key": "pk_test_lK9w2kI5J1",
+            },
             name="renamed-link-client",
         )
         assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])

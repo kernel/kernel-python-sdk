@@ -26,3 +26,9 @@ class Credentials(TypedDict, total=False):
     """
 
     client_secret: str
+
+    publishable_key: str
+    """Link configurations only.
+
+    Stripe publishable key sent to Link when refreshing and revoking wallet grants.
+    """
