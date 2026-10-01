@@ -2,6 +2,7 @@
 
 from typing import List, Optional
 from datetime import datetime
+from typing_extensions import Literal
 
 from .._models import BaseModel
 
@@ -40,14 +41,32 @@ class Credential(BaseModel):
     identity provider's login page.
     """
 
+    totp_algorithm: Optional[Literal["SHA1", "SHA256", "SHA512"]] = None
+    """HMAC algorithm used to generate TOTP codes.
+
+    Defaults to SHA1 for credentials created before this metadata was stored.
+    """
+
     totp_code: Optional[str] = None
-    """Current 6-digit TOTP code.
+    """Current TOTP code.
 
     Only included in create/update responses when totp_secret was just set.
     """
 
     totp_code_expires_at: Optional[datetime] = None
     """When the totp_code expires. Only included when totp_code is present."""
+
+    totp_digits: Optional[int] = None
+    """Number of digits in generated TOTP codes.
+
+    Defaults to 6 for credentials created before this metadata was stored.
+    """
+
+    totp_period: Optional[int] = None
+    """TOTP rotation period in seconds.
+
+    Defaults to 30 for credentials created before this metadata was stored.
+    """
 
     value_keys: Optional[List[str]] = None
     """The field names stored in this credential's values (e.g., username, password).

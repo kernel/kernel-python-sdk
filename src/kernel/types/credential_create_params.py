@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict
-from typing_extensions import Required, TypedDict
+from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["CredentialCreateParams"]
 
@@ -26,8 +26,29 @@ class CredentialCreateParams(TypedDict, total=False):
     identity provider's login page.
     """
 
-    totp_secret: str
-    """Base32-encoded TOTP secret for generating one-time passwords.
+    totp_algorithm: Literal["SHA1", "SHA256", "SHA512"]
+    """HMAC algorithm used to generate TOTP codes.
 
-    Used for automatic 2FA during login.
+    Defaults to SHA1 and is ignored when an `otpauth://` URI supplies the algorithm.
+    """
+
+    totp_digits: int
+    """Number of digits in generated TOTP codes.
+
+    Defaults to 6 and is ignored when an `otpauth://` URI supplies the digit count.
+    """
+
+    totp_period: int
+    """TOTP rotation period in seconds.
+
+    Defaults to 30 and is ignored when an `otpauth://` URI supplies the period.
+    """
+
+    totp_secret: str
+    """
+    Accepts a 16-128 character base32-encoded TOTP secret or an `otpauth://totp/...`
+    URI. The range accepts existing shorter seeds and longer seeds regardless of
+    HMAC algorithm; RFC 6238 recommends unpadded base32 lengths of 32/52/103 for
+    SHA1/SHA256/SHA512. Only URI parameters present override the corresponding
+    explicit TOTP fields. Used for automatic 2FA during login.
     """
