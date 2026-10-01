@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -54,6 +55,9 @@ class CredentialsResource(SyncAPIResource):
         name: str,
         values: Dict[str, str],
         sso_provider: str | Omit = omit,
+        totp_algorithm: Literal["SHA1", "SHA256", "SHA512"] | Omit = omit,
+        totp_digits: int | Omit = omit,
+        totp_period: int | Omit = omit,
         totp_secret: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -77,8 +81,20 @@ class CredentialsResource(SyncAPIResource):
               button, it will be clicked first before filling credential values on the
               identity provider's login page.
 
-          totp_secret: Base32-encoded TOTP secret for generating one-time passwords. Used for automatic
-              2FA during login.
+          totp_algorithm: HMAC algorithm used to generate TOTP codes. Defaults to SHA1 and is ignored when
+              an `otpauth://` URI supplies the algorithm.
+
+          totp_digits: Number of digits in generated TOTP codes. Defaults to 6 and is ignored when an
+              `otpauth://` URI supplies the digit count.
+
+          totp_period: TOTP rotation period in seconds. Defaults to 30 and is ignored when an
+              `otpauth://` URI supplies the period.
+
+          totp_secret: Accepts a 16-128 character base32-encoded TOTP secret or an `otpauth://totp/...`
+              URI. The range accepts existing shorter seeds and longer seeds regardless of
+              HMAC algorithm; RFC 6238 recommends unpadded base32 lengths of 32/52/103 for
+              SHA1/SHA256/SHA512. Only URI parameters present override the corresponding
+              explicit TOTP fields. Used for automatic 2FA during login.
 
           extra_headers: Send extra headers
 
@@ -96,6 +112,9 @@ class CredentialsResource(SyncAPIResource):
                     "name": name,
                     "values": values,
                     "sso_provider": sso_provider,
+                    "totp_algorithm": totp_algorithm,
+                    "totp_digits": totp_digits,
+                    "totp_period": totp_period,
                     "totp_secret": totp_secret,
                 },
                 credential_create_params.CredentialCreateParams,
@@ -147,6 +166,9 @@ class CredentialsResource(SyncAPIResource):
         name: str | Omit = omit,
         remove_value_keys: SequenceNotStr[str] | Omit = omit,
         sso_provider: Optional[str] | Omit = omit,
+        totp_algorithm: Literal["SHA1", "SHA256", "SHA512"] | Omit = omit,
+        totp_digits: int | Omit = omit,
+        totp_period: int | Omit = omit,
         totp_secret: str | Omit = omit,
         values: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -170,8 +192,20 @@ class CredentialsResource(SyncAPIResource):
           sso_provider: If set, indicates this credential should be used with the specified SSO
               provider. Set to empty string or null to remove.
 
-          totp_secret: Base32-encoded TOTP secret for generating one-time passwords. Spaces and
-              formatting are automatically normalized. Set to empty string to remove.
+          totp_algorithm: HMAC algorithm used to generate TOTP codes. Requires totp_secret and is ignored
+              when an `otpauth://` URI supplies the algorithm.
+
+          totp_digits: Number of digits in generated TOTP codes. Requires totp_secret and is ignored
+              when an `otpauth://` URI supplies the digit count.
+
+          totp_period: TOTP rotation period in seconds. Requires totp_secret and is ignored when an
+              `otpauth://` URI supplies the period.
+
+          totp_secret: Accepts a 16-128 character base32-encoded TOTP secret or an `otpauth://totp/...`
+              URI. Only URI parameters present override the corresponding explicit TOTP
+              fields. When rotating a raw secret, omitted fields preserve their existing
+              values; a new URI defaults unspecified fields to SHA1/6/30. Set to empty string
+              to remove the secret and its metadata.
 
           values: Field name to value mapping. Values are merged with existing values (new keys
               added, existing keys overwritten).
@@ -193,6 +227,9 @@ class CredentialsResource(SyncAPIResource):
                     "name": name,
                     "remove_value_keys": remove_value_keys,
                     "sso_provider": sso_provider,
+                    "totp_algorithm": totp_algorithm,
+                    "totp_digits": totp_digits,
+                    "totp_period": totp_period,
                     "totp_secret": totp_secret,
                     "values": values,
                 },
@@ -360,6 +397,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
         name: str,
         values: Dict[str, str],
         sso_provider: str | Omit = omit,
+        totp_algorithm: Literal["SHA1", "SHA256", "SHA512"] | Omit = omit,
+        totp_digits: int | Omit = omit,
+        totp_period: int | Omit = omit,
         totp_secret: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -383,8 +423,20 @@ class AsyncCredentialsResource(AsyncAPIResource):
               button, it will be clicked first before filling credential values on the
               identity provider's login page.
 
-          totp_secret: Base32-encoded TOTP secret for generating one-time passwords. Used for automatic
-              2FA during login.
+          totp_algorithm: HMAC algorithm used to generate TOTP codes. Defaults to SHA1 and is ignored when
+              an `otpauth://` URI supplies the algorithm.
+
+          totp_digits: Number of digits in generated TOTP codes. Defaults to 6 and is ignored when an
+              `otpauth://` URI supplies the digit count.
+
+          totp_period: TOTP rotation period in seconds. Defaults to 30 and is ignored when an
+              `otpauth://` URI supplies the period.
+
+          totp_secret: Accepts a 16-128 character base32-encoded TOTP secret or an `otpauth://totp/...`
+              URI. The range accepts existing shorter seeds and longer seeds regardless of
+              HMAC algorithm; RFC 6238 recommends unpadded base32 lengths of 32/52/103 for
+              SHA1/SHA256/SHA512. Only URI parameters present override the corresponding
+              explicit TOTP fields. Used for automatic 2FA during login.
 
           extra_headers: Send extra headers
 
@@ -402,6 +454,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
                     "name": name,
                     "values": values,
                     "sso_provider": sso_provider,
+                    "totp_algorithm": totp_algorithm,
+                    "totp_digits": totp_digits,
+                    "totp_period": totp_period,
                     "totp_secret": totp_secret,
                 },
                 credential_create_params.CredentialCreateParams,
@@ -453,6 +508,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
         name: str | Omit = omit,
         remove_value_keys: SequenceNotStr[str] | Omit = omit,
         sso_provider: Optional[str] | Omit = omit,
+        totp_algorithm: Literal["SHA1", "SHA256", "SHA512"] | Omit = omit,
+        totp_digits: int | Omit = omit,
+        totp_period: int | Omit = omit,
         totp_secret: str | Omit = omit,
         values: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -476,8 +534,20 @@ class AsyncCredentialsResource(AsyncAPIResource):
           sso_provider: If set, indicates this credential should be used with the specified SSO
               provider. Set to empty string or null to remove.
 
-          totp_secret: Base32-encoded TOTP secret for generating one-time passwords. Spaces and
-              formatting are automatically normalized. Set to empty string to remove.
+          totp_algorithm: HMAC algorithm used to generate TOTP codes. Requires totp_secret and is ignored
+              when an `otpauth://` URI supplies the algorithm.
+
+          totp_digits: Number of digits in generated TOTP codes. Requires totp_secret and is ignored
+              when an `otpauth://` URI supplies the digit count.
+
+          totp_period: TOTP rotation period in seconds. Requires totp_secret and is ignored when an
+              `otpauth://` URI supplies the period.
+
+          totp_secret: Accepts a 16-128 character base32-encoded TOTP secret or an `otpauth://totp/...`
+              URI. Only URI parameters present override the corresponding explicit TOTP
+              fields. When rotating a raw secret, omitted fields preserve their existing
+              values; a new URI defaults unspecified fields to SHA1/6/30. Set to empty string
+              to remove the secret and its metadata.
 
           values: Field name to value mapping. Values are merged with existing values (new keys
               added, existing keys overwritten).
@@ -499,6 +569,9 @@ class AsyncCredentialsResource(AsyncAPIResource):
                     "name": name,
                     "remove_value_keys": remove_value_keys,
                     "sso_provider": sso_provider,
+                    "totp_algorithm": totp_algorithm,
+                    "totp_digits": totp_digits,
+                    "totp_period": totp_period,
                     "totp_secret": totp_secret,
                     "values": values,
                 },

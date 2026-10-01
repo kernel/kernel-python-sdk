@@ -45,6 +45,9 @@ class TestCredentials:
                 "password": "mysecretpassword",
             },
             sso_provider="google",
+            totp_algorithm="SHA1",
+            totp_digits=6,
+            totp_period=30,
             totp_secret="JBSWY3DPEHPK3PXP",
         )
         assert_matches_type(Credential, credential, path=["response"])
@@ -143,6 +146,9 @@ class TestCredentials:
             name="my-updated-login",
             remove_value_keys=["old_field"],
             sso_provider="google",
+            totp_algorithm="SHA1",
+            totp_digits=6,
+            totp_period=30,
             totp_secret="JBSWY3DPEHPK3PXP",
             values={
                 "username": "user@example.com",
@@ -338,6 +344,9 @@ class TestAsyncCredentials:
                 "password": "mysecretpassword",
             },
             sso_provider="google",
+            totp_algorithm="SHA1",
+            totp_digits=6,
+            totp_period=30,
             totp_secret="JBSWY3DPEHPK3PXP",
         )
         assert_matches_type(Credential, credential, path=["response"])
@@ -436,6 +445,9 @@ class TestAsyncCredentials:
             name="my-updated-login",
             remove_value_keys=["old_field"],
             sso_provider="google",
+            totp_algorithm="SHA1",
+            totp_digits=6,
+            totp_period=30,
             totp_secret="JBSWY3DPEHPK3PXP",
             values={
                 "username": "user@example.com",
