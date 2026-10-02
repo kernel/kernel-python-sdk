@@ -309,10 +309,13 @@ class ItemsResource(SyncAPIResource):
     ) -> None:
         """
         Unresolved payment operations normally block deletion, including operations on
-        child cards of a wallet. An AgentCard card in recovery_required whose checkout
-        create response returned no authorization ID may be explicitly abandoned by
-        deleting that card directly; deleting its wallet or vault remains blocked.
-        Deleting or recreating an item is not proof that a payment did not occur.
+        child cards of a wallet. Deleting a connected Kernel wallet first blocks new
+        payments on it, then removes its enrolled card. If that fails, the wallet is
+        kept and keeps refusing payments; retry the deletion. An AgentCard card in
+        recovery_required whose checkout create response returned no authorization ID
+        may be explicitly abandoned by deleting that card directly; deleting its wallet
+        or vault remains blocked. Deleting or recreating an item is not proof that a
+        payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -1483,10 +1486,13 @@ class AsyncItemsResource(AsyncAPIResource):
     ) -> None:
         """
         Unresolved payment operations normally block deletion, including operations on
-        child cards of a wallet. An AgentCard card in recovery_required whose checkout
-        create response returned no authorization ID may be explicitly abandoned by
-        deleting that card directly; deleting its wallet or vault remains blocked.
-        Deleting or recreating an item is not proof that a payment did not occur.
+        child cards of a wallet. Deleting a connected Kernel wallet first blocks new
+        payments on it, then removes its enrolled card. If that fails, the wallet is
+        kept and keeps refusing payments; retry the deletion. An AgentCard card in
+        recovery_required whose checkout create response returned no authorization ID
+        may be explicitly abandoned by deleting that card directly; deleting its wallet
+        or vault remains blocked. Deleting or recreating an item is not proof that a
+        payment did not occur.
 
         Args:
           extra_headers: Send extra headers

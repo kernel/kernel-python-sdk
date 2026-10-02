@@ -5,6 +5,7 @@ from typing_extensions import Literal, Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
+from .kernel_card_vault_item_spec import KernelCardVaultItemSpec
 
 __all__ = [
     "CardVaultItemSpec",
@@ -133,5 +134,6 @@ class AgentCardCardVaultItemSpec(BaseModel):
 
 
 CardVaultItemSpec: TypeAlias = Annotated[
-    Union[LinkCardVaultItemSpec, AgentCardCardVaultItemSpec], PropertyInfo(discriminator="provider")
+    Union[LinkCardVaultItemSpec, AgentCardCardVaultItemSpec, KernelCardVaultItemSpec],
+    PropertyInfo(discriminator="provider"),
 ]

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.118.0](https://github.com/kernel/kernel-python-sdk/compare/v0.117.0...v0.118.0) (2026-10-02)
+
+
+### Features
+
+* Add a query filter to the vault list endpoint ([eaa17a1](https://github.com/kernel/kernel-python-sdk/commit/eaa17a1e7068bb70abe9f07f4bba1c818ddeeba1))
+* Add Kernel wallets backed by VGS agentic network tokens, with hosted card capture ([04d839e](https://github.com/kernel/kernel-python-sdk/commit/04d839e6bb948049d3683380efeaae5a3732c959))
+
 ## [0.117.0](https://github.com/kernel/kernel-python-sdk/compare/v0.116.0...v0.117.0) (2026-10-02)
 
 

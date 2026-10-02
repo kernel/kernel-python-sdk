@@ -7,6 +7,7 @@ from pydantic import Field as FieldInfo
 
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
+from .kernel_card_state import KernelCardState
 from .vault_card_aliases import VaultCardAliases
 from .agentcard_checkout_preparation import AgentcardCheckoutPreparation
 from .agentcard_checkout_authorization import AgentcardCheckoutAuthorization
@@ -18,6 +19,9 @@ class LinkCardStateMasks(BaseModel):
     brand: Optional[str] = None
 
     last4: Optional[str] = None
+
+    token_last4: Optional[str] = None
+    """Last four digits of the network token presented to the merchant."""
 
     if TYPE_CHECKING:
         # Some versions of Pydantic <2.8.0 have a bug and don’t allow assigning a
@@ -63,6 +67,9 @@ class AgentCardCardStateMasks(BaseModel):
     brand: Optional[str] = None
 
     last4: Optional[str] = None
+
+    token_last4: Optional[str] = None
+    """Last four digits of the network token presented to the merchant."""
 
     if TYPE_CHECKING:
         # Some versions of Pydantic <2.8.0 have a bug and don’t allow assigning a
@@ -127,5 +134,5 @@ class AgentCardCardState(BaseModel):
 
 
 CardVaultItemState: TypeAlias = Annotated[
-    Union[LinkCardState, AgentCardCardState], PropertyInfo(discriminator="provider")
+    Union[LinkCardState, AgentCardCardState, KernelCardState], PropertyInfo(discriminator="provider")
 ]

@@ -6,6 +6,7 @@ from typing import Union
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .card_vault_item_spec_param import CardVaultItemSpecParam
+from .kernel_wallet_vault_item_spec_param import KernelWalletVaultItemSpecParam
 from .credential_vault_item_spec_input_param import CredentialVaultItemSpecInputParam
 from .one_password_credential_account_spec_param import OnePasswordCredentialAccountSpecParam
 
@@ -176,7 +177,9 @@ class WalletVaultItemRequestSpecAgentCardWalletVaultItemSpec(TypedDict, total=Fa
 
 
 WalletVaultItemRequestSpec: TypeAlias = Union[
-    WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpec, WalletVaultItemRequestSpecAgentCardWalletVaultItemSpec
+    WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpec,
+    WalletVaultItemRequestSpecAgentCardWalletVaultItemSpec,
+    KernelWalletVaultItemSpecParam,
 ]
 
 

@@ -12,8 +12,8 @@ __all__ = ["FillVaultItemOperationRequestParam"]
 
 class FillVaultItemOperationRequestParam(TypedDict, total=False):
     """
-    Fill selected fields from one ready credential or ready, unexpired Link card
-    into a browser linked to its vault.
+    Fill selected fields from one ready credential or ready, unexpired Link or
+    Kernel card into a browser linked to its vault.
     Only invoke when the item advertises `fill`. Browser and vault must belong
     to the same project. Kernel checks access and allowed destinations before
     filling; providing a page URL does not authorize a destination.
@@ -34,7 +34,7 @@ class FillVaultItemOperationRequestParam(TypedDict, total=False):
     Fill in request order and stop on the first failure. This operation is
     not atomic: previously filled fields are not rolled back. Never submit
     the form or click buttons, though input/change events may trigger site
-    behavior. Link cards use fill for browser checkout and do not expose
+    behavior. Link and Kernel cards use fill for browser checkout and do not expose
     aliases or support egress substitution. Do not automatically retry a
     failed or indeterminate operation.
 

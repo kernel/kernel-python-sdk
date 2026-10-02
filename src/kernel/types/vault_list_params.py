@@ -11,3 +11,6 @@ class VaultListParams(TypedDict, total=False):
     limit: int
 
     offset: int
+
+    query: str
+    """Case-insensitive substring match against vault name. IDs match by exact value."""
