@@ -6,10 +6,13 @@ from typing import Union
 from typing_extensions import TypeAlias
 
 from .kernel_credential_vault_item_spec_input_param import KernelCredentialVaultItemSpecInputParam
+from .managed_auth_credential_vault_item_spec_input_param import ManagedAuthCredentialVaultItemSpecInputParam
 from .one_password_credential_vault_item_spec_input_param import OnePasswordCredentialVaultItemSpecInputParam
 
 __all__ = ["CredentialVaultItemSpecInputParam"]
 
 CredentialVaultItemSpecInputParam: TypeAlias = Union[
-    KernelCredentialVaultItemSpecInputParam, OnePasswordCredentialVaultItemSpecInputParam
+    KernelCredentialVaultItemSpecInputParam,
+    OnePasswordCredentialVaultItemSpecInputParam,
+    ManagedAuthCredentialVaultItemSpecInputParam,
 ]

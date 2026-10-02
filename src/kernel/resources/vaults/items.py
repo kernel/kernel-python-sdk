@@ -93,6 +93,7 @@ class ItemsResource(SyncAPIResource):
               approval, or credential collection. Return the current item when ready or when
               the wait elapses. This does not wait for edits to an already-ready credential;
               poll GET without wait and compare version to observe changes after collect.
+              Managed auth credentials are created ready, so wait returns immediately.
 
           extra_headers: Send extra headers
 
@@ -315,7 +316,8 @@ class ItemsResource(SyncAPIResource):
         recovery_required whose checkout create response returned no authorization ID
         may be explicitly abandoned by deleting that card directly; deleting its wallet
         or vault remains blocked. Deleting or recreating an item is not proof that a
-        payment did not occur.
+        payment did not occur. Deleting a managed auth credential item leaves the
+        connection and its saved credential unchanged.
 
         Args:
           extra_headers: Send extra headers
@@ -1270,6 +1272,7 @@ class AsyncItemsResource(AsyncAPIResource):
               approval, or credential collection. Return the current item when ready or when
               the wait elapses. This does not wait for edits to an already-ready credential;
               poll GET without wait and compare version to observe changes after collect.
+              Managed auth credentials are created ready, so wait returns immediately.
 
           extra_headers: Send extra headers
 
@@ -1492,7 +1495,8 @@ class AsyncItemsResource(AsyncAPIResource):
         recovery_required whose checkout create response returned no authorization ID
         may be explicitly abandoned by deleting that card directly; deleting its wallet
         or vault remains blocked. Deleting or recreating an item is not proof that a
-        payment did not occur.
+        payment did not occur. Deleting a managed auth credential item leaves the
+        connection and its saved credential unchanged.
 
         Args:
           extra_headers: Send extra headers

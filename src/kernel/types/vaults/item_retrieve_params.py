@@ -20,4 +20,5 @@ class ItemRetrieveParams(TypedDict, total=False):
     approval, or credential collection. Return the current item when ready or when
     the wait elapses. This does not wait for edits to an already-ready credential;
     poll GET without wait and compare version to observe changes after collect.
+    Managed auth credentials are created ready, so wait returns immediately.
     """

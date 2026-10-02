@@ -9,9 +9,10 @@ __all__ = ["VaultFillFieldParam"]
 
 class VaultFillFieldParam(TypedDict, total=False):
     field: Required[str]
-    """A declared credential field name or a supported card field.
-
-    Unset credential fields cannot be filled.
+    """
+    A credential field name from the item's declared fields (Kernel) or state.fields
+    from a single-item read (managed auth), or a supported card field. Unset
+    credential fields cannot be filled.
     """
 
     selector: Required[str]

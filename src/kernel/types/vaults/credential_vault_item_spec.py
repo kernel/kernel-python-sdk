@@ -5,10 +5,12 @@ from typing_extensions import Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
 from .kernel_credential_vault_item_spec import KernelCredentialVaultItemSpec
+from .managed_auth_credential_vault_item_spec import ManagedAuthCredentialVaultItemSpec
 from .one_password_credential_vault_item_spec import OnePasswordCredentialVaultItemSpec
 
 __all__ = ["CredentialVaultItemSpec"]
 
 CredentialVaultItemSpec: TypeAlias = Annotated[
-    Union[KernelCredentialVaultItemSpec, OnePasswordCredentialVaultItemSpec], PropertyInfo(discriminator="provider")
+    Union[KernelCredentialVaultItemSpec, OnePasswordCredentialVaultItemSpec, ManagedAuthCredentialVaultItemSpec],
+    PropertyInfo(discriminator="provider"),
 ]

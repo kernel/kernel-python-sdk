@@ -83,7 +83,8 @@ class CredentialVaultItem(BaseModel):
 
     1Password credentials advertise 1pw_create_access_request until a request is
     made, 1pw_access_request_status while its approval is pending, and 1pw_fill
-    after access is granted.
+    after access is granted. Managed auth credentials advertise fill while ready and
+    nothing otherwise.
     """
 
     created_at: datetime
@@ -106,7 +107,8 @@ class CredentialVaultItem(BaseModel):
     version: int
     """
     Starts at 1 and increments on PATCH and successful hosted submission, but not
-    collection-link renewal.
+    collection-link renewal. Managed auth credentials stay at 1; changes to the
+    underlying credential are read at fill time and do not change the version.
     """
 
     action: Optional[Action] = None

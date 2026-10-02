@@ -20,6 +20,7 @@ class CredentialVaultItemUpdateRequestParam(TypedDict, total=False):
     values remain missing, return pending_collection and a fresh collection
     action. Otherwise return ready without an action; collect can open the form
     again without clearing values. Customer URLs have no Kernel-managed expiry.
+    1Password and managed auth credentials return 409.
     """
 
     spec: Required[CredentialVaultItemSpecUpdateParam]
