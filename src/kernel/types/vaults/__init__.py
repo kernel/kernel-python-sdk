@@ -48,6 +48,7 @@ from .kernel_credential_vault_item_state import KernelCredentialVaultItemState a
 from .credential_vault_field_update_param import CredentialVaultFieldUpdateParam as CredentialVaultFieldUpdateParam
 from .credential_vault_item_request_param import CredentialVaultItemRequestParam as CredentialVaultItemRequestParam
 from .kernel_wallet_vault_item_spec_param import KernelWalletVaultItemSpecParam as KernelWalletVaultItemSpecParam
+from .managed_auth_credential_vault_field import ManagedAuthCredentialVaultField as ManagedAuthCredentialVaultField
 from .one_password_credential_account_spec import OnePasswordCredentialAccountSpec as OnePasswordCredentialAccountSpec
 from .one_password_credential_account_state import (
     OnePasswordCredentialAccountState as OnePasswordCredentialAccountState,
@@ -61,8 +62,14 @@ from .credential_vault_item_spec_update_param import (
 from .fill_vault_item_operation_request_param import (
     FillVaultItemOperationRequestParam as FillVaultItemOperationRequestParam,
 )
+from .managed_auth_credential_vault_item_spec import (
+    ManagedAuthCredentialVaultItemSpec as ManagedAuthCredentialVaultItemSpec,
+)
 from .one_password_credential_vault_item_spec import (
     OnePasswordCredentialVaultItemSpec as OnePasswordCredentialVaultItemSpec,
+)
+from .managed_auth_credential_vault_item_state import (
+    ManagedAuthCredentialVaultItemState as ManagedAuthCredentialVaultItemState,
 )
 from .one_password_credential_vault_item_state import (
     OnePasswordCredentialVaultItemState as OnePasswordCredentialVaultItemState,
@@ -93,6 +100,9 @@ from .one_password_fill_vault_item_operation_result import (
 )
 from .webmcp_invoke_vault_item_operation_request_param import (
     WebmcpInvokeVaultItemOperationRequestParam as WebmcpInvokeVaultItemOperationRequestParam,
+)
+from .managed_auth_credential_vault_item_spec_input_param import (
+    ManagedAuthCredentialVaultItemSpecInputParam as ManagedAuthCredentialVaultItemSpecInputParam,
 )
 from .one_password_credential_vault_item_spec_input_param import (
     OnePasswordCredentialVaultItemSpecInputParam as OnePasswordCredentialVaultItemSpecInputParam,

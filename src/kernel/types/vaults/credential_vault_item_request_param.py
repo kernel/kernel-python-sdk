@@ -20,9 +20,12 @@ class CredentialVaultItemRequestParam(TypedDict, total=False):
     Kernel credentials declare fields and may enter pending_collection.
     1Password credentials either reference a connected credential_account or
     store a supplied access token and integration key encrypted on the item.
-    They store no login values or selectors. Repeating the original creation
-    request returns the current item without overwriting later state. A
-    different request at the same key returns 409.
+    They store no login values or selectors.
+    Managed auth credentials reference a managed auth connection in the same
+    project that already has a saved credential, and read it at fill time;
+    they store no values.
+    Repeating the original creation request returns the current item without
+    overwriting later state. A different request at the same key returns 409.
     """
 
     spec: Required[CredentialVaultItemSpecInputParam]
