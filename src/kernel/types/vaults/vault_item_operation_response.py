@@ -14,6 +14,7 @@ from .wallet_vault_item_spec import WalletVaultItemSpec
 from .wallet_vault_item_state import WalletVaultItemState
 from .credential_account_vault_item import CredentialAccountVaultItem
 from .fill_vault_item_operation_result import FillVaultItemOperationResult
+from .webmcp_invoke_vault_item_operation_result import WebmcpInvokeVaultItemOperationResult
 from .one_password_fill_vault_item_operation_result import OnePasswordFillVaultItemOperationResult
 
 __all__ = [
@@ -56,6 +57,7 @@ class WalletVaultItemAvailableOperation(BaseModel):
         "1pw_fill",
         "1pw_recover",
         "1pw_update_access_token",
+        "webmcp_invoke",
     ]
 
 
@@ -130,6 +132,7 @@ class CardVaultItemAvailableOperation(BaseModel):
         "1pw_fill",
         "1pw_recover",
         "1pw_update_access_token",
+        "webmcp_invoke",
     ]
 
 
@@ -170,4 +173,5 @@ VaultItemOperationResponse: TypeAlias = Union[
     CredentialVaultItem,
     FillVaultItemOperationResult,
     OnePasswordFillVaultItemOperationResult,
+    WebmcpInvokeVaultItemOperationResult,
 ]

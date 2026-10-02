@@ -40,6 +40,7 @@ class AvailableOperation(BaseModel):
         "1pw_fill",
         "1pw_recover",
         "1pw_update_access_token",
+        "webmcp_invoke",
     ]
 
 
