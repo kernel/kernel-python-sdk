@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.117.0](https://github.com/kernel/kernel-python-sdk/compare/v0.116.0...v0.117.0) (2026-10-02)
+
+
+### Features
+
+* Invoke WebMCP tools with vault item fields ([a75eb77](https://github.com/kernel/kernel-python-sdk/commit/a75eb77bb3722e82b45836e1b9f5f6fc43dfa4ff))
+
 ## [0.116.0](https://github.com/kernel/kernel-python-sdk/compare/v0.115.0...v0.116.0) (2026-10-01)
 
 
