@@ -5,7 +5,7 @@
 
 ### Features
 
-* chore(stlc): seal custom-code tracking files ([795d824](https://github.com/kernel/kernel-python-sdk/commit/795d8241dfd22dc7667d7fd74c70182cc7467928))
+* Add managed auth provider to vault credential items ([795d824](https://github.com/kernel/kernel-python-sdk/commit/795d8241dfd22dc7667d7fd74c70182cc7467928))
 
 ## [0.118.0](https://github.com/kernel/kernel-python-sdk/compare/v0.117.0...v0.118.0) (2026-10-02)
 
