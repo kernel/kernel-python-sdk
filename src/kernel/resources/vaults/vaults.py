@@ -147,9 +147,11 @@ class VaultsResource(SyncAPIResource):
     ) -> None:
         """Unresolved payment operations block deletion.
 
-        Reconcile the original attempt
-        with the provider or support first; deleting or recreating an item is not proof
-        that a payment did not occur.
+        Deleting a connected Kernel wallet
+        first blocks new payments on it, then removes its enrolled card. If that fails,
+        the wallet is kept and keeps refusing payments; retry the deletion. Reconcile
+        the original attempt with the provider or support first; deleting or recreating
+        an item is not proof that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers
@@ -325,9 +327,11 @@ class AsyncVaultsResource(AsyncAPIResource):
     ) -> None:
         """Unresolved payment operations block deletion.
 
-        Reconcile the original attempt
-        with the provider or support first; deleting or recreating an item is not proof
-        that a payment did not occur.
+        Deleting a connected Kernel wallet
+        first blocks new payments on it, then removes its enrolled card. If that fails,
+        the wallet is kept and keeps refusing payments; retry the deletion. Reconcile
+        the original attempt with the provider or support first; deleting or recreating
+        an item is not proof that a payment did not occur.
 
         Args:
           extra_headers: Send extra headers

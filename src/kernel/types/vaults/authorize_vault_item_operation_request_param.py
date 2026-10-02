@@ -8,7 +8,7 @@ __all__ = ["AuthorizeVaultItemOperationRequestParam"]
 
 
 class AuthorizeVaultItemOperationRequestParam(TypedDict, total=False):
-    """Authorize a Link card using its existing purchase specification.
+    """Authorize a Link or Kernel card using its existing purchase specification.
 
     Use only after explicit user approval and when the item advertises authorize. Do not automatically retry provider failures or indeterminate outcomes. Checkout context is not accepted.
     """
