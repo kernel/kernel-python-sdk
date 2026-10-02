@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, List, Union, Iterable, cast
+from typing import Any, Dict, List, Union, Iterable, cast
 from datetime import datetime
 from typing_extensions import Literal, overload
 
@@ -31,6 +31,7 @@ from ...types.vaults.item_list_response import ItemListResponse
 from ...types.vaults.item_events_response import ItemEventsResponse
 from ...types.vaults.vault_fill_field_param import VaultFillFieldParam
 from ...types.vaults.card_vault_item_spec_param import CardVaultItemSpecParam
+from ...types.vaults.vault_webmcp_binding_param import VaultWebmcpBindingParam
 from ...types.vaults.vault_checkout_context_param import VaultCheckoutContextParam
 from ...types.vaults.vault_item_operation_response import VaultItemOperationResponse
 from ...types.vaults.credential_vault_item_spec_input_param import CredentialVaultItemSpecInputParam
@@ -857,6 +858,73 @@ class ItemsResource(SyncAPIResource):
         """
         ...
 
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        bindings: Iterable[VaultWebmcpBindingParam],
+        browser_id: str,
+        input: Dict[str, object],
+        page_url: str,
+        tool_ref: str,
+        type: Literal["webmcp_invoke"],
+        timeout_sec: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          browser_id: Browser session ID, not a reusable browser name.
+
+          input: Public tool arguments with an existing null slot at each binding path. At most
+              64 KiB after JSON serialization, including substituted values. Never include
+              vault values here.
+
+          page_url: Exact top-level URL from the discovered tool source (fragment omitted). This
+              pins the target page; it does not authorize a destination.
+
+          tool_ref: Opaque reference to the exact live WebMCP registration.
+
+          timeout_sec: Tool invocation timeout in seconds; preflight and response handling have an
+              additional bounded allowance. An indeterminate outcome is not retried.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
     @required_args(
         ["id_or_name", "type"],
         ["id_or_name", "checkout", "type"],
@@ -864,6 +932,7 @@ class ItemsResource(SyncAPIResource):
         ["id_or_name", "browser_id", "type"],
         ["id_or_name", "browser_id", "page_url", "type"],
         ["id_or_name", "access_token", "type"],
+        ["id_or_name", "bindings", "browser_id", "input", "page_url", "tool_ref", "type"],
     )
     def perform_operation(
         self,
@@ -878,7 +947,8 @@ class ItemsResource(SyncAPIResource):
         | Literal["1pw_access_request_status"]
         | Literal["1pw_fill"]
         | Literal["1pw_recover"]
-        | Literal["1pw_update_access_token"],
+        | Literal["1pw_update_access_token"]
+        | Literal["webmcp_invoke"],
         checkout: VaultCheckoutContextParam | Omit = omit,
         browser_id: str | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
@@ -891,6 +961,10 @@ class ItemsResource(SyncAPIResource):
         entry_id: str | Omit = omit,
         access_token: str | Omit = omit,
         access_token_expires_at: Union[str, datetime] | Omit = omit,
+        bindings: Iterable[VaultWebmcpBindingParam] | Omit = omit,
+        input: Dict[str, object] | Omit = omit,
+        tool_ref: str | Omit = omit,
+        timeout_sec: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -921,6 +995,10 @@ class ItemsResource(SyncAPIResource):
                         "entry_id": entry_id,
                         "access_token": access_token,
                         "access_token_expires_at": access_token_expires_at,
+                        "bindings": bindings,
+                        "input": input,
+                        "tool_ref": tool_ref,
+                        "timeout_sec": timeout_sec,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),
@@ -1954,6 +2032,73 @@ class AsyncItemsResource(AsyncAPIResource):
         """
         ...
 
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        bindings: Iterable[VaultWebmcpBindingParam],
+        browser_id: str,
+        input: Dict[str, object],
+        page_url: str,
+        tool_ref: str,
+        type: Literal["webmcp_invoke"],
+        timeout_sec: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`, not an automatic-retry signal. A transport error may
+        leave the outcome unknown; do not automatically retry.
+
+        Args:
+          browser_id: Browser session ID, not a reusable browser name.
+
+          input: Public tool arguments with an existing null slot at each binding path. At most
+              64 KiB after JSON serialization, including substituted values. Never include
+              vault values here.
+
+          page_url: Exact top-level URL from the discovered tool source (fragment omitted). This
+              pins the target page; it does not authorize a destination.
+
+          tool_ref: Opaque reference to the exact live WebMCP registration.
+
+          timeout_sec: Tool invocation timeout in seconds; preflight and response handling have an
+              additional bounded allowance. An indeterminate outcome is not retried.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
     @required_args(
         ["id_or_name", "type"],
         ["id_or_name", "checkout", "type"],
@@ -1961,6 +2106,7 @@ class AsyncItemsResource(AsyncAPIResource):
         ["id_or_name", "browser_id", "type"],
         ["id_or_name", "browser_id", "page_url", "type"],
         ["id_or_name", "access_token", "type"],
+        ["id_or_name", "bindings", "browser_id", "input", "page_url", "tool_ref", "type"],
     )
     async def perform_operation(
         self,
@@ -1975,7 +2121,8 @@ class AsyncItemsResource(AsyncAPIResource):
         | Literal["1pw_access_request_status"]
         | Literal["1pw_fill"]
         | Literal["1pw_recover"]
-        | Literal["1pw_update_access_token"],
+        | Literal["1pw_update_access_token"]
+        | Literal["webmcp_invoke"],
         checkout: VaultCheckoutContextParam | Omit = omit,
         browser_id: str | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
@@ -1988,6 +2135,10 @@ class AsyncItemsResource(AsyncAPIResource):
         entry_id: str | Omit = omit,
         access_token: str | Omit = omit,
         access_token_expires_at: Union[str, datetime] | Omit = omit,
+        bindings: Iterable[VaultWebmcpBindingParam] | Omit = omit,
+        input: Dict[str, object] | Omit = omit,
+        tool_ref: str | Omit = omit,
+        timeout_sec: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -2018,6 +2169,10 @@ class AsyncItemsResource(AsyncAPIResource):
                         "entry_id": entry_id,
                         "access_token": access_token,
                         "access_token_expires_at": access_token_expires_at,
+                        "bindings": bindings,
+                        "input": input,
+                        "tool_ref": tool_ref,
+                        "timeout_sec": timeout_sec,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),

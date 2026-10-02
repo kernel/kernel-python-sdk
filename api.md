@@ -596,8 +596,11 @@ from kernel.types.vaults import (
     VaultItemEvent,
     VaultItemOperationResponse,
     VaultPaymentMethod,
+    VaultWebmcpBinding,
     WalletVaultItemSpec,
     WalletVaultItemState,
+    WebmcpInvokeVaultItemOperationRequest,
+    WebmcpInvokeVaultItemOperationResult,
     ItemListResponse,
     ItemEventsResponse,
 )

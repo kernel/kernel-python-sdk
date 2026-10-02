@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable
+from typing import Dict, Union, Iterable
 from datetime import datetime
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 from .vault_fill_field_param import VaultFillFieldParam
+from .vault_webmcp_binding_param import VaultWebmcpBindingParam
 from .vault_checkout_context_param import VaultCheckoutContextParam
 
 __all__ = [
@@ -22,6 +23,7 @@ __all__ = [
     "OnePasswordFillVaultItemOperationRequest",
     "OnePasswordRecoverVaultItemOperationRequest",
     "OnePasswordUpdateAccessTokenVaultItemOperationRequest",
+    "WebmcpInvokeVaultItemOperationRequest",
 ]
 
 
@@ -141,6 +143,39 @@ class OnePasswordUpdateAccessTokenVaultItemOperationRequest(TypedDict, total=Fal
     """Optional supplied expiry. Omit to clear the old expiry."""
 
 
+class WebmcpInvokeVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    bindings: Required[Iterable[VaultWebmcpBindingParam]]
+
+    browser_id: Required[str]
+    """Browser session ID, not a reusable browser name."""
+
+    input: Required[Dict[str, object]]
+    """Public tool arguments with an existing null slot at each binding path.
+
+    At most 64 KiB after JSON serialization, including substituted values. Never
+    include vault values here.
+    """
+
+    page_url: Required[str]
+    """Exact top-level URL from the discovered tool source (fragment omitted).
+
+    This pins the target page; it does not authorize a destination.
+    """
+
+    tool_ref: Required[str]
+    """Opaque reference to the exact live WebMCP registration."""
+
+    type: Required[Literal["webmcp_invoke"]]
+
+    timeout_sec: int
+    """
+    Tool invocation timeout in seconds; preflight and response handling have an
+    additional bounded allowance. An indeterminate outcome is not retried.
+    """
+
+
 ItemPerformOperationParams: TypeAlias = Union[
     AuthorizeVaultItemOperationRequest,
     CollectVaultItemOperationRequest,
@@ -151,4 +186,5 @@ ItemPerformOperationParams: TypeAlias = Union[
     OnePasswordFillVaultItemOperationRequest,
     OnePasswordRecoverVaultItemOperationRequest,
     OnePasswordUpdateAccessTokenVaultItemOperationRequest,
+    WebmcpInvokeVaultItemOperationRequest,
 ]

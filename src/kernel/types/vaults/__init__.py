@@ -23,6 +23,7 @@ from .wallet_vault_item_state import WalletVaultItemState as WalletVaultItemStat
 from .one_password_oauth_action import OnePasswordOAuthAction as OnePasswordOAuthAction
 from .card_vault_item_spec_param import CardVaultItemSpecParam as CardVaultItemSpecParam
 from .credential_vault_item_spec import CredentialVaultItemSpec as CredentialVaultItemSpec
+from .vault_webmcp_binding_param import VaultWebmcpBindingParam as VaultWebmcpBindingParam
 from .credential_vault_field_type import CredentialVaultFieldType as CredentialVaultFieldType
 from .credential_vault_item_state import CredentialVaultItemState as CredentialVaultItemState
 from .agentcard_prepared_processor import AgentcardPreparedProcessor as AgentcardPreparedProcessor
@@ -60,6 +61,9 @@ from .one_password_credential_vault_item_spec import (
 from .one_password_credential_vault_item_state import (
     OnePasswordCredentialVaultItemState as OnePasswordCredentialVaultItemState,
 )
+from .webmcp_invoke_vault_item_operation_result import (
+    WebmcpInvokeVaultItemOperationResult as WebmcpInvokeVaultItemOperationResult,
+)
 from .collect_vault_item_operation_request_param import (
     CollectVaultItemOperationRequestParam as CollectVaultItemOperationRequestParam,
 )
@@ -80,6 +84,9 @@ from .kernel_credential_vault_item_spec_input_param import (
 )
 from .one_password_fill_vault_item_operation_result import (
     OnePasswordFillVaultItemOperationResult as OnePasswordFillVaultItemOperationResult,
+)
+from .webmcp_invoke_vault_item_operation_request_param import (
+    WebmcpInvokeVaultItemOperationRequestParam as WebmcpInvokeVaultItemOperationRequestParam,
 )
 from .one_password_credential_vault_item_spec_input_param import (
     OnePasswordCredentialVaultItemSpecInputParam as OnePasswordCredentialVaultItemSpecInputParam,
