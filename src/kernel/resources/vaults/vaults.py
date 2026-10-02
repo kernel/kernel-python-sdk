@@ -92,6 +92,7 @@ class VaultsResource(SyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -103,6 +104,8 @@ class VaultsResource(SyncAPIResource):
         List vaults in the current project
 
         Args:
+          query: Case-insensitive substring match against vault name. IDs match by exact value.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -123,6 +126,7 @@ class VaultsResource(SyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     vault_list_params.VaultListParams,
                 ),
@@ -266,6 +270,7 @@ class AsyncVaultsResource(AsyncAPIResource):
         *,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -277,6 +282,8 @@ class AsyncVaultsResource(AsyncAPIResource):
         List vaults in the current project
 
         Args:
+          query: Case-insensitive substring match against vault name. IDs match by exact value.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -297,6 +304,7 @@ class AsyncVaultsResource(AsyncAPIResource):
                     {
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     vault_list_params.VaultListParams,
                 ),

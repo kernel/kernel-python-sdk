@@ -72,6 +72,7 @@ class TestVaults:
         vault = client.vaults.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[Vault], vault, path=["response"])
 
@@ -233,6 +234,7 @@ class TestAsyncVaults:
         vault = await async_client.vaults.list(
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[Vault], vault, path=["response"])
 
