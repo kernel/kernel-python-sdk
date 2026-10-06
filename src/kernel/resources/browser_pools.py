@@ -77,7 +77,7 @@ class BrowserPoolsResource(SyncAPIResource):
         profile: browser_pool_create_params.Profile | Omit = omit,
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
-        region: Literal["us-east", "eu-west", "ap-southeast"] | Omit = omit,
+        region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         telemetry: Optional[browser_pool_create_params.Telemetry] | Omit = omit,
@@ -419,7 +419,7 @@ class BrowserPoolsResource(SyncAPIResource):
         name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
-        region: Literal["us-east", "eu-west", "ap-southeast"] | Omit = omit,
+        region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -724,7 +724,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         profile: browser_pool_create_params.Profile | Omit = omit,
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
-        region: Literal["us-east", "eu-west", "ap-southeast"] | Omit = omit,
+        region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         telemetry: Optional[browser_pool_create_params.Telemetry] | Omit = omit,
@@ -1066,7 +1066,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
-        region: Literal["us-east", "eu-west", "ap-southeast"] | Omit = omit,
+        region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
