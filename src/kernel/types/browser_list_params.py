@@ -27,7 +27,7 @@ class BrowserListParams(TypedDict, total=False):
     Search browsers by name, session ID, profile name or ID, proxy ID, or pool name.
     """
 
-    region: Literal["us-east", "eu-west", "ap-southeast"]
+    region: Literal["us-east", "us-west", "eu-west", "ap-southeast"]
     """Filter sessions by geographic region. Omit to list sessions in all regions."""
 
     status: Literal["active", "deleted", "all"]

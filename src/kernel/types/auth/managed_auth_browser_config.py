@@ -124,7 +124,7 @@ class ManagedAuthBrowserConfig(BaseModel):
     preserve or inherit the connection default.
     """
 
-    region: Optional[Literal["us-east", "eu-west", "ap-southeast"]] = None
+    region: Optional[Literal["us-east", "us-west", "eu-west", "ap-southeast"]] = None
     """Browser region.
 
     Omit on create to use us-east, on update to keep the current region, or on login

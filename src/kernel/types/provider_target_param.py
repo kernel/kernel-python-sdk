@@ -99,7 +99,10 @@ class SearchExaTargetOptionsContents(TypedDict, total=False):
     """
 
     highlights: bool
-    """Return query-relevant provider excerpts."""
+    """Return query-relevant provider excerpts.
+
+    Defaults to true for Exa search requests; set false to disable.
+    """
 
     text: bool
     """Return provider page text."""
@@ -166,7 +169,10 @@ class SearchPerplexityTargetOptions(TypedDict, total=False):
     """
 
     search_context_size: Literal["low", "medium", "high"]
-    """Provider context size supported by the selected model."""
+    """Amount of page content Perplexity extracts per result.
+
+    Defaults to medium unless max_tokens or max_tokens_per_page is set.
+    """
 
     search_language_filter: SequenceNotStr[str]
     """ISO 639-1 language codes, max 20."""
