@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.120.0](https://github.com/kernel/kernel-python-sdk/compare/v0.119.0...v0.120.0) (2026-10-06)
+
+
+### Features
+
+* Accept network.allowed_hosts on browser create behind an org flag ([3178829](https://github.com/kernel/kernel-python-sdk/commit/3178829222a373a69fdb7617abcab02f409d2d6e))
+* Add us-west placement region support ([915eb0d](https://github.com/kernel/kernel-python-sdk/commit/915eb0d4c9fc70df904515df6f3e07ce6c1ac2c0))
+* Add Visa passkey approval for VGS purchases ([fadc7c9](https://github.com/kernel/kernel-python-sdk/commit/fadc7c95c7fe45df163e6f186384a7d534c8c014))
+* Connect Kernel wallets once the card is stored, with best-effort network tokens ([da49f00](https://github.com/kernel/kernel-python-sdk/commit/da49f007e5b00cdca00f08500db43bfc6332c4c3))
+* Enable Exa highlights and default Perplexity to medium context ([761b766](https://github.com/kernel/kernel-python-sdk/commit/761b766f80e9ccfabf65a412bf777e5a861b400b))
+* Expose named Playwright executors on the browser API ([8c80fc1](https://github.com/kernel/kernel-python-sdk/commit/8c80fc14441a149e4c6b5cd5e7a9a7a1db4706c2))
+
 ## [0.119.0](https://github.com/kernel/kernel-python-sdk/compare/v0.118.0...v0.119.0) (2026-10-02)
 
 
