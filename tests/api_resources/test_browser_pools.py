@@ -47,6 +47,7 @@ class TestBrowserPools:
             memory="8GiB",
             name="my-pool",
             network={
+                "allowed_hosts": ["example.com", "*.example.com"],
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
                 "proxy_routes": [
                     {
@@ -199,6 +200,7 @@ class TestBrowserPools:
             memory="8GiB",
             name="my-pool",
             network={
+                "allowed_hosts": ["example.com", "*.example.com"],
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
                 "proxy_routes": [
                     {
@@ -601,6 +603,7 @@ class TestAsyncBrowserPools:
             memory="8GiB",
             name="my-pool",
             network={
+                "allowed_hosts": ["example.com", "*.example.com"],
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
                 "proxy_routes": [
                     {
@@ -753,6 +756,7 @@ class TestAsyncBrowserPools:
             memory="8GiB",
             name="my-pool",
             network={
+                "allowed_hosts": ["example.com", "*.example.com"],
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
                 "proxy_routes": [
                     {
