@@ -2,6 +2,7 @@
 
 from typing import Optional
 
+from .tab import Tab
 from ..._models import BaseModel
 
 __all__ = ["PlaywrightExecuteResponse"]
@@ -24,3 +25,9 @@ class PlaywrightExecuteResponse(BaseModel):
 
     stdout: Optional[str] = None
     """Standard output from the execution"""
+
+    tab: Optional[Tab] = None
+    """The tab 'page' was bound to for this call.
+
+    Absent if the call failed before binding a tab.
+    """

@@ -70,14 +70,6 @@ from .telemetry import (
     TelemetryResourceWithStreamingResponse,
     AsyncTelemetryResourceWithStreamingResponse,
 )
-from .playwright import (
-    PlaywrightResource,
-    AsyncPlaywrightResource,
-    PlaywrightResourceWithRawResponse,
-    AsyncPlaywrightResourceWithRawResponse,
-    PlaywrightResourceWithStreamingResponse,
-    AsyncPlaywrightResourceWithStreamingResponse,
-)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -96,6 +88,14 @@ from .webmcp.webmcp import (
 )
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.tags_param import TagsParam
+from .playwright.playwright import (
+    PlaywrightResource,
+    AsyncPlaywrightResource,
+    PlaywrightResourceWithRawResponse,
+    AsyncPlaywrightResourceWithRawResponse,
+    PlaywrightResourceWithStreamingResponse,
+    AsyncPlaywrightResourceWithStreamingResponse,
+)
 from ...types.browser_repl_result import BrowserReplResult
 from ...types.browser_curl_response import BrowserCurlResponse
 from ...types.browser_list_response import BrowserListResponse
@@ -154,7 +154,9 @@ class BrowsersResource(SyncAPIResource):
 
     @cached_property
     def playwright(self) -> PlaywrightResource:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return PlaywrightResource(self._client)
 
     @cached_property
@@ -856,7 +858,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
     @cached_property
     def playwright(self) -> AsyncPlaywrightResource:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return AsyncPlaywrightResource(self._client)
 
     @cached_property
@@ -1586,7 +1590,9 @@ class BrowsersResourceWithRawResponse:
 
     @cached_property
     def playwright(self) -> PlaywrightResourceWithRawResponse:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return PlaywrightResourceWithRawResponse(self._browsers.playwright)
 
     @cached_property
@@ -1658,7 +1664,9 @@ class AsyncBrowsersResourceWithRawResponse:
 
     @cached_property
     def playwright(self) -> AsyncPlaywrightResourceWithRawResponse:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return AsyncPlaywrightResourceWithRawResponse(self._browsers.playwright)
 
     @cached_property
@@ -1730,7 +1738,9 @@ class BrowsersResourceWithStreamingResponse:
 
     @cached_property
     def playwright(self) -> PlaywrightResourceWithStreamingResponse:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return PlaywrightResourceWithStreamingResponse(self._browsers.playwright)
 
     @cached_property
@@ -1802,7 +1812,9 @@ class AsyncBrowsersResourceWithStreamingResponse:
 
     @cached_property
     def playwright(self) -> AsyncPlaywrightResourceWithStreamingResponse:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return AsyncPlaywrightResourceWithStreamingResponse(self._browsers.playwright)
 
     @cached_property
