@@ -33,7 +33,7 @@ class Masks(BaseModel):
 
 class KernelCardState(BaseModel):
     """
-    A ready Kernel card retains its encrypted network token and one-time code for the fill operation until the item's expires_at. Fill and submit checkout before then. Visa cards can be enrolled, but Visa purchases are not yet supported and authorize returns 400; supported Mastercard purchases need no cardholder approval. masks.last4 is the enrolled card's last four digits; masks.token_last4 is the network token's last four digits shown to the merchant. Kernel cards do not expose aliases or support egress substitution. Kernel does not observe whether the merchant charged the card.
+    A ready Kernel card retains its encrypted network token and one-time code for the fill operation until the item's expires_at. Fill and submit checkout before then. Visa purchases require a spend_approval action before the code is issued; Mastercard purchases need no hosted approval. masks.last4 is the enrolled card's last four digits; masks.token_last4 is the network token's last four digits shown to the merchant. Kernel cards do not expose aliases or support egress substitution. Kernel does not observe whether the merchant charged the card.
     """
 
     provider: Literal["kernel"]
@@ -41,12 +41,15 @@ class KernelCardState(BaseModel):
     status: Literal[
         "requested", "pending_authorization", "ready", "consumed", "expired", "declined", "recovery_required"
     ]
-    """recovery_required means issuing the one-time code has an unresolved outcome.
-
-    Kernel never issues another code for the item automatically, and the item cannot
-    be deleted or replaced until the original attempt is reconciled with support.
-    When status_reason says the provider refused retrieval before acceptance, no
-    code was issued and a later read retries.
+    """
+    pending_authorization on a Visa purchase waits for the cardholder to approve it
+    through the spend_approval action; an unused link expires after 30 minutes.
+    recovery_required means approving the purchase or issuing the one-time code has
+    an unresolved outcome. Kernel never approves again or issues another code for
+    the item automatically, and the item cannot be deleted or replaced until the
+    original attempt is reconciled with support. When status_reason says the
+    provider refused retrieval before acceptance, no code was issued and a later
+    read retries. declined means the card network refused to issue a code.
     """
 
     domains: Optional[List[str]] = None

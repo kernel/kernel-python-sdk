@@ -1,5 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
@@ -10,7 +11,7 @@ __all__ = ["KernelCardVaultItemSpec"]
 class KernelCardVaultItemSpec(BaseModel):
     """One live purchase with a Kernel-enrolled card.
 
-    Authorization obtains an agentic network token number, expiry and one-time 3-digit code. They are stored encrypted for the fill operation, which types them only on merchant_url's origin; the merchant's own checkout submits the payment. The one-time code is valid until the item's expires_at; fill and submit checkout before then. Visa cards can be enrolled, but Visa purchases are not yet supported: authorize returns 400. Supported Mastercard purchases need no cardholder approval. Card updates are not supported; delete and create a new item instead.
+    Authorization obtains an agentic network token number, expiry and one-time 3-digit code. They are stored encrypted for the fill operation, which types them only on merchant_url's origin; the merchant's own checkout submits the payment. The one-time code is valid until the item's expires_at; fill and submit checkout before then. Mastercard purchases need no cardholder approval. A Visa purchase returns a spend_approval action: the cardholder approves it with a Visa passkey, and Kernel registers a Visa intent for one transaction up to the amount before issuing the code. Card updates are not supported; delete and create a new item instead.
     """
 
     amount: int
@@ -35,3 +36,10 @@ class KernelCardVaultItemSpec(BaseModel):
 
     wallet: str
     """Key of the Kernel wallet item whose enrolled card pays."""
+
+    merchant_country: Optional[str] = None
+    """The merchant's ISO 3166-1 alpha-2 country code.
+
+    Required for Visa cards, whose one-time code is issued for the merchant's
+    country.
+    """
