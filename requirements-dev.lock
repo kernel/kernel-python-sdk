@@ -19,7 +19,7 @@ aiosignal==1.4.0
     # via aiohttp
 annotated-types==0.7.0
     # via pydantic
-anyio==4.12.1
+anyio==4.14.2
     # via httpx
     # via kernel
 argcomplete==3.6.3
@@ -48,7 +48,7 @@ exceptiongroup==1.3.1
     # via pytest
 execnet==2.1.2
     # via pytest-xdist
-filelock==3.19.1
+filelock==3.32.7
     # via virtualenv
 frozenlist==1.8.0
     # via aiohttp
