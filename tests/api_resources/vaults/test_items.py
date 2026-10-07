@@ -881,7 +881,6 @@ class TestItems:
         item = client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_create_access_request",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
@@ -892,7 +891,6 @@ class TestItems:
         item = client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_create_access_request",
             goal="goal",
             keywords=["x"],
@@ -906,7 +904,6 @@ class TestItems:
         response = client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_create_access_request",
         )
 
@@ -921,7 +918,6 @@ class TestItems:
         with client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_create_access_request",
         ) as response:
             assert not response.is_closed
@@ -939,7 +935,6 @@ class TestItems:
             client.vaults.items.with_raw_response.perform_operation(
                 key="key",
                 id_or_name="",
-                browser_id="x",
                 type="1pw_create_access_request",
             )
 
@@ -947,7 +942,6 @@ class TestItems:
             client.vaults.items.with_raw_response.perform_operation(
                 key="",
                 id_or_name="id_or_name",
-                browser_id="x",
                 type="1pw_create_access_request",
             )
 
@@ -957,7 +951,6 @@ class TestItems:
         item = client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_access_request_status",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
@@ -968,7 +961,6 @@ class TestItems:
         item = client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_access_request_status",
             timeout_seconds=0,
         )
@@ -980,7 +972,6 @@ class TestItems:
         response = client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_access_request_status",
         )
 
@@ -995,7 +986,6 @@ class TestItems:
         with client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_access_request_status",
         ) as response:
             assert not response.is_closed
@@ -1013,7 +1003,6 @@ class TestItems:
             client.vaults.items.with_raw_response.perform_operation(
                 key="key",
                 id_or_name="",
-                browser_id="x",
                 type="1pw_access_request_status",
             )
 
@@ -1021,7 +1010,6 @@ class TestItems:
             client.vaults.items.with_raw_response.perform_operation(
                 key="",
                 id_or_name="id_or_name",
-                browser_id="x",
                 type="1pw_access_request_status",
             )
 
@@ -2755,7 +2743,6 @@ class TestAsyncItems:
         item = await async_client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_create_access_request",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
@@ -2766,7 +2753,6 @@ class TestAsyncItems:
         item = await async_client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_create_access_request",
             goal="goal",
             keywords=["x"],
@@ -2780,7 +2766,6 @@ class TestAsyncItems:
         response = await async_client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_create_access_request",
         )
 
@@ -2795,7 +2780,6 @@ class TestAsyncItems:
         async with async_client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_create_access_request",
         ) as response:
             assert not response.is_closed
@@ -2813,7 +2797,6 @@ class TestAsyncItems:
             await async_client.vaults.items.with_raw_response.perform_operation(
                 key="key",
                 id_or_name="",
-                browser_id="x",
                 type="1pw_create_access_request",
             )
 
@@ -2821,7 +2804,6 @@ class TestAsyncItems:
             await async_client.vaults.items.with_raw_response.perform_operation(
                 key="",
                 id_or_name="id_or_name",
-                browser_id="x",
                 type="1pw_create_access_request",
             )
 
@@ -2831,7 +2813,6 @@ class TestAsyncItems:
         item = await async_client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_access_request_status",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
@@ -2842,7 +2823,6 @@ class TestAsyncItems:
         item = await async_client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_access_request_status",
             timeout_seconds=0,
         )
@@ -2854,7 +2834,6 @@ class TestAsyncItems:
         response = await async_client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_access_request_status",
         )
 
@@ -2869,7 +2848,6 @@ class TestAsyncItems:
         async with async_client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            browser_id="x",
             type="1pw_access_request_status",
         ) as response:
             assert not response.is_closed
@@ -2887,7 +2865,6 @@ class TestAsyncItems:
             await async_client.vaults.items.with_raw_response.perform_operation(
                 key="key",
                 id_or_name="",
-                browser_id="x",
                 type="1pw_access_request_status",
             )
 
@@ -2895,7 +2872,6 @@ class TestAsyncItems:
             await async_client.vaults.items.with_raw_response.perform_operation(
                 key="",
                 id_or_name="id_or_name",
-                browser_id="x",
                 type="1pw_access_request_status",
             )
 

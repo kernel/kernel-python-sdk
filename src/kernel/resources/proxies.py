@@ -53,7 +53,7 @@ class ProxiesResource(SyncAPIResource):
     def create(
         self,
         *,
-        type: Literal["datacenter", "isp", "residential", "mobile", "custom"],
+        type: Literal["isp", "residential", "mobile", "custom"],
         bypass_hosts: SequenceNotStr[str] | Omit = omit,
         config: proxy_create_params.Config | Omit = omit,
         name: str | Omit = omit,
@@ -69,12 +69,9 @@ class ProxiesResource(SyncAPIResource):
         Create a new proxy configuration in the resolved project.
 
         Args:
-          type: Proxy type to use. In terms of quality for avoiding bot-detection, from best to
-              worst: `mobile` > `residential` > `isp` > `datacenter`.
-
           bypass_hosts: Hostnames that should bypass the parent proxy and connect directly.
 
-          config: Configuration specific to the selected proxy `type`.
+          config: Configuration for an ISP proxy.
 
           name: Readable name of the proxy.
 
@@ -292,25 +289,25 @@ class ProxiesResource(SyncAPIResource):
         """Run a health check on the proxy to verify it's working.
 
         Optionally specify a URL
-        to test reachability against a specific target. For ISP and datacenter proxies,
-        this reliably tests whether the target site is reachable from the proxy's stable
-        exit IP. For residential and mobile proxies, the exit node varies between
-        requests, so this validates proxy configuration and connectivity rather than
-        guaranteeing site-specific reachability.
+        to test reachability against a specific target. For ISP proxies, this reliably
+        tests whether the target site is reachable from the proxy's stable exit IP. For
+        residential and mobile proxies, the exit node varies between requests, so this
+        validates proxy configuration and connectivity rather than guaranteeing
+        site-specific reachability.
 
         Args:
           url: An optional URL to test reachability against. If provided, the proxy check will
               test connectivity to this URL instead of the default test URLs. Only HTTP and
               HTTPS schemes are allowed, and the URL must resolve to a public IP address. For
-              ISP and datacenter proxies, the exit IP is stable, so a successful check
-              reliably indicates that subsequent browser sessions will reach the target site
-              with the same IP. For residential and mobile proxies, the exit node changes
-              between requests, so a successful check validates proxy configuration but does
-              not guarantee that a subsequent browser session will use the same exit IP or
-              reach the same site — it is useful for verifying credentials and connectivity,
-              not for predicting site-specific behavior. When provided, the check result does
-              not update the proxy's health status, since a failure may indicate a problem
-              with the target site rather than the proxy itself.
+              ISP proxies, the exit IP is stable, so a successful check reliably indicates
+              that subsequent browser sessions will reach the target site with the same IP.
+              For residential and mobile proxies, the exit node changes between requests, so a
+              successful check validates proxy configuration but does not guarantee that a
+              subsequent browser session will use the same exit IP or reach the same site — it
+              is useful for verifying credentials and connectivity, not for predicting
+              site-specific behavior. When provided, the check result does not update the
+              proxy's health status, since a failure may indicate a problem with the target
+              site rather than the proxy itself.
 
           extra_headers: Send extra headers
 
@@ -357,7 +354,7 @@ class AsyncProxiesResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        type: Literal["datacenter", "isp", "residential", "mobile", "custom"],
+        type: Literal["isp", "residential", "mobile", "custom"],
         bypass_hosts: SequenceNotStr[str] | Omit = omit,
         config: proxy_create_params.Config | Omit = omit,
         name: str | Omit = omit,
@@ -373,12 +370,9 @@ class AsyncProxiesResource(AsyncAPIResource):
         Create a new proxy configuration in the resolved project.
 
         Args:
-          type: Proxy type to use. In terms of quality for avoiding bot-detection, from best to
-              worst: `mobile` > `residential` > `isp` > `datacenter`.
-
           bypass_hosts: Hostnames that should bypass the parent proxy and connect directly.
 
-          config: Configuration specific to the selected proxy `type`.
+          config: Configuration for an ISP proxy.
 
           name: Readable name of the proxy.
 
@@ -596,25 +590,25 @@ class AsyncProxiesResource(AsyncAPIResource):
         """Run a health check on the proxy to verify it's working.
 
         Optionally specify a URL
-        to test reachability against a specific target. For ISP and datacenter proxies,
-        this reliably tests whether the target site is reachable from the proxy's stable
-        exit IP. For residential and mobile proxies, the exit node varies between
-        requests, so this validates proxy configuration and connectivity rather than
-        guaranteeing site-specific reachability.
+        to test reachability against a specific target. For ISP proxies, this reliably
+        tests whether the target site is reachable from the proxy's stable exit IP. For
+        residential and mobile proxies, the exit node varies between requests, so this
+        validates proxy configuration and connectivity rather than guaranteeing
+        site-specific reachability.
 
         Args:
           url: An optional URL to test reachability against. If provided, the proxy check will
               test connectivity to this URL instead of the default test URLs. Only HTTP and
               HTTPS schemes are allowed, and the URL must resolve to a public IP address. For
-              ISP and datacenter proxies, the exit IP is stable, so a successful check
-              reliably indicates that subsequent browser sessions will reach the target site
-              with the same IP. For residential and mobile proxies, the exit node changes
-              between requests, so a successful check validates proxy configuration but does
-              not guarantee that a subsequent browser session will use the same exit IP or
-              reach the same site — it is useful for verifying credentials and connectivity,
-              not for predicting site-specific behavior. When provided, the check result does
-              not update the proxy's health status, since a failure may indicate a problem
-              with the target site rather than the proxy itself.
+              ISP proxies, the exit IP is stable, so a successful check reliably indicates
+              that subsequent browser sessions will reach the target site with the same IP.
+              For residential and mobile proxies, the exit node changes between requests, so a
+              successful check validates proxy configuration but does not guarantee that a
+              subsequent browser session will use the same exit IP or reach the same site — it
+              is useful for verifying credentials and connectivity, not for predicting
+              site-specific behavior. When provided, the check result does not update the
+              proxy's health status, since a failure may indicate a problem with the target
+              site rather than the proxy itself.
 
           extra_headers: Send extra headers
 

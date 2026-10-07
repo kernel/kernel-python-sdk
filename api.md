@@ -120,6 +120,7 @@ from kernel.types import (
     BrowserMemory,
     BrowserMemoryRequest,
     BrowserNetworkConfig,
+    BrowserNetworkUpdate,
     BrowserPoolRef,
     BrowserProxy,
     BrowserProxyConfig,

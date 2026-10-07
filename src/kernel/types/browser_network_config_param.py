@@ -53,8 +53,9 @@ class BrowserNetworkConfigParam(TypedDict, total=False):
     or reserved IP ranges are rejected, as are entries that overlap private_hosts.
     Enforced at Kernel's egress proxy only: destinations in private_hosts, and
     processes in the browser VM that do not use the browser's proxy, are not
-    filtered, and Kernel's own control traffic is always allowed. Requires proxy v3.
-    Not supported on browser pools.
+    filtered, and Kernel's own control traffic is always allowed. Can be replaced or
+    removed while the session runs with PATCH /browsers/{id_or_name}. Requires proxy
+    v3. Not supported on browser pools.
     """
 
     private_hosts: SequenceNotStr[str]

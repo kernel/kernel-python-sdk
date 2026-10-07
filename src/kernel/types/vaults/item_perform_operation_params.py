@@ -81,9 +81,6 @@ class FillVaultItemOperationRequest(TypedDict, total=False):
 class OnePasswordRequestAccessVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
-    browser_id: Required[str]
-    """Kernel browser session used to invoke the extension."""
-
     type: Required[Literal["1pw_create_access_request"]]
 
     goal: str
@@ -95,8 +92,6 @@ class OnePasswordRequestAccessVaultItemOperationRequest(TypedDict, total=False):
 
 class OnePasswordPollAccessVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
-
-    browser_id: Required[str]
 
     type: Required[Literal["1pw_access_request_status"]]
 

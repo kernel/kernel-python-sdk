@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.121.0](https://github.com/kernel/kernel-python-sdk/compare/v0.120.0...v0.121.0) (2026-10-07)
+
+
+### Features
+
+* Create and poll 1Password access requests over the 1Password API ([c59f487](https://github.com/kernel/kernel-python-sdk/commit/c59f4871e5dfafd294d9fe9338555d07a6ecd491))
+* Deprecate datacenter proxies in the API ([c34882c](https://github.com/kernel/kernel-python-sdk/commit/c34882c77d247ace0fa23d37da1c3574d21bd1b0))
+
 ## [0.120.0](https://github.com/kernel/kernel-python-sdk/compare/v0.119.0...v0.120.0) (2026-10-06)
 
 

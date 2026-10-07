@@ -112,6 +112,7 @@ from ...types.browser_update_response import BrowserUpdateResponse
 from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.browser_proxy_config_param import BrowserProxyConfigParam
 from ...types.browser_network_config_param import BrowserNetworkConfigParam
+from ...types.browser_network_update_param import BrowserNetworkUpdateParam
 from ...types.shared_params.browser_profile import BrowserProfile
 from ...types.shared_params.browser_viewport import BrowserViewport
 from ...types.shared_params.browser_extension import BrowserExtension
@@ -241,7 +242,8 @@ class BrowsersResource(SyncAPIResource):
               the dashboard. Must be unique among active sessions within the project. Can be
               changed later via PATCH /browsers/{id_or_name}.
 
-          network: Network configuration for the browser session. Cannot be changed after creation.
+          network: Network configuration for the browser session. Only allowed_hosts can be changed
+              after creation, with PATCH /browsers/{id_or_name}.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -393,6 +395,7 @@ class BrowsersResource(SyncAPIResource):
         *,
         disable_default_proxy: bool | Omit = omit,
         name: Optional[str] | Omit = omit,
+        network: BrowserNetworkUpdateParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
@@ -417,6 +420,8 @@ class BrowsersResource(SyncAPIResource):
           name: Human-readable name for the browser session. Omit to leave unchanged, set to an
               empty string to clear the name. When set, must be unique among active sessions
               within the project.
+
+          network: Network configuration changes to apply to the running browser session.
 
           profile: Profile to load into the browser session. Only allowed if the session does not
               already have a profile loaded.
@@ -464,6 +469,7 @@ class BrowsersResource(SyncAPIResource):
                 {
                     "disable_default_proxy": disable_default_proxy,
                     "name": name,
+                    "network": network,
                     "profile": profile,
                     "proxy": proxy,
                     "proxy_id": proxy_id,
@@ -945,7 +951,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
               the dashboard. Must be unique among active sessions within the project. Can be
               changed later via PATCH /browsers/{id_or_name}.
 
-          network: Network configuration for the browser session. Cannot be changed after creation.
+          network: Network configuration for the browser session. Only allowed_hosts can be changed
+              after creation, with PATCH /browsers/{id_or_name}.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -1097,6 +1104,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         *,
         disable_default_proxy: bool | Omit = omit,
         name: Optional[str] | Omit = omit,
+        network: BrowserNetworkUpdateParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
@@ -1121,6 +1129,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
           name: Human-readable name for the browser session. Omit to leave unchanged, set to an
               empty string to clear the name. When set, must be unique among active sessions
               within the project.
+
+          network: Network configuration changes to apply to the running browser session.
 
           profile: Profile to load into the browser session. Only allowed if the session does not
               already have a profile loaded.
@@ -1168,6 +1178,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                 {
                     "disable_default_proxy": disable_default_proxy,
                     "name": name,
+                    "network": network,
                     "profile": profile,
                     "proxy": proxy,
                     "proxy_id": proxy_id,
