@@ -7,6 +7,7 @@ from typing_extensions import TypedDict
 
 from .tags_param import TagsParam
 from .browser_proxy_config_param import BrowserProxyConfigParam
+from .browser_network_update_param import BrowserNetworkUpdateParam
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
 from .browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
@@ -35,6 +36,9 @@ class BrowserUpdateParams(TypedDict, total=False):
     Omit to leave unchanged, set to an empty string to clear the name. When set,
     must be unique among active sessions within the project.
     """
+
+    network: BrowserNetworkUpdateParam
+    """Network configuration changes to apply to the running browser session."""
 
     profile: BrowserProfile
     """Profile to load into the browser session.

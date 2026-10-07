@@ -125,7 +125,7 @@ class ManagedAuthBrowserConfigParam(TypedDict, total=False):
     preserve or inherit the connection default.
     """
 
-    region: Literal["us-east", "eu-west", "ap-southeast"]
+    region: Literal["us-east", "us-west", "eu-west", "ap-southeast"]
     """Browser region.
 
     Omit on create to use us-east, on update to keep the current region, or on login

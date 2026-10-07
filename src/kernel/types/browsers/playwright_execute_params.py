@@ -17,5 +17,13 @@ class PlaywrightExecuteParams(TypedDict, total=False):
     "await page.goto('https://example.com'); return await page.title();"
     """
 
+    executor: str
+    """Name of a Playwright executor.
+
+    Calls with the same name run in the same executor, one at a time; the first call
+    with a new name creates it. Calls on different executors run concurrently.
+    'default' names the executor that runs calls without a name.
+    """
+
     timeout_sec: int
     """Maximum execution time in seconds. Default is 60."""

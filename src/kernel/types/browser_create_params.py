@@ -74,7 +74,8 @@ class BrowserCreateParams(TypedDict, total=False):
     network: BrowserNetworkConfigParam
     """Network configuration for the browser session.
 
-    Cannot be changed after creation.
+    Only allowed_hosts can be changed after creation, with PATCH
+    /browsers/{id_or_name}.
     """
 
     profile: BrowserProfile
@@ -103,7 +104,7 @@ class BrowserCreateParams(TypedDict, total=False):
     favor of proxy.
     """
 
-    region: Literal["us-east", "eu-west", "ap-southeast"]
+    region: Literal["us-east", "us-west", "eu-west", "ap-southeast"]
     """Geographic region for the browser session.
 
     It is fixed once the session is created. Region selection requires a Start-Up or

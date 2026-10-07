@@ -28,7 +28,7 @@ class TestProxies:
     @parametrize
     def test_method_create(self, client: Kernel) -> None:
         proxy = client.proxies.create(
-            type="datacenter",
+            type="isp",
         )
         assert_matches_type(ProxyCreateResponse, proxy, path=["response"])
 
@@ -36,7 +36,7 @@ class TestProxies:
     @parametrize
     def test_method_create_with_all_params(self, client: Kernel) -> None:
         proxy = client.proxies.create(
-            type="datacenter",
+            type="isp",
             bypass_hosts=["string"],
             config={"country": "US"},
             name="name",
@@ -48,7 +48,7 @@ class TestProxies:
     @parametrize
     def test_raw_response_create(self, client: Kernel) -> None:
         response = client.proxies.with_raw_response.create(
-            type="datacenter",
+            type="isp",
         )
 
         assert response.is_closed is True
@@ -60,7 +60,7 @@ class TestProxies:
     @parametrize
     def test_streaming_response_create(self, client: Kernel) -> None:
         with client.proxies.with_streaming_response.create(
-            type="datacenter",
+            type="isp",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -300,7 +300,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_method_create(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.create(
-            type="datacenter",
+            type="isp",
         )
         assert_matches_type(ProxyCreateResponse, proxy, path=["response"])
 
@@ -308,7 +308,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.create(
-            type="datacenter",
+            type="isp",
             bypass_hosts=["string"],
             config={"country": "US"},
             name="name",
@@ -320,7 +320,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncKernel) -> None:
         response = await async_client.proxies.with_raw_response.create(
-            type="datacenter",
+            type="isp",
         )
 
         assert response.is_closed is True
@@ -332,7 +332,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncKernel) -> None:
         async with async_client.proxies.with_streaming_response.create(
-            type="datacenter",
+            type="isp",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

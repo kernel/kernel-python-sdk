@@ -70,14 +70,6 @@ from .telemetry import (
     TelemetryResourceWithStreamingResponse,
     AsyncTelemetryResourceWithStreamingResponse,
 )
-from .playwright import (
-    PlaywrightResource,
-    AsyncPlaywrightResource,
-    PlaywrightResourceWithRawResponse,
-    AsyncPlaywrightResourceWithRawResponse,
-    PlaywrightResourceWithStreamingResponse,
-    AsyncPlaywrightResourceWithStreamingResponse,
-)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -96,6 +88,14 @@ from .webmcp.webmcp import (
 )
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.tags_param import TagsParam
+from .playwright.playwright import (
+    PlaywrightResource,
+    AsyncPlaywrightResource,
+    PlaywrightResourceWithRawResponse,
+    AsyncPlaywrightResourceWithRawResponse,
+    PlaywrightResourceWithStreamingResponse,
+    AsyncPlaywrightResourceWithStreamingResponse,
+)
 from ...types.browser_repl_result import BrowserReplResult
 from ...types.browser_curl_response import BrowserCurlResponse
 from ...types.browser_list_response import BrowserListResponse
@@ -112,6 +112,7 @@ from ...types.browser_update_response import BrowserUpdateResponse
 from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.browser_proxy_config_param import BrowserProxyConfigParam
 from ...types.browser_network_config_param import BrowserNetworkConfigParam
+from ...types.browser_network_update_param import BrowserNetworkUpdateParam
 from ...types.shared_params.browser_profile import BrowserProfile
 from ...types.shared_params.browser_viewport import BrowserViewport
 from ...types.shared_params.browser_extension import BrowserExtension
@@ -154,7 +155,9 @@ class BrowsersResource(SyncAPIResource):
 
     @cached_property
     def playwright(self) -> PlaywrightResource:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return PlaywrightResource(self._client)
 
     @cached_property
@@ -196,7 +199,7 @@ class BrowsersResource(SyncAPIResource):
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
-        region: Literal["us-east", "eu-west", "ap-southeast"] | Omit = omit,
+        region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         tags: TagsParam | Omit = omit,
@@ -239,7 +242,8 @@ class BrowsersResource(SyncAPIResource):
               the dashboard. Must be unique among active sessions within the project. Can be
               changed later via PATCH /browsers/{id_or_name}.
 
-          network: Network configuration for the browser session. Cannot be changed after creation.
+          network: Network configuration for the browser session. Only allowed_hosts can be changed
+              after creation, with PATCH /browsers/{id_or_name}.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -391,6 +395,7 @@ class BrowsersResource(SyncAPIResource):
         *,
         disable_default_proxy: bool | Omit = omit,
         name: Optional[str] | Omit = omit,
+        network: BrowserNetworkUpdateParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
@@ -415,6 +420,8 @@ class BrowsersResource(SyncAPIResource):
           name: Human-readable name for the browser session. Omit to leave unchanged, set to an
               empty string to clear the name. When set, must be unique among active sessions
               within the project.
+
+          network: Network configuration changes to apply to the running browser session.
 
           profile: Profile to load into the browser session. Only allowed if the session does not
               already have a profile loaded.
@@ -462,6 +469,7 @@ class BrowsersResource(SyncAPIResource):
                 {
                     "disable_default_proxy": disable_default_proxy,
                     "name": name,
+                    "network": network,
                     "profile": profile,
                     "proxy": proxy,
                     "proxy_id": proxy_id,
@@ -485,7 +493,7 @@ class BrowsersResource(SyncAPIResource):
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
-        region: Literal["us-east", "eu-west", "ap-southeast"] | Omit = omit,
+        region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
         status: Literal["active", "deleted", "all"] | Omit = omit,
         tags: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -856,7 +864,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
     @cached_property
     def playwright(self) -> AsyncPlaywrightResource:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return AsyncPlaywrightResource(self._client)
 
     @cached_property
@@ -898,7 +908,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
-        region: Literal["us-east", "eu-west", "ap-southeast"] | Omit = omit,
+        region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         tags: TagsParam | Omit = omit,
@@ -941,7 +951,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
               the dashboard. Must be unique among active sessions within the project. Can be
               changed later via PATCH /browsers/{id_or_name}.
 
-          network: Network configuration for the browser session. Cannot be changed after creation.
+          network: Network configuration for the browser session. Only allowed_hosts can be changed
+              after creation, with PATCH /browsers/{id_or_name}.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -1093,6 +1104,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         *,
         disable_default_proxy: bool | Omit = omit,
         name: Optional[str] | Omit = omit,
+        network: BrowserNetworkUpdateParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: Optional[str] | Omit = omit,
@@ -1117,6 +1129,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
           name: Human-readable name for the browser session. Omit to leave unchanged, set to an
               empty string to clear the name. When set, must be unique among active sessions
               within the project.
+
+          network: Network configuration changes to apply to the running browser session.
 
           profile: Profile to load into the browser session. Only allowed if the session does not
               already have a profile loaded.
@@ -1164,6 +1178,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                 {
                     "disable_default_proxy": disable_default_proxy,
                     "name": name,
+                    "network": network,
                     "profile": profile,
                     "proxy": proxy,
                     "proxy_id": proxy_id,
@@ -1187,7 +1202,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         limit: int | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
-        region: Literal["us-east", "eu-west", "ap-southeast"] | Omit = omit,
+        region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
         status: Literal["active", "deleted", "all"] | Omit = omit,
         tags: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1586,7 +1601,9 @@ class BrowsersResourceWithRawResponse:
 
     @cached_property
     def playwright(self) -> PlaywrightResourceWithRawResponse:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return PlaywrightResourceWithRawResponse(self._browsers.playwright)
 
     @cached_property
@@ -1658,7 +1675,9 @@ class AsyncBrowsersResourceWithRawResponse:
 
     @cached_property
     def playwright(self) -> AsyncPlaywrightResourceWithRawResponse:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return AsyncPlaywrightResourceWithRawResponse(self._browsers.playwright)
 
     @cached_property
@@ -1730,7 +1749,9 @@ class BrowsersResourceWithStreamingResponse:
 
     @cached_property
     def playwright(self) -> PlaywrightResourceWithStreamingResponse:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return PlaywrightResourceWithStreamingResponse(self._browsers.playwright)
 
     @cached_property
@@ -1802,7 +1823,9 @@ class AsyncBrowsersResourceWithStreamingResponse:
 
     @cached_property
     def playwright(self) -> AsyncPlaywrightResourceWithStreamingResponse:
-        """Execute Playwright code against the browser instance."""
+        """
+        Execute Playwright code against the browser instance and manage the executors it runs in.
+        """
         return AsyncPlaywrightResourceWithStreamingResponse(self._browsers.playwright)
 
     @cached_property

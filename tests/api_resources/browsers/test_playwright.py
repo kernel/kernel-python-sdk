@@ -32,6 +32,7 @@ class TestPlaywright:
         playwright = client.browsers.playwright.execute(
             id_or_name="htzv5orfit78e1m2biiifpbv",
             code="code",
+            executor="checkout",
             timeout_sec=1,
         )
         assert_matches_type(PlaywrightExecuteResponse, playwright, path=["response"])
@@ -94,6 +95,7 @@ class TestAsyncPlaywright:
         playwright = await async_client.browsers.playwright.execute(
             id_or_name="htzv5orfit78e1m2biiifpbv",
             code="code",
+            executor="checkout",
             timeout_sec=1,
         )
         assert_matches_type(PlaywrightExecuteResponse, playwright, path=["response"])

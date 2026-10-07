@@ -28,5 +28,5 @@ class BrowserPoolListParams(TypedDict, total=False):
     IDs match by exact value.
     """
 
-    region: Literal["us-east", "eu-west", "ap-southeast"]
+    region: Literal["us-east", "us-west", "eu-west", "ap-southeast"]
     """Filter pools by geographic region. Omit to list pools in all regions."""

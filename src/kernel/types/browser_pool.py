@@ -178,7 +178,7 @@ class BrowserPool(BaseModel):
     (echoed as sent on create).
     """
 
-    region: Literal["us-east", "eu-west", "ap-southeast"]
+    region: Literal["us-east", "us-west", "eu-west", "ap-southeast"]
     """Geographic region of the browser pool. Fixed once the pool is created."""
 
     name: Optional[str] = None

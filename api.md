@@ -120,6 +120,7 @@ from kernel.types import (
     BrowserMemory,
     BrowserMemoryRequest,
     BrowserNetworkConfig,
+    BrowserNetworkUpdate,
     BrowserPoolRef,
     BrowserProxy,
     BrowserProxyConfig,
@@ -334,12 +335,25 @@ Methods:
 Types:
 
 ```python
-from kernel.types.browsers import PlaywrightExecuteResponse
+from kernel.types.browsers import ExecutorLimitError, Tab, PlaywrightExecuteResponse
 ```
 
 Methods:
 
-- <code title="post /browsers/{id_or_name}/playwright/execute">client.browsers.playwright.<a href="./src/kernel/resources/browsers/playwright.py">execute</a>(id_or_name, \*\*<a href="src/kernel/types/browsers/playwright_execute_params.py">params</a>) -> <a href="./src/kernel/types/browsers/playwright_execute_response.py">PlaywrightExecuteResponse</a></code>
+- <code title="post /browsers/{id_or_name}/playwright/execute">client.browsers.playwright.<a href="./src/kernel/resources/browsers/playwright/playwright.py">execute</a>(id_or_name, \*\*<a href="src/kernel/types/browsers/playwright_execute_params.py">params</a>) -> <a href="./src/kernel/types/browsers/playwright_execute_response.py">PlaywrightExecuteResponse</a></code>
+
+### Executors
+
+Types:
+
+```python
+from kernel.types.browsers.playwright import Executor, ExecutorList
+```
+
+Methods:
+
+- <code title="get /browsers/{id_or_name}/playwright/executors">client.browsers.playwright.executors.<a href="./src/kernel/resources/browsers/playwright/executors.py">list</a>(id_or_name) -> <a href="./src/kernel/types/browsers/playwright/executor_list.py">ExecutorList</a></code>
+- <code title="delete /browsers/{id_or_name}/playwright/executors/{name}">client.browsers.playwright.executors.<a href="./src/kernel/resources/browsers/playwright/executors.py">delete</a>(name, \*, id_or_name, \*\*<a href="src/kernel/types/browsers/playwright/executor_delete_params.py">params</a>) -> None</code>
 
 ## Webmcp
 

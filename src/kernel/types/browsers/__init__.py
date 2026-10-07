@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .tab import Tab as Tab
 from .tool import Tool as Tool
 from .tool_frame import ToolFrame as ToolFrame
 from .tool_source import ToolSource as ToolSource

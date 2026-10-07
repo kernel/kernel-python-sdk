@@ -12,7 +12,6 @@ __all__ = [
     "ConfigRegistryManagedProxy",
     "ConfigRegistryManagedProxyCreate",
     "ConfigRegistryManagedProxyCreateConfig",
-    "ConfigRegistryManagedProxyCreateConfigDatacenterProxyConfig",
     "ConfigRegistryManagedProxyCreateConfigIspProxyConfig",
     "ConfigRegistryManagedProxyCreateConfigResidentialProxyConfig",
     "ConfigRegistryManagedProxyCreateConfigMobileProxyConfig",
@@ -24,13 +23,6 @@ class ConfigRegistryDirectProxy(BaseModel):
     """Direct egress recipe. Pass `{ "mode": "direct" }` as the browser's `proxy`."""
 
     mode: Literal["direct"]
-
-
-class ConfigRegistryManagedProxyCreateConfigDatacenterProxyConfig(BaseModel):
-    """Configuration for a datacenter proxy."""
-
-    country: Optional[str] = None
-    """ISO 3166 country code. Defaults to US if not provided."""
 
 
 class ConfigRegistryManagedProxyCreateConfigIspProxyConfig(BaseModel):
@@ -111,7 +103,6 @@ class ConfigRegistryManagedProxyCreateConfigCreateCustomProxyConfig(BaseModel):
 
 
 ConfigRegistryManagedProxyCreateConfig: TypeAlias = Union[
-    ConfigRegistryManagedProxyCreateConfigDatacenterProxyConfig,
     ConfigRegistryManagedProxyCreateConfigIspProxyConfig,
     ConfigRegistryManagedProxyCreateConfigResidentialProxyConfig,
     ConfigRegistryManagedProxyCreateConfigMobileProxyConfig,
@@ -122,18 +113,13 @@ ConfigRegistryManagedProxyCreateConfig: TypeAlias = Union[
 class ConfigRegistryManagedProxyCreate(BaseModel):
     """Configuration for routing traffic through a proxy."""
 
-    type: Literal["datacenter", "isp", "residential", "mobile", "custom"]
-    """Proxy type to use.
-
-    In terms of quality for avoiding bot-detection, from best to worst: `mobile` >
-    `residential` > `isp` > `datacenter`.
-    """
+    type: Literal["isp", "residential", "mobile", "custom"]
 
     bypass_hosts: Optional[List[str]] = None
     """Hostnames that should bypass the parent proxy and connect directly."""
 
     config: Optional[ConfigRegistryManagedProxyCreateConfig] = None
-    """Configuration specific to the selected proxy `type`."""
+    """Configuration for an ISP proxy."""
 
     name: Optional[str] = None
     """Readable name of the proxy."""

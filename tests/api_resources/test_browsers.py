@@ -49,6 +49,7 @@ class TestBrowsers:
             memory="8GiB",
             name="checkout-flow-1",
             network={
+                "allowed_hosts": ["example.com", "*.example.com"],
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
                 "proxy_routes": [
                     {
@@ -209,6 +210,7 @@ class TestBrowsers:
             id_or_name="htzv5orfit78e1m2biiifpbv",
             disable_default_proxy=True,
             name="checkout-flow-1",
+            network={"allowed_hosts": ["example.com", "*.example.com"]},
             profile={
                 "id": "id",
                 "name": "name",
@@ -593,6 +595,7 @@ class TestAsyncBrowsers:
             memory="8GiB",
             name="checkout-flow-1",
             network={
+                "allowed_hosts": ["example.com", "*.example.com"],
                 "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
                 "proxy_routes": [
                     {
@@ -753,6 +756,7 @@ class TestAsyncBrowsers:
             id_or_name="htzv5orfit78e1m2biiifpbv",
             disable_default_proxy=True,
             name="checkout-flow-1",
+            network={"allowed_hosts": ["example.com", "*.example.com"]},
             profile={
                 "id": "id",
                 "name": "name",

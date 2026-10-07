@@ -610,7 +610,6 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        browser_id: str,
         type: Literal["1pw_create_access_request"],
         goal: str | Omit = omit,
         keywords: SequenceNotStr[str] | Omit = omit,
@@ -645,8 +644,6 @@ class ItemsResource(SyncAPIResource):
         leave the outcome unknown; do not automatically retry.
 
         Args:
-          browser_id: Kernel browser session used to invoke the extension.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -663,7 +660,6 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        browser_id: str,
         type: Literal["1pw_access_request_status"],
         timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -934,7 +930,6 @@ class ItemsResource(SyncAPIResource):
         ["id_or_name", "type"],
         ["id_or_name", "checkout", "type"],
         ["id_or_name", "browser_id", "fields", "type"],
-        ["id_or_name", "browser_id", "type"],
         ["id_or_name", "browser_id", "page_url", "type"],
         ["id_or_name", "access_token", "type"],
         ["id_or_name", "bindings", "browser_id", "input", "page_url", "tool_ref", "type"],
@@ -1789,7 +1784,6 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        browser_id: str,
         type: Literal["1pw_create_access_request"],
         goal: str | Omit = omit,
         keywords: SequenceNotStr[str] | Omit = omit,
@@ -1824,8 +1818,6 @@ class AsyncItemsResource(AsyncAPIResource):
         leave the outcome unknown; do not automatically retry.
 
         Args:
-          browser_id: Kernel browser session used to invoke the extension.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1842,7 +1834,6 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        browser_id: str,
         type: Literal["1pw_access_request_status"],
         timeout_seconds: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -2113,7 +2104,6 @@ class AsyncItemsResource(AsyncAPIResource):
         ["id_or_name", "type"],
         ["id_or_name", "checkout", "type"],
         ["id_or_name", "browser_id", "fields", "type"],
-        ["id_or_name", "browser_id", "type"],
         ["id_or_name", "browser_id", "page_url", "type"],
         ["id_or_name", "access_token", "type"],
         ["id_or_name", "bindings", "browser_id", "input", "page_url", "tool_ref", "type"],

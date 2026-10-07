@@ -14,10 +14,11 @@ class KernelWalletState(BaseModel):
     status: Literal["pending_authorization", "connected", "reconnect_required", "degraded"]
     """pending_authorization asks the cardholder to use the card_enrollment action.
 
-    connected is ready for supported purchases. reconnect_required asks the
-    cardholder to use a new card_enrollment action after an uncertain enrollment was
-    safely removed. degraded means the enrollment outcome is unknown and the wallet
-    must be deleted before adding another card.
+    connected means the card is stored; it can pay once payment_methods reports
+    capabilities.single_use_card.eligible. reconnect_required asks the cardholder to
+    use a new card_enrollment action after an uncertain enrollment was safely
+    removed. degraded means the enrollment outcome is unknown and the wallet must be
+    deleted before adding another card.
     """
 
     status_reason: Optional[str] = None
