@@ -74,7 +74,8 @@ class BrowserCreateParams(TypedDict, total=False):
     network: BrowserNetworkConfigParam
     """Network configuration for the browser session.
 
-    Cannot be changed after creation.
+    Only allowed_hosts can be changed after creation, with PATCH
+    /browsers/{id_or_name}.
     """
 
     profile: BrowserProfile

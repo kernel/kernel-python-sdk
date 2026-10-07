@@ -10,7 +10,6 @@ from .._types import SequenceNotStr
 __all__ = [
     "ProxyCreateParams",
     "Config",
-    "ConfigDatacenterProxyConfig",
     "ConfigIspProxyConfig",
     "ConfigResidentialProxyConfig",
     "ConfigMobileProxyConfig",
@@ -19,31 +18,19 @@ __all__ = [
 
 
 class ProxyCreateParams(TypedDict, total=False):
-    type: Required[Literal["datacenter", "isp", "residential", "mobile", "custom"]]
-    """Proxy type to use.
-
-    In terms of quality for avoiding bot-detection, from best to worst: `mobile` >
-    `residential` > `isp` > `datacenter`.
-    """
+    type: Required[Literal["isp", "residential", "mobile", "custom"]]
 
     bypass_hosts: SequenceNotStr[str]
     """Hostnames that should bypass the parent proxy and connect directly."""
 
     config: Config
-    """Configuration specific to the selected proxy `type`."""
+    """Configuration for an ISP proxy."""
 
     name: str
     """Readable name of the proxy."""
 
     protocol: Literal["http", "https"]
     """Protocol to use for the proxy connection."""
-
-
-class ConfigDatacenterProxyConfig(TypedDict, total=False):
-    """Configuration for a datacenter proxy."""
-
-    country: str
-    """ISO 3166 country code. Defaults to US if not provided."""
 
 
 class ConfigIspProxyConfig(TypedDict, total=False):
@@ -124,9 +111,5 @@ class ConfigCreateCustomProxyConfig(TypedDict, total=False):
 
 
 Config: TypeAlias = Union[
-    ConfigDatacenterProxyConfig,
-    ConfigIspProxyConfig,
-    ConfigResidentialProxyConfig,
-    ConfigMobileProxyConfig,
-    ConfigCreateCustomProxyConfig,
+    ConfigIspProxyConfig, ConfigResidentialProxyConfig, ConfigMobileProxyConfig, ConfigCreateCustomProxyConfig
 ]

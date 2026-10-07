@@ -9,19 +9,11 @@ from .._models import BaseModel
 __all__ = [
     "ProxyUpdateResponse",
     "Config",
-    "ConfigDatacenterProxyConfig",
     "ConfigIspProxyConfig",
     "ConfigResidentialProxyConfig",
     "ConfigMobileProxyConfig",
     "ConfigCustomProxyConfig",
 ]
-
-
-class ConfigDatacenterProxyConfig(BaseModel):
-    """Configuration for a datacenter proxy."""
-
-    country: Optional[str] = None
-    """ISO 3166 country code. Defaults to US if not provided."""
 
 
 class ConfigIspProxyConfig(BaseModel):
@@ -98,23 +90,14 @@ class ConfigCustomProxyConfig(BaseModel):
 
 
 Config: TypeAlias = Union[
-    ConfigDatacenterProxyConfig,
-    ConfigIspProxyConfig,
-    ConfigResidentialProxyConfig,
-    ConfigMobileProxyConfig,
-    ConfigCustomProxyConfig,
+    ConfigIspProxyConfig, ConfigResidentialProxyConfig, ConfigMobileProxyConfig, ConfigCustomProxyConfig
 ]
 
 
 class ProxyUpdateResponse(BaseModel):
     """Configuration for routing traffic through a proxy."""
 
-    type: Literal["datacenter", "isp", "residential", "mobile", "custom"]
-    """Proxy type to use.
-
-    In terms of quality for avoiding bot-detection, from best to worst: `mobile` >
-    `residential` > `isp` > `datacenter`.
-    """
+    type: Literal["isp", "residential", "mobile", "custom"]
 
     id: Optional[str] = None
 
@@ -122,7 +105,7 @@ class ProxyUpdateResponse(BaseModel):
     """Hostnames that should bypass the parent proxy and connect directly."""
 
     config: Optional[Config] = None
-    """Configuration specific to the selected proxy `type`."""
+    """Configuration for an ISP proxy."""
 
     ip_address: Optional[str] = None
     """IP address that the proxy uses when making requests."""
