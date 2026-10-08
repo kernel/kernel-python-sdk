@@ -426,8 +426,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -473,8 +473,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -521,8 +521,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           checkout: Required when preparing an unused AgentCard card for a supported checkout
@@ -578,8 +578,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -640,8 +640,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -688,8 +688,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -739,8 +739,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -794,8 +794,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -843,8 +843,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           access_token_expires_at: Optional supplied expiry. Omit to clear the old expiry.
@@ -898,8 +898,8 @@ class ItemsResource(SyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -1600,8 +1600,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -1647,8 +1647,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -1695,8 +1695,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           checkout: Required when preparing an unused AgentCard card for a supported checkout
@@ -1752,8 +1752,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -1814,8 +1814,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -1862,8 +1862,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -1913,8 +1913,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -1968,8 +1968,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           extra_headers: Send extra headers
@@ -2017,8 +2017,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           access_token_expires_at: Optional supplied expiry. Omit to clear the old expiry.
@@ -2072,8 +2072,8 @@ class AsyncItemsResource(AsyncAPIResource):
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
         known partial failures and indeterminate field outcomes return 200 with status
-        `failed` or `unknown`, not an automatic-retry signal. A transport error may
-        leave the outcome unknown; do not automatically retry.
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
