@@ -123,7 +123,9 @@ class BrowserPoolsResource(SyncAPIResource):
 
           name: Optional name for the browser pool. Must be unique within the project.
 
-          network: Network configuration applied to browsers in this pool.
+          network: Network configuration applied to browsers in this pool. Proxy routes require
+              proxy-v3; the pool will not provision browsers through Envoy if proxy-v3 is
+              unavailable.
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load
@@ -318,9 +320,11 @@ class BrowserPoolsResource(SyncAPIResource):
 
           network: If provided, replaces the pool's network configuration. Omit to leave the
               existing configuration unchanged; an empty object ({}) removes it, while
-              network: {private_hosts: []} sets an explicit empty list. Only applied to
-              browsers created in the pool after the update; browsers already in the pool keep
-              their configuration until discarded (see discard_all_idle).
+              network: {private_hosts: []} or network: {proxy_routes: []} sets an explicit
+              empty list. Proxy routes require proxy-v3; the pool will not provision browsers
+              through Envoy if proxy-v3 is unavailable. Only applied to browsers created in
+              the pool after the update; browsers already in the pool keep their configuration
+              until discarded (see discard_all_idle).
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load
@@ -770,7 +774,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           name: Optional name for the browser pool. Must be unique within the project.
 
-          network: Network configuration applied to browsers in this pool.
+          network: Network configuration applied to browsers in this pool. Proxy routes require
+              proxy-v3; the pool will not provision browsers through Envoy if proxy-v3 is
+              unavailable.
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load
@@ -965,9 +971,11 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           network: If provided, replaces the pool's network configuration. Omit to leave the
               existing configuration unchanged; an empty object ({}) removes it, while
-              network: {private_hosts: []} sets an explicit empty list. Only applied to
-              browsers created in the pool after the update; browsers already in the pool keep
-              their configuration until discarded (see discard_all_idle).
+              network: {private_hosts: []} or network: {proxy_routes: []} sets an explicit
+              empty list. Proxy routes require proxy-v3; the pool will not provision browsers
+              through Envoy if proxy-v3 is unavailable. Only applied to browsers created in
+              the pool after the update; browsers already in the pool keep their configuration
+              until discarded (see discard_all_idle).
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load

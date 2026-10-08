@@ -16,11 +16,17 @@ class Data(BaseModel):
     """
 
     captcha_type: Literal["hcaptcha", "recaptcha_v2", "recaptcha_v3", "turnstile", "geetest", "press_and_hold", "other"]
-    """Captcha kind.
+    """Deprecated: use captcha_provider and task_kind."""
+
+    captcha_provider: Optional[
+        Literal["hcaptcha", "recaptcha_v2", "recaptcha_v3", "turnstile", "geetest", "arkose", "human", "other"]
+    ] = None
+    """Captcha product the challenge belongs to, not the service that solved it.
 
     Enterprise reCAPTCHA variants are grouped into their version bucket
-    (recaptcha_v2 or recaptcha_v3), press-and-hold challenges use press_and_hold,
-    and unlisted kinds use other.
+    (recaptcha_v2 or recaptcha_v3), FunCaptcha uses arkose, press-and-hold
+    challenges served by HUMAN (formerly PerimeterX) use human, and unlisted
+    products use other.
     """
 
     challenge_id: Optional[str] = None
@@ -33,6 +39,9 @@ class Data(BaseModel):
 
     task_id: Optional[str] = None
     """Opaque identifier shared with the matching captcha_solve_result."""
+
+    task_kind: Optional[Literal["token", "image_challenge", "press_and_hold"]] = None
+    """What the solver task produces. Absent when the producer cannot tell."""
 
     website_host: Optional[str] = None
     """Host of the page where the captcha is being solved.

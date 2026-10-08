@@ -68,7 +68,11 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     """Optional name for the browser pool. Must be unique within the project."""
 
     network: BrowserNetworkConfigParam
-    """Network configuration applied to browsers in this pool."""
+    """Network configuration applied to browsers in this pool.
+
+    Proxy routes require proxy-v3; the pool will not provision browsers through
+    Envoy if proxy-v3 is unavailable.
+    """
 
     profile: Profile
     """Profile configuration for browsers in a pool.

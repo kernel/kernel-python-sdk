@@ -51,8 +51,9 @@ class BrowserNetworkConfig(BaseModel):
     Enforced at Kernel's egress proxy only: destinations in private_hosts, and
     processes in the browser VM that do not use the browser's proxy, are not
     filtered, and Kernel's own control traffic is always allowed. Can be replaced or
-    removed while the session runs with PATCH /browsers/{id_or_name}. Requires proxy
-    v3. Not supported on browser pools.
+    removed while the session runs with PATCH /browsers/{id_or_name}, but not added
+    to a browser created without one. Requires proxy v3. Not supported on browser
+    pools.
     """
 
     private_hosts: Optional[List[str]] = None
@@ -84,9 +85,9 @@ class BrowserNetworkConfig(BaseModel):
     proxy_routes: Optional[List[ProxyRoute]] = None
     """Per-destination proxy routes for a browser session.
 
-    After setup, a destination hostname is matched against every route's hosts,
-    regardless of port; route order does not matter. An exact hostname beats a
-    wildcard, and a longer wildcard suffix beats a shorter one (for a.b.example.com:
+    A destination hostname is matched against every route's hosts, regardless of
+    port; route order does not matter. An exact hostname beats a wildcard, and a
+    longer wildcard suffix beats a shorter one (for a.b.example.com:
     "a.b.example.com" > "_.b.example.com" > "_.example.com"). A host pattern may
     appear in only one route. "\\**.example.com" matches subdomains only, not
     example.com. A matched request selects the route's proxy instead of the
@@ -94,8 +95,8 @@ class BrowserNetworkConfig(BaseModel):
     bypass_hosts still apply. If the route proxy becomes unavailable, matched
     requests fail closed without falling back. Requests that match no route use the
     session's default egress from the top-level proxy field (or the browser default
-    when proxy is omitted: stealth proxy or direct egress). Routes take effect once
-    the session is created; start_url and other traffic during browser setup use the
-    top-level proxy. Setting routes requires proxy v3. Not supported on browser
-    pools.
+    when proxy is omitted: stealth proxy or direct egress). Routes apply from the
+    start of the session, including to start_url and other traffic during browser
+    setup. Setting routes requires proxy v3. Browser pools also support these
+    routes.
     """

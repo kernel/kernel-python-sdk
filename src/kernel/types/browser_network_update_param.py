@@ -19,14 +19,16 @@ class BrowserNetworkUpdateParam(TypedDict, total=False):
     allowed_hosts: Optional[SequenceNotStr[str]]
     """
     Replaces the session's egress allowlist, using the same entry rules as
-    network.allowed_hosts on create. Omit to leave the allowlist unchanged, or set
-    to null to remove it and return to unfiltered egress; an empty list is invalid.
-    The new list applies without restarting the browser: new requests to
-    destinations it no longer allows are refused within a few seconds, and open
-    connections to them are closed within about 30 seconds, or up to 10 minutes
-    during a Kernel deploy. Connections to destinations it still allows, such as
-    WebSockets, stay open. A start_url in the same request must be allowed by the
-    updated list, and is loaded only after the list takes effect. Requires a browser
-    created with proxy v3, and not supported on pooled browsers. If the request
-    fails, retry it: the new list may already apply to some requests.
+    network.allowed_hosts on create. Only an allowlist the browser was created with
+    can be changed: a browser created without one can't be given one, and an
+    allowlist removed with null can't be added back. Omit to leave the allowlist
+    unchanged, or set to null to remove it and return to unfiltered egress; an empty
+    list is invalid. The new list applies without restarting the browser: new
+    requests to destinations it no longer allows are refused within a few seconds,
+    and open connections to them are closed within about 30 seconds, or up to 10
+    minutes during a Kernel deploy. Connections to destinations it still allows,
+    such as WebSockets, stay open. A start_url in the same request must be allowed
+    by the updated list, and is loaded only after the list takes effect. Requires a
+    browser created with proxy v3, and not supported on pooled browsers. If the
+    request fails, retry it: the new list may already apply to some requests.
     """

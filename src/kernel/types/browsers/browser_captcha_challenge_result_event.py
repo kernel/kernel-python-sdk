@@ -16,12 +16,7 @@ class Data(BaseModel):
     """
 
     captcha_type: Literal["hcaptcha", "recaptcha_v2", "recaptcha_v3", "turnstile", "geetest", "press_and_hold", "other"]
-    """Captcha kind.
-
-    Enterprise reCAPTCHA variants are grouped into their version bucket
-    (recaptcha_v2 or recaptcha_v3), press-and-hold challenges use press_and_hold,
-    and unlisted kinds use other.
-    """
+    """Deprecated: use captcha_provider."""
 
     challenge_id: str
     """Opaque identifier shared by events for one visible challenge.
@@ -51,6 +46,17 @@ class Data(BaseModel):
     challenge_id may therefore report success while the challenge result reports
     abandoned. A solved challenge does not prove the site accepted the token or that
     the guarded action succeeded.
+    """
+
+    captcha_provider: Optional[
+        Literal["hcaptcha", "recaptcha_v2", "recaptcha_v3", "turnstile", "geetest", "arkose", "human", "other"]
+    ] = None
+    """Captcha product the challenge belongs to, not the service that solved it.
+
+    Enterprise reCAPTCHA variants are grouped into their version bucket
+    (recaptcha_v2 or recaptcha_v3), FunCaptcha uses arkose, press-and-hold
+    challenges served by HUMAN (formerly PerimeterX) use human, and unlisted
+    products use other.
     """
 
     website_host: Optional[str] = None
