@@ -6,6 +6,7 @@ from typing import Dict, Iterable, Optional
 from typing_extensions import Literal, TypedDict
 
 from .tags_param import TagsParam
+from .browser_video_memory import BrowserVideoMemory
 from .vault_reference_param import VaultReferenceParam
 from .browser_memory_request import BrowserMemoryRequest
 from .browser_proxy_config_param import BrowserProxyConfigParam
@@ -156,6 +157,13 @@ class BrowserCreateParams(TypedDict, total=False):
     """Project-scoped vaults to link to the browser session.
 
     Links are immutable after creation.
+    """
+
+    video_memory: BrowserVideoMemory
+    """Video memory (VRAM) for a GPU browser session.
+
+    Requires gpu=true. Defaults to 2GiB, which comes with 4 vCPU and 6GiB memory.
+    4GiB comes with 8 vCPU and 12GiB memory.
     """
 
     viewport: BrowserViewport
