@@ -10,42 +10,36 @@ __all__ = ["BrowserCaptchaChallengeResultEvent", "Data"]
 
 
 class Data(BaseModel):
-    """Per-challenge payload.
+    """An observed challenge emits one outcome across any number of solver tasks.
 
-    This event is emitted once per challenge and determines its overall outcome; captcha_solve_started and captcha_solve_result describe individual tasks and may occur multiple times within the challenge.
+    For eligible providers without a widget observer, each successful token task emits an inferred solved result instead; multiple such results may belong to one challenge. Failed tasks and image_challenge rounds produce no inferred result. Exactly one of challenge_id or task_id is present: challenge_id on an observed result, task_id on an inferred one. A challenge whose tasks all fail produces task events only, so consumers fall back to captcha_solve_result for it.
     """
 
     captcha_type: Literal["hcaptcha", "recaptcha_v2", "recaptcha_v3", "turnstile", "geetest", "press_and_hold", "other"]
     """Deprecated: use captcha_provider."""
 
-    challenge_id: str
-    """Opaque identifier shared by events for one visible challenge.
-
-    An image-grid captcha may create multiple task_id values for one challenge_id.
-    The same value may continue across a page reload when the challenge episode
-    continues. It does not indicate task ordering or challenge completion.
-    """
-
     duration_ms: float
     """
     Wall-clock duration from the challenge appearing to its terminal outcome,
-    covering every solver attempt in between.
+    covering every solver attempt in between. For an inferred result, the duration
+    of its solver task.
     """
 
     status: Literal["solved", "failure", "timeout", "abandoned"]
-    """Terminal outcome of the visible challenge.
+    """Terminal outcome of a challenge.
 
-    solved: the page observed the challenge clear after a solver attempt. failure: a
-    terminal solver failure occurred, or all attempts ended while the challenge
-    remained. timeout: the challenge-level wait budget expired while the challenge
-    remained. abandoned: observation ended without an attributable terminal
-    challenge outcome. This includes a dismissed widget or page unload without a
-    solved signal or terminal solver outcome, and a token appearing while multiple
-    same-provider challenges are open, because the producer cannot attribute that
-    token to this visible challenge. A captcha_solve_result with the same
-    challenge_id may therefore report success while the challenge result reports
-    abandoned. A solved challenge does not prove the site accepted the token or that
-    the guarded action succeeded.
+    solved: the page observed the challenge clear after a solver attempt, or an
+    inferred result reports a token for the whole widget without page observation.
+    failure: a terminal solver failure occurred, or all attempts ended while the
+    challenge remained. timeout: the challenge-level wait budget expired while the
+    challenge remained. abandoned: observation ended without an attributable
+    terminal challenge outcome. This includes a dismissed widget or page unload
+    without a solved signal or terminal solver outcome, and a token appearing while
+    multiple same-provider challenges are open, because the producer cannot
+    attribute that token to this visible challenge. A captcha_solve_result with the
+    same challenge_id may therefore report success while the challenge result
+    reports abandoned. A solved challenge does not prove the site accepted the token
+    or that the guarded action succeeded.
     """
 
     captcha_provider: Optional[
@@ -59,6 +53,28 @@ class Data(BaseModel):
     products use other.
     """
 
+    challenge_id: Optional[str] = None
+    """Opaque identifier shared by events for one visible challenge.
+
+    An image-grid captcha may create multiple task_id values for one challenge_id.
+    The same value may continue across a page reload when the challenge episode
+    continues. It does not indicate task ordering or challenge completion.
+    """
+
+    inferred: Optional[bool] = None
+    """
+    True when the relay derived this result from a successful token task without
+    observing the page. An inferred result has task_id instead of challenge_id.
+    Absent on page-observed results.
+    """
+
+    task_id: Optional[str] = None
+    """The task_id of the solver task an inferred result was derived from.
+
+    Join on it to pair the result with that task's captcha_solve_started and
+    captcha_solve_result. Present only when inferred is true.
+    """
+
     website_host: Optional[str] = None
     """Host of the page where the challenge appeared."""
 
@@ -67,16 +83,19 @@ class Data(BaseModel):
 
 
 class BrowserCaptchaChallengeResultEvent(BaseModel):
-    """A visible captcha challenge reached a terminal outcome."""
+    """A captcha challenge reached an observed or inferred terminal outcome."""
 
     category: Literal["captcha"]
 
     data: Data
-    """Per-challenge payload.
+    """An observed challenge emits one outcome across any number of solver tasks.
 
-    This event is emitted once per challenge and determines its overall outcome;
-    captcha_solve_started and captcha_solve_result describe individual tasks and may
-    occur multiple times within the challenge.
+    For eligible providers without a widget observer, each successful token task
+    emits an inferred solved result instead; multiple such results may belong to one
+    challenge. Failed tasks and image_challenge rounds produce no inferred result.
+    Exactly one of challenge_id or task_id is present: challenge_id on an observed
+    result, task_id on an inferred one. A challenge whose tasks all fail produces
+    task events only, so consumers fall back to captcha_solve_result for it.
     """
 
     source: BrowserEventSource
