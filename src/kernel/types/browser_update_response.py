@@ -12,6 +12,7 @@ from .browser_usage import BrowserUsage
 from .browser_memory import BrowserMemory
 from .vault_reference import VaultReference
 from .browser_pool_ref import BrowserPoolRef
+from .browser_video_memory import BrowserVideoMemory
 from .browser_network_config import BrowserNetworkConfig
 from .shared.browser_viewport import BrowserViewport
 from .browsers.browser_telemetry_config import BrowserTelemetryConfig
@@ -134,6 +135,9 @@ class BrowserUpdateResponse(BaseModel):
 
     vaults: Optional[List[VaultReference]] = None
     """Vaults linked when the browser session was created."""
+
+    video_memory: Optional[BrowserVideoMemory] = None
+    """Video memory (VRAM) of the GPU browser session. Only present when gpu is true."""
 
     viewport: Optional[BrowserViewport] = None
     """

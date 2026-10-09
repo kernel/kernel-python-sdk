@@ -29,6 +29,8 @@ class BrowserNetworkUpdateParam(TypedDict, total=False):
     minutes during a Kernel deploy. Connections to destinations it still allows,
     such as WebSockets, stay open. A start_url in the same request must be allowed
     by the updated list, and is loaded only after the list takes effect. Requires a
-    browser created with proxy v3, and not supported on pooled browsers. If the
-    request fails, retry it: the new list may already apply to some requests.
+    browser created with proxy v3. Supported on leased pooled browsers; the pool's
+    allowlist is restored before reuse, or the browser is destroyed if it cannot be
+    safely restored. If the request fails, retry it: the new list may already apply
+    to some requests.
     """

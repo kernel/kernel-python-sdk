@@ -25,6 +25,7 @@ from .fs.fs import (
     AsyncFsResourceWithStreamingResponse,
 )
 from ...types import (
+    BrowserVideoMemory,
     BrowserMemoryRequest,
     browser_curl_params,
     browser_list_params,
@@ -97,6 +98,7 @@ from .playwright.playwright import (
     AsyncPlaywrightResourceWithStreamingResponse,
 )
 from ...types.browser_repl_result import BrowserReplResult
+from ...types.browser_video_memory import BrowserVideoMemory
 from ...types.browser_curl_response import BrowserCurlResponse
 from ...types.browser_list_response import BrowserListResponse
 from ...types.vault_reference_param import VaultReferenceParam
@@ -206,6 +208,7 @@ class BrowsersResource(SyncAPIResource):
         telemetry: Optional[browser_create_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         vaults: Iterable[VaultReferenceParam] | Omit = omit,
+        video_memory: BrowserVideoMemory | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -293,6 +296,10 @@ class BrowsersResource(SyncAPIResource):
           vaults: Project-scoped vaults to link to the browser session. Links are immutable after
               creation.
 
+          video_memory: Video memory (VRAM) for a GPU browser session. Requires gpu=true. Defaults to
+              2GiB, which comes with 4 vCPU and 6GiB memory. 4GiB comes with 8 vCPU and 12GiB
+              memory.
+
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is
               1920x1080@60. Arbitrary viewport dimensions and refresh rates are accepted.
@@ -337,6 +344,7 @@ class BrowsersResource(SyncAPIResource):
                     "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "vaults": vaults,
+                    "video_memory": video_memory,
                     "viewport": viewport,
                 },
                 browser_create_params.BrowserCreateParams,
@@ -915,6 +923,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         telemetry: Optional[browser_create_params.Telemetry] | Omit = omit,
         timeout_seconds: int | Omit = omit,
         vaults: Iterable[VaultReferenceParam] | Omit = omit,
+        video_memory: BrowserVideoMemory | Omit = omit,
         viewport: BrowserViewport | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1002,6 +1011,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
           vaults: Project-scoped vaults to link to the browser session. Links are immutable after
               creation.
 
+          video_memory: Video memory (VRAM) for a GPU browser session. Requires gpu=true. Defaults to
+              2GiB, which comes with 4 vCPU and 6GiB memory. 4GiB comes with 8 vCPU and 12GiB
+              memory.
+
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is
               1920x1080@60. Arbitrary viewport dimensions and refresh rates are accepted.
@@ -1046,6 +1059,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "telemetry": telemetry,
                     "timeout_seconds": timeout_seconds,
                     "vaults": vaults,
+                    "video_memory": video_memory,
                     "viewport": viewport,
                 },
                 browser_create_params.BrowserCreateParams,

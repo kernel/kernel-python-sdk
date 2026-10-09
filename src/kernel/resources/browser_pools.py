@@ -123,9 +123,9 @@ class BrowserPoolsResource(SyncAPIResource):
 
           name: Optional name for the browser pool. Must be unique within the project.
 
-          network: Network configuration applied to browsers in this pool. Proxy routes require
-              proxy-v3; the pool will not provision browsers through Envoy if proxy-v3 is
-              unavailable.
+          network: Network configuration applied to browsers in this pool. Egress allowlists and
+              proxy routes require proxy-v3; the pool will not provision browsers through
+              Envoy if proxy-v3 is unavailable.
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load
@@ -296,9 +296,11 @@ class BrowserPoolsResource(SyncAPIResource):
           discard_all_idle: Whether to discard all idle browsers and rebuild them immediately with the new
               configuration. Defaults to false. Only browsers that are idle when the update
               runs are rebuilt. A browser that is in use during the update keeps its original
-              configuration, and if it is later released with `reuse: true` it returns to the
-              pool with that stale configuration until it is discarded (by this flag on a
-              later update, or by flushing the pool).
+              configuration, except that its allowlist is reset to the current pool baseline
+              on release or the browser is replaced. For other configuration fields, if it is
+              later released with `reuse: true` it returns to the pool with that stale
+              configuration until it is discarded (by this flag on a later update, or by
+              flushing the pool).
 
           extensions: If provided, replaces the extension list. Empty array clears all
               previously-selected extensions. Omit this field to leave extensions unchanged.
@@ -321,10 +323,14 @@ class BrowserPoolsResource(SyncAPIResource):
           network: If provided, replaces the pool's network configuration. Omit to leave the
               existing configuration unchanged; an empty object ({}) removes it, while
               network: {private_hosts: []} or network: {proxy_routes: []} sets an explicit
-              empty list. Proxy routes require proxy-v3; the pool will not provision browsers
-              through Envoy if proxy-v3 is unavailable. Only applied to browsers created in
-              the pool after the update; browsers already in the pool keep their configuration
-              until discarded (see discard_all_idle).
+              empty list; allowed_hosts must be non-empty when supplied. Egress allowlists and
+              proxy routes require proxy-v3; the pool will not provision browsers through
+              Envoy if proxy-v3 is unavailable. Changing allowed_hosts automatically replaces
+              idle browsers. Leased browsers retain their allowlist until release, when it is
+              reset to the current pool baseline or the browser is replaced if it cannot
+              safely receive that baseline. Stale browsers cannot be acquired. Other network
+              fields only apply to browsers created after the update; existing browsers keep
+              those fields until discarded (see discard_all_idle).
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load
@@ -774,9 +780,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           name: Optional name for the browser pool. Must be unique within the project.
 
-          network: Network configuration applied to browsers in this pool. Proxy routes require
-              proxy-v3; the pool will not provision browsers through Envoy if proxy-v3 is
-              unavailable.
+          network: Network configuration applied to browsers in this pool. Egress allowlists and
+              proxy routes require proxy-v3; the pool will not provision browsers through
+              Envoy if proxy-v3 is unavailable.
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load
@@ -947,9 +953,11 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           discard_all_idle: Whether to discard all idle browsers and rebuild them immediately with the new
               configuration. Defaults to false. Only browsers that are idle when the update
               runs are rebuilt. A browser that is in use during the update keeps its original
-              configuration, and if it is later released with `reuse: true` it returns to the
-              pool with that stale configuration until it is discarded (by this flag on a
-              later update, or by flushing the pool).
+              configuration, except that its allowlist is reset to the current pool baseline
+              on release or the browser is replaced. For other configuration fields, if it is
+              later released with `reuse: true` it returns to the pool with that stale
+              configuration until it is discarded (by this flag on a later update, or by
+              flushing the pool).
 
           extensions: If provided, replaces the extension list. Empty array clears all
               previously-selected extensions. Omit this field to leave extensions unchanged.
@@ -972,10 +980,14 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           network: If provided, replaces the pool's network configuration. Omit to leave the
               existing configuration unchanged; an empty object ({}) removes it, while
               network: {private_hosts: []} or network: {proxy_routes: []} sets an explicit
-              empty list. Proxy routes require proxy-v3; the pool will not provision browsers
-              through Envoy if proxy-v3 is unavailable. Only applied to browsers created in
-              the pool after the update; browsers already in the pool keep their configuration
-              until discarded (see discard_all_idle).
+              empty list; allowed_hosts must be non-empty when supplied. Egress allowlists and
+              proxy routes require proxy-v3; the pool will not provision browsers through
+              Envoy if proxy-v3 is unavailable. Changing allowed_hosts automatically replaces
+              idle browsers. Leased browsers retain their allowlist until release, when it is
+              reset to the current pool baseline or the browser is replaced if it cannot
+              safely receive that baseline. Stale browsers cannot be acquired. Other network
+              fields only apply to browsers created after the update; existing browsers keep
+              those fields until discarded (see discard_all_idle).
 
           profile: Profile configuration for browsers in a pool. Provide either id or name.
               Profiles must be created beforehand. Unlike single browser sessions, pools load

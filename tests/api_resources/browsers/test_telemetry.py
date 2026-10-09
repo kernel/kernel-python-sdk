@@ -89,6 +89,7 @@ class TestTelemetry:
         telemetry_stream = client.browsers.telemetry.stream(
             id_or_name="htzv5orfit78e1m2biiifpbv",
             replay="replay",
+            type=["string"],
             last_event_id="Last-Event-ID",
         )
         telemetry_stream.response.close()
@@ -203,6 +204,7 @@ class TestAsyncTelemetry:
         telemetry_stream = await async_client.browsers.telemetry.stream(
             id_or_name="htzv5orfit78e1m2biiifpbv",
             replay="replay",
+            type=["string"],
             last_event_id="Last-Event-ID",
         )
         await telemetry_stream.response.aclose()

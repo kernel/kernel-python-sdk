@@ -157,6 +157,7 @@ class TelemetryResource(SyncAPIResource):
         id_or_name: str,
         *,
         replay: str | Omit = omit,
+        type: SequenceNotStr[str] | Omit = omit,
         last_event_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -171,7 +172,10 @@ class TelemetryResource(SyncAPIResource):
         stream closes when the browser session terminates. Each event frame includes an
         id: field containing a monotonically increasing sequence number; pass it as
         Last-Event-ID on reconnect to resume without gaps. The event: field is never
-        set; all frames carry JSON in the data: field. A keepalive comment frame is sent
+        set; event frames carry JSON in the data: field. A frame with an id: field and
+        no data: field moves Last-Event-ID past events that were not delivered, because
+        a type filter excluded them or they could not be decoded or exceeded the size
+        limit; SSE clients dispatch no event for it. A keepalive comment frame is sent
         every 15 seconds when no events arrive. Returns 404 if the browser session does
         not exist. If telemetry was not enabled on the session, the stream opens but no
         events are delivered. Fresh connections only see new events; pass replay=all to
@@ -181,6 +185,14 @@ class TelemetryResource(SyncAPIResource):
           replay: Pass `all` to start from the oldest retained event instead of only new events;
               any other value is treated as from-now. The buffer is bounded, so the first
               event id may be greater than 1 if older events were evicted.
+
+          type: Deliver only these event types, such as captcha_solve_started or
+              captcha_challenge_result. Repeat the parameter or pass comma-separated values
+              for multiple types. Keepalive frames are always delivered. Filtered-out events
+              are not sent. An id-only frame carrying the latest skipped id is sent about
+              every 15 seconds while skipped events keep arriving, and otherwise with the next
+              keepalive or when the stream ends, so the connection stays active and
+              Last-Event-ID moves past them; a reconnect resumes after the skipped events.
 
           extra_headers: Send extra headers
 
@@ -201,7 +213,13 @@ class TelemetryResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"replay": replay}, telemetry_stream_params.TelemetryStreamParams),
+                query=maybe_transform(
+                    {
+                        "replay": replay,
+                        "type": type,
+                    },
+                    telemetry_stream_params.TelemetryStreamParams,
+                ),
             ),
             cast_to=TelemetryStreamResponse,
             stream=True,
@@ -339,6 +357,7 @@ class AsyncTelemetryResource(AsyncAPIResource):
         id_or_name: str,
         *,
         replay: str | Omit = omit,
+        type: SequenceNotStr[str] | Omit = omit,
         last_event_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -353,7 +372,10 @@ class AsyncTelemetryResource(AsyncAPIResource):
         stream closes when the browser session terminates. Each event frame includes an
         id: field containing a monotonically increasing sequence number; pass it as
         Last-Event-ID on reconnect to resume without gaps. The event: field is never
-        set; all frames carry JSON in the data: field. A keepalive comment frame is sent
+        set; event frames carry JSON in the data: field. A frame with an id: field and
+        no data: field moves Last-Event-ID past events that were not delivered, because
+        a type filter excluded them or they could not be decoded or exceeded the size
+        limit; SSE clients dispatch no event for it. A keepalive comment frame is sent
         every 15 seconds when no events arrive. Returns 404 if the browser session does
         not exist. If telemetry was not enabled on the session, the stream opens but no
         events are delivered. Fresh connections only see new events; pass replay=all to
@@ -363,6 +385,14 @@ class AsyncTelemetryResource(AsyncAPIResource):
           replay: Pass `all` to start from the oldest retained event instead of only new events;
               any other value is treated as from-now. The buffer is bounded, so the first
               event id may be greater than 1 if older events were evicted.
+
+          type: Deliver only these event types, such as captcha_solve_started or
+              captcha_challenge_result. Repeat the parameter or pass comma-separated values
+              for multiple types. Keepalive frames are always delivered. Filtered-out events
+              are not sent. An id-only frame carrying the latest skipped id is sent about
+              every 15 seconds while skipped events keep arriving, and otherwise with the next
+              keepalive or when the stream ends, so the connection stays active and
+              Last-Event-ID moves past them; a reconnect resumes after the skipped events.
 
           extra_headers: Send extra headers
 
@@ -383,7 +413,13 @@ class AsyncTelemetryResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform({"replay": replay}, telemetry_stream_params.TelemetryStreamParams),
+                query=await async_maybe_transform(
+                    {
+                        "replay": replay,
+                        "type": type,
+                    },
+                    telemetry_stream_params.TelemetryStreamParams,
+                ),
             ),
             cast_to=TelemetryStreamResponse,
             stream=True,

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.123.0](https://github.com/kernel/kernel-python-sdk/compare/v0.122.0...v0.123.0) (2026-10-09)
+
+
+### Features
+
+* Add video_memory to request the 4GiB VRAM GPU browser tier ([31b7bda](https://github.com/kernel/kernel-python-sdk/commit/31b7bda620f53bc6026b5eb3fac34d50859fa1df))
+* Filter the telemetry SSE stream by event type ([f7daa04](https://github.com/kernel/kernel-python-sdk/commit/f7daa043513d08f6cc6aefec7b058d5bd57f2590))
+* Fix 1Password fill classification for repeat fills and unconfirmed submits ([d387aab](https://github.com/kernel/kernel-python-sdk/commit/d387aab4847329eb4405318a20ee93a372399f70))
+* Support egress allowlists on browser pools ([541fb3f](https://github.com/kernel/kernel-python-sdk/commit/541fb3fc033b8b9542838a116684578cab18fba0))
+
 ## [0.122.0](https://github.com/kernel/kernel-python-sdk/compare/v0.121.0...v0.122.0) (2026-10-09)
 
 

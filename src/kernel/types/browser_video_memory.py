@@ -2,6 +2,6 @@
 
 from typing_extensions import Literal, TypeAlias
 
-__all__ = ["BrowserMemory"]
+__all__ = ["BrowserVideoMemory"]
 
-BrowserMemory: TypeAlias = Literal["1GiB", "2GiB", "6GiB", "8GiB", "12GiB", "16GiB"]
+BrowserVideoMemory: TypeAlias = Literal["2GiB", "4GiB"]

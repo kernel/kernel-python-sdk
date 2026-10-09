@@ -131,6 +131,7 @@ from kernel.types import (
     BrowserReplResult,
     BrowserReplTextContent,
     BrowserUsage,
+    BrowserVideoMemory,
     Profile,
     Tags,
     VaultReference,
