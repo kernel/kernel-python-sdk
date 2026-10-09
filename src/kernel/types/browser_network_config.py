@@ -52,8 +52,10 @@ class BrowserNetworkConfig(BaseModel):
     processes in the browser VM that do not use the browser's proxy, are not
     filtered, and Kernel's own control traffic is always allowed. Can be replaced or
     removed while the session runs with PATCH /browsers/{id_or_name}, but not added
-    to a browser created without one. Requires proxy v3. Not supported on browser
-    pools.
+    to a browser created without one. Supported on browser pools and their leased
+    browsers. Per-lease changes are reset to the pool's allowlist on release. If a
+    lessee removes the allowlist and the pool still requires one, the browser is
+    replaced on release rather than given an allowlist again. Requires proxy v3.
     """
 
     private_hosts: Optional[List[str]] = None

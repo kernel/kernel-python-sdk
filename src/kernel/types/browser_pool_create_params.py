@@ -70,8 +70,8 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     network: BrowserNetworkConfigParam
     """Network configuration applied to browsers in this pool.
 
-    Proxy routes require proxy-v3; the pool will not provision browsers through
-    Envoy if proxy-v3 is unavailable.
+    Egress allowlists and proxy routes require proxy-v3; the pool will not provision
+    browsers through Envoy if proxy-v3 is unavailable.
     """
 
     profile: Profile
