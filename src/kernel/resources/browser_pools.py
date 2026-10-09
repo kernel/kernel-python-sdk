@@ -542,7 +542,7 @@ class BrowserPoolsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BrowserPoolAcquireResponse:
+    ) -> Optional[BrowserPoolAcquireResponse]:
         """Long-polling endpoint to acquire a browser from the pool.
 
         Returns immediately
@@ -607,7 +607,7 @@ class BrowserPoolsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BrowserPoolAcquireResponse,
+            cast_to=Optional[BrowserPoolAcquireResponse],
         )
 
     def flush(
@@ -1199,7 +1199,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BrowserPoolAcquireResponse:
+    ) -> Optional[BrowserPoolAcquireResponse]:
         """Long-polling endpoint to acquire a browser from the pool.
 
         Returns immediately
@@ -1264,7 +1264,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BrowserPoolAcquireResponse,
+            cast_to=Optional[BrowserPoolAcquireResponse],
         )
 
     async def flush(

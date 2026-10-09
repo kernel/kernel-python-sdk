@@ -16,6 +16,7 @@ from typing import (
     Iterator,
     AsyncIterator,
     cast,
+    get_args,
     overload,
 )
 from typing_extensions import Awaitable, ParamSpec, override, get_origin
@@ -185,6 +186,8 @@ class BaseAPIResponse(Generic[R]):
             return cast(R, None)
 
         response = self.http_response
+        if response.status_code == 204 and NoneType in get_args(cast_to):
+            return cast(R, None)
         if cast_to == str:
             return cast(R, response.text)
 
