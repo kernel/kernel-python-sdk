@@ -37,6 +37,9 @@ def test_acquire_returns_none_on_poll_timeout() -> None:
         response = client.browser_pools.with_raw_response.acquire("pool")
         assert response.status_code == 204
         assert response.parse() is None
+        assert response.parse(to=str) == ""
+        assert response.parse(to=bytes) == b""
+        assert response.parse(to=httpx.Response) is response.http_response
         assert calls == 2
 
 

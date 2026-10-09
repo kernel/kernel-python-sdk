@@ -607,7 +607,7 @@ class BrowserPoolsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Optional[BrowserPoolAcquireResponse],
+            cast_to=BrowserPoolAcquireResponse,
         )
 
     def flush(
@@ -1264,7 +1264,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Optional[BrowserPoolAcquireResponse],
+            cast_to=BrowserPoolAcquireResponse,
         )
 
     async def flush(
