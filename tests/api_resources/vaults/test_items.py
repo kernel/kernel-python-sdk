@@ -256,7 +256,12 @@ class TestItems:
             id_or_name="id_or_name",
             spec={
                 "description": "description",
-                "fields": {"foo": {"value": "value"}},
+                "fields": {
+                    "foo": {
+                        "encrypted_value": "x",
+                        "value": "value",
+                    }
+                },
             },
             type="credential",
             version=1,
@@ -1783,6 +1788,7 @@ class TestItems:
                     {
                         "name": "name",
                         "type": "text",
+                        "encrypted_value": "x",
                         "label": "label",
                         "required": True,
                         "sensitive": True,
@@ -2118,7 +2124,12 @@ class TestAsyncItems:
             id_or_name="id_or_name",
             spec={
                 "description": "description",
-                "fields": {"foo": {"value": "value"}},
+                "fields": {
+                    "foo": {
+                        "encrypted_value": "x",
+                        "value": "value",
+                    }
+                },
             },
             type="credential",
             version=1,
@@ -3645,6 +3656,7 @@ class TestAsyncItems:
                     {
                         "name": "name",
                         "type": "text",
+                        "encrypted_value": "x",
                         "label": "label",
                         "required": True,
                         "sensitive": True,
