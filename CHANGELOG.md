@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.122.0](https://github.com/kernel/kernel-python-sdk/compare/v0.121.0...v0.122.0) (2026-10-09)
+
+
+### Features
+
+* Accept client-encrypted credential values in vault items ([a289cba](https://github.com/kernel/kernel-python-sdk/commit/a289cba652251b6f42b60aad92619627efc9304b))
+* Add feature-gated Korean ISP proxies ([56785ca](https://github.com/kernel/kernel-python-sdk/commit/56785cad65cda7e757258204de47f1a4a5974088))
+* Describe vault fill as safe to retry ([e419d6d](https://github.com/kernel/kernel-python-sdk/commit/e419d6d8970f0e78f91b4771969787bb835a6acf))
+* Infer a challenge result for unobserved captcha providers in the relay ([0e4734c](https://github.com/kernel/kernel-python-sdk/commit/0e4734caedae1068b5f3f9eeb5212871dfc4a0ec))
+* Support proxy routes in browser pools ([669ea52](https://github.com/kernel/kernel-python-sdk/commit/669ea5294ab1da43e5042209992364ca009f7053))
+
 ## [0.121.0](https://github.com/kernel/kernel-python-sdk/compare/v0.120.0...v0.121.0) (2026-10-07)
 
 

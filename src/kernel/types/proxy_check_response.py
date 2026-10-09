@@ -22,7 +22,8 @@ class ConfigIspProxyConfig(BaseModel):
     country: Optional[str] = None
     """ISO 3166 country code.
 
-    Supported countries are US, GB, FR, DE, and SG. Defaults to US if not provided.
+    Supported countries are US, GB, FR, DE, SG, and KR. Defaults to US if not
+    provided.
     """
 
 

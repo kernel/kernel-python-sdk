@@ -546,7 +546,7 @@ Methods:
 Types:
 
 ```python
-from kernel.types import Vault
+from kernel.types import Vault, VaultEncryptionKey
 ```
 
 Methods:
@@ -554,6 +554,7 @@ Methods:
 - <code title="get /vaults/{id_or_name}">client.vaults.<a href="./src/kernel/resources/vaults/vaults.py">retrieve</a>(id_or_name) -> <a href="./src/kernel/types/vault.py">Vault</a></code>
 - <code title="get /vaults">client.vaults.<a href="./src/kernel/resources/vaults/vaults.py">list</a>(\*\*<a href="src/kernel/types/vault_list_params.py">params</a>) -> <a href="./src/kernel/types/vault.py">SyncOffsetPagination[Vault]</a></code>
 - <code title="delete /vaults/{id_or_name}">client.vaults.<a href="./src/kernel/resources/vaults/vaults.py">delete</a>(id_or_name) -> None</code>
+- <code title="get /vaults/{id_or_name}/encryption_key">client.vaults.<a href="./src/kernel/resources/vaults/vaults.py">retrieve_encryption_key</a>(id_or_name) -> <a href="./src/kernel/types/vault_encryption_key.py">VaultEncryptionKey</a></code>
 - <code title="post /vaults">client.vaults.<a href="./src/kernel/resources/vaults/vaults.py">upsert</a>(\*\*<a href="src/kernel/types/vault_upsert_params.py">params</a>) -> <a href="./src/kernel/types/vault.py">Vault</a></code>
 
 ## Items

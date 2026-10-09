@@ -35,8 +35,10 @@ class FillVaultItemOperationRequestParam(TypedDict, total=False):
     not atomic: previously filled fields are not rolled back. Never submit
     the form or click buttons, though input/change events may trigger site
     behavior. Link and Kernel cards use fill for browser checkout and do not expose
-    aliases or support egress substitution. Do not automatically retry a
-    failed or indeterminate operation.
+    aliases or support egress substitution. Fill does not consume the item, so
+    a failed or indeterminate fill is safe to retry; a retry rewrites the same
+    fields. A retry right after an indeterminate fill may wait up to 15 seconds
+    for the earlier attempt's browser lock to expire.
 
     Secret values are never returned or included in operation logs, traces,
     audit events, or error details. This does not prevent an agent with

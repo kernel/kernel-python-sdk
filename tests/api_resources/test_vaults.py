@@ -9,7 +9,7 @@ import pytest
 
 from kernel import Kernel, AsyncKernel
 from tests.utils import assert_matches_type
-from kernel.types import Vault
+from kernel.types import Vault, VaultEncryptionKey
 from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -137,6 +137,48 @@ class TestVaults:
     def test_path_params_delete(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             client.vaults.with_raw_response.delete(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve_encryption_key(self, client: Kernel) -> None:
+        vault = client.vaults.retrieve_encryption_key(
+            "id_or_name",
+        )
+        assert_matches_type(VaultEncryptionKey, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_retrieve_encryption_key(self, client: Kernel) -> None:
+        response = client.vaults.with_raw_response.retrieve_encryption_key(
+            "id_or_name",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        vault = response.parse()
+        assert_matches_type(VaultEncryptionKey, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_retrieve_encryption_key(self, client: Kernel) -> None:
+        with client.vaults.with_streaming_response.retrieve_encryption_key(
+            "id_or_name",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            vault = response.parse()
+            assert_matches_type(VaultEncryptionKey, vault, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_retrieve_encryption_key(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            client.vaults.with_raw_response.retrieve_encryption_key(
                 "",
             )
 
@@ -299,6 +341,48 @@ class TestAsyncVaults:
     async def test_path_params_delete(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             await async_client.vaults.with_raw_response.delete(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve_encryption_key(self, async_client: AsyncKernel) -> None:
+        vault = await async_client.vaults.retrieve_encryption_key(
+            "id_or_name",
+        )
+        assert_matches_type(VaultEncryptionKey, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_retrieve_encryption_key(self, async_client: AsyncKernel) -> None:
+        response = await async_client.vaults.with_raw_response.retrieve_encryption_key(
+            "id_or_name",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        vault = await response.parse()
+        assert_matches_type(VaultEncryptionKey, vault, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_retrieve_encryption_key(self, async_client: AsyncKernel) -> None:
+        async with async_client.vaults.with_streaming_response.retrieve_encryption_key(
+            "id_or_name",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            vault = await response.parse()
+            assert_matches_type(VaultEncryptionKey, vault, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_retrieve_encryption_key(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            await async_client.vaults.with_raw_response.retrieve_encryption_key(
                 "",
             )
 

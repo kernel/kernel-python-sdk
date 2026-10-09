@@ -26,6 +26,7 @@ from ..._response import (
 from ...pagination import SyncOffsetPagination, AsyncOffsetPagination
 from ...types.vault import Vault
 from ..._base_client import AsyncPaginator, make_request_options
+from ...types.vault_encryption_key import VaultEncryptionKey
 
 __all__ = ["VaultsResource", "AsyncVaultsResource"]
 
@@ -171,6 +172,46 @@ class VaultsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=NoneType,
+        )
+
+    def retrieve_encryption_key(
+        self,
+        id_or_name: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultEncryptionKey:
+        """
+        Returns the public key that custom credential collection web apps use to encrypt
+        values in the browser. Use this only if you run your own credential collection
+        web app and want values encrypted in the browser, sent to your backend still
+        encrypted, and forwarded to Kernel's API still encrypted. In every other case,
+        including server-side code that already holds the plaintext, use value. The page
+        encrypts each value to this key, your backend forwards the ciphertext unchanged
+        as encrypted_value when creating or updating a credential item in this vault,
+        and Kernel decrypts it.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
+        return self._get(
+            path_template("/vaults/{id_or_name}/encryption_key", id_or_name=id_or_name),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VaultEncryptionKey,
         )
 
     def upsert(
@@ -353,6 +394,46 @@ class AsyncVaultsResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
+    async def retrieve_encryption_key(
+        self,
+        id_or_name: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultEncryptionKey:
+        """
+        Returns the public key that custom credential collection web apps use to encrypt
+        values in the browser. Use this only if you run your own credential collection
+        web app and want values encrypted in the browser, sent to your backend still
+        encrypted, and forwarded to Kernel's API still encrypted. In every other case,
+        including server-side code that already holds the plaintext, use value. The page
+        encrypts each value to this key, your backend forwards the ciphertext unchanged
+        as encrypted_value when creating or updating a credential item in this vault,
+        and Kernel decrypts it.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
+        return await self._get(
+            path_template("/vaults/{id_or_name}/encryption_key", id_or_name=id_or_name),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=VaultEncryptionKey,
+        )
+
     async def upsert(
         self,
         *,
@@ -403,6 +484,9 @@ class VaultsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             vaults.delete,
         )
+        self.retrieve_encryption_key = to_raw_response_wrapper(
+            vaults.retrieve_encryption_key,
+        )
         self.upsert = to_raw_response_wrapper(
             vaults.upsert,
         )
@@ -424,6 +508,9 @@ class AsyncVaultsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             vaults.delete,
+        )
+        self.retrieve_encryption_key = async_to_raw_response_wrapper(
+            vaults.retrieve_encryption_key,
         )
         self.upsert = async_to_raw_response_wrapper(
             vaults.upsert,
@@ -447,6 +534,9 @@ class VaultsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             vaults.delete,
         )
+        self.retrieve_encryption_key = to_streamed_response_wrapper(
+            vaults.retrieve_encryption_key,
+        )
         self.upsert = to_streamed_response_wrapper(
             vaults.upsert,
         )
@@ -468,6 +558,9 @@ class AsyncVaultsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             vaults.delete,
+        )
+        self.retrieve_encryption_key = async_to_streamed_response_wrapper(
+            vaults.retrieve_encryption_key,
         )
         self.upsert = async_to_streamed_response_wrapper(
             vaults.upsert,
