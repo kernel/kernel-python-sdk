@@ -24,7 +24,7 @@ import anyio
 import httpx
 import pydantic
 
-from ._types import NoneType
+from ._types import NoneType, NoContentAsNone
 from ._utils import is_given, extract_type_arg, is_annotated_type, is_type_alias_type, extract_type_var_from_base
 from ._models import BaseModel, is_basemodel
 from ._constants import RAW_RESPONSE_HEADER, OVERRIDE_CAST_TO_HEADER
@@ -185,7 +185,12 @@ class BaseAPIResponse(Generic[R]):
             return cast(R, None)
 
         response = self.http_response
-        if response.status_code == 204 and to is None and is_basemodel(cast_to):
+        if (
+            response.status_code == 204
+            and to is None
+            and isinstance(origin, type)
+            and issubclass(origin, NoContentAsNone)
+        ):
             return cast(R, None)
         if cast_to == str:
             return cast(R, response.text)

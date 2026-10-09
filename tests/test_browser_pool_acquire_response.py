@@ -1,7 +1,7 @@
 import httpx
 import pytest
 
-from kernel import Kernel, AsyncKernel, NotFoundError
+from kernel import Kernel, AsyncKernel, NotFoundError, APIResponseValidationError
 
 
 def test_acquire_returns_browser() -> None:
@@ -58,3 +58,13 @@ def test_acquire_still_raises_not_found() -> None:
     ) as client:
         with pytest.raises(NotFoundError):
             client.browser_pools.acquire("missing")
+
+
+def test_unexpected_204_still_fails_strict_validation() -> None:
+    with Kernel(
+        api_key="test",
+        _strict_response_validation=True,
+        http_client=httpx.Client(transport=httpx.MockTransport(lambda _request: httpx.Response(204))),
+    ) as client:
+        with pytest.raises(APIResponseValidationError):
+            client.browser_pools.retrieve("pool")

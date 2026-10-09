@@ -5,6 +5,7 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from .tags import Tags
+from .._types import NoContentAsNone
 from .profile import Profile
 from .._models import BaseModel
 from .browser_proxy import BrowserProxy
@@ -20,7 +21,7 @@ from .browsers.browser_telemetry_config import BrowserTelemetryConfig
 __all__ = ["BrowserPoolAcquireResponse"]
 
 
-class BrowserPoolAcquireResponse(BaseModel):
+class BrowserPoolAcquireResponse(NoContentAsNone, BaseModel):
     cdp_ws_url: str
     """Websocket URL for Chrome DevTools Protocol connections to the browser session"""
 

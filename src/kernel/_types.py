@@ -44,6 +44,12 @@ AsyncTransport = AsyncBaseTransport
 Query = Mapping[str, object]
 Body = object
 AnyMapping = Mapping[str, object]
+
+
+class NoContentAsNone:
+    pass
+
+
 ModelT = TypeVar("ModelT", bound=pydantic.BaseModel)
 _T = TypeVar("_T")
 
