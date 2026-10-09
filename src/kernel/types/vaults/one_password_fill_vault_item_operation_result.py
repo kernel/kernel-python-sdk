@@ -18,10 +18,10 @@ class OnePasswordFillVaultItemOperationResult(BaseModel):
     """Kernel's outcome of the extension call.
 
     fill_submitted means the extension reported submission, not website
-    authentication. fill_failed means the extension returned a known failure and may
-    include error_code. fill_unknown means submission may have happened without a
-    conclusive response; it has no error_code and must not be retried in the same
-    browser.
+    authentication. fill_failed means the extension returned a known failure and
+    includes error_code. fill_unknown means the form may have been filled or
+    submitted without a conclusive result; inspect the page to see the result of the
+    fill.
     """
 
     type: Literal["1pw_fill"]
@@ -29,8 +29,9 @@ class OnePasswordFillVaultItemOperationResult(BaseModel):
     error_code: Optional[Literal["fillFailed", "autosubmitFailed", "noExistingCredentials", "authenticationFailed"]] = (
         None
     )
-    """Present only for a conclusive fill_failed response.
-
-    These are allowlisted 1Password extension codes, never raw errors, secrets, or
-    page content.
+    """
+    Present for fill_failed, and for fill_unknown when the extension reported
+    autosubmitFailed (it filled and submitted the form but could not confirm the
+    fill finished). These are allowlisted 1Password extension codes, never raw
+    errors, secrets, or page content.
     """

@@ -15,7 +15,8 @@ class CredentialVaultItemRequestParam(TypedDict, total=False):
     If they choose 1Password, connect their account and request access to a login
     in their own non-shared vault; passkeys are not supported. If they decline
     or that path fails, collect a Kernel-hosted credential item instead. Never
-    automatically retry an uncertain 1Password request or fill.
+    automatically retry an uncertain 1Password request. After an uncertain fill,
+    inspect the page to see the result of the fill.
     Do not use credential items for credit card data. Use wallet and card item types instead.
     Kernel credentials declare fields and may enter pending_collection.
     1Password credentials either reference a connected credential_account or
