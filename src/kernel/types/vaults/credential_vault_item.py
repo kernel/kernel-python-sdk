@@ -39,6 +39,7 @@ class AvailableOperation(BaseModel):
 
     type: Literal[
         "authorize",
+        "confirm_transaction",
         "collect",
         "prepare_checkout",
         "fill",
