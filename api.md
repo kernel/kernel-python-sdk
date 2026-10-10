@@ -571,6 +571,7 @@ from kernel.types.vaults import (
     CardVaultItemSpec,
     CardVaultItemState,
     CollectVaultItemOperationRequest,
+    ConfirmTransactionVaultItemOperationRequest,
     CredentialAccountVaultItem,
     CredentialAccountVaultItemRequest,
     CredentialCollectionAction,

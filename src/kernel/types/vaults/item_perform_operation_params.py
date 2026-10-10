@@ -15,6 +15,7 @@ from .vault_checkout_context_param import VaultCheckoutContextParam
 __all__ = [
     "ItemPerformOperationParams",
     "AuthorizeVaultItemOperationRequest",
+    "ConfirmTransactionVaultItemOperationRequest",
     "CollectVaultItemOperationRequest",
     "PrepareCheckoutVaultItemOperationRequest",
     "FillVaultItemOperationRequest",
@@ -31,6 +32,27 @@ class AuthorizeVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
     type: Required[Literal["authorize"]]
+
+
+class ConfirmTransactionVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    amount: Required[int]
+    """Actual transaction amount in minor units, no greater than the approved limit."""
+
+    currency: Required[str]
+    """Must match the approved purchase currency."""
+
+    occurred_at: Required[Annotated[Union[str, datetime], PropertyInfo(format="iso8601")]]
+    """Time the merchant outcome was observed."""
+
+    status: Required[Literal["APPROVED", "DECLINED", "PENDING", "ERROR", "CANCELLED"]]
+
+    transaction_type: Required[
+        Literal["PURCHASE", "AUTHORIZATION", "CAPTURE", "REFUND", "REVERSAL", "VERIFICATION", "CHARGEBACK", "FRAUD"]
+    ]
+
+    type: Required[Literal["confirm_transaction"]]
 
 
 class CollectVaultItemOperationRequest(TypedDict, total=False):
@@ -173,6 +195,7 @@ class WebmcpInvokeVaultItemOperationRequest(TypedDict, total=False):
 
 ItemPerformOperationParams: TypeAlias = Union[
     AuthorizeVaultItemOperationRequest,
+    ConfirmTransactionVaultItemOperationRequest,
     CollectVaultItemOperationRequest,
     PrepareCheckoutVaultItemOperationRequest,
     FillVaultItemOperationRequest,

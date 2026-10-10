@@ -113,6 +113,9 @@ from .prepare_checkout_vault_item_operation_request_param import (
 from .one_password_fill_vault_item_operation_request_param import (
     OnePasswordFillVaultItemOperationRequestParam as OnePasswordFillVaultItemOperationRequestParam,
 )
+from .confirm_transaction_vault_item_operation_request_param import (
+    ConfirmTransactionVaultItemOperationRequestParam as ConfirmTransactionVaultItemOperationRequestParam,
+)
 from .one_password_recover_vault_item_operation_request_param import (
     OnePasswordRecoverVaultItemOperationRequestParam as OnePasswordRecoverVaultItemOperationRequestParam,
 )
