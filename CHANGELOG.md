@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.124.0](https://github.com/kernel/kernel-python-sdk/compare/v0.123.0...v0.124.0) (2026-10-10)
+
+
+### Features
+
+* Complete Visa vault verification and transaction reporting ([fc4b0de](https://github.com/kernel/kernel-python-sdk/commit/fc4b0de79e3242361ef7b11acbd2cbaeb058265e))
+
 ## [0.123.0](https://github.com/kernel/kernel-python-sdk/compare/v0.122.0...v0.123.0) (2026-10-09)
 
 
