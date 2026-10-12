@@ -611,6 +611,7 @@ from kernel.types.vaults import (
     OnePasswordRecoverVaultItemOperationRequest,
     OnePasswordRequestAccessVaultItemOperationRequest,
     PrepareCheckoutVaultItemOperationRequest,
+    RestartVerificationVaultItemOperationRequest,
     VaultCardAliases,
     VaultCardFillField,
     VaultCheckoutContext,

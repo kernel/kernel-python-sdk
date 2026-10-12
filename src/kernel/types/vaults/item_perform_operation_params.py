@@ -15,6 +15,7 @@ from .vault_checkout_context_param import VaultCheckoutContextParam
 __all__ = [
     "ItemPerformOperationParams",
     "AuthorizeVaultItemOperationRequest",
+    "RestartVerificationVaultItemOperationRequest",
     "ConfirmTransactionVaultItemOperationRequest",
     "CollectVaultItemOperationRequest",
     "PrepareCheckoutVaultItemOperationRequest",
@@ -32,6 +33,12 @@ class AuthorizeVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
     type: Required[Literal["authorize"]]
+
+
+class RestartVerificationVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    type: Required[Literal["restart_verification"]]
 
 
 class ConfirmTransactionVaultItemOperationRequest(TypedDict, total=False):
@@ -195,6 +202,7 @@ class WebmcpInvokeVaultItemOperationRequest(TypedDict, total=False):
 
 ItemPerformOperationParams: TypeAlias = Union[
     AuthorizeVaultItemOperationRequest,
+    RestartVerificationVaultItemOperationRequest,
     ConfirmTransactionVaultItemOperationRequest,
     CollectVaultItemOperationRequest,
     PrepareCheckoutVaultItemOperationRequest,

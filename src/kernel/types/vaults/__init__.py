@@ -119,6 +119,9 @@ from .confirm_transaction_vault_item_operation_request_param import (
 from .one_password_recover_vault_item_operation_request_param import (
     OnePasswordRecoverVaultItemOperationRequestParam as OnePasswordRecoverVaultItemOperationRequestParam,
 )
+from .restart_verification_vault_item_operation_request_param import (
+    RestartVerificationVaultItemOperationRequestParam as RestartVerificationVaultItemOperationRequestParam,
+)
 from .one_password_request_access_vault_item_operation_request_param import (
     OnePasswordRequestAccessVaultItemOperationRequestParam as OnePasswordRequestAccessVaultItemOperationRequestParam,
 )

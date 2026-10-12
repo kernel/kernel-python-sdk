@@ -446,6 +446,53 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        type: Literal["restart_verification"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         amount: int,
         currency: str,
         occurred_at: Union[str, datetime],
@@ -1001,6 +1048,7 @@ class ItemsResource(SyncAPIResource):
         *,
         id_or_name: str,
         type: Literal["authorize"]
+        | Literal["restart_verification"]
         | Literal["confirm_transaction"]
         | Literal["collect"]
         | Literal["prepare_checkout"]
@@ -1695,6 +1743,53 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        type: Literal["restart_verification"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize without checkout context. Eligible unused AgentCard
+        cards advertise prepare_checkout, which requires checkout context and obtains
+        device approval before native Square Pay. Keep the returned approval page open,
+        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         amount: int,
         currency: str,
         occurred_at: Union[str, datetime],
@@ -2250,6 +2345,7 @@ class AsyncItemsResource(AsyncAPIResource):
         *,
         id_or_name: str,
         type: Literal["authorize"]
+        | Literal["restart_verification"]
         | Literal["confirm_transaction"]
         | Literal["collect"]
         | Literal["prepare_checkout"]
