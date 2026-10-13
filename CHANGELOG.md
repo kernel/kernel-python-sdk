@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.125.0](https://github.com/kernel/kernel-python-sdk/compare/v0.124.0...v0.125.0) (2026-10-13)
+
+
+### Features
+
+* chore(stlc): seal custom-code tracking files ([a77f648](https://github.com/kernel/kernel-python-sdk/commit/a77f648fb68c7b4e6f93826238e9ac21ab39a4dd))
+
 ## [0.124.0](https://github.com/kernel/kernel-python-sdk/compare/v0.123.0...v0.124.0) (2026-10-13)
 
 
