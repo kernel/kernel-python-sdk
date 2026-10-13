@@ -542,7 +542,7 @@ class BrowserPoolsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BrowserPoolAcquireResponse:
+    ) -> Optional[BrowserPoolAcquireResponse]:
         """Long-polling endpoint to acquire a browser from the pool.
 
         Returns immediately
@@ -1199,7 +1199,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BrowserPoolAcquireResponse:
+    ) -> Optional[BrowserPoolAcquireResponse]:
         """Long-polling endpoint to acquire a browser from the pool.
 
         Returns immediately
