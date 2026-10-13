@@ -13,6 +13,7 @@ from kernel.types import (
     APIKey,
     CreatedAPIKey,
 )
+from kernel._utils import parse_datetime
 from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -35,6 +36,15 @@ class TestAPIKeys:
         api_key = client.api_keys.create(
             name="staging",
             days_to_expire=30,
+            expires_at=parse_datetime("2025-01-15T09:00:00Z"),
+            policy={
+                "statements": [
+                    {
+                        "action": "browsers:use",
+                        "resource": "projects/proj_abc123/browsers/br_abc123",
+                    }
+                ]
+            },
             project_id="proj_abc123",
         )
         assert_matches_type(CreatedAPIKey, api_key, path=["response"])
@@ -319,6 +329,15 @@ class TestAsyncAPIKeys:
         api_key = await async_client.api_keys.create(
             name="staging",
             days_to_expire=30,
+            expires_at=parse_datetime("2025-01-15T09:00:00Z"),
+            policy={
+                "statements": [
+                    {
+                        "action": "browsers:use",
+                        "resource": "projects/proj_abc123/browsers/br_abc123",
+                    }
+                ]
+            },
             project_id="proj_abc123",
         )
         assert_matches_type(CreatedAPIKey, api_key, path=["response"])
