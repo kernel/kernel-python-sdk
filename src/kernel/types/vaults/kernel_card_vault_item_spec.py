@@ -37,6 +37,15 @@ class KernelCardVaultItemSpec(BaseModel):
     wallet: str
     """Key of the Kernel wallet item whose enrolled card pays."""
 
+    merchant_category: Optional[str] = None
+    """Actual merchant category when known. Omit rather than invent a category."""
+
+    merchant_category_code: Optional[str] = None
+    """Actual merchant MCC when known.
+
+    Omit rather than invent a code. 0000 is not accepted.
+    """
+
     merchant_country: Optional[str] = None
     """The merchant's ISO 3166-1 alpha-2 country code.
 

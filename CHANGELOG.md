@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.124.0](https://github.com/kernel/kernel-python-sdk/compare/v0.123.0...v0.124.0) (2026-10-13)
+
+
+### Features
+
+* Accept intent creation without a fixed status ([e6e016a](https://github.com/kernel/kernel-python-sdk/commit/e6e016a5cea493c505b16a05cb8ad2fa6ed9f13b))
+* Complete Visa vault verification and transaction reporting ([fc4b0de](https://github.com/kernel/kernel-python-sdk/commit/fc4b0de79e3242361ef7b11acbd2cbaeb058265e))
+
+
+### Bug Fixes
+
+* seal browser pool acquire SDK results ([4d81af2](https://github.com/kernel/kernel-python-sdk/commit/4d81af2b6103571b59cd1bb520eb85e28488b51c))
+
 ## [0.123.0](https://github.com/kernel/kernel-python-sdk/compare/v0.122.0...v0.123.0) (2026-10-09)
 
 

@@ -49,6 +49,8 @@ class WalletVaultItemAvailableOperation(BaseModel):
 
     type: Literal[
         "authorize",
+        "restart_verification",
+        "confirm_transaction",
         "collect",
         "prepare_checkout",
         "fill",
@@ -124,6 +126,8 @@ class CardVaultItemAvailableOperation(BaseModel):
 
     type: Literal[
         "authorize",
+        "restart_verification",
+        "confirm_transaction",
         "collect",
         "prepare_checkout",
         "fill",

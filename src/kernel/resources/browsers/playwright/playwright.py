@@ -114,10 +114,6 @@ class PlaywrightResource(SyncAPIResource):
         executors are not removed automatically while the browser runs; when it shuts
         down, they are removed and their tabs closed.
 
-        A named call to a browser whose image predates executors fails with 400 instead
-        of running on the active tab; calls without 'executor' keep working on every
-        image.
-
         Args:
           code: TypeScript/JavaScript code to execute. The code has access to 'page', 'context',
               and 'browser' variables. It runs within a function, so you can use a return
@@ -243,10 +239,6 @@ class AsyncPlaywrightResource(AsyncAPIResource):
         delete one with DELETE /browsers/{id_or_name}/playwright/executors/{name}. Named
         executors are not removed automatically while the browser runs; when it shuts
         down, they are removed and their tabs closed.
-
-        A named call to a browser whose image predates executors fails with 400 instead
-        of running on the active tab; calls without 'executor' keep working on every
-        image.
 
         Args:
           code: TypeScript/JavaScript code to execute. The code has access to 'page', 'context',
