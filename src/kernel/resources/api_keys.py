@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Union, Optional
+from datetime import datetime
 from typing_extensions import Literal
 
 import httpx
@@ -59,6 +60,8 @@ class APIKeysResource(SyncAPIResource):
         *,
         name: str,
         days_to_expire: Optional[int] | Omit = omit,
+        expires_at: Union[str, datetime, None] | Omit = omit,
+        policy: api_key_create_params.Policy | Omit = omit,
         project_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -67,13 +70,22 @@ class APIKeysResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CreatedAPIKey:
-        """
-        Create a new API key within the authenticated organization.
+        """Create a new API key.
+
+        API keys may be scoped by project and may include a
+        policy.
 
         Args:
           name: Label for the API key (1-255 characters). API keys are not addressable by name.
 
-          days_to_expire: Number of days until expiry, up to 3650. Use null for never.
+          days_to_expire: Number of days until expiry, up to 3650. Use null for never. Cannot be combined
+              with expires_at.
+
+          expires_at: Exact expiry time. Must be in the future and no later than the issuing
+              credential's own expiry. Cannot be combined with days_to_expire.
+
+          policy: Issue a scoped key that may only perform the listed actions on the listed
+              resources.
 
           project_id: Unique project identifier
 
@@ -91,6 +103,8 @@ class APIKeysResource(SyncAPIResource):
                 {
                     "name": name,
                     "days_to_expire": days_to_expire,
+                    "expires_at": expires_at,
+                    "policy": policy,
                     "project_id": project_id,
                 },
                 api_key_create_params.APIKeyCreateParams,
@@ -377,6 +391,8 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         *,
         name: str,
         days_to_expire: Optional[int] | Omit = omit,
+        expires_at: Union[str, datetime, None] | Omit = omit,
+        policy: api_key_create_params.Policy | Omit = omit,
         project_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -385,13 +401,22 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CreatedAPIKey:
-        """
-        Create a new API key within the authenticated organization.
+        """Create a new API key.
+
+        API keys may be scoped by project and may include a
+        policy.
 
         Args:
           name: Label for the API key (1-255 characters). API keys are not addressable by name.
 
-          days_to_expire: Number of days until expiry, up to 3650. Use null for never.
+          days_to_expire: Number of days until expiry, up to 3650. Use null for never. Cannot be combined
+              with expires_at.
+
+          expires_at: Exact expiry time. Must be in the future and no later than the issuing
+              credential's own expiry. Cannot be combined with days_to_expire.
+
+          policy: Issue a scoped key that may only perform the listed actions on the listed
+              resources.
 
           project_id: Unique project identifier
 
@@ -409,6 +434,8 @@ class AsyncAPIKeysResource(AsyncAPIResource):
                 {
                     "name": name,
                     "days_to_expire": days_to_expire,
+                    "expires_at": expires_at,
+                    "policy": policy,
                     "project_id": project_id,
                 },
                 api_key_create_params.APIKeyCreateParams,

@@ -1,11 +1,11 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
 
 from .._models import BaseModel
 
-__all__ = ["APIKey", "CreatedBy"]
+__all__ = ["APIKey", "CreatedBy", "Policy", "PolicyStatement"]
 
 
 class CreatedBy(BaseModel):
@@ -17,6 +17,27 @@ class CreatedBy(BaseModel):
 
     name: Optional[str] = None
     """Display name of the creator, if available."""
+
+
+class PolicyStatement(BaseModel):
+    action: str
+    """Permitted action, such as browsers:use or vaults:read."""
+
+    resource: str
+    """Resource the action applies to, in the format projects/{project_id}/{kind}/{id}.
+
+    Wildcards are supported.
+    """
+
+
+class Policy(BaseModel):
+    """Permissions granted to a scoped API key.
+
+    Absent for an ordinary key, which keeps unrestricted access within its organization or project.
+    """
+
+    statements: List[PolicyStatement]
+    """Allow statements. Every action and resource not listed is denied."""
 
 
 class APIKey(BaseModel):
@@ -54,4 +75,11 @@ class APIKey(BaseModel):
     """Project name for project-scoped API keys.
 
     Null means the key is org-wide or the project name is unavailable.
+    """
+
+    policy: Optional[Policy] = None
+    """Permissions granted to a scoped API key.
+
+    Absent for an ordinary key, which keeps unrestricted access within its
+    organization or project.
     """
