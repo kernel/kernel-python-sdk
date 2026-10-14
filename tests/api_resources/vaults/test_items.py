@@ -255,6 +255,15 @@ class TestItems:
             key="x",
             id_or_name="id_or_name",
             spec={
+                "add_fields": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "label",
+                        "required": True,
+                        "sensitive": True,
+                    }
+                ],
                 "description": "description",
                 "fields": {
                     "foo": {
@@ -262,6 +271,7 @@ class TestItems:
                         "value": "value",
                     }
                 },
+                "remove_fields": ["x"],
             },
             type="credential",
             version=1,
@@ -2184,6 +2194,15 @@ class TestAsyncItems:
             key="x",
             id_or_name="id_or_name",
             spec={
+                "add_fields": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "label",
+                        "required": True,
+                        "sensitive": True,
+                    }
+                ],
                 "description": "description",
                 "fields": {
                     "foo": {
@@ -2191,6 +2210,7 @@ class TestAsyncItems:
                         "value": "value",
                     }
                 },
+                "remove_fields": ["x"],
             },
             type="credential",
             version=1,

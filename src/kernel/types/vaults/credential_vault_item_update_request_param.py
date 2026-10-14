@@ -10,10 +10,13 @@ __all__ = ["CredentialVaultItemUpdateRequestParam"]
 
 
 class CredentialVaultItemUpdateRequestParam(TypedDict, total=False):
-    """Atomically update description and selected values.
-
-    Omitted properties are
-    preserved. Field names, types, required flags, and sensitivity cannot change.
+    """
+    Atomically update description, field definitions, and selected values.
+    Omitted properties are preserved. `remove_fields` deletes definitions and
+    their values, then `add_fields` appends definitions, then `fields` sets
+    values, including for added fields. An existing field's definition cannot
+    be edited in place; to change it, remove the field and add it again, in
+    the same update or a later one. The old value is deleted with it.
     Unknown field names return 400; stale versions or mismatched item types
     return 409 without changing the item. A successful update increments version
     and invalidates outstanding Kernel-hosted collection sessions. If required

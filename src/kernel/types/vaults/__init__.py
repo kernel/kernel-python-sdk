@@ -92,6 +92,9 @@ from .credential_account_vault_item_request_param import (
 from .authorize_vault_item_operation_request_param import (
     AuthorizeVaultItemOperationRequestParam as AuthorizeVaultItemOperationRequestParam,
 )
+from .credential_vault_field_definition_input_param import (
+    CredentialVaultFieldDefinitionInputParam as CredentialVaultFieldDefinitionInputParam,
+)
 from .kernel_credential_vault_item_spec_input_param import (
     KernelCredentialVaultItemSpecInputParam as KernelCredentialVaultItemSpecInputParam,
 )

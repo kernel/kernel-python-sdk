@@ -12,7 +12,7 @@ class CollectVaultItemOperationRequestParam(TypedDict, total=False):
 
     Supported for ready
     and pending_collection credential items. Always render the same form from
-    every form-supported field; totp fields have no form input and are omitted.
+    every form-supported field; totp and passkey fields have no form input and are omitted.
     No caller-selected field subsets or form overrides are accepted.
     Reuse an active Kernel-hosted session or renew an expired session atomically.
     Customer-hosted forms use their own backend and ordinary item GET/PATCH. Opening
