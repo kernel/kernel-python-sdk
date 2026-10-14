@@ -34,6 +34,15 @@ class AuthorizeVaultItemOperationRequest(TypedDict, total=False):
 
     type: Required[Literal["authorize"]]
 
+    browser_id: str
+    """Browser session ID, not a reusable browser name.
+
+    The browser must have this vault attached.
+    """
+
+    page_url: str
+    """Exact current top-level URL of the final checkout page open in browser_id."""
+
 
 class RestartVerificationVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
@@ -89,18 +98,26 @@ class FillVaultItemOperationRequest(TypedDict, total=False):
     browser_id: Required[str]
     """Browser session ID, not a reusable browser name."""
 
-    fields: Required[Iterable[VaultFillFieldParam]]
-    """Field bindings for this step. No two bindings may resolve to the same element."""
-
     type: Required[Literal["fill"]]
+
+    fields: Iterable[VaultFillFieldParam]
+    """
+    Field bindings, when the item's advertised fill operation requires them. Each
+    selector is searched in the main frame and all descendant frames and must
+    resolve to exactly one editable input or select, matched directly or through a
+    containing element; zero or multiple candidates fail, and no two bindings may
+    resolve to the same element. Select elements match an option by value, not
+    label. All bindings are validated before any write, then filled in request
+    order, stopping at the first failure. If the page navigates or a target
+    disappears, fill stops rather than choosing another page or element.
+    """
 
     page_url: str
     """Exact current top-level page URL, including path, query, and fragment.
 
     Must match exactly one open page in the browser; zero or multiple matches fail.
-    No prefix or glob matching. Required for cards, which must use HTTPS without
-    embedded credentials. Optional for credentials, where omission requires exactly
-    one open page.
+    No prefix or glob matching. When an item allows omitting it, the browser must
+    have exactly one open page.
     """
 
     timeout_ms: int

@@ -100,6 +100,9 @@ class WalletVaultItem(BaseModel):
 
     action: Optional[VaultItemAction] = None
 
+    description: Optional[str] = None
+    """Server-generated provider and lifecycle guidance for agents."""
+
     expanded: Optional[WalletVaultItemExpanded] = None
     """Live, non-persisted data requested through the item GET expand parameter."""
 
@@ -153,7 +156,14 @@ class CardVaultItem(BaseModel):
     """Immutable item key assigned when the item is created."""
 
     spec: CardVaultItemSpec
-    """Live payment card. Test-mode card creation is not supported."""
+    """Live Link card request.
+
+    Test-mode card creation is not supported. The spec can be changed with PATCH
+    until the card is authorized at a checkout. Authorize it with the browser at
+    final checkout: Kernel inspects the checkout through WebMCP and internally
+    chooses a merchant-bound Link Pay Token when supported or a virtual card
+    otherwise. Callers never receive or choose how the credential is delivered.
+    """
 
     state: CardVaultItemState
     """Issued Link cards retain encrypted card material for the fill operation.

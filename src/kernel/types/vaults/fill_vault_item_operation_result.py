@@ -11,17 +11,18 @@ __all__ = ["FillVaultItemOperationResult"]
 
 class FillVaultItemOperationResult(BaseModel):
     fields: List[VaultFillFieldResult]
-    """Exactly one result per request binding, in request order.
-
-    After the first failed or unknown field, all remaining fields are not_attempted.
+    """
+    One result per request binding, in request order; empty when the fill used no
+    bindings. After the first failed or unknown field, all remaining fields are
+    not_attempted.
     """
 
     status: Literal["completed", "failed", "unknown"]
-    """Completed only when all fields were filled.
+    """Completed when the fill finished.
 
-    Failed when execution stopped with known outcomes. Unknown when any field's
-    outcome cannot be determined. None of these statuses confirms payment or
-    merchant acceptance.
+    Failed when execution stopped with known outcomes. Unknown when an outcome
+    cannot be determined. Completed means values were supplied to the page, not that
+    the site accepted or submitted them.
     """
 
     type: Literal["fill"]

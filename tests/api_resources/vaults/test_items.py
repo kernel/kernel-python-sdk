@@ -493,6 +493,18 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_perform_operation_with_all_params_overload_1(self, client: Kernel) -> None:
+        item = client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="authorize",
+            browser_id="x",
+            page_url="https://example.com",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_perform_operation_overload_1(self, client: Kernel) -> None:
         response = client.vaults.items.with_raw_response.perform_operation(
             key="key",
@@ -839,24 +851,6 @@ class TestItems:
             key="key",
             id_or_name="id_or_name",
             browser_id="browser-session-id",
-            fields=[
-                {
-                    "field": "number",
-                    "selector": "#card-number",
-                },
-                {
-                    "field": "exp_month",
-                    "selector": "#expiry-month",
-                },
-                {
-                    "field": "exp_year",
-                    "selector": "#expiry-year",
-                },
-                {
-                    "field": "cvc",
-                    "selector": "#security-code",
-                },
-            ],
             type="fill",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
@@ -868,6 +862,7 @@ class TestItems:
             key="key",
             id_or_name="id_or_name",
             browser_id="browser-session-id",
+            type="fill",
             fields=[
                 {
                     "field": "number",
@@ -890,7 +885,6 @@ class TestItems:
                     "format": "MM/YY",
                 },
             ],
-            type="fill",
             page_url="https://shop.example/checkout",
             timeout_ms=1,
         )
@@ -903,24 +897,6 @@ class TestItems:
             key="key",
             id_or_name="id_or_name",
             browser_id="browser-session-id",
-            fields=[
-                {
-                    "field": "number",
-                    "selector": "#card-number",
-                },
-                {
-                    "field": "exp_month",
-                    "selector": "#expiry-month",
-                },
-                {
-                    "field": "exp_year",
-                    "selector": "#expiry-year",
-                },
-                {
-                    "field": "cvc",
-                    "selector": "#security-code",
-                },
-            ],
             type="fill",
         )
 
@@ -936,24 +912,6 @@ class TestItems:
             key="key",
             id_or_name="id_or_name",
             browser_id="browser-session-id",
-            fields=[
-                {
-                    "field": "number",
-                    "selector": "#card-number",
-                },
-                {
-                    "field": "exp_month",
-                    "selector": "#expiry-month",
-                },
-                {
-                    "field": "exp_year",
-                    "selector": "#expiry-year",
-                },
-                {
-                    "field": "cvc",
-                    "selector": "#security-code",
-                },
-            ],
             type="fill",
         ) as response:
             assert not response.is_closed
@@ -972,24 +930,6 @@ class TestItems:
                 key="key",
                 id_or_name="",
                 browser_id="browser-session-id",
-                fields=[
-                    {
-                        "field": "number",
-                        "selector": "#card-number",
-                    },
-                    {
-                        "field": "exp_month",
-                        "selector": "#expiry-month",
-                    },
-                    {
-                        "field": "exp_year",
-                        "selector": "#expiry-year",
-                    },
-                    {
-                        "field": "cvc",
-                        "selector": "#security-code",
-                    },
-                ],
                 type="fill",
             )
 
@@ -998,24 +938,6 @@ class TestItems:
                 key="",
                 id_or_name="id_or_name",
                 browser_id="browser-session-id",
-                fields=[
-                    {
-                        "field": "number",
-                        "selector": "#card-number",
-                    },
-                    {
-                        "field": "exp_month",
-                        "selector": "#expiry-month",
-                    },
-                    {
-                        "field": "exp_year",
-                        "selector": "#expiry-year",
-                    },
-                    {
-                        "field": "cvc",
-                        "selector": "#security-code",
-                    },
-                ],
                 type="fill",
             )
 
@@ -2500,6 +2422,18 @@ class TestAsyncItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    async def test_method_perform_operation_with_all_params_overload_1(self, async_client: AsyncKernel) -> None:
+        item = await async_client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="authorize",
+            browser_id="x",
+            page_url="https://example.com",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     async def test_raw_response_perform_operation_overload_1(self, async_client: AsyncKernel) -> None:
         response = await async_client.vaults.items.with_raw_response.perform_operation(
             key="key",
@@ -2846,24 +2780,6 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             browser_id="browser-session-id",
-            fields=[
-                {
-                    "field": "number",
-                    "selector": "#card-number",
-                },
-                {
-                    "field": "exp_month",
-                    "selector": "#expiry-month",
-                },
-                {
-                    "field": "exp_year",
-                    "selector": "#expiry-year",
-                },
-                {
-                    "field": "cvc",
-                    "selector": "#security-code",
-                },
-            ],
             type="fill",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
@@ -2875,6 +2791,7 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             browser_id="browser-session-id",
+            type="fill",
             fields=[
                 {
                     "field": "number",
@@ -2897,7 +2814,6 @@ class TestAsyncItems:
                     "format": "MM/YY",
                 },
             ],
-            type="fill",
             page_url="https://shop.example/checkout",
             timeout_ms=1,
         )
@@ -2910,24 +2826,6 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             browser_id="browser-session-id",
-            fields=[
-                {
-                    "field": "number",
-                    "selector": "#card-number",
-                },
-                {
-                    "field": "exp_month",
-                    "selector": "#expiry-month",
-                },
-                {
-                    "field": "exp_year",
-                    "selector": "#expiry-year",
-                },
-                {
-                    "field": "cvc",
-                    "selector": "#security-code",
-                },
-            ],
             type="fill",
         )
 
@@ -2943,24 +2841,6 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             browser_id="browser-session-id",
-            fields=[
-                {
-                    "field": "number",
-                    "selector": "#card-number",
-                },
-                {
-                    "field": "exp_month",
-                    "selector": "#expiry-month",
-                },
-                {
-                    "field": "exp_year",
-                    "selector": "#expiry-year",
-                },
-                {
-                    "field": "cvc",
-                    "selector": "#security-code",
-                },
-            ],
             type="fill",
         ) as response:
             assert not response.is_closed
@@ -2979,24 +2859,6 @@ class TestAsyncItems:
                 key="key",
                 id_or_name="",
                 browser_id="browser-session-id",
-                fields=[
-                    {
-                        "field": "number",
-                        "selector": "#card-number",
-                    },
-                    {
-                        "field": "exp_month",
-                        "selector": "#expiry-month",
-                    },
-                    {
-                        "field": "exp_year",
-                        "selector": "#expiry-year",
-                    },
-                    {
-                        "field": "cvc",
-                        "selector": "#security-code",
-                    },
-                ],
                 type="fill",
             )
 
@@ -3005,24 +2867,6 @@ class TestAsyncItems:
                 key="",
                 id_or_name="id_or_name",
                 browser_id="browser-session-id",
-                fields=[
-                    {
-                        "field": "number",
-                        "selector": "#card-number",
-                    },
-                    {
-                        "field": "exp_month",
-                        "selector": "#expiry-month",
-                    },
-                    {
-                        "field": "exp_year",
-                        "selector": "#expiry-year",
-                    },
-                    {
-                        "field": "cvc",
-                        "selector": "#security-code",
-                    },
-                ],
                 type="fill",
             )
 
