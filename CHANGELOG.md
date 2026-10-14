@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.126.0](https://github.com/kernel/kernel-python-sdk/compare/v0.125.0...v0.126.0) (2026-10-14)
+
+
+### Features
+
+* support Link Pay Tokens when authorizing Link cards at checkout ([f081364](https://github.com/kernel/kernel-python-sdk/commit/f08136407428a84fd709d491d38694db026f70c8))
+
 ## [0.125.0](https://github.com/kernel/kernel-python-sdk/compare/v0.124.0...v0.125.0) (2026-10-13)
 
 

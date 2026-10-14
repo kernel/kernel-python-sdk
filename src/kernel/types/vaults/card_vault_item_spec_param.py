@@ -57,12 +57,17 @@ class LinkCardVaultItemSpecTotal(TypedDict, total=False):
 
 
 class LinkCardVaultItemSpec(TypedDict, total=False):
-    """Live payment card. Test-mode card creation is not supported."""
+    """Live Link card request.
+
+    Test-mode card creation is not supported. The spec can be changed with PATCH until the card is authorized at a checkout. Authorize it with the browser at final checkout: Kernel inspects the checkout through WebMCP and internally chooses a merchant-bound Link Pay Token when supported or a virtual card otherwise. Callers never receive or choose how the credential is delivered.
+    """
 
     amount: Required[int]
     """Integer amount in minor currency units.
 
-    Link permits at most 50000 per spend request.
+    Link Pay Token execution permits at most 500000; virtual-card execution permits
+    at most 50000. Authorization rejects a larger amount when the checkout requires
+    a virtual card.
     """
 
     context: Required[str]
@@ -83,7 +88,7 @@ class LinkCardVaultItemSpec(TypedDict, total=False):
     provider: Required[Literal["link"]]
 
     wallet: Required[str]
-    """Wallet item key used to mint this card."""
+    """Connected Link wallet item key."""
 
     expires_at: int
 

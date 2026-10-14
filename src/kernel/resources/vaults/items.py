@@ -155,10 +155,17 @@ class ItemsResource(SyncAPIResource):
         remain unchanged and explicit empty lists clear them. Wallet/provider binding
         and unsupported fields cannot change after authorization starts. An uncertain
         update enters recovery_required and must not be retried. Checkout cards may be
-        edited between authorizations.
+        edited between authorizations. A Link card authorized with browser_id and
+        page_url cannot be changed; delete it and create a new card with the updated
+        details.
 
         Args:
-          spec: Live payment card. Test-mode card creation is not supported.
+          spec: Live Link card request. Test-mode card creation is not supported. The spec can
+              be changed with PATCH until the card is authorized at a checkout. Authorize it
+              with the browser at final checkout: Kernel inspects the checkout through WebMCP
+              and internally chooses a merchant-bound Link Pay Token when supported or a
+              virtual card otherwise. Callers never receive or choose how the credential is
+              delivered.
 
           extra_headers: Send extra headers
 
@@ -199,7 +206,9 @@ class ItemsResource(SyncAPIResource):
         remain unchanged and explicit empty lists clear them. Wallet/provider binding
         and unsupported fields cannot change after authorization starts. An uncertain
         update enters recovery_required and must not be retried. Checkout cards may be
-        edited between authorizations.
+        edited between authorizations. A Link card authorized with browser_id and
+        page_url cannot be changed; delete it and create a new card with the updated
+        details.
 
         Args:
           version: Expected current item version from the latest read.
@@ -400,6 +409,8 @@ class ItemsResource(SyncAPIResource):
         *,
         id_or_name: str,
         type: Literal["authorize"],
+        browser_id: str | Omit = omit,
+        page_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -412,10 +423,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -430,6 +442,11 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Args:
+          browser_id: Browser session ID, not a reusable browser name. The browser must have this
+              vault attached.
+
+          page_url: Exact current top-level URL of the final checkout page open in browser_id.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -459,10 +476,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -513,10 +531,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -566,10 +585,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -614,10 +634,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -655,8 +676,8 @@ class ItemsResource(SyncAPIResource):
         *,
         id_or_name: str,
         browser_id: str,
-        fields: Iterable[VaultFillFieldParam],
         type: Literal["fill"],
+        fields: Iterable[VaultFillFieldParam] | Omit = omit,
         page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -671,10 +692,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -691,13 +713,19 @@ class ItemsResource(SyncAPIResource):
         Args:
           browser_id: Browser session ID, not a reusable browser name.
 
-          fields: Field bindings for this step. No two bindings may resolve to the same element.
+          fields: Field bindings, when the item's advertised fill operation requires them. Each
+              selector is searched in the main frame and all descendant frames and must
+              resolve to exactly one editable input or select, matched directly or through a
+              containing element; zero or multiple candidates fail, and no two bindings may
+              resolve to the same element. Select elements match an option by value, not
+              label. All bindings are validated before any write, then filled in request
+              order, stopping at the first failure. If the page navigates or a target
+              disappears, fill stops rather than choosing another page or element.
 
           page_url: Exact current top-level page URL, including path, query, and fragment. Must
               match exactly one open page in the browser; zero or multiple matches fail. No
-              prefix or glob matching. Required for cards, which must use HTTPS without
-              embedded credentials. Optional for credentials, where omission requires exactly
-              one open page.
+              prefix or glob matching. When an item allows omitting it, the browser must have
+              exactly one open page.
 
           timeout_ms: Total operation deadline in milliseconds, not a per-field timeout.
 
@@ -733,10 +761,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -781,10 +810,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -832,10 +862,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -887,10 +918,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -936,10 +968,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -991,10 +1024,11 @@ class ItemsResource(SyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -1037,7 +1071,7 @@ class ItemsResource(SyncAPIResource):
         ["id_or_name", "type"],
         ["id_or_name", "amount", "currency", "occurred_at", "status", "transaction_type", "type"],
         ["id_or_name", "checkout", "type"],
-        ["id_or_name", "browser_id", "fields", "type"],
+        ["id_or_name", "browser_id", "type"],
         ["id_or_name", "browser_id", "page_url", "type"],
         ["id_or_name", "access_token", "type"],
         ["id_or_name", "bindings", "browser_id", "input", "page_url", "tool_ref", "type"],
@@ -1059,6 +1093,8 @@ class ItemsResource(SyncAPIResource):
         | Literal["1pw_recover"]
         | Literal["1pw_update_access_token"]
         | Literal["webmcp_invoke"],
+        browser_id: str | Omit = omit,
+        page_url: str | Omit = omit,
         amount: int | Omit = omit,
         currency: str | Omit = omit,
         occurred_at: Union[str, datetime] | Omit = omit,
@@ -1068,9 +1104,7 @@ class ItemsResource(SyncAPIResource):
         ]
         | Omit = omit,
         checkout: VaultCheckoutContextParam | Omit = omit,
-        browser_id: str | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
-        page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         goal: str | Omit = omit,
         keywords: SequenceNotStr[str] | Omit = omit,
@@ -1101,15 +1135,15 @@ class ItemsResource(SyncAPIResource):
                 body=maybe_transform(
                     {
                         "type": type,
+                        "browser_id": browser_id,
+                        "page_url": page_url,
                         "amount": amount,
                         "currency": currency,
                         "occurred_at": occurred_at,
                         "status": status,
                         "transaction_type": transaction_type,
                         "checkout": checkout,
-                        "browser_id": browser_id,
                         "fields": fields,
-                        "page_url": page_url,
                         "timeout_ms": timeout_ms,
                         "goal": goal,
                         "keywords": keywords,
@@ -1205,7 +1239,12 @@ class ItemsResource(SyncAPIResource):
         checkout instead.
 
         Args:
-          spec: Live payment card. Test-mode card creation is not supported.
+          spec: Live Link card request. Test-mode card creation is not supported. The spec can
+              be changed with PATCH until the card is authorized at a checkout. Authorize it
+              with the browser at final checkout: Kernel inspects the checkout through WebMCP
+              and internally chooses a merchant-bound Link Pay Token when supported or a
+              virtual card otherwise. Callers never receive or choose how the credential is
+              delivered.
 
           extra_headers: Send extra headers
 
@@ -1452,10 +1491,17 @@ class AsyncItemsResource(AsyncAPIResource):
         remain unchanged and explicit empty lists clear them. Wallet/provider binding
         and unsupported fields cannot change after authorization starts. An uncertain
         update enters recovery_required and must not be retried. Checkout cards may be
-        edited between authorizations.
+        edited between authorizations. A Link card authorized with browser_id and
+        page_url cannot be changed; delete it and create a new card with the updated
+        details.
 
         Args:
-          spec: Live payment card. Test-mode card creation is not supported.
+          spec: Live Link card request. Test-mode card creation is not supported. The spec can
+              be changed with PATCH until the card is authorized at a checkout. Authorize it
+              with the browser at final checkout: Kernel inspects the checkout through WebMCP
+              and internally chooses a merchant-bound Link Pay Token when supported or a
+              virtual card otherwise. Callers never receive or choose how the credential is
+              delivered.
 
           extra_headers: Send extra headers
 
@@ -1496,7 +1542,9 @@ class AsyncItemsResource(AsyncAPIResource):
         remain unchanged and explicit empty lists clear them. Wallet/provider binding
         and unsupported fields cannot change after authorization starts. An uncertain
         update enters recovery_required and must not be retried. Checkout cards may be
-        edited between authorizations.
+        edited between authorizations. A Link card authorized with browser_id and
+        page_url cannot be changed; delete it and create a new card with the updated
+        details.
 
         Args:
           version: Expected current item version from the latest read.
@@ -1697,6 +1745,8 @@ class AsyncItemsResource(AsyncAPIResource):
         *,
         id_or_name: str,
         type: Literal["authorize"],
+        browser_id: str | Omit = omit,
+        page_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1709,10 +1759,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -1727,6 +1778,11 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Args:
+          browser_id: Browser session ID, not a reusable browser name. The browser must have this
+              vault attached.
+
+          page_url: Exact current top-level URL of the final checkout page open in browser_id.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1756,10 +1812,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -1810,10 +1867,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -1863,10 +1921,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -1911,10 +1970,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -1952,8 +2012,8 @@ class AsyncItemsResource(AsyncAPIResource):
         *,
         id_or_name: str,
         browser_id: str,
-        fields: Iterable[VaultFillFieldParam],
         type: Literal["fill"],
+        fields: Iterable[VaultFillFieldParam] | Omit = omit,
         page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1968,10 +2028,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -1988,13 +2049,19 @@ class AsyncItemsResource(AsyncAPIResource):
         Args:
           browser_id: Browser session ID, not a reusable browser name.
 
-          fields: Field bindings for this step. No two bindings may resolve to the same element.
+          fields: Field bindings, when the item's advertised fill operation requires them. Each
+              selector is searched in the main frame and all descendant frames and must
+              resolve to exactly one editable input or select, matched directly or through a
+              containing element; zero or multiple candidates fail, and no two bindings may
+              resolve to the same element. Select elements match an option by value, not
+              label. All bindings are validated before any write, then filled in request
+              order, stopping at the first failure. If the page navigates or a target
+              disappears, fill stops rather than choosing another page or element.
 
           page_url: Exact current top-level page URL, including path, query, and fragment. Must
               match exactly one open page in the browser; zero or multiple matches fail. No
-              prefix or glob matching. Required for cards, which must use HTTPS without
-              embedded credentials. Optional for credentials, where omission requires exactly
-              one open page.
+              prefix or glob matching. When an item allows omitting it, the browser must have
+              exactly one open page.
 
           timeout_ms: Total operation deadline in milliseconds, not a per-field timeout.
 
@@ -2030,10 +2097,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -2078,10 +2146,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -2129,10 +2198,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -2184,10 +2254,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -2233,10 +2304,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -2288,10 +2360,11 @@ class AsyncItemsResource(AsyncAPIResource):
         `available_operations`, following its natural-language description. Availability
         is rechecked at execution time; unavailable operations return 409. Authorization
         and preparation may call an external provider and return updated state. Link
-        cards advertise authorize without checkout context. Eligible unused AgentCard
-        cards advertise prepare_checkout, which requires checkout context and obtains
-        device approval before native Square Pay. Keep the returned approval page open,
-        poll until ready_to_submit, then submit before preparation.expires_at. Unused
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
         preparations expire automatically and cannot be reused. If spend-request
         creation is rejected with a non-retryable provider error, the card item is
         deleted and the provider's error code and message are returned. Rate limits
@@ -2334,7 +2407,7 @@ class AsyncItemsResource(AsyncAPIResource):
         ["id_or_name", "type"],
         ["id_or_name", "amount", "currency", "occurred_at", "status", "transaction_type", "type"],
         ["id_or_name", "checkout", "type"],
-        ["id_or_name", "browser_id", "fields", "type"],
+        ["id_or_name", "browser_id", "type"],
         ["id_or_name", "browser_id", "page_url", "type"],
         ["id_or_name", "access_token", "type"],
         ["id_or_name", "bindings", "browser_id", "input", "page_url", "tool_ref", "type"],
@@ -2356,6 +2429,8 @@ class AsyncItemsResource(AsyncAPIResource):
         | Literal["1pw_recover"]
         | Literal["1pw_update_access_token"]
         | Literal["webmcp_invoke"],
+        browser_id: str | Omit = omit,
+        page_url: str | Omit = omit,
         amount: int | Omit = omit,
         currency: str | Omit = omit,
         occurred_at: Union[str, datetime] | Omit = omit,
@@ -2365,9 +2440,7 @@ class AsyncItemsResource(AsyncAPIResource):
         ]
         | Omit = omit,
         checkout: VaultCheckoutContextParam | Omit = omit,
-        browser_id: str | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
-        page_url: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         goal: str | Omit = omit,
         keywords: SequenceNotStr[str] | Omit = omit,
@@ -2398,15 +2471,15 @@ class AsyncItemsResource(AsyncAPIResource):
                 body=await async_maybe_transform(
                     {
                         "type": type,
+                        "browser_id": browser_id,
+                        "page_url": page_url,
                         "amount": amount,
                         "currency": currency,
                         "occurred_at": occurred_at,
                         "status": status,
                         "transaction_type": transaction_type,
                         "checkout": checkout,
-                        "browser_id": browser_id,
                         "fields": fields,
-                        "page_url": page_url,
                         "timeout_ms": timeout_ms,
                         "goal": goal,
                         "keywords": keywords,
@@ -2502,7 +2575,12 @@ class AsyncItemsResource(AsyncAPIResource):
         checkout instead.
 
         Args:
-          spec: Live payment card. Test-mode card creation is not supported.
+          spec: Live Link card request. Test-mode card creation is not supported. The spec can
+              be changed with PATCH until the card is authorized at a checkout. Authorize it
+              with the browser at final checkout: Kernel inspects the checkout through WebMCP
+              and internally chooses a merchant-bound Link Pay Token when supported or a
+              virtual card otherwise. Callers never receive or choose how the credential is
+              delivered.
 
           extra_headers: Send extra headers
 
