@@ -90,8 +90,6 @@ class LinkCardVaultItemSpec(TypedDict, total=False):
     wallet: Required[str]
     """Connected Link wallet item key."""
 
-    expires_at: int
-
     line_items: Iterable[LinkCardVaultItemSpecLineItem]
 
     metadata: Dict[str, str]
