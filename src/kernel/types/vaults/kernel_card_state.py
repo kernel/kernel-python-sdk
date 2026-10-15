@@ -32,8 +32,9 @@ class Masks(BaseModel):
 
 
 class KernelCardState(BaseModel):
-    """
-    A ready Kernel card retains its encrypted network token and one-time code for the fill operation until the item's expires_at. Fill and submit checkout before then. Visa purchases require a spend_approval action before the code is issued; Mastercard purchases need no hosted approval. masks.last4 is the enrolled card's last four digits; masks.token_last4 is the network token's last four digits shown to the merchant. Kernel cards do not expose aliases or support egress substitution. Kernel does not observe whether the merchant charged the card.
+    """A ready Kernel card supports authorize, fill, then submit checkout.
+
+    Card details are delivered for a few minutes after fill; submit promptly. Repeated fill is safe and never submits checkout. Visa purchases require a spend_approval action before details are issued; Mastercard purchases need no hosted approval. masks.last4 is the enrolled card's last four digits; masks.token_last4, when present, is the token's last four digits shown to the merchant. Kernel does not observe whether the merchant charged the card.
     """
 
     provider: Literal["kernel"]
