@@ -254,6 +254,7 @@ class BrowserPoolsResource(SyncAPIResource):
         *,
         chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
+        expected_network: BrowserNetworkConfigParam | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
@@ -301,6 +302,13 @@ class BrowserPoolsResource(SyncAPIResource):
               later released with `reuse: true` it returns to the pool with that stale
               configuration until it is discarded (by this flag on a later update, or by
               flushing the pool).
+
+          expected_network: Optional optimistic concurrency precondition. Send the network configuration
+              from the last pool response, or {} when it has no network configuration. The
+              entire update is rejected with 409 stale_network if the saved network differs,
+              checked atomically with the write. Omit for unconditional updates. Explicit
+              empty lists differ from omitted lists; route targets must match the saved
+              references (resolved IDs, not equivalent proxy names).
 
           extensions: If provided, replaces the extension list. Empty array clears all
               previously-selected extensions. Omit this field to leave extensions unchanged.
@@ -397,6 +405,7 @@ class BrowserPoolsResource(SyncAPIResource):
                 {
                     "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
+                    "expected_network": expected_network,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,
@@ -911,6 +920,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         *,
         chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
+        expected_network: BrowserNetworkConfigParam | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
@@ -958,6 +968,13 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               later released with `reuse: true` it returns to the pool with that stale
               configuration until it is discarded (by this flag on a later update, or by
               flushing the pool).
+
+          expected_network: Optional optimistic concurrency precondition. Send the network configuration
+              from the last pool response, or {} when it has no network configuration. The
+              entire update is rejected with 409 stale_network if the saved network differs,
+              checked atomically with the write. Omit for unconditional updates. Explicit
+              empty lists differ from omitted lists; route targets must match the saved
+              references (resolved IDs, not equivalent proxy names).
 
           extensions: If provided, replaces the extension list. Empty array clears all
               previously-selected extensions. Omit this field to leave extensions unchanged.
@@ -1054,6 +1071,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                 {
                     "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
+                    "expected_network": expected_network,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,

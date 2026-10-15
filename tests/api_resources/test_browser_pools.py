@@ -188,6 +188,19 @@ class TestBrowserPools:
             id_or_name="id_or_name",
             chrome_policy={"foo": "bar"},
             discard_all_idle=False,
+            expected_network={
+                "allowed_hosts": ["example.com", "*.example.com"],
+                "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
+                "proxy_routes": [
+                    {
+                        "hosts": ["string"],
+                        "proxy": {
+                            "id": "x",
+                            "name": "x",
+                        },
+                    }
+                ],
+            },
             extensions=[
                 {
                     "id": "id",
@@ -744,6 +757,19 @@ class TestAsyncBrowserPools:
             id_or_name="id_or_name",
             chrome_policy={"foo": "bar"},
             discard_all_idle=False,
+            expected_network={
+                "allowed_hosts": ["example.com", "*.example.com"],
+                "private_hosts": ["*.example.ts.net", "100.64.0.0/10"],
+                "proxy_routes": [
+                    {
+                        "hosts": ["string"],
+                        "proxy": {
+                            "id": "x",
+                            "name": "x",
+                        },
+                    }
+                ],
+            },
             extensions=[
                 {
                     "id": "id",

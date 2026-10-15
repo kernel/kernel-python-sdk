@@ -44,6 +44,17 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     flushing the pool).
     """
 
+    expected_network: BrowserNetworkConfigParam
+    """Optional optimistic concurrency precondition.
+
+    Send the network configuration from the last pool response, or {} when it has no
+    network configuration. The entire update is rejected with 409 stale_network if
+    the saved network differs, checked atomically with the write. Omit for
+    unconditional updates. Explicit empty lists differ from omitted lists; route
+    targets must match the saved references (resolved IDs, not equivalent proxy
+    names).
+    """
+
     extensions: Iterable[BrowserExtension]
     """If provided, replaces the extension list.
 
