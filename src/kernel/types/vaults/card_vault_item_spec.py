@@ -63,12 +63,7 @@ class LinkCardVaultItemSpec(BaseModel):
     """
 
     amount: int
-    """Integer amount in minor currency units.
-
-    Link Pay Token execution permits at most 500000; virtual-card execution permits
-    at most 50000. Authorization rejects a larger amount when the checkout requires
-    a virtual card.
-    """
+    """Integer amount in minor currency units, at most 50000."""
 
     context: str
 

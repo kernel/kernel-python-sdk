@@ -74,7 +74,7 @@ class TestProxies:
     @parametrize
     def test_method_retrieve(self, client: Kernel) -> None:
         proxy = client.proxies.retrieve(
-            "id",
+            "id_or_name",
         )
         assert_matches_type(ProxyRetrieveResponse, proxy, path=["response"])
 
@@ -82,7 +82,7 @@ class TestProxies:
     @parametrize
     def test_raw_response_retrieve(self, client: Kernel) -> None:
         response = client.proxies.with_raw_response.retrieve(
-            "id",
+            "id_or_name",
         )
 
         assert response.is_closed is True
@@ -94,7 +94,7 @@ class TestProxies:
     @parametrize
     def test_streaming_response_retrieve(self, client: Kernel) -> None:
         with client.proxies.with_streaming_response.retrieve(
-            "id",
+            "id_or_name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -107,7 +107,7 @@ class TestProxies:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: Kernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             client.proxies.with_raw_response.retrieve(
                 "",
             )
@@ -116,7 +116,7 @@ class TestProxies:
     @parametrize
     def test_method_update(self, client: Kernel) -> None:
         proxy = client.proxies.update(
-            id="id",
+            id_or_name="id_or_name",
             name="my-renamed-proxy",
         )
         assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
@@ -125,7 +125,7 @@ class TestProxies:
     @parametrize
     def test_raw_response_update(self, client: Kernel) -> None:
         response = client.proxies.with_raw_response.update(
-            id="id",
+            id_or_name="id_or_name",
             name="my-renamed-proxy",
         )
 
@@ -138,7 +138,7 @@ class TestProxies:
     @parametrize
     def test_streaming_response_update(self, client: Kernel) -> None:
         with client.proxies.with_streaming_response.update(
-            id="id",
+            id_or_name="id_or_name",
             name="my-renamed-proxy",
         ) as response:
             assert not response.is_closed
@@ -152,9 +152,9 @@ class TestProxies:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: Kernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             client.proxies.with_raw_response.update(
-                id="",
+                id_or_name="",
                 name="my-renamed-proxy",
             )
 
@@ -201,7 +201,7 @@ class TestProxies:
     @parametrize
     def test_method_delete(self, client: Kernel) -> None:
         proxy = client.proxies.delete(
-            "id",
+            "id_or_name",
         )
         assert proxy is None
 
@@ -209,7 +209,7 @@ class TestProxies:
     @parametrize
     def test_raw_response_delete(self, client: Kernel) -> None:
         response = client.proxies.with_raw_response.delete(
-            "id",
+            "id_or_name",
         )
 
         assert response.is_closed is True
@@ -221,7 +221,7 @@ class TestProxies:
     @parametrize
     def test_streaming_response_delete(self, client: Kernel) -> None:
         with client.proxies.with_streaming_response.delete(
-            "id",
+            "id_or_name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -234,7 +234,7 @@ class TestProxies:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: Kernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             client.proxies.with_raw_response.delete(
                 "",
             )
@@ -243,7 +243,7 @@ class TestProxies:
     @parametrize
     def test_method_check(self, client: Kernel) -> None:
         proxy = client.proxies.check(
-            id="id",
+            id_or_name="id_or_name",
         )
         assert_matches_type(ProxyCheckResponse, proxy, path=["response"])
 
@@ -251,7 +251,7 @@ class TestProxies:
     @parametrize
     def test_method_check_with_all_params(self, client: Kernel) -> None:
         proxy = client.proxies.check(
-            id="id",
+            id_or_name="id_or_name",
             url="https://example.com",
         )
         assert_matches_type(ProxyCheckResponse, proxy, path=["response"])
@@ -260,7 +260,7 @@ class TestProxies:
     @parametrize
     def test_raw_response_check(self, client: Kernel) -> None:
         response = client.proxies.with_raw_response.check(
-            id="id",
+            id_or_name="id_or_name",
         )
 
         assert response.is_closed is True
@@ -272,7 +272,7 @@ class TestProxies:
     @parametrize
     def test_streaming_response_check(self, client: Kernel) -> None:
         with client.proxies.with_streaming_response.check(
-            id="id",
+            id_or_name="id_or_name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -285,9 +285,9 @@ class TestProxies:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_check(self, client: Kernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             client.proxies.with_raw_response.check(
-                id="",
+                id_or_name="",
             )
 
 
@@ -346,7 +346,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.retrieve(
-            "id",
+            "id_or_name",
         )
         assert_matches_type(ProxyRetrieveResponse, proxy, path=["response"])
 
@@ -354,7 +354,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncKernel) -> None:
         response = await async_client.proxies.with_raw_response.retrieve(
-            "id",
+            "id_or_name",
         )
 
         assert response.is_closed is True
@@ -366,7 +366,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncKernel) -> None:
         async with async_client.proxies.with_streaming_response.retrieve(
-            "id",
+            "id_or_name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -379,7 +379,7 @@ class TestAsyncProxies:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncKernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             await async_client.proxies.with_raw_response.retrieve(
                 "",
             )
@@ -388,7 +388,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_method_update(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.update(
-            id="id",
+            id_or_name="id_or_name",
             name="my-renamed-proxy",
         )
         assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
@@ -397,7 +397,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncKernel) -> None:
         response = await async_client.proxies.with_raw_response.update(
-            id="id",
+            id_or_name="id_or_name",
             name="my-renamed-proxy",
         )
 
@@ -410,7 +410,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncKernel) -> None:
         async with async_client.proxies.with_streaming_response.update(
-            id="id",
+            id_or_name="id_or_name",
             name="my-renamed-proxy",
         ) as response:
             assert not response.is_closed
@@ -424,9 +424,9 @@ class TestAsyncProxies:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncKernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             await async_client.proxies.with_raw_response.update(
-                id="",
+                id_or_name="",
                 name="my-renamed-proxy",
             )
 
@@ -473,7 +473,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_method_delete(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.delete(
-            "id",
+            "id_or_name",
         )
         assert proxy is None
 
@@ -481,7 +481,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncKernel) -> None:
         response = await async_client.proxies.with_raw_response.delete(
-            "id",
+            "id_or_name",
         )
 
         assert response.is_closed is True
@@ -493,7 +493,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncKernel) -> None:
         async with async_client.proxies.with_streaming_response.delete(
-            "id",
+            "id_or_name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -506,7 +506,7 @@ class TestAsyncProxies:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncKernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             await async_client.proxies.with_raw_response.delete(
                 "",
             )
@@ -515,7 +515,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_method_check(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.check(
-            id="id",
+            id_or_name="id_or_name",
         )
         assert_matches_type(ProxyCheckResponse, proxy, path=["response"])
 
@@ -523,7 +523,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_method_check_with_all_params(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.check(
-            id="id",
+            id_or_name="id_or_name",
             url="https://example.com",
         )
         assert_matches_type(ProxyCheckResponse, proxy, path=["response"])
@@ -532,7 +532,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_raw_response_check(self, async_client: AsyncKernel) -> None:
         response = await async_client.proxies.with_raw_response.check(
-            id="id",
+            id_or_name="id_or_name",
         )
 
         assert response.is_closed is True
@@ -544,7 +544,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_streaming_response_check(self, async_client: AsyncKernel) -> None:
         async with async_client.proxies.with_streaming_response.check(
-            id="id",
+            id_or_name="id_or_name",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -557,7 +557,7 @@ class TestAsyncProxies:
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_check(self, async_client: AsyncKernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             await async_client.proxies.with_raw_response.check(
-                id="",
+                id_or_name="",
             )
