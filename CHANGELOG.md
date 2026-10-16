@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.127.0](https://github.com/kernel/kernel-python-sdk/compare/v0.126.0...v0.127.0) (2026-10-16)
+
+
+### Features
+
+* Add atomic preconditions to pool network updates ([9869c91](https://github.com/kernel/kernel-python-sdk/commit/9869c911414a8be186a1a64682487fd38423fb92))
+* Add passkey credential fields and PATCH field add/remove ([84a69ad](https://github.com/kernel/kernel-python-sdk/commit/84a69ad74c46ddcdd87acd88a23dd5330adf555b))
+* Allow replacing vault cards whose provider outcome is unknown ([30f88e1](https://github.com/kernel/kernel-python-sdk/commit/30f88e18b045f3fedbe1bd79d3125db105dd725f))
+* chore(stlc): seal custom-code tracking files ([5a62113](https://github.com/kernel/kernel-python-sdk/commit/5a621135bad2661c79068027773ff32b4e14e0c9))
+* Classify text captchas as token tasks and Binance as a provider ([84f71b8](https://github.com/kernel/kernel-python-sdk/commit/84f71b89f84dea25464cbc22ed92786d73083419))
+* Deliver Kernel card details through fill ([eed3e7b](https://github.com/kernel/kernel-python-sdk/commit/eed3e7ba06c46d3cfa6048d9f02c3d8fff6046e6))
+* Raise Kernel card amount cap to $10,000 ([483f331](https://github.com/kernel/kernel-python-sdk/commit/483f3312824d07e5f315afe0ce5058d4fc4a6e99))
+* Remove Link expires_at, return 400 for missing credential values, and log fill failures ([766dd6e](https://github.com/kernel/kernel-python-sdk/commit/766dd6e961fd36f580540a535cad76e659ecafee))
+
 ## [0.126.0](https://github.com/kernel/kernel-python-sdk/compare/v0.125.0...v0.126.0) (2026-10-14)
 
 
