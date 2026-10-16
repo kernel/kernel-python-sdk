@@ -90,8 +90,6 @@ class LinkCardVaultItemSpec(BaseModel):
     wallet: str
     """Connected Link wallet item key."""
 
-    expires_at: Optional[int] = None
-
     line_items: Optional[List[LinkCardVaultItemSpecLineItem]] = None
 
     metadata: Optional[Dict[str, str]] = None

@@ -119,7 +119,8 @@ class BrowserPoolsResource(SyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view. Defaults to false.
 
-          memory: Memory requested for headful browsers in this pool.
+          memory: Memory for browsers in this pool. Headless: 1GiB (default), 2GiB, or 4GiB.
+              Headful: 8GiB (default) or 16GiB.
 
           name: Optional name for the browser pool. Must be unique within the project.
 
@@ -254,11 +255,12 @@ class BrowserPoolsResource(SyncAPIResource):
         *,
         chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
+        expected_network: BrowserNetworkConfigParam | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
-        memory: Literal["8GiB", "16GiB"] | Omit = omit,
+        memory: Literal["1GiB", "2GiB", "4GiB", "8GiB", "16GiB"] | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_update_params.Profile | Omit = omit,
@@ -302,6 +304,13 @@ class BrowserPoolsResource(SyncAPIResource):
               configuration until it is discarded (by this flag on a later update, or by
               flushing the pool).
 
+          expected_network: Optional optimistic concurrency precondition. Send the network configuration
+              from the last pool response, or {} when it has no network configuration. The
+              entire update is rejected with 409 stale_network if the saved network differs,
+              checked atomically with the write. Omit for unconditional updates. Explicit
+              empty lists differ from omitted lists; route targets must match the saved
+              references (resolved IDs, not equivalent proxy names).
+
           extensions: If provided, replaces the extension list. Empty array clears all
               previously-selected extensions. Omit this field to leave extensions unchanged.
 
@@ -313,9 +322,9 @@ class BrowserPoolsResource(SyncAPIResource):
 
           kiosk_mode: If provided, replaces whether browsers launch in kiosk mode.
 
-          memory: Memory requested for newly-warmed headful browsers in this pool. Existing
-              browsers retain their original allocation. Use discard_all_idle to replace idle
-              browsers.
+          memory: Memory requested for newly-warmed browsers in this pool: 1GiB, 2GiB, or 4GiB for
+              headless, 8GiB or 16GiB for headful. Existing browsers retain their original
+              allocation. Use discard_all_idle to replace idle browsers.
 
           name: If provided, replaces the pool name. Empty string is a no-op; the pool name
               cannot be cleared or reset to empty once assigned.
@@ -397,6 +406,7 @@ class BrowserPoolsResource(SyncAPIResource):
                 {
                     "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
+                    "expected_network": expected_network,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,
@@ -776,7 +786,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view. Defaults to false.
 
-          memory: Memory requested for headful browsers in this pool.
+          memory: Memory for browsers in this pool. Headless: 1GiB (default), 2GiB, or 4GiB.
+              Headful: 8GiB (default) or 16GiB.
 
           name: Optional name for the browser pool. Must be unique within the project.
 
@@ -911,11 +922,12 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         *,
         chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
+        expected_network: BrowserNetworkConfigParam | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
-        memory: Literal["8GiB", "16GiB"] | Omit = omit,
+        memory: Literal["1GiB", "2GiB", "4GiB", "8GiB", "16GiB"] | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_update_params.Profile | Omit = omit,
@@ -959,6 +971,13 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               configuration until it is discarded (by this flag on a later update, or by
               flushing the pool).
 
+          expected_network: Optional optimistic concurrency precondition. Send the network configuration
+              from the last pool response, or {} when it has no network configuration. The
+              entire update is rejected with 409 stale_network if the saved network differs,
+              checked atomically with the write. Omit for unconditional updates. Explicit
+              empty lists differ from omitted lists; route targets must match the saved
+              references (resolved IDs, not equivalent proxy names).
+
           extensions: If provided, replaces the extension list. Empty array clears all
               previously-selected extensions. Omit this field to leave extensions unchanged.
 
@@ -970,9 +989,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           kiosk_mode: If provided, replaces whether browsers launch in kiosk mode.
 
-          memory: Memory requested for newly-warmed headful browsers in this pool. Existing
-              browsers retain their original allocation. Use discard_all_idle to replace idle
-              browsers.
+          memory: Memory requested for newly-warmed browsers in this pool: 1GiB, 2GiB, or 4GiB for
+              headless, 8GiB or 16GiB for headful. Existing browsers retain their original
+              allocation. Use discard_all_idle to replace idle browsers.
 
           name: If provided, replaces the pool name. Empty string is a no-op; the pool name
               cannot be cleared or reset to empty once assigned.
@@ -1054,6 +1073,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                 {
                     "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
+                    "expected_network": expected_network,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,
                     "headless": headless,

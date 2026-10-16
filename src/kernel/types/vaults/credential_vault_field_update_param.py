@@ -36,6 +36,7 @@ class CredentialVaultFieldUpdateParam(TypedDict, total=False):
     immediately clear the stored value. Clearing a required form-supported field
     reopens collection; clearing an optional field does not prevent readiness.
     Values must satisfy the declared field type. For totp, value is the generator
-    seed, never a current code. Clearing a required totp field returns 400 because
-    it cannot be collected in a form.
+    seed, never a current code. For passkey, value is the JSON-encoded CXF passkey
+    object. Clearing a required totp or passkey field returns 400 because it cannot
+    be collected in a form.
     """

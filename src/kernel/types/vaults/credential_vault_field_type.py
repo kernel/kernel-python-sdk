@@ -4,4 +4,4 @@ from typing_extensions import Literal, TypeAlias
 
 __all__ = ["CredentialVaultFieldType"]
 
-CredentialVaultFieldType: TypeAlias = Literal["text", "email", "password", "totp"]
+CredentialVaultFieldType: TypeAlias = Literal["text", "email", "password", "totp", "passkey"]

@@ -47,13 +47,13 @@ class LinkCardState(BaseModel):
     status: Literal[
         "requested", "pending_authorization", "ready", "consumed", "expired", "declined", "recovery_required"
     ]
-    """recovery_required means an original provider operation has an unresolved
-    outcome.
-
-    Do not retry, delete, or replace it. Known references may be observed safely,
-    but unknown creation without an ID and uncertain card-material retrieval require
-    manual reconciliation with the provider or support. There is no reset or
-    caller-asserted reconciliation operation.
+    """
+    recovery_required means an original provider operation has an unresolved outcome
+    and the card cannot be used. Reads keep observing a known provider request and
+    may clear the recovery. To continue, delete this card and create a new one;
+    deleting cancels the original request when its ID is known and keeps the
+    recovery evidence. The user may see an approval request for the original card
+    and should approve only the new one.
     """
 
     domains: Optional[List[str]] = None

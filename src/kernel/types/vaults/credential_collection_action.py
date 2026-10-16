@@ -11,14 +11,14 @@ __all__ = ["CredentialCollectionAction"]
 class CredentialCollectionAction(BaseModel):
     """
     One schema-derived form for the item, available in ready or pending_collection
-    state. Render every form-supported field as editable; omit totp fields and
-    preserve their stored seeds. Prefill non-sensitive values,
+    state. Render every form-supported field as editable; omit totp and passkey
+    fields and preserve their stored values. Prefill non-sensitive values,
     and allow existing sensitive values to be preserved or replaced without ever
     revealing them. No field subsets or per-request form configuration exist.
     Validate required fields against the resulting values, including preserved
     secrets. Submit changed values only, using the version used to render the form.
-    Scoped hosted submission rejects totp edits; seed writes require the ordinary
-    authenticated item API. Customer forms likewise omit totp from their payloads.
+    Scoped hosted submission rejects totp and passkey edits; those writes require the ordinary
+    authenticated item API. Customer forms likewise omit them from their payloads.
     Save edits atomically. A successful hosted submission increments the version,
     marks ready, and consumes the session; an empty edit may complete collection
     while preserving values. A customer form uses PATCH for changed values and

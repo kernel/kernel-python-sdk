@@ -62,7 +62,10 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     """
 
     memory: BrowserMemoryRequest
-    """Memory requested for headful browsers in this pool."""
+    """Memory for browsers in this pool.
+
+    Headless: 1GiB (default), 2GiB, or 4GiB. Headful: 8GiB (default) or 16GiB.
+    """
 
     name: str
     """Optional name for the browser pool. Must be unique within the project."""

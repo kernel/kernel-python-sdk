@@ -11,7 +11,8 @@ class VaultWebmcpBindingParam(TypedDict, total=False):
     field: Required[str]
     """A declared, populated credential field or supported card field.
 
-    A TOTP field supplies a fresh code, never its seed.
+    A TOTP field supplies a fresh code, never its seed. Passkey fields cannot be
+    filled.
     """
 
     input_path: Required[str]

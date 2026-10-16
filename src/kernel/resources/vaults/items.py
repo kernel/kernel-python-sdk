@@ -154,10 +154,10 @@ class ItemsResource(SyncAPIResource):
         request, subject to atomic provider approval checks; omitted optional fields
         remain unchanged and explicit empty lists clear them. Wallet/provider binding
         and unsupported fields cannot change after authorization starts. An uncertain
-        update enters recovery_required and must not be retried. Checkout cards may be
-        edited between authorizations. A Link card authorized with browser_id and
-        page_url cannot be changed; delete it and create a new card with the updated
-        details.
+        update enters recovery_required; delete the card and create a new one rather
+        than retrying the update. Checkout cards may be edited between authorizations. A
+        Link card authorized with browser_id and page_url cannot be changed; delete it
+        and create a new card with the updated details.
 
         Args:
           spec: Live Link card request. Test-mode card creation is not supported. The spec can
@@ -205,10 +205,10 @@ class ItemsResource(SyncAPIResource):
         request, subject to atomic provider approval checks; omitted optional fields
         remain unchanged and explicit empty lists clear them. Wallet/provider binding
         and unsupported fields cannot change after authorization starts. An uncertain
-        update enters recovery_required and must not be retried. Checkout cards may be
-        edited between authorizations. A Link card authorized with browser_id and
-        page_url cannot be changed; delete it and create a new card with the updated
-        details.
+        update enters recovery_required; delete the card and create a new one rather
+        than retrying the update. Checkout cards may be edited between authorizations. A
+        Link card authorized with browser_id and page_url cannot be changed; delete it
+        and create a new card with the updated details.
 
         Args:
           version: Expected current item version from the latest read.
@@ -321,11 +321,12 @@ class ItemsResource(SyncAPIResource):
         Unresolved payment operations normally block deletion, including operations on
         child cards of a wallet. Deleting a connected Kernel wallet first blocks new
         payments on it, then removes its enrolled card. If that fails, the wallet is
-        kept and keeps refusing payments; retry the deletion. An AgentCard card in
-        recovery_required whose checkout create response returned no authorization ID
-        may be explicitly abandoned by deleting that card directly; deleting its wallet
-        or vault remains blocked. Deleting or recreating an item is not proof that a
-        payment did not occur. Deleting a managed auth credential item leaves the
+        kept and keeps refusing payments; retry the deletion. A Link or Kernel card in
+        recovery_required for issuance, or an AgentCard card in recovery_required whose
+        checkout create response returned no authorization ID, may be explicitly
+        abandoned by deleting that card directly; deleting its wallet or vault remains
+        blocked until the card is deleted. Deleting or recreating an item is not proof
+        that a payment did not occur. Deleting a managed auth credential item leaves the
         connection and its saved credential unchanged.
 
         Args:
@@ -434,6 +435,9 @@ class ItemsResource(SyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -486,6 +490,9 @@ class ItemsResource(SyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -542,6 +549,9 @@ class ItemsResource(SyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -596,6 +606,9 @@ class ItemsResource(SyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -644,6 +657,9 @@ class ItemsResource(SyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -702,6 +718,9 @@ class ItemsResource(SyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -772,6 +791,9 @@ class ItemsResource(SyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -820,6 +842,9 @@ class ItemsResource(SyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -872,6 +897,9 @@ class ItemsResource(SyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -929,6 +957,9 @@ class ItemsResource(SyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -978,6 +1009,9 @@ class ItemsResource(SyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -1034,6 +1068,9 @@ class ItemsResource(SyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -1490,10 +1527,10 @@ class AsyncItemsResource(AsyncAPIResource):
         request, subject to atomic provider approval checks; omitted optional fields
         remain unchanged and explicit empty lists clear them. Wallet/provider binding
         and unsupported fields cannot change after authorization starts. An uncertain
-        update enters recovery_required and must not be retried. Checkout cards may be
-        edited between authorizations. A Link card authorized with browser_id and
-        page_url cannot be changed; delete it and create a new card with the updated
-        details.
+        update enters recovery_required; delete the card and create a new one rather
+        than retrying the update. Checkout cards may be edited between authorizations. A
+        Link card authorized with browser_id and page_url cannot be changed; delete it
+        and create a new card with the updated details.
 
         Args:
           spec: Live Link card request. Test-mode card creation is not supported. The spec can
@@ -1541,10 +1578,10 @@ class AsyncItemsResource(AsyncAPIResource):
         request, subject to atomic provider approval checks; omitted optional fields
         remain unchanged and explicit empty lists clear them. Wallet/provider binding
         and unsupported fields cannot change after authorization starts. An uncertain
-        update enters recovery_required and must not be retried. Checkout cards may be
-        edited between authorizations. A Link card authorized with browser_id and
-        page_url cannot be changed; delete it and create a new card with the updated
-        details.
+        update enters recovery_required; delete the card and create a new one rather
+        than retrying the update. Checkout cards may be edited between authorizations. A
+        Link card authorized with browser_id and page_url cannot be changed; delete it
+        and create a new card with the updated details.
 
         Args:
           version: Expected current item version from the latest read.
@@ -1657,11 +1694,12 @@ class AsyncItemsResource(AsyncAPIResource):
         Unresolved payment operations normally block deletion, including operations on
         child cards of a wallet. Deleting a connected Kernel wallet first blocks new
         payments on it, then removes its enrolled card. If that fails, the wallet is
-        kept and keeps refusing payments; retry the deletion. An AgentCard card in
-        recovery_required whose checkout create response returned no authorization ID
-        may be explicitly abandoned by deleting that card directly; deleting its wallet
-        or vault remains blocked. Deleting or recreating an item is not proof that a
-        payment did not occur. Deleting a managed auth credential item leaves the
+        kept and keeps refusing payments; retry the deletion. A Link or Kernel card in
+        recovery_required for issuance, or an AgentCard card in recovery_required whose
+        checkout create response returned no authorization ID, may be explicitly
+        abandoned by deleting that card directly; deleting its wallet or vault remains
+        blocked until the card is deleted. Deleting or recreating an item is not proof
+        that a payment did not occur. Deleting a managed auth credential item leaves the
         connection and its saved credential unchanged.
 
         Args:
@@ -1770,6 +1808,9 @@ class AsyncItemsResource(AsyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -1822,6 +1863,9 @@ class AsyncItemsResource(AsyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -1878,6 +1922,9 @@ class AsyncItemsResource(AsyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -1932,6 +1979,9 @@ class AsyncItemsResource(AsyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -1980,6 +2030,9 @@ class AsyncItemsResource(AsyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -2038,6 +2091,9 @@ class AsyncItemsResource(AsyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -2108,6 +2164,9 @@ class AsyncItemsResource(AsyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -2156,6 +2215,9 @@ class AsyncItemsResource(AsyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -2208,6 +2270,9 @@ class AsyncItemsResource(AsyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -2265,6 +2330,9 @@ class AsyncItemsResource(AsyncAPIResource):
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
 
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
         (resource not found), or 409 (item or browser not ready). Once writing starts,
@@ -2314,6 +2382,9 @@ class AsyncItemsResource(AsyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404
@@ -2370,6 +2441,9 @@ class AsyncItemsResource(AsyncAPIResource):
         deleted and the provider's error code and message are returned. Rate limits
         return HTTP 429 and retain the card item; stop, back off, and retry the same
         authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
 
         Fill returns a value-free execution result. Validation failures before writing
         return 400 (invalid request or targets), 403 (access or destination denied), 404

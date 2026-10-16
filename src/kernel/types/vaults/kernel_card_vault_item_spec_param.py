@@ -10,12 +10,12 @@ __all__ = ["KernelCardVaultItemSpecParam"]
 class KernelCardVaultItemSpecParam(TypedDict, total=False):
     """One live purchase with a Kernel-enrolled card.
 
-    Authorization obtains an agentic network token number, expiry and one-time 3-digit code. They are stored encrypted for the fill operation, which types them only on merchant_url's origin; the merchant's own checkout submits the payment. The one-time code is valid until the item's expires_at; fill and submit checkout before then. Mastercard purchases need no cardholder approval. A Visa purchase returns a spend_approval action: the cardholder approves it with a Visa passkey, and Kernel registers a Visa intent for one transaction up to the amount before issuing the code. Card updates are not supported; delete and create a new item instead.
+    Authorization obtains an agentic network token number, expiry and one-time 3-digit code. They are stored encrypted for the fill operation, which types them only on merchant_url's origin; the merchant's own checkout submits the payment. The one-time code is valid until the item's expires_at; fill and submit checkout before then. Mastercard purchases need no cardholder approval. A Visa purchase returns a spend_approval action: the cardholder approves it with a Visa passkey, and Kernel registers a Visa intent for one transaction up to the amount before issuing the code. For supported cards whose network cannot be enrolled for agentic tokens, authorize prepares checkout details without issuing a one-time code. The card can be filled into one checkout before its expires_at, one hour after authorization. Fill types those details on merchant_url's origin. The amount, merchant_url and merchant_country are recorded but do not restrict payment requests sent by the browser. Card updates are not supported; delete and create a new item instead.
     """
 
     amount: Required[int]
     """
-    Integer amount in minor currency units (at most 50000), bound to the one-time
+    Integer amount in minor currency units (at most 1000000), bound to the one-time
     code.
     """
 

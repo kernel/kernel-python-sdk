@@ -44,6 +44,17 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     flushing the pool).
     """
 
+    expected_network: BrowserNetworkConfigParam
+    """Optional optimistic concurrency precondition.
+
+    Send the network configuration from the last pool response, or {} when it has no
+    network configuration. The entire update is rejected with 409 stale_network if
+    the saved network differs, checked atomically with the write. Omit for
+    unconditional updates. Explicit empty lists differ from omitted lists; route
+    targets must match the saved references (resolved IDs, not equivalent proxy
+    names).
+    """
+
     extensions: Iterable[BrowserExtension]
     """If provided, replaces the extension list.
 
@@ -64,11 +75,11 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     kiosk_mode: bool
     """If provided, replaces whether browsers launch in kiosk mode."""
 
-    memory: Literal["8GiB", "16GiB"]
-    """Memory requested for newly-warmed headful browsers in this pool.
-
-    Existing browsers retain their original allocation. Use discard_all_idle to
-    replace idle browsers.
+    memory: Literal["1GiB", "2GiB", "4GiB", "8GiB", "16GiB"]
+    """
+    Memory requested for newly-warmed browsers in this pool: 1GiB, 2GiB, or 4GiB for
+    headless, 8GiB or 16GiB for headful. Existing browsers retain their original
+    allocation. Use discard_all_idle to replace idle browsers.
     """
 
     name: str

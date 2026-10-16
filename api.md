@@ -576,6 +576,7 @@ from kernel.types.vaults import (
     CredentialAccountVaultItemRequest,
     CredentialCollectionAction,
     CredentialVaultFieldDefinition,
+    CredentialVaultFieldDefinitionInput,
     CredentialVaultFieldInput,
     CredentialVaultFieldState,
     CredentialVaultFieldType,

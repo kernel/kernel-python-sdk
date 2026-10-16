@@ -19,14 +19,16 @@ class Data(BaseModel):
     """Deprecated: use captcha_provider and task_kind."""
 
     captcha_provider: Optional[
-        Literal["hcaptcha", "recaptcha_v2", "recaptcha_v3", "turnstile", "geetest", "arkose", "human", "other"]
+        Literal[
+            "hcaptcha", "recaptcha_v2", "recaptcha_v3", "turnstile", "geetest", "arkose", "human", "binance", "other"
+        ]
     ] = None
     """Captcha product the challenge belongs to, not the service that solved it.
 
     Enterprise reCAPTCHA variants are grouped into their version bucket
     (recaptcha_v2 or recaptcha_v3), FunCaptcha uses arkose, press-and-hold
     challenges served by HUMAN (formerly PerimeterX) use human, and unlisted
-    products use other.
+    products, including text captchas a site draws itself, use other.
     """
 
     challenge_id: Optional[str] = None
@@ -36,6 +38,9 @@ class Data(BaseModel):
     The same value may continue across a page reload when the challenge episode
     continues. It does not indicate task ordering or challenge completion.
     """
+
+    media: Optional[Literal["image", "video"]] = None
+    """Captured hCaptcha recognition media, when known."""
 
     task_id: Optional[str] = None
     """Opaque identifier shared with the matching captcha_solve_result."""

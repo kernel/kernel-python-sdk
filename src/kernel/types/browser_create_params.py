@@ -63,7 +63,10 @@ class BrowserCreateParams(TypedDict, total=False):
     """
 
     memory: BrowserMemoryRequest
-    """Memory for a headful, non-GPU browser session. Defaults to 8GiB."""
+    """Memory for a non-GPU browser.
+
+    Headless: 1GiB (default), 2GiB, or 4GiB. Headful: 8GiB (default) or 16GiB.
+    """
 
     name: str
     """

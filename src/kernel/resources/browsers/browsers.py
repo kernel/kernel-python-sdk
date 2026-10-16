@@ -239,7 +239,9 @@ class BrowsersResource(SyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
 
-          memory: Memory for a headful, non-GPU browser session. Defaults to 8GiB.
+          memory:
+              Memory for a non-GPU browser. Headless: 1GiB (default), 2GiB, or 4GiB. Headful:
+              8GiB (default) or 16GiB.
 
           name: Optional human-readable name for the browser session, used to find it later in
               the dashboard. Must be unique among active sessions within the project. Can be
@@ -954,7 +956,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
 
-          memory: Memory for a headful, non-GPU browser session. Defaults to 8GiB.
+          memory:
+              Memory for a non-GPU browser. Headless: 1GiB (default), 2GiB, or 4GiB. Headful:
+              8GiB (default) or 16GiB.
 
           name: Optional human-readable name for the browser session, used to find it later in
               the dashboard. Must be unique among active sessions within the project. Can be
