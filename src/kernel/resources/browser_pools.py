@@ -119,7 +119,8 @@ class BrowserPoolsResource(SyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view. Defaults to false.
 
-          memory: Memory requested for headful browsers in this pool.
+          memory: Memory for browsers in this pool. Headless: 1GiB (default), 2GiB, or 4GiB.
+              Headful: 8GiB (default) or 16GiB.
 
           name: Optional name for the browser pool. Must be unique within the project.
 
@@ -259,7 +260,7 @@ class BrowserPoolsResource(SyncAPIResource):
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
-        memory: Literal["8GiB", "16GiB"] | Omit = omit,
+        memory: Literal["1GiB", "2GiB", "4GiB", "8GiB", "16GiB"] | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_update_params.Profile | Omit = omit,
@@ -321,9 +322,9 @@ class BrowserPoolsResource(SyncAPIResource):
 
           kiosk_mode: If provided, replaces whether browsers launch in kiosk mode.
 
-          memory: Memory requested for newly-warmed headful browsers in this pool. Existing
-              browsers retain their original allocation. Use discard_all_idle to replace idle
-              browsers.
+          memory: Memory requested for newly-warmed browsers in this pool: 1GiB, 2GiB, or 4GiB for
+              headless, 8GiB or 16GiB for headful. Existing browsers retain their original
+              allocation. Use discard_all_idle to replace idle browsers.
 
           name: If provided, replaces the pool name. Empty string is a no-op; the pool name
               cannot be cleared or reset to empty once assigned.
@@ -785,7 +786,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view. Defaults to false.
 
-          memory: Memory requested for headful browsers in this pool.
+          memory: Memory for browsers in this pool. Headless: 1GiB (default), 2GiB, or 4GiB.
+              Headful: 8GiB (default) or 16GiB.
 
           name: Optional name for the browser pool. Must be unique within the project.
 
@@ -925,7 +927,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         fill_rate_per_minute: int | Omit = omit,
         headless: bool | Omit = omit,
         kiosk_mode: bool | Omit = omit,
-        memory: Literal["8GiB", "16GiB"] | Omit = omit,
+        memory: Literal["1GiB", "2GiB", "4GiB", "8GiB", "16GiB"] | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_update_params.Profile | Omit = omit,
@@ -987,9 +989,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
 
           kiosk_mode: If provided, replaces whether browsers launch in kiosk mode.
 
-          memory: Memory requested for newly-warmed headful browsers in this pool. Existing
-              browsers retain their original allocation. Use discard_all_idle to replace idle
-              browsers.
+          memory: Memory requested for newly-warmed browsers in this pool: 1GiB, 2GiB, or 4GiB for
+              headless, 8GiB or 16GiB for headful. Existing browsers retain their original
+              allocation. Use discard_all_idle to replace idle browsers.
 
           name: If provided, replaces the pool name. Empty string is a no-op; the pool name
               cannot be cleared or reset to empty once assigned.

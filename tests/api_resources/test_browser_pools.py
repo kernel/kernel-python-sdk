@@ -210,7 +210,7 @@ class TestBrowserPools:
             fill_rate_per_minute=0,
             headless=False,
             kiosk_mode=True,
-            memory="8GiB",
+            memory="1GiB",
             name="my-pool",
             network={
                 "allowed_hosts": ["example.com", "*.example.com"],
@@ -779,7 +779,7 @@ class TestAsyncBrowserPools:
             fill_rate_per_minute=0,
             headless=False,
             kiosk_mode=True,
-            memory="8GiB",
+            memory="1GiB",
             name="my-pool",
             network={
                 "allowed_hosts": ["example.com", "*.example.com"],
