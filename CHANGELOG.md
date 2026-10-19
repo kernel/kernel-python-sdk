@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.128.0](https://github.com/kernel/kernel-python-sdk/compare/v0.127.0...v0.128.0) (2026-10-19)
+
+
+### Features
+
+* Add browser location session policy ([48fd526](https://github.com/kernel/kernel-python-sdk/commit/48fd52646ea0dafcecd637d2cae6c71a19318f7a))
+* chore(stlc): seal custom-code tracking files ([457e6c1](https://github.com/kernel/kernel-python-sdk/commit/457e6c14bd10df055044c2b48704b64d90ca8aff))
+* Fence browser allowlist updates with revision checks ([a9ab0d3](https://github.com/kernel/kernel-python-sdk/commit/a9ab0d3955c3535458f99f117fae744e34c66930))
+* Support existing-user AgentCard wallet imports ([c1a6765](https://github.com/kernel/kernel-python-sdk/commit/c1a6765c789f5ed7585a55780f83435cc8c5d4ee))
+
 ## [0.127.0](https://github.com/kernel/kernel-python-sdk/compare/v0.126.0...v0.127.0) (2026-10-16)
 
 
