@@ -12,6 +12,7 @@ from .browser_memory_request import BrowserMemoryRequest
 from .browser_proxy_config_param import BrowserProxyConfigParam
 from .browser_network_config_param import BrowserNetworkConfigParam
 from .shared_params.browser_profile import BrowserProfile
+from .browser_location_request_param import BrowserLocationRequestParam
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
 from .browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
@@ -60,6 +61,13 @@ class BrowserCreateParams(TypedDict, total=False):
     """
     If true, launches the browser in kiosk mode to hide address bar and tabs in live
     view.
+    """
+
+    location: BrowserLocationRequestParam
+    """Optional session-only timezone and locale overrides.
+
+    Each omitted field uses the default for the browser's region. start_url opens
+    once the location applies.
     """
 
     memory: BrowserMemoryRequest

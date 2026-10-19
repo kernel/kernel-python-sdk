@@ -11,6 +11,7 @@ from .browser_proxy import BrowserProxy
 from .browser_usage import BrowserUsage
 from .browser_memory import BrowserMemory
 from .vault_reference import VaultReference
+from .browser_location import BrowserLocation
 from .browser_pool_ref import BrowserPoolRef
 from .browser_video_memory import BrowserVideoMemory
 from .browser_network_config import BrowserNetworkConfig
@@ -75,6 +76,9 @@ class BrowserRetrieveResponse(BaseModel):
 
     kiosk_mode: Optional[bool] = None
     """Whether the browser session is running in kiosk mode."""
+
+    location: Optional[BrowserLocation] = None
+    """Effective browser timezone and locale with per-field provenance."""
 
     name: Optional[str] = None
     """Human-readable name of the browser session, if one was set at creation."""

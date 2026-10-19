@@ -116,8 +116,10 @@ from ...types.browser_proxy_config_param import BrowserProxyConfigParam
 from ...types.browser_network_config_param import BrowserNetworkConfigParam
 from ...types.browser_network_update_param import BrowserNetworkUpdateParam
 from ...types.shared_params.browser_profile import BrowserProfile
+from ...types.browser_location_request_param import BrowserLocationRequestParam
 from ...types.shared_params.browser_viewport import BrowserViewport
 from ...types.shared_params.browser_extension import BrowserExtension
+from ...types.browser_location_update_request_param import BrowserLocationUpdateRequestParam
 
 __all__ = ["BrowsersResource", "AsyncBrowsersResource"]
 
@@ -195,6 +197,7 @@ class BrowsersResource(SyncAPIResource):
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
         kiosk_mode: bool | Omit = omit,
+        location: BrowserLocationRequestParam | Omit = omit,
         memory: BrowserMemoryRequest | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
@@ -238,6 +241,9 @@ class BrowsersResource(SyncAPIResource):
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
+
+          location: Optional session-only timezone and locale overrides. Each omitted field uses the
+              default for the browser's region. start_url opens once the location applies.
 
           memory:
               Memory for a non-GPU browser. Headless: 1GiB (default), 2GiB, or 4GiB. Headful:
@@ -333,6 +339,7 @@ class BrowsersResource(SyncAPIResource):
                     "headless": headless,
                     "invocation_id": invocation_id,
                     "kiosk_mode": kiosk_mode,
+                    "location": location,
                     "memory": memory,
                     "name": name,
                     "network": network,
@@ -404,6 +411,7 @@ class BrowsersResource(SyncAPIResource):
         id_or_name: str,
         *,
         disable_default_proxy: bool | Omit = omit,
+        location: BrowserLocationUpdateRequestParam | Omit = omit,
         name: Optional[str] | Omit = omit,
         network: BrowserNetworkUpdateParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
@@ -426,6 +434,14 @@ class BrowsersResource(SyncAPIResource):
         Args:
           disable_default_proxy: If true, stealth browsers connect directly instead of using the default stealth
               proxy. Deprecated in favor of proxy.mode.
+
+          location: Session-only timezone and locale overrides. Omit the object or a field to leave
+              it unchanged; set a string to override; set null to clear that field and use the
+              browser region's default. A browser that cannot change location refuses the
+              request before anything changes. The location applies after the request's other
+              changes, and start_url opens once it has applied. If applying it fails, the
+              other changes and the saved override remain and start_url does not open; retry
+              the request to apply both.
 
           name: Human-readable name for the browser session. Omit to leave unchanged, set to an
               empty string to clear the name. When set, must be unique among active sessions
@@ -478,6 +494,7 @@ class BrowsersResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "disable_default_proxy": disable_default_proxy,
+                    "location": location,
                     "name": name,
                     "network": network,
                     "profile": profile,
@@ -912,6 +929,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
         kiosk_mode: bool | Omit = omit,
+        location: BrowserLocationRequestParam | Omit = omit,
         memory: BrowserMemoryRequest | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
@@ -955,6 +973,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           kiosk_mode: If true, launches the browser in kiosk mode to hide address bar and tabs in live
               view.
+
+          location: Optional session-only timezone and locale overrides. Each omitted field uses the
+              default for the browser's region. start_url opens once the location applies.
 
           memory:
               Memory for a non-GPU browser. Headless: 1GiB (default), 2GiB, or 4GiB. Headful:
@@ -1050,6 +1071,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "headless": headless,
                     "invocation_id": invocation_id,
                     "kiosk_mode": kiosk_mode,
+                    "location": location,
                     "memory": memory,
                     "name": name,
                     "network": network,
@@ -1121,6 +1143,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         id_or_name: str,
         *,
         disable_default_proxy: bool | Omit = omit,
+        location: BrowserLocationUpdateRequestParam | Omit = omit,
         name: Optional[str] | Omit = omit,
         network: BrowserNetworkUpdateParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
@@ -1143,6 +1166,14 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Args:
           disable_default_proxy: If true, stealth browsers connect directly instead of using the default stealth
               proxy. Deprecated in favor of proxy.mode.
+
+          location: Session-only timezone and locale overrides. Omit the object or a field to leave
+              it unchanged; set a string to override; set null to clear that field and use the
+              browser region's default. A browser that cannot change location refuses the
+              request before anything changes. The location applies after the request's other
+              changes, and start_url opens once it has applied. If applying it fails, the
+              other changes and the saved override remain and start_url does not open; retry
+              the request to apply both.
 
           name: Human-readable name for the browser session. Omit to leave unchanged, set to an
               empty string to clear the name. When set, must be unique among active sessions
@@ -1195,6 +1226,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "disable_default_proxy": disable_default_proxy,
+                    "location": location,
                     "name": name,
                     "network": network,
                     "profile": profile,

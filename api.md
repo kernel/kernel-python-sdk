@@ -118,6 +118,10 @@ Types:
 ```python
 from kernel.types import (
     BrowserAllowlistState,
+    BrowserLocation,
+    BrowserLocationRequest,
+    BrowserLocationSource,
+    BrowserLocationUpdateRequest,
     BrowserMemory,
     BrowserMemoryRequest,
     BrowserNetworkConfig,

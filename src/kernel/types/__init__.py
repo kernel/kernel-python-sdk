@@ -44,6 +44,7 @@ from .created_api_key import CreatedAPIKey as CreatedAPIKey
 from .lookup_response import LookupResponse as LookupResponse
 from .vault_reference import VaultReference as VaultReference
 from .analysis_summary import AnalysisSummary as AnalysisSummary
+from .browser_location import BrowserLocation as BrowserLocation
 from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
 from .app_list_response import AppListResponse as AppListResponse
 from .no_recommendation import NoRecommendation as NoRecommendation
@@ -100,6 +101,7 @@ from .recommendation_summary import RecommendationSummary as RecommendationSumma
 from .api_key_retrieve_params import APIKeyRetrieveParams as APIKeyRetrieveParams
 from .browser_allowlist_state import BrowserAllowlistState as BrowserAllowlistState
 from .browser_create_response import BrowserCreateResponse as BrowserCreateResponse
+from .browser_location_source import BrowserLocationSource as BrowserLocationSource
 from .browser_retrieve_params import BrowserRetrieveParams as BrowserRetrieveParams
 from .browser_update_response import BrowserUpdateResponse as BrowserUpdateResponse
 from .extension_list_response import ExtensionListResponse as ExtensionListResponse
@@ -144,6 +146,7 @@ from .browser_pool_acquire_response import BrowserPoolAcquireResponse as Browser
 from .config_registry_lookup_params import ConfigRegistryLookupParams as ConfigRegistryLookupParams
 from .credential_totp_code_response import CredentialTotpCodeResponse as CredentialTotpCodeResponse
 from .browser_load_extensions_params import BrowserLoadExtensionsParams as BrowserLoadExtensionsParams
+from .browser_location_request_param import BrowserLocationRequestParam as BrowserLocationRequestParam
 from .config_registry_resolve_params import ConfigRegistryResolveParams as ConfigRegistryResolveParams
 from .credential_provider_list_params import CredentialProviderListParams as CredentialProviderListParams
 from .credential_provider_test_result import CredentialProviderTestResult as CredentialProviderTestResult
@@ -153,6 +156,9 @@ from .invocation_list_browsers_response import InvocationListBrowsersResponse as
 from .vault_provider_config_list_params import VaultProviderConfigListParams as VaultProviderConfigListParams
 from .vault_provider_config_create_params import VaultProviderConfigCreateParams as VaultProviderConfigCreateParams
 from .vault_provider_config_update_params import VaultProviderConfigUpdateParams as VaultProviderConfigUpdateParams
+from .browser_location_update_request_param import (
+    BrowserLocationUpdateRequestParam as BrowserLocationUpdateRequestParam,
+)
 from .credential_provider_list_items_response import (
     CredentialProviderListItemsResponse as CredentialProviderListItemsResponse,
 )

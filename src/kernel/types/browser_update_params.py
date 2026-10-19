@@ -10,6 +10,7 @@ from .browser_proxy_config_param import BrowserProxyConfigParam
 from .browser_network_update_param import BrowserNetworkUpdateParam
 from .shared_params.browser_profile import BrowserProfile
 from .shared_params.browser_viewport import BrowserViewport
+from .browser_location_update_request_param import BrowserLocationUpdateRequestParam
 from .browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
 
 __all__ = [
@@ -28,6 +29,17 @@ class BrowserUpdateParams(TypedDict, total=False):
     """
     If true, stealth browsers connect directly instead of using the default stealth
     proxy. Deprecated in favor of proxy.mode.
+    """
+
+    location: BrowserLocationUpdateRequestParam
+    """Session-only timezone and locale overrides.
+
+    Omit the object or a field to leave it unchanged; set a string to override; set
+    null to clear that field and use the browser region's default. A browser that
+    cannot change location refuses the request before anything changes. The location
+    applies after the request's other changes, and start_url opens once it has
+    applied. If applying it fails, the other changes and the saved override remain
+    and start_url does not open; retry the request to apply both.
     """
 
     name: Optional[str]
