@@ -117,6 +117,7 @@ Types:
 
 ```python
 from kernel.types import (
+    BrowserAllowlistState,
     BrowserMemory,
     BrowserMemoryRequest,
     BrowserNetworkConfig,

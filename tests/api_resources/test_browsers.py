@@ -211,7 +211,11 @@ class TestBrowsers:
             id_or_name="htzv5orfit78e1m2biiifpbv",
             disable_default_proxy=True,
             name="checkout-flow-1",
-            network={"allowed_hosts": ["example.com", "*.example.com"]},
+            network={
+                "allowed_hosts": ["example.com", "*.example.com"],
+                "expected_allowlist_revision": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "mutation_id": "mutation_id",
+            },
             profile={
                 "id": "id",
                 "name": "name",
@@ -758,7 +762,11 @@ class TestAsyncBrowsers:
             id_or_name="htzv5orfit78e1m2biiifpbv",
             disable_default_proxy=True,
             name="checkout-flow-1",
-            network={"allowed_hosts": ["example.com", "*.example.com"]},
+            network={
+                "allowed_hosts": ["example.com", "*.example.com"],
+                "expected_allowlist_revision": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "mutation_id": "mutation_id",
+            },
             profile={
                 "id": "id",
                 "name": "name",

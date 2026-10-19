@@ -98,6 +98,7 @@ from .invocation_list_params import InvocationListParams as InvocationListParams
 from .invocation_state_event import InvocationStateEvent as InvocationStateEvent
 from .recommendation_summary import RecommendationSummary as RecommendationSummary
 from .api_key_retrieve_params import APIKeyRetrieveParams as APIKeyRetrieveParams
+from .browser_allowlist_state import BrowserAllowlistState as BrowserAllowlistState
 from .browser_create_response import BrowserCreateResponse as BrowserCreateResponse
 from .browser_retrieve_params import BrowserRetrieveParams as BrowserRetrieveParams
 from .browser_update_response import BrowserUpdateResponse as BrowserUpdateResponse
@@ -138,6 +139,7 @@ from .browser_network_update_param import BrowserNetworkUpdateParam as BrowserNe
 from .deployment_retrieve_response import DeploymentRetrieveResponse as DeploymentRetrieveResponse
 from .invocation_retrieve_response import InvocationRetrieveResponse as InvocationRetrieveResponse
 from .audit_log_export_chunk_params import AuditLogExportChunkParams as AuditLogExportChunkParams
+from .browser_allowlist_state_param import BrowserAllowlistStateParam as BrowserAllowlistStateParam
 from .browser_pool_acquire_response import BrowserPoolAcquireResponse as BrowserPoolAcquireResponse
 from .config_registry_lookup_params import ConfigRegistryLookupParams as ConfigRegistryLookupParams
 from .credential_totp_code_response import CredentialTotpCodeResponse as CredentialTotpCodeResponse

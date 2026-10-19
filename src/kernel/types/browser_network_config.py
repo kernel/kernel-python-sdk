@@ -3,6 +3,7 @@
 from typing import List, Optional
 
 from .._models import BaseModel
+from .browser_allowlist_state import BrowserAllowlistState
 
 __all__ = ["BrowserNetworkConfig", "ProxyRoute", "ProxyRouteProxy"]
 
@@ -56,6 +57,14 @@ class BrowserNetworkConfig(BaseModel):
     browsers. Per-lease changes are reset to the pool's allowlist on release. If a
     lessee removes the allowlist and the pool still requires one, the browser is
     replaced on release rather than given an allowlist again. Requires proxy v3.
+    """
+
+    allowlist_state: Optional[BrowserAllowlistState] = None
+    """Concurrency metadata for a browser's saved allowlist configuration.
+
+    Browser pools omit it. This remains present after removal so an uncertain
+    removal can be retried. It does not prove proxy or VM application completed. Do
+    not include it in creation or pool updates.
     """
 
     private_hosts: Optional[List[str]] = None
