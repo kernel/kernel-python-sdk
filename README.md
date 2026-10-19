@@ -203,9 +203,9 @@ from kernel import Kernel
 client = Kernel()
 
 browser = client.browsers.create(
-    network={},
+    location={},
 )
-print(browser.network)
+print(browser.location)
 ```
 
 ## File uploads

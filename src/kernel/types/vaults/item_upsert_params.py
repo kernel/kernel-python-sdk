@@ -40,8 +40,16 @@ class WalletVaultItemRequest(TypedDict, total=False):
     customer-owned configuration. Mode (sandbox vs live) is determined by the
     selected credential; there is no per-item test flag. Without user_id, creation
     returns a hosted enrollment action and Kernel polls until the user connects.
-    user_id may only reference a user already enrolled by a wallet in this
-    organization under the same configuration.
+    With a customer-owned provider_config, user_id imports an existing connection
+    after verifying access with the selected credentials in their sandbox or live
+    mode; no hosted enrollment is needed, even if the connected user has no stored
+    cards. With Kernel-managed credentials, user_id may only reference a user
+    already enrolled by a wallet in this organization under the same configuration.
+    The user and configuration bindings cannot be changed after creation. Import
+    validation is read-only and runs before creation: a failed validation leaves no
+    wallet or reserved key, so the user_id can be corrected and retried. Concurrent
+    imports of the same key may both validate, but create at most one wallet and
+    connected event.
     """
 
     type: Required[Literal["wallet"]]
@@ -162,7 +170,7 @@ class WalletVaultItemRequestSpecAgentCardWalletVaultItemSpecProviderConfig(Typed
 class WalletVaultItemRequestSpecAgentCardWalletVaultItemSpec(TypedDict, total=False):
     """AgentCard wallet.
 
-    Omit provider_config to use Kernel-managed credentials, or select a customer-owned configuration. Mode (sandbox vs live) is determined by the selected credential; there is no per-item test flag. Without user_id, creation returns a hosted enrollment action and Kernel polls until the user connects. user_id may only reference a user already enrolled by a wallet in this organization under the same configuration.
+    Omit provider_config to use Kernel-managed credentials, or select a customer-owned configuration. Mode (sandbox vs live) is determined by the selected credential; there is no per-item test flag. Without user_id, creation returns a hosted enrollment action and Kernel polls until the user connects. With a customer-owned provider_config, user_id imports an existing connection after verifying access with the selected credentials in their sandbox or live mode; no hosted enrollment is needed, even if the connected user has no stored cards. With Kernel-managed credentials, user_id may only reference a user already enrolled by a wallet in this organization under the same configuration. The user and configuration bindings cannot be changed after creation. Import validation is read-only and runs before creation: a failed validation leaves no wallet or reserved key, so the user_id can be corrected and retried. Concurrent imports of the same key may both validate, but create at most one wallet and connected event.
     """
 
     provider: Required[Literal["agentcard"]]

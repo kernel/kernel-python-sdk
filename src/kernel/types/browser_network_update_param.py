@@ -34,3 +34,22 @@ class BrowserNetworkUpdateParam(TypedDict, total=False):
     safely restored. If the request fails, retry it: the new list may already apply
     to some requests.
     """
+
+    expected_allowlist_revision: str
+    """The network.allowlist_state.revision from the browser's last saved snapshot.
+
+    Supply together with mutation_id to opt into conditional allowlist updates. The
+    revision is checked atomically with the configuration write. A stale request
+    returns 409 stale_network without changing the allowlist. A GET alone does not
+    fence an earlier unfinished PATCH.
+    """
+
+    mutation_id: str
+    """
+    A unique ID for this allowlist update, supplied together with
+    expected_allowlist_revision. Reuse both values and the identical allowed_hosts
+    payload when retrying an uncertain update. If it is still the current mutation,
+    the retry finishes proxy and VM application without creating another revision. A
+    superseded mutation returns 409 stale_network. These fields guard only
+    network.allowed_hosts, not other browser update fields.
+    """

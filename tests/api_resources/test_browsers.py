@@ -46,6 +46,10 @@ class TestBrowsers:
             headless=False,
             invocation_id="rr33xuugxj9h0bkf1rdt2bet",
             kiosk_mode=True,
+            location={
+                "locale": "en-US",
+                "timezone": "America/Los_Angeles",
+            },
             memory="8GiB",
             name="checkout-flow-1",
             network={
@@ -210,8 +214,16 @@ class TestBrowsers:
         browser = client.browsers.update(
             id_or_name="htzv5orfit78e1m2biiifpbv",
             disable_default_proxy=True,
+            location={
+                "locale": "en-US",
+                "timezone": "America/Los_Angeles",
+            },
             name="checkout-flow-1",
-            network={"allowed_hosts": ["example.com", "*.example.com"]},
+            network={
+                "allowed_hosts": ["example.com", "*.example.com"],
+                "expected_allowlist_revision": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "mutation_id": "mutation_id",
+            },
             profile={
                 "id": "id",
                 "name": "name",
@@ -593,6 +605,10 @@ class TestAsyncBrowsers:
             headless=False,
             invocation_id="rr33xuugxj9h0bkf1rdt2bet",
             kiosk_mode=True,
+            location={
+                "locale": "en-US",
+                "timezone": "America/Los_Angeles",
+            },
             memory="8GiB",
             name="checkout-flow-1",
             network={
@@ -757,8 +773,16 @@ class TestAsyncBrowsers:
         browser = await async_client.browsers.update(
             id_or_name="htzv5orfit78e1m2biiifpbv",
             disable_default_proxy=True,
+            location={
+                "locale": "en-US",
+                "timezone": "America/Los_Angeles",
+            },
             name="checkout-flow-1",
-            network={"allowed_hosts": ["example.com", "*.example.com"]},
+            network={
+                "allowed_hosts": ["example.com", "*.example.com"],
+                "expected_allowlist_revision": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "mutation_id": "mutation_id",
+            },
             profile={
                 "id": "id",
                 "name": "name",

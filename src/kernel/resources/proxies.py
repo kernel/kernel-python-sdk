@@ -105,7 +105,7 @@ class ProxiesResource(SyncAPIResource):
 
     def retrieve(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -115,7 +115,10 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
         """
-        Retrieve a proxy in the resolved project by ID.
+        Retrieve a proxy in the resolved project by ID or exact name using the database
+        collation. IDs take precedence when a value matches both an ID and a name. Proxy
+        names are not unique; an ambiguous name returns a 400 response with code
+        ambiguous_proxy_name.
 
         Args:
           extra_headers: Send extra headers
@@ -126,10 +129,10 @@ class ProxiesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._get(
-            path_template("/proxies/{id}", id=id),
+            path_template("/proxies/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -138,7 +141,7 @@ class ProxiesResource(SyncAPIResource):
 
     def update(
         self,
-        id: str,
+        id_or_name: str,
         *,
         name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -150,10 +153,8 @@ class ProxiesResource(SyncAPIResource):
     ) -> ProxyUpdateResponse:
         """Update a proxy's name.
 
-        Proxy names are not unique and are not ID-or-name
-        addressable on this endpoint; duplicate names are allowed. Name-based
-        session-create lookups can remain ambiguous until callers resolve proxies by ID
-        or the API adds a stronger uniqueness contract.
+        Proxy names are not unique and duplicate names are
+        allowed.
 
         Args:
           name: New proxy name. Proxy names are trimmed and length-checked only; duplicates are
@@ -167,10 +168,10 @@ class ProxiesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._patch(
-            path_template("/proxies/{id}", id=id),
+            path_template("/proxies/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform({"name": name}, proxy_update_params.ProxyUpdateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -238,7 +239,7 @@ class ProxiesResource(SyncAPIResource):
 
     def delete(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -263,11 +264,11 @@ class ProxiesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return self._delete(
-            path_template("/proxies/{id}", id=id),
+            path_template("/proxies/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -276,7 +277,7 @@ class ProxiesResource(SyncAPIResource):
 
     def check(
         self,
-        id: str,
+        id_or_name: str,
         *,
         url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -317,10 +318,10 @@ class ProxiesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._post(
-            path_template("/proxies/{id}/check", id=id),
+            path_template("/proxies/{id_or_name}/check", id_or_name=id_or_name),
             body=maybe_transform({"url": url}, proxy_check_params.ProxyCheckParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -406,7 +407,7 @@ class AsyncProxiesResource(AsyncAPIResource):
 
     async def retrieve(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -416,7 +417,10 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ProxyRetrieveResponse:
         """
-        Retrieve a proxy in the resolved project by ID.
+        Retrieve a proxy in the resolved project by ID or exact name using the database
+        collation. IDs take precedence when a value matches both an ID and a name. Proxy
+        names are not unique; an ambiguous name returns a 400 response with code
+        ambiguous_proxy_name.
 
         Args:
           extra_headers: Send extra headers
@@ -427,10 +431,10 @@ class AsyncProxiesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._get(
-            path_template("/proxies/{id}", id=id),
+            path_template("/proxies/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -439,7 +443,7 @@ class AsyncProxiesResource(AsyncAPIResource):
 
     async def update(
         self,
-        id: str,
+        id_or_name: str,
         *,
         name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -451,10 +455,8 @@ class AsyncProxiesResource(AsyncAPIResource):
     ) -> ProxyUpdateResponse:
         """Update a proxy's name.
 
-        Proxy names are not unique and are not ID-or-name
-        addressable on this endpoint; duplicate names are allowed. Name-based
-        session-create lookups can remain ambiguous until callers resolve proxies by ID
-        or the API adds a stronger uniqueness contract.
+        Proxy names are not unique and duplicate names are
+        allowed.
 
         Args:
           name: New proxy name. Proxy names are trimmed and length-checked only; duplicates are
@@ -468,10 +470,10 @@ class AsyncProxiesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._patch(
-            path_template("/proxies/{id}", id=id),
+            path_template("/proxies/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform({"name": name}, proxy_update_params.ProxyUpdateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -539,7 +541,7 @@ class AsyncProxiesResource(AsyncAPIResource):
 
     async def delete(
         self,
-        id: str,
+        id_or_name: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -564,11 +566,11 @@ class AsyncProxiesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         return await self._delete(
-            path_template("/proxies/{id}", id=id),
+            path_template("/proxies/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -577,7 +579,7 @@ class AsyncProxiesResource(AsyncAPIResource):
 
     async def check(
         self,
-        id: str,
+        id_or_name: str,
         *,
         url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -618,10 +620,10 @@ class AsyncProxiesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not id_or_name:
+            raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._post(
-            path_template("/proxies/{id}/check", id=id),
+            path_template("/proxies/{id_or_name}/check", id_or_name=id_or_name),
             body=await async_maybe_transform({"url": url}, proxy_check_params.ProxyCheckParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
