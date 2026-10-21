@@ -13,8 +13,8 @@ class BrowserLocation(BaseModel):
     locale_source: BrowserLocationSource
     """Where one effective browser location field came from.
 
-    `override` is set explicitly on the session; `metro` is the default for the
-    browser's region.
+    `override` is set explicitly on the session; `default` comes from the browser's
+    region.
     """
 
     timezone: str
@@ -23,6 +23,6 @@ class BrowserLocation(BaseModel):
     timezone_source: BrowserLocationSource
     """Where one effective browser location field came from.
 
-    `override` is set explicitly on the session; `metro` is the default for the
-    browser's region.
+    `override` is set explicitly on the session; `default` comes from the browser's
+    region.
     """

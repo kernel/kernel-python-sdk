@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Union
+from typing import Union, Optional
 from typing_extensions import Literal, Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
@@ -51,6 +51,13 @@ class CardEnrollmentAction(BaseModel):
     name: Literal["card_enrollment"]
 
     url: str
+
+    capture_token: Optional[str] = None
+    """Secret bearer capability for embedded card capture with @onkernel/vault-react.
+
+    Present only for Kernel wallets; never for AgentCard. Treat it like the
+    enrollment URL and do not log or persist it in browser storage.
+    """
 
 
 VaultItemAction: TypeAlias = Annotated[
