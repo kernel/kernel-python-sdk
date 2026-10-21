@@ -4,4 +4,4 @@ from typing_extensions import Literal, TypeAlias
 
 __all__ = ["BrowserLocationSource"]
 
-BrowserLocationSource: TypeAlias = Literal["override", "metro"]
+BrowserLocationSource: TypeAlias = Literal["override", "default"]
