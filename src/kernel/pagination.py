@@ -133,6 +133,13 @@ class SyncOffsetPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
         if next_offset == 0:
             return None
 
+        # A next offset at or before the one this page was requested at means no
+        # progress (e.g. an empty page after rows vanished mid-request); stop
+        # instead of re-requesting the same page.
+        request_offset = self._options.params.get("offset")
+        if isinstance(request_offset, int) and next_offset <= request_offset:
+            return None
+
         return PageInfo(params={"offset": next_offset})
 
     @classmethod
@@ -182,6 +189,13 @@ class AsyncOffsetPagination(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
         # (the API's stop sentinel). Only a positive offset advances; the old code
         # added the current page length on top, skipping a page per iteration.
         if next_offset == 0:
+            return None
+
+        # A next offset at or before the one this page was requested at means no
+        # progress (e.g. an empty page after rows vanished mid-request); stop
+        # instead of re-requesting the same page.
+        request_offset = self._options.params.get("offset")
+        if isinstance(request_offset, int) and next_offset <= request_offset:
             return None
 
         return PageInfo(params={"offset": next_offset})
