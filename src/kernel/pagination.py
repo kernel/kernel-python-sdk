@@ -114,7 +114,7 @@ class SyncOffsetPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
         if has_more is not None and has_more is False:
             return False
 
-        return super().has_next_page()
+        return self.next_page_info() is not None
 
     @override
     def next_page_info(self) -> Optional[PageInfo]:
@@ -165,7 +165,7 @@ class AsyncOffsetPagination(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
         if has_more is not None and has_more is False:
             return False
 
-        return super().has_next_page()
+        return self.next_page_info() is not None
 
     @override
     def next_page_info(self) -> Optional[PageInfo]:
