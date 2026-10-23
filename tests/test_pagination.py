@@ -89,10 +89,19 @@ def test_stops_on_empty_page_when_x_has_more_false(cls: PageClass) -> None:
 
 
 @both_classes
-def test_stops_when_next_offset_does_not_advance(cls: PageClass) -> None:
+def test_stops_when_next_offset_repeats_requested_offset(cls: PageClass) -> None:
     page = _page(cls, items=[], next_offset=200, has_more=True, request_offset=200)
     assert page.next_page_info() is None
     assert page.has_next_page() is False
+
+
+@both_classes
+def test_continues_past_empty_page_with_descending_cursor(cls: PageClass) -> None:
+    page = _page(cls, items=[], next_offset=200, has_more=True, request_offset=300)
+    assert page.has_next_page() is True
+    info = page.next_page_info()
+    assert info is not None
+    assert info.params == {"offset": 200}
 
 
 @both_classes
