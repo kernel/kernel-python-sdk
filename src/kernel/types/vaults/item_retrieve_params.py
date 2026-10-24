@@ -11,7 +11,7 @@ __all__ = ["ItemRetrieveParams"]
 class ItemRetrieveParams(TypedDict, total=False):
     id_or_name: Required[str]
 
-    expand: List[Literal["payment_methods"]]
+    expand: List[Literal["payment_methods", "link_user_info", "link_shipping_addresses"]]
     """Live fields advertised by `available_expansions` to include in `expanded`."""
 
     wait: int

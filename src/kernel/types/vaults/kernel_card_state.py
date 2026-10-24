@@ -43,8 +43,11 @@ class KernelCardState(BaseModel):
         "requested", "pending_authorization", "ready", "consumed", "expired", "declined", "recovery_required"
     ]
     """
-    pending_authorization on a Visa purchase waits for the cardholder to approve it
-    through the spend_approval action; an unused link expires after 30 minutes.
+    pending_authorization waits for cardholder approval on Visa purchases or fresh
+    security-code collection on alias-mode purchases through the spend_approval
+    action; an unused link expires after 30 minutes. Alias-mode cards become ready
+    after collection and expire at the temporary security-code alias deadline, by
+    default five minutes later. An expired alias purchase requires a new card.
     recovery_required means verification, approving the purchase or issuing the
     one-time code has an unresolved outcome. A server-classified initial attestation
     failure before intent dispatch may advertise restart_verification to prepare a

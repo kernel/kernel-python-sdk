@@ -140,6 +140,10 @@ class TestItems:
                     }
                 ],
                 "metadata": {"foo": "string"},
+                "recurring": {
+                    "interval": "day",
+                    "interval_count": 1,
+                },
                 "totals": [
                     {
                         "amount": 0,
@@ -1636,6 +1640,10 @@ class TestItems:
                     }
                 ],
                 "metadata": {"foo": "string"},
+                "recurring": {
+                    "interval": "day",
+                    "interval_count": 1,
+                },
                 "totals": [
                     {
                         "amount": 0,
@@ -2077,6 +2085,10 @@ class TestAsyncItems:
                     }
                 ],
                 "metadata": {"foo": "string"},
+                "recurring": {
+                    "interval": "day",
+                    "interval_count": 1,
+                },
                 "totals": [
                     {
                         "amount": 0,
@@ -3573,6 +3585,10 @@ class TestAsyncItems:
                     }
                 ],
                 "metadata": {"foo": "string"},
+                "recurring": {
+                    "interval": "day",
+                    "interval_count": 1,
+                },
                 "totals": [
                     {
                         "amount": 0,
