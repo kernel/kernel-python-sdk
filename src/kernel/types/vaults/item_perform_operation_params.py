@@ -121,7 +121,11 @@ class FillVaultItemOperationRequest(TypedDict, total=False):
     """
 
     timeout_ms: int
-    """Total operation deadline in milliseconds, not a per-field timeout."""
+    """Ignored.
+
+    Fill sets no operation deadline; typing pace adapts to the length of the values
+    instead. Accepted for compatibility.
+    """
 
 
 class OnePasswordRequestAccessVaultItemOperationRequest(TypedDict, total=False):

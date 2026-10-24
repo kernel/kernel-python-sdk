@@ -66,7 +66,7 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        expand: List[Literal["payment_methods"]] | Omit = omit,
+        expand: List[Literal["payment_methods", "link_user_info", "link_shipping_addresses"]] | Omit = omit,
         wait: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -746,7 +746,8 @@ class ItemsResource(SyncAPIResource):
               prefix or glob matching. When an item allows omitting it, the browser must have
               exactly one open page.
 
-          timeout_ms: Total operation deadline in milliseconds, not a per-field timeout.
+          timeout_ms: Ignored. Fill sets no operation deadline; typing pace adapts to the length of
+              the values instead. Accepted for compatibility.
 
           extra_headers: Send extra headers
 
@@ -1447,7 +1448,7 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
-        expand: List[Literal["payment_methods"]] | Omit = omit,
+        expand: List[Literal["payment_methods", "link_user_info", "link_shipping_addresses"]] | Omit = omit,
         wait: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -2127,7 +2128,8 @@ class AsyncItemsResource(AsyncAPIResource):
               prefix or glob matching. When an item allows omitting it, the browser must have
               exactly one open page.
 
-          timeout_ms: Total operation deadline in milliseconds, not a per-field timeout.
+          timeout_ms: Ignored. Fill sets no operation deadline; typing pace adapts to the length of
+              the values instead. Accepted for compatibility.
 
           extra_headers: Send extra headers
 
