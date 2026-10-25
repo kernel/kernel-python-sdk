@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.130.0](https://github.com/kernel/kernel-python-sdk/compare/v0.129.0...v0.130.0) (2026-10-24)
+
+
+### Features
+
+* Fall back to aliases after network token enrollment failures ([5930892](https://github.com/kernel/kernel-python-sdk/commit/5930892a91a3f212f27dfdaab4412bf972a4973f))
+
+
+### Bug Fixes
+
+* continue offset pagination past empty pages ([80908e4](https://github.com/kernel/kernel-python-sdk/commit/80908e4a5fae05aedc1db65f67b70a34781273d2))
+* follow offset cursors in either direction ([bfcfa9a](https://github.com/kernel/kernel-python-sdk/commit/bfcfa9aac5a1420fced2960757ce80f197be257a))
+
 ## [0.129.0](https://github.com/kernel/kernel-python-sdk/compare/v0.128.0...v0.129.0) (2026-10-21)
 
 

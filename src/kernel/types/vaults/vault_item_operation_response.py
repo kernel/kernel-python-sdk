@@ -5,11 +5,13 @@ from datetime import datetime
 from typing_extensions import Literal, TypeAlias
 
 from ..._models import BaseModel
+from .link_user_info import LinkUserInfo
 from .vault_item_action import VaultItemAction
 from .card_vault_item_spec import CardVaultItemSpec
 from .vault_payment_method import VaultPaymentMethod
 from .card_vault_item_state import CardVaultItemState
 from .credential_vault_item import CredentialVaultItem
+from .link_shipping_address import LinkShippingAddress
 from .wallet_vault_item_spec import WalletVaultItemSpec
 from .wallet_vault_item_state import WalletVaultItemState
 from .credential_account_vault_item import CredentialAccountVaultItem
@@ -36,7 +38,7 @@ class WalletVaultItemAvailableExpansion(BaseModel):
 
     description: str
 
-    type: Literal["payment_methods"]
+    type: Literal["payment_methods", "link_user_info", "link_shipping_addresses"]
 
 
 class WalletVaultItemAvailableOperation(BaseModel):
@@ -65,6 +67,20 @@ class WalletVaultItemAvailableOperation(BaseModel):
 
 class WalletVaultItemExpanded(BaseModel):
     """Live, non-persisted data requested through the item GET expand parameter."""
+
+    link_shipping_addresses: Optional[List[LinkShippingAddress]] = None
+    """
+    Link's saved shipping addresses, present when the `link_shipping_addresses`
+    expansion is requested.
+    """
+
+    link_user_info: Optional[LinkUserInfo] = None
+    """
+    Link's `GET /userinfo` response for the connected wallet, passed through as Link
+    reports it when the `link_user_info` expansion is requested. Kernel never stores
+    it. Null fields are null at Link; omitted fields were not reported. Amounts are
+    in the minor unit of `default_spend_request_currency`.
+    """
 
     payment_methods: Optional[List[VaultPaymentMethod]] = None
 
@@ -124,7 +140,7 @@ class CardVaultItemAvailableExpansion(BaseModel):
 
     description: str
 
-    type: Literal["payment_methods"]
+    type: Literal["payment_methods", "link_user_info", "link_shipping_addresses"]
 
 
 class CardVaultItemAvailableOperation(BaseModel):

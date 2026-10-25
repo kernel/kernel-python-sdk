@@ -602,6 +602,8 @@ from kernel.types.vaults import (
     KernelCredentialVaultItemState,
     KernelWalletState,
     KernelWalletVaultItemSpec,
+    LinkShippingAddress,
+    LinkUserInfo,
     ManagedAuthCredentialVaultField,
     ManagedAuthCredentialVaultItemSpec,
     ManagedAuthCredentialVaultItemSpecInput,

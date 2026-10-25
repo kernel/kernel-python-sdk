@@ -3,6 +3,8 @@ from typing import Any, List, Type, Union, Optional
 import httpx
 import pytest
 
+from kernel import Kernel, AsyncKernel
+from kernel._models import FinalRequestOptions
 from kernel.pagination import SyncOffsetPagination, AsyncOffsetPagination
 
 PageClass = Union[Type[SyncOffsetPagination[Any]], Type[AsyncOffsetPagination[Any]]]
@@ -12,14 +14,31 @@ PageClass = Union[Type[SyncOffsetPagination[Any]], Type[AsyncOffsetPagination[An
 both_classes = pytest.mark.parametrize("cls", [SyncOffsetPagination, AsyncOffsetPagination])
 
 
-def _page(cls: PageClass, *, items: List[Any], next_offset: Optional[int], has_more: Optional[bool]) -> Any:
+def client_for(cls: PageClass) -> Any:
+    if cls is SyncOffsetPagination:
+        return Kernel(api_key="test-api-key", base_url="http://127.0.0.1")
+    return AsyncKernel(api_key="test-api-key", base_url="http://127.0.0.1")
+
+
+def _page(
+    cls: PageClass,
+    *,
+    items: List[Any],
+    next_offset: Optional[int],
+    has_more: Optional[bool],
+    request_offset: Optional[int] = None,
+) -> Any:
     headers: dict[str, str] = {}
     if next_offset is not None:
         headers["X-Next-Offset"] = str(next_offset)
     if has_more is not None:
         headers["X-Has-More"] = "true" if has_more else "false"
     response = httpx.Response(200, headers=headers)
-    return cls.build(response=response, data=items)
+    page = cls.build(response=response, data=items)
+    params = {} if request_offset is None else {"offset": request_offset}
+    options = FinalRequestOptions(method="get", url="/proxies", params=params)
+    page._set_private_attributes(client=client_for(cls), model=object, options=options)  # type: ignore[arg-type]
+    return page
 
 
 @both_classes
@@ -54,8 +73,40 @@ def test_stops_on_next_offset_zero_sentinel(cls: PageClass) -> None:
 
 
 @both_classes
-def test_stops_on_empty_page(cls: PageClass) -> None:
-    page = _page(cls, items=[], next_offset=300, has_more=True)
+def test_continues_past_empty_page_while_x_has_more_true(cls: PageClass) -> None:
+    # A server-side filter can leave a page empty with more records ahead.
+    page = _page(cls, items=[], next_offset=300, has_more=True, request_offset=200)
+    assert page.has_next_page() is True
+    info = page.next_page_info()
+    assert info is not None
+    assert info.params == {"offset": 300}
+
+
+@both_classes
+def test_stops_on_empty_page_when_x_has_more_false(cls: PageClass) -> None:
+    page = _page(cls, items=[], next_offset=0, has_more=False, request_offset=200)
+    assert page.has_next_page() is False
+
+
+@both_classes
+def test_stops_when_next_offset_repeats_requested_offset(cls: PageClass) -> None:
+    page = _page(cls, items=[], next_offset=200, has_more=True, request_offset=200)
+    assert page.next_page_info() is None
+    assert page.has_next_page() is False
+
+
+@both_classes
+def test_continues_past_empty_page_with_descending_cursor(cls: PageClass) -> None:
+    page = _page(cls, items=[], next_offset=200, has_more=True, request_offset=300)
+    assert page.has_next_page() is True
+    info = page.next_page_info()
+    assert info is not None
+    assert info.params == {"offset": 200}
+
+
+@both_classes
+def test_stops_on_empty_first_page_without_pagination_headers(cls: PageClass) -> None:
+    page = _page(cls, items=[], next_offset=None, has_more=None)
     assert page.has_next_page() is False
 
 

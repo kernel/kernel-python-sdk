@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from .vault_item import VaultItem as VaultItem
+from .link_user_info import LinkUserInfo as LinkUserInfo
 from .vault_item_event import VaultItemEvent as VaultItemEvent
 from .kernel_card_state import KernelCardState as KernelCardState
 from .vault_item_action import VaultItemAction as VaultItemAction
@@ -18,6 +19,7 @@ from .item_retrieve_params import ItemRetrieveParams as ItemRetrieveParams
 from .vault_payment_method import VaultPaymentMethod as VaultPaymentMethod
 from .card_vault_item_state import CardVaultItemState as CardVaultItemState
 from .credential_vault_item import CredentialVaultItem as CredentialVaultItem
+from .link_shipping_address import LinkShippingAddress as LinkShippingAddress
 from .vault_fill_field_param import VaultFillFieldParam as VaultFillFieldParam
 from .wallet_vault_item_spec import WalletVaultItemSpec as WalletVaultItemSpec
 from .vault_fill_field_result import VaultFillFieldResult as VaultFillFieldResult

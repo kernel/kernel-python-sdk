@@ -12,6 +12,7 @@ __all__ = [
     "LinkCardVaultItemSpec",
     "LinkCardVaultItemSpecLineItem",
     "LinkCardVaultItemSpecLineItemTotal",
+    "LinkCardVaultItemSpecRecurring",
     "LinkCardVaultItemSpecTotal",
     "AgentCardCardVaultItemSpec",
 ]
@@ -47,6 +48,18 @@ class LinkCardVaultItemSpecLineItem(TypedDict, total=False):
     url: str
 
 
+class LinkCardVaultItemSpecRecurring(TypedDict, total=False):
+    """Recurring terms for a subscription or other repeated purchase.
+
+    The amount becomes the spending limit for each period of interval_count intervals, for example every 2 weeks. The merchant schedules charges. The card stays ready after each charge until it expires or is deleted; do not create a new card each period. Deleting the card, its wallet or its vault first cancels the credential with Link, so later charges decline; if Link cannot be reached, deletion returns 409 provider_revocation_pending and should be retried. Deletion does not cancel the subscription with the merchant. Recurring terms cannot be changed once the card is authorized.
+    """
+
+    interval: Required[Literal["day", "week", "month", "year"]]
+
+    interval_count: int
+    """Number of intervals per period. Link defaults it to 1."""
+
+
 class LinkCardVaultItemSpecTotal(TypedDict, total=False):
     amount: Required[int]
     """Total amount in minor currency units."""
@@ -63,7 +76,10 @@ class LinkCardVaultItemSpec(TypedDict, total=False):
     """
 
     amount: Required[int]
-    """Integer amount in minor currency units, at most 50000."""
+    """Integer amount in minor currency units, at most 50000.
+
+    With recurring, the spending limit per period, not a lifetime total.
+    """
 
     context: Required[str]
 
@@ -88,6 +104,19 @@ class LinkCardVaultItemSpec(TypedDict, total=False):
     line_items: Iterable[LinkCardVaultItemSpecLineItem]
 
     metadata: Dict[str, str]
+
+    recurring: LinkCardVaultItemSpecRecurring
+    """Recurring terms for a subscription or other repeated purchase.
+
+    The amount becomes the spending limit for each period of interval_count
+    intervals, for example every 2 weeks. The merchant schedules charges. The card
+    stays ready after each charge until it expires or is deleted; do not create a
+    new card each period. Deleting the card, its wallet or its vault first cancels
+    the credential with Link, so later charges decline; if Link cannot be reached,
+    deletion returns 409 provider_revocation_pending and should be retried. Deletion
+    does not cancel the subscription with the merchant. Recurring terms cannot be
+    changed once the card is authorized.
+    """
 
     totals: Iterable[LinkCardVaultItemSpecTotal]
 

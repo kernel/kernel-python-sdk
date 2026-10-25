@@ -114,7 +114,7 @@ class SyncOffsetPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
         if has_more is not None and has_more is False:
             return False
 
-        return super().has_next_page()
+        return self.next_page_info() is not None
 
     @override
     def next_page_info(self) -> Optional[PageInfo]:
@@ -131,6 +131,12 @@ class SyncOffsetPagination(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
         # (the API's stop sentinel). Only a positive offset advances; the old code
         # added the current page length on top, skipping a page per iteration.
         if next_offset == 0:
+            return None
+
+        # Cursors can move in either direction. Stop only when the server repeats
+        # the cursor and would re-request the same page.
+        request_offset = self._options.params.get("offset")
+        if isinstance(request_offset, int) and next_offset == request_offset:
             return None
 
         return PageInfo(params={"offset": next_offset})
@@ -165,7 +171,7 @@ class AsyncOffsetPagination(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
         if has_more is not None and has_more is False:
             return False
 
-        return super().has_next_page()
+        return self.next_page_info() is not None
 
     @override
     def next_page_info(self) -> Optional[PageInfo]:
@@ -182,6 +188,12 @@ class AsyncOffsetPagination(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
         # (the API's stop sentinel). Only a positive offset advances; the old code
         # added the current page length on top, skipping a page per iteration.
         if next_offset == 0:
+            return None
+
+        # Cursors can move in either direction. Stop only when the server repeats
+        # the cursor and would re-request the same page.
+        request_offset = self._options.params.get("offset")
+        if isinstance(request_offset, int) and next_offset == request_offset:
             return None
 
         return PageInfo(params={"offset": next_offset})

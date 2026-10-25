@@ -26,7 +26,7 @@ class AvailableExpansion(BaseModel):
 
     description: str
 
-    type: Literal["payment_methods"]
+    type: Literal["payment_methods", "link_user_info", "link_shipping_addresses"]
 
 
 class AvailableOperation(BaseModel):
