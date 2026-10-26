@@ -51,6 +51,7 @@ from .credential_vault_field_update_param import CredentialVaultFieldUpdateParam
 from .credential_vault_item_request_param import CredentialVaultItemRequestParam as CredentialVaultItemRequestParam
 from .kernel_wallet_vault_item_spec_param import KernelWalletVaultItemSpecParam as KernelWalletVaultItemSpecParam
 from .managed_auth_credential_vault_field import ManagedAuthCredentialVaultField as ManagedAuthCredentialVaultField
+from .passkey_vault_item_operation_result import PasskeyVaultItemOperationResult as PasskeyVaultItemOperationResult
 from .one_password_credential_account_spec import OnePasswordCredentialAccountSpec as OnePasswordCredentialAccountSpec
 from .one_password_credential_account_state import (
     OnePasswordCredentialAccountState as OnePasswordCredentialAccountState,
@@ -103,8 +104,14 @@ from .kernel_credential_vault_item_spec_input_param import (
 from .one_password_fill_vault_item_operation_result import (
     OnePasswordFillVaultItemOperationResult as OnePasswordFillVaultItemOperationResult,
 )
+from .arm_passkey_vault_item_operation_request_param import (
+    ArmPasskeyVaultItemOperationRequestParam as ArmPasskeyVaultItemOperationRequestParam,
+)
 from .webmcp_invoke_vault_item_operation_request_param import (
     WebmcpInvokeVaultItemOperationRequestParam as WebmcpInvokeVaultItemOperationRequestParam,
+)
+from .disarm_passkey_vault_item_operation_request_param import (
+    DisarmPasskeyVaultItemOperationRequestParam as DisarmPasskeyVaultItemOperationRequestParam,
 )
 from .managed_auth_credential_vault_item_spec_input_param import (
     ManagedAuthCredentialVaultItemSpecInputParam as ManagedAuthCredentialVaultItemSpecInputParam,
@@ -114,6 +121,9 @@ from .one_password_credential_vault_item_spec_input_param import (
 )
 from .prepare_checkout_vault_item_operation_request_param import (
     PrepareCheckoutVaultItemOperationRequestParam as PrepareCheckoutVaultItemOperationRequestParam,
+)
+from .register_passkey_vault_item_operation_request_param import (
+    RegisterPasskeyVaultItemOperationRequestParam as RegisterPasskeyVaultItemOperationRequestParam,
 )
 from .one_password_fill_vault_item_operation_request_param import (
     OnePasswordFillVaultItemOperationRequestParam as OnePasswordFillVaultItemOperationRequestParam,
