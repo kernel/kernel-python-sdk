@@ -27,7 +27,7 @@ class CredentialVaultFieldInputParam(TypedDict, total=False):
     `credentialId`, `userHandle` (at most 64 bytes), and `key` (a PKCS#8 ECDSA P-256
     private key), a lowercase `rpId` domain, and optional `username` and
     `userDisplayName`. Other CXF members are ignored. Passkeys are never filled into
-    pages.
+    pages; use arm_passkey to sign in with one and register_passkey to create one.
     """
 
     encrypted_value: str

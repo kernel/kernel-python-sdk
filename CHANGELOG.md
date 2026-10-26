@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.131.0](https://github.com/kernel/kernel-python-sdk/compare/v0.130.0...v0.131.0) (2026-10-26)
+
+
+### Features
+
+* Arm vault passkeys in browsers and sign WebAuthn requests in metro-api ([b740930](https://github.com/kernel/kernel-python-sdk/commit/b7409304f4ed37a03004683db63b079052f387bb))
+
 ## [0.130.0](https://github.com/kernel/kernel-python-sdk/compare/v0.129.0...v0.130.0) (2026-10-24)
 
 

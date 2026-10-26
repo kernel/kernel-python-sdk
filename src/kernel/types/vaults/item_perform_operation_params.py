@@ -20,6 +20,9 @@ __all__ = [
     "CollectVaultItemOperationRequest",
     "PrepareCheckoutVaultItemOperationRequest",
     "FillVaultItemOperationRequest",
+    "ArmPasskeyVaultItemOperationRequest",
+    "RegisterPasskeyVaultItemOperationRequest",
+    "DisarmPasskeyVaultItemOperationRequest",
     "OnePasswordRequestAccessVaultItemOperationRequest",
     "OnePasswordPollAccessVaultItemOperationRequest",
     "OnePasswordFillVaultItemOperationRequest",
@@ -128,6 +131,51 @@ class FillVaultItemOperationRequest(TypedDict, total=False):
     """
 
 
+class ArmPasskeyVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    browser_id: Required[str]
+    """Browser session ID, not a reusable browser name."""
+
+    type: Required[Literal["arm_passkey"]]
+
+    field: str
+    """Passkey field to arm.
+
+    Required when more than one passkey field holds a passkey.
+    """
+
+
+class RegisterPasskeyVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    browser_id: Required[str]
+    """Browser session ID, not a reusable browser name."""
+
+    type: Required[Literal["register_passkey"]]
+
+    field: str
+    """Empty passkey field to store the new passkey in.
+
+    Required when more than one passkey field is empty.
+    """
+
+
+class DisarmPasskeyVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    browser_id: Required[str]
+    """Browser session ID, not a reusable browser name."""
+
+    type: Required[Literal["disarm_passkey"]]
+
+    field: str
+    """Limit disarming to one passkey field.
+
+    Omit to disarm every passkey field of the item.
+    """
+
+
 class OnePasswordRequestAccessVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
@@ -228,6 +276,9 @@ ItemPerformOperationParams: TypeAlias = Union[
     CollectVaultItemOperationRequest,
     PrepareCheckoutVaultItemOperationRequest,
     FillVaultItemOperationRequest,
+    ArmPasskeyVaultItemOperationRequest,
+    RegisterPasskeyVaultItemOperationRequest,
+    DisarmPasskeyVaultItemOperationRequest,
     OnePasswordRequestAccessVaultItemOperationRequest,
     OnePasswordPollAccessVaultItemOperationRequest,
     OnePasswordFillVaultItemOperationRequest,
