@@ -58,6 +58,12 @@ class APIKey(BaseModel):
     expires_at: Optional[datetime] = None
     """When the API key expires"""
 
+    last_used_at: Optional[datetime] = None
+    """
+    When the API key last authenticated a request, accurate to within about 20
+    minutes. Null if the key has not been used since last-use tracking began.
+    """
+
     masked_key: str
     """Masked version of the API key"""
 
