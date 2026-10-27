@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.132.0](https://github.com/kernel/kernel-python-sdk/compare/v0.131.0...v0.132.0) (2026-10-26)
+
+
+### Features
+
+* Return `last_used_at` on API keys ([001991a](https://github.com/kernel/kernel-python-sdk/commit/001991a2e6de75f1edd64983de583598ff208072))
+
 ## [0.131.0](https://github.com/kernel/kernel-python-sdk/compare/v0.130.0...v0.131.0) (2026-10-26)
 
 
