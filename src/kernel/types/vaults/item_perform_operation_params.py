@@ -29,6 +29,8 @@ __all__ = [
     "OnePasswordRecoverVaultItemOperationRequest",
     "OnePasswordUpdateAccessTokenVaultItemOperationRequest",
     "WebmcpInvokeVaultItemOperationRequest",
+    "AddPaymentMethodVaultItemOperationRequest",
+    "RemovePaymentMethodVaultItemOperationRequest",
 ]
 
 
@@ -269,6 +271,21 @@ class WebmcpInvokeVaultItemOperationRequest(TypedDict, total=False):
     """
 
 
+class AddPaymentMethodVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    type: Required[Literal["add_payment_method"]]
+
+
+class RemovePaymentMethodVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    payment_method_id: Required[str]
+    """ID from the wallet's payment_methods expansion."""
+
+    type: Required[Literal["remove_payment_method"]]
+
+
 ItemPerformOperationParams: TypeAlias = Union[
     AuthorizeVaultItemOperationRequest,
     RestartVerificationVaultItemOperationRequest,
@@ -285,4 +302,6 @@ ItemPerformOperationParams: TypeAlias = Union[
     OnePasswordRecoverVaultItemOperationRequest,
     OnePasswordUpdateAccessTokenVaultItemOperationRequest,
     WebmcpInvokeVaultItemOperationRequest,
+    AddPaymentMethodVaultItemOperationRequest,
+    RemovePaymentMethodVaultItemOperationRequest,
 ]

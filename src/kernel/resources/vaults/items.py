@@ -34,6 +34,7 @@ from ...types.vaults.card_vault_item_spec_param import CardVaultItemSpecParam
 from ...types.vaults.vault_webmcp_binding_param import VaultWebmcpBindingParam
 from ...types.vaults.vault_checkout_context_param import VaultCheckoutContextParam
 from ...types.vaults.vault_item_operation_response import VaultItemOperationResponse
+from ...types.vaults.payment_request_vault_item_spec_param import PaymentRequestVaultItemSpecParam
 from ...types.vaults.credential_vault_item_spec_input_param import CredentialVaultItemSpecInputParam
 from ...types.vaults.credential_vault_item_spec_update_param import CredentialVaultItemSpecUpdateParam
 from ...types.vaults.one_password_credential_account_spec_param import OnePasswordCredentialAccountSpecParam
@@ -183,6 +184,55 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        spec: PaymentRequestVaultItemSpecParam,
+        type: Literal["payment_request"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Credential updates require type credential and the current version, and change
+        only values or description; omitted values are preserved, nonempty strings
+        replace, and null or empty strings clear supported fields. Clearing required
+        text/email/password values returns pending_collection; browser forms still
+        require nonempty required inputs. Card updates may omit type for compatibility
+        with legacy requests. Requested cards accept a replacement specification.
+        Pending issuance requests may update provider-supported fields on their existing
+        request, subject to atomic provider approval checks; omitted optional fields
+        remain unchanged and explicit empty lists clear them. Wallet/provider binding
+        and unsupported fields cannot change after authorization starts. An uncertain
+        update enters recovery_required; delete the card and create a new one rather
+        than retrying the update. Checkout cards may be edited between authorizations. A
+        Link card authorized with browser_id and page_url cannot be changed; delete it
+        and create a new card with the updated details.
+
+        Args:
+          spec: Live Link card request. Test-mode card creation is not supported. The spec can
+              be changed with PATCH until the card is authorized at a checkout. Authorize it
+              with the browser at final checkout: Kernel inspects the checkout through WebMCP
+              and internally chooses a merchant-bound Link Pay Token when supported or a
+              virtual card otherwise. Callers never receive or choose how the credential is
+              delivered.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         spec: CredentialVaultItemSpecUpdateParam,
         type: Literal["credential"],
         version: int,
@@ -228,14 +278,14 @@ class ItemsResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["id_or_name", "spec"], ["id_or_name", "spec", "type", "version"])
+    @required_args(["id_or_name", "spec"], ["id_or_name", "spec", "type"], ["id_or_name", "spec", "type", "version"])
     def update(
         self,
         key: str,
         *,
         id_or_name: str,
-        spec: CardVaultItemSpecParam | CredentialVaultItemSpecUpdateParam,
-        type: Literal["card"] | Literal["credential"] | Omit = omit,
+        spec: CardVaultItemSpecParam | PaymentRequestVaultItemSpecParam | CredentialVaultItemSpecUpdateParam,
+        type: Literal["card"] | Literal["payment_request"] | Literal["credential"] | Omit = omit,
         version: int | Omit = omit,
         expected_item_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -445,6 +495,12 @@ class ItemsResource(SyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           browser_id: Browser session ID, not a reusable browser name. The browser must have this
               vault attached.
@@ -500,6 +556,12 @@ class ItemsResource(SyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           extra_headers: Send extra headers
@@ -559,6 +621,12 @@ class ItemsResource(SyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           amount: Actual transaction amount in minor units, no greater than the approved limit.
 
@@ -616,6 +684,12 @@ class ItemsResource(SyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           extra_headers: Send extra headers
 
@@ -667,6 +741,12 @@ class ItemsResource(SyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           checkout: Required when preparing an unused AgentCard card for a supported checkout
@@ -728,6 +808,12 @@ class ItemsResource(SyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -801,6 +887,12 @@ class ItemsResource(SyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           browser_id: Browser session ID, not a reusable browser name.
 
@@ -857,6 +949,12 @@ class ItemsResource(SyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -915,6 +1013,12 @@ class ItemsResource(SyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -975,6 +1079,12 @@ class ItemsResource(SyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           extra_headers: Send extra headers
 
@@ -1026,6 +1136,12 @@ class ItemsResource(SyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           extra_headers: Send extra headers
@@ -1081,6 +1197,12 @@ class ItemsResource(SyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -1141,6 +1263,12 @@ class ItemsResource(SyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           extra_headers: Send extra headers
 
@@ -1193,6 +1321,12 @@ class ItemsResource(SyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           access_token_expires_at: Optional supplied expiry. Omit to clear the old expiry.
@@ -1253,6 +1387,12 @@ class ItemsResource(SyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           browser_id: Browser session ID, not a reusable browser name.
 
@@ -1278,6 +1418,123 @@ class ItemsResource(SyncAPIResource):
         """
         ...
 
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        type: Literal["add_payment_method"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        payment_method_id: str,
+        type: Literal["remove_payment_method"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
+        Args:
+          payment_method_id: ID from the wallet's payment_methods expansion.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
     @required_args(
         ["id_or_name", "type"],
         ["id_or_name", "amount", "currency", "occurred_at", "status", "transaction_type", "type"],
@@ -1286,6 +1543,7 @@ class ItemsResource(SyncAPIResource):
         ["id_or_name", "browser_id", "page_url", "type"],
         ["id_or_name", "access_token", "type"],
         ["id_or_name", "bindings", "browser_id", "input", "page_url", "tool_ref", "type"],
+        ["id_or_name", "payment_method_id", "type"],
     )
     def perform_operation(
         self,
@@ -1306,7 +1564,9 @@ class ItemsResource(SyncAPIResource):
         | Literal["1pw_fill"]
         | Literal["1pw_recover"]
         | Literal["1pw_update_access_token"]
-        | Literal["webmcp_invoke"],
+        | Literal["webmcp_invoke"]
+        | Literal["add_payment_method"]
+        | Literal["remove_payment_method"],
         browser_id: str | Omit = omit,
         page_url: str | Omit = omit,
         amount: int | Omit = omit,
@@ -1332,6 +1592,7 @@ class ItemsResource(SyncAPIResource):
         input: Dict[str, object] | Omit = omit,
         tool_ref: str | Omit = omit,
         timeout_sec: int | Omit = omit,
+        payment_method_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1372,6 +1633,7 @@ class ItemsResource(SyncAPIResource):
                         "input": input,
                         "tool_ref": tool_ref,
                         "timeout_sec": timeout_sec,
+                        "payment_method_id": payment_method_id,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),
@@ -1407,8 +1669,10 @@ class ItemsResource(SyncAPIResource):
         Provider-specific authorization requirements and retry behavior are described in
         the item's request schema. Do not use credential items to store, collect, or
         fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
-        or expiration dates. Use wallet and card item types for credit cards and payment
-        checkout instead.
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
 
         Args:
           spec: AgentCard wallet. Omit provider_config to use Kernel-managed credentials, or
@@ -1459,8 +1723,56 @@ class ItemsResource(SyncAPIResource):
         Provider-specific authorization requirements and retry behavior are described in
         the item's request schema. Do not use credential items to store, collect, or
         fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
-        or expiration dates. Use wallet and card item types for credit cards and payment
-        checkout instead.
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
+
+        Args:
+          spec: Live Link card request. Test-mode card creation is not supported. The spec can
+              be changed with PATCH until the card is authorized at a checkout. Authorize it
+              with the browser at final checkout: Kernel inspects the checkout through WebMCP
+              and internally chooses a merchant-bound Link Pay Token when supported or a
+              virtual card otherwise. Callers never receive or choose how the credential is
+              delivered.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def upsert(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        spec: PaymentRequestVaultItemSpecParam,
+        type: Literal["payment_request"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
 
         Args:
           spec: Live Link card request. Test-mode card creation is not supported. The spec can
@@ -1503,8 +1815,10 @@ class ItemsResource(SyncAPIResource):
         Provider-specific authorization requirements and retry behavior are described in
         the item's request schema. Do not use credential items to store, collect, or
         fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
-        or expiration dates. Use wallet and card item types for credit cards and payment
-        checkout instead.
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
 
         Args:
           extra_headers: Send extra headers
@@ -1540,15 +1854,17 @@ class ItemsResource(SyncAPIResource):
         Provider-specific authorization requirements and retry behavior are described in
         the item's request schema. Do not use credential items to store, collect, or
         fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
-        or expiration dates. Use wallet and card item types for credit cards and payment
-        checkout instead.
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
 
         Args:
           spec: Credential fields are for login and other non-payment credentials. Do not store,
-              collect, or fill credit card data in credential items. Use wallet and card item
-              types for credit cards and payment checkout instead. Field order is preserved in
-              the user-facing collection form, so list fields in the same top-to-bottom order
-              as the website.
+              collect, or fill credit card data in credential items. Use wallet,
+              payment_request and card item types for credit cards and payment checkout
+              instead. Field order is preserved in the user-facing collection form, so list
+              fields in the same top-to-bottom order as the website.
 
           extra_headers: Send extra headers
 
@@ -1568,9 +1884,14 @@ class ItemsResource(SyncAPIResource):
         id_or_name: str,
         spec: item_upsert_params.WalletVaultItemRequestSpec
         | CardVaultItemSpecParam
+        | PaymentRequestVaultItemSpecParam
         | OnePasswordCredentialAccountSpecParam
         | CredentialVaultItemSpecInputParam,
-        type: Literal["wallet"] | Literal["card"] | Literal["credential_account"] | Literal["credential"],
+        type: Literal["wallet"]
+        | Literal["card"]
+        | Literal["payment_request"]
+        | Literal["credential_account"]
+        | Literal["credential"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1743,6 +2064,55 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        spec: PaymentRequestVaultItemSpecParam,
+        type: Literal["payment_request"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Credential updates require type credential and the current version, and change
+        only values or description; omitted values are preserved, nonempty strings
+        replace, and null or empty strings clear supported fields. Clearing required
+        text/email/password values returns pending_collection; browser forms still
+        require nonempty required inputs. Card updates may omit type for compatibility
+        with legacy requests. Requested cards accept a replacement specification.
+        Pending issuance requests may update provider-supported fields on their existing
+        request, subject to atomic provider approval checks; omitted optional fields
+        remain unchanged and explicit empty lists clear them. Wallet/provider binding
+        and unsupported fields cannot change after authorization starts. An uncertain
+        update enters recovery_required; delete the card and create a new one rather
+        than retrying the update. Checkout cards may be edited between authorizations. A
+        Link card authorized with browser_id and page_url cannot be changed; delete it
+        and create a new card with the updated details.
+
+        Args:
+          spec: Live Link card request. Test-mode card creation is not supported. The spec can
+              be changed with PATCH until the card is authorized at a checkout. Authorize it
+              with the browser at final checkout: Kernel inspects the checkout through WebMCP
+              and internally chooses a merchant-bound Link Pay Token when supported or a
+              virtual card otherwise. Callers never receive or choose how the credential is
+              delivered.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         spec: CredentialVaultItemSpecUpdateParam,
         type: Literal["credential"],
         version: int,
@@ -1788,14 +2158,14 @@ class AsyncItemsResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["id_or_name", "spec"], ["id_or_name", "spec", "type", "version"])
+    @required_args(["id_or_name", "spec"], ["id_or_name", "spec", "type"], ["id_or_name", "spec", "type", "version"])
     async def update(
         self,
         key: str,
         *,
         id_or_name: str,
-        spec: CardVaultItemSpecParam | CredentialVaultItemSpecUpdateParam,
-        type: Literal["card"] | Literal["credential"] | Omit = omit,
+        spec: CardVaultItemSpecParam | PaymentRequestVaultItemSpecParam | CredentialVaultItemSpecUpdateParam,
+        type: Literal["card"] | Literal["payment_request"] | Literal["credential"] | Omit = omit,
         version: int | Omit = omit,
         expected_item_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -2005,6 +2375,12 @@ class AsyncItemsResource(AsyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           browser_id: Browser session ID, not a reusable browser name. The browser must have this
               vault attached.
@@ -2060,6 +2436,12 @@ class AsyncItemsResource(AsyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           extra_headers: Send extra headers
@@ -2119,6 +2501,12 @@ class AsyncItemsResource(AsyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           amount: Actual transaction amount in minor units, no greater than the approved limit.
 
@@ -2176,6 +2564,12 @@ class AsyncItemsResource(AsyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           extra_headers: Send extra headers
 
@@ -2227,6 +2621,12 @@ class AsyncItemsResource(AsyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           checkout: Required when preparing an unused AgentCard card for a supported checkout
@@ -2288,6 +2688,12 @@ class AsyncItemsResource(AsyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -2361,6 +2767,12 @@ class AsyncItemsResource(AsyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           browser_id: Browser session ID, not a reusable browser name.
 
@@ -2417,6 +2829,12 @@ class AsyncItemsResource(AsyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -2475,6 +2893,12 @@ class AsyncItemsResource(AsyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -2535,6 +2959,12 @@ class AsyncItemsResource(AsyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           extra_headers: Send extra headers
 
@@ -2586,6 +3016,12 @@ class AsyncItemsResource(AsyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           extra_headers: Send extra headers
@@ -2641,6 +3077,12 @@ class AsyncItemsResource(AsyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           browser_id: Browser session ID, not a reusable browser name.
@@ -2701,6 +3143,12 @@ class AsyncItemsResource(AsyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           extra_headers: Send extra headers
 
@@ -2753,6 +3201,12 @@ class AsyncItemsResource(AsyncAPIResource):
         known partial failures and indeterminate field outcomes return 200 with status
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
 
         Args:
           access_token_expires_at: Optional supplied expiry. Omit to clear the old expiry.
@@ -2813,6 +3267,12 @@ class AsyncItemsResource(AsyncAPIResource):
         `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
         a failure, an `unknown` outcome, or a transport error.
 
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
         Args:
           browser_id: Browser session ID, not a reusable browser name.
 
@@ -2838,6 +3298,123 @@ class AsyncItemsResource(AsyncAPIResource):
         """
         ...
 
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        type: Literal["add_payment_method"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        payment_method_id: str,
+        type: Literal["remove_payment_method"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
+        Args:
+          payment_method_id: ID from the wallet's payment_methods expansion.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
     @required_args(
         ["id_or_name", "type"],
         ["id_or_name", "amount", "currency", "occurred_at", "status", "transaction_type", "type"],
@@ -2846,6 +3423,7 @@ class AsyncItemsResource(AsyncAPIResource):
         ["id_or_name", "browser_id", "page_url", "type"],
         ["id_or_name", "access_token", "type"],
         ["id_or_name", "bindings", "browser_id", "input", "page_url", "tool_ref", "type"],
+        ["id_or_name", "payment_method_id", "type"],
     )
     async def perform_operation(
         self,
@@ -2866,7 +3444,9 @@ class AsyncItemsResource(AsyncAPIResource):
         | Literal["1pw_fill"]
         | Literal["1pw_recover"]
         | Literal["1pw_update_access_token"]
-        | Literal["webmcp_invoke"],
+        | Literal["webmcp_invoke"]
+        | Literal["add_payment_method"]
+        | Literal["remove_payment_method"],
         browser_id: str | Omit = omit,
         page_url: str | Omit = omit,
         amount: int | Omit = omit,
@@ -2892,6 +3472,7 @@ class AsyncItemsResource(AsyncAPIResource):
         input: Dict[str, object] | Omit = omit,
         tool_ref: str | Omit = omit,
         timeout_sec: int | Omit = omit,
+        payment_method_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -2932,6 +3513,7 @@ class AsyncItemsResource(AsyncAPIResource):
                         "input": input,
                         "tool_ref": tool_ref,
                         "timeout_sec": timeout_sec,
+                        "payment_method_id": payment_method_id,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),
@@ -2967,8 +3549,10 @@ class AsyncItemsResource(AsyncAPIResource):
         Provider-specific authorization requirements and retry behavior are described in
         the item's request schema. Do not use credential items to store, collect, or
         fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
-        or expiration dates. Use wallet and card item types for credit cards and payment
-        checkout instead.
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
 
         Args:
           spec: AgentCard wallet. Omit provider_config to use Kernel-managed credentials, or
@@ -3019,8 +3603,56 @@ class AsyncItemsResource(AsyncAPIResource):
         Provider-specific authorization requirements and retry behavior are described in
         the item's request schema. Do not use credential items to store, collect, or
         fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
-        or expiration dates. Use wallet and card item types for credit cards and payment
-        checkout instead.
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
+
+        Args:
+          spec: Live Link card request. Test-mode card creation is not supported. The spec can
+              be changed with PATCH until the card is authorized at a checkout. Authorize it
+              with the browser at final checkout: Kernel inspects the checkout through WebMCP
+              and internally chooses a merchant-bound Link Pay Token when supported or a
+              virtual card otherwise. Callers never receive or choose how the credential is
+              delivered.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def upsert(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        spec: PaymentRequestVaultItemSpecParam,
+        type: Literal["payment_request"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> VaultItem:
+        """
+        Create an item under a key unique within its vault, or retrieve the existing
+        item when its specification matches. An identical card PUT returns the existing
+        card in any lifecycle state without polling the provider, reauthorizing,
+        replacing aliases, or resetting recovery. Conflicting specifications return 409.
+        Provider-specific authorization requirements and retry behavior are described in
+        the item's request schema. Do not use credential items to store, collect, or
+        fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
 
         Args:
           spec: Live Link card request. Test-mode card creation is not supported. The spec can
@@ -3063,8 +3695,10 @@ class AsyncItemsResource(AsyncAPIResource):
         Provider-specific authorization requirements and retry behavior are described in
         the item's request schema. Do not use credential items to store, collect, or
         fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
-        or expiration dates. Use wallet and card item types for credit cards and payment
-        checkout instead.
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
 
         Args:
           extra_headers: Send extra headers
@@ -3100,15 +3734,17 @@ class AsyncItemsResource(AsyncAPIResource):
         Provider-specific authorization requirements and retry behavior are described in
         the item's request schema. Do not use credential items to store, collect, or
         fill credit card data, including card numbers (PANs), security codes (CVV/CVC),
-        or expiration dates. Use wallet and card item types for credit cards and payment
-        checkout instead.
+        or expiration dates. Use wallet, payment_request and card item types for credit
+        cards and payment checkout instead. Where enabled, Link and Kernel purchases can
+        be payment_request items parented by their wallet; card items remain supported
+        for them and for AgentCard reusable cards.
 
         Args:
           spec: Credential fields are for login and other non-payment credentials. Do not store,
-              collect, or fill credit card data in credential items. Use wallet and card item
-              types for credit cards and payment checkout instead. Field order is preserved in
-              the user-facing collection form, so list fields in the same top-to-bottom order
-              as the website.
+              collect, or fill credit card data in credential items. Use wallet,
+              payment_request and card item types for credit cards and payment checkout
+              instead. Field order is preserved in the user-facing collection form, so list
+              fields in the same top-to-bottom order as the website.
 
           extra_headers: Send extra headers
 
@@ -3128,9 +3764,14 @@ class AsyncItemsResource(AsyncAPIResource):
         id_or_name: str,
         spec: item_upsert_params.WalletVaultItemRequestSpec
         | CardVaultItemSpecParam
+        | PaymentRequestVaultItemSpecParam
         | OnePasswordCredentialAccountSpecParam
         | CredentialVaultItemSpecInputParam,
-        type: Literal["wallet"] | Literal["card"] | Literal["credential_account"] | Literal["credential"],
+        type: Literal["wallet"]
+        | Literal["card"]
+        | Literal["payment_request"]
+        | Literal["credential_account"]
+        | Literal["credential"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

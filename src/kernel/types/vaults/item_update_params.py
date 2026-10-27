@@ -6,9 +6,15 @@ from typing import Union
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .card_vault_item_spec_param import CardVaultItemSpecParam
+from .payment_request_vault_item_spec_param import PaymentRequestVaultItemSpecParam
 from .credential_vault_item_spec_update_param import CredentialVaultItemSpecUpdateParam
 
-__all__ = ["ItemUpdateParams", "CardVaultItemUpdateRequest", "CredentialVaultItemUpdateRequest"]
+__all__ = [
+    "ItemUpdateParams",
+    "CardVaultItemUpdateRequest",
+    "PaymentRequestVaultItemUpdateRequest",
+    "CredentialVaultItemUpdateRequest",
+]
 
 
 class CardVaultItemUpdateRequest(TypedDict, total=False):
@@ -25,6 +31,22 @@ class CardVaultItemUpdateRequest(TypedDict, total=False):
     """
 
     type: Literal["card"]
+
+
+class PaymentRequestVaultItemUpdateRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    spec: Required[PaymentRequestVaultItemSpecParam]
+    """Live Link card request.
+
+    Test-mode card creation is not supported. The spec can be changed with PATCH
+    until the card is authorized at a checkout. Authorize it with the browser at
+    final checkout: Kernel inspects the checkout through WebMCP and internally
+    chooses a merchant-bound Link Pay Token when supported or a virtual card
+    otherwise. Callers never receive or choose how the credential is delivered.
+    """
+
+    type: Required[Literal["payment_request"]]
 
 
 class CredentialVaultItemUpdateRequest(TypedDict, total=False):
@@ -46,4 +68,6 @@ class CredentialVaultItemUpdateRequest(TypedDict, total=False):
     """
 
 
-ItemUpdateParams: TypeAlias = Union[CardVaultItemUpdateRequest, CredentialVaultItemUpdateRequest]
+ItemUpdateParams: TypeAlias = Union[
+    CardVaultItemUpdateRequest, PaymentRequestVaultItemUpdateRequest, CredentialVaultItemUpdateRequest
+]

@@ -27,6 +27,7 @@ from .wallet_vault_item_state import WalletVaultItemState as WalletVaultItemStat
 from .one_password_oauth_action import OnePasswordOAuthAction as OnePasswordOAuthAction
 from .card_vault_item_spec_param import CardVaultItemSpecParam as CardVaultItemSpecParam
 from .credential_vault_item_spec import CredentialVaultItemSpec as CredentialVaultItemSpec
+from .payment_request_vault_item import PaymentRequestVaultItem as PaymentRequestVaultItem
 from .vault_webmcp_binding_param import VaultWebmcpBindingParam as VaultWebmcpBindingParam
 from .credential_vault_field_type import CredentialVaultFieldType as CredentialVaultFieldType
 from .credential_vault_item_state import CredentialVaultItemState as CredentialVaultItemState
@@ -40,8 +41,10 @@ from .item_perform_operation_params import ItemPerformOperationParams as ItemPer
 from .kernel_wallet_vault_item_spec import KernelWalletVaultItemSpec as KernelWalletVaultItemSpec
 from .vault_item_operation_response import VaultItemOperationResponse as VaultItemOperationResponse
 from .agentcard_checkout_preparation import AgentcardCheckoutPreparation as AgentcardCheckoutPreparation
+from .payment_request_vault_item_spec import PaymentRequestVaultItemSpec as PaymentRequestVaultItemSpec
 from .agentcard_checkout_authorization import AgentcardCheckoutAuthorization as AgentcardCheckoutAuthorization
 from .fill_vault_item_operation_result import FillVaultItemOperationResult as FillVaultItemOperationResult
+from .payment_request_vault_item_state import PaymentRequestVaultItemState as PaymentRequestVaultItemState
 from .credential_vault_field_definition import CredentialVaultFieldDefinition as CredentialVaultFieldDefinition
 from .kernel_card_vault_item_spec_param import KernelCardVaultItemSpecParam as KernelCardVaultItemSpecParam
 from .kernel_credential_vault_item_spec import KernelCredentialVaultItemSpec as KernelCredentialVaultItemSpec
@@ -56,8 +59,12 @@ from .one_password_credential_account_spec import OnePasswordCredentialAccountSp
 from .one_password_credential_account_state import (
     OnePasswordCredentialAccountState as OnePasswordCredentialAccountState,
 )
+from .payment_request_vault_item_spec_param import PaymentRequestVaultItemSpecParam as PaymentRequestVaultItemSpecParam
 from .credential_vault_item_spec_input_param import (
     CredentialVaultItemSpecInputParam as CredentialVaultItemSpecInputParam,
+)
+from .kernel_payment_request_vault_item_spec import (
+    KernelPaymentRequestVaultItemSpec as KernelPaymentRequestVaultItemSpec,
 )
 from .credential_vault_item_spec_update_param import (
     CredentialVaultItemSpecUpdateParam as CredentialVaultItemSpecUpdateParam,
@@ -95,6 +102,9 @@ from .credential_account_vault_item_request_param import (
 from .authorize_vault_item_operation_request_param import (
     AuthorizeVaultItemOperationRequestParam as AuthorizeVaultItemOperationRequestParam,
 )
+from .kernel_payment_request_vault_item_spec_param import (
+    KernelPaymentRequestVaultItemSpecParam as KernelPaymentRequestVaultItemSpecParam,
+)
 from .credential_vault_field_definition_input_param import (
     CredentialVaultFieldDefinitionInputParam as CredentialVaultFieldDefinitionInputParam,
 )
@@ -104,6 +114,9 @@ from .kernel_credential_vault_item_spec_input_param import (
 from .one_password_fill_vault_item_operation_result import (
     OnePasswordFillVaultItemOperationResult as OnePasswordFillVaultItemOperationResult,
 )
+from .add_payment_method_vault_item_operation_result import (
+    AddPaymentMethodVaultItemOperationResult as AddPaymentMethodVaultItemOperationResult,
+)
 from .arm_passkey_vault_item_operation_request_param import (
     ArmPasskeyVaultItemOperationRequestParam as ArmPasskeyVaultItemOperationRequestParam,
 )
@@ -112,6 +125,9 @@ from .webmcp_invoke_vault_item_operation_request_param import (
 )
 from .disarm_passkey_vault_item_operation_request_param import (
     DisarmPasskeyVaultItemOperationRequestParam as DisarmPasskeyVaultItemOperationRequestParam,
+)
+from .remove_payment_method_vault_item_operation_result import (
+    RemovePaymentMethodVaultItemOperationResult as RemovePaymentMethodVaultItemOperationResult,
 )
 from .managed_auth_credential_vault_item_spec_input_param import (
     ManagedAuthCredentialVaultItemSpecInputParam as ManagedAuthCredentialVaultItemSpecInputParam,
@@ -128,6 +144,9 @@ from .register_passkey_vault_item_operation_request_param import (
 from .one_password_fill_vault_item_operation_request_param import (
     OnePasswordFillVaultItemOperationRequestParam as OnePasswordFillVaultItemOperationRequestParam,
 )
+from .add_payment_method_vault_item_operation_request_param import (
+    AddPaymentMethodVaultItemOperationRequestParam as AddPaymentMethodVaultItemOperationRequestParam,
+)
 from .confirm_transaction_vault_item_operation_request_param import (
     ConfirmTransactionVaultItemOperationRequestParam as ConfirmTransactionVaultItemOperationRequestParam,
 )
@@ -136,6 +155,9 @@ from .one_password_recover_vault_item_operation_request_param import (
 )
 from .restart_verification_vault_item_operation_request_param import (
     RestartVerificationVaultItemOperationRequestParam as RestartVerificationVaultItemOperationRequestParam,
+)
+from .remove_payment_method_vault_item_operation_request_param import (
+    RemovePaymentMethodVaultItemOperationRequestParam as RemovePaymentMethodVaultItemOperationRequestParam,
 )
 from .one_password_request_access_vault_item_operation_request_param import (
     OnePasswordRequestAccessVaultItemOperationRequestParam as OnePasswordRequestAccessVaultItemOperationRequestParam,

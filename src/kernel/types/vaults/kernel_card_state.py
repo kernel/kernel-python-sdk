@@ -68,6 +68,23 @@ class KernelCardState(BaseModel):
     Fill is locked to merchant_url's exact origin.
     """
 
+    funding_status: Optional[Literal["available", "unavailable", "removed"]] = None
+    """Whether payment_method_id can still fund this purchase.
+
+    unavailable means the method is being removed or awaits recovery, so
+    authorization, fill and confirmation are refused until it recovers. removed
+    means the method was removed from its wallet, so this purchase can no longer be
+    paid; create a new purchase with another method. Neither changes status, which
+    still reports what already happened to this purchase.
+    """
+
     masks: Optional[Masks] = None
+
+    payment_method_id: Optional[str] = None
+    """Wallet-scoped ID of the payment method funding this purchase.
+
+    It is bound when the purchase is created and never changes; purchases created
+    before payment methods could be selected report the wallet's default card, card.
+    """
 
     status_reason: Optional[str] = None

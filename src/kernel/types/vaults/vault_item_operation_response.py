@@ -14,11 +14,14 @@ from .credential_vault_item import CredentialVaultItem
 from .link_shipping_address import LinkShippingAddress
 from .wallet_vault_item_spec import WalletVaultItemSpec
 from .wallet_vault_item_state import WalletVaultItemState
+from .payment_request_vault_item import PaymentRequestVaultItem
 from .credential_account_vault_item import CredentialAccountVaultItem
 from .fill_vault_item_operation_result import FillVaultItemOperationResult
 from .passkey_vault_item_operation_result import PasskeyVaultItemOperationResult
 from .webmcp_invoke_vault_item_operation_result import WebmcpInvokeVaultItemOperationResult
 from .one_password_fill_vault_item_operation_result import OnePasswordFillVaultItemOperationResult
+from .add_payment_method_vault_item_operation_result import AddPaymentMethodVaultItemOperationResult
+from .remove_payment_method_vault_item_operation_result import RemovePaymentMethodVaultItemOperationResult
 
 __all__ = [
     "VaultItemOperationResponse",
@@ -66,6 +69,8 @@ class WalletVaultItemAvailableOperation(BaseModel):
         "1pw_recover",
         "1pw_update_access_token",
         "webmcp_invoke",
+        "add_payment_method",
+        "remove_payment_method",
     ]
 
 
@@ -171,6 +176,8 @@ class CardVaultItemAvailableOperation(BaseModel):
         "1pw_recover",
         "1pw_update_access_token",
         "webmcp_invoke",
+        "add_payment_method",
+        "remove_payment_method",
     ]
 
 
@@ -214,10 +221,13 @@ class CardVaultItem(BaseModel):
 VaultItemOperationResponse: TypeAlias = Union[
     WalletVaultItem,
     CardVaultItem,
+    PaymentRequestVaultItem,
     CredentialAccountVaultItem,
     CredentialVaultItem,
     FillVaultItemOperationResult,
     PasskeyVaultItemOperationResult,
     OnePasswordFillVaultItemOperationResult,
     WebmcpInvokeVaultItemOperationResult,
+    AddPaymentMethodVaultItemOperationResult,
+    RemovePaymentMethodVaultItemOperationResult,
 ]

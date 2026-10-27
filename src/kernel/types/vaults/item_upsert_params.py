@@ -7,6 +7,7 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .card_vault_item_spec_param import CardVaultItemSpecParam
 from .kernel_wallet_vault_item_spec_param import KernelWalletVaultItemSpecParam
+from .payment_request_vault_item_spec_param import PaymentRequestVaultItemSpecParam
 from .credential_vault_item_spec_input_param import CredentialVaultItemSpecInputParam
 from .one_password_credential_account_spec_param import OnePasswordCredentialAccountSpecParam
 
@@ -25,6 +26,7 @@ __all__ = [
     "WalletVaultItemRequestSpecAgentCardWalletVaultItemSpec",
     "WalletVaultItemRequestSpecAgentCardWalletVaultItemSpecProviderConfig",
     "CardVaultItemRequest",
+    "PaymentRequestVaultItemRequest",
     "CredentialAccountVaultItemRequest",
     "CredentialVaultItemRequest",
 ]
@@ -207,6 +209,22 @@ class CardVaultItemRequest(TypedDict, total=False):
     type: Required[Literal["card"]]
 
 
+class PaymentRequestVaultItemRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    spec: Required[PaymentRequestVaultItemSpecParam]
+    """Live Link card request.
+
+    Test-mode card creation is not supported. The spec can be changed with PATCH
+    until the card is authorized at a checkout. Authorize it with the browser at
+    final checkout: Kernel inspects the checkout through WebMCP and internally
+    chooses a merchant-bound Link Pay Token when supported or a virtual card
+    otherwise. Callers never receive or choose how the credential is delivered.
+    """
+
+    type: Required[Literal["payment_request"]]
+
+
 class CredentialAccountVaultItemRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
@@ -221,15 +239,19 @@ class CredentialVaultItemRequest(TypedDict, total=False):
     spec: Required[CredentialVaultItemSpecInputParam]
     """Credential fields are for login and other non-payment credentials.
 
-    Do not store, collect, or fill credit card data in credential items. Use wallet
-    and card item types for credit cards and payment checkout instead. Field order
-    is preserved in the user-facing collection form, so list fields in the same
-    top-to-bottom order as the website.
+    Do not store, collect, or fill credit card data in credential items. Use wallet,
+    payment_request and card item types for credit cards and payment checkout
+    instead. Field order is preserved in the user-facing collection form, so list
+    fields in the same top-to-bottom order as the website.
     """
 
     type: Required[Literal["credential"]]
 
 
 ItemUpsertParams: TypeAlias = Union[
-    WalletVaultItemRequest, CardVaultItemRequest, CredentialAccountVaultItemRequest, CredentialVaultItemRequest
+    WalletVaultItemRequest,
+    CardVaultItemRequest,
+    PaymentRequestVaultItemRequest,
+    CredentialAccountVaultItemRequest,
+    CredentialVaultItemRequest,
 ]

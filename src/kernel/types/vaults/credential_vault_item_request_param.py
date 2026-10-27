@@ -17,7 +17,7 @@ class CredentialVaultItemRequestParam(TypedDict, total=False):
     or that path fails, collect a Kernel-hosted credential item instead. Never
     automatically retry an uncertain 1Password request. After an uncertain fill,
     inspect the page to see the result of the fill.
-    Do not use credential items for credit card data. Use wallet and card item types instead.
+    Do not use credential items for credit card data. Use wallet, payment_request and card item types instead.
     Kernel credentials declare fields and may enter pending_collection.
     1Password credentials either reference a connected credential_account or
     store a supplied access token and integration key encrypted on the item.
@@ -32,10 +32,10 @@ class CredentialVaultItemRequestParam(TypedDict, total=False):
     spec: Required[CredentialVaultItemSpecInputParam]
     """Credential fields are for login and other non-payment credentials.
 
-    Do not store, collect, or fill credit card data in credential items. Use wallet
-    and card item types for credit cards and payment checkout instead. Field order
-    is preserved in the user-facing collection form, so list fields in the same
-    top-to-bottom order as the website.
+    Do not store, collect, or fill credit card data in credential items. Use wallet,
+    payment_request and card item types for credit cards and payment checkout
+    instead. Field order is preserved in the user-facing collection form, so list
+    fields in the same top-to-bottom order as the website.
     """
 
     type: Required[Literal["credential"]]
