@@ -29,6 +29,8 @@ __all__ = [
     "OnePasswordRecoverVaultItemOperationRequest",
     "OnePasswordUpdateAccessTokenVaultItemOperationRequest",
     "WebmcpInvokeVaultItemOperationRequest",
+    "AddPaymentMethodVaultItemOperationRequest",
+    "RemovePaymentMethodVaultItemOperationRequest",
 ]
 
 
@@ -205,7 +207,7 @@ class OnePasswordFillVaultItemOperationRequest(TypedDict, total=False):
     page_url: Required[str]
     """Exact current top-level page URL.
 
-    Must match exactly one open page in the browser.
+    Must match exactly one open page in the browser unless target_id is supplied.
     """
 
     type: Required[Literal["1pw_fill"]]
@@ -214,6 +216,14 @@ class OnePasswordFillVaultItemOperationRequest(TypedDict, total=False):
     """ID of an approved request entry.
 
     Required when several approved entries have the page's origin.
+    """
+
+    target_id: str
+    """CDP target ID of the page to fill, such as tab.target_id from
+    playwright.execute.
+
+    Use it when several open pages have page_url. The page's current URL must equal
+    page_url. Kernel brings the page to the front of its window before filling.
     """
 
     timeout_ms: int
@@ -269,6 +279,21 @@ class WebmcpInvokeVaultItemOperationRequest(TypedDict, total=False):
     """
 
 
+class AddPaymentMethodVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    type: Required[Literal["add_payment_method"]]
+
+
+class RemovePaymentMethodVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    payment_method_id: Required[str]
+    """ID from the wallet's payment_methods expansion."""
+
+    type: Required[Literal["remove_payment_method"]]
+
+
 ItemPerformOperationParams: TypeAlias = Union[
     AuthorizeVaultItemOperationRequest,
     RestartVerificationVaultItemOperationRequest,
@@ -285,4 +310,6 @@ ItemPerformOperationParams: TypeAlias = Union[
     OnePasswordRecoverVaultItemOperationRequest,
     OnePasswordUpdateAccessTokenVaultItemOperationRequest,
     WebmcpInvokeVaultItemOperationRequest,
+    AddPaymentMethodVaultItemOperationRequest,
+    RemovePaymentMethodVaultItemOperationRequest,
 ]

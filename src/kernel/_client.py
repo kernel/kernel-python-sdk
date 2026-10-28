@@ -219,6 +219,8 @@ class Kernel(SyncAPIClient):
         install_direct_vm_auth_stripping(self._client)
         install_stale_direct_vm_auth_eviction(self._client)
 
+        self._idempotency_header = "Idempotency-Key"
+
     @cached_property
     def deployments(self) -> DeploymentsResource:
         """Create and manage app deployments and stream deployment events."""
@@ -629,6 +631,8 @@ class AsyncKernel(AsyncAPIClient):
         self._browser_routing = browser_routing_config_from_env()
         install_async_direct_vm_auth_stripping(self._client)
         install_async_stale_direct_vm_auth_eviction(self._client)
+
+        self._idempotency_header = "Idempotency-Key"
 
     @cached_property
     def deployments(self) -> AsyncDeploymentsResource:

@@ -569,6 +569,8 @@ Types:
 
 ```python
 from kernel.types.vaults import (
+    AddPaymentMethodVaultItemOperationRequest,
+    AddPaymentMethodVaultItemOperationResult,
     AgentcardCheckoutAuthorization,
     AgentcardCheckoutPreparation,
     AgentcardPreparedProcessor,
@@ -602,6 +604,7 @@ from kernel.types.vaults import (
     KernelCredentialVaultItemSpec,
     KernelCredentialVaultItemSpecInput,
     KernelCredentialVaultItemState,
+    KernelPaymentRequestVaultItemSpec,
     KernelWalletState,
     KernelWalletVaultItemSpec,
     LinkShippingAddress,
@@ -621,8 +624,13 @@ from kernel.types.vaults import (
     OnePasswordRecoverVaultItemOperationRequest,
     OnePasswordRequestAccessVaultItemOperationRequest,
     PasskeyVaultItemOperationResult,
+    PaymentRequestVaultItem,
+    PaymentRequestVaultItemSpec,
+    PaymentRequestVaultItemState,
     PrepareCheckoutVaultItemOperationRequest,
     RegisterPasskeyVaultItemOperationRequest,
+    RemovePaymentMethodVaultItemOperationRequest,
+    RemovePaymentMethodVaultItemOperationResult,
     RestartVerificationVaultItemOperationRequest,
     VaultCardAliases,
     VaultCardFillField,

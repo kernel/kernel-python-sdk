@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.133.0](https://github.com/kernel/kernel-python-sdk/compare/v0.132.0...v0.133.0) (2026-10-28)
+
+
+### Features
+
+* Forward Idempotency-Key on playwright and REPL execution ([8f51b16](https://github.com/kernel/kernel-python-sdk/commit/8f51b1697a10524a5e40191bd17e0f2c451a4f91))
+* Select 1Password fill pages by target and return stored-token grants ([ae52da0](https://github.com/kernel/kernel-python-sdk/commit/ae52da0436bae8888304311fb921c8ca463f82b6))
+* Support multiple Kernel wallet payment methods and payment requests ([99d8515](https://github.com/kernel/kernel-python-sdk/commit/99d851577f0ed2f7ba78849172f8fdddb0a9ce31))
+
 ## [0.132.0](https://github.com/kernel/kernel-python-sdk/compare/v0.131.0...v0.132.0) (2026-10-26)
 
 

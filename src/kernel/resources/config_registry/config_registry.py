@@ -126,6 +126,7 @@ class ConfigRegistryResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> LookupResponse:
         """
         Returns current global knowledge without resolving DNS, creating an analysis, or
@@ -144,6 +145,8 @@ class ConfigRegistryResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/config-registry/lookup",
@@ -155,7 +158,11 @@ class ConfigRegistryResource(SyncAPIResource):
                 config_registry_lookup_params.ConfigRegistryLookupParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=LookupResponse,
         )
@@ -172,6 +179,7 @@ class ConfigRegistryResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConfigRegistryResponse:
         """
         Explicitly starts or retries a project-scoped background analysis while
@@ -201,6 +209,8 @@ class ConfigRegistryResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return self._post(
             "/config-registry/resolve",
@@ -213,7 +223,11 @@ class ConfigRegistryResource(SyncAPIResource):
                 config_registry_resolve_params.ConfigRegistryResolveParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConfigRegistryResponse,
         )
@@ -311,6 +325,7 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> LookupResponse:
         """
         Returns current global knowledge without resolving DNS, creating an analysis, or
@@ -329,6 +344,8 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/config-registry/lookup",
@@ -340,7 +357,11 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
                 config_registry_lookup_params.ConfigRegistryLookupParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=LookupResponse,
         )
@@ -357,6 +378,7 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ConfigRegistryResponse:
         """
         Explicitly starts or retries a project-scoped background analysis while
@@ -386,6 +408,8 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         return await self._post(
             "/config-registry/resolve",
@@ -398,7 +422,11 @@ class AsyncConfigRegistryResource(AsyncAPIResource):
                 config_registry_resolve_params.ConfigRegistryResolveParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ConfigRegistryResponse,
         )

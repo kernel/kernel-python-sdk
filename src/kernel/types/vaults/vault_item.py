@@ -15,6 +15,7 @@ from .credential_vault_item import CredentialVaultItem
 from .link_shipping_address import LinkShippingAddress
 from .wallet_vault_item_spec import WalletVaultItemSpec
 from .wallet_vault_item_state import WalletVaultItemState
+from .payment_request_vault_item import PaymentRequestVaultItem
 from .credential_account_vault_item import CredentialAccountVaultItem
 
 __all__ = [
@@ -63,6 +64,8 @@ class WalletVaultItemAvailableOperation(BaseModel):
         "1pw_recover",
         "1pw_update_access_token",
         "webmcp_invoke",
+        "add_payment_method",
+        "remove_payment_method",
     ]
 
 
@@ -168,6 +171,8 @@ class CardVaultItemAvailableOperation(BaseModel):
         "1pw_recover",
         "1pw_update_access_token",
         "webmcp_invoke",
+        "add_payment_method",
+        "remove_payment_method",
     ]
 
 
@@ -209,6 +214,6 @@ class CardVaultItem(BaseModel):
 
 
 VaultItem: TypeAlias = Annotated[
-    Union[WalletVaultItem, CardVaultItem, CredentialAccountVaultItem, CredentialVaultItem],
+    Union[WalletVaultItem, CardVaultItem, PaymentRequestVaultItem, CredentialAccountVaultItem, CredentialVaultItem],
     PropertyInfo(discriminator="type"),
 ]

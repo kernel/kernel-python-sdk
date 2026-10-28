@@ -52,3 +52,12 @@ class KernelCardVaultItemSpec(BaseModel):
     Required for Visa cards, whose one-time code is issued for the merchant's
     country.
     """
+
+    payment_method_id: Optional[str] = None
+    """Wallet-scoped payment method ID from the wallet's payment_methods expansion.
+
+    Omission selects the wallet's default card, ID card, for compatibility with
+    existing requests; it never falls back to another method, and a wallet without a
+    default card requires the ID. The purchase is bound to the method's enrolled
+    card and network token, so later operations cannot switch funding.
+    """
