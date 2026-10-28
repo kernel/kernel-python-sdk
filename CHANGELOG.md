@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.134.0](https://github.com/kernel/kernel-python-sdk/compare/v0.133.0...v0.134.0) (2026-10-28)
+
+
+### Features
+
+* Add mid-session browser profile saves ([1d70eff](https://github.com/kernel/kernel-python-sdk/commit/1d70eff68d1cc63934aa074e8fd89503845865d6))
+
 ## [0.133.0](https://github.com/kernel/kernel-python-sdk/compare/v0.132.0...v0.133.0) (2026-10-28)
 
 
