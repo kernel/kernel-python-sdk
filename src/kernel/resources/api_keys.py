@@ -219,7 +219,7 @@ class APIKeysResource(SyncAPIResource):
         name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
-        sort_by: Literal["created_at", "name", "expires_at"] | Omit = omit,
+        sort_by: Literal["created_at", "name", "expires_at", "last_used_at"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
         status: Literal["active", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -249,7 +249,8 @@ class APIKeysResource(SyncAPIResource):
           query: Case-insensitive substring match against API key name, creator, and project. API
               key identifiers and masked keys match by exact value or prefix.
 
-          sort_by: Field to sort API keys by.
+          sort_by: Field to sort API keys by. Keys with no expiry or no recorded use sort last for
+              expires_at and last_used_at in either direction.
 
           sort_direction: Sort direction for API keys.
 
@@ -578,7 +579,7 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         name: str | Omit = omit,
         offset: int | Omit = omit,
         query: str | Omit = omit,
-        sort_by: Literal["created_at", "name", "expires_at"] | Omit = omit,
+        sort_by: Literal["created_at", "name", "expires_at", "last_used_at"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
         status: Literal["active", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -608,7 +609,8 @@ class AsyncAPIKeysResource(AsyncAPIResource):
           query: Case-insensitive substring match against API key name, creator, and project. API
               key identifiers and masked keys match by exact value or prefix.
 
-          sort_by: Field to sort API keys by.
+          sort_by: Field to sort API keys by. Keys with no expiry or no recorded use sort last for
+              expires_at and last_used_at in either direction.
 
           sort_direction: Sort direction for API keys.
 
