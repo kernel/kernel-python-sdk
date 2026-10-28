@@ -41,6 +41,8 @@ class ShopPayCardState(BaseModel):
     ]
     """declined covers a request the shopper declined or that was cancelled.
 
+    consumed means the transaction outcome was reported with confirm_transaction;
+    the card is no longer stored and cannot be filled again, whatever the outcome.
     recovery_required means a provider operation has an unresolved outcome and the
     card cannot be used. When status_reason says the provider refused retrieval
     before acceptance, no card was issued and a later read retries. Otherwise follow

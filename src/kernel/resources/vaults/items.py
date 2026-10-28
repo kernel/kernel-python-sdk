@@ -615,6 +615,9 @@ class ItemsResource(SyncAPIResource):
             "PURCHASE", "AUTHORIZATION", "CAPTURE", "REFUND", "REVERSAL", "VERIFICATION", "CHARGEBACK", "FRAUD"
         ],
         type: Literal["confirm_transaction"],
+        failure_code: str | Omit = omit,
+        order_id: str | Omit = omit,
+        order_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -661,6 +664,17 @@ class ItemsResource(SyncAPIResource):
           currency: Must match the approved purchase currency.
 
           occurred_at: Time the merchant outcome was observed.
+
+          failure_code: Why the purchase did not succeed, for any other outcome, such as 3ds_challenge,
+              captcha, login_required, timeout or site_error. payment_declined goes only with
+              DECLINED, which takes no other code. Shop Pay reports it; other providers ignore
+              it.
+
+          order_id: The merchant's order number, for an APPROVED outcome. Shop Pay reports it; other
+              providers ignore it.
+
+          order_url: The merchant's https order page, for an APPROVED outcome. Shop Pay reports it;
+              other providers ignore it.
 
           extra_headers: Send extra headers
 
@@ -1655,6 +1669,9 @@ class ItemsResource(SyncAPIResource):
             "PURCHASE", "AUTHORIZATION", "CAPTURE", "REFUND", "REVERSAL", "VERIFICATION", "CHARGEBACK", "FRAUD"
         ]
         | Omit = omit,
+        failure_code: str | Omit = omit,
+        order_id: str | Omit = omit,
+        order_url: str | Omit = omit,
         checkout: VaultCheckoutContextParam | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
         timeout_ms: int | Omit = omit,
@@ -1698,6 +1715,9 @@ class ItemsResource(SyncAPIResource):
                         "occurred_at": occurred_at,
                         "status": status,
                         "transaction_type": transaction_type,
+                        "failure_code": failure_code,
+                        "order_id": order_id,
+                        "order_url": order_url,
                         "checkout": checkout,
                         "fields": fields,
                         "timeout_ms": timeout_ms,
@@ -2600,6 +2620,9 @@ class AsyncItemsResource(AsyncAPIResource):
             "PURCHASE", "AUTHORIZATION", "CAPTURE", "REFUND", "REVERSAL", "VERIFICATION", "CHARGEBACK", "FRAUD"
         ],
         type: Literal["confirm_transaction"],
+        failure_code: str | Omit = omit,
+        order_id: str | Omit = omit,
+        order_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -2646,6 +2669,17 @@ class AsyncItemsResource(AsyncAPIResource):
           currency: Must match the approved purchase currency.
 
           occurred_at: Time the merchant outcome was observed.
+
+          failure_code: Why the purchase did not succeed, for any other outcome, such as 3ds_challenge,
+              captcha, login_required, timeout or site_error. payment_declined goes only with
+              DECLINED, which takes no other code. Shop Pay reports it; other providers ignore
+              it.
+
+          order_id: The merchant's order number, for an APPROVED outcome. Shop Pay reports it; other
+              providers ignore it.
+
+          order_url: The merchant's https order page, for an APPROVED outcome. Shop Pay reports it;
+              other providers ignore it.
 
           extra_headers: Send extra headers
 
@@ -3640,6 +3674,9 @@ class AsyncItemsResource(AsyncAPIResource):
             "PURCHASE", "AUTHORIZATION", "CAPTURE", "REFUND", "REVERSAL", "VERIFICATION", "CHARGEBACK", "FRAUD"
         ]
         | Omit = omit,
+        failure_code: str | Omit = omit,
+        order_id: str | Omit = omit,
+        order_url: str | Omit = omit,
         checkout: VaultCheckoutContextParam | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
         timeout_ms: int | Omit = omit,
@@ -3683,6 +3720,9 @@ class AsyncItemsResource(AsyncAPIResource):
                         "occurred_at": occurred_at,
                         "status": status,
                         "transaction_type": transaction_type,
+                        "failure_code": failure_code,
+                        "order_id": order_id,
+                        "order_url": order_url,
                         "checkout": checkout,
                         "fields": fields,
                         "timeout_ms": timeout_ms,
