@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.136.0](https://github.com/kernel/kernel-python-sdk/compare/v0.135.0...v0.136.0) (2026-10-28)
+
+
+### Features
+
+* Import approved 1Password logins onto stored-token credentials ([279faa3](https://github.com/kernel/kernel-python-sdk/commit/279faa380ab039e8dea75b553cae18d70157bf7c))
+
 ## [0.135.0](https://github.com/kernel/kernel-python-sdk/compare/v0.134.0...v0.135.0) (2026-10-28)
 
 
