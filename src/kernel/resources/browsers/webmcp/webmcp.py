@@ -72,6 +72,7 @@ class WebmcpResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> InvocationResult:
         """Invokes the exact live registration identified by tool_ref.
 
@@ -95,6 +96,8 @@ class WebmcpResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -109,7 +112,11 @@ class WebmcpResource(SyncAPIResource):
                 webmcp_invoke_tool_params.WebmcpInvokeToolParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=InvocationResult,
         )
@@ -202,6 +209,7 @@ class AsyncWebmcpResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> InvocationResult:
         """Invokes the exact live registration identified by tool_ref.
 
@@ -225,6 +233,8 @@ class AsyncWebmcpResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -239,7 +249,11 @@ class AsyncWebmcpResource(AsyncAPIResource):
                 webmcp_invoke_tool_params.WebmcpInvokeToolParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=InvocationResult,
         )

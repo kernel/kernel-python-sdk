@@ -143,6 +143,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Credential updates require type credential and the current version, and change
@@ -175,6 +176,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -192,6 +195,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Credential updates require type credential and the current version, and change
@@ -224,6 +228,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -243,6 +249,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Credential updates require type credential and the current version, and change
@@ -275,6 +282,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -294,6 +303,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -313,7 +323,11 @@ class ItemsResource(SyncAPIResource):
                     item_update_params.ItemUpdateParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(Any, VaultItem),  # Union types cannot be passed in as arguments in the type system
             ),
@@ -366,6 +380,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Unresolved payment operations normally block deletion, including operations on
@@ -387,6 +402,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -396,7 +413,11 @@ class ItemsResource(SyncAPIResource):
         return self._delete(
             path_template("/vaults/{id_or_name}/items/{key}", id_or_name=id_or_name, key=key),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -468,6 +489,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -514,6 +536,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -530,6 +554,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -571,6 +596,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -594,6 +621,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -641,6 +669,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -657,6 +687,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -698,6 +729,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -715,6 +748,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -762,6 +796,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -782,6 +818,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -842,6 +879,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -860,6 +899,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -905,6 +945,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -923,6 +965,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -969,6 +1012,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -987,6 +1032,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -1033,6 +1079,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1052,6 +1100,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -1093,6 +1142,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1110,6 +1161,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -1151,6 +1203,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1171,6 +1225,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -1220,6 +1275,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1236,6 +1293,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -1277,6 +1335,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1295,6 +1355,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -1338,6 +1399,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1360,6 +1423,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -1415,6 +1479,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1431,6 +1497,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -1472,6 +1539,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1489,6 +1558,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -1532,6 +1602,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1599,6 +1671,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -1638,7 +1711,11 @@ class ItemsResource(SyncAPIResource):
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(
                     Any, VaultItemOperationResponse
@@ -1660,6 +1737,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -1697,6 +1775,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1714,6 +1794,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -1743,6 +1824,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1760,6 +1843,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -1789,6 +1873,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1806,6 +1892,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -1828,6 +1915,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1845,6 +1934,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -1873,6 +1963,8 @@ class ItemsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -1898,6 +1990,7 @@ class ItemsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -1915,7 +2008,11 @@ class ItemsResource(SyncAPIResource):
                     item_upsert_params.ItemUpsertParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(Any, VaultItem),  # Union types cannot be passed in as arguments in the type system
             ),
@@ -2023,6 +2120,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Credential updates require type credential and the current version, and change
@@ -2055,6 +2153,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2072,6 +2172,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Credential updates require type credential and the current version, and change
@@ -2104,6 +2205,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2123,6 +2226,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Credential updates require type credential and the current version, and change
@@ -2155,6 +2259,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2174,6 +2280,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -2193,7 +2300,11 @@ class AsyncItemsResource(AsyncAPIResource):
                     item_update_params.ItemUpdateParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(Any, VaultItem),  # Union types cannot be passed in as arguments in the type system
             ),
@@ -2246,6 +2357,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Unresolved payment operations normally block deletion, including operations on
@@ -2267,6 +2379,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -2276,7 +2390,11 @@ class AsyncItemsResource(AsyncAPIResource):
         return await self._delete(
             path_template("/vaults/{id_or_name}/items/{key}", id_or_name=id_or_name, key=key),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -2348,6 +2466,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2394,6 +2513,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2410,6 +2531,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2451,6 +2573,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2474,6 +2598,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2521,6 +2646,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2537,6 +2664,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2578,6 +2706,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2595,6 +2725,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2642,6 +2773,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2662,6 +2795,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2722,6 +2856,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2740,6 +2876,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2785,6 +2922,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2803,6 +2942,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2849,6 +2989,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2867,6 +3009,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2913,6 +3056,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2932,6 +3077,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -2973,6 +3119,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -2990,6 +3138,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -3031,6 +3180,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3051,6 +3202,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -3100,6 +3252,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3116,6 +3270,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -3157,6 +3312,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3175,6 +3332,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -3218,6 +3376,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3240,6 +3400,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -3295,6 +3456,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3311,6 +3474,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -3352,6 +3516,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3369,6 +3535,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         """
         Retrieve the item first and invoke only an operation listed in
@@ -3412,6 +3579,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3479,6 +3648,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItemOperationResponse:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -3518,7 +3688,11 @@ class AsyncItemsResource(AsyncAPIResource):
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(
                     Any, VaultItemOperationResponse
@@ -3540,6 +3714,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -3577,6 +3752,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3594,6 +3771,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -3623,6 +3801,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3640,6 +3820,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -3669,6 +3850,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3686,6 +3869,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -3708,6 +3892,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3725,6 +3911,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         """
         Create an item under a key unique within its vault, or retrieve the existing
@@ -3753,6 +3940,8 @@ class AsyncItemsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -3778,6 +3967,7 @@ class AsyncItemsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultItem:
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -3795,7 +3985,11 @@ class AsyncItemsResource(AsyncAPIResource):
                     item_upsert_params.ItemUpsertParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(Any, VaultItem),  # Union types cannot be passed in as arguments in the type system
             ),

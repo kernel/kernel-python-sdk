@@ -78,6 +78,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Send an array of computer actions to execute in order on the browser instance.
@@ -94,6 +95,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -102,7 +105,11 @@ class ComputerResource(SyncAPIResource):
             path_template("/browsers/{id_or_name}/computer/batch", id_or_name=id_or_name),
             body=maybe_transform({"actions": actions}, computer_batch_params.ComputerBatchParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -118,6 +125,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> BinaryAPIResponse:
         """
         Capture a screenshot of the browser instance
@@ -130,6 +138,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -140,7 +150,11 @@ class ComputerResource(SyncAPIResource):
                 {"region": region}, computer_capture_screenshot_params.ComputerCaptureScreenshotParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=BinaryAPIResponse,
         )
@@ -161,6 +175,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Simulate a mouse click action on the browser instance
@@ -185,6 +200,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -203,7 +220,11 @@ class ComputerResource(SyncAPIResource):
                 computer_click_mouse_params.ComputerClickMouseParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -226,6 +247,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Drag the mouse along a path
@@ -258,6 +280,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -278,7 +302,11 @@ class ComputerResource(SyncAPIResource):
                 computer_drag_mouse_params.ComputerDragMouseParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -293,6 +321,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ComputerGetMousePositionResponse:
         """
         Get the current mouse cursor position on the browser instance
@@ -305,13 +334,19 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._post(
             path_template("/browsers/{id_or_name}/computer/get_mouse_position", id_or_name=id_or_name),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ComputerGetMousePositionResponse,
         )
@@ -331,6 +366,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Move the mouse cursor to the specified coordinates on the browser instance
@@ -354,6 +390,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -371,7 +409,11 @@ class ComputerResource(SyncAPIResource):
                 computer_move_mouse_params.ComputerMoveMouseParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -389,6 +431,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Press one or more keys on the host computer
@@ -413,6 +456,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -428,7 +473,11 @@ class ComputerResource(SyncAPIResource):
                 computer_press_key_params.ComputerPressKeyParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -443,6 +492,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ComputerReadClipboardResponse:
         """
         Read text from the clipboard on the browser instance
@@ -455,13 +505,19 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._post(
             path_template("/browsers/{id_or_name}/computer/clipboard/read", id_or_name=id_or_name),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ComputerReadClipboardResponse,
         )
@@ -481,6 +537,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Scroll the mouse wheel at a position on the host computer
@@ -505,6 +562,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -522,7 +581,11 @@ class ComputerResource(SyncAPIResource):
                 computer_scroll_params.ComputerScrollParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -538,6 +601,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ComputerSetCursorVisibilityResponse:
         """
         Set cursor visibility
@@ -552,6 +616,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -561,7 +627,11 @@ class ComputerResource(SyncAPIResource):
                 {"hidden": hidden}, computer_set_cursor_visibility_params.ComputerSetCursorVisibilityParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ComputerSetCursorVisibilityResponse,
         )
@@ -578,6 +648,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Type text on the browser instance
@@ -594,6 +665,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -608,7 +681,11 @@ class ComputerResource(SyncAPIResource):
                 computer_type_text_params.ComputerTypeTextParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -624,6 +701,7 @@ class ComputerResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Write text to the clipboard on the browser instance
@@ -638,6 +716,8 @@ class ComputerResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -646,7 +726,11 @@ class ComputerResource(SyncAPIResource):
             path_template("/browsers/{id_or_name}/computer/clipboard/write", id_or_name=id_or_name),
             body=maybe_transform({"text": text}, computer_write_clipboard_params.ComputerWriteClipboardParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -685,6 +769,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Send an array of computer actions to execute in order on the browser instance.
@@ -701,6 +786,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -709,7 +796,11 @@ class AsyncComputerResource(AsyncAPIResource):
             path_template("/browsers/{id_or_name}/computer/batch", id_or_name=id_or_name),
             body=await async_maybe_transform({"actions": actions}, computer_batch_params.ComputerBatchParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -725,6 +816,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> AsyncBinaryAPIResponse:
         """
         Capture a screenshot of the browser instance
@@ -737,6 +829,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -747,7 +841,11 @@ class AsyncComputerResource(AsyncAPIResource):
                 {"region": region}, computer_capture_screenshot_params.ComputerCaptureScreenshotParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=AsyncBinaryAPIResponse,
         )
@@ -768,6 +866,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Simulate a mouse click action on the browser instance
@@ -792,6 +891,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -810,7 +911,11 @@ class AsyncComputerResource(AsyncAPIResource):
                 computer_click_mouse_params.ComputerClickMouseParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -833,6 +938,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Drag the mouse along a path
@@ -865,6 +971,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -885,7 +993,11 @@ class AsyncComputerResource(AsyncAPIResource):
                 computer_drag_mouse_params.ComputerDragMouseParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -900,6 +1012,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ComputerGetMousePositionResponse:
         """
         Get the current mouse cursor position on the browser instance
@@ -912,13 +1025,19 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._post(
             path_template("/browsers/{id_or_name}/computer/get_mouse_position", id_or_name=id_or_name),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ComputerGetMousePositionResponse,
         )
@@ -938,6 +1057,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Move the mouse cursor to the specified coordinates on the browser instance
@@ -961,6 +1081,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -978,7 +1100,11 @@ class AsyncComputerResource(AsyncAPIResource):
                 computer_move_mouse_params.ComputerMoveMouseParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -996,6 +1122,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Press one or more keys on the host computer
@@ -1020,6 +1147,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -1035,7 +1164,11 @@ class AsyncComputerResource(AsyncAPIResource):
                 computer_press_key_params.ComputerPressKeyParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1050,6 +1183,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ComputerReadClipboardResponse:
         """
         Read text from the clipboard on the browser instance
@@ -1062,13 +1196,19 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._post(
             path_template("/browsers/{id_or_name}/computer/clipboard/read", id_or_name=id_or_name),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ComputerReadClipboardResponse,
         )
@@ -1088,6 +1228,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Scroll the mouse wheel at a position on the host computer
@@ -1112,6 +1253,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -1129,7 +1272,11 @@ class AsyncComputerResource(AsyncAPIResource):
                 computer_scroll_params.ComputerScrollParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1145,6 +1292,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> ComputerSetCursorVisibilityResponse:
         """
         Set cursor visibility
@@ -1159,6 +1307,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -1168,7 +1318,11 @@ class AsyncComputerResource(AsyncAPIResource):
                 {"hidden": hidden}, computer_set_cursor_visibility_params.ComputerSetCursorVisibilityParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=ComputerSetCursorVisibilityResponse,
         )
@@ -1185,6 +1339,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Type text on the browser instance
@@ -1201,6 +1356,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -1215,7 +1372,11 @@ class AsyncComputerResource(AsyncAPIResource):
                 computer_type_text_params.ComputerTypeTextParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -1231,6 +1392,7 @@ class AsyncComputerResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """
         Write text to the clipboard on the browser instance
@@ -1245,6 +1407,8 @@ class AsyncComputerResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -1255,7 +1419,11 @@ class AsyncComputerResource(AsyncAPIResource):
                 {"text": text}, computer_write_clipboard_params.ComputerWriteClipboardParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )

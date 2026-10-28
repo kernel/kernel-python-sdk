@@ -62,6 +62,7 @@ class VaultProviderConfigsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultProviderConfig:
         """Register a configuration shared across the organization's projects.
 
@@ -81,6 +82,8 @@ class VaultProviderConfigsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -97,6 +100,7 @@ class VaultProviderConfigsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultProviderConfig:
         """Register a configuration shared across the organization's projects.
 
@@ -116,6 +120,8 @@ class VaultProviderConfigsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -133,6 +139,7 @@ class VaultProviderConfigsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultProviderConfig:
         return cast(
             VaultProviderConfig,
@@ -147,7 +154,11 @@ class VaultProviderConfigsResource(SyncAPIResource):
                     vault_provider_config_create_params.VaultProviderConfigCreateParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(
                     Any, VaultProviderConfig
@@ -207,6 +218,7 @@ class VaultProviderConfigsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultProviderConfig:
         """Update the supplied fields; omitted fields remain unchanged.
 
@@ -227,6 +239,8 @@ class VaultProviderConfigsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -242,7 +256,11 @@ class VaultProviderConfigsResource(SyncAPIResource):
                     vault_provider_config_update_params.VaultProviderConfigUpdateParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(
                     Any, VaultProviderConfig
@@ -303,6 +321,7 @@ class VaultProviderConfigsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Delete a configuration in the organization.
 
@@ -320,6 +339,8 @@ class VaultProviderConfigsResource(SyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -327,7 +348,11 @@ class VaultProviderConfigsResource(SyncAPIResource):
         return self._delete(
             path_template("/vault-provider-configs/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
@@ -366,6 +391,7 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultProviderConfig:
         """Register a configuration shared across the organization's projects.
 
@@ -385,6 +411,8 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -401,6 +429,7 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultProviderConfig:
         """Register a configuration shared across the organization's projects.
 
@@ -420,6 +449,8 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         ...
 
@@ -437,6 +468,7 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultProviderConfig:
         return cast(
             VaultProviderConfig,
@@ -451,7 +483,11 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
                     vault_provider_config_create_params.VaultProviderConfigCreateParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(
                     Any, VaultProviderConfig
@@ -511,6 +547,7 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> VaultProviderConfig:
         """Update the supplied fields; omitted fields remain unchanged.
 
@@ -531,6 +568,8 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -546,7 +585,11 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
                     vault_provider_config_update_params.VaultProviderConfigUpdateParams,
                 ),
                 options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    idempotency_key=idempotency_key,
                 ),
                 cast_to=cast(
                     Any, VaultProviderConfig
@@ -607,6 +650,7 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
     ) -> None:
         """Delete a configuration in the organization.
 
@@ -624,6 +668,8 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
           extra_body: Add additional JSON properties to the request
 
           timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
         """
         if not id_or_name:
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
@@ -631,7 +677,11 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
         return await self._delete(
             path_template("/vault-provider-configs/{id_or_name}", id_or_name=id_or_name),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                idempotency_key=idempotency_key,
             ),
             cast_to=NoneType,
         )
