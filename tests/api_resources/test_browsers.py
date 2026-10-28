@@ -10,6 +10,7 @@ import pytest
 from kernel import Kernel, AsyncKernel
 from tests.utils import assert_matches_type
 from kernel.types import (
+    Profile,
     BrowserReplResult,
     BrowserCurlResponse,
     BrowserListResponse,
@@ -578,6 +579,58 @@ class TestBrowsers:
                 code="code",
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_save_profile(self, client: Kernel) -> None:
+        browser = client.browsers.save_profile(
+            id_or_name="htzv5orfit78e1m2biiifpbv",
+        )
+        assert_matches_type(Profile, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_save_profile_with_all_params(self, client: Kernel) -> None:
+        browser = client.browsers.save_profile(
+            id_or_name="htzv5orfit78e1m2biiifpbv",
+            id="x",
+            name="name",
+        )
+        assert_matches_type(Profile, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_save_profile(self, client: Kernel) -> None:
+        response = client.browsers.with_raw_response.save_profile(
+            id_or_name="htzv5orfit78e1m2biiifpbv",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        browser = response.parse()
+        assert_matches_type(Profile, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_save_profile(self, client: Kernel) -> None:
+        with client.browsers.with_streaming_response.save_profile(
+            id_or_name="htzv5orfit78e1m2biiifpbv",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            browser = response.parse()
+            assert_matches_type(Profile, browser, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_save_profile(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            client.browsers.with_raw_response.save_profile(
+                id_or_name="",
+            )
+
 
 class TestAsyncBrowsers:
     parametrize = pytest.mark.parametrize(
@@ -1135,4 +1188,56 @@ class TestAsyncBrowsers:
             await async_client.browsers.with_raw_response.repl(
                 id_or_name="",
                 code="code",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_save_profile(self, async_client: AsyncKernel) -> None:
+        browser = await async_client.browsers.save_profile(
+            id_or_name="htzv5orfit78e1m2biiifpbv",
+        )
+        assert_matches_type(Profile, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_save_profile_with_all_params(self, async_client: AsyncKernel) -> None:
+        browser = await async_client.browsers.save_profile(
+            id_or_name="htzv5orfit78e1m2biiifpbv",
+            id="x",
+            name="name",
+        )
+        assert_matches_type(Profile, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_save_profile(self, async_client: AsyncKernel) -> None:
+        response = await async_client.browsers.with_raw_response.save_profile(
+            id_or_name="htzv5orfit78e1m2biiifpbv",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        browser = await response.parse()
+        assert_matches_type(Profile, browser, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_save_profile(self, async_client: AsyncKernel) -> None:
+        async with async_client.browsers.with_streaming_response.save_profile(
+            id_or_name="htzv5orfit78e1m2biiifpbv",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            browser = await response.parse()
+            assert_matches_type(Profile, browser, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_save_profile(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            await async_client.browsers.with_raw_response.save_profile(
+                id_or_name="",
             )

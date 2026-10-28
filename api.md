@@ -138,6 +138,7 @@ from kernel.types import (
     BrowserUsage,
     BrowserVideoMemory,
     Profile,
+    SaveProfileRequest,
     Tags,
     VaultReference,
     BrowserCreateResponse,
@@ -158,6 +159,7 @@ Methods:
 - <code title="delete /browsers/{id_or_name}">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">delete_by_id</a>(id_or_name) -> None</code>
 - <code title="post /browsers/{id_or_name}/extensions">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">load_extensions</a>(id_or_name, \*\*<a href="src/kernel/types/browser_load_extensions_params.py">params</a>) -> None</code>
 - <code title="post /browsers/{id_or_name}/repl">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">repl</a>(id_or_name, \*\*<a href="src/kernel/types/browser_repl_params.py">params</a>) -> <a href="./src/kernel/types/browser_repl_result.py">BrowserReplResult</a></code>
+- <code title="post /browsers/{id_or_name}/profiles">client.browsers.<a href="./src/kernel/resources/browsers/browsers.py">save_profile</a>(id_or_name, \*\*<a href="src/kernel/types/browser_save_profile_params.py">params</a>) -> <a href="./src/kernel/types/profile.py">Profile</a></code>
 
 ## Telemetry
 
