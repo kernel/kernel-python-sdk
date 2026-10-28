@@ -19,6 +19,12 @@ class RequestsEntry(BaseModel):
     type: str
     """Must be login."""
 
+    id: Optional[str] = None
+    """1Password's ID for this entry in an access request you created.
+
+    Supply it only with resolved.
+    """
+
     keywords: Optional[List[str]] = None
 
     reason: Optional[str] = None
