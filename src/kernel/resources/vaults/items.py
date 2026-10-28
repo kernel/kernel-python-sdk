@@ -1218,6 +1218,7 @@ class ItemsResource(SyncAPIResource):
         page_url: str,
         type: Literal["1pw_fill"],
         entry_id: str | Omit = omit,
+        target_id: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1263,10 +1264,15 @@ class ItemsResource(SyncAPIResource):
           browser_id: Browser session ID, not a reusable browser name.
 
           page_url: Exact current top-level page URL. Must match exactly one open page in the
-              browser.
+              browser unless target_id is supplied.
 
           entry_id: ID of an approved request entry. Required when several approved entries have the
               page's origin.
+
+          target_id: CDP target ID of the page to fill, such as tab.target_id from
+              playwright.execute. Use it when several open pages have page_url. The page's
+              current URL must equal page_url. Kernel brings the page to the front of its
+              window before filling.
 
           extra_headers: Send extra headers
 
@@ -1658,6 +1664,7 @@ class ItemsResource(SyncAPIResource):
         reason: str | Omit = omit,
         timeout_seconds: int | Omit = omit,
         entry_id: str | Omit = omit,
+        target_id: str | Omit = omit,
         access_token: str | Omit = omit,
         access_token_expires_at: Union[str, datetime] | Omit = omit,
         bindings: Iterable[VaultWebmcpBindingParam] | Omit = omit,
@@ -1700,6 +1707,7 @@ class ItemsResource(SyncAPIResource):
                         "reason": reason,
                         "timeout_seconds": timeout_seconds,
                         "entry_id": entry_id,
+                        "target_id": target_id,
                         "access_token": access_token,
                         "access_token_expires_at": access_token_expires_at,
                         "bindings": bindings,
@@ -3195,6 +3203,7 @@ class AsyncItemsResource(AsyncAPIResource):
         page_url: str,
         type: Literal["1pw_fill"],
         entry_id: str | Omit = omit,
+        target_id: str | Omit = omit,
         timeout_ms: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -3240,10 +3249,15 @@ class AsyncItemsResource(AsyncAPIResource):
           browser_id: Browser session ID, not a reusable browser name.
 
           page_url: Exact current top-level page URL. Must match exactly one open page in the
-              browser.
+              browser unless target_id is supplied.
 
           entry_id: ID of an approved request entry. Required when several approved entries have the
               page's origin.
+
+          target_id: CDP target ID of the page to fill, such as tab.target_id from
+              playwright.execute. Use it when several open pages have page_url. The page's
+              current URL must equal page_url. Kernel brings the page to the front of its
+              window before filling.
 
           extra_headers: Send extra headers
 
@@ -3635,6 +3649,7 @@ class AsyncItemsResource(AsyncAPIResource):
         reason: str | Omit = omit,
         timeout_seconds: int | Omit = omit,
         entry_id: str | Omit = omit,
+        target_id: str | Omit = omit,
         access_token: str | Omit = omit,
         access_token_expires_at: Union[str, datetime] | Omit = omit,
         bindings: Iterable[VaultWebmcpBindingParam] | Omit = omit,
@@ -3677,6 +3692,7 @@ class AsyncItemsResource(AsyncAPIResource):
                         "reason": reason,
                         "timeout_seconds": timeout_seconds,
                         "entry_id": entry_id,
+                        "target_id": target_id,
                         "access_token": access_token,
                         "access_token_expires_at": access_token_expires_at,
                         "bindings": bindings,

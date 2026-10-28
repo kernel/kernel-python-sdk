@@ -1494,6 +1494,7 @@ class TestItems:
             page_url="https://example.com",
             type="1pw_fill",
             entry_id="x",
+            target_id="x",
             timeout_ms=1,
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
@@ -4096,6 +4097,7 @@ class TestAsyncItems:
             page_url="https://example.com",
             type="1pw_fill",
             entry_id="x",
+            target_id="x",
             timeout_ms=1,
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])

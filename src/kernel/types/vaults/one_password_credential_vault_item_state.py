@@ -15,6 +15,7 @@ __all__ = [
     "AccessRequestRequest",
     "AccessRequestRequestEntry",
     "AccessRequestRequestEntryParameters",
+    "AccessRequestResolved",
 ]
 
 
@@ -63,10 +64,22 @@ class AccessRequestRequest(BaseModel):
     version: Optional[int] = None
 
 
+class AccessRequestResolved(BaseModel):
+    reference: str
+    """1Password credential reference.
+
+    Pass it unchanged as resourcePath to the extension's fillCredential or to the
+    1Password SDK.
+    """
+
+    entry_id: Optional[str] = FieldInfo(alias="entryId", default=None)
+    """The requested entry this login satisfies, when known."""
+
+
 class AccessRequest(BaseModel):
     """Non-secret broker state.
 
-    Granted credential references stay encrypted server-side and can only be used by the fill operation.
+    Granted credential references are returned in resolved only for credentials with a customer-supplied access token; otherwise they stay encrypted server-side and can only be used by the fill operation.
     """
 
     id: str
@@ -103,6 +116,14 @@ class AccessRequest(BaseModel):
     The observed create response may omit entries; no entry IDs are invented.
     """
 
+    resolved: Optional[List[AccessRequestResolved]] = None
+    """Granted logins in the shape 1Password's getAccessRequestStatus returns.
+
+    Present only for ready credentials with a customer-supplied access token, on
+    single-item responses to callers that can use the vault. Each reference works
+    only with that credential's access token and integration key.
+    """
+
 
 class OnePasswordCredentialVaultItemState(BaseModel):
     provider: Literal["1password"]
@@ -112,8 +133,9 @@ class OnePasswordCredentialVaultItemState(BaseModel):
     access_request: Optional[AccessRequest] = None
     """Non-secret broker state.
 
-    Granted credential references stay encrypted server-side and can only be used by
-    the fill operation.
+    Granted credential references are returned in resolved only for credentials with
+    a customer-supplied access token; otherwise they stay encrypted server-side and
+    can only be used by the fill operation.
     """
 
     access_request_id: Optional[str] = None

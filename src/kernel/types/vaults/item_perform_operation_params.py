@@ -207,7 +207,7 @@ class OnePasswordFillVaultItemOperationRequest(TypedDict, total=False):
     page_url: Required[str]
     """Exact current top-level page URL.
 
-    Must match exactly one open page in the browser.
+    Must match exactly one open page in the browser unless target_id is supplied.
     """
 
     type: Required[Literal["1pw_fill"]]
@@ -216,6 +216,14 @@ class OnePasswordFillVaultItemOperationRequest(TypedDict, total=False):
     """ID of an approved request entry.
 
     Required when several approved entries have the page's origin.
+    """
+
+    target_id: str
+    """CDP target ID of the page to fill, such as tab.target_id from
+    playwright.execute.
+
+    Use it when several open pages have page_url. The page's current URL must equal
+    page_url. Kernel brings the page to the front of its window before filling.
     """
 
     timeout_ms: int
