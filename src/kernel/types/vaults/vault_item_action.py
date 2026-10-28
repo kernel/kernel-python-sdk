@@ -10,6 +10,7 @@ from .one_password_oauth_action import OnePasswordOAuthAction
 __all__ = [
     "VaultItemAction",
     "LinkOAuthAction",
+    "ShopPayOAuthAction",
     "SpendApprovalAction",
     "PushApprovalAction",
     "CollectAction",
@@ -23,6 +24,13 @@ class LinkOAuthAction(BaseModel):
     name: Literal["link_oauth"]
 
     url: str
+
+
+class ShopPayOAuthAction(BaseModel):
+    name: Literal["shop_pay_oauth"]
+
+    url: str
+    """Shop sign-in page where the shopper connects their Shop account to Kernel."""
 
 
 class SpendApprovalAction(BaseModel):
@@ -63,6 +71,7 @@ class CardEnrollmentAction(BaseModel):
 VaultItemAction: TypeAlias = Annotated[
     Union[
         LinkOAuthAction,
+        ShopPayOAuthAction,
         OnePasswordOAuthAction,
         SpendApprovalAction,
         PushApprovalAction,

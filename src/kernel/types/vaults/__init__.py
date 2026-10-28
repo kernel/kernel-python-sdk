@@ -13,6 +13,7 @@ from .item_update_params import ItemUpdateParams as ItemUpdateParams
 from .item_upsert_params import ItemUpsertParams as ItemUpsertParams
 from .vault_card_aliases import VaultCardAliases as VaultCardAliases
 from .kernel_wallet_state import KernelWalletState as KernelWalletState
+from .shop_pay_card_state import ShopPayCardState as ShopPayCardState
 from .card_vault_item_spec import CardVaultItemSpec as CardVaultItemSpec
 from .item_events_response import ItemEventsResponse as ItemEventsResponse
 from .item_retrieve_params import ItemRetrieveParams as ItemRetrieveParams
@@ -20,6 +21,7 @@ from .vault_payment_method import VaultPaymentMethod as VaultPaymentMethod
 from .card_vault_item_state import CardVaultItemState as CardVaultItemState
 from .credential_vault_item import CredentialVaultItem as CredentialVaultItem
 from .link_shipping_address import LinkShippingAddress as LinkShippingAddress
+from .shop_pay_wallet_state import ShopPayWalletState as ShopPayWalletState
 from .vault_fill_field_param import VaultFillFieldParam as VaultFillFieldParam
 from .wallet_vault_item_spec import WalletVaultItemSpec as WalletVaultItemSpec
 from .vault_fill_field_result import VaultFillFieldResult as VaultFillFieldResult
@@ -39,9 +41,11 @@ from .vault_checkout_context_param import VaultCheckoutContextParam as VaultChec
 from .credential_account_vault_item import CredentialAccountVaultItem as CredentialAccountVaultItem
 from .item_perform_operation_params import ItemPerformOperationParams as ItemPerformOperationParams
 from .kernel_wallet_vault_item_spec import KernelWalletVaultItemSpec as KernelWalletVaultItemSpec
+from .shop_pay_card_vault_item_spec import ShopPayCardVaultItemSpec as ShopPayCardVaultItemSpec
 from .vault_item_operation_response import VaultItemOperationResponse as VaultItemOperationResponse
 from .agentcard_checkout_preparation import AgentcardCheckoutPreparation as AgentcardCheckoutPreparation
 from .payment_request_vault_item_spec import PaymentRequestVaultItemSpec as PaymentRequestVaultItemSpec
+from .shop_pay_wallet_vault_item_spec import ShopPayWalletVaultItemSpec as ShopPayWalletVaultItemSpec
 from .agentcard_checkout_authorization import AgentcardCheckoutAuthorization as AgentcardCheckoutAuthorization
 from .fill_vault_item_operation_result import FillVaultItemOperationResult as FillVaultItemOperationResult
 from .payment_request_vault_item_state import PaymentRequestVaultItemState as PaymentRequestVaultItemState
@@ -55,11 +59,13 @@ from .credential_vault_item_request_param import CredentialVaultItemRequestParam
 from .kernel_wallet_vault_item_spec_param import KernelWalletVaultItemSpecParam as KernelWalletVaultItemSpecParam
 from .managed_auth_credential_vault_field import ManagedAuthCredentialVaultField as ManagedAuthCredentialVaultField
 from .passkey_vault_item_operation_result import PasskeyVaultItemOperationResult as PasskeyVaultItemOperationResult
+from .shop_pay_card_vault_item_spec_param import ShopPayCardVaultItemSpecParam as ShopPayCardVaultItemSpecParam
 from .one_password_credential_account_spec import OnePasswordCredentialAccountSpec as OnePasswordCredentialAccountSpec
 from .one_password_credential_account_state import (
     OnePasswordCredentialAccountState as OnePasswordCredentialAccountState,
 )
 from .payment_request_vault_item_spec_param import PaymentRequestVaultItemSpecParam as PaymentRequestVaultItemSpecParam
+from .shop_pay_wallet_vault_item_spec_param import ShopPayWalletVaultItemSpecParam as ShopPayWalletVaultItemSpecParam
 from .credential_vault_item_spec_input_param import (
     CredentialVaultItemSpecInputParam as CredentialVaultItemSpecInputParam,
 )

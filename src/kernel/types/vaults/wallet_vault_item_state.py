@@ -6,6 +6,7 @@ from typing_extensions import Literal, Annotated, TypeAlias
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
 from .kernel_wallet_state import KernelWalletState
+from .shop_pay_wallet_state import ShopPayWalletState
 
 __all__ = ["WalletVaultItemState", "LinkWalletState", "AgentCardWalletState"]
 
@@ -30,5 +31,6 @@ class AgentCardWalletState(BaseModel):
 
 
 WalletVaultItemState: TypeAlias = Annotated[
-    Union[LinkWalletState, AgentCardWalletState, KernelWalletState], PropertyInfo(discriminator="provider")
+    Union[LinkWalletState, AgentCardWalletState, KernelWalletState, ShopPayWalletState],
+    PropertyInfo(discriminator="provider"),
 ]

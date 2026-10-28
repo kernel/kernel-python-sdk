@@ -12,9 +12,8 @@ __all__ = ["ConfirmTransactionVaultItemOperationRequestParam"]
 
 
 class ConfirmTransactionVaultItemOperationRequestParam(TypedDict, total=False):
-    """Report a real merchant transaction outcome for an issued Kernel Visa credential.
-
-    Never infer success from filling checkout or receiving a credential. Supply the observed status, transaction type, actual amount, currency and timestamp. Unknown outcomes require manual reconciliation, not retry. Each purchase accepts one report.
+    """
+    Report a real merchant transaction outcome for an issued Kernel Visa or Shop Pay credential. Shop Pay accepts PURCHASE, AUTHORIZATION and CAPTURE. Never infer success from filling checkout or receiving a credential. Supply the observed status, transaction type, actual amount, currency and timestamp. Unknown outcomes require manual reconciliation, not retry. Each purchase accepts one report.
     """
 
     amount: Required[int]
