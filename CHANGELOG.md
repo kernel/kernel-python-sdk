@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.135.0](https://github.com/kernel/kernel-python-sdk/compare/v0.134.0...v0.135.0) (2026-10-28)
+
+
+### Features
+
+* api: sort API keys by last_used_at ([3501230](https://github.com/kernel/kernel-python-sdk/commit/3501230a16dd8fddf7cc29a1595a68d793fb44ef))
+
 ## [0.134.0](https://github.com/kernel/kernel-python-sdk/compare/v0.133.0...v0.134.0) (2026-10-28)
 
 

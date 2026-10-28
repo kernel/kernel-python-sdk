@@ -36,8 +36,12 @@ class APIKeyListParams(TypedDict, total=False):
     API key identifiers and masked keys match by exact value or prefix.
     """
 
-    sort_by: Literal["created_at", "name", "expires_at"]
-    """Field to sort API keys by."""
+    sort_by: Literal["created_at", "name", "expires_at", "last_used_at"]
+    """Field to sort API keys by.
+
+    Keys with no expiry or no recorded use sort last for expires_at and last_used_at
+    in either direction.
+    """
 
     sort_direction: Literal["asc", "desc"]
     """Sort direction for API keys."""
