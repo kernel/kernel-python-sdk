@@ -33,19 +33,11 @@ __all__ = ["ProjectsResource", "AsyncProjectsResource"]
 
 
 class ProjectsResource(SyncAPIResource):
-    """
-    Create and manage projects for resource isolation within an organization.
-    When projects are disabled for the organization, project operations return
-    `404` with code `projects_disabled`.
-    """
+    """Create and manage projects for resource isolation within an organization."""
 
     @cached_property
     def limits(self) -> LimitsResource:
-        """
-        Create and manage projects for resource isolation within an organization.
-        When projects are disabled for the organization, project operations return
-        `404` with code `projects_disabled`.
-        """
+        """Create and manage projects for resource isolation within an organization."""
         return LimitsResource(self._client)
 
     @cached_property
@@ -295,19 +287,11 @@ class ProjectsResource(SyncAPIResource):
 
 
 class AsyncProjectsResource(AsyncAPIResource):
-    """
-    Create and manage projects for resource isolation within an organization.
-    When projects are disabled for the organization, project operations return
-    `404` with code `projects_disabled`.
-    """
+    """Create and manage projects for resource isolation within an organization."""
 
     @cached_property
     def limits(self) -> AsyncLimitsResource:
-        """
-        Create and manage projects for resource isolation within an organization.
-        When projects are disabled for the organization, project operations return
-        `404` with code `projects_disabled`.
-        """
+        """Create and manage projects for resource isolation within an organization."""
         return AsyncLimitsResource(self._client)
 
     @cached_property
@@ -578,11 +562,7 @@ class ProjectsResourceWithRawResponse:
 
     @cached_property
     def limits(self) -> LimitsResourceWithRawResponse:
-        """
-        Create and manage projects for resource isolation within an organization.
-        When projects are disabled for the organization, project operations return
-        `404` with code `projects_disabled`.
-        """
+        """Create and manage projects for resource isolation within an organization."""
         return LimitsResourceWithRawResponse(self._projects.limits)
 
 
@@ -608,11 +588,7 @@ class AsyncProjectsResourceWithRawResponse:
 
     @cached_property
     def limits(self) -> AsyncLimitsResourceWithRawResponse:
-        """
-        Create and manage projects for resource isolation within an organization.
-        When projects are disabled for the organization, project operations return
-        `404` with code `projects_disabled`.
-        """
+        """Create and manage projects for resource isolation within an organization."""
         return AsyncLimitsResourceWithRawResponse(self._projects.limits)
 
 
@@ -638,11 +614,7 @@ class ProjectsResourceWithStreamingResponse:
 
     @cached_property
     def limits(self) -> LimitsResourceWithStreamingResponse:
-        """
-        Create and manage projects for resource isolation within an organization.
-        When projects are disabled for the organization, project operations return
-        `404` with code `projects_disabled`.
-        """
+        """Create and manage projects for resource isolation within an organization."""
         return LimitsResourceWithStreamingResponse(self._projects.limits)
 
 
@@ -668,9 +640,5 @@ class AsyncProjectsResourceWithStreamingResponse:
 
     @cached_property
     def limits(self) -> AsyncLimitsResourceWithStreamingResponse:
-        """
-        Create and manage projects for resource isolation within an organization.
-        When projects are disabled for the organization, project operations return
-        `404` with code `projects_disabled`.
-        """
+        """Create and manage projects for resource isolation within an organization."""
         return AsyncLimitsResourceWithStreamingResponse(self._projects.limits)
