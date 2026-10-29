@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.137.0](https://github.com/kernel/kernel-python-sdk/compare/v0.136.0...v0.137.0) (2026-10-29)
+
+
+### Features
+
+* Add request-only fingerprint beta contract ([bca5a05](https://github.com/kernel/kernel-python-sdk/commit/bca5a056f486104f3a9f145c65b78df29a104898))
+* Read Shop Pay card status one read at a time and report outcome details ([888e8a2](https://github.com/kernel/kernel-python-sdk/commit/888e8a2d2a64e672941c2c420a0726115727ef42))
+* Remove the projects_enabled flag from the API ([bfb22ed](https://github.com/kernel/kernel-python-sdk/commit/bfb22ed009fa5cbe81781ad6fb3d81023571b643))
+* route browser REPL and WebMCP calls directly to browser VMs ([1974522](https://github.com/kernel/kernel-python-sdk/commit/1974522e499d2dd7a3cf39713229ef9dd9f70d34))
+* Route Evervault alias payment windows through per-window upstreams ([845e6c6](https://github.com/kernel/kernel-python-sdk/commit/845e6c6219be1ec937179236359909aff4137eaf))
+* Wire Shop Pay into the vault API ([e5e6b25](https://github.com/kernel/kernel-python-sdk/commit/e5e6b2541b1360a42fbad61acdfd58d5767fa409))
+
 ## [0.136.0](https://github.com/kernel/kernel-python-sdk/compare/v0.135.0...v0.136.0) (2026-10-28)
 
 
