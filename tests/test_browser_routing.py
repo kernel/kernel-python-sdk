@@ -554,7 +554,35 @@ def test_browser_routing_config_from_env_defaults(monkeypatch: pytest.MonkeyPatc
         "process",
         "fs",
         "logs/stream",
+        "repl",
+        "webmcp",
     )
+
+
+def test_default_routing_sends_repl_and_webmcp_to_vm_but_not_replays(monkeypatch: pytest.MonkeyPatch) -> None:
+    from kernel._models import FinalRequestOptions
+    from kernel.lib.browser_routing.routing import (
+        BrowserRoute,
+        BrowserRouteCache,
+        rewrite_direct_vm_options,
+    )
+
+    monkeypatch.delenv("KERNEL_BROWSER_ROUTING_SUBRESOURCES", raising=False)
+    cache = BrowserRouteCache()
+    cache.set(BrowserRoute(session_id="sess-1", base_url="http://browser-session.test/browser/kernel", jwt="token-abc"))
+    config = browser_routing_config_from_env()
+
+    for path in ("repl", "webmcp/tools", "webmcp/invoke", "webmcp/custom-tools/ct_1"):
+        routed = rewrite_direct_vm_options(
+            FinalRequestOptions(method="post", url=f"/browsers/sess-1/{path}"), cache=cache, config=config
+        )
+        assert str(routed.url).startswith(f"http://browser-session.test/browser/kernel/{path}")
+
+    for path in ("replays", "replays/rec-1"):
+        unrouted = rewrite_direct_vm_options(
+            FinalRequestOptions(method="get", url=f"/browsers/sess-1/{path}"), cache=cache, config=config
+        )
+        assert unrouted.url == f"/browsers/sess-1/{path}"
 
 
 def test_direct_vm_routing_allowlist_segment_boundary() -> None:
