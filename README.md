@@ -203,9 +203,9 @@ from kernel import Kernel
 client = Kernel()
 
 browser = client.browsers.create(
-    location={},
+    fingerprint={"os": "macos"},
 )
-print(browser.location)
+print(browser.fingerprint)
 ```
 
 ## File uploads
