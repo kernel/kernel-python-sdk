@@ -133,9 +133,20 @@ class Choice(BaseModel):
     """Human-readable choice label."""
 
     type: Literal[
-        "mfa_method", "sso_provider", "sign_in_method", "auth_method", "identifier_method", "account", "other"
+        "mfa_method",
+        "sso_provider",
+        "sign_in_method",
+        "auth_method",
+        "identifier_method",
+        "account",
+        "human_intervention",
+        "other",
     ]
-    """Choice type."""
+    """Choice type.
+
+    A `human_intervention` choice confirms the person finished the challenge in the
+    live view.
+    """
 
     context: Optional[str] = None
     """Context captured for a choice."""
@@ -307,6 +318,12 @@ class ManagedAuth(BaseModel):
 
     domain: str
     """Target domain for authentication"""
+
+    hitl: bool
+    """
+    Whether a login blocked by a CAPTCHA the browser cannot solve pauses at
+    AWAITING_HUMAN_INTERVENTION so a person can complete it in the live view.
+    """
 
     profile_name: str
     """Name of the profile associated with this auth connection"""
@@ -506,7 +523,14 @@ class ManagedAuth(BaseModel):
     """Current flow status (null when no flow in progress)"""
 
     flow_step: Optional[
-        Literal["DISCOVERING", "AWAITING_INPUT", "AWAITING_EXTERNAL_ACTION", "SUBMITTING", "COMPLETED"]
+        Literal[
+            "DISCOVERING",
+            "AWAITING_INPUT",
+            "AWAITING_EXTERNAL_ACTION",
+            "AWAITING_HUMAN_INTERVENTION",
+            "SUBMITTING",
+            "COMPLETED",
+        ]
     ] = None
     """Current step in the flow (null when no flow in progress)"""
 

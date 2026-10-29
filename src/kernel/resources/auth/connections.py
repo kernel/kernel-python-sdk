@@ -72,6 +72,7 @@ class ConnectionsResource(SyncAPIResource):
         credential: connection_create_params.Credential | Omit = omit,
         health_check_interval: int | Omit = omit,
         health_checks: bool | Omit = omit,
+        hitl: bool | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_create_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
@@ -150,6 +151,12 @@ class ConnectionsResource(SyncAPIResource):
               the automatic flow (since re-auth is only triggered by a failed scheduled health
               check). Defaults to true.
 
+          hitl: Whether a login blocked by a CAPTCHA the browser cannot solve pauses for a
+              person instead of failing. The flow moves to AWAITING_HUMAN_INTERVENTION with a
+              `human_intervention` choice; the person completes the challenge in
+              `live_view_url`, then submits that choice to resume. Reauthentication never
+              pauses. Defaults to false.
+
           login_url: Optional login page URL to skip discovery
 
           proxy: Deprecated. Use browser.proxy. Retained during migration for existing clients.
@@ -183,6 +190,7 @@ class ConnectionsResource(SyncAPIResource):
                     "credential": credential,
                     "health_check_interval": health_check_interval,
                     "health_checks": health_checks,
+                    "hitl": hitl,
                     "login_url": login_url,
                     "proxy": proxy,
                     "record_session": record_session,
@@ -246,6 +254,7 @@ class ConnectionsResource(SyncAPIResource):
         credential: connection_update_params.Credential | Omit = omit,
         health_check_interval: int | Omit = omit,
         health_checks: bool | Omit = omit,
+        hitl: bool | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_update_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
@@ -297,6 +306,9 @@ class ConnectionsResource(SyncAPIResource):
               on the automatic flow (since re-auth is only triggered by a failed scheduled
               health check).
 
+          hitl: Whether a login blocked by a CAPTCHA the browser cannot solve pauses for a
+              person instead of failing
+
           login_url: Login page URL. Set to empty string to clear.
 
           proxy: Deprecated. Use browser.proxy. Retained during migration for existing clients.
@@ -328,6 +340,7 @@ class ConnectionsResource(SyncAPIResource):
                     "credential": credential,
                     "health_check_interval": health_check_interval,
                     "health_checks": health_checks,
+                    "hitl": hitl,
                     "login_url": login_url,
                     "proxy": proxy,
                     "record_session": record_session,
@@ -736,6 +749,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         credential: connection_create_params.Credential | Omit = omit,
         health_check_interval: int | Omit = omit,
         health_checks: bool | Omit = omit,
+        hitl: bool | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_create_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
@@ -814,6 +828,12 @@ class AsyncConnectionsResource(AsyncAPIResource):
               the automatic flow (since re-auth is only triggered by a failed scheduled health
               check). Defaults to true.
 
+          hitl: Whether a login blocked by a CAPTCHA the browser cannot solve pauses for a
+              person instead of failing. The flow moves to AWAITING_HUMAN_INTERVENTION with a
+              `human_intervention` choice; the person completes the challenge in
+              `live_view_url`, then submits that choice to resume. Reauthentication never
+              pauses. Defaults to false.
+
           login_url: Optional login page URL to skip discovery
 
           proxy: Deprecated. Use browser.proxy. Retained during migration for existing clients.
@@ -847,6 +867,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
                     "credential": credential,
                     "health_check_interval": health_check_interval,
                     "health_checks": health_checks,
+                    "hitl": hitl,
                     "login_url": login_url,
                     "proxy": proxy,
                     "record_session": record_session,
@@ -910,6 +931,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
         credential: connection_update_params.Credential | Omit = omit,
         health_check_interval: int | Omit = omit,
         health_checks: bool | Omit = omit,
+        hitl: bool | Omit = omit,
         login_url: str | Omit = omit,
         proxy: connection_update_params.Proxy | Omit = omit,
         record_session: bool | Omit = omit,
@@ -961,6 +983,9 @@ class AsyncConnectionsResource(AsyncAPIResource):
               on the automatic flow (since re-auth is only triggered by a failed scheduled
               health check).
 
+          hitl: Whether a login blocked by a CAPTCHA the browser cannot solve pauses for a
+              person instead of failing
+
           login_url: Login page URL. Set to empty string to clear.
 
           proxy: Deprecated. Use browser.proxy. Retained during migration for existing clients.
@@ -992,6 +1017,7 @@ class AsyncConnectionsResource(AsyncAPIResource):
                     "credential": credential,
                     "health_check_interval": health_check_interval,
                     "health_checks": health_checks,
+                    "hitl": hitl,
                     "login_url": login_url,
                     "proxy": proxy,
                     "record_session": record_session,
