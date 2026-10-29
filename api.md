@@ -118,6 +118,7 @@ Types:
 ```python
 from kernel.types import (
     BrowserAllowlistState,
+    BrowserFingerprint,
     BrowserLocation,
     BrowserLocationRequest,
     BrowserLocationSource,
@@ -634,6 +635,10 @@ from kernel.types.vaults import (
     RemovePaymentMethodVaultItemOperationRequest,
     RemovePaymentMethodVaultItemOperationResult,
     RestartVerificationVaultItemOperationRequest,
+    ShopPayCardState,
+    ShopPayCardVaultItemSpec,
+    ShopPayWalletState,
+    ShopPayWalletVaultItemSpec,
     VaultCardAliases,
     VaultCardFillField,
     VaultCheckoutContext,

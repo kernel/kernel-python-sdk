@@ -9,6 +9,7 @@ from .tags_param import TagsParam
 from .browser_video_memory import BrowserVideoMemory
 from .vault_reference_param import VaultReferenceParam
 from .browser_memory_request import BrowserMemoryRequest
+from .browser_fingerprint_param import BrowserFingerprintParam
 from .browser_proxy_config_param import BrowserProxyConfigParam
 from .browser_network_config_param import BrowserNetworkConfigParam
 from .shared_params.browser_profile import BrowserProfile
@@ -40,6 +41,14 @@ class BrowserCreateParams(TypedDict, total=False):
     """List of browser extensions to load into the session.
 
     Provide each by id or name.
+    """
+
+    fingerprint: BrowserFingerprintParam
+    """
+    Closed beta: contact Kernel to enable fingerprint overrides for your
+    organization. Overrides browser attributes presented to websites for this
+    session. Currently supports macos and requires stealth=true, headless=false,
+    gpu=false, and default memory. Omit to preserve the default browser behavior.
     """
 
     gpu: bool

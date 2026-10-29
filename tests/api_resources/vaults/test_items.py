@@ -795,6 +795,24 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_perform_operation_with_all_params_overload_3(self, client: Kernel) -> None:
+        item = client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            amount=0,
+            currency="SEW",
+            occurred_at=parse_datetime("2019-12-27T18:11:19.117Z"),
+            status="APPROVED",
+            transaction_type="PURCHASE",
+            type="confirm_transaction",
+            failure_code="failure_code",
+            order_id="x",
+            order_url="https://example.com",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_perform_operation_overload_3(self, client: Kernel) -> None:
         response = client.vaults.items.with_raw_response.perform_operation(
             key="key",
@@ -3393,6 +3411,24 @@ class TestAsyncItems:
             status="APPROVED",
             transaction_type="PURCHASE",
             type="confirm_transaction",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_perform_operation_with_all_params_overload_3(self, async_client: AsyncKernel) -> None:
+        item = await async_client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            amount=0,
+            currency="SEW",
+            occurred_at=parse_datetime("2019-12-27T18:11:19.117Z"),
+            status="APPROVED",
+            transaction_type="PURCHASE",
+            type="confirm_transaction",
+            failure_code="failure_code",
+            order_id="x",
+            order_url="https://example.com",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
 

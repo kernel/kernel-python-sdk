@@ -9,6 +9,7 @@ from ..._utils import PropertyInfo
 from ..._models import BaseModel
 from .kernel_card_state import KernelCardState
 from .vault_card_aliases import VaultCardAliases
+from .shop_pay_card_state import ShopPayCardState
 from .agentcard_checkout_preparation import AgentcardCheckoutPreparation
 from .agentcard_checkout_authorization import AgentcardCheckoutAuthorization
 
@@ -134,5 +135,5 @@ class AgentCardCardState(BaseModel):
 
 
 CardVaultItemState: TypeAlias = Annotated[
-    Union[LinkCardState, AgentCardCardState, KernelCardState], PropertyInfo(discriminator="provider")
+    Union[LinkCardState, AgentCardCardState, KernelCardState, ShopPayCardState], PropertyInfo(discriminator="provider")
 ]

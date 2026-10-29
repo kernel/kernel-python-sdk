@@ -8,6 +8,7 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 from .card_vault_item_spec_param import CardVaultItemSpecParam
 from .kernel_wallet_vault_item_spec_param import KernelWalletVaultItemSpecParam
 from .payment_request_vault_item_spec_param import PaymentRequestVaultItemSpecParam
+from .shop_pay_wallet_vault_item_spec_param import ShopPayWalletVaultItemSpecParam
 from .credential_vault_item_spec_input_param import CredentialVaultItemSpecInputParam
 from .one_password_credential_account_spec_param import OnePasswordCredentialAccountSpecParam
 
@@ -190,6 +191,7 @@ WalletVaultItemRequestSpec: TypeAlias = Union[
     WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpec,
     WalletVaultItemRequestSpecAgentCardWalletVaultItemSpec,
     KernelWalletVaultItemSpecParam,
+    ShopPayWalletVaultItemSpecParam,
 ]
 
 

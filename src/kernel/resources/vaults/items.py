@@ -386,13 +386,13 @@ class ItemsResource(SyncAPIResource):
         Unresolved payment operations normally block deletion, including operations on
         child cards of a wallet. Deleting a connected Kernel wallet first blocks new
         payments on it, then removes its enrolled card. If that fails, the wallet is
-        kept and keeps refusing payments; retry the deletion. A Link or Kernel card in
-        recovery_required for issuance, or an AgentCard card in recovery_required whose
-        checkout create response returned no authorization ID, may be explicitly
-        abandoned by deleting that card directly; deleting its wallet or vault remains
-        blocked until the card is deleted. Deleting or recreating an item is not proof
-        that a payment did not occur. Deleting a managed auth credential item leaves the
-        connection and its saved credential unchanged.
+        kept and keeps refusing payments; retry the deletion. A Link, Kernel or Shop Pay
+        card in recovery_required for issuance, or an AgentCard card in
+        recovery_required whose checkout create response returned no authorization ID,
+        may be explicitly abandoned by deleting that card directly; deleting its wallet
+        or vault remains blocked until the card is deleted. Deleting or recreating an
+        item is not proof that a payment did not occur. Deleting a managed auth
+        credential item leaves the connection and its saved credential unchanged.
 
         Args:
           extra_headers: Send extra headers
@@ -615,6 +615,9 @@ class ItemsResource(SyncAPIResource):
             "PURCHASE", "AUTHORIZATION", "CAPTURE", "REFUND", "REVERSAL", "VERIFICATION", "CHARGEBACK", "FRAUD"
         ],
         type: Literal["confirm_transaction"],
+        failure_code: str | Omit = omit,
+        order_id: str | Omit = omit,
+        order_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -661,6 +664,17 @@ class ItemsResource(SyncAPIResource):
           currency: Must match the approved purchase currency.
 
           occurred_at: Time the merchant outcome was observed.
+
+          failure_code: Why the purchase did not succeed, for any other outcome, such as 3ds_challenge,
+              captcha, login_required, timeout or site_error. payment_declined goes only with
+              DECLINED, which takes no other code. Shop Pay reports it; other providers ignore
+              it.
+
+          order_id: The merchant's order number, for an APPROVED outcome. Shop Pay reports it; other
+              providers ignore it.
+
+          order_url: The merchant's https order page, for an APPROVED outcome. Shop Pay reports it;
+              other providers ignore it.
 
           extra_headers: Send extra headers
 
@@ -1655,6 +1669,9 @@ class ItemsResource(SyncAPIResource):
             "PURCHASE", "AUTHORIZATION", "CAPTURE", "REFUND", "REVERSAL", "VERIFICATION", "CHARGEBACK", "FRAUD"
         ]
         | Omit = omit,
+        failure_code: str | Omit = omit,
+        order_id: str | Omit = omit,
+        order_url: str | Omit = omit,
         checkout: VaultCheckoutContextParam | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
         timeout_ms: int | Omit = omit,
@@ -1698,6 +1715,9 @@ class ItemsResource(SyncAPIResource):
                         "occurred_at": occurred_at,
                         "status": status,
                         "transaction_type": transaction_type,
+                        "failure_code": failure_code,
+                        "order_id": order_id,
+                        "order_url": order_url,
                         "checkout": checkout,
                         "fields": fields,
                         "timeout_ms": timeout_ms,
@@ -2371,13 +2391,13 @@ class AsyncItemsResource(AsyncAPIResource):
         Unresolved payment operations normally block deletion, including operations on
         child cards of a wallet. Deleting a connected Kernel wallet first blocks new
         payments on it, then removes its enrolled card. If that fails, the wallet is
-        kept and keeps refusing payments; retry the deletion. A Link or Kernel card in
-        recovery_required for issuance, or an AgentCard card in recovery_required whose
-        checkout create response returned no authorization ID, may be explicitly
-        abandoned by deleting that card directly; deleting its wallet or vault remains
-        blocked until the card is deleted. Deleting or recreating an item is not proof
-        that a payment did not occur. Deleting a managed auth credential item leaves the
-        connection and its saved credential unchanged.
+        kept and keeps refusing payments; retry the deletion. A Link, Kernel or Shop Pay
+        card in recovery_required for issuance, or an AgentCard card in
+        recovery_required whose checkout create response returned no authorization ID,
+        may be explicitly abandoned by deleting that card directly; deleting its wallet
+        or vault remains blocked until the card is deleted. Deleting or recreating an
+        item is not proof that a payment did not occur. Deleting a managed auth
+        credential item leaves the connection and its saved credential unchanged.
 
         Args:
           extra_headers: Send extra headers
@@ -2600,6 +2620,9 @@ class AsyncItemsResource(AsyncAPIResource):
             "PURCHASE", "AUTHORIZATION", "CAPTURE", "REFUND", "REVERSAL", "VERIFICATION", "CHARGEBACK", "FRAUD"
         ],
         type: Literal["confirm_transaction"],
+        failure_code: str | Omit = omit,
+        order_id: str | Omit = omit,
+        order_url: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -2646,6 +2669,17 @@ class AsyncItemsResource(AsyncAPIResource):
           currency: Must match the approved purchase currency.
 
           occurred_at: Time the merchant outcome was observed.
+
+          failure_code: Why the purchase did not succeed, for any other outcome, such as 3ds_challenge,
+              captcha, login_required, timeout or site_error. payment_declined goes only with
+              DECLINED, which takes no other code. Shop Pay reports it; other providers ignore
+              it.
+
+          order_id: The merchant's order number, for an APPROVED outcome. Shop Pay reports it; other
+              providers ignore it.
+
+          order_url: The merchant's https order page, for an APPROVED outcome. Shop Pay reports it;
+              other providers ignore it.
 
           extra_headers: Send extra headers
 
@@ -3640,6 +3674,9 @@ class AsyncItemsResource(AsyncAPIResource):
             "PURCHASE", "AUTHORIZATION", "CAPTURE", "REFUND", "REVERSAL", "VERIFICATION", "CHARGEBACK", "FRAUD"
         ]
         | Omit = omit,
+        failure_code: str | Omit = omit,
+        order_id: str | Omit = omit,
+        order_url: str | Omit = omit,
         checkout: VaultCheckoutContextParam | Omit = omit,
         fields: Iterable[VaultFillFieldParam] | Omit = omit,
         timeout_ms: int | Omit = omit,
@@ -3683,6 +3720,9 @@ class AsyncItemsResource(AsyncAPIResource):
                         "occurred_at": occurred_at,
                         "status": status,
                         "transaction_type": transaction_type,
+                        "failure_code": failure_code,
+                        "order_id": order_id,
+                        "order_url": order_url,
                         "checkout": checkout,
                         "fields": fields,
                         "timeout_ms": timeout_ms,

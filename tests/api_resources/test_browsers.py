@@ -43,6 +43,7 @@ class TestBrowsers:
                     "name": "name",
                 }
             ],
+            fingerprint={"os": "macos"},
             gpu=False,
             headless=False,
             invocation_id="rr33xuugxj9h0bkf1rdt2bet",
@@ -654,6 +655,7 @@ class TestAsyncBrowsers:
                     "name": "name",
                 }
             ],
+            fingerprint={"os": "macos"},
             gpu=False,
             headless=False,
             invocation_id="rr33xuugxj9h0bkf1rdt2bet",

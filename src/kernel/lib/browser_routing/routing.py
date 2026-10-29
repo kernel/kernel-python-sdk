@@ -62,6 +62,8 @@ def browser_routing_config_from_env() -> BrowserRoutingConfig:
                 "process",
                 "fs",
                 "logs/stream",
+                "repl",
+                "webmcp",
             )
         )
     if raw.strip() == "":

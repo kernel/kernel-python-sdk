@@ -6,6 +6,7 @@ from typing import Dict, Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .kernel_card_vault_item_spec_param import KernelCardVaultItemSpecParam
+from .shop_pay_card_vault_item_spec_param import ShopPayCardVaultItemSpecParam
 
 __all__ = [
     "CardVaultItemSpecParam",
@@ -161,5 +162,5 @@ class AgentCardCardVaultItemSpec(TypedDict, total=False):
 
 
 CardVaultItemSpecParam: TypeAlias = Union[
-    LinkCardVaultItemSpec, AgentCardCardVaultItemSpec, KernelCardVaultItemSpecParam
+    LinkCardVaultItemSpec, AgentCardCardVaultItemSpec, KernelCardVaultItemSpecParam, ShopPayCardVaultItemSpecParam
 ]

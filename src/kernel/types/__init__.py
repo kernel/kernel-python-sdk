@@ -120,6 +120,7 @@ from .invocation_create_params import InvocationCreateParams as InvocationCreate
 from .invocation_follow_params import InvocationFollowParams as InvocationFollowParams
 from .invocation_list_response import InvocationListResponse as InvocationListResponse
 from .invocation_update_params import InvocationUpdateParams as InvocationUpdateParams
+from .browser_fingerprint_param import BrowserFingerprintParam as BrowserFingerprintParam
 from .browser_repl_text_content import BrowserReplTextContent as BrowserReplTextContent
 from .browser_retrieve_response import BrowserRetrieveResponse as BrowserRetrieveResponse
 from .extension_upload_response import ExtensionUploadResponse as ExtensionUploadResponse

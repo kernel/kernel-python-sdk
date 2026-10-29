@@ -113,6 +113,7 @@ from ...lib.browser_routing.raw_http import (
 from ...types.browser_memory_request import BrowserMemoryRequest
 from ...types.browser_create_response import BrowserCreateResponse
 from ...types.browser_update_response import BrowserUpdateResponse
+from ...types.browser_fingerprint_param import BrowserFingerprintParam
 from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.browser_proxy_config_param import BrowserProxyConfigParam
 from ...types.browser_network_config_param import BrowserNetworkConfigParam
@@ -195,6 +196,7 @@ class BrowsersResource(SyncAPIResource):
         *,
         chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
+        fingerprint: BrowserFingerprintParam | Omit = omit,
         gpu: bool | Omit = omit,
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
@@ -233,6 +235,11 @@ class BrowsersResource(SyncAPIResource):
               https://chromeenterprise.google/policies/
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
+
+          fingerprint: Closed beta: contact Kernel to enable fingerprint overrides for your
+              organization. Overrides browser attributes presented to websites for this
+              session. Currently supports macos and requires stealth=true, headless=false,
+              gpu=false, and default memory. Omit to preserve the default browser behavior.
 
           gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
               Enterprise plan, headless=false, and region=us-east.
@@ -340,6 +347,7 @@ class BrowsersResource(SyncAPIResource):
                 {
                     "chrome_policy": chrome_policy,
                     "extensions": extensions,
+                    "fingerprint": fingerprint,
                     "gpu": gpu,
                     "headless": headless,
                     "invocation_id": invocation_id,
@@ -1049,6 +1057,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         *,
         chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
+        fingerprint: BrowserFingerprintParam | Omit = omit,
         gpu: bool | Omit = omit,
         headless: bool | Omit = omit,
         invocation_id: str | Omit = omit,
@@ -1087,6 +1096,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
               https://chromeenterprise.google/policies/
 
           extensions: List of browser extensions to load into the session. Provide each by id or name.
+
+          fingerprint: Closed beta: contact Kernel to enable fingerprint overrides for your
+              organization. Overrides browser attributes presented to websites for this
+              session. Currently supports macos and requires stealth=true, headless=false,
+              gpu=false, and default memory. Omit to preserve the default browser behavior.
 
           gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
               Enterprise plan, headless=false, and region=us-east.
@@ -1194,6 +1208,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                 {
                     "chrome_policy": chrome_policy,
                     "extensions": extensions,
+                    "fingerprint": fingerprint,
                     "gpu": gpu,
                     "headless": headless,
                     "invocation_id": invocation_id,
