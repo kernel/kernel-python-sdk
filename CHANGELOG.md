@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.139.0](https://github.com/kernel/kernel-python-sdk/compare/v0.138.0...v0.139.0) (2026-10-30)
+
+
+### Features
+
+* Expose leased_at on browser session responses ([37a09bc](https://github.com/kernel/kernel-python-sdk/commit/37a09bceae3ca0941c588ce58f3afad804096fbf))
+
 ## [0.138.0](https://github.com/kernel/kernel-python-sdk/compare/v0.137.0...v0.138.0) (2026-10-30)
 
 
