@@ -104,6 +104,15 @@ class ConnectionCreateParams(TypedDict, total=False):
     triggered by a failed scheduled health check). Defaults to true.
     """
 
+    hitl: bool
+    """
+    Whether a login blocked by a CAPTCHA the browser cannot solve pauses for a
+    person instead of failing. The flow moves to AWAITING_HUMAN_INTERVENTION with a
+    `human_intervention` choice; the person completes the challenge in
+    `live_view_url`, then submits that choice to resume. Reauthentication never
+    pauses. Defaults to false.
+    """
+
     login_url: str
     """Optional login page URL to skip discovery"""
 

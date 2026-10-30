@@ -113,6 +113,7 @@ class TestConnections:
             },
             health_check_interval=3600,
             health_checks=True,
+            hitl=False,
             login_url="https://netflix.com/login",
             proxy={
                 "id": "id",
@@ -281,6 +282,7 @@ class TestConnections:
             },
             health_check_interval=3600,
             health_checks=True,
+            hitl=False,
             login_url="https://netflix.com/login",
             proxy={
                 "id": "id",
@@ -782,6 +784,7 @@ class TestAsyncConnections:
             },
             health_check_interval=3600,
             health_checks=True,
+            hitl=False,
             login_url="https://netflix.com/login",
             proxy={
                 "id": "id",
@@ -950,6 +953,7 @@ class TestAsyncConnections:
             },
             health_check_interval=3600,
             health_checks=True,
+            hitl=False,
             login_url="https://netflix.com/login",
             proxy={
                 "id": "id",

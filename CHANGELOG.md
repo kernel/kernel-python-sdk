@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.138.0](https://github.com/kernel/kernel-python-sdk/compare/v0.137.0...v0.138.0) (2026-10-30)
+
+
+### Features
+
+* Pause managed auth logins for human verification on unsolvable captchas ([e3b8dd1](https://github.com/kernel/kernel-python-sdk/commit/e3b8dd14505bb5c630111e2eaf14591864d3e31c))
+
 ## [0.137.0](https://github.com/kernel/kernel-python-sdk/compare/v0.136.0...v0.137.0) (2026-10-29)
 
 

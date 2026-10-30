@@ -73,6 +73,12 @@ class ConnectionUpdateParams(TypedDict, total=False):
     only triggered by a failed scheduled health check).
     """
 
+    hitl: bool
+    """
+    Whether a login blocked by a CAPTCHA the browser cannot solve pauses for a
+    person instead of failing
+    """
+
     login_url: str
     """Login page URL. Set to empty string to clear."""
 

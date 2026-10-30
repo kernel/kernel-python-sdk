@@ -31,9 +31,20 @@ class ManagedAuthStateEventChoice(BaseModel):
     """Human-readable choice label."""
 
     type: Literal[
-        "mfa_method", "sso_provider", "sign_in_method", "auth_method", "identifier_method", "account", "other"
+        "mfa_method",
+        "sso_provider",
+        "sign_in_method",
+        "auth_method",
+        "identifier_method",
+        "account",
+        "human_intervention",
+        "other",
     ]
-    """Choice type."""
+    """Choice type.
+
+    A `human_intervention` choice confirms the person finished the challenge in the
+    live view.
+    """
 
     context: Optional[str] = None
     """Context captured for a choice."""
@@ -181,7 +192,14 @@ class ManagedAuthStateEvent(BaseModel):
     flow_status: Literal["IN_PROGRESS", "SUCCESS", "FAILED", "EXPIRED", "CANCELED"]
     """Current flow status."""
 
-    flow_step: Literal["DISCOVERING", "AWAITING_INPUT", "AWAITING_EXTERNAL_ACTION", "SUBMITTING", "COMPLETED"]
+    flow_step: Literal[
+        "DISCOVERING",
+        "AWAITING_INPUT",
+        "AWAITING_EXTERNAL_ACTION",
+        "AWAITING_HUMAN_INTERVENTION",
+        "SUBMITTING",
+        "COMPLETED",
+    ]
     """Current step in the flow."""
 
     timestamp: datetime
