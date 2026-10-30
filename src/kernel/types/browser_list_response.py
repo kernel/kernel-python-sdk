@@ -77,6 +77,12 @@ class BrowserListResponse(BaseModel):
     kiosk_mode: Optional[bool] = None
     """Whether the browser session is running in kiosk mode."""
 
+    leased_at: Optional[datetime] = None
+    """When the pooled browser session was last leased.
+
+    Only present for leased pooled sessions.
+    """
+
     location: Optional[BrowserLocation] = None
     """Effective browser timezone and locale with per-field provenance."""
 
