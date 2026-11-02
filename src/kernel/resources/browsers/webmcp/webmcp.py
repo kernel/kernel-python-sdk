@@ -82,12 +82,16 @@ class WebmcpResource(SyncAPIResource):
         across navigation. Inspect a populated form, obtain any required confirmation,
         then submit through Playwright or computer interaction without invoking the tool
         again. If the tab or embedded frame disappears, or the request times out after
-        invocation begins, the response reports outcome_unknown and the tool is not
-        retried. CDP-backed custom tool outputs above 240 KiB return an error rather
-        than a truncated result.
+        invocation begins, the response reports outcome_unknown. If the tool's page is
+        reloaded or replaced by a navigation the tool did not start, and the tool never
+        responds, the response reports tool_page_unloaded once the replacement page
+        loads, or right away if the tool's tab crashes. Neither failure is retried, and
+        both set X-Should-Retry to false because the tool may have had side effects.
+        CDP-backed custom tool outputs above 240 KiB return an error rather than a
+        truncated result.
 
         Args:
-          input: Tool input, limited to 1 MiB after JSON serialization.
+          input: Tool input, limited to 4 MiB after JSON serialization.
 
           extra_headers: Send extra headers
 
@@ -219,12 +223,16 @@ class AsyncWebmcpResource(AsyncAPIResource):
         across navigation. Inspect a populated form, obtain any required confirmation,
         then submit through Playwright or computer interaction without invoking the tool
         again. If the tab or embedded frame disappears, or the request times out after
-        invocation begins, the response reports outcome_unknown and the tool is not
-        retried. CDP-backed custom tool outputs above 240 KiB return an error rather
-        than a truncated result.
+        invocation begins, the response reports outcome_unknown. If the tool's page is
+        reloaded or replaced by a navigation the tool did not start, and the tool never
+        responds, the response reports tool_page_unloaded once the replacement page
+        loads, or right away if the tool's tab crashes. Neither failure is retried, and
+        both set X-Should-Retry to false because the tool may have had side effects.
+        CDP-backed custom tool outputs above 240 KiB return an error rather than a
+        truncated result.
 
         Args:
-          input: Tool input, limited to 1 MiB after JSON serialization.
+          input: Tool input, limited to 4 MiB after JSON serialization.
 
           extra_headers: Send extra headers
 

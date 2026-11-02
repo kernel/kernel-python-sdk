@@ -10,7 +10,7 @@ __all__ = ["WebmcpInvokeToolParams"]
 
 class WebmcpInvokeToolParams(TypedDict, total=False):
     input: Required[Dict[str, object]]
-    """Tool input, limited to 1 MiB after JSON serialization."""
+    """Tool input, limited to 4 MiB after JSON serialization."""
 
     tool_ref: Required[str]
 
