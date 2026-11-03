@@ -235,7 +235,8 @@ class OnePasswordFillVaultItemOperationRequest(TypedDict, total=False):
     entry_id: str
     """ID of an approved request entry.
 
-    Required when several approved entries have the page's origin.
+    Required when several entries are approved and the page's origin does not match
+    exactly one of them.
     """
 
     target_id: str

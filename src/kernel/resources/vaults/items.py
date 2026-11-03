@@ -1280,8 +1280,8 @@ class ItemsResource(SyncAPIResource):
           page_url: Exact current top-level page URL. Must match exactly one open page in the
               browser unless target_id is supplied.
 
-          entry_id: ID of an approved request entry. Required when several approved entries have the
-              page's origin.
+          entry_id: ID of an approved request entry. Required when several entries are approved and
+              the page's origin does not match exactly one of them.
 
           target_id: CDP target ID of the page to fill, such as tab.target_id from
               playwright.execute. Use it when several open pages have page_url. The page's
@@ -3285,8 +3285,8 @@ class AsyncItemsResource(AsyncAPIResource):
           page_url: Exact current top-level page URL. Must match exactly one open page in the
               browser unless target_id is supplied.
 
-          entry_id: ID of an approved request entry. Required when several approved entries have the
-              page's origin.
+          entry_id: ID of an approved request entry. Required when several entries are approved and
+              the page's origin does not match exactly one of them.
 
           target_id: CDP target ID of the page to fill, such as tab.target_id from
               playwright.execute. Use it when several open pages have page_url. The page's
