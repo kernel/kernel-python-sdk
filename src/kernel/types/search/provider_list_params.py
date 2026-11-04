@@ -8,7 +8,7 @@ __all__ = ["ProviderListParams"]
 
 
 class ProviderListParams(TypedDict, total=False):
-    slug: Literal["brave", "exa", "perplexity", "context", "parallel", "valyu", "octen", "you", "tavily", "serpapi"]
+    slug: Literal["brave", "exa", "perplexity", "context", "parallel", "octen", "you", "tavily"]
     """Optional concrete provider slug filter.
 
     Omit to list every provider. A slug that is not listed returns an empty array.
