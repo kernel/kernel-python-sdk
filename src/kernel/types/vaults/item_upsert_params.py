@@ -6,6 +6,7 @@ from typing import Union
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 from .card_vault_item_spec_param import CardVaultItemSpecParam
+from .vgs_wallet_vault_item_spec_param import VgsWalletVaultItemSpecParam
 from .kernel_wallet_vault_item_spec_param import KernelWalletVaultItemSpecParam
 from .payment_request_vault_item_spec_param import PaymentRequestVaultItemSpecParam
 from .shop_pay_wallet_vault_item_spec_param import ShopPayWalletVaultItemSpecParam
@@ -204,6 +205,7 @@ WalletVaultItemRequestSpec: TypeAlias = Union[
     WalletVaultItemRequestSpecAgentCardWalletVaultItemSpec,
     KernelWalletVaultItemSpecParam,
     ShopPayWalletVaultItemSpecParam,
+    VgsWalletVaultItemSpecParam,
 ]
 
 
