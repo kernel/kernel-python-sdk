@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.140.0](https://github.com/kernel/kernel-python-sdk/compare/v0.139.0...v0.140.0) (2026-11-04)
+
+
+### Features
+
+* Add single-use Kernel cards to vaults ([c11d264](https://github.com/kernel/kernel-python-sdk/commit/c11d2644383af967ddcb8b892b325ea4421eb956))
+* Drop Kernel's origin gate from 1Password fill ([e5454cb](https://github.com/kernel/kernel-python-sdk/commit/e5454cb02a33599e81ec5ca3c764e2522ad2cd76))
+* Let customers keep refreshing imported Link wallet grants ([f67de9c](https://github.com/kernel/kernel-python-sdk/commit/f67de9c930a43bc3f1b8db04a93bf13831b7d8cb))
+* Pass through tool_page_unloaded and disable SDK retries for WebMCP invoke failures ([56c9983](https://github.com/kernel/kernel-python-sdk/commit/56c998338b3f885d4d8276e5d038d9612bf0d1fd))
+
 ## [0.139.0](https://github.com/kernel/kernel-python-sdk/compare/v0.138.0...v0.139.0) (2026-10-30)
 
 
