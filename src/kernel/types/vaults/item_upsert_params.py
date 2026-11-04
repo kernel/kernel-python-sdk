@@ -107,14 +107,15 @@ class WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpecAuthorizationImpor
 class WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpecAuthorizationImportedLinkAuthorizationInputTokens(
     TypedDict, total=False
 ):
-    """Send the token pair from your backend.
+    """Send the tokens from your backend.
 
-    Both tokens must be from the same Link grant under the referenced client. Supply a currently valid access token. Kernel refreshes when needed after import and uses the expiry returned by Link for subsequent tokens. Tokens are never returned in wallet responses, events, or logs.
+    Supply a currently valid access token. With token_refresh=kernel, also send the refresh token from the same Link grant under the referenced client; Kernel refreshes when needed after import and uses the expiry returned by Link for subsequent tokens. With token_refresh=customer, omit the refresh token. Tokens are never returned in wallet responses, events, or logs.
     """
 
     access_token: Required[str]
 
-    refresh_token: Required[str]
+    refresh_token: str
+    """Required with token_refresh=kernel; rejected with token_refresh=customer."""
 
 
 class WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpecAuthorizationImportedLinkAuthorizationInput(
@@ -123,7 +124,8 @@ class WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpecAuthorizationImpor
     """The customer's backend completes Link OAuth and supplies the resulting tokens.
 
     For a new wallet, Kernel verifies the access token can access Link payment methods without consuming or rotating the refresh token. Valid access creates a wallet with state.status=connected. An expired, invalid, revoked, or insufficiently scoped access token returns 400 and no wallet is created. Refresh expired tokens in your backend before importing them. A failed import does not modify existing wallets.
-    After successful import, Kernel owns subsequent refresh-token rotation; the customer must stop refreshing this grant. Import does not verify the refresh token: if it or the configured client credentials are rejected during a later refresh, the imported wallet becomes degraded. An unknown refresh outcome also leaves it degraded; Kernel does not retry a refresh token that may already have been consumed. There is no in-place reauthorization operation for an imported wallet.
+    By default (token_refresh=kernel), Kernel owns subsequent refresh-token rotation after a successful import; the customer must stop refreshing this grant. With token_refresh=customer, send only the access token: your backend keeps the refresh token and rotates the grant, and Kernel never refreshes or revokes it. Replace the stored access token with the wallet's update_access_token operation before each step that reaches Link, such as creating, authorizing or filling a card. When Link rejects the stored access token, operations return 409 without contacting Link again; update the token and retry. The remainder of this description applies to token_refresh=kernel.
+    With token_refresh=kernel, Kernel owns subsequent refresh-token rotation; the customer must stop refreshing this grant. Import does not verify the refresh token: if it or the configured client credentials are rejected during a later refresh, the imported wallet becomes degraded. An unknown refresh outcome also leaves it degraded; Kernel does not retry a refresh token that may already have been consumed. There is no in-place reauthorization operation for an imported wallet.
     If this imported wallet's credentials become unusable, obtain a fresh Link OAuth grant in your backend and create a wallet under a NEW wallet key. Use the new wallet for NEW cards and payments, not to retry an old payment whose outcome is uncertain. This does not replace the old grant, rebind existing cards, or resolve their payment outcomes. Retain the old wallet and its cards while reconciling any uncertain payments with the provider or support. Do not repeat an uncertain payment on the new wallet, and do not treat deletion as evidence that it did not execute. Deletion of the old wallet can remain blocked by unresolved child cards.
     Repeating a create for the same item key and non-secret spec returns the existing wallet without replacing tokens, even if they have rotated or the wallet needs reconnection. ID and name references resolving to the same config are equivalent. A different config or non-secret spec returns 409. This create operation does not replace an existing grant.
     """
@@ -137,12 +139,22 @@ class WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpecAuthorizationImpor
     tokens: Required[
         WalletVaultItemRequestSpecLinkWalletVaultItemRequestSpecAuthorizationImportedLinkAuthorizationInputTokens
     ]
-    """Send the token pair from your backend.
+    """Send the tokens from your backend.
 
-    Both tokens must be from the same Link grant under the referenced client. Supply
-    a currently valid access token. Kernel refreshes when needed after import and
-    uses the expiry returned by Link for subsequent tokens. Tokens are never
-    returned in wallet responses, events, or logs.
+    Supply a currently valid access token. With token_refresh=kernel, also send the
+    refresh token from the same Link grant under the referenced client; Kernel
+    refreshes when needed after import and uses the expiry returned by Link for
+    subsequent tokens. With token_refresh=customer, omit the refresh token. Tokens
+    are never returned in wallet responses, events, or logs.
+    """
+
+    token_refresh: Literal["kernel", "customer"]
+    """Who refreshes an imported Link grant.
+
+    kernel (default) means Kernel holds and rotates the refresh token. customer
+    means your backend keeps the refresh token and replaces the access token with
+    update_access_token; Kernel never refreshes or revokes the grant. Fixed at
+    wallet creation.
     """
 
 

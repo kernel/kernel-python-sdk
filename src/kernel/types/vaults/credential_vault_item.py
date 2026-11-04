@@ -52,6 +52,7 @@ class AvailableOperation(BaseModel):
         "1pw_fill",
         "1pw_recover",
         "1pw_update_access_token",
+        "update_access_token",
         "webmcp_invoke",
         "add_payment_method",
         "remove_payment_method",

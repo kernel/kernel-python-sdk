@@ -1430,6 +1430,67 @@ class ItemsResource(SyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        access_token: str,
+        type: Literal["update_access_token"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         bindings: Iterable[VaultWebmcpBindingParam],
         browser_id: str,
         input: Dict[str, object],
@@ -1656,6 +1717,7 @@ class ItemsResource(SyncAPIResource):
         | Literal["1pw_fill"]
         | Literal["1pw_recover"]
         | Literal["1pw_update_access_token"]
+        | Literal["update_access_token"]
         | Literal["webmcp_invoke"]
         | Literal["add_payment_method"]
         | Literal["remove_payment_method"],
@@ -3435,6 +3497,67 @@ class AsyncItemsResource(AsyncAPIResource):
         key: str,
         *,
         id_or_name: str,
+        access_token: str,
+        type: Literal["update_access_token"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
         bindings: Iterable[VaultWebmcpBindingParam],
         browser_id: str,
         input: Dict[str, object],
@@ -3661,6 +3784,7 @@ class AsyncItemsResource(AsyncAPIResource):
         | Literal["1pw_fill"]
         | Literal["1pw_recover"]
         | Literal["1pw_update_access_token"]
+        | Literal["update_access_token"]
         | Literal["webmcp_invoke"]
         | Literal["add_payment_method"]
         | Literal["remove_payment_method"],

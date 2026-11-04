@@ -28,6 +28,7 @@ __all__ = [
     "OnePasswordFillVaultItemOperationRequest",
     "OnePasswordRecoverVaultItemOperationRequest",
     "OnePasswordUpdateAccessTokenVaultItemOperationRequest",
+    "UpdateAccessTokenVaultItemOperationRequest",
     "WebmcpInvokeVaultItemOperationRequest",
     "AddPaymentMethodVaultItemOperationRequest",
     "RemovePaymentMethodVaultItemOperationRequest",
@@ -267,6 +268,14 @@ class OnePasswordUpdateAccessTokenVaultItemOperationRequest(TypedDict, total=Fal
     """Optional supplied expiry. Omit to clear the old expiry."""
 
 
+class UpdateAccessTokenVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    access_token: Required[str]
+
+    type: Required[Literal["update_access_token"]]
+
+
 class WebmcpInvokeVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
@@ -330,6 +339,7 @@ ItemPerformOperationParams: TypeAlias = Union[
     OnePasswordFillVaultItemOperationRequest,
     OnePasswordRecoverVaultItemOperationRequest,
     OnePasswordUpdateAccessTokenVaultItemOperationRequest,
+    UpdateAccessTokenVaultItemOperationRequest,
     WebmcpInvokeVaultItemOperationRequest,
     AddPaymentMethodVaultItemOperationRequest,
     RemovePaymentMethodVaultItemOperationRequest,
