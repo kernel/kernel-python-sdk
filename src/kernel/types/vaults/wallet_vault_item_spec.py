@@ -61,6 +61,15 @@ class LinkWalletVaultItemSpecAuthorization(BaseModel):
 
     method: Literal["oauth"]
 
+    token_refresh: Optional[Literal["kernel", "customer"]] = None
+    """Who refreshes an imported Link grant.
+
+    kernel (default) means Kernel holds and rotates the refresh token. customer
+    means your backend keeps the refresh token and replaces the access token with
+    update_access_token; Kernel never refreshes or revokes the grant. Fixed at
+    wallet creation.
+    """
+
 
 class LinkWalletVaultItemSpec(BaseModel):
     authorization: LinkWalletVaultItemSpecAuthorization

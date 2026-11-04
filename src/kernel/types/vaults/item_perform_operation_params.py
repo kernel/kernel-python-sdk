@@ -28,6 +28,7 @@ __all__ = [
     "OnePasswordFillVaultItemOperationRequest",
     "OnePasswordRecoverVaultItemOperationRequest",
     "OnePasswordUpdateAccessTokenVaultItemOperationRequest",
+    "UpdateAccessTokenVaultItemOperationRequest",
     "WebmcpInvokeVaultItemOperationRequest",
     "AddPaymentMethodVaultItemOperationRequest",
     "RemovePaymentMethodVaultItemOperationRequest",
@@ -235,7 +236,8 @@ class OnePasswordFillVaultItemOperationRequest(TypedDict, total=False):
     entry_id: str
     """ID of an approved request entry.
 
-    Required when several approved entries have the page's origin.
+    Required when several entries are approved and the page's origin does not match
+    exactly one of them.
     """
 
     target_id: str
@@ -264,6 +266,14 @@ class OnePasswordUpdateAccessTokenVaultItemOperationRequest(TypedDict, total=Fal
 
     access_token_expires_at: Annotated[Union[str, datetime], PropertyInfo(format="iso8601")]
     """Optional supplied expiry. Omit to clear the old expiry."""
+
+
+class UpdateAccessTokenVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    access_token: Required[str]
+
+    type: Required[Literal["update_access_token"]]
 
 
 class WebmcpInvokeVaultItemOperationRequest(TypedDict, total=False):
@@ -329,6 +339,7 @@ ItemPerformOperationParams: TypeAlias = Union[
     OnePasswordFillVaultItemOperationRequest,
     OnePasswordRecoverVaultItemOperationRequest,
     OnePasswordUpdateAccessTokenVaultItemOperationRequest,
+    UpdateAccessTokenVaultItemOperationRequest,
     WebmcpInvokeVaultItemOperationRequest,
     AddPaymentMethodVaultItemOperationRequest,
     RemovePaymentMethodVaultItemOperationRequest,

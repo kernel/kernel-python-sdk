@@ -32,12 +32,17 @@ class Masks(BaseModel):
 
 
 class KernelCardState(BaseModel):
-    """A ready Kernel card supports authorize, fill, then submit checkout.
-
-    Card details are delivered for a few minutes after fill; submit promptly. Repeated fill is safe and never submits checkout. Visa purchases require a spend_approval action before details are issued; Mastercard purchases need no hosted approval. masks.last4 is the enrolled card's last four digits; masks.token_last4, when present, is the token's last four digits shown to the merchant. Kernel does not observe whether the merchant charged the card.
+    """
+    A ready Kernel card funded by a payment method supports authorize, fill, then submit checkout. A single-use card (source single_use_card) is ready on creation, supports only fill, and is expired from expires_at; Kernel deletes its stored details shortly after expires_at. It has no payment_method_id or funding_status. Card details are delivered for a few minutes after fill; submit promptly. Repeated fill is safe and never submits checkout. Visa purchases require a spend_approval action before details are issued; Mastercard purchases need no hosted approval. masks.last4 is the enrolled card's last four digits; masks.token_last4, when present, is the token's last four digits shown to the merchant. Kernel does not observe whether the merchant charged the card.
     """
 
     provider: Literal["kernel"]
+
+    source: Literal["payment_method", "single_use_card"]
+    """
+    payment_method for a purchase funded by a wallet payment method; single_use_card
+    for a card whose details were supplied with single_use_card.
+    """
 
     status: Literal[
         "requested", "pending_authorization", "ready", "consumed", "expired", "declined", "recovery_required"
@@ -65,7 +70,8 @@ class KernelCardState(BaseModel):
     domains: Optional[List[str]] = None
     """Informational registrable domain.
 
-    Fill is locked to merchant_url's exact origin.
+    Fill is locked to merchant_url's exact origin, except that a single-use card
+    fills on any https page of this registrable domain.
     """
 
     funding_status: Optional[Literal["available", "unavailable", "removed"]] = None
