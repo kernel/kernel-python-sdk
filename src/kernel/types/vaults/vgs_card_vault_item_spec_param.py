@@ -18,13 +18,6 @@ class VgsCardVaultItemSpecParam(TypedDict, total=False):
     amount: Required[int]
     """Integer amount in minor currency units (at most 1000000)."""
 
-    card: Required[VgsCardInputParam]
-    """The card's aliases in the customer's VGS vault, its expiry and last four digits.
-
-    Write-only: stored encrypted and never returned in the item, its events or logs.
-    A repeated PUT with the same key must send the same card.
-    """
-
     currency: Required[str]
     """ISO 4217 code.
 
@@ -41,3 +34,6 @@ class VgsCardVaultItemSpecParam(TypedDict, total=False):
 
     wallet: Required[str]
     """Key of the VGS wallet item whose configuration reads the aliases."""
+
+    card: VgsCardInputParam
+    """Required when creating the card. Never returned."""

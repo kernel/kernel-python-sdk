@@ -11,4 +11,18 @@ class VgsCardInput(BaseModel):
     Write-only: stored encrypted and never returned in the item, its events or logs. A repeated PUT with the same key must send the same card.
     """
 
-    pass
+    cvc_alias: str
+    """A volatile alias of a freshly collected security code in the customer's vault.
+
+    It must still exist when authorize runs.
+    """
+
+    exp_month: int
+
+    exp_year: int
+
+    last4: str
+    """The card number's last four digits, checked against the revealed alias."""
+
+    pan_alias: str
+    """A persistent alias of the card number in the customer's vault."""

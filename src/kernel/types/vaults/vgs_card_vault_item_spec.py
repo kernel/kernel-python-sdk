@@ -1,8 +1,10 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
+from .vgs_card_input import VgsCardInput
 
 __all__ = ["VgsCardVaultItemSpec"]
 
@@ -32,3 +34,6 @@ class VgsCardVaultItemSpec(BaseModel):
 
     wallet: str
     """Key of the VGS wallet item whose configuration reads the aliases."""
+
+    card: Optional[VgsCardInput] = None
+    """Required when creating the card. Never returned."""
