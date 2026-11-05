@@ -120,7 +120,7 @@ class TestBrowsers:
                     "name": "x",
                 }
             ],
-            video_memory="2GiB",
+            video_memory="3GiB",
             viewport={
                 "height": 800,
                 "width": 1280,
@@ -732,7 +732,7 @@ class TestAsyncBrowsers:
                     "name": "x",
                 }
             ],
-            video_memory="2GiB",
+            video_memory="3GiB",
             viewport={
                 "height": 800,
                 "width": 1280,

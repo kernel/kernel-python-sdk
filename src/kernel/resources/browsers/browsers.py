@@ -315,8 +315,8 @@ class BrowsersResource(SyncAPIResource):
               creation.
 
           video_memory: Video memory (VRAM) for a GPU browser session. Requires gpu=true. Defaults to
-              2GiB, which comes with 4 vCPU and 6GiB memory. 4GiB comes with 8 vCPU and 12GiB
-              memory.
+              3GiB, which comes with 4 vCPU and 6GiB memory. 6GiB comes with 8 vCPU and 12GiB
+              memory. 2GiB and 4GiB are deprecated aliases for 3GiB and 6GiB.
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is
@@ -1176,8 +1176,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
               creation.
 
           video_memory: Video memory (VRAM) for a GPU browser session. Requires gpu=true. Defaults to
-              2GiB, which comes with 4 vCPU and 6GiB memory. 4GiB comes with 8 vCPU and 12GiB
-              memory.
+              3GiB, which comes with 4 vCPU and 6GiB memory. 6GiB comes with 8 vCPU and 12GiB
+              memory. 2GiB and 4GiB are deprecated aliases for 3GiB and 6GiB.
 
           viewport: Initial browser window size in pixels with optional refresh rate. If omitted,
               image defaults apply (1920x1080@25). For GPU images, the default is
