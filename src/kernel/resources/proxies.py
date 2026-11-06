@@ -150,7 +150,8 @@ class ProxiesResource(SyncAPIResource):
         self,
         id_or_name: str,
         *,
-        name: str,
+        config: proxy_update_params.Config | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -159,12 +160,19 @@ class ProxiesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> ProxyUpdateResponse:
-        """Update a proxy's name.
+        """Update a proxy's name, or move an ISP proxy to another reserved exit IP.
 
-        Proxy names are not unique and duplicate names are
-        allowed.
+        Proxy
+        names are not unique and duplicate names are allowed. Moving requires a reserved
+        ISP allocation and is accepted only for proxies of type isp: the new endpoint is
+        probed first and nothing changes if the probe fails. An IP outside the
+        allocation is a 400 with code ip_not_reserved. A 409 means the IP cannot
+        currently be assigned or the proxy was changed concurrently; read it back and
+        retry.
 
         Args:
+          config: Changes to an ISP proxy's exit IP. Accepted only for proxies of type `isp`.
+
           name: New proxy name. Proxy names are trimmed and length-checked only; duplicates are
               allowed because proxies are updated by ID, not by name.
 
@@ -182,7 +190,13 @@ class ProxiesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return self._patch(
             path_template("/proxies/{id_or_name}", id_or_name=id_or_name),
-            body=maybe_transform({"name": name}, proxy_update_params.ProxyUpdateParams),
+            body=maybe_transform(
+                {
+                    "config": config,
+                    "name": name,
+                },
+                proxy_update_params.ProxyUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -196,6 +210,7 @@ class ProxiesResource(SyncAPIResource):
     def list(
         self,
         *,
+        ip_address: str | Omit = omit,
         limit: int | Omit = omit,
         name: str | Omit = omit,
         offset: int | Omit = omit,
@@ -211,6 +226,10 @@ class ProxiesResource(SyncAPIResource):
         List proxies in the resolved project.
 
         Args:
+          ip_address: Exact match on the primary exit IP of ISP proxies. Must be an IPv4 address. Only
+              ISP proxies are matched: the ip_address shown on other proxy types is a one-time
+              observation, not a stable identity.
+
           limit: Limit the number of proxies to return.
 
           name: Exact-match filter on proxy name using the database collation. In production,
@@ -240,6 +259,7 @@ class ProxiesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "ip_address": ip_address,
                         "limit": limit,
                         "name": name,
                         "offset": offset,
@@ -480,7 +500,8 @@ class AsyncProxiesResource(AsyncAPIResource):
         self,
         id_or_name: str,
         *,
-        name: str,
+        config: proxy_update_params.Config | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -489,12 +510,19 @@ class AsyncProxiesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> ProxyUpdateResponse:
-        """Update a proxy's name.
+        """Update a proxy's name, or move an ISP proxy to another reserved exit IP.
 
-        Proxy names are not unique and duplicate names are
-        allowed.
+        Proxy
+        names are not unique and duplicate names are allowed. Moving requires a reserved
+        ISP allocation and is accepted only for proxies of type isp: the new endpoint is
+        probed first and nothing changes if the probe fails. An IP outside the
+        allocation is a 400 with code ip_not_reserved. A 409 means the IP cannot
+        currently be assigned or the proxy was changed concurrently; read it back and
+        retry.
 
         Args:
+          config: Changes to an ISP proxy's exit IP. Accepted only for proxies of type `isp`.
+
           name: New proxy name. Proxy names are trimmed and length-checked only; duplicates are
               allowed because proxies are updated by ID, not by name.
 
@@ -512,7 +540,13 @@ class AsyncProxiesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id_or_name` but received {id_or_name!r}")
         return await self._patch(
             path_template("/proxies/{id_or_name}", id_or_name=id_or_name),
-            body=await async_maybe_transform({"name": name}, proxy_update_params.ProxyUpdateParams),
+            body=await async_maybe_transform(
+                {
+                    "config": config,
+                    "name": name,
+                },
+                proxy_update_params.ProxyUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -526,6 +560,7 @@ class AsyncProxiesResource(AsyncAPIResource):
     def list(
         self,
         *,
+        ip_address: str | Omit = omit,
         limit: int | Omit = omit,
         name: str | Omit = omit,
         offset: int | Omit = omit,
@@ -541,6 +576,10 @@ class AsyncProxiesResource(AsyncAPIResource):
         List proxies in the resolved project.
 
         Args:
+          ip_address: Exact match on the primary exit IP of ISP proxies. Must be an IPv4 address. Only
+              ISP proxies are matched: the ip_address shown on other proxy types is a one-time
+              observation, not a stable identity.
+
           limit: Limit the number of proxies to return.
 
           name: Exact-match filter on proxy name using the database collation. In production,
@@ -570,6 +609,7 @@ class AsyncProxiesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "ip_address": ip_address,
                         "limit": limit,
                         "name": name,
                         "offset": offset,

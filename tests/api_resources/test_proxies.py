@@ -38,7 +38,10 @@ class TestProxies:
         proxy = client.proxies.create(
             type="isp",
             bypass_hosts=["string"],
-            config={"country": "US"},
+            config={
+                "country": "US",
+                "ip_address": "203.0.113.10",
+            },
             name="name",
             protocol="http",
         )
@@ -117,6 +120,15 @@ class TestProxies:
     def test_method_update(self, client: Kernel) -> None:
         proxy = client.proxies.update(
             id_or_name="id_or_name",
+        )
+        assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params(self, client: Kernel) -> None:
+        proxy = client.proxies.update(
+            id_or_name="id_or_name",
+            config={"ip_address": "203.0.113.10"},
             name="my-renamed-proxy",
         )
         assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
@@ -126,7 +138,6 @@ class TestProxies:
     def test_raw_response_update(self, client: Kernel) -> None:
         response = client.proxies.with_raw_response.update(
             id_or_name="id_or_name",
-            name="my-renamed-proxy",
         )
 
         assert response.is_closed is True
@@ -139,7 +150,6 @@ class TestProxies:
     def test_streaming_response_update(self, client: Kernel) -> None:
         with client.proxies.with_streaming_response.update(
             id_or_name="id_or_name",
-            name="my-renamed-proxy",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -155,7 +165,6 @@ class TestProxies:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             client.proxies.with_raw_response.update(
                 id_or_name="",
-                name="my-renamed-proxy",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -168,6 +177,7 @@ class TestProxies:
     @parametrize
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         proxy = client.proxies.list(
+            ip_address="ip_address",
             limit=1,
             name="name",
             offset=0,
@@ -310,7 +320,10 @@ class TestAsyncProxies:
         proxy = await async_client.proxies.create(
             type="isp",
             bypass_hosts=["string"],
-            config={"country": "US"},
+            config={
+                "country": "US",
+                "ip_address": "203.0.113.10",
+            },
             name="name",
             protocol="http",
         )
@@ -389,6 +402,15 @@ class TestAsyncProxies:
     async def test_method_update(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.update(
             id_or_name="id_or_name",
+        )
+        assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncKernel) -> None:
+        proxy = await async_client.proxies.update(
+            id_or_name="id_or_name",
+            config={"ip_address": "203.0.113.10"},
             name="my-renamed-proxy",
         )
         assert_matches_type(ProxyUpdateResponse, proxy, path=["response"])
@@ -398,7 +420,6 @@ class TestAsyncProxies:
     async def test_raw_response_update(self, async_client: AsyncKernel) -> None:
         response = await async_client.proxies.with_raw_response.update(
             id_or_name="id_or_name",
-            name="my-renamed-proxy",
         )
 
         assert response.is_closed is True
@@ -411,7 +432,6 @@ class TestAsyncProxies:
     async def test_streaming_response_update(self, async_client: AsyncKernel) -> None:
         async with async_client.proxies.with_streaming_response.update(
             id_or_name="id_or_name",
-            name="my-renamed-proxy",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -427,7 +447,6 @@ class TestAsyncProxies:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             await async_client.proxies.with_raw_response.update(
                 id_or_name="",
-                name="my-renamed-proxy",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -440,6 +459,7 @@ class TestAsyncProxies:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         proxy = await async_client.proxies.list(
+            ip_address="ip_address",
             limit=1,
             name="name",
             offset=0,

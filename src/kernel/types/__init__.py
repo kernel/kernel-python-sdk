@@ -30,6 +30,7 @@ from .project import Project as Project
 from .warning import Warning as Warning
 from .analysis import Analysis as Analysis
 from .evidence import Evidence as Evidence
+from .proxy_ip import ProxyIP as ProxyIP
 from .credential import Credential as Credential
 from .tags_param import TagsParam as TagsParam
 from .browser_pool import BrowserPool as BrowserPool
@@ -42,6 +43,7 @@ from .app_list_params import AppListParams as AppListParams
 from .audit_log_entry import AuditLogEntry as AuditLogEntry
 from .created_api_key import CreatedAPIKey as CreatedAPIKey
 from .lookup_response import LookupResponse as LookupResponse
+from .proxy_ip_detail import ProxyIPDetail as ProxyIPDetail
 from .vault_reference import VaultReference as VaultReference
 from .analysis_summary import AnalysisSummary as AnalysisSummary
 from .browser_location import BrowserLocation as BrowserLocation
@@ -68,6 +70,7 @@ from .browser_proxy_config import BrowserProxyConfig as BrowserProxyConfig
 from .browser_repl_content import BrowserReplContent as BrowserReplContent
 from .browser_video_memory import BrowserVideoMemory as BrowserVideoMemory
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
+from .proxy_ip_list_params import ProxyIPListParams as ProxyIPListParams
 from .search_create_params import SearchCreateParams as SearchCreateParams
 from .vault_encryption_key import VaultEncryptionKey as VaultEncryptionKey
 from .api_key_create_params import APIKeyCreateParams as APIKeyCreateParams

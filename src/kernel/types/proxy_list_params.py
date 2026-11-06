@@ -8,6 +8,13 @@ __all__ = ["ProxyListParams"]
 
 
 class ProxyListParams(TypedDict, total=False):
+    ip_address: str
+    """Exact match on the primary exit IP of ISP proxies.
+
+    Must be an IPv4 address. Only ISP proxies are matched: the ip_address shown on
+    other proxy types is a one-time observation, not a stable identity.
+    """
+
     limit: int
     """Limit the number of proxies to return."""
 
