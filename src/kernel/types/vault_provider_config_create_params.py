@@ -11,6 +11,8 @@ __all__ = [
     "VaultLinkProviderConfigRequestCredentials",
     "VaultAgentCardProviderConfigRequest",
     "VaultAgentCardProviderConfigRequestCredentials",
+    "VaultVgsProviderConfigRequest",
+    "VaultVgsProviderConfigRequestCredentials",
 ]
 
 
@@ -52,4 +54,35 @@ class VaultAgentCardProviderConfigRequestCredentials(TypedDict, total=False):
     client_secret: Required[str]
 
 
-VaultProviderConfigCreateParams: TypeAlias = Union[VaultLinkProviderConfigRequest, VaultAgentCardProviderConfigRequest]
+class VaultVgsProviderConfigRequest(TypedDict, total=False):
+    credentials: Required[VaultVgsProviderConfigRequestCredentials]
+    """
+    A VGS service account with the aliases:read scope on the customer's vault, which
+    Kernel uses to reveal the aliases each purchase sends.
+    """
+
+    name: Required[str]
+    """Unique within the organization."""
+
+    provider: Required[Literal["vgs"]]
+
+
+class VaultVgsProviderConfigRequestCredentials(TypedDict, total=False):
+    """
+    A VGS service account with the aliases:read scope on the customer's vault, which Kernel uses to reveal the aliases each purchase sends.
+    """
+
+    client_id: Required[str]
+
+    client_secret: Required[str]
+
+    environment: Required[Literal["sandbox", "live"]]
+    """The vault's VGS environment."""
+
+    vault_id: Required[str]
+    """The customer's VGS vault ID."""
+
+
+VaultProviderConfigCreateParams: TypeAlias = Union[
+    VaultLinkProviderConfigRequest, VaultAgentCardProviderConfigRequest, VaultVgsProviderConfigRequest
+]

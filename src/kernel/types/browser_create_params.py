@@ -182,8 +182,9 @@ class BrowserCreateParams(TypedDict, total=False):
     video_memory: BrowserVideoMemory
     """Video memory (VRAM) for a GPU browser session.
 
-    Requires gpu=true. Defaults to 2GiB, which comes with 4 vCPU and 6GiB memory.
-    4GiB comes with 8 vCPU and 12GiB memory.
+    Requires gpu=true. Defaults to 3GiB, which comes with 4 vCPU and 6GiB memory.
+    6GiB comes with 8 vCPU and 12GiB memory. 2GiB and 4GiB are deprecated aliases
+    for 3GiB and 6GiB.
     """
 
     viewport: BrowserViewport

@@ -28,8 +28,6 @@ __all__ = [
     "SearchParallelTargetOptionsAdvancedSettingsExcerptSettings",
     "SearchParallelTargetOptionsAdvancedSettingsFetchPolicy",
     "SearchParallelTargetOptionsAdvancedSettingsSourcePolicy",
-    "SearchValyuTarget",
-    "SearchValyuTargetOptions",
     "SearchOctenTarget",
     "SearchOctenTargetOptions",
     "SearchOctenTargetOptionsFullContent",
@@ -40,8 +38,6 @@ __all__ = [
     "SearchYouTargetOptionsExtractionFullPage",
     "SearchTavilyTarget",
     "SearchTavilyTargetOptions",
-    "SearchSerpAPITarget",
-    "SearchSerpAPITargetOptions",
 ]
 
 
@@ -335,57 +331,6 @@ class SearchParallelTarget(TypedDict, total=False):
     options: SearchParallelTargetOptions
 
 
-class SearchValyuTargetOptions(TypedDict, total=False):
-    fast_mode: bool
-    """Trade depth for latency."""
-
-    historical_cache: bool
-    """Allow historical cached results."""
-
-    include_abstracts: bool
-    """Include abstracts for academic sources."""
-
-    instructions: str
-    """Natural-language retrieval guidance."""
-
-    is_tool_call: bool
-    """Mark the search as an agent tool call."""
-
-    max_num_results: int
-    """Provider-native count. Lower-only alias for max_results."""
-
-    max_price: float
-    """Provider-native USD-per-thousand-results price ceiling. Forwarded to Valyu."""
-
-    relevance_threshold: float
-    """Provider-native minimum relevance threshold.
-
-    Not a normalized cross-provider score.
-    """
-
-    response_length: Literal["short", "medium", "large", "max"]
-    """Provider result-content length preset."""
-
-    search_type: str
-    """Corpus selector, including all, web, proprietary, and news.
-
-    Provider corpus choice may change billing; Kernel does not force web-only
-    searches.
-    """
-
-    source_biases: SequenceNotStr[str]
-    """Bias retrieval toward these sources."""
-
-    url_only: bool
-    """Return URLs without content."""
-
-
-class SearchValyuTarget(TypedDict, total=False):
-    provider: Required[Literal["valyu"]]
-
-    options: SearchValyuTargetOptions
-
-
 class SearchOctenTargetOptionsFullContent(TypedDict, total=False):
     enable: bool
 
@@ -575,68 +520,13 @@ class SearchTavilyTarget(TypedDict, total=False):
     options: SearchTavilyTargetOptions
 
 
-class SearchSerpAPITargetOptions(TypedDict, total=False):
-    engine: Required[str]
-    """SerpApi engine identifier.
-
-    The Kernel integration currently supports google only.
-    """
-
-    device: Literal["desktop", "mobile", "tablet"]
-    """Device profile used for the search."""
-
-    filter: Literal[0, 1]
-    """Google duplicate-content filter."""
-
-    gl: str
-    """Two-letter Google country code."""
-
-    google_domain: str
-    """Google domain to search when using the google engine."""
-
-    hl: str
-    """Interface language code."""
-
-    location: str
-    """Free-form geographic location used for localized results."""
-
-    nfpr: Literal[0, 1]
-    """Google auto-correction filter."""
-
-    no_cache: bool
-    """When true, bypass SerpApi cached results when supported."""
-
-    num: int
-    """Number of results requested from the search engine."""
-
-    safe: Literal["active", "off"]
-    """Safe-search setting for engines that support it."""
-
-    start: int
-    """Zero-based result offset for pagination."""
-
-    tbm: str
-    """Google vertical search selector, such as images, video, news, or shopping."""
-
-    tbs: str
-    """Google time and search modifiers, including freshness filters."""
-
-
-class SearchSerpAPITarget(TypedDict, total=False):
-    provider: Required[Literal["serpapi"]]
-
-    options: SearchSerpAPITargetOptions
-
-
 ProviderTargetParam: TypeAlias = Union[
     SearchBraveTarget,
     SearchExaTarget,
     SearchPerplexityTarget,
     SearchContextTarget,
     SearchParallelTarget,
-    SearchValyuTarget,
     SearchOctenTarget,
     SearchYouTarget,
     SearchTavilyTarget,
-    SearchSerpAPITarget,
 ]

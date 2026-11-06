@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Dict, Union, Iterable
 from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
+from .vgs_card_vault_item_spec_param import VgsCardVaultItemSpecParam
 from .kernel_card_vault_item_spec_param import KernelCardVaultItemSpecParam
 from .shop_pay_card_vault_item_spec_param import ShopPayCardVaultItemSpecParam
 
@@ -162,5 +163,9 @@ class AgentCardCardVaultItemSpec(TypedDict, total=False):
 
 
 CardVaultItemSpecParam: TypeAlias = Union[
-    LinkCardVaultItemSpec, AgentCardCardVaultItemSpec, KernelCardVaultItemSpecParam, ShopPayCardVaultItemSpecParam
+    LinkCardVaultItemSpec,
+    AgentCardCardVaultItemSpec,
+    KernelCardVaultItemSpecParam,
+    ShopPayCardVaultItemSpecParam,
+    VgsCardVaultItemSpecParam,
 ]

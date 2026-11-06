@@ -1,0 +1,39 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from typing import Optional
+from typing_extensions import Literal
+
+from ..._models import BaseModel
+from .vgs_card_input import VgsCardInput
+
+__all__ = ["VgsCardVaultItemSpec"]
+
+
+class VgsCardVaultItemSpec(BaseModel):
+    """One live purchase with a card in the customer's VGS vault.
+
+    authorize reveals card.pan_alias and card.cvc_alias through Kernel's VGS outbound proxy, which replaces both with aliases in Kernel's vault before they reach Kernel; Kernel never receives the card number or security code. The card is then ready with no further approval, until expires_at, by default five minutes after authorize. fill types Kernel's aliases on merchant_url's origin, and Kernel's VGS proxy replaces them with the card's details when the browser submits checkout. An expired card requires a new purchase with a freshly collected CVC alias. The amount and merchant are recorded but do not restrict payment requests sent by the browser. Card updates are not supported; delete and create a new item instead.
+    """
+
+    amount: int
+    """Integer amount in minor currency units (at most 1000000)."""
+
+    currency: str
+    """ISO 4217 code.
+
+    Supported: aud, brl, cad, chf, czk, dkk, eur, gbp, hkd, inr, jpy, krw, mxn, nok,
+    nzd, pln, sek, sgd, usd, zar.
+    """
+
+    merchant_name: str
+
+    merchant_url: str
+    """Merchant checkout URL. Fill is allowed only on this URL's origin."""
+
+    provider: Literal["vgs"]
+
+    wallet: str
+    """Key of the VGS wallet item whose configuration reads the aliases."""
+
+    card: Optional[VgsCardInput] = None
+    """Required when creating the card. Never returned."""

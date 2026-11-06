@@ -4,7 +4,10 @@ from __future__ import annotations
 
 from .vault_item import VaultItem as VaultItem
 from .link_user_info import LinkUserInfo as LinkUserInfo
+from .vgs_card_input import VgsCardInput as VgsCardInput
+from .vgs_card_state import VgsCardState as VgsCardState
 from .vault_item_event import VaultItemEvent as VaultItemEvent
+from .vgs_wallet_state import VgsWalletState as VgsWalletState
 from .kernel_card_state import KernelCardState as KernelCardState
 from .vault_item_action import VaultItemAction as VaultItemAction
 from .item_events_params import ItemEventsParams as ItemEventsParams
@@ -18,6 +21,7 @@ from .card_vault_item_spec import CardVaultItemSpec as CardVaultItemSpec
 from .item_events_response import ItemEventsResponse as ItemEventsResponse
 from .item_retrieve_params import ItemRetrieveParams as ItemRetrieveParams
 from .vault_payment_method import VaultPaymentMethod as VaultPaymentMethod
+from .vgs_card_input_param import VgsCardInputParam as VgsCardInputParam
 from .card_vault_item_state import CardVaultItemState as CardVaultItemState
 from .credential_vault_item import CredentialVaultItem as CredentialVaultItem
 from .link_shipping_address import LinkShippingAddress as LinkShippingAddress
@@ -27,11 +31,13 @@ from .vault_fill_field_param import VaultFillFieldParam as VaultFillFieldParam
 from .wallet_vault_item_spec import WalletVaultItemSpec as WalletVaultItemSpec
 from .vault_fill_field_result import VaultFillFieldResult as VaultFillFieldResult
 from .wallet_vault_item_state import WalletVaultItemState as WalletVaultItemState
+from .vgs_card_vault_item_spec import VgsCardVaultItemSpec as VgsCardVaultItemSpec
 from .one_password_oauth_action import OnePasswordOAuthAction as OnePasswordOAuthAction
 from .card_vault_item_spec_param import CardVaultItemSpecParam as CardVaultItemSpecParam
 from .credential_vault_item_spec import CredentialVaultItemSpec as CredentialVaultItemSpec
 from .payment_request_vault_item import PaymentRequestVaultItem as PaymentRequestVaultItem
 from .vault_webmcp_binding_param import VaultWebmcpBindingParam as VaultWebmcpBindingParam
+from .vgs_wallet_vault_item_spec import VgsWalletVaultItemSpec as VgsWalletVaultItemSpec
 from .credential_vault_field_type import CredentialVaultFieldType as CredentialVaultFieldType
 from .credential_vault_item_state import CredentialVaultItemState as CredentialVaultItemState
 from .kernel_card_vault_item_spec import KernelCardVaultItemSpec as KernelCardVaultItemSpec
@@ -46,12 +52,14 @@ from .kernel_wallet_vault_item_spec import KernelWalletVaultItemSpec as KernelWa
 from .shop_pay_card_vault_item_spec import ShopPayCardVaultItemSpec as ShopPayCardVaultItemSpec
 from .vault_item_operation_response import VaultItemOperationResponse as VaultItemOperationResponse
 from .agentcard_checkout_preparation import AgentcardCheckoutPreparation as AgentcardCheckoutPreparation
+from .vgs_card_vault_item_spec_param import VgsCardVaultItemSpecParam as VgsCardVaultItemSpecParam
 from .payment_request_vault_item_spec import PaymentRequestVaultItemSpec as PaymentRequestVaultItemSpec
 from .shop_pay_wallet_vault_item_spec import ShopPayWalletVaultItemSpec as ShopPayWalletVaultItemSpec
 from .single_use_card_billing_address import SingleUseCardBillingAddress as SingleUseCardBillingAddress
 from .agentcard_checkout_authorization import AgentcardCheckoutAuthorization as AgentcardCheckoutAuthorization
 from .fill_vault_item_operation_result import FillVaultItemOperationResult as FillVaultItemOperationResult
 from .payment_request_vault_item_state import PaymentRequestVaultItemState as PaymentRequestVaultItemState
+from .vgs_wallet_vault_item_spec_param import VgsWalletVaultItemSpecParam as VgsWalletVaultItemSpecParam
 from .credential_vault_field_definition import CredentialVaultFieldDefinition as CredentialVaultFieldDefinition
 from .kernel_card_vault_item_spec_param import KernelCardVaultItemSpecParam as KernelCardVaultItemSpecParam
 from .kernel_credential_vault_item_spec import KernelCredentialVaultItemSpec as KernelCredentialVaultItemSpec

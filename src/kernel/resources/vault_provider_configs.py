@@ -125,14 +125,56 @@ class VaultProviderConfigsResource(SyncAPIResource):
         """
         ...
 
+    @overload
+    def create(
+        self,
+        *,
+        credentials: vault_provider_config_create_params.VaultVgsProviderConfigRequestCredentials,
+        name: str,
+        provider: Literal["vgs"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> VaultProviderConfig:
+        """Register a configuration shared across the organization's projects.
+
+        Names are
+        unique within the organization; duplicate names return 409 without replacing
+        credentials. A configuration serves many wallets. Secret credentials are never
+        returned. Requires an organization-scoped credential or dashboard
+        authentication; project-scoped credentials receive 403.
+
+        Args:
+          credentials: A VGS service account with the aliases:read scope on the customer's vault, which
+              Kernel uses to reveal the aliases each purchase sends.
+
+          name: Unique within the organization.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
     @required_args(["credentials", "name", "provider"])
     def create(
         self,
         *,
         credentials: vault_provider_config_create_params.VaultLinkProviderConfigRequestCredentials
-        | vault_provider_config_create_params.VaultAgentCardProviderConfigRequestCredentials,
+        | vault_provider_config_create_params.VaultAgentCardProviderConfigRequestCredentials
+        | vault_provider_config_create_params.VaultVgsProviderConfigRequestCredentials,
         name: str,
-        provider: Literal["link"] | Literal["agentcard"],
+        provider: Literal["link"] | Literal["agentcard"] | Literal["vgs"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -454,14 +496,56 @@ class AsyncVaultProviderConfigsResource(AsyncAPIResource):
         """
         ...
 
+    @overload
+    async def create(
+        self,
+        *,
+        credentials: vault_provider_config_create_params.VaultVgsProviderConfigRequestCredentials,
+        name: str,
+        provider: Literal["vgs"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> VaultProviderConfig:
+        """Register a configuration shared across the organization's projects.
+
+        Names are
+        unique within the organization; duplicate names return 409 without replacing
+        credentials. A configuration serves many wallets. Secret credentials are never
+        returned. Requires an organization-scoped credential or dashboard
+        authentication; project-scoped credentials receive 403.
+
+        Args:
+          credentials: A VGS service account with the aliases:read scope on the customer's vault, which
+              Kernel uses to reveal the aliases each purchase sends.
+
+          name: Unique within the organization.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
     @required_args(["credentials", "name", "provider"])
     async def create(
         self,
         *,
         credentials: vault_provider_config_create_params.VaultLinkProviderConfigRequestCredentials
-        | vault_provider_config_create_params.VaultAgentCardProviderConfigRequestCredentials,
+        | vault_provider_config_create_params.VaultAgentCardProviderConfigRequestCredentials
+        | vault_provider_config_create_params.VaultVgsProviderConfigRequestCredentials,
         name: str,
-        provider: Literal["link"] | Literal["agentcard"],
+        provider: Literal["link"] | Literal["agentcard"] | Literal["vgs"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

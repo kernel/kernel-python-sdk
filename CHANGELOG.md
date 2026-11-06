@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.141.0](https://github.com/kernel/kernel-python-sdk/compare/v0.140.0...v0.141.0) (2026-11-05)
+
+
+### Features
+
+* Add customer-managed VGS vault card payments ([01c7767](https://github.com/kernel/kernel-python-sdk/commit/01c7767ccc13cd14521048a974c255bc583eb73c))
+* Move GPU browsers to L40S-3Q and 6Q vGPU profiles ([d3eb44c](https://github.com/kernel/kernel-python-sdk/commit/d3eb44c75ecf31727e72b8fb7d780c31ac2ecdde))
+* Remove SerpApi and Valyu search providers ([1eec830](https://github.com/kernel/kernel-python-sdk/commit/1eec830f4de4e1aabf2890119967e4a6d3e5633c))
+* Return access_token_rejected code when Link rejects a customer-supplied token ([3f9a384](https://github.com/kernel/kernel-python-sdk/commit/3f9a3844fd95e262f55f798a2f2601d105cf9512))
+
+
+### Bug Fixes
+
+* generate VGS card aliases in the TypeScript SDK ([814e522](https://github.com/kernel/kernel-python-sdk/commit/814e522467a6d436d73fa27381b944b3d46d03ca))
+
 ## [0.140.0](https://github.com/kernel/kernel-python-sdk/compare/v0.139.0...v0.140.0) (2026-11-04)
 
 

@@ -134,6 +134,61 @@ class TestVaultProviderConfigs:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_create_overload_3(self, client: Kernel) -> None:
+        vault_provider_config = client.vault_provider_configs.create(
+            credentials={
+                "client_id": "x",
+                "client_secret": "x",
+                "environment": "sandbox",
+                "vault_id": "tnt26f1klzn5713uu0l3596",
+            },
+            name="name",
+            provider="vgs",
+        )
+        assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_create_overload_3(self, client: Kernel) -> None:
+        response = client.vault_provider_configs.with_raw_response.create(
+            credentials={
+                "client_id": "x",
+                "client_secret": "x",
+                "environment": "sandbox",
+                "vault_id": "tnt26f1klzn5713uu0l3596",
+            },
+            name="name",
+            provider="vgs",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        vault_provider_config = response.parse()
+        assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_create_overload_3(self, client: Kernel) -> None:
+        with client.vault_provider_configs.with_streaming_response.create(
+            credentials={
+                "client_id": "x",
+                "client_secret": "x",
+                "environment": "sandbox",
+                "vault_id": "tnt26f1klzn5713uu0l3596",
+            },
+            name="name",
+            provider="vgs",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            vault_provider_config = response.parse()
+            assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_retrieve(self, client: Kernel) -> None:
         vault_provider_config = client.vault_provider_configs.retrieve(
             "id_or_name",
@@ -417,6 +472,61 @@ class TestAsyncVaultProviderConfigs:
             },
             name="name",
             provider="agentcard",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            vault_provider_config = await response.parse()
+            assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_overload_3(self, async_client: AsyncKernel) -> None:
+        vault_provider_config = await async_client.vault_provider_configs.create(
+            credentials={
+                "client_id": "x",
+                "client_secret": "x",
+                "environment": "sandbox",
+                "vault_id": "tnt26f1klzn5713uu0l3596",
+            },
+            name="name",
+            provider="vgs",
+        )
+        assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_create_overload_3(self, async_client: AsyncKernel) -> None:
+        response = await async_client.vault_provider_configs.with_raw_response.create(
+            credentials={
+                "client_id": "x",
+                "client_secret": "x",
+                "environment": "sandbox",
+                "vault_id": "tnt26f1klzn5713uu0l3596",
+            },
+            name="name",
+            provider="vgs",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        vault_provider_config = await response.parse()
+        assert_matches_type(VaultProviderConfig, vault_provider_config, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_create_overload_3(self, async_client: AsyncKernel) -> None:
+        async with async_client.vault_provider_configs.with_streaming_response.create(
+            credentials={
+                "client_id": "x",
+                "client_secret": "x",
+                "environment": "sandbox",
+                "vault_id": "tnt26f1klzn5713uu0l3596",
+            },
+            name="name",
+            provider="vgs",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

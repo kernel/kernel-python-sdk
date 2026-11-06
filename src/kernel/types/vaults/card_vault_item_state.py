@@ -7,6 +7,7 @@ from pydantic import Field as FieldInfo
 
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
+from .vgs_card_state import VgsCardState
 from .kernel_card_state import KernelCardState
 from .vault_card_aliases import VaultCardAliases
 from .shop_pay_card_state import ShopPayCardState
@@ -135,5 +136,6 @@ class AgentCardCardState(BaseModel):
 
 
 CardVaultItemState: TypeAlias = Annotated[
-    Union[LinkCardState, AgentCardCardState, KernelCardState, ShopPayCardState], PropertyInfo(discriminator="provider")
+    Union[LinkCardState, AgentCardCardState, KernelCardState, ShopPayCardState, VgsCardState],
+    PropertyInfo(discriminator="provider"),
 ]

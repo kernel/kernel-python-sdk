@@ -7,7 +7,7 @@ from typing_extensions import Literal, Annotated, TypeAlias
 from .._utils import PropertyInfo
 from .._models import BaseModel
 
-__all__ = ["VaultProviderConfig", "VaultLinkProviderConfig", "VaultAgentCardProviderConfig"]
+__all__ = ["VaultProviderConfig", "VaultLinkProviderConfig", "VaultAgentCardProviderConfig", "VaultVgsProviderConfig"]
 
 
 class VaultLinkProviderConfig(BaseModel):
@@ -59,6 +59,33 @@ class VaultAgentCardProviderConfig(BaseModel):
     updated_at: datetime
 
 
+class VaultVgsProviderConfig(BaseModel):
+    """
+    Response schema for a customer-managed VGS vault configuration, without the client secret. Kernel generates the ID and timestamps. Configuration creation uses VaultVgsProviderConfigRequest.
+    """
+
+    id: str
+
+    client_id: str
+    """Service account identity; immutable. The client secret is never returned."""
+
+    created_at: datetime
+
+    environment: Literal["sandbox", "live"]
+    """The vault's VGS environment; immutable."""
+
+    name: str
+    """Unique within the organization."""
+
+    provider: Literal["vgs"]
+
+    updated_at: datetime
+
+    vault_id: str
+    """The customer's VGS vault ID; immutable."""
+
+
 VaultProviderConfig: TypeAlias = Annotated[
-    Union[VaultLinkProviderConfig, VaultAgentCardProviderConfig], PropertyInfo(discriminator="provider")
+    Union[VaultLinkProviderConfig, VaultAgentCardProviderConfig, VaultVgsProviderConfig],
+    PropertyInfo(discriminator="provider"),
 ]
