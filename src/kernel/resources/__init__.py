@@ -72,6 +72,14 @@ from .projects import (
     ProjectsResourceWithStreamingResponse,
     AsyncProjectsResourceWithStreamingResponse,
 )
+from .proxy_ips import (
+    ProxyIPsResource,
+    AsyncProxyIPsResource,
+    ProxyIPsResourceWithRawResponse,
+    AsyncProxyIPsResourceWithRawResponse,
+    ProxyIPsResourceWithStreamingResponse,
+    AsyncProxyIPsResourceWithStreamingResponse,
+)
 from .telemetry import (
     TelemetryResource,
     AsyncTelemetryResource,
@@ -216,6 +224,12 @@ __all__ = [
     "AsyncProxiesResourceWithRawResponse",
     "ProxiesResourceWithStreamingResponse",
     "AsyncProxiesResourceWithStreamingResponse",
+    "ProxyIPsResource",
+    "AsyncProxyIPsResource",
+    "ProxyIPsResourceWithRawResponse",
+    "AsyncProxyIPsResourceWithRawResponse",
+    "ProxyIPsResourceWithStreamingResponse",
+    "AsyncProxyIPsResourceWithStreamingResponse",
     "ExtensionsResource",
     "AsyncExtensionsResource",
     "ExtensionsResourceWithRawResponse",

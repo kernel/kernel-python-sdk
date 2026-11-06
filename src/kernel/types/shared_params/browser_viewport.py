@@ -23,10 +23,16 @@ class BrowserViewport(TypedDict, total=False):
     """
 
     height: Required[int]
-    """Browser window height in pixels. Any positive integer is accepted."""
+    """Browser window height in pixels.
+
+    Any positive integer is accepted; headful browsers require at least 64.
+    """
 
     width: Required[int]
-    """Browser window width in pixels. Any positive integer is accepted."""
+    """Browser window width in pixels.
+
+    Any positive integer is accepted; headful browsers require at least 64.
+    """
 
     refresh_rate: int
     """Display refresh rate in Hz.

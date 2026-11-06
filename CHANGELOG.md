@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.142.0](https://github.com/kernel/kernel-python-sdk/compare/v0.141.0...v0.142.0) (2026-11-06)
+
+
+### Features
+
+* Let reserved orgs list, pin and move ISP proxy IPs ([cfda76a](https://github.com/kernel/kernel-python-sdk/commit/cfda76aba98f670654ecb40853a33e8bfaeeb82e))
+
 ## [0.141.0](https://github.com/kernel/kernel-python-sdk/compare/v0.140.0...v0.141.0) (2026-11-05)
 
 

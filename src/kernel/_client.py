@@ -64,6 +64,7 @@ if TYPE_CHECKING:
         browsers,
         profiles,
         projects,
+        proxy_ips,
         telemetry,
         audit_logs,
         extensions,
@@ -81,6 +82,7 @@ if TYPE_CHECKING:
     from .resources.api_keys import APIKeysResource, AsyncAPIKeysResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
     from .resources.auth.auth import AuthResource, AsyncAuthResource
+    from .resources.proxy_ips import ProxyIPsResource, AsyncProxyIPsResource
     from .resources.extensions import ExtensionsResource, AsyncExtensionsResource
     from .resources.credentials import CredentialsResource, AsyncCredentialsResource
     from .resources.deployments import DeploymentsResource, AsyncDeploymentsResource
@@ -280,6 +282,13 @@ class Kernel(SyncAPIClient):
         from .resources.proxies import ProxiesResource
 
         return ProxiesResource(self)
+
+    @cached_property
+    def proxy_ips(self) -> ProxyIPsResource:
+        """Create and manage proxy configurations for routing browser traffic."""
+        from .resources.proxy_ips import ProxyIPsResource
+
+        return ProxyIPsResource(self)
 
     @cached_property
     def extensions(self) -> ExtensionsResource:
@@ -691,6 +700,13 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncProxiesResource(self)
 
     @cached_property
+    def proxy_ips(self) -> AsyncProxyIPsResource:
+        """Create and manage proxy configurations for routing browser traffic."""
+        from .resources.proxy_ips import AsyncProxyIPsResource
+
+        return AsyncProxyIPsResource(self)
+
+    @cached_property
     def extensions(self) -> AsyncExtensionsResource:
         """Create, list, retrieve, and delete browser extensions."""
         from .resources.extensions import AsyncExtensionsResource
@@ -1000,6 +1016,13 @@ class KernelWithRawResponse:
         return ProxiesResourceWithRawResponse(self._client.proxies)
 
     @cached_property
+    def proxy_ips(self) -> proxy_ips.ProxyIPsResourceWithRawResponse:
+        """Create and manage proxy configurations for routing browser traffic."""
+        from .resources.proxy_ips import ProxyIPsResourceWithRawResponse
+
+        return ProxyIPsResourceWithRawResponse(self._client.proxy_ips)
+
+    @cached_property
     def extensions(self) -> extensions.ExtensionsResourceWithRawResponse:
         """Create, list, retrieve, and delete browser extensions."""
         from .resources.extensions import ExtensionsResourceWithRawResponse
@@ -1139,6 +1162,13 @@ class AsyncKernelWithRawResponse:
         from .resources.proxies import AsyncProxiesResourceWithRawResponse
 
         return AsyncProxiesResourceWithRawResponse(self._client.proxies)
+
+    @cached_property
+    def proxy_ips(self) -> proxy_ips.AsyncProxyIPsResourceWithRawResponse:
+        """Create and manage proxy configurations for routing browser traffic."""
+        from .resources.proxy_ips import AsyncProxyIPsResourceWithRawResponse
+
+        return AsyncProxyIPsResourceWithRawResponse(self._client.proxy_ips)
 
     @cached_property
     def extensions(self) -> extensions.AsyncExtensionsResourceWithRawResponse:
@@ -1282,6 +1312,13 @@ class KernelWithStreamedResponse:
         return ProxiesResourceWithStreamingResponse(self._client.proxies)
 
     @cached_property
+    def proxy_ips(self) -> proxy_ips.ProxyIPsResourceWithStreamingResponse:
+        """Create and manage proxy configurations for routing browser traffic."""
+        from .resources.proxy_ips import ProxyIPsResourceWithStreamingResponse
+
+        return ProxyIPsResourceWithStreamingResponse(self._client.proxy_ips)
+
+    @cached_property
     def extensions(self) -> extensions.ExtensionsResourceWithStreamingResponse:
         """Create, list, retrieve, and delete browser extensions."""
         from .resources.extensions import ExtensionsResourceWithStreamingResponse
@@ -1421,6 +1458,13 @@ class AsyncKernelWithStreamedResponse:
         from .resources.proxies import AsyncProxiesResourceWithStreamingResponse
 
         return AsyncProxiesResourceWithStreamingResponse(self._client.proxies)
+
+    @cached_property
+    def proxy_ips(self) -> proxy_ips.AsyncProxyIPsResourceWithStreamingResponse:
+        """Create and manage proxy configurations for routing browser traffic."""
+        from .resources.proxy_ips import AsyncProxyIPsResourceWithStreamingResponse
+
+        return AsyncProxyIPsResourceWithStreamingResponse(self._client.proxy_ips)
 
     @cached_property
     def extensions(self) -> extensions.AsyncExtensionsResourceWithStreamingResponse:

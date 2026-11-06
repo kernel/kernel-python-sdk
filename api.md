@@ -498,6 +498,19 @@ Methods:
 - <code title="delete /proxies/{id_or_name}">client.proxies.<a href="./src/kernel/resources/proxies.py">delete</a>(id_or_name) -> None</code>
 - <code title="post /proxies/{id_or_name}/check">client.proxies.<a href="./src/kernel/resources/proxies.py">check</a>(id_or_name, \*\*<a href="src/kernel/types/proxy_check_params.py">params</a>) -> <a href="./src/kernel/types/proxy_check_response.py">ProxyCheckResponse</a></code>
 
+# ProxyIPs
+
+Types:
+
+```python
+from kernel.types import ProxyIP, ProxyIPDetail
+```
+
+Methods:
+
+- <code title="get /proxy_ips/{ip_address}">client.proxy_ips.<a href="./src/kernel/resources/proxy_ips.py">retrieve</a>(ip_address) -> <a href="./src/kernel/types/proxy_ip_detail.py">ProxyIPDetail</a></code>
+- <code title="get /proxy_ips">client.proxy_ips.<a href="./src/kernel/resources/proxy_ips.py">list</a>(\*\*<a href="src/kernel/types/proxy_ip_list_params.py">params</a>) -> <a href="./src/kernel/types/proxy_ip.py">SyncOffsetPagination[ProxyIP]</a></code>
+
 # Extensions
 
 Types:
