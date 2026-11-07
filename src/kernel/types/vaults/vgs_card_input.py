@@ -1,28 +1,38 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Optional
+
 from ..._models import BaseModel
 
 __all__ = ["VgsCardInput"]
 
 
 class VgsCardInput(BaseModel):
-    """The card's aliases in the customer's VGS vault, its expiry and last four digits.
+    """The card supplied to a purchase, as aliases in the customer's VGS vault.
 
-    Write-only: stored encrypted and never returned in the item, its events or logs. A repeated PUT with the same key must send the same card.
+    With card_mode full it is a whole card: a persistent alias of its number, a freshly collected volatile alias of its security code, its expiry and its last four digits. With card_mode cvc_only it is a CVC alias alone, because the merchant holds the rest on file. pan_alias, exp_month, exp_year and last4 are required with card_mode full and rejected with card_mode cvc_only. Write-only: stored encrypted and never returned in the item, its events or logs. A repeated PUT with the same key must send the same card.
     """
 
     cvc_alias: str
     """A volatile alias of a freshly collected security code in the customer's vault.
 
-    It must still exist when authorize runs.
+    It must still exist when authorize runs. Required in both modes.
     """
 
-    exp_month: int
+    exp_month: Optional[int] = None
+    """Required with card_mode full, rejected with card_mode cvc_only."""
 
-    exp_year: int
+    exp_year: Optional[int] = None
+    """Required with card_mode full, rejected with card_mode cvc_only."""
 
-    last4: str
-    """The card number's last four digits, checked against the revealed alias."""
+    last4: Optional[str] = None
+    """The card number's last four digits, checked against the revealed alias.
 
-    pan_alias: str
-    """A persistent alias of the card number in the customer's vault."""
+    Required with card_mode full, rejected with card_mode cvc_only.
+    """
+
+    pan_alias: Optional[str] = None
+    """A persistent alias of the card number in the customer's vault.
+
+    Required with card_mode full, rejected with card_mode cvc_only.
+    """
