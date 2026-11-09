@@ -518,7 +518,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -583,7 +584,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -653,7 +655,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -730,7 +733,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -791,7 +795,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -861,7 +866,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -942,7 +948,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1008,7 +1015,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1075,7 +1083,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1143,7 +1152,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1204,7 +1214,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1269,7 +1280,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1342,7 +1354,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1404,7 +1417,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1467,7 +1481,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1533,7 +1548,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1572,6 +1588,7 @@ class ItemsResource(SyncAPIResource):
         *,
         id_or_name: str,
         type: Literal["add_payment_method"],
+        enrollment: Literal["hosted", "server"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1607,12 +1624,16 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
 
         Args:
+          enrollment: hosted returns a card_enrollment link for the cardholder. server returns a
+              card_ingest URL for the card's issuer to post the card to server to server.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -1668,7 +1689,8 @@ class ItemsResource(SyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -1750,6 +1772,7 @@ class ItemsResource(SyncAPIResource):
         input: Dict[str, object] | Omit = omit,
         tool_ref: str | Omit = omit,
         timeout_sec: int | Omit = omit,
+        enrollment: Literal["hosted", "server"] | Omit = omit,
         payment_method_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1796,6 +1819,7 @@ class ItemsResource(SyncAPIResource):
                         "input": input,
                         "tool_ref": tool_ref,
                         "timeout_sec": timeout_sec,
+                        "enrollment": enrollment,
                         "payment_method_id": payment_method_id,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,
@@ -2585,7 +2609,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -2650,7 +2675,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -2720,7 +2746,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -2797,7 +2824,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -2858,7 +2886,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -2928,7 +2957,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3009,7 +3039,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3075,7 +3106,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3142,7 +3174,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3210,7 +3243,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3271,7 +3305,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3336,7 +3371,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3409,7 +3445,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3471,7 +3508,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3534,7 +3572,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3600,7 +3639,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3639,6 +3679,7 @@ class AsyncItemsResource(AsyncAPIResource):
         *,
         id_or_name: str,
         type: Literal["add_payment_method"],
+        enrollment: Literal["hosted", "server"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -3674,12 +3715,16 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
 
         Args:
+          enrollment: hosted returns a card_enrollment link for the cardholder. server returns a
+              card_ingest URL for the card's issuer to post the card to server to server.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -3735,7 +3780,8 @@ class AsyncItemsResource(AsyncAPIResource):
         a failure, an `unknown` outcome, or a transport error.
 
         Connected Kernel wallets may advertise add_payment_method, which returns a
-        single-use hosted card_enrollment link for a card, and remove_payment_method,
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
         which removes one card without affecting the others. Both operations require
         vaults:write in addition to vaults:use on the vault for scoped API keys, and
         return 403 without both permissions.
@@ -3817,6 +3863,7 @@ class AsyncItemsResource(AsyncAPIResource):
         input: Dict[str, object] | Omit = omit,
         tool_ref: str | Omit = omit,
         timeout_sec: int | Omit = omit,
+        enrollment: Literal["hosted", "server"] | Omit = omit,
         payment_method_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -3863,6 +3910,7 @@ class AsyncItemsResource(AsyncAPIResource):
                         "input": input,
                         "tool_ref": tool_ref,
                         "timeout_sec": timeout_sec,
+                        "enrollment": enrollment,
                         "payment_method_id": payment_method_id,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,

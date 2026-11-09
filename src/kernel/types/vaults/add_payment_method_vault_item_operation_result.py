@@ -11,7 +11,7 @@ __all__ = ["AddPaymentMethodVaultItemOperationResult"]
 class AddPaymentMethodVaultItemOperationResult(BaseModel):
     """The payment method created in pending_enrollment.
 
-    Deliver action.url to the cardholder; it is a single-use capability and must not be logged. Observe completion through the wallet's payment_methods expansion.
+    Deliver a card_enrollment action.url to the cardholder; it is a single-use capability and must not be logged. A card_ingest action.url is posted to by the card's issuer. Observe completion through the wallet's payment_methods expansion.
     """
 
     payment_method: VaultPaymentMethod
