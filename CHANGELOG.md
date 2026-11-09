@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.144.0](https://github.com/kernel/kernel-python-sdk/compare/v0.143.0...v0.144.0) (2026-11-09)
+
+
+### Features
+
+* Add server-to-server card ingest for Kernel wallets ([e7cb96d](https://github.com/kernel/kernel-python-sdk/commit/e7cb96d8a542c941f928d19f3d95a038ccbd43db))
+
 ## [0.143.0](https://github.com/kernel/kernel-python-sdk/compare/v0.142.0...v0.143.0) (2026-11-07)
 
 
