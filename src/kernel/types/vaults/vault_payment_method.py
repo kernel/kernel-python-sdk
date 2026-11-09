@@ -33,15 +33,20 @@ class Display(BaseModel):
 
 
 class Action(BaseModel):
-    name: Literal["card_enrollment"]
+    """The open enrollment of a pending payment method.
+
+    card_enrollment is a single-use hosted link for the cardholder. card_ingest is a single-use URL on a Kernel ingest hostname served by the card vault, which the card's issuer posts the card to from its backend; Kernel never receives the card number or CVC.
+    """
+
+    name: Literal["card_enrollment", "card_ingest"]
 
     url: str
 
     capture_token: Optional[str] = None
     """Secret bearer capability for embedded card capture with @onkernel/vault-react.
 
-    Present only for Kernel wallets; never for AgentCard. Treat it like the
-    enrollment URL and do not log or persist it in browser storage.
+    Present only on card_enrollment for Kernel wallets; never for AgentCard. Treat
+    it like the enrollment URL and do not log or persist it in browser storage.
     """
 
 
@@ -71,20 +76,40 @@ class VaultPaymentMethod(BaseModel):
     """Provider-neutral payment-method type normalized to lowercase."""
 
     action: Optional[Action] = None
+    """The open enrollment of a pending payment method.
+
+    card_enrollment is a single-use hosted link for the cardholder. card_ingest is a
+    single-use URL on a Kernel ingest hostname served by the card vault, which the
+    card's issuer posts the card to from its backend; Kernel never receives the card
+    number or CVC.
+    """
 
     expires_at: Optional[datetime] = None
-    """Expiry of a pending enrollment link."""
+    """Expiry of a pending enrollment link or ingest URL."""
+
+    issuer_reference: Optional[str] = None
+    """Kernel wallets only.
+
+    The issuer's reference for a card it pushed with a card_ingest URL.
+    """
 
     status: Optional[Literal["pending_enrollment", "active", "removal_pending", "recovery_required"]] = None
     """Kernel wallets only.
 
-    pending_enrollment means a card_enrollment link is open; active means the card
-    is stored and can pay when capabilities.single_use_card.eligible is true;
-    removal_pending means removal started but the provider outcome is unknown, so
-    retry remove_payment_method; recovery_required means either an enrollment
-    outcome is unknown (remove the method), or the stored card cannot be read
-    (contact support; removal is refused with 409). Consult status_reason to
-    distinguish these cases. Absent for other providers.
+    pending_enrollment means a card_enrollment link or card_ingest URL is open;
+    active means the card is stored and can pay when
+    capabilities.single_use_card.eligible is true; removal_pending means removal
+    started but the provider outcome is unknown, so retry remove_payment_method;
+    recovery_required means either an enrollment outcome is unknown (remove the
+    method), or the stored card cannot be read (contact support; removal is refused
+    with 409). Consult status_reason to distinguish these cases. Absent for other
+    providers.
     """
 
     status_reason: Optional[str] = None
+
+    valid_until: Optional[datetime] = None
+    """Kernel wallets only.
+
+    When a card pushed with a card_ingest URL stops being usable, as its issuer set.
+    """

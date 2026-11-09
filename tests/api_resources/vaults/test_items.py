@@ -1949,6 +1949,17 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_perform_operation_with_all_params_overload_17(self, client: Kernel) -> None:
+        item = client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+            enrollment="hosted",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_raw_response_perform_operation_overload_17(self, client: Kernel) -> None:
         response = client.vaults.items.with_raw_response.perform_operation(
             key="key",
@@ -4627,6 +4638,17 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             type="add_payment_method",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_perform_operation_with_all_params_overload_17(self, async_client: AsyncKernel) -> None:
+        item = await async_client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+            enrollment="hosted",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
 

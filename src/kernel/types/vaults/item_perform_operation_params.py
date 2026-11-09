@@ -314,6 +314,13 @@ class AddPaymentMethodVaultItemOperationRequest(TypedDict, total=False):
 
     type: Required[Literal["add_payment_method"]]
 
+    enrollment: Literal["hosted", "server"]
+    """hosted returns a card_enrollment link for the cardholder.
+
+    server returns a card_ingest URL for the card's issuer to post the card to
+    server to server.
+    """
+
 
 class RemovePaymentMethodVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
