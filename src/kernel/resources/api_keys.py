@@ -303,10 +303,10 @@ class APIKeysResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> None:
-        """Delete an API key.
-
-        A key cannot delete itself; use a different key to delete
-        this one.
+        """
+        Delete an API key and asynchronously end browser sessions attributed to it,
+        discarding unsaved profile changes. A key cannot delete itself; use a different
+        key to delete this one. If cleanup cannot be registered, the key is not deleted.
 
         Args:
           extra_headers: Send extra headers
@@ -352,7 +352,11 @@ class APIKeysResource(SyncAPIResource):
 
         Issues a new key that copies the name and project of the
         rotated key, and schedules the rotated key to expire after a grace period so
-        in-flight callers can swap over. The new plaintext key is returned once.
+        in-flight callers can swap over. The new plaintext key is returned once. With
+        expire_in_days set to 0, browser sessions attributed to the old key are ended
+        asynchronously and unsaved profile changes are discarded. Grace-period and
+        natural expiry do not end existing browsers. If cleanup cannot be registered, an
+        immediate rotation is not committed.
 
         Args:
           days_to_expire: Lifetime in days for the new key, up to 3650. Omit to reuse the rotated key's
@@ -663,10 +667,10 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> None:
-        """Delete an API key.
-
-        A key cannot delete itself; use a different key to delete
-        this one.
+        """
+        Delete an API key and asynchronously end browser sessions attributed to it,
+        discarding unsaved profile changes. A key cannot delete itself; use a different
+        key to delete this one. If cleanup cannot be registered, the key is not deleted.
 
         Args:
           extra_headers: Send extra headers
@@ -712,7 +716,11 @@ class AsyncAPIKeysResource(AsyncAPIResource):
 
         Issues a new key that copies the name and project of the
         rotated key, and schedules the rotated key to expire after a grace period so
-        in-flight callers can swap over. The new plaintext key is returned once.
+        in-flight callers can swap over. The new plaintext key is returned once. With
+        expire_in_days set to 0, browser sessions attributed to the old key are ended
+        asynchronously and unsaved profile changes are discarded. Grace-period and
+        natural expiry do not end existing browsers. If cleanup cannot be registered, an
+        immediate rotation is not committed.
 
         Args:
           days_to_expire: Lifetime in days for the new key, up to 3650. Omit to reuse the rotated key's
