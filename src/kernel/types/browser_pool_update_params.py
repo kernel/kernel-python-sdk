@@ -135,6 +135,12 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     sum of all pool sizes cannot exceed your limit).
     """
 
+    start_replay: bool
+    """
+    If provided, replaces whether replay recording starts automatically for future
+    acquired browsers.
+    """
+
     start_url: str
     """
     If provided, replaces the URL to navigate to when a new browser is warmed into

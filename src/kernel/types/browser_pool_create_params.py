@@ -106,6 +106,9 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     Enterprise plan, defaults to us-east when omitted on create.
     """
 
+    start_replay: bool
+    """Start replay recording automatically when a browser is acquired from this pool."""
+
     start_url: str
     """Optional URL to navigate to when a new browser is warmed into the pool.
 

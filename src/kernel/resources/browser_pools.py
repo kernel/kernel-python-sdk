@@ -78,6 +78,7 @@ class BrowserPoolsResource(SyncAPIResource):
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
         region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
+        start_replay: bool | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         telemetry: Optional[browser_pool_create_params.Telemetry] | Omit = omit,
@@ -146,6 +147,8 @@ class BrowserPoolsResource(SyncAPIResource):
               Region selection requires a Start-Up or Enterprise plan, defaults to us-east
               when omitted on create.
 
+          start_replay: Start replay recording automatically when a browser is acquired from this pool.
+
           start_url: Optional URL to navigate to when a new browser is warmed into the pool.
               Best-effort: failures to navigate do not fail pool fill. Only applied to
               newly-warmed browsers; browsers reused via release/acquire keep whatever URL the
@@ -205,6 +208,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "proxy_id": proxy_id,
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "region": region,
+                    "start_replay": start_replay,
                     "start_url": start_url,
                     "stealth": stealth,
                     "telemetry": telemetry,
@@ -274,6 +278,7 @@ class BrowserPoolsResource(SyncAPIResource):
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
         size: int | Omit = omit,
+        start_replay: bool | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         telemetry: Optional[browser_pool_update_params.Telemetry] | Omit = omit,
@@ -368,6 +373,9 @@ class BrowserPoolsResource(SyncAPIResource):
               maximum size is determined by your organization's pooled sessions limit (the sum
               of all pool sizes cannot exceed your limit).
 
+          start_replay: If provided, replaces whether replay recording starts automatically for future
+              acquired browsers.
+
           start_url: If provided, replaces the URL to navigate to when a new browser is warmed into
               the pool. Empty string clears the previously-set URL. Omit this field to leave
               it unchanged.
@@ -428,6 +436,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "proxy_id": proxy_id,
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "size": size,
+                    "start_replay": start_replay,
                     "start_url": start_url,
                     "stealth": stealth,
                     "telemetry": telemetry,
@@ -564,6 +573,7 @@ class BrowserPoolsResource(SyncAPIResource):
         acquire_timeout_seconds: int | Omit = omit,
         name: str | Omit = omit,
         profile: BrowserProfile | Omit = omit,
+        start_replay: bool | Omit = omit,
         start_url: str | Omit = omit,
         tags: TagsParam | Omit = omit,
         telemetry: Optional[browser_pool_acquire_params.Telemetry] | Omit = omit,
@@ -595,6 +605,9 @@ class BrowserPoolsResource(SyncAPIResource):
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
               Profiles must be created beforehand.
+
+          start_replay: Start replay recording immediately for the acquired browser. Omit to use the
+              pool's configured default.
 
           start_url: Optional URL to navigate the acquired browser to. Overrides the pool's start_url
               for this acquire only. Best-effort: failures to navigate do not fail the
@@ -632,6 +645,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "acquire_timeout_seconds": acquire_timeout_seconds,
                     "name": name,
                     "profile": profile,
+                    "start_replay": start_replay,
                     "start_url": start_url,
                     "tags": tags,
                     "telemetry": telemetry,
@@ -787,6 +801,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
         region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
+        start_replay: bool | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         telemetry: Optional[browser_pool_create_params.Telemetry] | Omit = omit,
@@ -855,6 +870,8 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               Region selection requires a Start-Up or Enterprise plan, defaults to us-east
               when omitted on create.
 
+          start_replay: Start replay recording automatically when a browser is acquired from this pool.
+
           start_url: Optional URL to navigate to when a new browser is warmed into the pool.
               Best-effort: failures to navigate do not fail pool fill. Only applied to
               newly-warmed browsers; browsers reused via release/acquire keep whatever URL the
@@ -914,6 +931,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "proxy_id": proxy_id,
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "region": region,
+                    "start_replay": start_replay,
                     "start_url": start_url,
                     "stealth": stealth,
                     "telemetry": telemetry,
@@ -983,6 +1001,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
         size: int | Omit = omit,
+        start_replay: bool | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         telemetry: Optional[browser_pool_update_params.Telemetry] | Omit = omit,
@@ -1077,6 +1096,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               maximum size is determined by your organization's pooled sessions limit (the sum
               of all pool sizes cannot exceed your limit).
 
+          start_replay: If provided, replaces whether replay recording starts automatically for future
+              acquired browsers.
+
           start_url: If provided, replaces the URL to navigate to when a new browser is warmed into
               the pool. Empty string clears the previously-set URL. Omit this field to leave
               it unchanged.
@@ -1137,6 +1159,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "proxy_id": proxy_id,
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "size": size,
+                    "start_replay": start_replay,
                     "start_url": start_url,
                     "stealth": stealth,
                     "telemetry": telemetry,
@@ -1273,6 +1296,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         acquire_timeout_seconds: int | Omit = omit,
         name: str | Omit = omit,
         profile: BrowserProfile | Omit = omit,
+        start_replay: bool | Omit = omit,
         start_url: str | Omit = omit,
         tags: TagsParam | Omit = omit,
         telemetry: Optional[browser_pool_acquire_params.Telemetry] | Omit = omit,
@@ -1304,6 +1328,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
               Profiles must be created beforehand.
+
+          start_replay: Start replay recording immediately for the acquired browser. Omit to use the
+              pool's configured default.
 
           start_url: Optional URL to navigate the acquired browser to. Overrides the pool's start_url
               for this acquire only. Best-effort: failures to navigate do not fail the
@@ -1341,6 +1368,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "acquire_timeout_seconds": acquire_timeout_seconds,
                     "name": name,
                     "profile": profile,
+                    "start_replay": start_replay,
                     "start_url": start_url,
                     "tags": tags,
                     "telemetry": telemetry,

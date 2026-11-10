@@ -108,6 +108,9 @@ class BrowserPoolConfig(BaseModel):
     creation, this defaults to true. Requires a profile to be set on the pool.
     """
 
+    start_replay: Optional[bool] = None
+    """Start replay recording automatically when a browser is acquired from this pool."""
+
     start_url: Optional[str] = None
     """Optional URL to navigate to when a new browser is warmed into the pool.
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.146.0](https://github.com/kernel/kernel-python-sdk/compare/v0.145.0...v0.146.0) (2026-11-10)
+
+
+### Features
+
+* Allow auto-starting replays during browser creation and pool acquire ([8c46a0d](https://github.com/kernel/kernel-python-sdk/commit/8c46a0dc889d19867400a5eeb26812658790c1cb))
+
 ## [0.145.0](https://github.com/kernel/kernel-python-sdk/compare/v0.144.0...v0.145.0) (2026-11-10)
 
 

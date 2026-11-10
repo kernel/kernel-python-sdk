@@ -132,6 +132,9 @@ class BrowserCreateParams(TypedDict, total=False):
     Enterprise plan, defaults to us-east when omitted on create.
     """
 
+    start_replay: bool
+    """Start replay recording as part of creating this browser session."""
+
     start_url: str
     """Optional URL to open when the browser session is created.
 
