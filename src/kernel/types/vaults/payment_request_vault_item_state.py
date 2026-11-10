@@ -53,6 +53,15 @@ class LinkCardState(BaseModel):
     and should approve only the new one.
     """
 
+    credential_type: Optional[Literal["card", "link_pay_token"]] = None
+    """
+    The Link spend request's credential_type, set when authorize sends the request
+    to Link. Absent before authorize and after Link rejects the request; a ready
+    card without it fills like card. card is a Link virtual card; fill it with field
+    bindings. link_pay_token is a Link Pay Token that Kernel supplies through the
+    checkout's Link WebMCP tool; fill it without fields.
+    """
+
     domains: Optional[List[str]] = None
 
     masks: Optional[LinkCardStateMasks] = None
