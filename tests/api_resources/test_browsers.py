@@ -79,6 +79,7 @@ class TestBrowsers:
             },
             proxy_id="proxy_id",
             region="us-east",
+            start_replay=True,
             start_url="https://example.com",
             stealth=True,
             tags={
@@ -691,6 +692,7 @@ class TestAsyncBrowsers:
             },
             proxy_id="proxy_id",
             region="us-east",
+            start_replay=True,
             start_url="https://example.com",
             stealth=True,
             tags={

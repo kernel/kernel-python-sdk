@@ -66,6 +66,7 @@ class TestBrowserPools:
             proxy_id="proxy_id",
             refresh_on_profile_update=True,
             region="us-east",
+            start_replay=True,
             start_url="https://example.com",
             stealth=True,
             telemetry={
@@ -232,6 +233,7 @@ class TestBrowserPools:
             proxy_id="proxy_id",
             refresh_on_profile_update=True,
             size=10,
+            start_replay=True,
             start_url="https://example.com",
             stealth=True,
             telemetry={
@@ -416,6 +418,7 @@ class TestBrowserPools:
                 "name": "name",
                 "save_changes": True,
             },
+            start_replay=True,
             start_url="https://example.com",
             tags={
                 "team": "backend",
@@ -635,6 +638,7 @@ class TestAsyncBrowserPools:
             proxy_id="proxy_id",
             refresh_on_profile_update=True,
             region="us-east",
+            start_replay=True,
             start_url="https://example.com",
             stealth=True,
             telemetry={
@@ -801,6 +805,7 @@ class TestAsyncBrowserPools:
             proxy_id="proxy_id",
             refresh_on_profile_update=True,
             size=10,
+            start_replay=True,
             start_url="https://example.com",
             stealth=True,
             telemetry={
@@ -985,6 +990,7 @@ class TestAsyncBrowserPools:
                 "name": "name",
                 "save_changes": True,
             },
+            start_replay=True,
             start_url="https://example.com",
             tags={
                 "team": "backend",

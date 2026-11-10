@@ -42,6 +42,12 @@ class BrowserPoolAcquireParams(TypedDict, total=False):
     into the browser session. Profiles must be created beforehand.
     """
 
+    start_replay: bool
+    """Start replay recording immediately for the acquired browser.
+
+    Omit to use the pool's configured default.
+    """
+
     start_url: str
     """Optional URL to navigate the acquired browser to.
 

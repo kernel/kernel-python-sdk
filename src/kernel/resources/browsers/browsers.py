@@ -209,6 +209,7 @@ class BrowsersResource(SyncAPIResource):
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
         region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
+        start_replay: bool | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         tags: TagsParam | Omit = omit,
@@ -285,6 +286,8 @@ class BrowsersResource(SyncAPIResource):
               created. Region selection requires a Start-Up or Enterprise plan, defaults to
               us-east when omitted on create.
 
+          start_replay: Start replay recording as part of creating this browser session.
+
           start_url: Optional URL to open when the browser session is created. Navigation is
               best-effort, so navigation failures do not prevent the session from being
               created.
@@ -360,6 +363,7 @@ class BrowsersResource(SyncAPIResource):
                     "proxy": proxy,
                     "proxy_id": proxy_id,
                     "region": region,
+                    "start_replay": start_replay,
                     "start_url": start_url,
                     "stealth": stealth,
                     "tags": tags,
@@ -1070,6 +1074,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
         region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
+        start_replay: bool | Omit = omit,
         start_url: str | Omit = omit,
         stealth: bool | Omit = omit,
         tags: TagsParam | Omit = omit,
@@ -1146,6 +1151,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
               created. Region selection requires a Start-Up or Enterprise plan, defaults to
               us-east when omitted on create.
 
+          start_replay: Start replay recording as part of creating this browser session.
+
           start_url: Optional URL to open when the browser session is created. Navigation is
               best-effort, so navigation failures do not prevent the session from being
               created.
@@ -1221,6 +1228,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "proxy": proxy,
                     "proxy_id": proxy_id,
                     "region": region,
+                    "start_replay": start_replay,
                     "start_url": start_url,
                     "stealth": stealth,
                     "tags": tags,
