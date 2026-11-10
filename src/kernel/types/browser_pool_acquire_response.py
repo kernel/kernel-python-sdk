@@ -19,7 +19,25 @@ from .browser_network_config import BrowserNetworkConfig
 from .shared.browser_viewport import BrowserViewport
 from .browsers.browser_telemetry_config import BrowserTelemetryConfig
 
-__all__ = ["BrowserPoolAcquireResponse"]
+__all__ = ["BrowserPoolAcquireResponse", "Replay"]
+
+
+class Replay(BaseModel):
+    """
+    Replay recording started by `start_replay` when this browser was created or acquired. Omitted otherwise; list replays with `GET /browsers/{id_or_name}/replays`.
+    """
+
+    replay_id: str
+    """Unique identifier for the replay recording."""
+
+    finished_at: Optional[datetime] = None
+    """Timestamp when replay finished"""
+
+    replay_view_url: Optional[str] = None
+    """URL for viewing the replay recording."""
+
+    started_at: Optional[datetime] = None
+    """Timestamp when replay started"""
 
 
 class BrowserPoolAcquireResponse(NoContentAsNone, BaseModel):
@@ -115,6 +133,13 @@ class BrowserPoolAcquireResponse(NoContentAsNone, BaseModel):
     """ID of the proxy associated with this browser session, if any.
 
     Deprecated in favor of proxy.
+    """
+
+    replay: Optional[Replay] = None
+    """
+    Replay recording started by `start_replay` when this browser was created or
+    acquired. Omitted otherwise; list replays with
+    `GET /browsers/{id_or_name}/replays`.
     """
 
     start_url: Optional[str] = None
