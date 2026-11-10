@@ -71,7 +71,7 @@ class LinkCardVaultItemSpecTotal(BaseModel):
 class LinkCardVaultItemSpec(BaseModel):
     """Live Link card request.
 
-    Test-mode card creation is not supported. The spec can be changed with PATCH until the card is authorized at a checkout. Authorize it with the browser at final checkout: Kernel inspects the checkout through WebMCP and internally chooses a merchant-bound Link Pay Token when supported or a virtual card otherwise. Callers never receive or choose how the credential is delivered.
+    Test-mode card creation is not supported. The spec can be changed with PATCH until the card is authorized at a checkout. Authorize it with the browser at final checkout: Kernel inspects the checkout through WebMCP and internally chooses a merchant-bound Link Pay Token when supported or a virtual card otherwise. Callers do not choose how the credential is delivered; after authorize, state.credential_type reports it.
     """
 
     amount: int
