@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.145.0](https://github.com/kernel/kernel-python-sdk/compare/v0.144.0...v0.145.0) (2026-11-10)
+
+
+### Features
+
+* Discard browser sessions on immediate API key revocation ([#5272](https://github.com/kernel/kernel-python-sdk/issues/5272)) ([ff3251e](https://github.com/kernel/kernel-python-sdk/commit/ff3251ee88c932e4588c4941059231a475a6e33a))
+* Expose Link card credential_type and explain pay token fill rejections ([a556758](https://github.com/kernel/kernel-python-sdk/commit/a5567585e70582cbf165408682903b95f56da8e7))
+
 ## [0.144.0](https://github.com/kernel/kernel-python-sdk/compare/v0.143.0...v0.144.0) (2026-11-09)
 
 
