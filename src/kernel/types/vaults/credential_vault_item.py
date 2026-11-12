@@ -60,6 +60,15 @@ class AvailableOperation(BaseModel):
 
 
 class ActionOnePasswordAccessApprovalAction(BaseModel):
+    access_request_reference: str
+    """
+    The access_request_reference value from url, for approving inside your own iOS
+    or Android app with 1Password's action extension or authorization activity. Pass
+    it unchanged; the grant comes back to your app, and 1pw_access_request_status
+    records it in Kernel. Treat it like url, which carries the same request text,
+    and keep it out of logs.
+    """
+
     instructions: str
     """
     Steps for the agent to hand approval to the human and poll the resulting
@@ -71,8 +80,10 @@ class ActionOnePasswordAccessApprovalAction(BaseModel):
     url: str
     """Native 1Password approval link.
 
-    Present it to the account owner without modifying it; it does not grant access
-    until they approve in their app.
+    Present it to the account owner unchanged, except that you may append
+    `&return_url=<URL-encoded URL>` so 1Password sends them back to your app after
+    they decide (1Password 8.12.46 or later on iOS, Android and desktop). It does
+    not grant access until they approve in their app.
     """
 
 
@@ -90,9 +101,10 @@ class CredentialVaultItem(BaseModel):
     """Kernel credentials advertise collect and fill when eligible.
 
     1Password credentials advertise 1pw_create_access_request until a request is
-    made, 1pw_access_request_status while its approval is pending, and 1pw_fill
-    after access is granted. Managed auth credentials advertise fill while ready and
-    nothing otherwise.
+    made, 1pw_access_request_status while its approval is pending (and
+    1pw_create_access_request again once the 3-minute status-check window has
+    passed), and 1pw_fill after access is granted. Managed auth credentials
+    advertise fill while ready and nothing otherwise.
     """
 
     created_at: datetime

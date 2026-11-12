@@ -1221,6 +1221,9 @@ class ItemsResource(SyncAPIResource):
         return 403 without both permissions.
 
         Args:
+          timeout_seconds: How long to keep checking on the schedule. The call still waits for its first
+              scheduled check, at most 20 seconds, when that comes later.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -3312,6 +3315,9 @@ class AsyncItemsResource(AsyncAPIResource):
         return 403 without both permissions.
 
         Args:
+          timeout_seconds: How long to keep checking on the schedule. The call still waits for its first
+              scheduled check, at most 20 seconds, when that comes later.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

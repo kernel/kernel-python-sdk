@@ -56,6 +56,14 @@ from .computer import (
     ComputerResourceWithStreamingResponse,
     AsyncComputerResourceWithStreamingResponse,
 )
+from .live_view import (
+    LiveViewResource,
+    AsyncLiveViewResource,
+    LiveViewResourceWithRawResponse,
+    AsyncLiveViewResourceWithRawResponse,
+    LiveViewResourceWithStreamingResponse,
+    AsyncLiveViewResourceWithStreamingResponse,
+)
 from .telemetry import (
     TelemetryResource,
     AsyncTelemetryResource,
@@ -80,6 +88,12 @@ __all__ = [
     "AsyncTelemetryResourceWithRawResponse",
     "TelemetryResourceWithStreamingResponse",
     "AsyncTelemetryResourceWithStreamingResponse",
+    "LiveViewResource",
+    "AsyncLiveViewResource",
+    "LiveViewResourceWithRawResponse",
+    "AsyncLiveViewResourceWithRawResponse",
+    "LiveViewResourceWithStreamingResponse",
+    "AsyncLiveViewResourceWithStreamingResponse",
     "ReplaysResource",
     "AsyncReplaysResource",
     "ReplaysResourceWithRawResponse",

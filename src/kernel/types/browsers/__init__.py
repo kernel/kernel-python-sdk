@@ -11,6 +11,7 @@ from .tool_metadata import ToolMetadata as ToolMetadata
 from .tools_response import ToolsResponse as ToolsResponse
 from .f_upload_params import FUploadParams as FUploadParams
 from .tool_annotations import ToolAnnotations as ToolAnnotations
+from .browser_live_view import BrowserLiveView as BrowserLiveView
 from .invocation_result import InvocationResult as InvocationResult
 from .log_stream_params import LogStreamParams as LogStreamParams
 from .browser_call_stack import BrowserCallStack as BrowserCallStack
@@ -42,8 +43,10 @@ from .browser_page_lcp_event import BrowserPageLcpEvent as BrowserPageLcpEvent
 from .computer_scroll_params import ComputerScrollParams as ComputerScrollParams
 from .process_spawn_response import ProcessSpawnResponse as ProcessSpawnResponse
 from .process_stdin_response import ProcessStdinResponse as ProcessStdinResponse
+from .browser_live_view_scope import BrowserLiveViewScope as BrowserLiveViewScope
 from .browser_page_load_event import BrowserPageLoadEvent as BrowserPageLoadEvent
 from .browser_telemetry_event import BrowserTelemetryEvent as BrowserTelemetryEvent
+from .live_view_create_params import LiveViewCreateParams as LiveViewCreateParams
 from .process_resize_response import ProcessResizeResponse as ProcessResizeResponse
 from .process_status_response import ProcessStatusResponse as ProcessStatusResponse
 from .telemetry_events_params import TelemetryEventsParams as TelemetryEventsParams

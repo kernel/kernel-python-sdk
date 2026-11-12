@@ -217,6 +217,11 @@ class OnePasswordPollAccessVaultItemOperationRequest(TypedDict, total=False):
     type: Required[Literal["1pw_access_request_status"]]
 
     timeout_seconds: int
+    """How long to keep checking on the schedule.
+
+    The call still waits for its first scheduled check, at most 20 seconds, when
+    that comes later.
+    """
 
 
 class OnePasswordFillVaultItemOperationRequest(TypedDict, total=False):
