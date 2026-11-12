@@ -5,6 +5,7 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 from ..browser_proxy_config import BrowserProxyConfig
+from .managed_auth_browser_location import ManagedAuthBrowserLocation
 from ..browsers.browser_telemetry_categories_config import BrowserTelemetryCategoriesConfig
 
 __all__ = [
@@ -115,6 +116,12 @@ class Telemetry(BaseModel):
 class ManagedAuthBrowserConfig(BaseModel):
     """
     Browser configuration applied to browser sessions created for a managed auth connection. Managed auth controls the profile, headless mode, timeout, start URL, kiosk mode, and viewport.
+    """
+
+    location: Optional[ManagedAuthBrowserLocation] = None
+    """
+    Browser locale for the connection's login, reauthentication, and health-check
+    sessions. Set on create or update; not supported on login.
     """
 
     proxy: Optional[BrowserProxyConfig] = None

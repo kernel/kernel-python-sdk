@@ -41,6 +41,7 @@ class TestConnections:
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
             auto_reauth=True,
             browser={
+                "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
                     "mode": "direct",
@@ -210,6 +211,7 @@ class TestConnections:
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
             auto_reauth=True,
             browser={
+                "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
                     "mode": "direct",
@@ -464,6 +466,7 @@ class TestConnections:
         connection = client.auth.connections.login(
             id="id",
             browser={
+                "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
                     "mode": "direct",
@@ -712,6 +715,7 @@ class TestAsyncConnections:
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
             auto_reauth=True,
             browser={
+                "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
                     "mode": "direct",
@@ -881,6 +885,7 @@ class TestAsyncConnections:
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
             auto_reauth=True,
             browser={
+                "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
                     "mode": "direct",
@@ -1135,6 +1140,7 @@ class TestAsyncConnections:
         connection = await async_client.auth.connections.login(
             id="id",
             browser={
+                "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
                     "mode": "direct",
