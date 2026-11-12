@@ -6,6 +6,7 @@ from typing import Optional
 from typing_extensions import Literal, TypedDict
 
 from ..browser_proxy_config_param import BrowserProxyConfigParam
+from .managed_auth_browser_location_param import ManagedAuthBrowserLocationParam
 from ..browsers.browser_telemetry_categories_config_param import BrowserTelemetryCategoriesConfigParam
 
 __all__ = [
@@ -116,6 +117,12 @@ class Telemetry(TypedDict, total=False):
 class ManagedAuthBrowserConfigParam(TypedDict, total=False):
     """
     Browser configuration applied to browser sessions created for a managed auth connection. Managed auth controls the profile, headless mode, timeout, start URL, kiosk mode, and viewport.
+    """
+
+    location: ManagedAuthBrowserLocationParam
+    """
+    Browser locale for the connection's login, reauthentication, and health-check
+    sessions. Set on create or update; not supported on login.
     """
 
     proxy: BrowserProxyConfigParam

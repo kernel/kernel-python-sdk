@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.147.0](https://github.com/kernel/kernel-python-sdk/compare/v0.146.0...v0.147.0) (2026-11-12)
+
+
+### Features
+
+* Prepare native OAuth for MCP: path resource, exchange targets, static exchange client, retention, Clerk OAuth cutoff ([5976b83](https://github.com/kernel/kernel-python-sdk/commit/5976b838d244effe63464f64a35a8671a7624426))
+
 ## [0.146.0](https://github.com/kernel/kernel-python-sdk/compare/v0.145.0...v0.146.0) (2026-11-10)
 
 

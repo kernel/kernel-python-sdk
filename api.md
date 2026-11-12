@@ -436,6 +436,7 @@ from kernel.types.auth import (
     LoginResponse,
     ManagedAuth,
     ManagedAuthBrowserConfig,
+    ManagedAuthBrowserLocation,
     ManagedAuthCreateRequest,
     ManagedAuthTimelineEvent,
     ManagedAuthUpdateRequest,
