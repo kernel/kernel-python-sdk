@@ -228,6 +228,18 @@ Methods:
 - <code title="get /browsers/{id_or_name}/telemetry/events">client.browsers.telemetry.<a href="./src/kernel/resources/browsers/telemetry.py">events</a>(id_or_name, \*\*<a href="src/kernel/types/browsers/telemetry_events_params.py">params</a>) -> <a href="./src/kernel/types/browsers/telemetry_events_response.py">SyncOffsetPagination[TelemetryEventsResponse]</a></code>
 - <code title="get /browsers/{id_or_name}/telemetry/stream">client.browsers.telemetry.<a href="./src/kernel/resources/browsers/telemetry.py">stream</a>(id_or_name, \*\*<a href="src/kernel/types/browsers/telemetry_stream_params.py">params</a>) -> <a href="./src/kernel/types/browsers/telemetry_stream_response.py">TelemetryStreamResponse</a></code>
 
+## LiveView
+
+Types:
+
+```python
+from kernel.types.browsers import BrowserLiveView, BrowserLiveViewRequest, BrowserLiveViewScope
+```
+
+Methods:
+
+- <code title="post /browsers/{id_or_name}/live_view">client.browsers.live_view.<a href="./src/kernel/resources/browsers/live_view.py">create</a>(id_or_name, \*\*<a href="src/kernel/types/browsers/live_view_create_params.py">params</a>) -> <a href="./src/kernel/types/browsers/browser_live_view.py">BrowserLiveView</a></code>
+
 ## Replays
 
 Types:

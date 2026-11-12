@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.148.0](https://github.com/kernel/kernel-python-sdk/compare/v0.147.0...v0.148.0) (2026-11-12)
+
+
+### Features
+
+* Add scoped live view URLs ([aeabbe3](https://github.com/kernel/kernel-python-sdk/commit/aeabbe3c29e4d51e8b9a6cc3d77497da6a655f32))
+* Pace 1Password status checks on the partner schedule ([aeabbe3](https://github.com/kernel/kernel-python-sdk/commit/aeabbe3c29e4d51e8b9a6cc3d77497da6a655f32))
+* Return the 1Password access request reference on the approval action ([aeabbe3](https://github.com/kernel/kernel-python-sdk/commit/aeabbe3c29e4d51e8b9a6cc3d77497da6a655f32))
+
 ## [0.147.0](https://github.com/kernel/kernel-python-sdk/compare/v0.146.0...v0.147.0) (2026-11-12)
 
 

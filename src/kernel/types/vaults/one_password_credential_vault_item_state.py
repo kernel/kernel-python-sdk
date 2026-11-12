@@ -87,7 +87,11 @@ class AccessRequest(BaseModel):
     has_autofill_token: bool
 
     state: str
-    """One of pending, resolved, denied, or failed."""
+    """One of pending, resolved, denied, failed, expired, or unknown.
+
+    expired returns the item to pending_authorization so access can be requested
+    again; unknown is a state 1Password added later and is treated as failed.
+    """
 
     created_at: Optional[str] = FieldInfo(alias="createdAt", default=None)
     """Provider-created timestamp as returned by the broker."""

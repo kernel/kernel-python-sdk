@@ -64,6 +64,14 @@ from .computer import (
     AsyncComputerResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
+from .live_view import (
+    LiveViewResource,
+    AsyncLiveViewResource,
+    LiveViewResourceWithRawResponse,
+    AsyncLiveViewResourceWithRawResponse,
+    LiveViewResourceWithStreamingResponse,
+    AsyncLiveViewResourceWithStreamingResponse,
+)
 from .telemetry import (
     TelemetryResource,
     AsyncTelemetryResource,
@@ -134,6 +142,11 @@ class BrowsersResource(SyncAPIResource):
         Stream live telemetry events from a browser session, and manage the destinations sessions export them to.
         """
         return TelemetryResource(self._client)
+
+    @cached_property
+    def live_view(self) -> LiveViewResource:
+        """Create and manage browser sessions."""
+        return LiveViewResource(self._client)
 
     @cached_property
     def replays(self) -> ReplaysResource:
@@ -999,6 +1012,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Stream live telemetry events from a browser session, and manage the destinations sessions export them to.
         """
         return AsyncTelemetryResource(self._client)
+
+    @cached_property
+    def live_view(self) -> AsyncLiveViewResource:
+        """Create and manage browser sessions."""
+        return AsyncLiveViewResource(self._client)
 
     @cached_property
     def replays(self) -> AsyncReplaysResource:
@@ -1897,6 +1915,11 @@ class BrowsersResourceWithRawResponse:
         return TelemetryResourceWithRawResponse(self._browsers.telemetry)
 
     @cached_property
+    def live_view(self) -> LiveViewResourceWithRawResponse:
+        """Create and manage browser sessions."""
+        return LiveViewResourceWithRawResponse(self._browsers.live_view)
+
+    @cached_property
     def replays(self) -> ReplaysResourceWithRawResponse:
         """Record and manage browser session video replays."""
         return ReplaysResourceWithRawResponse(self._browsers.replays)
@@ -1972,6 +1995,11 @@ class AsyncBrowsersResourceWithRawResponse:
         Stream live telemetry events from a browser session, and manage the destinations sessions export them to.
         """
         return AsyncTelemetryResourceWithRawResponse(self._browsers.telemetry)
+
+    @cached_property
+    def live_view(self) -> AsyncLiveViewResourceWithRawResponse:
+        """Create and manage browser sessions."""
+        return AsyncLiveViewResourceWithRawResponse(self._browsers.live_view)
 
     @cached_property
     def replays(self) -> AsyncReplaysResourceWithRawResponse:
@@ -2051,6 +2079,11 @@ class BrowsersResourceWithStreamingResponse:
         return TelemetryResourceWithStreamingResponse(self._browsers.telemetry)
 
     @cached_property
+    def live_view(self) -> LiveViewResourceWithStreamingResponse:
+        """Create and manage browser sessions."""
+        return LiveViewResourceWithStreamingResponse(self._browsers.live_view)
+
+    @cached_property
     def replays(self) -> ReplaysResourceWithStreamingResponse:
         """Record and manage browser session video replays."""
         return ReplaysResourceWithStreamingResponse(self._browsers.replays)
@@ -2126,6 +2159,11 @@ class AsyncBrowsersResourceWithStreamingResponse:
         Stream live telemetry events from a browser session, and manage the destinations sessions export them to.
         """
         return AsyncTelemetryResourceWithStreamingResponse(self._browsers.telemetry)
+
+    @cached_property
+    def live_view(self) -> AsyncLiveViewResourceWithStreamingResponse:
+        """Create and manage browser sessions."""
+        return AsyncLiveViewResourceWithStreamingResponse(self._browsers.live_view)
 
     @cached_property
     def replays(self) -> AsyncReplaysResourceWithStreamingResponse:
