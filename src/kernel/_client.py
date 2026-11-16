@@ -61,6 +61,7 @@ if TYPE_CHECKING:
         search,
         vaults,
         proxies,
+        reports,
         api_keys,
         browsers,
         profiles,
@@ -73,6 +74,7 @@ if TYPE_CHECKING:
         deployments,
         invocations,
         organization,
+        report_types,
         browser_pools,
         config_registry,
         credential_providers,
@@ -81,6 +83,7 @@ if TYPE_CHECKING:
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.tasks import TasksResource, AsyncTasksResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
+    from .resources.reports import ReportsResource, AsyncReportsResource
     from .resources.api_keys import APIKeysResource, AsyncAPIKeysResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
     from .resources.auth.auth import AuthResource, AsyncAuthResource
@@ -99,6 +102,7 @@ if TYPE_CHECKING:
     from .resources.audit_logs.audit_logs import AuditLogsResource, AsyncAuditLogsResource
     from .resources.vault_provider_configs import VaultProviderConfigsResource, AsyncVaultProviderConfigsResource
     from .resources.organization.organization import OrganizationResource, AsyncOrganizationResource
+    from .resources.report_types.report_types import ReportTypesResource, AsyncReportTypesResource
     from .resources.config_registry.config_registry import ConfigRegistryResource, AsyncConfigRegistryResource
 
 __all__ = [
@@ -272,6 +276,20 @@ class Kernel(SyncAPIClient):
         from .resources.tasks import TasksResource
 
         return TasksResource(self)
+
+    @cached_property
+    def reports(self) -> ReportsResource:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.reports import ReportsResource
+
+        return ReportsResource(self)
+
+    @cached_property
+    def report_types(self) -> ReportTypesResource:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.report_types import ReportTypesResource
+
+        return ReportTypesResource(self)
 
     @cached_property
     def auth(self) -> AuthResource:
@@ -697,6 +715,20 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncTasksResource(self)
 
     @cached_property
+    def reports(self) -> AsyncReportsResource:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.reports import AsyncReportsResource
+
+        return AsyncReportsResource(self)
+
+    @cached_property
+    def report_types(self) -> AsyncReportTypesResource:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.report_types import AsyncReportTypesResource
+
+        return AsyncReportTypesResource(self)
+
+    @cached_property
     def auth(self) -> AsyncAuthResource:
         from .resources.auth import AsyncAuthResource
 
@@ -1020,6 +1052,20 @@ class KernelWithRawResponse:
         return TasksResourceWithRawResponse(self._client.tasks)
 
     @cached_property
+    def reports(self) -> reports.ReportsResourceWithRawResponse:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.reports import ReportsResourceWithRawResponse
+
+        return ReportsResourceWithRawResponse(self._client.reports)
+
+    @cached_property
+    def report_types(self) -> report_types.ReportTypesResourceWithRawResponse:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.report_types import ReportTypesResourceWithRawResponse
+
+        return ReportTypesResourceWithRawResponse(self._client.report_types)
+
+    @cached_property
     def auth(self) -> auth.AuthResourceWithRawResponse:
         from .resources.auth import AuthResourceWithRawResponse
 
@@ -1173,6 +1219,20 @@ class AsyncKernelWithRawResponse:
         from .resources.tasks import AsyncTasksResourceWithRawResponse
 
         return AsyncTasksResourceWithRawResponse(self._client.tasks)
+
+    @cached_property
+    def reports(self) -> reports.AsyncReportsResourceWithRawResponse:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.reports import AsyncReportsResourceWithRawResponse
+
+        return AsyncReportsResourceWithRawResponse(self._client.reports)
+
+    @cached_property
+    def report_types(self) -> report_types.AsyncReportTypesResourceWithRawResponse:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.report_types import AsyncReportTypesResourceWithRawResponse
+
+        return AsyncReportTypesResourceWithRawResponse(self._client.report_types)
 
     @cached_property
     def auth(self) -> auth.AsyncAuthResourceWithRawResponse:
@@ -1330,6 +1390,20 @@ class KernelWithStreamedResponse:
         return TasksResourceWithStreamingResponse(self._client.tasks)
 
     @cached_property
+    def reports(self) -> reports.ReportsResourceWithStreamingResponse:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.reports import ReportsResourceWithStreamingResponse
+
+        return ReportsResourceWithStreamingResponse(self._client.reports)
+
+    @cached_property
+    def report_types(self) -> report_types.ReportTypesResourceWithStreamingResponse:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.report_types import ReportTypesResourceWithStreamingResponse
+
+        return ReportTypesResourceWithStreamingResponse(self._client.report_types)
+
+    @cached_property
     def auth(self) -> auth.AuthResourceWithStreamingResponse:
         from .resources.auth import AuthResourceWithStreamingResponse
 
@@ -1483,6 +1557,20 @@ class AsyncKernelWithStreamedResponse:
         from .resources.tasks import AsyncTasksResourceWithStreamingResponse
 
         return AsyncTasksResourceWithStreamingResponse(self._client.tasks)
+
+    @cached_property
+    def reports(self) -> reports.AsyncReportsResourceWithStreamingResponse:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.reports import AsyncReportsResourceWithStreamingResponse
+
+        return AsyncReportsResourceWithStreamingResponse(self._client.reports)
+
+    @cached_property
+    def report_types(self) -> report_types.AsyncReportTypesResourceWithStreamingResponse:
+        """Discover report types and submit typed reports against tasks."""
+        from .resources.report_types import AsyncReportTypesResourceWithStreamingResponse
+
+        return AsyncReportTypesResourceWithStreamingResponse(self._client.report_types)
 
     @cached_property
     def auth(self) -> auth.AsyncAuthResourceWithStreamingResponse:

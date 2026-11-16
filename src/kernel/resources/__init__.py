@@ -48,6 +48,14 @@ from .proxies import (
     ProxiesResourceWithStreamingResponse,
     AsyncProxiesResourceWithStreamingResponse,
 )
+from .reports import (
+    ReportsResource,
+    AsyncReportsResource,
+    ReportsResourceWithRawResponse,
+    AsyncReportsResourceWithRawResponse,
+    ReportsResourceWithStreamingResponse,
+    AsyncReportsResourceWithStreamingResponse,
+)
 from .api_keys import (
     APIKeysResource,
     AsyncAPIKeysResource,
@@ -144,6 +152,14 @@ from .organization import (
     OrganizationResourceWithStreamingResponse,
     AsyncOrganizationResourceWithStreamingResponse,
 )
+from .report_types import (
+    ReportTypesResource,
+    AsyncReportTypesResource,
+    ReportTypesResourceWithRawResponse,
+    AsyncReportTypesResourceWithRawResponse,
+    ReportTypesResourceWithStreamingResponse,
+    AsyncReportTypesResourceWithStreamingResponse,
+)
 from .browser_pools import (
     BrowserPoolsResource,
     AsyncBrowserPoolsResource,
@@ -220,6 +236,18 @@ __all__ = [
     "AsyncTasksResourceWithRawResponse",
     "TasksResourceWithStreamingResponse",
     "AsyncTasksResourceWithStreamingResponse",
+    "ReportsResource",
+    "AsyncReportsResource",
+    "ReportsResourceWithRawResponse",
+    "AsyncReportsResourceWithRawResponse",
+    "ReportsResourceWithStreamingResponse",
+    "AsyncReportsResourceWithStreamingResponse",
+    "ReportTypesResource",
+    "AsyncReportTypesResource",
+    "ReportTypesResourceWithRawResponse",
+    "AsyncReportTypesResourceWithRawResponse",
+    "ReportTypesResourceWithStreamingResponse",
+    "AsyncReportTypesResourceWithStreamingResponse",
     "AuthResource",
     "AsyncAuthResource",
     "AuthResourceWithRawResponse",

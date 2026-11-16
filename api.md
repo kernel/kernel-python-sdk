@@ -440,6 +440,45 @@ Methods:
 - <code title="get /tasks">client.tasks.<a href="./src/kernel/resources/tasks.py">list</a>(\*\*<a href="src/kernel/types/task_list_params.py">params</a>) -> <a href="./src/kernel/types/task.py">SyncOffsetPagination[Task]</a></code>
 - <code title="post /tasks/{id}/browsers">client.tasks.<a href="./src/kernel/resources/tasks.py">link_browsers</a>(id, \*\*<a href="src/kernel/types/task_link_browsers_params.py">params</a>) -> <a href="./src/kernel/types/task.py">Task</a></code>
 
+# Reports
+
+Types:
+
+```python
+from kernel.types import Report
+```
+
+Methods:
+
+- <code title="post /reports">client.reports.<a href="./src/kernel/resources/reports.py">create</a>(\*\*<a href="src/kernel/types/report_create_params.py">params</a>) -> <a href="./src/kernel/types/report.py">Report</a></code>
+- <code title="get /reports/{id}">client.reports.<a href="./src/kernel/resources/reports.py">retrieve</a>(id) -> <a href="./src/kernel/types/report.py">Report</a></code>
+- <code title="get /reports">client.reports.<a href="./src/kernel/resources/reports.py">list</a>(\*\*<a href="src/kernel/types/report_list_params.py">params</a>) -> <a href="./src/kernel/types/report.py">SyncOffsetPagination[Report]</a></code>
+
+# ReportTypes
+
+Types:
+
+```python
+from kernel.types import ReportType, ReportTypeSummary, ReportTypeVersionSummary
+```
+
+Methods:
+
+- <code title="get /report_types/{type}">client.report_types.<a href="./src/kernel/resources/report_types/report_types.py">retrieve</a>(type) -> <a href="./src/kernel/types/report_type.py">ReportType</a></code>
+- <code title="get /report_types">client.report_types.<a href="./src/kernel/resources/report_types/report_types.py">list</a>(\*\*<a href="src/kernel/types/report_type_list_params.py">params</a>) -> <a href="./src/kernel/types/report_type_summary.py">SyncOffsetPagination[ReportTypeSummary]</a></code>
+
+## Versions
+
+Types:
+
+```python
+from kernel.types.report_types import ReportTypeVersion
+```
+
+Methods:
+
+- <code title="get /report_types/{type}/versions/{version}">client.report_types.versions.<a href="./src/kernel/resources/report_types/versions.py">retrieve</a>(version, \*, type) -> <a href="./src/kernel/types/report_types/report_type_version.py">ReportTypeVersion</a></code>
+
 # Auth
 
 ## Context
