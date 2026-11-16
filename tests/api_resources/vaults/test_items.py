@@ -605,6 +605,7 @@ class TestItems:
             key="key",
             id_or_name="id_or_name",
             after="after",
+            include_deleted=True,
             wait=0,
         )
         assert_matches_type(ItemEventsResponse, item, path=["response"])
@@ -3299,6 +3300,7 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             after="after",
+            include_deleted=True,
             wait=0,
         )
         assert_matches_type(ItemEventsResponse, item, path=["response"])

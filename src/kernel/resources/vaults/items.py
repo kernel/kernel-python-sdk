@@ -428,6 +428,7 @@ class ItemsResource(SyncAPIResource):
         *,
         id_or_name: str,
         after: str | Omit = omit,
+        include_deleted: bool | Omit = omit,
         wait: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -441,6 +442,11 @@ class ItemsResource(SyncAPIResource):
 
         Args:
           after: Return events after this event ID.
+
+          include_deleted: When true, also finds deleted items, and deleted vaults by ID only. `key` then
+              also accepts an item ID, which takes precedence over a key with the same value;
+              the lookup order is the item ID, then the live item with that key, then the most
+              recently deleted one. `wait` is ignored for a deleted item or vault.
 
           wait: Long-poll for new events for up to this many seconds.
 
@@ -466,6 +472,7 @@ class ItemsResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "after": after,
+                        "include_deleted": include_deleted,
                         "wait": wait,
                     },
                     item_events_params.ItemEventsParams,
@@ -2522,6 +2529,7 @@ class AsyncItemsResource(AsyncAPIResource):
         *,
         id_or_name: str,
         after: str | Omit = omit,
+        include_deleted: bool | Omit = omit,
         wait: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -2535,6 +2543,11 @@ class AsyncItemsResource(AsyncAPIResource):
 
         Args:
           after: Return events after this event ID.
+
+          include_deleted: When true, also finds deleted items, and deleted vaults by ID only. `key` then
+              also accepts an item ID, which takes precedence over a key with the same value;
+              the lookup order is the item ID, then the live item with that key, then the most
+              recently deleted one. `wait` is ignored for a deleted item or vault.
 
           wait: Long-poll for new events for up to this many seconds.
 
@@ -2560,6 +2573,7 @@ class AsyncItemsResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "after": after,
+                        "include_deleted": include_deleted,
                         "wait": wait,
                     },
                     item_events_params.ItemEventsParams,
