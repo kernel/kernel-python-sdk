@@ -118,6 +118,7 @@ Types:
 ```python
 from kernel.types import (
     BrowserAllowlistState,
+    BrowserCaptchaSolver,
     BrowserFingerprint,
     BrowserLocation,
     BrowserLocationRequest,

@@ -62,11 +62,10 @@ class BrowserUpdateParams(TypedDict, total=False):
     """Proxy configuration to apply.
 
     Omit to leave the current configuration unchanged. Cannot be combined with
-    proxy_id or disable_default_proxy. Set mode to direct to switch to direct egress
-    regardless of stealth. Set mode to default to restore the browser default after
-    using a selected proxy: Kernel's default stealth proxy for a stealth browser, or
-    direct egress for a non-stealth browser. Updating proxy does not change stealth
-    or CAPTCHA solver behavior.
+    proxy_id or disable_default_proxy. Set mode to direct to switch to direct
+    egress. Set mode to default to use Kernel's default stealth proxy for a browser
+    with CAPTCHA solving enabled, or direct egress otherwise. Updating proxy does
+    not change CAPTCHA solver behavior.
     """
 
     proxy_id: Optional[str]

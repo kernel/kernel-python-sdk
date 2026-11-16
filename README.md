@@ -203,9 +203,9 @@ from kernel import Kernel
 client = Kernel()
 
 browser = client.browsers.create(
-    fingerprint={"os": "macos"},
+    captcha_solver={"enabled": True},
 )
-print(browser.fingerprint)
+print(browser.captcha_solver)
 ```
 
 ## File uploads
