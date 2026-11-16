@@ -425,6 +425,21 @@ Methods:
 - <code title="delete /profiles/{id_or_name}">client.profiles.<a href="./src/kernel/resources/profiles.py">delete</a>(id_or_name) -> None</code>
 - <code title="get /profiles/{id_or_name}/download">client.profiles.<a href="./src/kernel/resources/profiles.py">download</a>(id_or_name, \*\*<a href="src/kernel/types/profile_download_params.py">params</a>) -> BinaryAPIResponse</code>
 
+# Tasks
+
+Types:
+
+```python
+from kernel.types import Task, TaskMetadata
+```
+
+Methods:
+
+- <code title="post /tasks">client.tasks.<a href="./src/kernel/resources/tasks.py">create</a>(\*\*<a href="src/kernel/types/task_create_params.py">params</a>) -> <a href="./src/kernel/types/task.py">Task</a></code>
+- <code title="get /tasks/{id}">client.tasks.<a href="./src/kernel/resources/tasks.py">retrieve</a>(id) -> <a href="./src/kernel/types/task.py">Task</a></code>
+- <code title="get /tasks">client.tasks.<a href="./src/kernel/resources/tasks.py">list</a>(\*\*<a href="src/kernel/types/task_list_params.py">params</a>) -> <a href="./src/kernel/types/task.py">SyncOffsetPagination[Task]</a></code>
+- <code title="post /tasks/{id}/browsers">client.tasks.<a href="./src/kernel/resources/tasks.py">link_browsers</a>(id, \*\*<a href="src/kernel/types/task_link_browsers_params.py">params</a>) -> <a href="./src/kernel/types/task.py">Task</a></code>
+
 # Auth
 
 ## Context

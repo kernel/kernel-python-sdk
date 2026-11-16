@@ -57,6 +57,7 @@ if TYPE_CHECKING:
     from .resources import (
         apps,
         auth,
+        tasks,
         search,
         vaults,
         proxies,
@@ -78,6 +79,7 @@ if TYPE_CHECKING:
         vault_provider_configs,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
+    from .resources.tasks import TasksResource, AsyncTasksResource
     from .resources.proxies import ProxiesResource, AsyncProxiesResource
     from .resources.api_keys import APIKeysResource, AsyncAPIKeysResource
     from .resources.profiles import ProfilesResource, AsyncProfilesResource
@@ -263,6 +265,13 @@ class Kernel(SyncAPIClient):
         from .resources.profiles import ProfilesResource
 
         return ProfilesResource(self)
+
+    @cached_property
+    def tasks(self) -> TasksResource:
+        """Define tasks that agents work toward and link the browsers they use."""
+        from .resources.tasks import TasksResource
+
+        return TasksResource(self)
 
     @cached_property
     def auth(self) -> AuthResource:
@@ -681,6 +690,13 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncProfilesResource(self)
 
     @cached_property
+    def tasks(self) -> AsyncTasksResource:
+        """Define tasks that agents work toward and link the browsers they use."""
+        from .resources.tasks import AsyncTasksResource
+
+        return AsyncTasksResource(self)
+
+    @cached_property
     def auth(self) -> AsyncAuthResource:
         from .resources.auth import AsyncAuthResource
 
@@ -997,6 +1013,13 @@ class KernelWithRawResponse:
         return ProfilesResourceWithRawResponse(self._client.profiles)
 
     @cached_property
+    def tasks(self) -> tasks.TasksResourceWithRawResponse:
+        """Define tasks that agents work toward and link the browsers they use."""
+        from .resources.tasks import TasksResourceWithRawResponse
+
+        return TasksResourceWithRawResponse(self._client.tasks)
+
+    @cached_property
     def auth(self) -> auth.AuthResourceWithRawResponse:
         from .resources.auth import AuthResourceWithRawResponse
 
@@ -1143,6 +1166,13 @@ class AsyncKernelWithRawResponse:
         from .resources.profiles import AsyncProfilesResourceWithRawResponse
 
         return AsyncProfilesResourceWithRawResponse(self._client.profiles)
+
+    @cached_property
+    def tasks(self) -> tasks.AsyncTasksResourceWithRawResponse:
+        """Define tasks that agents work toward and link the browsers they use."""
+        from .resources.tasks import AsyncTasksResourceWithRawResponse
+
+        return AsyncTasksResourceWithRawResponse(self._client.tasks)
 
     @cached_property
     def auth(self) -> auth.AsyncAuthResourceWithRawResponse:
@@ -1293,6 +1323,13 @@ class KernelWithStreamedResponse:
         return ProfilesResourceWithStreamingResponse(self._client.profiles)
 
     @cached_property
+    def tasks(self) -> tasks.TasksResourceWithStreamingResponse:
+        """Define tasks that agents work toward and link the browsers they use."""
+        from .resources.tasks import TasksResourceWithStreamingResponse
+
+        return TasksResourceWithStreamingResponse(self._client.tasks)
+
+    @cached_property
     def auth(self) -> auth.AuthResourceWithStreamingResponse:
         from .resources.auth import AuthResourceWithStreamingResponse
 
@@ -1439,6 +1476,13 @@ class AsyncKernelWithStreamedResponse:
         from .resources.profiles import AsyncProfilesResourceWithStreamingResponse
 
         return AsyncProfilesResourceWithStreamingResponse(self._client.profiles)
+
+    @cached_property
+    def tasks(self) -> tasks.AsyncTasksResourceWithStreamingResponse:
+        """Define tasks that agents work toward and link the browsers they use."""
+        from .resources.tasks import AsyncTasksResourceWithStreamingResponse
+
+        return AsyncTasksResourceWithStreamingResponse(self._client.tasks)
 
     @cached_property
     def auth(self) -> auth.AsyncAuthResourceWithStreamingResponse:
