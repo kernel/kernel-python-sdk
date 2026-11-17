@@ -11,6 +11,10 @@ __all__ = ["OnePasswordCredentialAccountState"]
 class OnePasswordCredentialAccountState(BaseModel):
     provider: Literal["1password"]
 
-    status: Literal["pending_authorization", "connected", "reconnect_required", "declined"]
+    status: Literal["pending_authorization", "connected", "reconnect_required", "declined", "revoking"]
+    """
+    revoking means the account was deleted or disconnected and Kernel is waiting for
+    1Password to confirm the revoke; it cannot be used and Kernel keeps retrying.
+    """
 
     status_reason: Optional[str] = None

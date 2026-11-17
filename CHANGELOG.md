@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.149.0](https://github.com/kernel/kernel-python-sdk/compare/v0.148.0...v0.149.0) (2026-11-17)
+
+
+### Features
+
+* Add reports API and report type discovery ([0c8d11c](https://github.com/kernel/kernel-python-sdk/commit/0c8d11c5f62aa2ddd7e663e87d31267ef4364390))
+* Add tasks API: create, list, get, and link browsers ([5dd6af8](https://github.com/kernel/kernel-python-sdk/commit/5dd6af87afa61b5fbbc5770585ae04f4ec2fe49c))
+* Add the 1pw_disconnect operation ([55b7001](https://github.com/kernel/kernel-python-sdk/commit/55b70013b244d3fe24eb9cd3e0b864476babd4e6))
+* Let vault item events be read after the item or vault is deleted ([54a0df6](https://github.com/kernel/kernel-python-sdk/commit/54a0df62916a5cd8f0991a8780aa47bdefbfacd3))
+* Revoke 1Password connections on account and vault delete ([b09d722](https://github.com/kernel/kernel-python-sdk/commit/b09d722f28f4a53d62f15b8b66bbb8b791151472))
+
 ## [0.148.0](https://github.com/kernel/kernel-python-sdk/compare/v0.147.0...v0.148.0) (2026-11-12)
 
 

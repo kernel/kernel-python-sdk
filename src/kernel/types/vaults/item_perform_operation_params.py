@@ -27,6 +27,7 @@ __all__ = [
     "OnePasswordPollAccessVaultItemOperationRequest",
     "OnePasswordFillVaultItemOperationRequest",
     "OnePasswordRecoverVaultItemOperationRequest",
+    "OnePasswordDisconnectVaultItemOperationRequest",
     "OnePasswordUpdateAccessTokenVaultItemOperationRequest",
     "UpdateAccessTokenVaultItemOperationRequest",
     "WebmcpInvokeVaultItemOperationRequest",
@@ -262,6 +263,12 @@ class OnePasswordRecoverVaultItemOperationRequest(TypedDict, total=False):
     type: Required[Literal["1pw_recover"]]
 
 
+class OnePasswordDisconnectVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    type: Required[Literal["1pw_disconnect"]]
+
+
 class OnePasswordUpdateAccessTokenVaultItemOperationRequest(TypedDict, total=False):
     id_or_name: Required[str]
 
@@ -350,6 +357,7 @@ ItemPerformOperationParams: TypeAlias = Union[
     OnePasswordPollAccessVaultItemOperationRequest,
     OnePasswordFillVaultItemOperationRequest,
     OnePasswordRecoverVaultItemOperationRequest,
+    OnePasswordDisconnectVaultItemOperationRequest,
     OnePasswordUpdateAccessTokenVaultItemOperationRequest,
     UpdateAccessTokenVaultItemOperationRequest,
     WebmcpInvokeVaultItemOperationRequest,

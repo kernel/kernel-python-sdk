@@ -5,9 +5,11 @@ from __future__ import annotations
 from . import browsers
 from .. import _compat
 from .tags import Tags as Tags
+from .task import Task as Task
 from .proxy import Proxy as Proxy
 from .usage import Usage as Usage
 from .vault import Vault as Vault
+from .report import Report as Report
 from .result import Result as Result
 from .search import Search as Search
 from .shared import (
@@ -33,9 +35,11 @@ from .evidence import Evidence as Evidence
 from .proxy_ip import ProxyIP as ProxyIP
 from .credential import Credential as Credential
 from .tags_param import TagsParam as TagsParam
+from .report_type import ReportType as ReportType
 from .browser_pool import BrowserPool as BrowserPool
 from .browser_proxy import BrowserProxy as BrowserProxy
 from .browser_usage import BrowserUsage as BrowserUsage
+from .task_metadata import TaskMetadata as TaskMetadata
 from .browser_memory import BrowserMemory as BrowserMemory
 from .recommendation import Recommendation as Recommendation
 from .strategy_param import StrategyParam as StrategyParam
@@ -48,12 +52,15 @@ from .vault_reference import VaultReference as VaultReference
 from .analysis_summary import AnalysisSummary as AnalysisSummary
 from .browser_location import BrowserLocation as BrowserLocation
 from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
+from .task_list_params import TaskListParams as TaskListParams
 from .app_list_response import AppListResponse as AppListResponse
 from .no_recommendation import NoRecommendation as NoRecommendation
 from .proxy_list_params import ProxyListParams as ProxyListParams
 from .vault_list_params import VaultListParams as VaultListParams
 from .browser_proxy_mode import BrowserProxyMode as BrowserProxyMode
 from .proxy_check_params import ProxyCheckParams as ProxyCheckParams
+from .report_list_params import ReportListParams as ReportListParams
+from .task_create_params import TaskCreateParams as TaskCreateParams
 from .api_key_list_params import APIKeyListParams as APIKeyListParams
 from .browser_curl_params import BrowserCurlParams as BrowserCurlParams
 from .browser_list_params import BrowserListParams as BrowserListParams
@@ -65,12 +72,15 @@ from .project_list_params import ProjectListParams as ProjectListParams
 from .proxy_create_params import ProxyCreateParams as ProxyCreateParams
 from .proxy_list_response import ProxyListResponse as ProxyListResponse
 from .proxy_update_params import ProxyUpdateParams as ProxyUpdateParams
+from .report_type_summary import ReportTypeSummary as ReportTypeSummary
+from .task_metadata_param import TaskMetadataParam as TaskMetadataParam
 from .vault_upsert_params import VaultUpsertParams as VaultUpsertParams
 from .browser_proxy_config import BrowserProxyConfig as BrowserProxyConfig
 from .browser_repl_content import BrowserReplContent as BrowserReplContent
 from .browser_video_memory import BrowserVideoMemory as BrowserVideoMemory
 from .proxy_check_response import ProxyCheckResponse as ProxyCheckResponse
 from .proxy_ip_list_params import ProxyIPListParams as ProxyIPListParams
+from .report_create_params import ReportCreateParams as ReportCreateParams
 from .search_create_params import SearchCreateParams as SearchCreateParams
 from .vault_encryption_key import VaultEncryptionKey as VaultEncryptionKey
 from .api_key_create_params import APIKeyCreateParams as APIKeyCreateParams
@@ -111,6 +121,7 @@ from .extension_list_response import ExtensionListResponse as ExtensionListRespo
 from .extension_upload_params import ExtensionUploadParams as ExtensionUploadParams
 from .profile_download_params import ProfileDownloadParams as ProfileDownloadParams
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
+from .report_type_list_params import ReportTypeListParams as ReportTypeListParams
 from .browser_pool_list_params import BrowserPoolListParams as BrowserPoolListParams
 from .config_registry_response import ConfigRegistryResponse as ConfigRegistryResponse
 from .credential_create_params import CredentialCreateParams as CredentialCreateParams
@@ -127,6 +138,7 @@ from .browser_fingerprint_param import BrowserFingerprintParam as BrowserFingerp
 from .browser_repl_text_content import BrowserReplTextContent as BrowserReplTextContent
 from .browser_retrieve_response import BrowserRetrieveResponse as BrowserRetrieveResponse
 from .extension_upload_response import ExtensionUploadResponse as ExtensionUploadResponse
+from .task_link_browsers_params import TaskLinkBrowsersParams as TaskLinkBrowsersParams
 from .browser_pool_create_params import BrowserPoolCreateParams as BrowserPoolCreateParams
 from .browser_pool_delete_params import BrowserPoolDeleteParams as BrowserPoolDeleteParams
 from .browser_pool_update_params import BrowserPoolUpdateParams as BrowserPoolUpdateParams
@@ -141,6 +153,7 @@ from .browser_pool_acquire_params import BrowserPoolAcquireParams as BrowserPool
 from .browser_pool_release_params import BrowserPoolReleaseParams as BrowserPoolReleaseParams
 from .browser_save_profile_params import BrowserSaveProfileParams as BrowserSaveProfileParams
 from .config_registry_list_params import ConfigRegistryListParams as ConfigRegistryListParams
+from .report_type_version_summary import ReportTypeVersionSummary as ReportTypeVersionSummary
 from .browser_network_config_param import BrowserNetworkConfigParam as BrowserNetworkConfigParam
 from .browser_network_update_param import BrowserNetworkUpdateParam as BrowserNetworkUpdateParam
 from .deployment_retrieve_response import DeploymentRetrieveResponse as DeploymentRetrieveResponse
