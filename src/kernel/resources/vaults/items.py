@@ -393,6 +393,10 @@ class ItemsResource(SyncAPIResource):
         or vault remains blocked until the card is deleted. Deleting or recreating an
         item is not proof that a payment did not occur. Deleting a managed auth
         credential item leaves the connection and its saved credential unchanged.
+        Deleting a 1Password credential_account stops its fills at once and, when no
+        other vault uses the person's connection, revokes it at 1Password; until
+        1Password confirms, this returns 409 provider_revocation_pending and Kernel
+        keeps retrying.
 
         Args:
           extra_headers: Send extra headers
@@ -2494,6 +2498,10 @@ class AsyncItemsResource(AsyncAPIResource):
         or vault remains blocked until the card is deleted. Deleting or recreating an
         item is not proof that a payment did not occur. Deleting a managed auth
         credential item leaves the connection and its saved credential unchanged.
+        Deleting a 1Password credential_account stops its fills at once and, when no
+        other vault uses the person's connection, revokes it at 1Password; until
+        1Password confirms, this returns 409 provider_revocation_pending and Kernel
+        keeps retrying.
 
         Args:
           extra_headers: Send extra headers
