@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.152.0](https://github.com/kernel/kernel-python-sdk/compare/v0.151.0...v0.152.0) (2026-11-19)
+
+
+### Features
+
+* Add `connect_url` to `OnePasswordOAuthAction`: a 1Password connect link for the same authorization, for the person to open on their own device ([f237eb7](https://github.com/kernel/kernel-python-sdk/commit/f237eb7d831445c7e178466c4bae2a9fadb3ffc5))
+
 ## [0.151.0](https://github.com/kernel/kernel-python-sdk/compare/v0.150.0...v0.151.0) (2026-11-19)
 
 
