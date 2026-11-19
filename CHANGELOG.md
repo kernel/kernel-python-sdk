@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.150.0](https://github.com/kernel/kernel-python-sdk/compare/v0.149.0...v0.150.0) (2026-11-19)
+
+
+### Features
+
+* add workload identity federation credentials ([#15](https://github.com/kernel/kernel-python-sdk/issues/15)) ([885ec8f](https://github.com/kernel/kernel-python-sdk/commit/885ec8f8163969fed46a6be5c0ac779edeed11b9))
+* chore(stlc): re-anchor Go and TypeScript custom-code tracking ([9d1fc90](https://github.com/kernel/kernel-python-sdk/commit/9d1fc9005ced339c660280489741d383d1d90ca7))
+* Document conditions in the API key reference descriptions ([760bf19](https://github.com/kernel/kernel-python-sdk/commit/760bf192ca4f4b85f95c9e9562ad02ac24417788))
+* Route VGS reveal-session payment windows through their own session in egress ([cbed38d](https://github.com/kernel/kernel-python-sdk/commit/cbed38d38314834b513fa2d110440846500bbdf7))
+
 ## [0.149.0](https://github.com/kernel/kernel-python-sdk/compare/v0.148.0...v0.149.0) (2026-11-17)
 
 
