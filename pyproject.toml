@@ -43,6 +43,7 @@ Repository = "https://github.com/kernel/kernel-python-sdk"
 
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
+aws = ["boto3>=1.41.0"]
 
 [tool.rye]
 managed = true

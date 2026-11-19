@@ -35,6 +35,20 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .lib.credentials._auth import (
+    MISSING_CREDENTIALS_MESSAGE,
+    TokenCache,
+    AccessTokenProvider,
+    AsyncAccessTokenProvider,
+    copy_credentials,
+    make_token_cache,
+    cached_auth_headers,
+    refresh_token_cache,
+    resolve_credentials,
+    token_cache_auth_headers,
+    should_retry_with_fresh_token,
+    with_unauthorized_retry_scope,
+)
 from .lib.browser_routing.routing import (
     BrowserRouteCache,
     BrowserRoutingConfig,
@@ -125,7 +139,9 @@ ENVIRONMENTS: Dict[str, str] = {
 
 class Kernel(SyncAPIClient):
     # client options
-    api_key: str
+    api_key: str | None
+    _credentials: AccessTokenProvider | None
+    _token_cache: TokenCache | None
     browser_route_cache: BrowserRouteCache
 
     project_id: str | None
@@ -138,6 +154,7 @@ class Kernel(SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        credentials: AccessTokenProvider | None = None,
         project_id: str | None = None,
         project: str | None = None,
         environment: Literal["production", "development"] | NotGiven = not_given,
@@ -160,17 +177,17 @@ class Kernel(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
         _browser_route_cache: BrowserRouteCache | None = None,
+        _token_cache: TokenCache | None = None,
     ) -> None:
         """Construct a new synchronous Kernel client instance.
 
         This automatically infers the `api_key` argument from the `KERNEL_API_KEY` environment variable if it is not provided.
         """
-        if api_key is None:
+        credentials = resolve_credentials(api_key=api_key, credentials=credentials)
+        if api_key is None and credentials is None:
             api_key = os.environ.get("KERNEL_API_KEY")
-        if api_key is None:
-            raise KernelError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the KERNEL_API_KEY environment variable"
-            )
+        if api_key is None and credentials is None:
+            raise KernelError(MISSING_CREDENTIALS_MESSAGE)
         self.api_key = api_key
 
         self.project_id = project_id
@@ -224,6 +241,10 @@ class Kernel(SyncAPIClient):
         )
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
         self._browser_routing = browser_routing_config_from_env()
+        self._credentials = credentials
+        self._token_cache = make_token_cache(
+            credentials, base_url=self.base_url, http_client=self._client, inherited=_token_cache
+        )
         install_direct_vm_auth_stripping(self._client)
         install_stale_direct_vm_auth_eviction(self._client)
 
@@ -407,6 +428,8 @@ class Kernel(SyncAPIClient):
     @property
     @override
     def auth_headers(self) -> dict[str, str]:
+        if self._token_cache is not None:
+            return token_cache_auth_headers(self._token_cache)
         api_key = self.api_key
         return {"Authorization": f"Bearer {api_key}"}
 
@@ -443,7 +466,11 @@ class Kernel(SyncAPIClient):
             # the body can be rebuilt, otherwise the caller sees the original auth
             # failure and a later call goes to the control plane.
             return should_retry_stale_direct_vm_auth(response)
+        if should_retry_with_fresh_token(response, self._token_cache):
+            return True
         return super()._should_retry(response)
+
+    request = with_unauthorized_retry_scope(SyncAPIClient.request)
 
     @override
     def _process_response(
@@ -471,6 +498,7 @@ class Kernel(SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        credentials: AccessTokenProvider | None = None,
         project_id: str | None = None,
         project: str | None = None,
         environment: Literal["production", "development"] | None = None,
@@ -483,6 +511,7 @@ class Kernel(SyncAPIClient):
         default_query: Mapping[str, object] | None = None,
         set_default_query: Mapping[str, object] | None = None,
         _browser_route_cache: BrowserRouteCache | None = None,
+        _token_cache: TokenCache | None = None,
         _extra_kwargs: Mapping[str, Any] = {},
     ) -> Self:
         """
@@ -507,8 +536,17 @@ class Kernel(SyncAPIClient):
             params = set_default_query
 
         http_client = http_client or self._client
+        api_key, _extra_kwargs = copy_credentials(
+            self,
+            api_key=api_key,
+            credentials=credentials,
+            base_url=base_url,
+            http_client=http_client,
+            token_cache=_token_cache,
+            extra_kwargs=_extra_kwargs,
+        )
         return self.__class__(
-            api_key=api_key or self.api_key,
+            api_key=api_key,
             project_id=project_id or self.project_id,
             project=project or self.project,
             base_url=base_url or self.base_url,
@@ -562,7 +600,9 @@ class Kernel(SyncAPIClient):
 
 class AsyncKernel(AsyncAPIClient):
     # client options
-    api_key: str
+    api_key: str | None
+    _credentials: AccessTokenProvider | AsyncAccessTokenProvider | None
+    _token_cache: TokenCache | None
     browser_route_cache: BrowserRouteCache
 
     project_id: str | None
@@ -575,6 +615,7 @@ class AsyncKernel(AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        credentials: AccessTokenProvider | AsyncAccessTokenProvider | None = None,
         project_id: str | None = None,
         project: str | None = None,
         environment: Literal["production", "development"] | NotGiven = not_given,
@@ -597,17 +638,17 @@ class AsyncKernel(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
         _browser_route_cache: BrowserRouteCache | None = None,
+        _token_cache: TokenCache | None = None,
     ) -> None:
         """Construct a new async AsyncKernel client instance.
 
         This automatically infers the `api_key` argument from the `KERNEL_API_KEY` environment variable if it is not provided.
         """
-        if api_key is None:
+        credentials = resolve_credentials(api_key=api_key, credentials=credentials)
+        if api_key is None and credentials is None:
             api_key = os.environ.get("KERNEL_API_KEY")
-        if api_key is None:
-            raise KernelError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the KERNEL_API_KEY environment variable"
-            )
+        if api_key is None and credentials is None:
+            raise KernelError(MISSING_CREDENTIALS_MESSAGE)
         self.api_key = api_key
 
         self.project_id = project_id
@@ -661,6 +702,10 @@ class AsyncKernel(AsyncAPIClient):
         )
         self.browser_route_cache = _browser_route_cache or BrowserRouteCache()
         self._browser_routing = browser_routing_config_from_env()
+        self._credentials = credentials
+        self._token_cache = make_token_cache(
+            credentials, base_url=self.base_url, http_client=self._client, inherited=_token_cache
+        )
         install_async_direct_vm_auth_stripping(self._client)
         install_async_stale_direct_vm_auth_eviction(self._client)
 
@@ -844,6 +889,8 @@ class AsyncKernel(AsyncAPIClient):
     @property
     @override
     def auth_headers(self) -> dict[str, str]:
+        if self._token_cache is not None:
+            return cached_auth_headers(self._token_cache)
         api_key = self.api_key
         return {"Authorization": f"Bearer {api_key}"}
 
@@ -861,6 +908,7 @@ class AsyncKernel(AsyncAPIClient):
     @override
     async def _prepare_options(self, options: Any) -> Any:
         options = cast(Any, await super()._prepare_options(options))
+        await refresh_token_cache(self._token_cache)
         return rewrite_direct_vm_options(options, cache=self.browser_route_cache, config=self._browser_routing)
 
     @override
@@ -880,7 +928,11 @@ class AsyncKernel(AsyncAPIClient):
             # the body can be rebuilt, otherwise the caller sees the original auth
             # failure and a later call goes to the control plane.
             return should_retry_stale_direct_vm_auth(response)
+        if should_retry_with_fresh_token(response, self._token_cache):
+            return True
         return super()._should_retry(response)
+
+    request = with_unauthorized_retry_scope(AsyncAPIClient.request)
 
     @override
     async def _process_response(
@@ -908,6 +960,7 @@ class AsyncKernel(AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        credentials: AccessTokenProvider | AsyncAccessTokenProvider | None = None,
         project_id: str | None = None,
         project: str | None = None,
         environment: Literal["production", "development"] | None = None,
@@ -920,6 +973,7 @@ class AsyncKernel(AsyncAPIClient):
         default_query: Mapping[str, object] | None = None,
         set_default_query: Mapping[str, object] | None = None,
         _browser_route_cache: BrowserRouteCache | None = None,
+        _token_cache: TokenCache | None = None,
         _extra_kwargs: Mapping[str, Any] = {},
     ) -> Self:
         """
@@ -944,8 +998,17 @@ class AsyncKernel(AsyncAPIClient):
             params = set_default_query
 
         http_client = http_client or self._client
+        api_key, _extra_kwargs = copy_credentials(
+            self,
+            api_key=api_key,
+            credentials=credentials,
+            base_url=base_url,
+            http_client=http_client,
+            token_cache=_token_cache,
+            extra_kwargs=_extra_kwargs,
+        )
         return self.__class__(
-            api_key=api_key or self.api_key,
+            api_key=api_key,
             project_id=project_id or self.project_id,
             project=project or self.project,
             base_url=base_url or self.base_url,
