@@ -14,6 +14,7 @@ from .vault_reference import VaultReference
 from .browser_location import BrowserLocation
 from .browser_pool_ref import BrowserPoolRef
 from .browser_video_memory import BrowserVideoMemory
+from .browser_captcha_solver import BrowserCaptchaSolver
 from .browser_network_config import BrowserNetworkConfig
 from .shared.browser_viewport import BrowserViewport
 from .browsers.browser_telemetry_config import BrowserTelemetryConfig
@@ -40,6 +41,9 @@ class Replay(BaseModel):
 
 
 class BrowserUpdateResponse(BaseModel):
+    captcha_solver: BrowserCaptchaSolver
+    """Automatic CAPTCHA solving configuration."""
+
     cdp_ws_url: str
     """Websocket URL for Chrome DevTools Protocol connections to the browser session"""
 
@@ -59,7 +63,11 @@ class BrowserUpdateResponse(BaseModel):
     """Unique identifier for the browser session"""
 
     stealth: bool
-    """Whether the browser session is running in stealth mode."""
+    """
+    Whether the browser session has CAPTCHA solving enabled, in which case
+    proxy.mode=default uses Kernel's default stealth proxy. Deprecated in favor of
+    captcha_solver and proxy.
+    """
 
     timeout_seconds: int
     """The number of seconds of inactivity before the browser session is terminated."""
