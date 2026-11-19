@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
@@ -11,8 +11,12 @@ __all__ = [
     "Authorization",
     "AuthorizationCredentialScope",
     "AuthorizationEffectiveScope",
+    "AuthorizationEffectivePolicy",
+    "AuthorizationEffectivePolicyStatement",
+    "AuthorizationEffectivePolicyStatementCondition",
     "Organization",
     "Principal",
+    "WorkloadIdentity",
 ]
 
 
@@ -49,6 +53,56 @@ class AuthorizationEffectiveScope(BaseModel):
     """The Kernel project ID, or null when the scope is organization-wide."""
 
 
+class AuthorizationEffectivePolicyStatementCondition(BaseModel):
+    """
+    A condition narrows a policy statement to requests matching its constraint: the request attribute, a comparison operator, and that operator's values.
+    """
+
+    key: Literal["source_ip"]
+    """Request attribute the condition constrains.
+
+    `source_ip` restricts the statement to requests whose client address falls
+    inside one of `values`.
+    """
+
+    operator: Literal["in"]
+    """Comparison the condition applies between the request attribute and values."""
+
+    values: List[str]
+    """Values the request attribute must match.
+
+    For `source_ip`, CIDR networks: a bare address without a mask is rejected, and
+    so are an entry with host bits set and an IPv4 network written in IPv6 notation.
+    """
+
+
+class AuthorizationEffectivePolicyStatement(BaseModel):
+    action: str
+    """Permitted action, such as browsers:use or vaults:read."""
+
+    resource: str
+    """Resource the action applies to, in the format projects/{project_id}/{kind}/{id}.
+
+    Wildcards are supported.
+    """
+
+    condition: Optional[AuthorizationEffectivePolicyStatementCondition] = None
+    """
+    A condition narrows a policy statement to requests matching its constraint: the
+    request attribute, a comparison operator, and that operator's values.
+    """
+
+
+class AuthorizationEffectivePolicy(BaseModel):
+    """Current effective paired policy for a service-account principal.
+
+    Omitted for legacy human/client identities.
+    """
+
+    statements: List[AuthorizationEffectivePolicyStatement]
+    """Allow statements. Every action and resource not listed is denied."""
+
+
 class Authorization(BaseModel):
     """The credential's maximum scope and the effective scope selected for this request.
 
@@ -67,6 +121,12 @@ class Authorization(BaseModel):
     A null project_id represents organization-wide scope.
     """
 
+    effective_policy: Optional[AuthorizationEffectivePolicy] = None
+    """Current effective paired policy for a service-account principal.
+
+    Omitted for legacy human/client identities.
+    """
+
 
 class Organization(BaseModel):
     id: str
@@ -75,10 +135,22 @@ class Organization(BaseModel):
 
 class Principal(BaseModel):
     id: str
-    """The API key ID for API-key principals or user ID for user principals."""
+    """The authenticated API key, user or organization-owned service-account ID."""
 
-    type: Literal["api_key", "user"]
+    type: Literal["api_key", "user", "service_account"]
     """The kind of principal authenticated for the request."""
+
+
+class WorkloadIdentity(BaseModel):
+    external_subject_digest: str
+    """Digest of the verified external subject.
+
+    Never the original assertion or arbitrary claims.
+    """
+
+    federation_rule_id: str
+
+    issuer_id: str
 
 
 class AuthContext(BaseModel):
@@ -96,3 +168,5 @@ class AuthContext(BaseModel):
     organization: Organization
 
     principal: Principal
+
+    workload_identity: Optional[WorkloadIdentity] = None

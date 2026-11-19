@@ -17,6 +17,7 @@ __all__ = [
     "LinkCardVaultItemSpecRecurring",
     "LinkCardVaultItemSpecTotal",
     "AgentCardCardVaultItemSpec",
+    "AgentCardCardVaultItemSpecLineItem",
 ]
 
 
@@ -123,6 +124,41 @@ class LinkCardVaultItemSpec(TypedDict, total=False):
     totals: Iterable[LinkCardVaultItemSpecTotal]
 
 
+class AgentCardCardVaultItemSpecLineItem(TypedDict, total=False):
+    """One product on the AgentCard approval screen."""
+
+    quantity: Required[int]
+
+    title: Required[str]
+    """The product's name as the store shows it."""
+
+    amount: int
+    """The line's total in minor currency units.
+
+    Shown instead of unit_amount times quantity when both are set; a line with
+    neither shows without a price.
+    """
+
+    brand: str
+    """Shown beside the title."""
+
+    image_url: str
+    """https URL of the product's picture.
+
+    AgentCard shows pictures only from the image hosts it allows and shows the line
+    without one otherwise.
+    """
+
+    options: str
+    """The options the shopper chose, such as "Size S · Pink"."""
+
+    unit_amount: int
+    """Price of one, in minor currency units.
+
+    The line shows unit_amount times quantity.
+    """
+
+
 class AgentCardCardVaultItemSpec(TypedDict, total=False):
     """AgentCard reusable live payment card.
 
@@ -160,6 +196,31 @@ class AgentCardCardVaultItemSpec(TypedDict, total=False):
     Omitted, those checkouts ask the cardholder to approve. Card updates replace the
     whole spec, so an update that omits it removes it.
     """
+
+    discount: int
+    """Discount as a positive number of minor currency units; 500 takes 5.00 off.
+
+    Requires line_items.
+    """
+
+    line_items: Iterable[AgentCardCardVaultItemSpecLineItem]
+    """
+    What the next checkout buys, listed on the cardholder's approval screen above
+    the total. Display only: the cardholder approves amount, or the amount the
+    processor charges, and a line total that disagrees with it changes nothing they
+    pay. Amounts are in minor units of currency. Sent only for checkouts without a
+    preparation; omitted, the approval screen shows the merchant and amount alone.
+    Card updates replace the whole spec, so set the cart again for each checkout.
+    """
+
+    shipping: int
+    """Shipping charge in minor currency units. Requires line_items."""
+
+    subtotal: int
+    """Cart subtotal in minor currency units. Requires line_items."""
+
+    tax: int
+    """Tax in minor currency units. Requires line_items."""
 
 
 CardVaultItemSpecParam: TypeAlias = Union[

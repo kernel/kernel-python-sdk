@@ -14,6 +14,7 @@ from .browser_memory import BrowserMemory
 from .vault_reference import VaultReference
 from .browser_location import BrowserLocation
 from .browser_pool_ref import BrowserPoolRef
+from .browser_fingerprint import BrowserFingerprint
 from .browser_video_memory import BrowserVideoMemory
 from .browser_captcha_solver import BrowserCaptchaSolver
 from .browser_network_config import BrowserNetworkConfig
@@ -66,7 +67,8 @@ class BrowserPoolAcquireResponse(NoContentAsNone, BaseModel):
     stealth: bool
     """
     Whether the browser session has CAPTCHA solving enabled, in which case
-    proxy.mode=default uses Kernel's default stealth proxy. Deprecated in favor of
+    proxy.mode=default uses Kernel's default stealth proxy. A browser created with
+    only captcha_solver reports true with proxy.mode=direct. Deprecated in favor of
     captcha_solver and proxy.
     """
 
@@ -94,6 +96,12 @@ class BrowserPoolAcquireResponse(NoContentAsNone, BaseModel):
 
     deleted_at: Optional[datetime] = None
     """When the browser session was soft-deleted. Only present for deleted sessions."""
+
+    fingerprint: Optional[BrowserFingerprint] = None
+    """Fingerprint applied to this browser session.
+
+    Omitted when the session was created without one.
+    """
 
     gpu: Optional[bool] = None
     """

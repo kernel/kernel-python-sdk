@@ -63,6 +63,7 @@ from .report_list_params import ReportListParams as ReportListParams
 from .task_create_params import TaskCreateParams as TaskCreateParams
 from .api_key_list_params import APIKeyListParams as APIKeyListParams
 from .browser_curl_params import BrowserCurlParams as BrowserCurlParams
+from .browser_fingerprint import BrowserFingerprint as BrowserFingerprint
 from .browser_list_params import BrowserListParams as BrowserListParams
 from .browser_repl_params import BrowserReplParams as BrowserReplParams
 from .browser_repl_result import BrowserReplResult as BrowserReplResult

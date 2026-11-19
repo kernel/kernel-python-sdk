@@ -6,6 +6,7 @@ from typing import Dict, Iterable, Optional
 from typing_extensions import Literal, Required, TypedDict
 
 from .browser_memory_request import BrowserMemoryRequest
+from .browser_captcha_solver_param import BrowserCaptchaSolverParam
 from .browser_network_config_param import BrowserNetworkConfigParam
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
@@ -28,6 +29,13 @@ class BrowserPoolCreateParams(TypedDict, total=False):
 
     The maximum size is determined by your organization's pooled sessions limit (the
     sum of all pool sizes cannot exceed your limit).
+    """
+
+    captcha_solver: BrowserCaptchaSolverParam
+    """Automatic CAPTCHA solving for browsers in this pool.
+
+    Disabled by default. Enabling it does not select a proxy: when proxy_id is
+    omitted, browsers use direct egress unless stealth=true.
     """
 
     chrome_policy: Dict[str, object]
@@ -120,8 +128,10 @@ class BrowserPoolCreateParams(TypedDict, total=False):
 
     stealth: bool
     """
-    If true, launches the browser in stealth mode to reduce detection by anti-bot
-    mechanisms. Defaults to false.
+    If true, enables the CAPTCHA solver and, when proxy_id is omitted, uses Kernel's
+    default stealth proxy. Defaults to false. Cannot be combined with
+    captcha_solver.enabled=false. Deprecated in favor of captcha_solver and
+    proxy_id.
     """
 
     telemetry: Optional[Telemetry]

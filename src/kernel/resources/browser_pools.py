@@ -31,6 +31,7 @@ from .._base_client import AsyncPaginator, make_request_options
 from ..types.tags_param import TagsParam
 from ..types.browser_pool import BrowserPool
 from ..types.browser_memory_request import BrowserMemoryRequest
+from ..types.browser_captcha_solver_param import BrowserCaptchaSolverParam
 from ..types.browser_network_config_param import BrowserNetworkConfigParam
 from ..types.browser_pool_acquire_response import BrowserPoolAcquireResponse
 from ..types.shared_params.browser_profile import BrowserProfile
@@ -66,6 +67,7 @@ class BrowserPoolsResource(SyncAPIResource):
         self,
         *,
         size: int,
+        captcha_solver: BrowserCaptchaSolverParam | Omit = omit,
         chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
@@ -103,6 +105,10 @@ class BrowserPoolsResource(SyncAPIResource):
           size: Number of browsers to maintain in the pool. The maximum size is determined by
               your organization's pooled sessions limit (the sum of all pool sizes cannot
               exceed your limit).
+
+          captcha_solver: Automatic CAPTCHA solving for browsers in this pool. Disabled by default.
+              Enabling it does not select a proxy: when proxy_id is omitted, browsers use
+              direct egress unless stealth=true.
 
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
               Keys are Chrome enterprise policy names; values must match their expected types.
@@ -155,8 +161,10 @@ class BrowserPoolsResource(SyncAPIResource):
               previous lease left them on. Accepts any URL Chromium can resolve, including
               chrome:// pages.
 
-          stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
-              mechanisms. Defaults to false.
+          stealth: If true, enables the CAPTCHA solver and, when proxy_id is omitted, uses Kernel's
+              default stealth proxy. Defaults to false. Cannot be combined with
+              captcha_solver.enabled=false. Deprecated in favor of captcha_solver and
+              proxy_id.
 
           telemetry: Telemetry configuration applied to browsers warmed into this pool. Set enabled
               to true to start capture using the default set, or provide browser category
@@ -196,6 +204,7 @@ class BrowserPoolsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "size": size,
+                    "captcha_solver": captcha_solver,
                     "chrome_policy": chrome_policy,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,
@@ -264,6 +273,7 @@ class BrowserPoolsResource(SyncAPIResource):
         self,
         id_or_name: str,
         *,
+        captcha_solver: BrowserCaptchaSolverParam | Omit = omit,
         chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
         expected_network: BrowserNetworkConfigParam | Omit = omit,
@@ -301,6 +311,10 @@ class BrowserPoolsResource(SyncAPIResource):
         `refresh_on_profile_update`.
 
         Args:
+          captcha_solver: If provided, replaces whether browsers in this pool automatically solve
+              CAPTCHAs. Enabling it on a pool with direct egress keeps direct egress unless
+              proxy_id or stealth=true is also set.
+
           chrome_policy: If provided, replaces the custom Chrome enterprise policy overrides applied to
               all browsers in this pool. Empty object clears any previously-set policy. Keys
               are Chrome enterprise policy names; values must match their expected types.
@@ -380,7 +394,10 @@ class BrowserPoolsResource(SyncAPIResource):
               the pool. Empty string clears the previously-set URL. Omit this field to leave
               it unchanged.
 
-          stealth: If provided, replaces whether browsers launch in stealth mode.
+          stealth: If provided, replaces whether browsers launch in stealth mode. stealth=true
+              without proxy_id moves a pool on direct egress to Kernel's default stealth
+              proxy. Cannot be combined with captcha_solver.enabled=false. Deprecated in favor
+              of captcha_solver and proxy_id.
 
           telemetry: If provided, updates the pool's telemetry configuration. Omit, set to null, or
               set to an empty object ({}) to leave the existing configuration unchanged. Set
@@ -422,6 +439,7 @@ class BrowserPoolsResource(SyncAPIResource):
             path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform(
                 {
+                    "captcha_solver": captcha_solver,
                     "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
                     "expected_network": expected_network,
@@ -789,6 +807,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         self,
         *,
         size: int,
+        captcha_solver: BrowserCaptchaSolverParam | Omit = omit,
         chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fill_rate_per_minute: int | Omit = omit,
@@ -826,6 +845,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
           size: Number of browsers to maintain in the pool. The maximum size is determined by
               your organization's pooled sessions limit (the sum of all pool sizes cannot
               exceed your limit).
+
+          captcha_solver: Automatic CAPTCHA solving for browsers in this pool. Disabled by default.
+              Enabling it does not select a proxy: when proxy_id is omitted, browsers use
+              direct egress unless stealth=true.
 
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
               Keys are Chrome enterprise policy names; values must match their expected types.
@@ -878,8 +901,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               previous lease left them on. Accepts any URL Chromium can resolve, including
               chrome:// pages.
 
-          stealth: If true, launches the browser in stealth mode to reduce detection by anti-bot
-              mechanisms. Defaults to false.
+          stealth: If true, enables the CAPTCHA solver and, when proxy_id is omitted, uses Kernel's
+              default stealth proxy. Defaults to false. Cannot be combined with
+              captcha_solver.enabled=false. Deprecated in favor of captcha_solver and
+              proxy_id.
 
           telemetry: Telemetry configuration applied to browsers warmed into this pool. Set enabled
               to true to start capture using the default set, or provide browser category
@@ -919,6 +944,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "size": size,
+                    "captcha_solver": captcha_solver,
                     "chrome_policy": chrome_policy,
                     "extensions": extensions,
                     "fill_rate_per_minute": fill_rate_per_minute,
@@ -987,6 +1013,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         self,
         id_or_name: str,
         *,
+        captcha_solver: BrowserCaptchaSolverParam | Omit = omit,
         chrome_policy: Dict[str, object] | Omit = omit,
         discard_all_idle: bool | Omit = omit,
         expected_network: BrowserNetworkConfigParam | Omit = omit,
@@ -1024,6 +1051,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         `refresh_on_profile_update`.
 
         Args:
+          captcha_solver: If provided, replaces whether browsers in this pool automatically solve
+              CAPTCHAs. Enabling it on a pool with direct egress keeps direct egress unless
+              proxy_id or stealth=true is also set.
+
           chrome_policy: If provided, replaces the custom Chrome enterprise policy overrides applied to
               all browsers in this pool. Empty object clears any previously-set policy. Keys
               are Chrome enterprise policy names; values must match their expected types.
@@ -1103,7 +1134,10 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               the pool. Empty string clears the previously-set URL. Omit this field to leave
               it unchanged.
 
-          stealth: If provided, replaces whether browsers launch in stealth mode.
+          stealth: If provided, replaces whether browsers launch in stealth mode. stealth=true
+              without proxy_id moves a pool on direct egress to Kernel's default stealth
+              proxy. Cannot be combined with captcha_solver.enabled=false. Deprecated in favor
+              of captcha_solver and proxy_id.
 
           telemetry: If provided, updates the pool's telemetry configuration. Omit, set to null, or
               set to an empty object ({}) to leave the existing configuration unchanged. Set
@@ -1145,6 +1179,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
             path_template("/browser_pools/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {
+                    "captcha_solver": captcha_solver,
                     "chrome_policy": chrome_policy,
                     "discard_all_idle": discard_all_idle,
                     "expected_network": expected_network,

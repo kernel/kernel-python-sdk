@@ -6,6 +6,7 @@ from typing_extensions import Literal
 
 from .._models import BaseModel
 from .browser_memory import BrowserMemory
+from .browser_captcha_solver import BrowserCaptchaSolver
 from .browser_network_config import BrowserNetworkConfig
 from .shared.browser_viewport import BrowserViewport
 from .shared.browser_extension import BrowserExtension
@@ -42,6 +43,9 @@ class BrowserPoolConfig(BaseModel):
     The maximum size is determined by your organization's pooled sessions limit (the
     sum of all pool sizes cannot exceed your limit).
     """
+
+    captcha_solver: Optional[BrowserCaptchaSolver] = None
+    """Automatic CAPTCHA solving configuration."""
 
     chrome_policy: Optional[Dict[str, object]] = None
     """Custom Chrome enterprise policy overrides applied to all browsers in this pool.
@@ -122,8 +126,10 @@ class BrowserPoolConfig(BaseModel):
 
     stealth: Optional[bool] = None
     """
-    If true, launches the browser in stealth mode to reduce detection by anti-bot
-    mechanisms.
+    Whether browsers in this pool use stealth mode, which is CAPTCHA solving with
+    Kernel's default stealth proxy unless proxy_id is set. A pool with only
+    captcha_solver enabled reports false. Deprecated in favor of captcha_solver and
+    proxy_id.
     """
 
     telemetry: Optional[BrowserTelemetryConfig] = None

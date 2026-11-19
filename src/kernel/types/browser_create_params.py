@@ -55,7 +55,7 @@ class BrowserCreateParams(TypedDict, total=False):
     """
     Closed beta: contact Kernel to enable fingerprint overrides for your
     organization. Overrides browser attributes presented to websites for this
-    session. Currently supports macos and requires captcha_solver.enabled=true,
+    session. Supports linux and macos and requires captcha_solver.enabled=true,
     headless=false, gpu=false, and default memory. Omit to preserve the default
     browser behavior.
     """
