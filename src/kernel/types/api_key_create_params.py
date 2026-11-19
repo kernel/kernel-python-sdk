@@ -4,11 +4,12 @@ from __future__ import annotations
 
 from typing import Union, Iterable, Optional
 from datetime import datetime
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
-__all__ = ["APIKeyCreateParams", "Policy", "PolicyStatement"]
+__all__ = ["APIKeyCreateParams", "Policy", "PolicyStatement", "PolicyStatementCondition"]
 
 
 class APIKeyCreateParams(TypedDict, total=False):
@@ -31,11 +32,42 @@ class APIKeyCreateParams(TypedDict, total=False):
     policy: Policy
     """
     Issue a scoped key that may only perform the listed actions on the listed
-    resources.
+    resources. A statement may carry a condition; a `source_ip` condition restricts
+    the statement to requests from inside its CIDR networks.
     """
 
     project_id: Optional[str]
     """Unique project identifier"""
+
+    service_account_id: str
+    """Link to an active same-organization service account.
+
+    Requires an organization administrator, explicit project and nonempty policy.
+    Omit for a personal key.
+    """
+
+
+class PolicyStatementCondition(TypedDict, total=False):
+    """
+    A condition narrows a policy statement to requests matching its constraint: the request attribute, a comparison operator, and that operator's values.
+    """
+
+    key: Required[Literal["source_ip"]]
+    """Request attribute the condition constrains.
+
+    `source_ip` restricts the statement to requests whose client address falls
+    inside one of `values`.
+    """
+
+    operator: Required[Literal["in"]]
+    """Comparison the condition applies between the request attribute and values."""
+
+    values: Required[SequenceNotStr[str]]
+    """Values the request attribute must match.
+
+    For `source_ip`, CIDR networks: a bare address without a mask is rejected, and
+    so are an entry with host bits set and an IPv4 network written in IPv6 notation.
+    """
 
 
 class PolicyStatement(TypedDict, total=False):
@@ -48,10 +80,16 @@ class PolicyStatement(TypedDict, total=False):
     Wildcards are supported.
     """
 
+    condition: PolicyStatementCondition
+    """
+    A condition narrows a policy statement to requests matching its constraint: the
+    request attribute, a comparison operator, and that operator's values.
+    """
+
 
 class Policy(TypedDict, total=False):
     """
-    Issue a scoped key that may only perform the listed actions on the listed resources.
+    Issue a scoped key that may only perform the listed actions on the listed resources. A statement may carry a condition; a `source_ip` condition restricts the statement to requests from inside its CIDR networks.
     """
 
     statements: Required[Iterable[PolicyStatement]]

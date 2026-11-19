@@ -10,5 +10,5 @@ __all__ = ["BrowserFingerprintParam"]
 class BrowserFingerprintParam(TypedDict, total=False):
     """Overrides for browser attributes presented to websites."""
 
-    os: Required[Literal["macos"]]
+    os: Required[Literal["linux", "macos"]]
     """Operating system the browser reports to websites."""

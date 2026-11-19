@@ -1,6 +1,6 @@
 [project]
 name = "kernel"
-version = "0.149.0"
+version = "0.150.0"
 description = "The official Python library for the kernel API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -43,6 +43,7 @@ Repository = "https://github.com/kernel/kernel-python-sdk"
 
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
+aws = ["boto3>=1.41.0"]
 
 [tool.rye]
 managed = true

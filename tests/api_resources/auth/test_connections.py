@@ -41,6 +41,7 @@ class TestConnections:
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
             auto_reauth=True,
             browser={
+                "captcha_solver": {"enabled": True},
                 "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
@@ -211,6 +212,7 @@ class TestConnections:
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
             auto_reauth=True,
             browser={
+                "captcha_solver": {"enabled": True},
                 "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
@@ -466,6 +468,7 @@ class TestConnections:
         connection = client.auth.connections.login(
             id="id",
             browser={
+                "captcha_solver": {"enabled": True},
                 "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
@@ -715,6 +718,7 @@ class TestAsyncConnections:
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
             auto_reauth=True,
             browser={
+                "captcha_solver": {"enabled": True},
                 "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
@@ -885,6 +889,7 @@ class TestAsyncConnections:
             allowed_domains=["login.netflix.com", "auth.netflix.com"],
             auto_reauth=True,
             browser={
+                "captcha_solver": {"enabled": True},
                 "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",
@@ -1140,6 +1145,7 @@ class TestAsyncConnections:
         connection = await async_client.auth.connections.login(
             id="id",
             browser={
+                "captcha_solver": {"enabled": True},
                 "location": {"locale": "sv-SE"},
                 "proxy": {
                     "id": "x",

@@ -36,6 +36,7 @@ class TestBrowsers:
     @parametrize
     def test_method_create_with_all_params(self, client: Kernel) -> None:
         browser = client.browsers.create(
+            captcha_solver={"enabled": True},
             chrome_policy={"foo": "bar"},
             extensions=[
                 {
@@ -649,6 +650,7 @@ class TestAsyncBrowsers:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.create(
+            captcha_solver={"enabled": True},
             chrome_policy={"foo": "bar"},
             extensions=[
                 {

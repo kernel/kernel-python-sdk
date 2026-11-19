@@ -124,6 +124,7 @@ from ...types.browser_update_response import BrowserUpdateResponse
 from ...types.browser_fingerprint_param import BrowserFingerprintParam
 from ...types.browser_retrieve_response import BrowserRetrieveResponse
 from ...types.browser_proxy_config_param import BrowserProxyConfigParam
+from ...types.browser_captcha_solver_param import BrowserCaptchaSolverParam
 from ...types.browser_network_config_param import BrowserNetworkConfigParam
 from ...types.browser_network_update_param import BrowserNetworkUpdateParam
 from ...types.shared_params.browser_profile import BrowserProfile
@@ -207,6 +208,7 @@ class BrowsersResource(SyncAPIResource):
     def create(
         self,
         *,
+        captcha_solver: BrowserCaptchaSolverParam | Omit = omit,
         chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fingerprint: BrowserFingerprintParam | Omit = omit,
@@ -243,6 +245,10 @@ class BrowsersResource(SyncAPIResource):
         Create a new browser session from within an action.
 
         Args:
+          captcha_solver: Automatic CAPTCHA solving. Disabled by default. Enabling it does not select a
+              proxy: when proxy is omitted, the browser uses direct egress unless
+              stealth=true.
+
           chrome_policy: Custom Chrome enterprise policy overrides applied to this browser session. Keys
               are Chrome enterprise policy names; values must match their expected types.
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
@@ -252,8 +258,9 @@ class BrowsersResource(SyncAPIResource):
 
           fingerprint: Closed beta: contact Kernel to enable fingerprint overrides for your
               organization. Overrides browser attributes presented to websites for this
-              session. Currently supports macos and requires stealth=true, headless=false,
-              gpu=false, and default memory. Omit to preserve the default browser behavior.
+              session. Supports linux and macos and requires captcha_solver.enabled=true,
+              headless=false, gpu=false, and default memory. Omit to preserve the default
+              browser behavior.
 
           gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
               Enterprise plan, headless=false, and region=us-east.
@@ -285,12 +292,11 @@ class BrowsersResource(SyncAPIResource):
               Profiles must be created beforehand.
 
           proxy: Proxy configuration for the browser session. Cannot be combined with proxy_id.
-              Omit to use the browser default: stealth browsers use Kernel's default stealth
-              proxy, while non-stealth browsers use direct egress. Set mode to direct to force
-              direct egress regardless of stealth. Set mode to default to explicitly use the
-              browser default: Kernel's default stealth proxy when stealth=true, or direct
-              egress when stealth=false. Select id or name to use that proxy regardless of
-              stealth. Proxy selection does not change stealth or CAPTCHA solver behavior.
+              Omit to use direct egress, or Kernel's default stealth proxy when stealth=true.
+              Set mode to direct to force direct egress. Set mode to default to use Kernel's
+              default stealth proxy when captcha_solver.enabled=true, or direct egress
+              otherwise. Select id or name to use that proxy. Proxy selection does not change
+              CAPTCHA solver behavior.
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
               the same project as the browser session. Deprecated in favor of proxy.
@@ -305,11 +311,10 @@ class BrowsersResource(SyncAPIResource):
               best-effort, so navigation failures do not prevent the session from being
               created.
 
-          stealth: If true, launches the browser in stealth mode and enables the CAPTCHA solver.
-              Defaults to false. When proxy is omitted, stealth browsers use Kernel's default
-              stealth proxy and non-stealth browsers use direct egress. An explicit proxy
-              configuration changes only egress; it does not enable or disable stealth or the
-              CAPTCHA solver.
+          stealth: If true, enables the CAPTCHA solver and, when proxy is omitted, uses Kernel's
+              default stealth proxy. Defaults to false. Equivalent to
+              captcha_solver.enabled=true with proxy.mode=default. Cannot be combined with
+              captcha_solver.enabled=false. Deprecated in favor of captcha_solver and proxy.
 
           tags: Optional user-defined key-value tags for the browser session, used to find and
               group sessions later. Can be changed later via PATCH /browsers/{id_or_name}. Up
@@ -361,6 +366,7 @@ class BrowsersResource(SyncAPIResource):
             "/browsers",
             body=maybe_transform(
                 {
+                    "captcha_solver": captcha_solver,
                     "chrome_policy": chrome_policy,
                     "extensions": extensions,
                     "fingerprint": fingerprint,
@@ -489,10 +495,9 @@ class BrowsersResource(SyncAPIResource):
 
           proxy: Proxy configuration to apply. Omit to leave the current configuration unchanged.
               Cannot be combined with proxy_id or disable_default_proxy. Set mode to direct to
-              switch to direct egress regardless of stealth. Set mode to default to restore
-              the browser default after using a selected proxy: Kernel's default stealth proxy
-              for a stealth browser, or direct egress for a non-stealth browser. Updating
-              proxy does not change stealth or CAPTCHA solver behavior.
+              switch to direct egress. Set mode to default to use Kernel's default stealth
+              proxy for a browser with CAPTCHA solving enabled, or direct egress otherwise.
+              Updating proxy does not change CAPTCHA solver behavior.
 
           proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy. Deprecated in favor of proxy.
@@ -1077,6 +1082,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        captcha_solver: BrowserCaptchaSolverParam | Omit = omit,
         chrome_policy: Dict[str, object] | Omit = omit,
         extensions: Iterable[BrowserExtension] | Omit = omit,
         fingerprint: BrowserFingerprintParam | Omit = omit,
@@ -1113,6 +1119,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Create a new browser session from within an action.
 
         Args:
+          captcha_solver: Automatic CAPTCHA solving. Disabled by default. Enabling it does not select a
+              proxy: when proxy is omitted, the browser uses direct egress unless
+              stealth=true.
+
           chrome_policy: Custom Chrome enterprise policy overrides applied to this browser session. Keys
               are Chrome enterprise policy names; values must match their expected types.
               Blocked: kernel-managed policies (extensions, proxy, CDP/automation). See
@@ -1122,8 +1132,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           fingerprint: Closed beta: contact Kernel to enable fingerprint overrides for your
               organization. Overrides browser attributes presented to websites for this
-              session. Currently supports macos and requires stealth=true, headless=false,
-              gpu=false, and default memory. Omit to preserve the default browser behavior.
+              session. Supports linux and macos and requires captcha_solver.enabled=true,
+              headless=false, gpu=false, and default memory. Omit to preserve the default
+              browser behavior.
 
           gpu: If true, enables GPU acceleration for the browser session. Requires Start-Up or
               Enterprise plan, headless=false, and region=us-east.
@@ -1155,12 +1166,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
               Profiles must be created beforehand.
 
           proxy: Proxy configuration for the browser session. Cannot be combined with proxy_id.
-              Omit to use the browser default: stealth browsers use Kernel's default stealth
-              proxy, while non-stealth browsers use direct egress. Set mode to direct to force
-              direct egress regardless of stealth. Set mode to default to explicitly use the
-              browser default: Kernel's default stealth proxy when stealth=true, or direct
-              egress when stealth=false. Select id or name to use that proxy regardless of
-              stealth. Proxy selection does not change stealth or CAPTCHA solver behavior.
+              Omit to use direct egress, or Kernel's default stealth proxy when stealth=true.
+              Set mode to direct to force direct egress. Set mode to default to use Kernel's
+              default stealth proxy when captcha_solver.enabled=true, or direct egress
+              otherwise. Select id or name to use that proxy. Proxy selection does not change
+              CAPTCHA solver behavior.
 
           proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
               the same project as the browser session. Deprecated in favor of proxy.
@@ -1175,11 +1185,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
               best-effort, so navigation failures do not prevent the session from being
               created.
 
-          stealth: If true, launches the browser in stealth mode and enables the CAPTCHA solver.
-              Defaults to false. When proxy is omitted, stealth browsers use Kernel's default
-              stealth proxy and non-stealth browsers use direct egress. An explicit proxy
-              configuration changes only egress; it does not enable or disable stealth or the
-              CAPTCHA solver.
+          stealth: If true, enables the CAPTCHA solver and, when proxy is omitted, uses Kernel's
+              default stealth proxy. Defaults to false. Equivalent to
+              captcha_solver.enabled=true with proxy.mode=default. Cannot be combined with
+              captcha_solver.enabled=false. Deprecated in favor of captcha_solver and proxy.
 
           tags: Optional user-defined key-value tags for the browser session, used to find and
               group sessions later. Can be changed later via PATCH /browsers/{id_or_name}. Up
@@ -1231,6 +1240,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
             "/browsers",
             body=await async_maybe_transform(
                 {
+                    "captcha_solver": captcha_solver,
                     "chrome_policy": chrome_policy,
                     "extensions": extensions,
                     "fingerprint": fingerprint,
@@ -1359,10 +1369,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           proxy: Proxy configuration to apply. Omit to leave the current configuration unchanged.
               Cannot be combined with proxy_id or disable_default_proxy. Set mode to direct to
-              switch to direct egress regardless of stealth. Set mode to default to restore
-              the browser default after using a selected proxy: Kernel's default stealth proxy
-              for a stealth browser, or direct egress for a non-stealth browser. Updating
-              proxy does not change stealth or CAPTCHA solver behavior.
+              switch to direct egress. Set mode to default to use Kernel's default stealth
+              proxy for a browser with CAPTCHA solving enabled, or direct egress otherwise.
+              Updating proxy does not change CAPTCHA solver behavior.
 
           proxy_id: ID of the proxy to use. Omit to leave unchanged, set to empty string to remove
               proxy. Deprecated in favor of proxy.

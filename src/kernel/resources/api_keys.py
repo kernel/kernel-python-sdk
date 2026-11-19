@@ -63,6 +63,7 @@ class APIKeysResource(SyncAPIResource):
         expires_at: Union[str, datetime, None] | Omit = omit,
         policy: api_key_create_params.Policy | Omit = omit,
         project_id: Optional[str] | Omit = omit,
+        service_account_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -71,10 +72,14 @@ class APIKeysResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> CreatedAPIKey:
-        """Create a new API key.
-
-        API keys may be scoped by project and may include a
-        policy.
+        """
+        Create a personal API key, or link a key to an organization-owned service
+        account. Service-account keys require an organization administrator, explicit
+        project and nonempty policy. An optional `policy` scopes the key to its listed
+        actions and resources, and each statement may carry a `condition`. A `source_ip`
+        condition restricts the statement to requests whose client address falls inside
+        its CIDR networks, so a key limited to your egress IP ranges only works from
+        your network, even if its secret leaks.
 
         Args:
           name: Label for the API key (1-255 characters). API keys are not addressable by name.
@@ -86,9 +91,13 @@ class APIKeysResource(SyncAPIResource):
               credential's own expiry. Cannot be combined with days_to_expire.
 
           policy: Issue a scoped key that may only perform the listed actions on the listed
-              resources.
+              resources. A statement may carry a condition; a `source_ip` condition restricts
+              the statement to requests from inside its CIDR networks.
 
           project_id: Unique project identifier
+
+          service_account_id: Link to an active same-organization service account. Requires an organization
+              administrator, explicit project and nonempty policy. Omit for a personal key.
 
           extra_headers: Send extra headers
 
@@ -109,6 +118,7 @@ class APIKeysResource(SyncAPIResource):
                     "expires_at": expires_at,
                     "policy": policy,
                     "project_id": project_id,
+                    "service_account_id": service_account_id,
                 },
                 api_key_create_params.APIKeyCreateParams,
             ),
@@ -171,7 +181,8 @@ class APIKeysResource(SyncAPIResource):
         self,
         id: str,
         *,
-        name: str,
+        name: str | Omit = omit,
+        policy: api_key_update_params.Policy | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -181,10 +192,24 @@ class APIKeysResource(SyncAPIResource):
         idempotency_key: str | None = None,
     ) -> APIKey:
         """
-        Update an API key's name.
+        Update an API key's name, or replace its permissions by attaching a new policy
+        in place: the key's credential never changes, so consumers keep the same secret.
+        The replacement policy may carry `source_ip` conditions, so you can add, change,
+        or remove IP allowlisting on an existing key without rotating its credential. A
+        present `policy` fully replaces the key's policy and takes effect for new
+        requests within the authorization cache; requests from outside a condition's
+        networks get `403` and are recorded in the audit log with the client address.
+        Requires api_keys:write to rename; api_keys:set_policy to replace permissions.
 
         Args:
           name: New API key name
+
+          policy: Permissions that fully replace the key's policy. Attaching a policy to a key
+              without one makes the key scoped: every action and resource the policy does not
+              list is denied. The key's credential, name, project, and expiry are unchanged,
+              so consumers never need the key redistributed. A `source_ip` condition adds or
+              changes IP allowlisting without rotating the credential. Requires
+              api_keys:set_policy on the key.
 
           extra_headers: Send extra headers
 
@@ -200,7 +225,13 @@ class APIKeysResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._patch(
             path_template("/org/api_keys/{id}", id=id),
-            body=maybe_transform({"name": name}, api_key_update_params.APIKeyUpdateParams),
+            body=maybe_transform(
+                {
+                    "name": name,
+                    "policy": policy,
+                },
+                api_key_update_params.APIKeyUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -356,7 +387,9 @@ class APIKeysResource(SyncAPIResource):
         expire_in_days set to 0, browser sessions attributed to the old key are ended
         asynchronously and unsaved profile changes are discarded. Grace-period and
         natural expiry do not end existing browsers. If cleanup cannot be registered, an
-        immediate rotation is not committed.
+        immediate rotation is not committed. Service-account keys retain their service
+        principal and policy; the rotating administrator is recorded separately for
+        audit.
 
         Args:
           days_to_expire: Lifetime in days for the new key, up to 3650. Omit to reuse the rotated key's
@@ -427,6 +460,7 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         expires_at: Union[str, datetime, None] | Omit = omit,
         policy: api_key_create_params.Policy | Omit = omit,
         project_id: Optional[str] | Omit = omit,
+        service_account_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -435,10 +469,14 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
         idempotency_key: str | None = None,
     ) -> CreatedAPIKey:
-        """Create a new API key.
-
-        API keys may be scoped by project and may include a
-        policy.
+        """
+        Create a personal API key, or link a key to an organization-owned service
+        account. Service-account keys require an organization administrator, explicit
+        project and nonempty policy. An optional `policy` scopes the key to its listed
+        actions and resources, and each statement may carry a `condition`. A `source_ip`
+        condition restricts the statement to requests whose client address falls inside
+        its CIDR networks, so a key limited to your egress IP ranges only works from
+        your network, even if its secret leaks.
 
         Args:
           name: Label for the API key (1-255 characters). API keys are not addressable by name.
@@ -450,9 +488,13 @@ class AsyncAPIKeysResource(AsyncAPIResource):
               credential's own expiry. Cannot be combined with days_to_expire.
 
           policy: Issue a scoped key that may only perform the listed actions on the listed
-              resources.
+              resources. A statement may carry a condition; a `source_ip` condition restricts
+              the statement to requests from inside its CIDR networks.
 
           project_id: Unique project identifier
+
+          service_account_id: Link to an active same-organization service account. Requires an organization
+              administrator, explicit project and nonempty policy. Omit for a personal key.
 
           extra_headers: Send extra headers
 
@@ -473,6 +515,7 @@ class AsyncAPIKeysResource(AsyncAPIResource):
                     "expires_at": expires_at,
                     "policy": policy,
                     "project_id": project_id,
+                    "service_account_id": service_account_id,
                 },
                 api_key_create_params.APIKeyCreateParams,
             ),
@@ -535,7 +578,8 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        name: str,
+        name: str | Omit = omit,
+        policy: api_key_update_params.Policy | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -545,10 +589,24 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         idempotency_key: str | None = None,
     ) -> APIKey:
         """
-        Update an API key's name.
+        Update an API key's name, or replace its permissions by attaching a new policy
+        in place: the key's credential never changes, so consumers keep the same secret.
+        The replacement policy may carry `source_ip` conditions, so you can add, change,
+        or remove IP allowlisting on an existing key without rotating its credential. A
+        present `policy` fully replaces the key's policy and takes effect for new
+        requests within the authorization cache; requests from outside a condition's
+        networks get `403` and are recorded in the audit log with the client address.
+        Requires api_keys:write to rename; api_keys:set_policy to replace permissions.
 
         Args:
           name: New API key name
+
+          policy: Permissions that fully replace the key's policy. Attaching a policy to a key
+              without one makes the key scoped: every action and resource the policy does not
+              list is denied. The key's credential, name, project, and expiry are unchanged,
+              so consumers never need the key redistributed. A `source_ip` condition adds or
+              changes IP allowlisting without rotating the credential. Requires
+              api_keys:set_policy on the key.
 
           extra_headers: Send extra headers
 
@@ -564,7 +622,13 @@ class AsyncAPIKeysResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._patch(
             path_template("/org/api_keys/{id}", id=id),
-            body=await async_maybe_transform({"name": name}, api_key_update_params.APIKeyUpdateParams),
+            body=await async_maybe_transform(
+                {
+                    "name": name,
+                    "policy": policy,
+                },
+                api_key_update_params.APIKeyUpdateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -720,7 +784,9 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         expire_in_days set to 0, browser sessions attributed to the old key are ended
         asynchronously and unsaved profile changes are discarded. Grace-period and
         natural expiry do not end existing browsers. If cleanup cannot be registered, an
-        immediate rotation is not committed.
+        immediate rotation is not committed. Service-account keys retain their service
+        principal and policy; the rotating administrator is recorded separately for
+        audit.
 
         Args:
           days_to_expire: Lifetime in days for the new key, up to 3650. Omit to reuse the rotated key's

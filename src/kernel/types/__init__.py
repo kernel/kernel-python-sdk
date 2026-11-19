@@ -63,6 +63,7 @@ from .report_list_params import ReportListParams as ReportListParams
 from .task_create_params import TaskCreateParams as TaskCreateParams
 from .api_key_list_params import APIKeyListParams as APIKeyListParams
 from .browser_curl_params import BrowserCurlParams as BrowserCurlParams
+from .browser_fingerprint import BrowserFingerprint as BrowserFingerprint
 from .browser_list_params import BrowserListParams as BrowserListParams
 from .browser_repl_params import BrowserReplParams as BrowserReplParams
 from .browser_repl_result import BrowserReplResult as BrowserReplResult
@@ -102,6 +103,7 @@ from .proxy_update_response import ProxyUpdateResponse as ProxyUpdateResponse
 from .recommendation_result import RecommendationResult as RecommendationResult
 from .vault_provider_config import VaultProviderConfig as VaultProviderConfig
 from .vault_reference_param import VaultReferenceParam as VaultReferenceParam
+from .browser_captcha_solver import BrowserCaptchaSolver as BrowserCaptchaSolver
 from .browser_memory_request import BrowserMemoryRequest as BrowserMemoryRequest
 from .browser_network_config import BrowserNetworkConfig as BrowserNetworkConfig
 from .credential_list_params import CredentialListParams as CredentialListParams
@@ -154,6 +156,7 @@ from .browser_pool_release_params import BrowserPoolReleaseParams as BrowserPool
 from .browser_save_profile_params import BrowserSaveProfileParams as BrowserSaveProfileParams
 from .config_registry_list_params import ConfigRegistryListParams as ConfigRegistryListParams
 from .report_type_version_summary import ReportTypeVersionSummary as ReportTypeVersionSummary
+from .browser_captcha_solver_param import BrowserCaptchaSolverParam as BrowserCaptchaSolverParam
 from .browser_network_config_param import BrowserNetworkConfigParam as BrowserNetworkConfigParam
 from .browser_network_update_param import BrowserNetworkUpdateParam as BrowserNetworkUpdateParam
 from .deployment_retrieve_response import DeploymentRetrieveResponse as DeploymentRetrieveResponse

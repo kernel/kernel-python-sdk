@@ -51,6 +51,22 @@ from .app_framework import (
     app_registry,
     export_registry,
 )
+from .lib.credentials import (
+    TokenCache as TokenCache,
+    AccessToken as AccessToken,
+    IdentityTokenFile as IdentityTokenFile,
+    AccessTokenProvider as AccessTokenProvider,
+    AWSSTSIdentityToken as AWSSTSIdentityToken,
+    StaticIdentityToken as StaticIdentityToken,
+    FederationAccessToken as FederationAccessToken,
+    WorkloadIdentityError as WorkloadIdentityError,
+    AsyncAccessTokenProvider as AsyncAccessTokenProvider,
+    GCPMetadataIdentityToken as GCPMetadataIdentityToken,
+    GitHubActionsIdentityToken as GitHubActionsIdentityToken,
+    WorkloadIdentityCredentials as WorkloadIdentityCredentials,
+    exchange_federation_assertion as exchange_federation_assertion,
+    async_exchange_federation_assertion as async_exchange_federation_assertion,
+)
 from .lib.audit_log_download import (
     AuditLogDownloadError,
     AuditLogDownloadResult,

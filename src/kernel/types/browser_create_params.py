@@ -11,6 +11,7 @@ from .vault_reference_param import VaultReferenceParam
 from .browser_memory_request import BrowserMemoryRequest
 from .browser_fingerprint_param import BrowserFingerprintParam
 from .browser_proxy_config_param import BrowserProxyConfigParam
+from .browser_captcha_solver_param import BrowserCaptchaSolverParam
 from .browser_network_config_param import BrowserNetworkConfigParam
 from .shared_params.browser_profile import BrowserProfile
 from .browser_location_request_param import BrowserLocationRequestParam
@@ -29,6 +30,13 @@ __all__ = [
 
 
 class BrowserCreateParams(TypedDict, total=False):
+    captcha_solver: BrowserCaptchaSolverParam
+    """Automatic CAPTCHA solving.
+
+    Disabled by default. Enabling it does not select a proxy: when proxy is omitted,
+    the browser uses direct egress unless stealth=true.
+    """
+
     chrome_policy: Dict[str, object]
     """Custom Chrome enterprise policy overrides applied to this browser session.
 
@@ -47,8 +55,9 @@ class BrowserCreateParams(TypedDict, total=False):
     """
     Closed beta: contact Kernel to enable fingerprint overrides for your
     organization. Overrides browser attributes presented to websites for this
-    session. Currently supports macos and requires stealth=true, headless=false,
-    gpu=false, and default memory. Omit to preserve the default browser behavior.
+    session. Supports linux and macos and requires captcha_solver.enabled=true,
+    headless=false, gpu=false, and default memory. Omit to preserve the default
+    browser behavior.
     """
 
     gpu: bool
@@ -109,13 +118,11 @@ class BrowserCreateParams(TypedDict, total=False):
     proxy: BrowserProxyConfigParam
     """Proxy configuration for the browser session.
 
-    Cannot be combined with proxy_id. Omit to use the browser default: stealth
-    browsers use Kernel's default stealth proxy, while non-stealth browsers use
-    direct egress. Set mode to direct to force direct egress regardless of stealth.
-    Set mode to default to explicitly use the browser default: Kernel's default
-    stealth proxy when stealth=true, or direct egress when stealth=false. Select id
-    or name to use that proxy regardless of stealth. Proxy selection does not change
-    stealth or CAPTCHA solver behavior.
+    Cannot be combined with proxy_id. Omit to use direct egress, or Kernel's default
+    stealth proxy when stealth=true. Set mode to direct to force direct egress. Set
+    mode to default to use Kernel's default stealth proxy when
+    captcha_solver.enabled=true, or direct egress otherwise. Select id or name to
+    use that proxy. Proxy selection does not change CAPTCHA solver behavior.
     """
 
     proxy_id: str
@@ -143,12 +150,11 @@ class BrowserCreateParams(TypedDict, total=False):
     """
 
     stealth: bool
-    """If true, launches the browser in stealth mode and enables the CAPTCHA solver.
-
-    Defaults to false. When proxy is omitted, stealth browsers use Kernel's default
-    stealth proxy and non-stealth browsers use direct egress. An explicit proxy
-    configuration changes only egress; it does not enable or disable stealth or the
-    CAPTCHA solver.
+    """
+    If true, enables the CAPTCHA solver and, when proxy is omitted, uses Kernel's
+    default stealth proxy. Defaults to false. Equivalent to
+    captcha_solver.enabled=true with proxy.mode=default. Cannot be combined with
+    captcha_solver.enabled=false. Deprecated in favor of captcha_solver and proxy.
     """
 
     tags: TagsParam

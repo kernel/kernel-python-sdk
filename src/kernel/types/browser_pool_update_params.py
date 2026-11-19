@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Dict, Iterable, Optional
 from typing_extensions import Literal, TypedDict
 
+from .browser_captcha_solver_param import BrowserCaptchaSolverParam
 from .browser_network_config_param import BrowserNetworkConfigParam
 from .shared_params.browser_viewport import BrowserViewport
 from .shared_params.browser_extension import BrowserExtension
@@ -22,6 +23,13 @@ __all__ = [
 
 
 class BrowserPoolUpdateParams(TypedDict, total=False):
+    captcha_solver: BrowserCaptchaSolverParam
+    """
+    If provided, replaces whether browsers in this pool automatically solve
+    CAPTCHAs. Enabling it on a pool with direct egress keeps direct egress unless
+    proxy_id or stealth=true is also set.
+    """
+
     chrome_policy: Dict[str, object]
     """
     If provided, replaces the custom Chrome enterprise policy overrides applied to
@@ -149,7 +157,12 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     """
 
     stealth: bool
-    """If provided, replaces whether browsers launch in stealth mode."""
+    """If provided, replaces whether browsers launch in stealth mode.
+
+    stealth=true without proxy_id moves a pool on direct egress to Kernel's default
+    stealth proxy. Cannot be combined with captcha_solver.enabled=false. Deprecated
+    in favor of captcha_solver and proxy_id.
+    """
 
     telemetry: Optional[Telemetry]
     """If provided, updates the pool's telemetry configuration.

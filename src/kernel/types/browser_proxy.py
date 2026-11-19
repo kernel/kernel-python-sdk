@@ -20,10 +20,10 @@ class BrowserProxy(BaseModel):
     mode: Optional[BrowserProxyMode] = None
     """Proxy egress mode.
 
-    direct forces no proxy regardless of stealth. default uses the browser's
-    stealth-derived default: Kernel's default stealth proxy when stealth=true, or
-    direct egress when stealth=false. default is primarily useful on browser update
-    to restore the browser default after selected-proxy egress.
+    direct forces no proxy. default uses Kernel's default stealth proxy for browsers
+    with CAPTCHA solving enabled, including stealth browsers, or direct egress
+    otherwise. default is primarily useful on browser update to restore the browser
+    default after selected-proxy egress.
     """
 
     name: Optional[str] = None

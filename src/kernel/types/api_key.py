@@ -2,13 +2,19 @@
 
 from typing import List, Optional
 from datetime import datetime
+from typing_extensions import Literal
 
 from .._models import BaseModel
 
-__all__ = ["APIKey", "CreatedBy", "Policy", "PolicyStatement"]
+__all__ = ["APIKey", "CreatedBy", "Policy", "PolicyStatement", "PolicyStatementCondition", "Principal"]
 
 
 class CreatedBy(BaseModel):
+    """Human audit creator, or null after creator deletion.
+
+    Not the service credential's principal.
+    """
+
     id: str
     """Kernel user ID of the creator."""
 
@@ -19,6 +25,29 @@ class CreatedBy(BaseModel):
     """Display name of the creator, if available."""
 
 
+class PolicyStatementCondition(BaseModel):
+    """
+    A condition narrows a policy statement to requests matching its constraint: the request attribute, a comparison operator, and that operator's values.
+    """
+
+    key: Literal["source_ip"]
+    """Request attribute the condition constrains.
+
+    `source_ip` restricts the statement to requests whose client address falls
+    inside one of `values`.
+    """
+
+    operator: Literal["in"]
+    """Comparison the condition applies between the request attribute and values."""
+
+    values: List[str]
+    """Values the request attribute must match.
+
+    For `source_ip`, CIDR networks: a bare address without a mask is rejected, and
+    so are an entry with host bits set and an IPv4 network written in IPv6 notation.
+    """
+
+
 class PolicyStatement(BaseModel):
     action: str
     """Permitted action, such as browsers:use or vaults:read."""
@@ -27,6 +56,12 @@ class PolicyStatement(BaseModel):
     """Resource the action applies to, in the format projects/{project_id}/{kind}/{id}.
 
     Wildcards are supported.
+    """
+
+    condition: Optional[PolicyStatementCondition] = None
+    """
+    A condition narrows a policy statement to requests matching its constraint: the
+    request attribute, a comparison operator, and that operator's values.
     """
 
 
@@ -40,6 +75,12 @@ class Policy(BaseModel):
     """Allow statements. Every action and resource not listed is denied."""
 
 
+class Principal(BaseModel):
+    id: str
+
+    type: Literal["user", "service_account"]
+
+
 class APIKey(BaseModel):
     id: str
     """Unique API key identifier"""
@@ -47,7 +88,11 @@ class APIKey(BaseModel):
     created_at: datetime
     """When the API key was created"""
 
-    created_by: CreatedBy
+    created_by: Optional[CreatedBy] = None
+    """Human audit creator, or null after creator deletion.
+
+    Not the service credential's principal.
+    """
 
     deleted_at: Optional[datetime] = None
     """When the API key was deleted (soft-deleted).
@@ -89,3 +134,8 @@ class APIKey(BaseModel):
     Absent for an ordinary key, which keeps unrestricted access within its
     organization or project.
     """
+
+    principal: Optional[Principal] = None
+
+    service_account_id: Optional[str] = None
+    """Organization-owned service principal, when linked."""
