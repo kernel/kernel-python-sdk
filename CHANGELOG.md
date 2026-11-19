@@ -6,7 +6,13 @@
 ### Features
 
 * add workload identity federation credentials ([#15](https://github.com/kernel/kernel-python-sdk/issues/15)) ([885ec8f](https://github.com/kernel/kernel-python-sdk/commit/885ec8f8163969fed46a6be5c0ac779edeed11b9))
-* chore(stlc): re-anchor Go and TypeScript custom-code tracking ([9d1fc90](https://github.com/kernel/kernel-python-sdk/commit/9d1fc9005ced339c660280489741d383d1d90ca7))
+* Accept `browser_id` when authorizing a Kernel card: Evervault alias cards route that browser through the card vault's proxy as soon as the cardholder enters a fresh CVC ([9d1fc90](https://github.com/kernel/kernel-python-sdk/commit/9d1fc9005ced339c660280489741d383d1d90ca7))
+* Add `captcha_solver` to browser creation; `stealth` is deprecated in favor of `captcha_solver` and `proxy` ([9d1fc90](https://github.com/kernel/kernel-python-sdk/commit/9d1fc9005ced339c660280489741d383d1d90ca7))
+* Add `BrowserFingerprint` records to browsers, applied at claim time ([9d1fc90](https://github.com/kernel/kernel-python-sdk/commit/9d1fc9005ced339c660280489741d383d1d90ca7))
+* Add `line_items` to AgentCard card specs, passed through to checkout authorizations ([9d1fc90](https://github.com/kernel/kernel-python-sdk/commit/9d1fc9005ced339c660280489741d383d1d90ca7))
+* Add workload identity, the effective policy and the service account principal to the auth context ([9d1fc90](https://github.com/kernel/kernel-python-sdk/commit/9d1fc9005ced339c660280489741d383d1d90ca7))
+* Add the `source_ip` condition to API key policies ([9d1fc90](https://github.com/kernel/kernel-python-sdk/commit/9d1fc9005ced339c660280489741d383d1d90ca7))
+* Replace an API key's permissions in place with `PATCH /org/api_keys/{id}`, and link API keys to service accounts ([9d1fc90](https://github.com/kernel/kernel-python-sdk/commit/9d1fc9005ced339c660280489741d383d1d90ca7))
 * Document conditions in the API key reference descriptions ([760bf19](https://github.com/kernel/kernel-python-sdk/commit/760bf192ca4f4b85f95c9e9562ad02ac24417788))
 * Route VGS reveal-session payment windows through their own session in egress ([cbed38d](https://github.com/kernel/kernel-python-sdk/commit/cbed38d38314834b513fa2d110440846500bbdf7))
 
