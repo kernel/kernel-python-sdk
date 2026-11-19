@@ -245,14 +245,18 @@ class APIKeysResource(SyncAPIResource):
     def list(
         self,
         *,
+        created_by: str | Omit = omit,
         include_deleted: bool | Omit = omit,
         limit: int | Omit = omit,
         name: str | Omit = omit,
         offset: int | Omit = omit,
+        principal_type: Literal["user", "service_account"] | Omit = omit,
+        project_id: str | Omit = omit,
         query: str | Omit = omit,
+        service_account_id: str | Omit = omit,
         sort_by: Literal["created_at", "name", "expires_at", "last_used_at"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
-        status: Literal["active", "deleted", "all"] | Omit = omit,
+        status: Literal["active", "expired", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -265,6 +269,9 @@ class APIKeysResource(SyncAPIResource):
         API keys are masked.
 
         Args:
+          created_by: Return only keys created by this user ID. This is the same person the key's
+              created_by field describes.
+
           include_deleted: Deprecated: use status=all instead. When true, include deleted (soft-deleted)
               API keys in the results for audit purposes.
 
@@ -277,17 +284,24 @@ class APIKeysResource(SyncAPIResource):
 
           offset: Number of results to skip
 
+          principal_type: Return only keys that act as a user, or only keys that act as a service account.
+
+          project_id: Return only keys scoped to this project ID. The value "org" returns keys that
+              are not scoped to a project.
+
           query: Case-insensitive substring match against API key name, creator, and project. API
               key identifiers and masked keys match by exact value or prefix.
+
+          service_account_id: Return only keys that belong to this service account.
 
           sort_by: Field to sort API keys by. Keys with no expiry or no recorded use sort last for
               expires_at and last_used_at in either direction.
 
           sort_direction: Sort direction for API keys.
 
-          status: Filter API keys by status. "active" returns keys that are not deleted (default;
-              expired-but-not-deleted keys are still included), "deleted" returns only
-              soft-deleted keys, "all" returns both.
+          status: Filter API keys by status. "active" returns keys that are neither deleted nor
+              expired (default), "expired" returns keys that are not deleted and whose expiry
+              has passed, "deleted" returns only soft-deleted keys, "all" returns every key.
 
           extra_headers: Send extra headers
 
@@ -307,11 +321,15 @@ class APIKeysResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "created_by": created_by,
                         "include_deleted": include_deleted,
                         "limit": limit,
                         "name": name,
                         "offset": offset,
+                        "principal_type": principal_type,
+                        "project_id": project_id,
                         "query": query,
+                        "service_account_id": service_account_id,
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
                         "status": status,
@@ -642,14 +660,18 @@ class AsyncAPIKeysResource(AsyncAPIResource):
     def list(
         self,
         *,
+        created_by: str | Omit = omit,
         include_deleted: bool | Omit = omit,
         limit: int | Omit = omit,
         name: str | Omit = omit,
         offset: int | Omit = omit,
+        principal_type: Literal["user", "service_account"] | Omit = omit,
+        project_id: str | Omit = omit,
         query: str | Omit = omit,
+        service_account_id: str | Omit = omit,
         sort_by: Literal["created_at", "name", "expires_at", "last_used_at"] | Omit = omit,
         sort_direction: Literal["asc", "desc"] | Omit = omit,
-        status: Literal["active", "deleted", "all"] | Omit = omit,
+        status: Literal["active", "expired", "deleted", "all"] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -662,6 +684,9 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         API keys are masked.
 
         Args:
+          created_by: Return only keys created by this user ID. This is the same person the key's
+              created_by field describes.
+
           include_deleted: Deprecated: use status=all instead. When true, include deleted (soft-deleted)
               API keys in the results for audit purposes.
 
@@ -674,17 +699,24 @@ class AsyncAPIKeysResource(AsyncAPIResource):
 
           offset: Number of results to skip
 
+          principal_type: Return only keys that act as a user, or only keys that act as a service account.
+
+          project_id: Return only keys scoped to this project ID. The value "org" returns keys that
+              are not scoped to a project.
+
           query: Case-insensitive substring match against API key name, creator, and project. API
               key identifiers and masked keys match by exact value or prefix.
+
+          service_account_id: Return only keys that belong to this service account.
 
           sort_by: Field to sort API keys by. Keys with no expiry or no recorded use sort last for
               expires_at and last_used_at in either direction.
 
           sort_direction: Sort direction for API keys.
 
-          status: Filter API keys by status. "active" returns keys that are not deleted (default;
-              expired-but-not-deleted keys are still included), "deleted" returns only
-              soft-deleted keys, "all" returns both.
+          status: Filter API keys by status. "active" returns keys that are neither deleted nor
+              expired (default), "expired" returns keys that are not deleted and whose expiry
+              has passed, "deleted" returns only soft-deleted keys, "all" returns every key.
 
           extra_headers: Send extra headers
 
@@ -704,11 +736,15 @@ class AsyncAPIKeysResource(AsyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "created_by": created_by,
                         "include_deleted": include_deleted,
                         "limit": limit,
                         "name": name,
                         "offset": offset,
+                        "principal_type": principal_type,
+                        "project_id": project_id,
                         "query": query,
+                        "service_account_id": service_account_id,
                         "sort_by": sort_by,
                         "sort_direction": sort_direction,
                         "status": status,

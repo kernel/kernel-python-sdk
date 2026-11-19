@@ -91,8 +91,12 @@ if TYPE_CHECKING:
         report_types,
         browser_pools,
         config_registry,
+        service_accounts,
         credential_providers,
         vault_provider_configs,
+        workload_identity_issuers,
+        workload_identity_federation_rules,
+        workload_identity_authentication_events,
     )
     from .resources.apps import AppsResource, AsyncAppsResource
     from .resources.tasks import TasksResource, AsyncTasksResource
@@ -109,6 +113,7 @@ if TYPE_CHECKING:
     from .resources.browser_pools import BrowserPoolsResource, AsyncBrowserPoolsResource
     from .resources.search.search import SearchResource, AsyncSearchResource
     from .resources.vaults.vaults import VaultsResource, AsyncVaultsResource
+    from .resources.service_accounts import ServiceAccountsResource, AsyncServiceAccountsResource
     from .resources.browsers.browsers import BrowsersResource, AsyncBrowsersResource
     from .resources.projects.projects import ProjectsResource, AsyncProjectsResource
     from .resources.telemetry.telemetry import TelemetryResource, AsyncTelemetryResource
@@ -117,7 +122,19 @@ if TYPE_CHECKING:
     from .resources.vault_provider_configs import VaultProviderConfigsResource, AsyncVaultProviderConfigsResource
     from .resources.organization.organization import OrganizationResource, AsyncOrganizationResource
     from .resources.report_types.report_types import ReportTypesResource, AsyncReportTypesResource
+    from .resources.workload_identity_issuers import (
+        WorkloadIdentityIssuersResource,
+        AsyncWorkloadIdentityIssuersResource,
+    )
     from .resources.config_registry.config_registry import ConfigRegistryResource, AsyncConfigRegistryResource
+    from .resources.workload_identity_federation_rules import (
+        WorkloadIdentityFederationRulesResource,
+        AsyncWorkloadIdentityFederationRulesResource,
+    )
+    from .resources.workload_identity_authentication_events import (
+        WorkloadIdentityAuthenticationEventsResource,
+        AsyncWorkloadIdentityAuthenticationEventsResource,
+    )
 
 __all__ = [
     "ENVIRONMENTS",
@@ -397,6 +414,30 @@ class Kernel(SyncAPIClient):
         from .resources.api_keys import APIKeysResource
 
         return APIKeysResource(self)
+
+    @cached_property
+    def service_accounts(self) -> ServiceAccountsResource:
+        from .resources.service_accounts import ServiceAccountsResource
+
+        return ServiceAccountsResource(self)
+
+    @cached_property
+    def workload_identity_issuers(self) -> WorkloadIdentityIssuersResource:
+        from .resources.workload_identity_issuers import WorkloadIdentityIssuersResource
+
+        return WorkloadIdentityIssuersResource(self)
+
+    @cached_property
+    def workload_identity_federation_rules(self) -> WorkloadIdentityFederationRulesResource:
+        from .resources.workload_identity_federation_rules import WorkloadIdentityFederationRulesResource
+
+        return WorkloadIdentityFederationRulesResource(self)
+
+    @cached_property
+    def workload_identity_authentication_events(self) -> WorkloadIdentityAuthenticationEventsResource:
+        from .resources.workload_identity_authentication_events import WorkloadIdentityAuthenticationEventsResource
+
+        return WorkloadIdentityAuthenticationEventsResource(self)
 
     @cached_property
     def credential_providers(self) -> CredentialProvidersResource:
@@ -860,6 +901,30 @@ class AsyncKernel(AsyncAPIClient):
         return AsyncAPIKeysResource(self)
 
     @cached_property
+    def service_accounts(self) -> AsyncServiceAccountsResource:
+        from .resources.service_accounts import AsyncServiceAccountsResource
+
+        return AsyncServiceAccountsResource(self)
+
+    @cached_property
+    def workload_identity_issuers(self) -> AsyncWorkloadIdentityIssuersResource:
+        from .resources.workload_identity_issuers import AsyncWorkloadIdentityIssuersResource
+
+        return AsyncWorkloadIdentityIssuersResource(self)
+
+    @cached_property
+    def workload_identity_federation_rules(self) -> AsyncWorkloadIdentityFederationRulesResource:
+        from .resources.workload_identity_federation_rules import AsyncWorkloadIdentityFederationRulesResource
+
+        return AsyncWorkloadIdentityFederationRulesResource(self)
+
+    @cached_property
+    def workload_identity_authentication_events(self) -> AsyncWorkloadIdentityAuthenticationEventsResource:
+        from .resources.workload_identity_authentication_events import AsyncWorkloadIdentityAuthenticationEventsResource
+
+        return AsyncWorkloadIdentityAuthenticationEventsResource(self)
+
+    @cached_property
     def credential_providers(self) -> AsyncCredentialProvidersResource:
         """Configure external credential providers like 1Password."""
         from .resources.credential_providers import AsyncCredentialProvidersResource
@@ -1215,6 +1280,38 @@ class KernelWithRawResponse:
         return APIKeysResourceWithRawResponse(self._client.api_keys)
 
     @cached_property
+    def service_accounts(self) -> service_accounts.ServiceAccountsResourceWithRawResponse:
+        from .resources.service_accounts import ServiceAccountsResourceWithRawResponse
+
+        return ServiceAccountsResourceWithRawResponse(self._client.service_accounts)
+
+    @cached_property
+    def workload_identity_issuers(self) -> workload_identity_issuers.WorkloadIdentityIssuersResourceWithRawResponse:
+        from .resources.workload_identity_issuers import WorkloadIdentityIssuersResourceWithRawResponse
+
+        return WorkloadIdentityIssuersResourceWithRawResponse(self._client.workload_identity_issuers)
+
+    @cached_property
+    def workload_identity_federation_rules(
+        self,
+    ) -> workload_identity_federation_rules.WorkloadIdentityFederationRulesResourceWithRawResponse:
+        from .resources.workload_identity_federation_rules import WorkloadIdentityFederationRulesResourceWithRawResponse
+
+        return WorkloadIdentityFederationRulesResourceWithRawResponse(self._client.workload_identity_federation_rules)
+
+    @cached_property
+    def workload_identity_authentication_events(
+        self,
+    ) -> workload_identity_authentication_events.WorkloadIdentityAuthenticationEventsResourceWithRawResponse:
+        from .resources.workload_identity_authentication_events import (
+            WorkloadIdentityAuthenticationEventsResourceWithRawResponse,
+        )
+
+        return WorkloadIdentityAuthenticationEventsResourceWithRawResponse(
+            self._client.workload_identity_authentication_events
+        )
+
+    @cached_property
     def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithRawResponse:
         """Configure external credential providers like 1Password."""
         from .resources.credential_providers import CredentialProvidersResourceWithRawResponse
@@ -1382,6 +1479,44 @@ class AsyncKernelWithRawResponse:
         from .resources.api_keys import AsyncAPIKeysResourceWithRawResponse
 
         return AsyncAPIKeysResourceWithRawResponse(self._client.api_keys)
+
+    @cached_property
+    def service_accounts(self) -> service_accounts.AsyncServiceAccountsResourceWithRawResponse:
+        from .resources.service_accounts import AsyncServiceAccountsResourceWithRawResponse
+
+        return AsyncServiceAccountsResourceWithRawResponse(self._client.service_accounts)
+
+    @cached_property
+    def workload_identity_issuers(
+        self,
+    ) -> workload_identity_issuers.AsyncWorkloadIdentityIssuersResourceWithRawResponse:
+        from .resources.workload_identity_issuers import AsyncWorkloadIdentityIssuersResourceWithRawResponse
+
+        return AsyncWorkloadIdentityIssuersResourceWithRawResponse(self._client.workload_identity_issuers)
+
+    @cached_property
+    def workload_identity_federation_rules(
+        self,
+    ) -> workload_identity_federation_rules.AsyncWorkloadIdentityFederationRulesResourceWithRawResponse:
+        from .resources.workload_identity_federation_rules import (
+            AsyncWorkloadIdentityFederationRulesResourceWithRawResponse,
+        )
+
+        return AsyncWorkloadIdentityFederationRulesResourceWithRawResponse(
+            self._client.workload_identity_federation_rules
+        )
+
+    @cached_property
+    def workload_identity_authentication_events(
+        self,
+    ) -> workload_identity_authentication_events.AsyncWorkloadIdentityAuthenticationEventsResourceWithRawResponse:
+        from .resources.workload_identity_authentication_events import (
+            AsyncWorkloadIdentityAuthenticationEventsResourceWithRawResponse,
+        )
+
+        return AsyncWorkloadIdentityAuthenticationEventsResourceWithRawResponse(
+            self._client.workload_identity_authentication_events
+        )
 
     @cached_property
     def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithRawResponse:
@@ -1553,6 +1688,44 @@ class KernelWithStreamedResponse:
         return APIKeysResourceWithStreamingResponse(self._client.api_keys)
 
     @cached_property
+    def service_accounts(self) -> service_accounts.ServiceAccountsResourceWithStreamingResponse:
+        from .resources.service_accounts import ServiceAccountsResourceWithStreamingResponse
+
+        return ServiceAccountsResourceWithStreamingResponse(self._client.service_accounts)
+
+    @cached_property
+    def workload_identity_issuers(
+        self,
+    ) -> workload_identity_issuers.WorkloadIdentityIssuersResourceWithStreamingResponse:
+        from .resources.workload_identity_issuers import WorkloadIdentityIssuersResourceWithStreamingResponse
+
+        return WorkloadIdentityIssuersResourceWithStreamingResponse(self._client.workload_identity_issuers)
+
+    @cached_property
+    def workload_identity_federation_rules(
+        self,
+    ) -> workload_identity_federation_rules.WorkloadIdentityFederationRulesResourceWithStreamingResponse:
+        from .resources.workload_identity_federation_rules import (
+            WorkloadIdentityFederationRulesResourceWithStreamingResponse,
+        )
+
+        return WorkloadIdentityFederationRulesResourceWithStreamingResponse(
+            self._client.workload_identity_federation_rules
+        )
+
+    @cached_property
+    def workload_identity_authentication_events(
+        self,
+    ) -> workload_identity_authentication_events.WorkloadIdentityAuthenticationEventsResourceWithStreamingResponse:
+        from .resources.workload_identity_authentication_events import (
+            WorkloadIdentityAuthenticationEventsResourceWithStreamingResponse,
+        )
+
+        return WorkloadIdentityAuthenticationEventsResourceWithStreamingResponse(
+            self._client.workload_identity_authentication_events
+        )
+
+    @cached_property
     def credential_providers(self) -> credential_providers.CredentialProvidersResourceWithStreamingResponse:
         """Configure external credential providers like 1Password."""
         from .resources.credential_providers import CredentialProvidersResourceWithStreamingResponse
@@ -1720,6 +1893,44 @@ class AsyncKernelWithStreamedResponse:
         from .resources.api_keys import AsyncAPIKeysResourceWithStreamingResponse
 
         return AsyncAPIKeysResourceWithStreamingResponse(self._client.api_keys)
+
+    @cached_property
+    def service_accounts(self) -> service_accounts.AsyncServiceAccountsResourceWithStreamingResponse:
+        from .resources.service_accounts import AsyncServiceAccountsResourceWithStreamingResponse
+
+        return AsyncServiceAccountsResourceWithStreamingResponse(self._client.service_accounts)
+
+    @cached_property
+    def workload_identity_issuers(
+        self,
+    ) -> workload_identity_issuers.AsyncWorkloadIdentityIssuersResourceWithStreamingResponse:
+        from .resources.workload_identity_issuers import AsyncWorkloadIdentityIssuersResourceWithStreamingResponse
+
+        return AsyncWorkloadIdentityIssuersResourceWithStreamingResponse(self._client.workload_identity_issuers)
+
+    @cached_property
+    def workload_identity_federation_rules(
+        self,
+    ) -> workload_identity_federation_rules.AsyncWorkloadIdentityFederationRulesResourceWithStreamingResponse:
+        from .resources.workload_identity_federation_rules import (
+            AsyncWorkloadIdentityFederationRulesResourceWithStreamingResponse,
+        )
+
+        return AsyncWorkloadIdentityFederationRulesResourceWithStreamingResponse(
+            self._client.workload_identity_federation_rules
+        )
+
+    @cached_property
+    def workload_identity_authentication_events(
+        self,
+    ) -> workload_identity_authentication_events.AsyncWorkloadIdentityAuthenticationEventsResourceWithStreamingResponse:
+        from .resources.workload_identity_authentication_events import (
+            AsyncWorkloadIdentityAuthenticationEventsResourceWithStreamingResponse,
+        )
+
+        return AsyncWorkloadIdentityAuthenticationEventsResourceWithStreamingResponse(
+            self._client.workload_identity_authentication_events
+        )
 
     @cached_property
     def credential_providers(self) -> credential_providers.AsyncCredentialProvidersResourceWithStreamingResponse:

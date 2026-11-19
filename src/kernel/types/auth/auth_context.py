@@ -4,6 +4,7 @@ from typing import List, Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
+from .auth_context_workload_identity import AuthContextWorkloadIdentity
 
 __all__ = [
     "AuthContext",
@@ -16,7 +17,6 @@ __all__ = [
     "AuthorizationEffectivePolicyStatementCondition",
     "Organization",
     "Principal",
-    "WorkloadIdentity",
 ]
 
 
@@ -141,18 +141,6 @@ class Principal(BaseModel):
     """The kind of principal authenticated for the request."""
 
 
-class WorkloadIdentity(BaseModel):
-    external_subject_digest: str
-    """Digest of the verified external subject.
-
-    Never the original assertion or arbitrary claims.
-    """
-
-    federation_rule_id: str
-
-    issuer_id: str
-
-
 class AuthContext(BaseModel):
     """The identity and authorization context resolved for the current request."""
 
@@ -169,4 +157,4 @@ class AuthContext(BaseModel):
 
     principal: Principal
 
-    workload_identity: Optional[WorkloadIdentity] = None
+    workload_identity: Optional[AuthContextWorkloadIdentity] = None

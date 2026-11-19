@@ -176,6 +176,14 @@ from .config_registry import (
     ConfigRegistryResourceWithStreamingResponse,
     AsyncConfigRegistryResourceWithStreamingResponse,
 )
+from .service_accounts import (
+    ServiceAccountsResource,
+    AsyncServiceAccountsResource,
+    ServiceAccountsResourceWithRawResponse,
+    AsyncServiceAccountsResourceWithRawResponse,
+    ServiceAccountsResourceWithStreamingResponse,
+    AsyncServiceAccountsResourceWithStreamingResponse,
+)
 from .credential_providers import (
     CredentialProvidersResource,
     AsyncCredentialProvidersResource,
@@ -191,6 +199,30 @@ from .vault_provider_configs import (
     AsyncVaultProviderConfigsResourceWithRawResponse,
     VaultProviderConfigsResourceWithStreamingResponse,
     AsyncVaultProviderConfigsResourceWithStreamingResponse,
+)
+from .workload_identity_issuers import (
+    WorkloadIdentityIssuersResource,
+    AsyncWorkloadIdentityIssuersResource,
+    WorkloadIdentityIssuersResourceWithRawResponse,
+    AsyncWorkloadIdentityIssuersResourceWithRawResponse,
+    WorkloadIdentityIssuersResourceWithStreamingResponse,
+    AsyncWorkloadIdentityIssuersResourceWithStreamingResponse,
+)
+from .workload_identity_federation_rules import (
+    WorkloadIdentityFederationRulesResource,
+    AsyncWorkloadIdentityFederationRulesResource,
+    WorkloadIdentityFederationRulesResourceWithRawResponse,
+    AsyncWorkloadIdentityFederationRulesResourceWithRawResponse,
+    WorkloadIdentityFederationRulesResourceWithStreamingResponse,
+    AsyncWorkloadIdentityFederationRulesResourceWithStreamingResponse,
+)
+from .workload_identity_authentication_events import (
+    WorkloadIdentityAuthenticationEventsResource,
+    AsyncWorkloadIdentityAuthenticationEventsResource,
+    WorkloadIdentityAuthenticationEventsResourceWithRawResponse,
+    AsyncWorkloadIdentityAuthenticationEventsResourceWithRawResponse,
+    WorkloadIdentityAuthenticationEventsResourceWithStreamingResponse,
+    AsyncWorkloadIdentityAuthenticationEventsResourceWithStreamingResponse,
 )
 
 __all__ = [
@@ -326,6 +358,30 @@ __all__ = [
     "AsyncAPIKeysResourceWithRawResponse",
     "APIKeysResourceWithStreamingResponse",
     "AsyncAPIKeysResourceWithStreamingResponse",
+    "ServiceAccountsResource",
+    "AsyncServiceAccountsResource",
+    "ServiceAccountsResourceWithRawResponse",
+    "AsyncServiceAccountsResourceWithRawResponse",
+    "ServiceAccountsResourceWithStreamingResponse",
+    "AsyncServiceAccountsResourceWithStreamingResponse",
+    "WorkloadIdentityIssuersResource",
+    "AsyncWorkloadIdentityIssuersResource",
+    "WorkloadIdentityIssuersResourceWithRawResponse",
+    "AsyncWorkloadIdentityIssuersResourceWithRawResponse",
+    "WorkloadIdentityIssuersResourceWithStreamingResponse",
+    "AsyncWorkloadIdentityIssuersResourceWithStreamingResponse",
+    "WorkloadIdentityFederationRulesResource",
+    "AsyncWorkloadIdentityFederationRulesResource",
+    "WorkloadIdentityFederationRulesResourceWithRawResponse",
+    "AsyncWorkloadIdentityFederationRulesResourceWithRawResponse",
+    "WorkloadIdentityFederationRulesResourceWithStreamingResponse",
+    "AsyncWorkloadIdentityFederationRulesResourceWithStreamingResponse",
+    "WorkloadIdentityAuthenticationEventsResource",
+    "AsyncWorkloadIdentityAuthenticationEventsResource",
+    "WorkloadIdentityAuthenticationEventsResourceWithRawResponse",
+    "AsyncWorkloadIdentityAuthenticationEventsResourceWithRawResponse",
+    "WorkloadIdentityAuthenticationEventsResourceWithStreamingResponse",
+    "AsyncWorkloadIdentityAuthenticationEventsResourceWithStreamingResponse",
     "CredentialProvidersResource",
     "AsyncCredentialProvidersResource",
     "CredentialProvidersResourceWithRawResponse",
