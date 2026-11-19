@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.151.0](https://github.com/kernel/kernel-python-sdk/compare/v0.150.0...v0.151.0) (2026-11-19)
+
+
+### Features
+
+* Implement workload identity federation and service account credentials ([a6dd0c4](https://github.com/kernel/kernel-python-sdk/commit/a6dd0c4f794bc33f50dc2bd9ecc93489f55cf8c2))
+
 ## [0.150.0](https://github.com/kernel/kernel-python-sdk/compare/v0.149.0...v0.150.0) (2026-11-19)
 
 
