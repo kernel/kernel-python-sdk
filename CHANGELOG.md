@@ -5,7 +5,9 @@
 
 ### Features
 
-* Implement workload identity federation and service account credentials ([a6dd0c4](https://github.com/kernel/kernel-python-sdk/commit/a6dd0c4f794bc33f50dc2bd9ecc93489f55cf8c2))
+* Add service account, workload identity issuer, federation rule and authentication event resources. They require a signed-in session; API keys get 403 ([a6dd0c4](https://github.com/kernel/kernel-python-sdk/commit/a6dd0c4f794bc33f50dc2bd9ecc93489f55cf8c2))
+* Add `service_account_id`, `principal_type`, `created_by` and `project_id` filters and the `expired` status to API key listing. `status=active`, the default, no longer returns expired keys ([a6dd0c4](https://github.com/kernel/kernel-python-sdk/commit/a6dd0c4f794bc33f50dc2bd9ecc93489f55cf8c2))
+* Rename two types that 0.150.0 introduced: `kernel.types.api_key.Principal` is now `kernel.types.APIKeyPrincipal`, and `kernel.types.auth.auth_context.WorkloadIdentity` is now `kernel.types.auth.AuthContextWorkloadIdentity` ([a6dd0c4](https://github.com/kernel/kernel-python-sdk/commit/a6dd0c4f794bc33f50dc2bd9ecc93489f55cf8c2))
 
 ## [0.150.0](https://github.com/kernel/kernel-python-sdk/compare/v0.149.0...v0.150.0) (2026-11-19)
 
