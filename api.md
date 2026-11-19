@@ -487,7 +487,7 @@ Methods:
 Types:
 
 ```python
-from kernel.types.auth import AuthContext
+from kernel.types.auth import AuthContext, AuthContextWorkloadIdentity
 ```
 
 Methods:
@@ -875,7 +875,7 @@ Methods:
 Types:
 
 ```python
-from kernel.types import APIKey, CreatedAPIKey
+from kernel.types import APIKey, APIKeyPrincipal, CreatedAPIKey
 ```
 
 Methods:
@@ -886,6 +886,80 @@ Methods:
 - <code title="get /org/api_keys">client.api_keys.<a href="./src/kernel/resources/api_keys.py">list</a>(\*\*<a href="src/kernel/types/api_key_list_params.py">params</a>) -> <a href="./src/kernel/types/api_key.py">SyncOffsetPagination[APIKey]</a></code>
 - <code title="delete /org/api_keys/{id}">client.api_keys.<a href="./src/kernel/resources/api_keys.py">delete</a>(id) -> None</code>
 - <code title="post /org/api_keys/{id}/rotate">client.api_keys.<a href="./src/kernel/resources/api_keys.py">rotate</a>(id, \*\*<a href="src/kernel/types/api_key_rotate_params.py">params</a>) -> <a href="./src/kernel/types/created_api_key.py">CreatedAPIKey</a></code>
+
+# ServiceAccounts
+
+Types:
+
+```python
+from kernel.types import ServiceAccount, ServiceAccountConfig
+```
+
+Methods:
+
+- <code title="post /org/service_accounts">client.service_accounts.<a href="./src/kernel/resources/service_accounts.py">create</a>(\*\*<a href="src/kernel/types/service_account_create_params.py">params</a>) -> <a href="./src/kernel/types/service_account.py">ServiceAccount</a></code>
+- <code title="get /org/service_accounts/{id}">client.service_accounts.<a href="./src/kernel/resources/service_accounts.py">retrieve</a>(id) -> <a href="./src/kernel/types/service_account.py">ServiceAccount</a></code>
+- <code title="patch /org/service_accounts/{id}">client.service_accounts.<a href="./src/kernel/resources/service_accounts.py">update</a>(id, \*\*<a href="src/kernel/types/service_account_update_params.py">params</a>) -> <a href="./src/kernel/types/service_account.py">ServiceAccount</a></code>
+- <code title="get /org/service_accounts">client.service_accounts.<a href="./src/kernel/resources/service_accounts.py">list</a>(\*\*<a href="src/kernel/types/service_account_list_params.py">params</a>) -> <a href="./src/kernel/types/service_account.py">SyncOffsetPagination[ServiceAccount]</a></code>
+- <code title="delete /org/service_accounts/{id}">client.service_accounts.<a href="./src/kernel/resources/service_accounts.py">delete</a>(id) -> None</code>
+
+# WorkloadIdentityIssuers
+
+Types:
+
+```python
+from kernel.types import (
+    WorkloadIdentityIssuer,
+    WorkloadIdentityIssuerConfig,
+    WorkloadIdentityIssuerKeyCheck,
+    WorkloadIdentityKeySource,
+    WorkloadIdentityPresetType,
+    WorkloadIdentityTokenValidation,
+)
+```
+
+Methods:
+
+- <code title="post /org/workload_identity_issuers">client.workload_identity_issuers.<a href="./src/kernel/resources/workload_identity_issuers.py">create</a>(\*\*<a href="src/kernel/types/workload_identity_issuer_create_params.py">params</a>) -> <a href="./src/kernel/types/workload_identity_issuer.py">WorkloadIdentityIssuer</a></code>
+- <code title="get /org/workload_identity_issuers/{id}">client.workload_identity_issuers.<a href="./src/kernel/resources/workload_identity_issuers.py">retrieve</a>(id) -> <a href="./src/kernel/types/workload_identity_issuer.py">WorkloadIdentityIssuer</a></code>
+- <code title="patch /org/workload_identity_issuers/{id}">client.workload_identity_issuers.<a href="./src/kernel/resources/workload_identity_issuers.py">update</a>(id, \*\*<a href="src/kernel/types/workload_identity_issuer_update_params.py">params</a>) -> <a href="./src/kernel/types/workload_identity_issuer.py">WorkloadIdentityIssuer</a></code>
+- <code title="get /org/workload_identity_issuers">client.workload_identity_issuers.<a href="./src/kernel/resources/workload_identity_issuers.py">list</a>(\*\*<a href="src/kernel/types/workload_identity_issuer_list_params.py">params</a>) -> <a href="./src/kernel/types/workload_identity_issuer.py">SyncOffsetPagination[WorkloadIdentityIssuer]</a></code>
+- <code title="delete /org/workload_identity_issuers/{id}">client.workload_identity_issuers.<a href="./src/kernel/resources/workload_identity_issuers.py">delete</a>(id) -> None</code>
+- <code title="post /org/workload_identity_issuers/{id}/verify">client.workload_identity_issuers.<a href="./src/kernel/resources/workload_identity_issuers.py">verify</a>(id) -> <a href="./src/kernel/types/workload_identity_issuer_key_check.py">WorkloadIdentityIssuerKeyCheck</a></code>
+
+# WorkloadIdentityFederationRules
+
+Types:
+
+```python
+from kernel.types import (
+    WorkloadIdentityAuthorization,
+    WorkloadIdentityFederationRule,
+    WorkloadIdentityFederationRuleConfig,
+    WorkloadIdentityMatch,
+    WorkloadIdentityTarget,
+)
+```
+
+Methods:
+
+- <code title="post /org/workload_identity_federation_rules">client.workload_identity_federation_rules.<a href="./src/kernel/resources/workload_identity_federation_rules.py">create</a>(\*\*<a href="src/kernel/types/workload_identity_federation_rule_create_params.py">params</a>) -> <a href="./src/kernel/types/workload_identity_federation_rule.py">WorkloadIdentityFederationRule</a></code>
+- <code title="get /org/workload_identity_federation_rules/{id}">client.workload_identity_federation_rules.<a href="./src/kernel/resources/workload_identity_federation_rules.py">retrieve</a>(id) -> <a href="./src/kernel/types/workload_identity_federation_rule.py">WorkloadIdentityFederationRule</a></code>
+- <code title="patch /org/workload_identity_federation_rules/{id}">client.workload_identity_federation_rules.<a href="./src/kernel/resources/workload_identity_federation_rules.py">update</a>(id, \*\*<a href="src/kernel/types/workload_identity_federation_rule_update_params.py">params</a>) -> <a href="./src/kernel/types/workload_identity_federation_rule.py">WorkloadIdentityFederationRule</a></code>
+- <code title="get /org/workload_identity_federation_rules">client.workload_identity_federation_rules.<a href="./src/kernel/resources/workload_identity_federation_rules.py">list</a>(\*\*<a href="src/kernel/types/workload_identity_federation_rule_list_params.py">params</a>) -> <a href="./src/kernel/types/workload_identity_federation_rule.py">SyncOffsetPagination[WorkloadIdentityFederationRule]</a></code>
+- <code title="delete /org/workload_identity_federation_rules/{id}">client.workload_identity_federation_rules.<a href="./src/kernel/resources/workload_identity_federation_rules.py">delete</a>(id) -> None</code>
+
+# WorkloadIdentityAuthenticationEvents
+
+Types:
+
+```python
+from kernel.types import WorkloadIdentityAuthenticationEvent
+```
+
+Methods:
+
+- <code title="get /org/workload_identity_authentication_events">client.workload_identity_authentication_events.<a href="./src/kernel/resources/workload_identity_authentication_events.py">list</a>(\*\*<a href="src/kernel/types/workload_identity_authentication_event_list_params.py">params</a>) -> <a href="./src/kernel/types/workload_identity_authentication_event.py">SyncOffsetPagination[WorkloadIdentityAuthenticationEvent]</a></code>
 
 # CredentialProviders
 

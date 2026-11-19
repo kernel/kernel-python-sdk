@@ -206,11 +206,15 @@ class TestAPIKeys:
     @parametrize
     def test_method_list_with_all_params(self, client: Kernel) -> None:
         api_key = client.api_keys.list(
+            created_by="created_by",
             include_deleted=True,
             limit=100,
             name="name",
             offset=0,
+            principal_type="user",
+            project_id="project_id",
             query="query",
+            service_account_id="service_account_id",
             sort_by="created_at",
             sort_direction="asc",
             status="active",
@@ -523,11 +527,15 @@ class TestAsyncAPIKeys:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncKernel) -> None:
         api_key = await async_client.api_keys.list(
+            created_by="created_by",
             include_deleted=True,
             limit=100,
             name="name",
             offset=0,
+            principal_type="user",
+            project_id="project_id",
             query="query",
+            service_account_id="service_account_id",
             sort_by="created_at",
             sort_direction="asc",
             status="active",

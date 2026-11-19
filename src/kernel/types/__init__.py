@@ -48,11 +48,13 @@ from .audit_log_entry import AuditLogEntry as AuditLogEntry
 from .created_api_key import CreatedAPIKey as CreatedAPIKey
 from .lookup_response import LookupResponse as LookupResponse
 from .proxy_ip_detail import ProxyIPDetail as ProxyIPDetail
+from .service_account import ServiceAccount as ServiceAccount
 from .vault_reference import VaultReference as VaultReference
 from .analysis_summary import AnalysisSummary as AnalysisSummary
 from .browser_location import BrowserLocation as BrowserLocation
 from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
 from .task_list_params import TaskListParams as TaskListParams
+from .api_key_principal import APIKeyPrincipal as APIKeyPrincipal
 from .app_list_response import AppListResponse as AppListResponse
 from .no_recommendation import NoRecommendation as NoRecommendation
 from .proxy_list_params import ProxyListParams as ProxyListParams
@@ -124,6 +126,7 @@ from .extension_upload_params import ExtensionUploadParams as ExtensionUploadPar
 from .profile_download_params import ProfileDownloadParams as ProfileDownloadParams
 from .proxy_retrieve_response import ProxyRetrieveResponse as ProxyRetrieveResponse
 from .report_type_list_params import ReportTypeListParams as ReportTypeListParams
+from .workload_identity_match import WorkloadIdentityMatch as WorkloadIdentityMatch
 from .browser_pool_list_params import BrowserPoolListParams as BrowserPoolListParams
 from .config_registry_response import ConfigRegistryResponse as ConfigRegistryResponse
 from .credential_create_params import CredentialCreateParams as CredentialCreateParams
@@ -136,6 +139,8 @@ from .invocation_create_params import InvocationCreateParams as InvocationCreate
 from .invocation_follow_params import InvocationFollowParams as InvocationFollowParams
 from .invocation_list_response import InvocationListResponse as InvocationListResponse
 from .invocation_update_params import InvocationUpdateParams as InvocationUpdateParams
+from .workload_identity_issuer import WorkloadIdentityIssuer as WorkloadIdentityIssuer
+from .workload_identity_target import WorkloadIdentityTarget as WorkloadIdentityTarget
 from .browser_fingerprint_param import BrowserFingerprintParam as BrowserFingerprintParam
 from .browser_repl_text_content import BrowserReplTextContent as BrowserReplTextContent
 from .browser_retrieve_response import BrowserRetrieveResponse as BrowserRetrieveResponse
@@ -156,35 +161,75 @@ from .browser_pool_release_params import BrowserPoolReleaseParams as BrowserPool
 from .browser_save_profile_params import BrowserSaveProfileParams as BrowserSaveProfileParams
 from .config_registry_list_params import ConfigRegistryListParams as ConfigRegistryListParams
 from .report_type_version_summary import ReportTypeVersionSummary as ReportTypeVersionSummary
+from .service_account_list_params import ServiceAccountListParams as ServiceAccountListParams
 from .browser_captcha_solver_param import BrowserCaptchaSolverParam as BrowserCaptchaSolverParam
 from .browser_network_config_param import BrowserNetworkConfigParam as BrowserNetworkConfigParam
 from .browser_network_update_param import BrowserNetworkUpdateParam as BrowserNetworkUpdateParam
 from .deployment_retrieve_response import DeploymentRetrieveResponse as DeploymentRetrieveResponse
 from .invocation_retrieve_response import InvocationRetrieveResponse as InvocationRetrieveResponse
+from .workload_identity_key_source import WorkloadIdentityKeySource as WorkloadIdentityKeySource
 from .audit_log_export_chunk_params import AuditLogExportChunkParams as AuditLogExportChunkParams
 from .browser_allowlist_state_param import BrowserAllowlistStateParam as BrowserAllowlistStateParam
 from .browser_pool_acquire_response import BrowserPoolAcquireResponse as BrowserPoolAcquireResponse
 from .config_registry_lookup_params import ConfigRegistryLookupParams as ConfigRegistryLookupParams
 from .credential_totp_code_response import CredentialTotpCodeResponse as CredentialTotpCodeResponse
+from .service_account_create_params import ServiceAccountCreateParams as ServiceAccountCreateParams
+from .service_account_update_params import ServiceAccountUpdateParams as ServiceAccountUpdateParams
+from .workload_identity_match_param import WorkloadIdentityMatchParam as WorkloadIdentityMatchParam
+from .workload_identity_preset_type import WorkloadIdentityPresetType as WorkloadIdentityPresetType
 from .browser_load_extensions_params import BrowserLoadExtensionsParams as BrowserLoadExtensionsParams
 from .browser_location_request_param import BrowserLocationRequestParam as BrowserLocationRequestParam
 from .config_registry_resolve_params import ConfigRegistryResolveParams as ConfigRegistryResolveParams
+from .workload_identity_target_param import WorkloadIdentityTargetParam as WorkloadIdentityTargetParam
 from .credential_provider_list_params import CredentialProviderListParams as CredentialProviderListParams
 from .credential_provider_test_result import CredentialProviderTestResult as CredentialProviderTestResult
+from .workload_identity_authorization import WorkloadIdentityAuthorization as WorkloadIdentityAuthorization
 from .credential_provider_create_params import CredentialProviderCreateParams as CredentialProviderCreateParams
 from .credential_provider_update_params import CredentialProviderUpdateParams as CredentialProviderUpdateParams
 from .invocation_list_browsers_response import InvocationListBrowsersResponse as InvocationListBrowsersResponse
 from .vault_provider_config_list_params import VaultProviderConfigListParams as VaultProviderConfigListParams
+from .workload_identity_federation_rule import WorkloadIdentityFederationRule as WorkloadIdentityFederationRule
+from .workload_identity_issuer_key_check import WorkloadIdentityIssuerKeyCheck as WorkloadIdentityIssuerKeyCheck
+from .workload_identity_key_source_param import WorkloadIdentityKeySourceParam as WorkloadIdentityKeySourceParam
+from .workload_identity_token_validation import WorkloadIdentityTokenValidation as WorkloadIdentityTokenValidation
 from .vault_provider_config_create_params import VaultProviderConfigCreateParams as VaultProviderConfigCreateParams
 from .vault_provider_config_update_params import VaultProviderConfigUpdateParams as VaultProviderConfigUpdateParams
+from .workload_identity_issuer_list_params import WorkloadIdentityIssuerListParams as WorkloadIdentityIssuerListParams
 from .browser_location_update_request_param import (
     BrowserLocationUpdateRequestParam as BrowserLocationUpdateRequestParam,
+)
+from .workload_identity_authorization_param import (
+    WorkloadIdentityAuthorizationParam as WorkloadIdentityAuthorizationParam,
+)
+from .workload_identity_authentication_event import (
+    WorkloadIdentityAuthenticationEvent as WorkloadIdentityAuthenticationEvent,
+)
+from .workload_identity_issuer_create_params import (
+    WorkloadIdentityIssuerCreateParams as WorkloadIdentityIssuerCreateParams,
+)
+from .workload_identity_issuer_update_params import (
+    WorkloadIdentityIssuerUpdateParams as WorkloadIdentityIssuerUpdateParams,
 )
 from .credential_provider_list_items_response import (
     CredentialProviderListItemsResponse as CredentialProviderListItemsResponse,
 )
+from .workload_identity_token_validation_param import (
+    WorkloadIdentityTokenValidationParam as WorkloadIdentityTokenValidationParam,
+)
 from .extension_download_from_chrome_store_params import (
     ExtensionDownloadFromChromeStoreParams as ExtensionDownloadFromChromeStoreParams,
+)
+from .workload_identity_federation_rule_list_params import (
+    WorkloadIdentityFederationRuleListParams as WorkloadIdentityFederationRuleListParams,
+)
+from .workload_identity_federation_rule_create_params import (
+    WorkloadIdentityFederationRuleCreateParams as WorkloadIdentityFederationRuleCreateParams,
+)
+from .workload_identity_federation_rule_update_params import (
+    WorkloadIdentityFederationRuleUpdateParams as WorkloadIdentityFederationRuleUpdateParams,
+)
+from .workload_identity_authentication_event_list_params import (
+    WorkloadIdentityAuthenticationEventListParams as WorkloadIdentityAuthenticationEventListParams,
 )
 
 # Rebuild cyclical models only after all modules are imported.

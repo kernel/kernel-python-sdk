@@ -5,8 +5,9 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
+from .api_key_principal import APIKeyPrincipal
 
-__all__ = ["APIKey", "CreatedBy", "Policy", "PolicyStatement", "PolicyStatementCondition", "Principal"]
+__all__ = ["APIKey", "CreatedBy", "Policy", "PolicyStatement", "PolicyStatementCondition"]
 
 
 class CreatedBy(BaseModel):
@@ -75,12 +76,6 @@ class Policy(BaseModel):
     """Allow statements. Every action and resource not listed is denied."""
 
 
-class Principal(BaseModel):
-    id: str
-
-    type: Literal["user", "service_account"]
-
-
 class APIKey(BaseModel):
     id: str
     """Unique API key identifier"""
@@ -135,7 +130,7 @@ class APIKey(BaseModel):
     organization or project.
     """
 
-    principal: Optional[Principal] = None
+    principal: Optional[APIKeyPrincipal] = None
 
     service_account_id: Optional[str] = None
     """Organization-owned service principal, when linked."""
