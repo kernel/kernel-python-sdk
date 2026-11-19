@@ -16,6 +16,14 @@ from .auth import (
     AuthResourceWithStreamingResponse,
     AsyncAuthResourceWithStreamingResponse,
 )
+from .tasks import (
+    TasksResource,
+    AsyncTasksResource,
+    TasksResourceWithRawResponse,
+    AsyncTasksResourceWithRawResponse,
+    TasksResourceWithStreamingResponse,
+    AsyncTasksResourceWithStreamingResponse,
+)
 from .search import (
     SearchResource,
     AsyncSearchResource,
@@ -39,6 +47,14 @@ from .proxies import (
     AsyncProxiesResourceWithRawResponse,
     ProxiesResourceWithStreamingResponse,
     AsyncProxiesResourceWithStreamingResponse,
+)
+from .reports import (
+    ReportsResource,
+    AsyncReportsResource,
+    ReportsResourceWithRawResponse,
+    AsyncReportsResourceWithRawResponse,
+    ReportsResourceWithStreamingResponse,
+    AsyncReportsResourceWithStreamingResponse,
 )
 from .api_keys import (
     APIKeysResource,
@@ -136,6 +152,14 @@ from .organization import (
     OrganizationResourceWithStreamingResponse,
     AsyncOrganizationResourceWithStreamingResponse,
 )
+from .report_types import (
+    ReportTypesResource,
+    AsyncReportTypesResource,
+    ReportTypesResourceWithRawResponse,
+    AsyncReportTypesResourceWithRawResponse,
+    ReportTypesResourceWithStreamingResponse,
+    AsyncReportTypesResourceWithStreamingResponse,
+)
 from .browser_pools import (
     BrowserPoolsResource,
     AsyncBrowserPoolsResource,
@@ -206,6 +230,24 @@ __all__ = [
     "AsyncProfilesResourceWithRawResponse",
     "ProfilesResourceWithStreamingResponse",
     "AsyncProfilesResourceWithStreamingResponse",
+    "TasksResource",
+    "AsyncTasksResource",
+    "TasksResourceWithRawResponse",
+    "AsyncTasksResourceWithRawResponse",
+    "TasksResourceWithStreamingResponse",
+    "AsyncTasksResourceWithStreamingResponse",
+    "ReportsResource",
+    "AsyncReportsResource",
+    "ReportsResourceWithRawResponse",
+    "AsyncReportsResourceWithRawResponse",
+    "ReportsResourceWithStreamingResponse",
+    "AsyncReportsResourceWithStreamingResponse",
+    "ReportTypesResource",
+    "AsyncReportTypesResource",
+    "ReportTypesResourceWithRawResponse",
+    "AsyncReportTypesResourceWithRawResponse",
+    "ReportTypesResourceWithStreamingResponse",
+    "AsyncReportTypesResourceWithStreamingResponse",
     "AuthResource",
     "AsyncAuthResource",
     "AuthResourceWithRawResponse",

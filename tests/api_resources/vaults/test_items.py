@@ -605,6 +605,7 @@ class TestItems:
             key="key",
             id_or_name="id_or_name",
             after="after",
+            include_deleted=True,
             wait=0,
         )
         assert_matches_type(ItemEventsResponse, item, path=["response"])
@@ -1635,20 +1636,7 @@ class TestItems:
         item = client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            access_token="x",
-            type="1pw_update_access_token",
-        )
-        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_perform_operation_with_all_params_overload_14(self, client: Kernel) -> None:
-        item = client.vaults.items.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            access_token="x",
-            type="1pw_update_access_token",
-            access_token_expires_at=parse_datetime("2019-12-27T18:11:19.117Z"),
+            type="1pw_disconnect",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
 
@@ -1658,8 +1646,7 @@ class TestItems:
         response = client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            access_token="x",
-            type="1pw_update_access_token",
+            type="1pw_disconnect",
         )
 
         assert response.is_closed is True
@@ -1673,8 +1660,7 @@ class TestItems:
         with client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            access_token="x",
-            type="1pw_update_access_token",
+            type="1pw_disconnect",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1691,16 +1677,14 @@ class TestItems:
             client.vaults.items.with_raw_response.perform_operation(
                 key="key",
                 id_or_name="",
-                access_token="x",
-                type="1pw_update_access_token",
+                type="1pw_disconnect",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `key` but received ''"):
             client.vaults.items.with_raw_response.perform_operation(
                 key="",
                 id_or_name="id_or_name",
-                access_token="x",
-                type="1pw_update_access_token",
+                type="1pw_disconnect",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -1710,7 +1694,19 @@ class TestItems:
             key="key",
             id_or_name="id_or_name",
             access_token="x",
-            type="update_access_token",
+            type="1pw_update_access_token",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_perform_operation_with_all_params_overload_15(self, client: Kernel) -> None:
+        item = client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            access_token="x",
+            type="1pw_update_access_token",
+            access_token_expires_at=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
 
@@ -1721,7 +1717,7 @@ class TestItems:
             key="key",
             id_or_name="id_or_name",
             access_token="x",
-            type="update_access_token",
+            type="1pw_update_access_token",
         )
 
         assert response.is_closed is True
@@ -1736,7 +1732,7 @@ class TestItems:
             key="key",
             id_or_name="id_or_name",
             access_token="x",
-            type="update_access_token",
+            type="1pw_update_access_token",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1754,6 +1750,68 @@ class TestItems:
                 key="key",
                 id_or_name="",
                 access_token="x",
+                type="1pw_update_access_token",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `key` but received ''"):
+            client.vaults.items.with_raw_response.perform_operation(
+                key="",
+                id_or_name="id_or_name",
+                access_token="x",
+                type="1pw_update_access_token",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_perform_operation_overload_16(self, client: Kernel) -> None:
+        item = client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            access_token="x",
+            type="update_access_token",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_perform_operation_overload_16(self, client: Kernel) -> None:
+        response = client.vaults.items.with_raw_response.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            access_token="x",
+            type="update_access_token",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        item = response.parse()
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_perform_operation_overload_16(self, client: Kernel) -> None:
+        with client.vaults.items.with_streaming_response.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            access_token="x",
+            type="update_access_token",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            item = response.parse()
+            assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_perform_operation_overload_16(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            client.vaults.items.with_raw_response.perform_operation(
+                key="key",
+                id_or_name="",
+                access_token="x",
                 type="update_access_token",
             )
 
@@ -1767,7 +1825,7 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_perform_operation_overload_16(self, client: Kernel) -> None:
+    def test_method_perform_operation_overload_17(self, client: Kernel) -> None:
         item = client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -1794,7 +1852,7 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_perform_operation_with_all_params_overload_16(self, client: Kernel) -> None:
+    def test_method_perform_operation_with_all_params_overload_17(self, client: Kernel) -> None:
         item = client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -1824,147 +1882,28 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_raw_response_perform_operation_overload_16(self, client: Kernel) -> None:
-        response = client.vaults.items.with_raw_response.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            bindings=[
-                {
-                    "field": "email",
-                    "input_path": "/email",
-                },
-                {
-                    "field": "password",
-                    "input_path": "/password",
-                },
-            ],
-            browser_id="browser-session-id",
-            input={
-                "email": "bar",
-                "password": "bar",
-            },
-            page_url="https://accounts.example.com/signin",
-            tool_ref="opaque-live-tool-ref",
-            type="webmcp_invoke",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        item = response.parse()
-        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_streaming_response_perform_operation_overload_16(self, client: Kernel) -> None:
-        with client.vaults.items.with_streaming_response.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            bindings=[
-                {
-                    "field": "email",
-                    "input_path": "/email",
-                },
-                {
-                    "field": "password",
-                    "input_path": "/password",
-                },
-            ],
-            browser_id="browser-session-id",
-            input={
-                "email": "bar",
-                "password": "bar",
-            },
-            page_url="https://accounts.example.com/signin",
-            tool_ref="opaque-live-tool-ref",
-            type="webmcp_invoke",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            item = response.parse()
-            assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_path_params_perform_operation_overload_16(self, client: Kernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
-            client.vaults.items.with_raw_response.perform_operation(
-                key="key",
-                id_or_name="",
-                bindings=[
-                    {
-                        "field": "email",
-                        "input_path": "/email",
-                    },
-                    {
-                        "field": "password",
-                        "input_path": "/password",
-                    },
-                ],
-                browser_id="browser-session-id",
-                input={
-                    "email": "bar",
-                    "password": "bar",
-                },
-                page_url="https://accounts.example.com/signin",
-                tool_ref="opaque-live-tool-ref",
-                type="webmcp_invoke",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `key` but received ''"):
-            client.vaults.items.with_raw_response.perform_operation(
-                key="",
-                id_or_name="id_or_name",
-                bindings=[
-                    {
-                        "field": "email",
-                        "input_path": "/email",
-                    },
-                    {
-                        "field": "password",
-                        "input_path": "/password",
-                    },
-                ],
-                browser_id="browser-session-id",
-                input={
-                    "email": "bar",
-                    "password": "bar",
-                },
-                page_url="https://accounts.example.com/signin",
-                tool_ref="opaque-live-tool-ref",
-                type="webmcp_invoke",
-            )
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_perform_operation_overload_17(self, client: Kernel) -> None:
-        item = client.vaults.items.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            type="add_payment_method",
-        )
-        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_perform_operation_with_all_params_overload_17(self, client: Kernel) -> None:
-        item = client.vaults.items.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            type="add_payment_method",
-            enrollment="hosted",
-        )
-        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
     def test_raw_response_perform_operation_overload_17(self, client: Kernel) -> None:
         response = client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            type="add_payment_method",
+            bindings=[
+                {
+                    "field": "email",
+                    "input_path": "/email",
+                },
+                {
+                    "field": "password",
+                    "input_path": "/password",
+                },
+            ],
+            browser_id="browser-session-id",
+            input={
+                "email": "bar",
+                "password": "bar",
+            },
+            page_url="https://accounts.example.com/signin",
+            tool_ref="opaque-live-tool-ref",
+            type="webmcp_invoke",
         )
 
         assert response.is_closed is True
@@ -1978,7 +1917,24 @@ class TestItems:
         with client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            type="add_payment_method",
+            bindings=[
+                {
+                    "field": "email",
+                    "input_path": "/email",
+                },
+                {
+                    "field": "password",
+                    "input_path": "/password",
+                },
+            ],
+            browser_id="browser-session-id",
+            input={
+                "email": "bar",
+                "password": "bar",
+            },
+            page_url="https://accounts.example.com/signin",
+            tool_ref="opaque-live-tool-ref",
+            type="webmcp_invoke",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1995,6 +1951,108 @@ class TestItems:
             client.vaults.items.with_raw_response.perform_operation(
                 key="key",
                 id_or_name="",
+                bindings=[
+                    {
+                        "field": "email",
+                        "input_path": "/email",
+                    },
+                    {
+                        "field": "password",
+                        "input_path": "/password",
+                    },
+                ],
+                browser_id="browser-session-id",
+                input={
+                    "email": "bar",
+                    "password": "bar",
+                },
+                page_url="https://accounts.example.com/signin",
+                tool_ref="opaque-live-tool-ref",
+                type="webmcp_invoke",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `key` but received ''"):
+            client.vaults.items.with_raw_response.perform_operation(
+                key="",
+                id_or_name="id_or_name",
+                bindings=[
+                    {
+                        "field": "email",
+                        "input_path": "/email",
+                    },
+                    {
+                        "field": "password",
+                        "input_path": "/password",
+                    },
+                ],
+                browser_id="browser-session-id",
+                input={
+                    "email": "bar",
+                    "password": "bar",
+                },
+                page_url="https://accounts.example.com/signin",
+                tool_ref="opaque-live-tool-ref",
+                type="webmcp_invoke",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_perform_operation_overload_18(self, client: Kernel) -> None:
+        item = client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_perform_operation_with_all_params_overload_18(self, client: Kernel) -> None:
+        item = client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+            enrollment="hosted",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_perform_operation_overload_18(self, client: Kernel) -> None:
+        response = client.vaults.items.with_raw_response.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        item = response.parse()
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_perform_operation_overload_18(self, client: Kernel) -> None:
+        with client.vaults.items.with_streaming_response.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            item = response.parse()
+            assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_perform_operation_overload_18(self, client: Kernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            client.vaults.items.with_raw_response.perform_operation(
+                key="key",
+                id_or_name="",
                 type="add_payment_method",
             )
 
@@ -2007,7 +2065,7 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_perform_operation_overload_18(self, client: Kernel) -> None:
+    def test_method_perform_operation_overload_19(self, client: Kernel) -> None:
         item = client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -2018,7 +2076,7 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_raw_response_perform_operation_overload_18(self, client: Kernel) -> None:
+    def test_raw_response_perform_operation_overload_19(self, client: Kernel) -> None:
         response = client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -2033,7 +2091,7 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_streaming_response_perform_operation_overload_18(self, client: Kernel) -> None:
+    def test_streaming_response_perform_operation_overload_19(self, client: Kernel) -> None:
         with client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -2050,7 +2108,7 @@ class TestItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_path_params_perform_operation_overload_18(self, client: Kernel) -> None:
+    def test_path_params_perform_operation_overload_19(self, client: Kernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             client.vaults.items.with_raw_response.perform_operation(
                 key="key",
@@ -3299,6 +3357,7 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             after="after",
+            include_deleted=True,
             wait=0,
         )
         assert_matches_type(ItemEventsResponse, item, path=["response"])
@@ -4329,20 +4388,7 @@ class TestAsyncItems:
         item = await async_client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            access_token="x",
-            type="1pw_update_access_token",
-        )
-        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_perform_operation_with_all_params_overload_14(self, async_client: AsyncKernel) -> None:
-        item = await async_client.vaults.items.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            access_token="x",
-            type="1pw_update_access_token",
-            access_token_expires_at=parse_datetime("2019-12-27T18:11:19.117Z"),
+            type="1pw_disconnect",
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
 
@@ -4352,8 +4398,7 @@ class TestAsyncItems:
         response = await async_client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            access_token="x",
-            type="1pw_update_access_token",
+            type="1pw_disconnect",
         )
 
         assert response.is_closed is True
@@ -4367,8 +4412,7 @@ class TestAsyncItems:
         async with async_client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            access_token="x",
-            type="1pw_update_access_token",
+            type="1pw_disconnect",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -4385,16 +4429,14 @@ class TestAsyncItems:
             await async_client.vaults.items.with_raw_response.perform_operation(
                 key="key",
                 id_or_name="",
-                access_token="x",
-                type="1pw_update_access_token",
+                type="1pw_disconnect",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `key` but received ''"):
             await async_client.vaults.items.with_raw_response.perform_operation(
                 key="",
                 id_or_name="id_or_name",
-                access_token="x",
-                type="1pw_update_access_token",
+                type="1pw_disconnect",
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -4404,7 +4446,19 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             access_token="x",
-            type="update_access_token",
+            type="1pw_update_access_token",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_perform_operation_with_all_params_overload_15(self, async_client: AsyncKernel) -> None:
+        item = await async_client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            access_token="x",
+            type="1pw_update_access_token",
+            access_token_expires_at=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(VaultItemOperationResponse, item, path=["response"])
 
@@ -4415,7 +4469,7 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             access_token="x",
-            type="update_access_token",
+            type="1pw_update_access_token",
         )
 
         assert response.is_closed is True
@@ -4430,7 +4484,7 @@ class TestAsyncItems:
             key="key",
             id_or_name="id_or_name",
             access_token="x",
-            type="update_access_token",
+            type="1pw_update_access_token",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -4448,6 +4502,68 @@ class TestAsyncItems:
                 key="key",
                 id_or_name="",
                 access_token="x",
+                type="1pw_update_access_token",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `key` but received ''"):
+            await async_client.vaults.items.with_raw_response.perform_operation(
+                key="",
+                id_or_name="id_or_name",
+                access_token="x",
+                type="1pw_update_access_token",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_perform_operation_overload_16(self, async_client: AsyncKernel) -> None:
+        item = await async_client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            access_token="x",
+            type="update_access_token",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_perform_operation_overload_16(self, async_client: AsyncKernel) -> None:
+        response = await async_client.vaults.items.with_raw_response.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            access_token="x",
+            type="update_access_token",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        item = await response.parse()
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_perform_operation_overload_16(self, async_client: AsyncKernel) -> None:
+        async with async_client.vaults.items.with_streaming_response.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            access_token="x",
+            type="update_access_token",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            item = await response.parse()
+            assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_perform_operation_overload_16(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            await async_client.vaults.items.with_raw_response.perform_operation(
+                key="key",
+                id_or_name="",
+                access_token="x",
                 type="update_access_token",
             )
 
@@ -4461,7 +4577,7 @@ class TestAsyncItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_perform_operation_overload_16(self, async_client: AsyncKernel) -> None:
+    async def test_method_perform_operation_overload_17(self, async_client: AsyncKernel) -> None:
         item = await async_client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -4488,7 +4604,7 @@ class TestAsyncItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_perform_operation_with_all_params_overload_16(self, async_client: AsyncKernel) -> None:
+    async def test_method_perform_operation_with_all_params_overload_17(self, async_client: AsyncKernel) -> None:
         item = await async_client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -4518,147 +4634,28 @@ class TestAsyncItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_raw_response_perform_operation_overload_16(self, async_client: AsyncKernel) -> None:
-        response = await async_client.vaults.items.with_raw_response.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            bindings=[
-                {
-                    "field": "email",
-                    "input_path": "/email",
-                },
-                {
-                    "field": "password",
-                    "input_path": "/password",
-                },
-            ],
-            browser_id="browser-session-id",
-            input={
-                "email": "bar",
-                "password": "bar",
-            },
-            page_url="https://accounts.example.com/signin",
-            tool_ref="opaque-live-tool-ref",
-            type="webmcp_invoke",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        item = await response.parse()
-        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_streaming_response_perform_operation_overload_16(self, async_client: AsyncKernel) -> None:
-        async with async_client.vaults.items.with_streaming_response.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            bindings=[
-                {
-                    "field": "email",
-                    "input_path": "/email",
-                },
-                {
-                    "field": "password",
-                    "input_path": "/password",
-                },
-            ],
-            browser_id="browser-session-id",
-            input={
-                "email": "bar",
-                "password": "bar",
-            },
-            page_url="https://accounts.example.com/signin",
-            tool_ref="opaque-live-tool-ref",
-            type="webmcp_invoke",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            item = await response.parse()
-            assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_path_params_perform_operation_overload_16(self, async_client: AsyncKernel) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
-            await async_client.vaults.items.with_raw_response.perform_operation(
-                key="key",
-                id_or_name="",
-                bindings=[
-                    {
-                        "field": "email",
-                        "input_path": "/email",
-                    },
-                    {
-                        "field": "password",
-                        "input_path": "/password",
-                    },
-                ],
-                browser_id="browser-session-id",
-                input={
-                    "email": "bar",
-                    "password": "bar",
-                },
-                page_url="https://accounts.example.com/signin",
-                tool_ref="opaque-live-tool-ref",
-                type="webmcp_invoke",
-            )
-
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `key` but received ''"):
-            await async_client.vaults.items.with_raw_response.perform_operation(
-                key="",
-                id_or_name="id_or_name",
-                bindings=[
-                    {
-                        "field": "email",
-                        "input_path": "/email",
-                    },
-                    {
-                        "field": "password",
-                        "input_path": "/password",
-                    },
-                ],
-                browser_id="browser-session-id",
-                input={
-                    "email": "bar",
-                    "password": "bar",
-                },
-                page_url="https://accounts.example.com/signin",
-                tool_ref="opaque-live-tool-ref",
-                type="webmcp_invoke",
-            )
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_perform_operation_overload_17(self, async_client: AsyncKernel) -> None:
-        item = await async_client.vaults.items.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            type="add_payment_method",
-        )
-        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_perform_operation_with_all_params_overload_17(self, async_client: AsyncKernel) -> None:
-        item = await async_client.vaults.items.perform_operation(
-            key="key",
-            id_or_name="id_or_name",
-            type="add_payment_method",
-            enrollment="hosted",
-        )
-        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
     async def test_raw_response_perform_operation_overload_17(self, async_client: AsyncKernel) -> None:
         response = await async_client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            type="add_payment_method",
+            bindings=[
+                {
+                    "field": "email",
+                    "input_path": "/email",
+                },
+                {
+                    "field": "password",
+                    "input_path": "/password",
+                },
+            ],
+            browser_id="browser-session-id",
+            input={
+                "email": "bar",
+                "password": "bar",
+            },
+            page_url="https://accounts.example.com/signin",
+            tool_ref="opaque-live-tool-ref",
+            type="webmcp_invoke",
         )
 
         assert response.is_closed is True
@@ -4672,7 +4669,24 @@ class TestAsyncItems:
         async with async_client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
-            type="add_payment_method",
+            bindings=[
+                {
+                    "field": "email",
+                    "input_path": "/email",
+                },
+                {
+                    "field": "password",
+                    "input_path": "/password",
+                },
+            ],
+            browser_id="browser-session-id",
+            input={
+                "email": "bar",
+                "password": "bar",
+            },
+            page_url="https://accounts.example.com/signin",
+            tool_ref="opaque-live-tool-ref",
+            type="webmcp_invoke",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -4689,6 +4703,108 @@ class TestAsyncItems:
             await async_client.vaults.items.with_raw_response.perform_operation(
                 key="key",
                 id_or_name="",
+                bindings=[
+                    {
+                        "field": "email",
+                        "input_path": "/email",
+                    },
+                    {
+                        "field": "password",
+                        "input_path": "/password",
+                    },
+                ],
+                browser_id="browser-session-id",
+                input={
+                    "email": "bar",
+                    "password": "bar",
+                },
+                page_url="https://accounts.example.com/signin",
+                tool_ref="opaque-live-tool-ref",
+                type="webmcp_invoke",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `key` but received ''"):
+            await async_client.vaults.items.with_raw_response.perform_operation(
+                key="",
+                id_or_name="id_or_name",
+                bindings=[
+                    {
+                        "field": "email",
+                        "input_path": "/email",
+                    },
+                    {
+                        "field": "password",
+                        "input_path": "/password",
+                    },
+                ],
+                browser_id="browser-session-id",
+                input={
+                    "email": "bar",
+                    "password": "bar",
+                },
+                page_url="https://accounts.example.com/signin",
+                tool_ref="opaque-live-tool-ref",
+                type="webmcp_invoke",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_perform_operation_overload_18(self, async_client: AsyncKernel) -> None:
+        item = await async_client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_perform_operation_with_all_params_overload_18(self, async_client: AsyncKernel) -> None:
+        item = await async_client.vaults.items.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+            enrollment="hosted",
+        )
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_perform_operation_overload_18(self, async_client: AsyncKernel) -> None:
+        response = await async_client.vaults.items.with_raw_response.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        item = await response.parse()
+        assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_perform_operation_overload_18(self, async_client: AsyncKernel) -> None:
+        async with async_client.vaults.items.with_streaming_response.perform_operation(
+            key="key",
+            id_or_name="id_or_name",
+            type="add_payment_method",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            item = await response.parse()
+            assert_matches_type(VaultItemOperationResponse, item, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_perform_operation_overload_18(self, async_client: AsyncKernel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
+            await async_client.vaults.items.with_raw_response.perform_operation(
+                key="key",
+                id_or_name="",
                 type="add_payment_method",
             )
 
@@ -4701,7 +4817,7 @@ class TestAsyncItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_perform_operation_overload_18(self, async_client: AsyncKernel) -> None:
+    async def test_method_perform_operation_overload_19(self, async_client: AsyncKernel) -> None:
         item = await async_client.vaults.items.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -4712,7 +4828,7 @@ class TestAsyncItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_raw_response_perform_operation_overload_18(self, async_client: AsyncKernel) -> None:
+    async def test_raw_response_perform_operation_overload_19(self, async_client: AsyncKernel) -> None:
         response = await async_client.vaults.items.with_raw_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -4727,7 +4843,7 @@ class TestAsyncItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_streaming_response_perform_operation_overload_18(self, async_client: AsyncKernel) -> None:
+    async def test_streaming_response_perform_operation_overload_19(self, async_client: AsyncKernel) -> None:
         async with async_client.vaults.items.with_streaming_response.perform_operation(
             key="key",
             id_or_name="id_or_name",
@@ -4744,7 +4860,7 @@ class TestAsyncItems:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_path_params_perform_operation_overload_18(self, async_client: AsyncKernel) -> None:
+    async def test_path_params_perform_operation_overload_19(self, async_client: AsyncKernel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id_or_name` but received ''"):
             await async_client.vaults.items.with_raw_response.perform_operation(
                 key="key",
