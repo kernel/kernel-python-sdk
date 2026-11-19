@@ -32,7 +32,8 @@ class APIKeyCreateParams(TypedDict, total=False):
     policy: Policy
     """
     Issue a scoped key that may only perform the listed actions on the listed
-    resources.
+    resources. A statement may carry a condition; a `source_ip` condition restricts
+    the statement to requests from inside its CIDR networks.
     """
 
     project_id: Optional[str]
@@ -88,7 +89,7 @@ class PolicyStatement(TypedDict, total=False):
 
 class Policy(TypedDict, total=False):
     """
-    Issue a scoped key that may only perform the listed actions on the listed resources.
+    Issue a scoped key that may only perform the listed actions on the listed resources. A statement may carry a condition; a `source_ip` condition restricts the statement to requests from inside its CIDR networks.
     """
 
     statements: Required[Iterable[PolicyStatement]]

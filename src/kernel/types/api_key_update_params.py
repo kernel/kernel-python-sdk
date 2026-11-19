@@ -20,7 +20,8 @@ class APIKeyUpdateParams(TypedDict, total=False):
     Attaching a policy to a key without one makes the key scoped: every action and
     resource the policy does not list is denied. The key's credential, name,
     project, and expiry are unchanged, so consumers never need the key
-    redistributed. Requires api_keys:set_policy on the key.
+    redistributed. A `source_ip` condition adds or changes IP allowlisting without
+    rotating the credential. Requires api_keys:set_policy on the key.
     """
 
 
@@ -67,7 +68,7 @@ class PolicyStatement(TypedDict, total=False):
 class Policy(TypedDict, total=False):
     """Permissions that fully replace the key's policy.
 
-    Attaching a policy to a key without one makes the key scoped: every action and resource the policy does not list is denied. The key's credential, name, project, and expiry are unchanged, so consumers never need the key redistributed. Requires api_keys:set_policy on the key.
+    Attaching a policy to a key without one makes the key scoped: every action and resource the policy does not list is denied. The key's credential, name, project, and expiry are unchanged, so consumers never need the key redistributed. A `source_ip` condition adds or changes IP allowlisting without rotating the credential. Requires api_keys:set_policy on the key.
     """
 
     statements: Required[Iterable[PolicyStatement]]

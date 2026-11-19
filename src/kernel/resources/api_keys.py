@@ -75,7 +75,11 @@ class APIKeysResource(SyncAPIResource):
         """
         Create a personal API key, or link a key to an organization-owned service
         account. Service-account keys require an organization administrator, explicit
-        project and nonempty policy.
+        project and nonempty policy. An optional `policy` scopes the key to its listed
+        actions and resources, and each statement may carry a `condition`. A `source_ip`
+        condition restricts the statement to requests whose client address falls inside
+        its CIDR networks, so a key limited to your egress IP ranges only works from
+        your network, even if its secret leaks.
 
         Args:
           name: Label for the API key (1-255 characters). API keys are not addressable by name.
@@ -87,7 +91,8 @@ class APIKeysResource(SyncAPIResource):
               credential's own expiry. Cannot be combined with days_to_expire.
 
           policy: Issue a scoped key that may only perform the listed actions on the listed
-              resources.
+              resources. A statement may carry a condition; a `source_ip` condition restricts
+              the statement to requests from inside its CIDR networks.
 
           project_id: Unique project identifier
 
@@ -189,9 +194,12 @@ class APIKeysResource(SyncAPIResource):
         """
         Update an API key's name, or replace its permissions by attaching a new policy
         in place: the key's credential never changes, so consumers keep the same secret.
-        A present `policy` fully replaces the key's policy and takes effect for new
-        requests within the authorization cache. Requires api_keys:write to rename;
-        api_keys:set_policy to replace permissions.
+        The replacement policy may carry `source_ip` conditions, so you can add, change,
+        or remove IP allowlisting on an existing key without rotating its credential. A
+        present `policy` fully replaces the key's policy and takes effect for new
+        requests within the authorization cache; requests from outside a condition's
+        networks get `403` and are recorded in the audit log with the client address.
+        Requires api_keys:write to rename; api_keys:set_policy to replace permissions.
 
         Args:
           name: New API key name
@@ -199,8 +207,9 @@ class APIKeysResource(SyncAPIResource):
           policy: Permissions that fully replace the key's policy. Attaching a policy to a key
               without one makes the key scoped: every action and resource the policy does not
               list is denied. The key's credential, name, project, and expiry are unchanged,
-              so consumers never need the key redistributed. Requires api_keys:set_policy on
-              the key.
+              so consumers never need the key redistributed. A `source_ip` condition adds or
+              changes IP allowlisting without rotating the credential. Requires
+              api_keys:set_policy on the key.
 
           extra_headers: Send extra headers
 
@@ -463,7 +472,11 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         """
         Create a personal API key, or link a key to an organization-owned service
         account. Service-account keys require an organization administrator, explicit
-        project and nonempty policy.
+        project and nonempty policy. An optional `policy` scopes the key to its listed
+        actions and resources, and each statement may carry a `condition`. A `source_ip`
+        condition restricts the statement to requests whose client address falls inside
+        its CIDR networks, so a key limited to your egress IP ranges only works from
+        your network, even if its secret leaks.
 
         Args:
           name: Label for the API key (1-255 characters). API keys are not addressable by name.
@@ -475,7 +488,8 @@ class AsyncAPIKeysResource(AsyncAPIResource):
               credential's own expiry. Cannot be combined with days_to_expire.
 
           policy: Issue a scoped key that may only perform the listed actions on the listed
-              resources.
+              resources. A statement may carry a condition; a `source_ip` condition restricts
+              the statement to requests from inside its CIDR networks.
 
           project_id: Unique project identifier
 
@@ -577,9 +591,12 @@ class AsyncAPIKeysResource(AsyncAPIResource):
         """
         Update an API key's name, or replace its permissions by attaching a new policy
         in place: the key's credential never changes, so consumers keep the same secret.
-        A present `policy` fully replaces the key's policy and takes effect for new
-        requests within the authorization cache. Requires api_keys:write to rename;
-        api_keys:set_policy to replace permissions.
+        The replacement policy may carry `source_ip` conditions, so you can add, change,
+        or remove IP allowlisting on an existing key without rotating its credential. A
+        present `policy` fully replaces the key's policy and takes effect for new
+        requests within the authorization cache; requests from outside a condition's
+        networks get `403` and are recorded in the audit log with the client address.
+        Requires api_keys:write to rename; api_keys:set_policy to replace permissions.
 
         Args:
           name: New API key name
@@ -587,8 +604,9 @@ class AsyncAPIKeysResource(AsyncAPIResource):
           policy: Permissions that fully replace the key's policy. Attaching a policy to a key
               without one makes the key scoped: every action and resource the policy does not
               list is denied. The key's credential, name, project, and expiry are unchanged,
-              so consumers never need the key redistributed. Requires api_keys:set_policy on
-              the key.
+              so consumers never need the key redistributed. A `source_ip` condition adds or
+              changes IP allowlisting without rotating the credential. Requires
+              api_keys:set_policy on the key.
 
           extra_headers: Send extra headers
 
