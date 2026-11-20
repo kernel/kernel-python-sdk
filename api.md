@@ -129,6 +129,8 @@ from kernel.types import (
     BrowserMemoryRequest,
     BrowserNetworkConfig,
     BrowserNetworkUpdate,
+    BrowserOs,
+    BrowserPlatform,
     BrowserPoolRef,
     BrowserProxy,
     BrowserProxyConfig,

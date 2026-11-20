@@ -68,6 +68,7 @@ class TestBrowsers:
                     }
                 ],
             },
+            platform={"os": "linux"},
             profile={
                 "id": "id",
                 "name": "name",
@@ -682,6 +683,7 @@ class TestAsyncBrowsers:
                     }
                 ],
             },
+            platform={"os": "linux"},
             profile={
                 "id": "id",
                 "name": "name",
