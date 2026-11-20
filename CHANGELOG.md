@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.154.0](https://github.com/kernel/kernel-python-sdk/compare/v0.153.0...v0.154.0) (2026-11-20)
+
+
+### Features
+
+* Add macOS browsers: request contract and Hypeman allocation ([4baf15e](https://github.com/kernel/kernel-python-sdk/commit/4baf15e5de4ff53e7750ae0602aaaaac8ff78384))
+* Link balance: report balance amounts and add link_balance_setup ([bc8b43b](https://github.com/kernel/kernel-python-sdk/commit/bc8b43bf45f3560ecde2c97fef730708eae3fc01))
+* Make browser cost opt-in with include_cost on browser detail ([16f3b8d](https://github.com/kernel/kernel-python-sdk/commit/16f3b8d6ce577f08030e0faa97f67681e4461072))
+
 ## [0.153.0](https://github.com/kernel/kernel-python-sdk/compare/v0.152.0...v0.153.0) (2026-11-20)
 
 
