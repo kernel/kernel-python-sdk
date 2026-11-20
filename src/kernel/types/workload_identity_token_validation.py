@@ -10,7 +10,11 @@ __all__ = ["WorkloadIdentityTokenValidation"]
 
 class WorkloadIdentityTokenValidation(BaseModel):
     max_lifetime_seconds: Optional[int] = None
-    """Maximum incoming signed exp minus iat, independent of outgoing token lifetime."""
+    """Maximum incoming signed exp minus iat, independent of outgoing token lifetime.
+
+    At most 172800 (48 hours), which covers Azure managed identity tokens that live
+    slightly over 24 hours.
+    """
 
     replay_protection: Optional[Literal["single_use", "allow_reuse"]] = None
     """Whether an incoming token can be exchanged more than once before it expires.

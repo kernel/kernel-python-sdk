@@ -41,11 +41,13 @@ from .vgs_wallet_vault_item_spec import VgsWalletVaultItemSpec as VgsWalletVault
 from .credential_vault_field_type import CredentialVaultFieldType as CredentialVaultFieldType
 from .credential_vault_item_state import CredentialVaultItemState as CredentialVaultItemState
 from .kernel_card_vault_item_spec import KernelCardVaultItemSpec as KernelCardVaultItemSpec
+from .vault_payment_method_amount import VaultPaymentMethodAmount as VaultPaymentMethodAmount
 from .agentcard_prepared_processor import AgentcardPreparedProcessor as AgentcardPreparedProcessor
 from .credential_collection_action import CredentialCollectionAction as CredentialCollectionAction
 from .credential_vault_field_state import CredentialVaultFieldState as CredentialVaultFieldState
 from .kernel_single_use_card_param import KernelSingleUseCardParam as KernelSingleUseCardParam
 from .vault_checkout_context_param import VaultCheckoutContextParam as VaultCheckoutContextParam
+from .vault_payment_method_balance import VaultPaymentMethodBalance as VaultPaymentMethodBalance
 from .credential_account_vault_item import CredentialAccountVaultItem as CredentialAccountVaultItem
 from .item_perform_operation_params import ItemPerformOperationParams as ItemPerformOperationParams
 from .kernel_wallet_vault_item_spec import KernelWalletVaultItemSpec as KernelWalletVaultItemSpec
@@ -138,6 +140,9 @@ from .add_payment_method_vault_item_operation_result import (
 from .arm_passkey_vault_item_operation_request_param import (
     ArmPasskeyVaultItemOperationRequestParam as ArmPasskeyVaultItemOperationRequestParam,
 )
+from .link_balance_setup_vault_item_operation_result import (
+    LinkBalanceSetupVaultItemOperationResult as LinkBalanceSetupVaultItemOperationResult,
+)
 from .webmcp_invoke_vault_item_operation_request_param import (
     WebmcpInvokeVaultItemOperationRequestParam as WebmcpInvokeVaultItemOperationRequestParam,
 )
@@ -164,6 +169,9 @@ from .one_password_fill_vault_item_operation_request_param import (
 )
 from .add_payment_method_vault_item_operation_request_param import (
     AddPaymentMethodVaultItemOperationRequestParam as AddPaymentMethodVaultItemOperationRequestParam,
+)
+from .link_balance_setup_vault_item_operation_request_param import (
+    LinkBalanceSetupVaultItemOperationRequestParam as LinkBalanceSetupVaultItemOperationRequestParam,
 )
 from .confirm_transaction_vault_item_operation_request_param import (
     ConfirmTransactionVaultItemOperationRequestParam as ConfirmTransactionVaultItemOperationRequestParam,

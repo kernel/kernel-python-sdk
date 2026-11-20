@@ -68,6 +68,7 @@ class WalletVaultItemAvailableOperation(BaseModel):
         "webmcp_invoke",
         "add_payment_method",
         "remove_payment_method",
+        "link_balance_setup",
     ]
 
 
@@ -177,6 +178,7 @@ class CardVaultItemAvailableOperation(BaseModel):
         "webmcp_invoke",
         "add_payment_method",
         "remove_payment_method",
+        "link_balance_setup",
     ]
 
 

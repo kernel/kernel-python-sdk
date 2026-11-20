@@ -5,6 +5,7 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from ..._models import BaseModel
+from .vault_payment_method_balance import VaultPaymentMethodBalance
 
 __all__ = ["VaultPaymentMethod", "Capabilities", "CapabilitiesSingleUseCard", "Display", "Action"]
 
@@ -82,6 +83,15 @@ class VaultPaymentMethod(BaseModel):
     single-use URL on a Kernel ingest hostname served by the card vault, which the
     card's issuer posts the card to from its backend; Kernel never receives the card
     number or CVC.
+    """
+
+    balance: Optional[VaultPaymentMethodBalance] = None
+    """Present on stored-value payment methods, such as a Link balance (type
+    `balance`).
+
+    `available` is the amount available to spend, absent when the provider did not
+    report it. Read live from the provider on every request and never stored by
+    Kernel.
     """
 
     expires_at: Optional[datetime] = None

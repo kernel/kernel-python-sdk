@@ -33,6 +33,7 @@ __all__ = [
     "WebmcpInvokeVaultItemOperationRequest",
     "AddPaymentMethodVaultItemOperationRequest",
     "RemovePaymentMethodVaultItemOperationRequest",
+    "LinkBalanceSetupVaultItemOperationRequest",
 ]
 
 
@@ -343,6 +344,29 @@ class RemovePaymentMethodVaultItemOperationRequest(TypedDict, total=False):
     type: Required[Literal["remove_payment_method"]]
 
 
+class LinkBalanceSetupVaultItemOperationRequest(TypedDict, total=False):
+    id_or_name: Required[str]
+
+    type: Required[Literal["link_balance_setup"]]
+
+    desired_balance_amount: int
+    """Balance, in cents, the user should end up with.
+
+    The page prefills the amount to add to reach it and skips adding money when the
+    balance already covers it. Whole dollars only. Link refuses links that ask the
+    user to add more than $150 at once.
+    """
+
+    desired_transaction_limit: int
+    """Approval threshold, in cents, to prefill.
+
+    Link skips approval only for spend requests created under its approval policy,
+    which Kernel cards do not use yet. Whole dollars, at most $500 because a single
+    spend request cannot exceed $500. When set the page always shows the threshold
+    step; when omitted it skips it.
+    """
+
+
 ItemPerformOperationParams: TypeAlias = Union[
     AuthorizeVaultItemOperationRequest,
     RestartVerificationVaultItemOperationRequest,
@@ -363,4 +387,5 @@ ItemPerformOperationParams: TypeAlias = Union[
     WebmcpInvokeVaultItemOperationRequest,
     AddPaymentMethodVaultItemOperationRequest,
     RemovePaymentMethodVaultItemOperationRequest,
+    LinkBalanceSetupVaultItemOperationRequest,
 ]
