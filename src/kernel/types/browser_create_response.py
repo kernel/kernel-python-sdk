@@ -7,6 +7,7 @@ from typing_extensions import Literal
 from .tags import Tags
 from .profile import Profile
 from .._models import BaseModel
+from .browser_cost import BrowserCost
 from .browser_proxy import BrowserProxy
 from .browser_usage import BrowserUsage
 from .browser_memory import BrowserMemory
@@ -91,6 +92,12 @@ class BrowserCreateResponse(BaseModel):
     Custom Chrome enterprise policy overrides that were applied to this browser
     session, if any. Echoed back for verification. Keys are Chrome enterprise policy
     names.
+    """
+
+    cost: Optional[BrowserCost] = None
+    """Provisional browser-session usage cost on GET detail responses.
+
+    Omitted from list and other browser responses.
     """
 
     deleted_at: Optional[datetime] = None
