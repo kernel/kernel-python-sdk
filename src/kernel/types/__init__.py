@@ -33,6 +33,7 @@ from .warning import Warning as Warning
 from .analysis import Analysis as Analysis
 from .evidence import Evidence as Evidence
 from .proxy_ip import ProxyIP as ProxyIP
+from .browser_os import BrowserOs as BrowserOs
 from .credential import Credential as Credential
 from .tags_param import TagsParam as TagsParam
 from .report_type import ReportType as ReportType
@@ -53,6 +54,7 @@ from .service_account import ServiceAccount as ServiceAccount
 from .vault_reference import VaultReference as VaultReference
 from .analysis_summary import AnalysisSummary as AnalysisSummary
 from .browser_location import BrowserLocation as BrowserLocation
+from .browser_platform import BrowserPlatform as BrowserPlatform
 from .browser_pool_ref import BrowserPoolRef as BrowserPoolRef
 from .task_list_params import TaskListParams as TaskListParams
 from .api_key_principal import APIKeyPrincipal as APIKeyPrincipal
@@ -109,6 +111,7 @@ from .vault_reference_param import VaultReferenceParam as VaultReferenceParam
 from .browser_captcha_solver import BrowserCaptchaSolver as BrowserCaptchaSolver
 from .browser_memory_request import BrowserMemoryRequest as BrowserMemoryRequest
 from .browser_network_config import BrowserNetworkConfig as BrowserNetworkConfig
+from .browser_platform_param import BrowserPlatformParam as BrowserPlatformParam
 from .credential_list_params import CredentialListParams as CredentialListParams
 from .deployment_list_params import DeploymentListParams as DeploymentListParams
 from .deployment_state_event import DeploymentStateEvent as DeploymentStateEvent

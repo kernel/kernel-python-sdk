@@ -19,3 +19,6 @@ class ErrorModel(BaseModel):
     """Additional error details (for multiple errors)"""
 
     inner_error: Optional[ErrorDetail] = None
+
+    unsupported_fields: Optional[List[str]] = None
+    """Request fields that are incompatible with the requested browser platform."""

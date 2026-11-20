@@ -119,6 +119,7 @@ from ...lib.browser_routing.raw_http import (
     async_request_via_browser_route,
 )
 from ...types.browser_memory_request import BrowserMemoryRequest
+from ...types.browser_platform_param import BrowserPlatformParam
 from ...types.browser_create_response import BrowserCreateResponse
 from ...types.browser_update_response import BrowserUpdateResponse
 from ...types.browser_fingerprint_param import BrowserFingerprintParam
@@ -220,6 +221,7 @@ class BrowsersResource(SyncAPIResource):
         memory: BrowserMemoryRequest | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
+        platform: BrowserPlatformParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
@@ -286,6 +288,15 @@ class BrowsersResource(SyncAPIResource):
 
           network: Network configuration for the browser session. Only allowed_hosts can be changed
               after creation, with PATCH /browsers/{id_or_name}.
+
+          platform: Host platform for the browser. Omit it, or set `os` to `linux`, for a Linux
+              browser. This is the operating system the browser runs on; `fingerprint.os` only
+              changes what a Linux browser reports to websites. macOS browsers are not
+              available yet: requests for them return 503 `platform_unavailable`. macOS
+              browsers are headful and run only in `us-east`. A macOS request that sets
+              `headless: true`, `memory`, `gpu`, `video_memory`, `profile`, `location`,
+              `fingerprint`, or a region other than `us-east` returns 400
+              `unsupported_configuration`, listing those fields in `unsupported_fields`.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -378,6 +389,7 @@ class BrowsersResource(SyncAPIResource):
                     "memory": memory,
                     "name": name,
                     "network": network,
+                    "platform": platform,
                     "profile": profile,
                     "proxy": proxy,
                     "proxy_id": proxy_id,
@@ -408,6 +420,7 @@ class BrowsersResource(SyncAPIResource):
         self,
         id_or_name: str,
         *,
+        include_cost: bool | Omit = omit,
         include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -420,6 +433,8 @@ class BrowsersResource(SyncAPIResource):
         Get information about a browser session.
 
         Args:
+          include_cost: When true, includes the session's provisional usage cost in the response.
+
           include_deleted: When true, includes soft-deleted browser sessions in the lookup.
 
           extra_headers: Send extra headers
@@ -440,7 +455,11 @@ class BrowsersResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"include_deleted": include_deleted}, browser_retrieve_params.BrowserRetrieveParams
+                    {
+                        "include_cost": include_cost,
+                        "include_deleted": include_deleted,
+                    },
+                    browser_retrieve_params.BrowserRetrieveParams,
                 ),
             ),
             cast_to=BrowserRetrieveResponse,
@@ -1094,6 +1113,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         memory: BrowserMemoryRequest | Omit = omit,
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
+        platform: BrowserPlatformParam | Omit = omit,
         profile: BrowserProfile | Omit = omit,
         proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
@@ -1160,6 +1180,15 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           network: Network configuration for the browser session. Only allowed_hosts can be changed
               after creation, with PATCH /browsers/{id_or_name}.
+
+          platform: Host platform for the browser. Omit it, or set `os` to `linux`, for a Linux
+              browser. This is the operating system the browser runs on; `fingerprint.os` only
+              changes what a Linux browser reports to websites. macOS browsers are not
+              available yet: requests for them return 503 `platform_unavailable`. macOS
+              browsers are headful and run only in `us-east`. A macOS request that sets
+              `headless: true`, `memory`, `gpu`, `video_memory`, `profile`, `location`,
+              `fingerprint`, or a region other than `us-east` returns 400
+              `unsupported_configuration`, listing those fields in `unsupported_fields`.
 
           profile: Profile selection for the browser session. Provide either id or name. If
               specified, the matching profile will be loaded into the browser session.
@@ -1252,6 +1281,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
                     "memory": memory,
                     "name": name,
                     "network": network,
+                    "platform": platform,
                     "profile": profile,
                     "proxy": proxy,
                     "proxy_id": proxy_id,
@@ -1282,6 +1312,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         self,
         id_or_name: str,
         *,
+        include_cost: bool | Omit = omit,
         include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1294,6 +1325,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Get information about a browser session.
 
         Args:
+          include_cost: When true, includes the session's provisional usage cost in the response.
+
           include_deleted: When true, includes soft-deleted browser sessions in the lookup.
 
           extra_headers: Send extra headers
@@ -1314,7 +1347,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"include_deleted": include_deleted}, browser_retrieve_params.BrowserRetrieveParams
+                    {
+                        "include_cost": include_cost,
+                        "include_deleted": include_deleted,
+                    },
+                    browser_retrieve_params.BrowserRetrieveParams,
                 ),
             ),
             cast_to=BrowserRetrieveResponse,

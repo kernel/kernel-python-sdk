@@ -21,6 +21,7 @@ from .passkey_vault_item_operation_result import PasskeyVaultItemOperationResult
 from .webmcp_invoke_vault_item_operation_result import WebmcpInvokeVaultItemOperationResult
 from .one_password_fill_vault_item_operation_result import OnePasswordFillVaultItemOperationResult
 from .add_payment_method_vault_item_operation_result import AddPaymentMethodVaultItemOperationResult
+from .link_balance_setup_vault_item_operation_result import LinkBalanceSetupVaultItemOperationResult
 from .remove_payment_method_vault_item_operation_result import RemovePaymentMethodVaultItemOperationResult
 
 __all__ = [
@@ -73,6 +74,7 @@ class WalletVaultItemAvailableOperation(BaseModel):
         "webmcp_invoke",
         "add_payment_method",
         "remove_payment_method",
+        "link_balance_setup",
     ]
 
 
@@ -182,6 +184,7 @@ class CardVaultItemAvailableOperation(BaseModel):
         "webmcp_invoke",
         "add_payment_method",
         "remove_payment_method",
+        "link_balance_setup",
     ]
 
 
@@ -235,4 +238,5 @@ VaultItemOperationResponse: TypeAlias = Union[
     WebmcpInvokeVaultItemOperationResult,
     AddPaymentMethodVaultItemOperationResult,
     RemovePaymentMethodVaultItemOperationResult,
+    LinkBalanceSetupVaultItemOperationResult,
 ]

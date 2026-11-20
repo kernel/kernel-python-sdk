@@ -13,6 +13,7 @@ from .browser_usage import BrowserUsage
 from .browser_memory import BrowserMemory
 from .vault_reference import VaultReference
 from .browser_location import BrowserLocation
+from .browser_platform import BrowserPlatform
 from .browser_pool_ref import BrowserPoolRef
 from .browser_fingerprint import BrowserFingerprint
 from .browser_video_memory import BrowserVideoMemory
@@ -95,9 +96,10 @@ class BrowserUpdateResponse(BaseModel):
     """
 
     cost: Optional[BrowserCost] = None
-    """Provisional browser-session usage cost on GET detail responses.
+    """Provisional browser-session usage cost.
 
-    Omitted from list and other browser responses.
+    Present only on GET detail responses requested with include_cost=true; omitted
+    otherwise and from list and other browser responses.
     """
 
     deleted_at: Optional[datetime] = None
@@ -135,6 +137,9 @@ class BrowserUpdateResponse(BaseModel):
 
     Omitted when the session has no network configuration.
     """
+
+    platform: Optional[BrowserPlatform] = None
+    """Host platform for the browser session. Absent means linux."""
 
     pool: Optional[BrowserPoolRef] = None
     """Browser pool this session was acquired from, if any."""

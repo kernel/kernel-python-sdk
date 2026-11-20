@@ -1785,6 +1785,79 @@ class ItemsResource(SyncAPIResource):
         """
         ...
 
+    @overload
+    def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        type: Literal["link_balance_setup"],
+        desired_balance_amount: int | Omit = omit,
+        desired_transaction_limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
+        Args:
+          desired_balance_amount: Balance, in cents, the user should end up with. The page prefills the amount to
+              add to reach it and skips adding money when the balance already covers it. Whole
+              dollars only. Link refuses links that ask the user to add more than $150 at
+              once.
+
+          desired_transaction_limit: Approval threshold, in cents, to prefill. Link skips approval only for spend
+              requests created under its approval policy, which Kernel cards do not use yet.
+              Whole dollars, at most $500 because a single spend request cannot exceed $500.
+              When set the page always shows the threshold step; when omitted it skips it.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
     @required_args(
         ["id_or_name", "type"],
         ["id_or_name", "amount", "currency", "occurred_at", "status", "transaction_type", "type"],
@@ -1818,7 +1891,8 @@ class ItemsResource(SyncAPIResource):
         | Literal["update_access_token"]
         | Literal["webmcp_invoke"]
         | Literal["add_payment_method"]
-        | Literal["remove_payment_method"],
+        | Literal["remove_payment_method"]
+        | Literal["link_balance_setup"],
         browser_id: str | Omit = omit,
         page_url: str | Omit = omit,
         amount: int | Omit = omit,
@@ -1850,6 +1924,8 @@ class ItemsResource(SyncAPIResource):
         timeout_sec: int | Omit = omit,
         enrollment: Literal["hosted", "server"] | Omit = omit,
         payment_method_id: str | Omit = omit,
+        desired_balance_amount: int | Omit = omit,
+        desired_transaction_limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1897,6 +1973,8 @@ class ItemsResource(SyncAPIResource):
                         "timeout_sec": timeout_sec,
                         "enrollment": enrollment,
                         "payment_method_id": payment_method_id,
+                        "desired_balance_amount": desired_balance_amount,
+                        "desired_transaction_limit": desired_transaction_limit,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),
@@ -3952,6 +4030,79 @@ class AsyncItemsResource(AsyncAPIResource):
         """
         ...
 
+    @overload
+    async def perform_operation(
+        self,
+        key: str,
+        *,
+        id_or_name: str,
+        type: Literal["link_balance_setup"],
+        desired_balance_amount: int | Omit = omit,
+        desired_transaction_limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        idempotency_key: str | None = None,
+    ) -> VaultItemOperationResponse:
+        """
+        Retrieve the item first and invoke only an operation listed in
+        `available_operations`, following its natural-language description. Availability
+        is rechecked at execution time; unavailable operations return 409. Authorization
+        and preparation may call an external provider and return updated state. Link
+        cards advertise authorize; pass browser_id and page_url from the final checkout
+        page so Kernel can inspect the checkout. Eligible unused AgentCard cards
+        advertise prepare_checkout, which requires checkout context and obtains device
+        approval before native Square Pay. Keep the returned approval page open, poll
+        until ready_to_submit, then submit before preparation.expires_at. Unused
+        preparations expire automatically and cannot be reused. If spend-request
+        creation is rejected with a non-retryable provider error, the card item is
+        deleted and the provider's error code and message are returned. Rate limits
+        return HTTP 429 and retain the card item; stop, back off, and retry the same
+        authorize operation.
+
+        Ready Kernel cards advertise fill. Fill delivers card details for a few minutes;
+        submit checkout promptly after filling. A repeated fill is safe.
+
+        Fill returns a value-free execution result. Validation failures before writing
+        return 400 (invalid request or targets), 403 (access or destination denied), 404
+        (resource not found), or 409 (item or browser not ready). Once writing starts,
+        known partial failures and indeterminate field outcomes return 200 with status
+        `failed` or `unknown`. Fill never submits the page, so it is safe to retry after
+        a failure, an `unknown` outcome, or a transport error.
+
+        Connected Kernel wallets may advertise add_payment_method, which returns a
+        single-use hosted card_enrollment link for a card, or with enrollment server a
+        single-use card_ingest URL for the card's issuer, and remove_payment_method,
+        which removes one card without affecting the others. Both operations require
+        vaults:write in addition to vaults:use on the vault for scoped API keys, and
+        return 403 without both permissions.
+
+        Args:
+          desired_balance_amount: Balance, in cents, the user should end up with. The page prefills the amount to
+              add to reach it and skips adding money when the balance already covers it. Whole
+              dollars only. Link refuses links that ask the user to add more than $150 at
+              once.
+
+          desired_transaction_limit: Approval threshold, in cents, to prefill. Link skips approval only for spend
+              requests created under its approval policy, which Kernel cards do not use yet.
+              Whole dollars, at most $500 because a single spend request cannot exceed $500.
+              When set the page always shows the threshold step; when omitted it skips it.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+
+          idempotency_key: Specify a custom idempotency key for this request
+        """
+        ...
+
     @required_args(
         ["id_or_name", "type"],
         ["id_or_name", "amount", "currency", "occurred_at", "status", "transaction_type", "type"],
@@ -3985,7 +4136,8 @@ class AsyncItemsResource(AsyncAPIResource):
         | Literal["update_access_token"]
         | Literal["webmcp_invoke"]
         | Literal["add_payment_method"]
-        | Literal["remove_payment_method"],
+        | Literal["remove_payment_method"]
+        | Literal["link_balance_setup"],
         browser_id: str | Omit = omit,
         page_url: str | Omit = omit,
         amount: int | Omit = omit,
@@ -4017,6 +4169,8 @@ class AsyncItemsResource(AsyncAPIResource):
         timeout_sec: int | Omit = omit,
         enrollment: Literal["hosted", "server"] | Omit = omit,
         payment_method_id: str | Omit = omit,
+        desired_balance_amount: int | Omit = omit,
+        desired_transaction_limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -4064,6 +4218,8 @@ class AsyncItemsResource(AsyncAPIResource):
                         "timeout_sec": timeout_sec,
                         "enrollment": enrollment,
                         "payment_method_id": payment_method_id,
+                        "desired_balance_amount": desired_balance_amount,
+                        "desired_transaction_limit": desired_transaction_limit,
                     },
                     item_perform_operation_params.ItemPerformOperationParams,
                 ),

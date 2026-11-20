@@ -9,6 +9,7 @@ from .tags_param import TagsParam
 from .browser_video_memory import BrowserVideoMemory
 from .vault_reference_param import VaultReferenceParam
 from .browser_memory_request import BrowserMemoryRequest
+from .browser_platform_param import BrowserPlatformParam
 from .browser_fingerprint_param import BrowserFingerprintParam
 from .browser_proxy_config_param import BrowserProxyConfigParam
 from .browser_captcha_solver_param import BrowserCaptchaSolverParam
@@ -106,6 +107,19 @@ class BrowserCreateParams(TypedDict, total=False):
 
     Only allowed_hosts can be changed after creation, with PATCH
     /browsers/{id_or_name}.
+    """
+
+    platform: BrowserPlatformParam
+    """Host platform for the browser.
+
+    Omit it, or set `os` to `linux`, for a Linux browser. This is the operating
+    system the browser runs on; `fingerprint.os` only changes what a Linux browser
+    reports to websites. macOS browsers are not available yet: requests for them
+    return 503 `platform_unavailable`. macOS browsers are headful and run only in
+    `us-east`. A macOS request that sets `headless: true`, `memory`, `gpu`,
+    `video_memory`, `profile`, `location`, `fingerprint`, or a region other than
+    `us-east` returns 400 `unsupported_configuration`, listing those fields in
+    `unsupported_fields`.
     """
 
     profile: BrowserProfile
