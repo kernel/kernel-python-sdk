@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.153.0](https://github.com/kernel/kernel-python-sdk/compare/v0.152.0...v0.153.0) (2026-11-20)
+
+
+### Features
+
+* Expose provisional browser cost on detail ([a3cae3a](https://github.com/kernel/kernel-python-sdk/commit/a3cae3afd8bc18e3239403b2ff619bca4d31be68))
+
 ## [0.152.0](https://github.com/kernel/kernel-python-sdk/compare/v0.151.0...v0.152.0) (2026-11-19)
 
 

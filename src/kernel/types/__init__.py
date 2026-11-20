@@ -36,6 +36,7 @@ from .proxy_ip import ProxyIP as ProxyIP
 from .credential import Credential as Credential
 from .tags_param import TagsParam as TagsParam
 from .report_type import ReportType as ReportType
+from .browser_cost import BrowserCost as BrowserCost
 from .browser_pool import BrowserPool as BrowserPool
 from .browser_proxy import BrowserProxy as BrowserProxy
 from .browser_usage import BrowserUsage as BrowserUsage

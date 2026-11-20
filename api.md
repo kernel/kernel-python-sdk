@@ -119,6 +119,7 @@ Types:
 from kernel.types import (
     BrowserAllowlistState,
     BrowserCaptchaSolver,
+    BrowserCost,
     BrowserFingerprint,
     BrowserLocation,
     BrowserLocationRequest,
