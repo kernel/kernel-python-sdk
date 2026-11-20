@@ -96,9 +96,10 @@ class BrowserUpdateResponse(BaseModel):
     """
 
     cost: Optional[BrowserCost] = None
-    """Provisional browser-session usage cost on GET detail responses.
+    """Provisional browser-session usage cost.
 
-    Omitted from list and other browser responses.
+    Present only on GET detail responses requested with include_cost=true; omitted
+    otherwise and from list and other browser responses.
     """
 
     deleted_at: Optional[datetime] = None

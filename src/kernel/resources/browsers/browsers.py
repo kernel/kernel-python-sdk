@@ -420,6 +420,7 @@ class BrowsersResource(SyncAPIResource):
         self,
         id_or_name: str,
         *,
+        include_cost: bool | Omit = omit,
         include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -432,6 +433,8 @@ class BrowsersResource(SyncAPIResource):
         Get information about a browser session.
 
         Args:
+          include_cost: When true, includes the session's provisional usage cost in the response.
+
           include_deleted: When true, includes soft-deleted browser sessions in the lookup.
 
           extra_headers: Send extra headers
@@ -452,7 +455,11 @@ class BrowsersResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"include_deleted": include_deleted}, browser_retrieve_params.BrowserRetrieveParams
+                    {
+                        "include_cost": include_cost,
+                        "include_deleted": include_deleted,
+                    },
+                    browser_retrieve_params.BrowserRetrieveParams,
                 ),
             ),
             cast_to=BrowserRetrieveResponse,
@@ -1305,6 +1312,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         self,
         id_or_name: str,
         *,
+        include_cost: bool | Omit = omit,
         include_deleted: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1317,6 +1325,8 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Get information about a browser session.
 
         Args:
+          include_cost: When true, includes the session's provisional usage cost in the response.
+
           include_deleted: When true, includes soft-deleted browser sessions in the lookup.
 
           extra_headers: Send extra headers
@@ -1337,7 +1347,11 @@ class AsyncBrowsersResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"include_deleted": include_deleted}, browser_retrieve_params.BrowserRetrieveParams
+                    {
+                        "include_cost": include_cost,
+                        "include_deleted": include_deleted,
+                    },
+                    browser_retrieve_params.BrowserRetrieveParams,
                 ),
             ),
             cast_to=BrowserRetrieveResponse,
