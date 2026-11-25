@@ -6,6 +6,7 @@ from typing import Dict, Iterable, Optional
 from typing_extensions import Literal, Required, TypedDict
 
 from .browser_memory_request import BrowserMemoryRequest
+from .browser_proxy_config_param import BrowserProxyConfigParam
 from .browser_captcha_solver_param import BrowserCaptchaSolverParam
 from .browser_network_config_param import BrowserNetworkConfigParam
 from .shared_params.browser_viewport import BrowserViewport
@@ -34,8 +35,9 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     captcha_solver: BrowserCaptchaSolverParam
     """Automatic CAPTCHA solving for browsers in this pool.
 
-    Disabled by default. Enabling it does not select a proxy: when proxy_id is
-    omitted, browsers use direct egress unless stealth=true.
+    Disabled by default. Enabling it does not select a proxy: when proxy and
+    proxy_id are omitted, browsers use direct egress unless stealth=true. Set
+    proxy.mode=default for Kernel's default stealth proxy.
     """
 
     chrome_policy: Dict[str, object]
@@ -94,10 +96,21 @@ class BrowserPoolCreateParams(TypedDict, total=False):
     pool profile is silently ignored rather than rejected.
     """
 
-    proxy_id: str
-    """Optional proxy to associate to the browser session.
+    proxy: BrowserProxyConfigParam
+    """Proxy configuration for browsers in this pool.
 
-    Must reference a proxy in the same project as the browser session.
+    Cannot be combined with proxy_id. Omit to use direct egress, or Kernel's default
+    stealth proxy when stealth=true. Set mode to direct to force direct egress. Set
+    mode to default to use Kernel's default stealth proxy when
+    captcha_solver.enabled=true, or direct egress otherwise. Select id or name to
+    use that proxy. Proxy selection does not change CAPTCHA solver behavior.
+    """
+
+    proxy_id: str
+    """Optional proxy to associate to browsers in this pool.
+
+    Must reference a proxy in the same project as the pool. Cannot be combined with
+    proxy. Deprecated in favor of proxy.
     """
 
     refresh_on_profile_update: bool
@@ -128,10 +141,9 @@ class BrowserPoolCreateParams(TypedDict, total=False):
 
     stealth: bool
     """
-    If true, enables the CAPTCHA solver and, when proxy_id is omitted, uses Kernel's
-    default stealth proxy. Defaults to false. Cannot be combined with
-    captcha_solver.enabled=false. Deprecated in favor of captcha_solver and
-    proxy_id.
+    If true, enables the CAPTCHA solver and, when proxy and proxy_id are omitted,
+    uses Kernel's default stealth proxy. Defaults to false. Cannot be combined with
+    captcha_solver.enabled=false. Deprecated in favor of captcha_solver and proxy.
     """
 
     telemetry: Optional[Telemetry]

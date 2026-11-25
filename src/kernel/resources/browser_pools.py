@@ -31,6 +31,7 @@ from .._base_client import AsyncPaginator, make_request_options
 from ..types.tags_param import TagsParam
 from ..types.browser_pool import BrowserPool
 from ..types.browser_memory_request import BrowserMemoryRequest
+from ..types.browser_proxy_config_param import BrowserProxyConfigParam
 from ..types.browser_captcha_solver_param import BrowserCaptchaSolverParam
 from ..types.browser_network_config_param import BrowserNetworkConfigParam
 from ..types.browser_pool_acquire_response import BrowserPoolAcquireResponse
@@ -77,6 +78,7 @@ class BrowserPoolsResource(SyncAPIResource):
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_create_params.Profile | Omit = omit,
+        proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
         region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
@@ -107,8 +109,9 @@ class BrowserPoolsResource(SyncAPIResource):
               exceed your limit).
 
           captcha_solver: Automatic CAPTCHA solving for browsers in this pool. Disabled by default.
-              Enabling it does not select a proxy: when proxy_id is omitted, browsers use
-              direct egress unless stealth=true.
+              Enabling it does not select a proxy: when proxy and proxy_id are omitted,
+              browsers use direct egress unless stealth=true. Set proxy.mode=default for
+              Kernel's default stealth proxy.
 
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
               Keys are Chrome enterprise policy names; values must match their expected types.
@@ -142,8 +145,16 @@ class BrowserPoolsResource(SyncAPIResource):
               omitted here. Any save_changes value sent on a pool profile is silently ignored
               rather than rejected.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
-              the same project as the browser session.
+          proxy: Proxy configuration for browsers in this pool. Cannot be combined with proxy_id.
+              Omit to use direct egress, or Kernel's default stealth proxy when stealth=true.
+              Set mode to direct to force direct egress. Set mode to default to use Kernel's
+              default stealth proxy when captcha_solver.enabled=true, or direct egress
+              otherwise. Select id or name to use that proxy. Proxy selection does not change
+              CAPTCHA solver behavior.
+
+          proxy_id: Optional proxy to associate to browsers in this pool. Must reference a proxy in
+              the same project as the pool. Cannot be combined with proxy. Deprecated in favor
+              of proxy.
 
           refresh_on_profile_update: When true, flush idle browsers when the profile the pool uses is updated, so
               pool browsers pick up the latest profile data. When a profile is provided during
@@ -161,10 +172,9 @@ class BrowserPoolsResource(SyncAPIResource):
               previous lease left them on. Accepts any URL Chromium can resolve, including
               chrome:// pages.
 
-          stealth: If true, enables the CAPTCHA solver and, when proxy_id is omitted, uses Kernel's
-              default stealth proxy. Defaults to false. Cannot be combined with
-              captcha_solver.enabled=false. Deprecated in favor of captcha_solver and
-              proxy_id.
+          stealth: If true, enables the CAPTCHA solver and, when proxy and proxy_id are omitted,
+              uses Kernel's default stealth proxy. Defaults to false. Cannot be combined with
+              captcha_solver.enabled=false. Deprecated in favor of captcha_solver and proxy.
 
           telemetry: Telemetry configuration applied to browsers warmed into this pool. Set enabled
               to true to start capture using the default set, or provide browser category
@@ -214,6 +224,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "name": name,
                     "network": network,
                     "profile": profile,
+                    "proxy": proxy,
                     "proxy_id": proxy_id,
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "region": region,
@@ -285,6 +296,7 @@ class BrowserPoolsResource(SyncAPIResource):
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_update_params.Profile | Omit = omit,
+        proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
         size: int | Omit = omit,
@@ -313,7 +325,7 @@ class BrowserPoolsResource(SyncAPIResource):
         Args:
           captcha_solver: If provided, replaces whether browsers in this pool automatically solve
               CAPTCHAs. Enabling it on a pool with direct egress keeps direct egress unless
-              proxy_id or stealth=true is also set.
+              proxy, proxy_id, or stealth=true is also set.
 
           chrome_policy: If provided, replaces the custom Chrome enterprise policy overrides applied to
               all browsers in this pool. Empty object clears any previously-set policy. Keys
@@ -374,8 +386,14 @@ class BrowserPoolsResource(SyncAPIResource):
               omitted here. Any save_changes value sent on a pool profile is silently ignored
               rather than rejected.
 
+          proxy: Proxy configuration to apply to browsers warmed after the update. Omit to leave
+              the current configuration unchanged. Cannot be combined with proxy_id. Set mode
+              to direct to switch to direct egress. Set mode to default to use Kernel's
+              default stealth proxy for a pool with CAPTCHA solving enabled, or direct egress
+              otherwise. Updating proxy does not change CAPTCHA solver behavior.
+
           proxy_id: Empty string clears the previously-selected proxy. Omit this field to leave the
-              proxy unchanged.
+              proxy unchanged. Cannot be combined with proxy. Deprecated in favor of proxy.
 
           refresh_on_profile_update: If provided, replaces whether idle browsers are flushed when the profile the
               pool uses is updated. When the pool's profile reference is changed (including
@@ -395,9 +413,9 @@ class BrowserPoolsResource(SyncAPIResource):
               it unchanged.
 
           stealth: If provided, replaces whether browsers launch in stealth mode. stealth=true
-              without proxy_id moves a pool on direct egress to Kernel's default stealth
-              proxy. Cannot be combined with captcha_solver.enabled=false. Deprecated in favor
-              of captcha_solver and proxy_id.
+              without proxy or proxy_id moves a pool on direct egress to Kernel's default
+              stealth proxy. Cannot be combined with captcha_solver.enabled=false. Deprecated
+              in favor of captcha_solver and proxy.
 
           telemetry: If provided, updates the pool's telemetry configuration. Omit, set to null, or
               set to an empty object ({}) to leave the existing configuration unchanged. Set
@@ -451,6 +469,7 @@ class BrowserPoolsResource(SyncAPIResource):
                     "name": name,
                     "network": network,
                     "profile": profile,
+                    "proxy": proxy,
                     "proxy_id": proxy_id,
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "size": size,
@@ -817,6 +836,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_create_params.Profile | Omit = omit,
+        proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
         region: Literal["us-east", "us-west", "eu-west", "ap-southeast"] | Omit = omit,
@@ -847,8 +867,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               exceed your limit).
 
           captcha_solver: Automatic CAPTCHA solving for browsers in this pool. Disabled by default.
-              Enabling it does not select a proxy: when proxy_id is omitted, browsers use
-              direct egress unless stealth=true.
+              Enabling it does not select a proxy: when proxy and proxy_id are omitted,
+              browsers use direct egress unless stealth=true. Set proxy.mode=default for
+              Kernel's default stealth proxy.
 
           chrome_policy: Custom Chrome enterprise policy overrides applied to all browsers in this pool.
               Keys are Chrome enterprise policy names; values must match their expected types.
@@ -882,8 +903,16 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               omitted here. Any save_changes value sent on a pool profile is silently ignored
               rather than rejected.
 
-          proxy_id: Optional proxy to associate to the browser session. Must reference a proxy in
-              the same project as the browser session.
+          proxy: Proxy configuration for browsers in this pool. Cannot be combined with proxy_id.
+              Omit to use direct egress, or Kernel's default stealth proxy when stealth=true.
+              Set mode to direct to force direct egress. Set mode to default to use Kernel's
+              default stealth proxy when captcha_solver.enabled=true, or direct egress
+              otherwise. Select id or name to use that proxy. Proxy selection does not change
+              CAPTCHA solver behavior.
+
+          proxy_id: Optional proxy to associate to browsers in this pool. Must reference a proxy in
+              the same project as the pool. Cannot be combined with proxy. Deprecated in favor
+              of proxy.
 
           refresh_on_profile_update: When true, flush idle browsers when the profile the pool uses is updated, so
               pool browsers pick up the latest profile data. When a profile is provided during
@@ -901,10 +930,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               previous lease left them on. Accepts any URL Chromium can resolve, including
               chrome:// pages.
 
-          stealth: If true, enables the CAPTCHA solver and, when proxy_id is omitted, uses Kernel's
-              default stealth proxy. Defaults to false. Cannot be combined with
-              captcha_solver.enabled=false. Deprecated in favor of captcha_solver and
-              proxy_id.
+          stealth: If true, enables the CAPTCHA solver and, when proxy and proxy_id are omitted,
+              uses Kernel's default stealth proxy. Defaults to false. Cannot be combined with
+              captcha_solver.enabled=false. Deprecated in favor of captcha_solver and proxy.
 
           telemetry: Telemetry configuration applied to browsers warmed into this pool. Set enabled
               to true to start capture using the default set, or provide browser category
@@ -954,6 +982,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "name": name,
                     "network": network,
                     "profile": profile,
+                    "proxy": proxy,
                     "proxy_id": proxy_id,
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "region": region,
@@ -1025,6 +1054,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         name: str | Omit = omit,
         network: BrowserNetworkConfigParam | Omit = omit,
         profile: browser_pool_update_params.Profile | Omit = omit,
+        proxy: BrowserProxyConfigParam | Omit = omit,
         proxy_id: str | Omit = omit,
         refresh_on_profile_update: bool | Omit = omit,
         size: int | Omit = omit,
@@ -1053,7 +1083,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
         Args:
           captcha_solver: If provided, replaces whether browsers in this pool automatically solve
               CAPTCHAs. Enabling it on a pool with direct egress keeps direct egress unless
-              proxy_id or stealth=true is also set.
+              proxy, proxy_id, or stealth=true is also set.
 
           chrome_policy: If provided, replaces the custom Chrome enterprise policy overrides applied to
               all browsers in this pool. Empty object clears any previously-set policy. Keys
@@ -1114,8 +1144,14 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               omitted here. Any save_changes value sent on a pool profile is silently ignored
               rather than rejected.
 
+          proxy: Proxy configuration to apply to browsers warmed after the update. Omit to leave
+              the current configuration unchanged. Cannot be combined with proxy_id. Set mode
+              to direct to switch to direct egress. Set mode to default to use Kernel's
+              default stealth proxy for a pool with CAPTCHA solving enabled, or direct egress
+              otherwise. Updating proxy does not change CAPTCHA solver behavior.
+
           proxy_id: Empty string clears the previously-selected proxy. Omit this field to leave the
-              proxy unchanged.
+              proxy unchanged. Cannot be combined with proxy. Deprecated in favor of proxy.
 
           refresh_on_profile_update: If provided, replaces whether idle browsers are flushed when the profile the
               pool uses is updated. When the pool's profile reference is changed (including
@@ -1135,9 +1171,9 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
               it unchanged.
 
           stealth: If provided, replaces whether browsers launch in stealth mode. stealth=true
-              without proxy_id moves a pool on direct egress to Kernel's default stealth
-              proxy. Cannot be combined with captcha_solver.enabled=false. Deprecated in favor
-              of captcha_solver and proxy_id.
+              without proxy or proxy_id moves a pool on direct egress to Kernel's default
+              stealth proxy. Cannot be combined with captcha_solver.enabled=false. Deprecated
+              in favor of captcha_solver and proxy.
 
           telemetry: If provided, updates the pool's telemetry configuration. Omit, set to null, or
               set to an empty object ({}) to leave the existing configuration unchanged. Set
@@ -1191,6 +1227,7 @@ class AsyncBrowserPoolsResource(AsyncAPIResource):
                     "name": name,
                     "network": network,
                     "profile": profile,
+                    "proxy": proxy,
                     "proxy_id": proxy_id,
                     "refresh_on_profile_update": refresh_on_profile_update,
                     "size": size,

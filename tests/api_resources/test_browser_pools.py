@@ -64,6 +64,11 @@ class TestBrowserPools:
                 "id": "id",
                 "name": "name",
             },
+            proxy={
+                "id": "x",
+                "mode": "direct",
+                "name": "x",
+            },
             proxy_id="proxy_id",
             refresh_on_profile_update=True,
             region="us-east",
@@ -231,6 +236,11 @@ class TestBrowserPools:
             profile={
                 "id": "id",
                 "name": "name",
+            },
+            proxy={
+                "id": "x",
+                "mode": "direct",
+                "name": "x",
             },
             proxy_id="proxy_id",
             refresh_on_profile_update=True,
@@ -638,6 +648,11 @@ class TestAsyncBrowserPools:
                 "id": "id",
                 "name": "name",
             },
+            proxy={
+                "id": "x",
+                "mode": "direct",
+                "name": "x",
+            },
             proxy_id="proxy_id",
             refresh_on_profile_update=True,
             region="us-east",
@@ -805,6 +820,11 @@ class TestAsyncBrowserPools:
             profile={
                 "id": "id",
                 "name": "name",
+            },
+            proxy={
+                "id": "x",
+                "mode": "direct",
+                "name": "x",
             },
             proxy_id="proxy_id",
             refresh_on_profile_update=True,

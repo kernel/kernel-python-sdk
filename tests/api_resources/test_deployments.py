@@ -37,6 +37,19 @@ class TestDeployments:
             file=b"Example data",
             force=False,
             region="aws.us-east-1a",
+            runtime_policy={
+                "statements": [
+                    {
+                        "action": "browsers:use",
+                        "resource": "projects/proj_abc123/browsers/br_abc123",
+                        "condition": {
+                            "key": "source_ip",
+                            "operator": "in",
+                            "values": ["203.0.113.0/24"],
+                        },
+                    }
+                ]
+            },
             source={
                 "entrypoint": "src/index.ts",
                 "ref": "main",
@@ -269,6 +282,19 @@ class TestAsyncDeployments:
             file=b"Example data",
             force=False,
             region="aws.us-east-1a",
+            runtime_policy={
+                "statements": [
+                    {
+                        "action": "browsers:use",
+                        "resource": "projects/proj_abc123/browsers/br_abc123",
+                        "condition": {
+                            "key": "source_ip",
+                            "operator": "in",
+                            "values": ["203.0.113.0/24"],
+                        },
+                    }
+                ]
+            },
             source={
                 "entrypoint": "src/index.ts",
                 "ref": "main",

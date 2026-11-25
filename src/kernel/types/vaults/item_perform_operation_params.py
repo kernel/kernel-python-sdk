@@ -82,20 +82,22 @@ class ConfirmTransactionVaultItemOperationRequest(TypedDict, total=False):
     """
     Why the purchase did not succeed, for any other outcome, such as 3ds_challenge,
     captcha, login_required, timeout or site_error. payment_declined goes only with
-    DECLINED, which takes no other code. Shop Pay reports it; other providers ignore
-    it.
+    DECLINED, which takes no other code. Shop Pay reports it to Shop Pay; Kernel
+    cards store it with the purchase without reporting it.
     """
 
     order_id: str
     """The merchant's order number, for an APPROVED outcome.
 
-    Shop Pay reports it; other providers ignore it.
+    Shop Pay reports it to Shop Pay; Kernel cards store it with the purchase without
+    reporting it.
     """
 
     order_url: str
     """The merchant's https order page, for an APPROVED outcome.
 
-    Shop Pay reports it; other providers ignore it.
+    Shop Pay reports it to Shop Pay; Kernel cards store it with the purchase without
+    reporting it.
     """
 
 

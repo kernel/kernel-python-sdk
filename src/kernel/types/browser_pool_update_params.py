@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Dict, Iterable, Optional
 from typing_extensions import Literal, TypedDict
 
+from .browser_proxy_config_param import BrowserProxyConfigParam
 from .browser_captcha_solver_param import BrowserCaptchaSolverParam
 from .browser_network_config_param import BrowserNetworkConfigParam
 from .shared_params.browser_viewport import BrowserViewport
@@ -27,7 +28,7 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     """
     If provided, replaces whether browsers in this pool automatically solve
     CAPTCHAs. Enabling it on a pool with direct egress keeps direct egress unless
-    proxy_id or stealth=true is also set.
+    proxy, proxy_id, or stealth=true is also set.
     """
 
     chrome_policy: Dict[str, object]
@@ -121,10 +122,20 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     pool profile is silently ignored rather than rejected.
     """
 
+    proxy: BrowserProxyConfigParam
+    """Proxy configuration to apply to browsers warmed after the update.
+
+    Omit to leave the current configuration unchanged. Cannot be combined with
+    proxy_id. Set mode to direct to switch to direct egress. Set mode to default to
+    use Kernel's default stealth proxy for a pool with CAPTCHA solving enabled, or
+    direct egress otherwise. Updating proxy does not change CAPTCHA solver behavior.
+    """
+
     proxy_id: str
     """Empty string clears the previously-selected proxy.
 
-    Omit this field to leave the proxy unchanged.
+    Omit this field to leave the proxy unchanged. Cannot be combined with proxy.
+    Deprecated in favor of proxy.
     """
 
     refresh_on_profile_update: bool
@@ -159,9 +170,9 @@ class BrowserPoolUpdateParams(TypedDict, total=False):
     stealth: bool
     """If provided, replaces whether browsers launch in stealth mode.
 
-    stealth=true without proxy_id moves a pool on direct egress to Kernel's default
-    stealth proxy. Cannot be combined with captcha_solver.enabled=false. Deprecated
-    in favor of captcha_solver and proxy_id.
+    stealth=true without proxy or proxy_id moves a pool on direct egress to Kernel's
+    default stealth proxy. Cannot be combined with captcha_solver.enabled=false.
+    Deprecated in favor of captcha_solver and proxy.
     """
 
     telemetry: Optional[Telemetry]

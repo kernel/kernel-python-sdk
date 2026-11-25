@@ -23,8 +23,11 @@ class BrowserListParams(TypedDict, total=False):
     """Number of results to skip. Defaults to 0."""
 
     query: str
-    """
-    Search browsers by name, session ID, profile name or ID, proxy ID, or pool name.
+    """Search browsers by name, session ID, profile name or ID, proxy ID, or pool name.
+
+    With `status=deleted` or `status=all`, only browsers created in the last 24
+    hours are searched, including active ones; use `status=active` to search all
+    active browsers.
     """
 
     region: Literal["us-east", "us-west", "eu-west", "ap-southeast"]
@@ -41,5 +44,7 @@ class BrowserListParams(TypedDict, total=False):
     """Filter sessions by tag key-value pairs using deepObject style, e.g.
 
     ?tags[team]=backend&tags[env]=staging. Multiple pairs are ANDed: a session must
-    match every supplied pair exactly.
+    match every supplied pair exactly. With `status=deleted` or `status=all`, only
+    browsers created in the last 24 hours are matched; use `status=active` to match
+    all active browsers.
     """

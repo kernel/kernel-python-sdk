@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Mapping, cast
+from typing import Any, Dict, cast
 from typing_extensions import Literal
 
 import httpx
@@ -10,7 +10,7 @@ import httpx
 from ..types import deployment_list_params, deployment_create_params, deployment_follow_params
 from .._files import deepcopy_with_paths
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, FileTypes, omit, not_given
-from .._utils import extract_files, path_template, maybe_transform, async_maybe_transform
+from .._utils import transform, extract_files, path_template, async_transform, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -22,12 +22,21 @@ from .._response import (
 from .._streaming import Stream, AsyncStream
 from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
 from .._base_client import AsyncPaginator, make_request_options
+from .._utils._json import openapi_dumps
 from ..types.deployment_list_response import DeploymentListResponse
 from ..types.deployment_create_response import DeploymentCreateResponse
 from ..types.deployment_follow_response import DeploymentFollowResponse
 from ..types.deployment_retrieve_response import DeploymentRetrieveResponse
 
 __all__ = ["DeploymentsResource", "AsyncDeploymentsResource"]
+
+
+def _extract_json_parts(body: dict[str, object]) -> list[tuple[str, FileTypes]]:
+    return [
+        (name, (None, openapi_dumps(body.pop(name)), "application/json"))
+        for name in ("source", "runtime_policy")
+        if isinstance(body.get(name), dict)
+    ]
 
 
 class DeploymentsResource(SyncAPIResource):
@@ -60,6 +69,7 @@ class DeploymentsResource(SyncAPIResource):
         file: FileTypes | Omit = omit,
         force: bool | Omit = omit,
         region: Literal["aws.us-east-1a"] | Omit = omit,
+        runtime_policy: deployment_create_params.RuntimePolicy | Omit = omit,
         source: deployment_create_params.Source | Omit = omit,
         version: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -85,6 +95,18 @@ class DeploymentsResource(SyncAPIResource):
 
           region: Region for deployment. Currently we only support "aws.us-east-1a"
 
+          runtime_policy: Permissions for each invocation's injected API key. Send this multipart field as
+              JSON. Requires scoped deployment enablement. The policy must stay within the
+              deployment's project, be a subset of the caller's permissions when the caller
+              has a policy, and grant container-wide invocations:write for runtime callbacks.
+              It cannot include api_keys:issue_beyond_expiry. Exact resource IDs must exist.
+              The policy outlives the deploying credential; each invocation gets a fresh key
+              valid for 65 minutes from issuance. When the caller has a policy, omission
+              grants only project-wide invocations:write for runtime callbacks. A supplied
+              policy must explicitly include that permission; it is never added automatically.
+              Callers without a policy keep an unrestricted runtime key when this field is
+              omitted. Scoped invokers must cover the runtime policy.
+
           source: Source from which to fetch application code.
 
           version: Version of the application. Can be any string.
@@ -99,26 +121,29 @@ class DeploymentsResource(SyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
-        body = deepcopy_with_paths(
+        body: dict[str, object] = deepcopy_with_paths(
             {
                 "entrypoint_rel_path": entrypoint_rel_path,
                 "env_vars": env_vars,
                 "file": file,
                 "force": force,
                 "region": region,
+                "runtime_policy": runtime_policy,
                 "source": source,
                 "version": version,
             },
             [["file"]],
         )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        files = extract_files(body, paths=[["file"]])
+        body = transform(body, deployment_create_params.DeploymentCreateParams)
+        files.extend(_extract_json_parts(body))
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/deployments",
-            body=maybe_transform(body, deployment_create_params.DeploymentCreateParams),
+            body=body,
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -344,6 +369,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         file: FileTypes | Omit = omit,
         force: bool | Omit = omit,
         region: Literal["aws.us-east-1a"] | Omit = omit,
+        runtime_policy: deployment_create_params.RuntimePolicy | Omit = omit,
         source: deployment_create_params.Source | Omit = omit,
         version: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -369,6 +395,18 @@ class AsyncDeploymentsResource(AsyncAPIResource):
 
           region: Region for deployment. Currently we only support "aws.us-east-1a"
 
+          runtime_policy: Permissions for each invocation's injected API key. Send this multipart field as
+              JSON. Requires scoped deployment enablement. The policy must stay within the
+              deployment's project, be a subset of the caller's permissions when the caller
+              has a policy, and grant container-wide invocations:write for runtime callbacks.
+              It cannot include api_keys:issue_beyond_expiry. Exact resource IDs must exist.
+              The policy outlives the deploying credential; each invocation gets a fresh key
+              valid for 65 minutes from issuance. When the caller has a policy, omission
+              grants only project-wide invocations:write for runtime callbacks. A supplied
+              policy must explicitly include that permission; it is never added automatically.
+              Callers without a policy keep an unrestricted runtime key when this field is
+              omitted. Scoped invokers must cover the runtime policy.
+
           source: Source from which to fetch application code.
 
           version: Version of the application. Can be any string.
@@ -383,26 +421,29 @@ class AsyncDeploymentsResource(AsyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
-        body = deepcopy_with_paths(
+        body: dict[str, object] = deepcopy_with_paths(
             {
                 "entrypoint_rel_path": entrypoint_rel_path,
                 "env_vars": env_vars,
                 "file": file,
                 "force": force,
                 "region": region,
+                "runtime_policy": runtime_policy,
                 "source": source,
                 "version": version,
             },
             [["file"]],
         )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        files = extract_files(body, paths=[["file"]])
+        body = await async_transform(body, deployment_create_params.DeploymentCreateParams)
+        files.extend(_extract_json_parts(body))
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/deployments",
-            body=await async_maybe_transform(body, deployment_create_params.DeploymentCreateParams),
+            body=body,
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers,

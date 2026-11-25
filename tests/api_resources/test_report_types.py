@@ -75,6 +75,7 @@ class TestReportTypes:
             task_id="task_id",
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(SyncOffsetPagination[ReportTypeSummary], report_type, path=["response"])
 
@@ -167,6 +168,7 @@ class TestAsyncReportTypes:
             task_id="task_id",
             limit=1,
             offset=0,
+            query="query",
         )
         assert_matches_type(AsyncOffsetPagination[ReportTypeSummary], report_type, path=["response"])
 
