@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.155.0](https://github.com/kernel/kernel-python-sdk/compare/v0.154.0...v0.155.0) (2026-11-25)
+
+
+### Features
+
+* Accept a proxy object on browser pools ([37f0e8b](https://github.com/kernel/kernel-python-sdk/commit/37f0e8b489698bfe2d0f6047ae90fe1c852fd8b9))
+* Let alias Kernel cards record a merchant outcome ([24bbc41](https://github.com/kernel/kernel-python-sdk/commit/24bbc41ea434fbe7b3e8bf3d700a2733e750b40c))
+
 ## [0.154.0](https://github.com/kernel/kernel-python-sdk/compare/v0.153.0...v0.154.0) (2026-11-20)
 
 
