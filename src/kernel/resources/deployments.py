@@ -10,7 +10,7 @@ import httpx
 from ..types import deployment_list_params, deployment_create_params, deployment_follow_params
 from .._files import deepcopy_with_paths
 from .._types import Body, Omit, Query, Headers, NoneType, NotGiven, FileTypes, omit, not_given
-from .._utils import extract_files, path_template, maybe_transform, async_maybe_transform
+from .._utils import transform, extract_files, path_template, async_transform, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -22,12 +22,23 @@ from .._response import (
 from .._streaming import Stream, AsyncStream
 from ..pagination import SyncOffsetPagination, AsyncOffsetPagination
 from .._base_client import AsyncPaginator, make_request_options
+from .._utils._json import openapi_dumps
 from ..types.deployment_list_response import DeploymentListResponse
 from ..types.deployment_create_response import DeploymentCreateResponse
 from ..types.deployment_follow_response import DeploymentFollowResponse
 from ..types.deployment_retrieve_response import DeploymentRetrieveResponse
 
 __all__ = ["DeploymentsResource", "AsyncDeploymentsResource"]
+
+
+def _extract_json_parts(body: dict[str, object], extra_body: Body | None) -> list[tuple[str, FileTypes]]:
+    if extra_body is not None:
+        body.update(cast(Mapping[str, object], extra_body))
+    return [
+        (name, (None, openapi_dumps(body.pop(name)), "application/json"))
+        for name in ("source", "runtime_policy")
+        if isinstance(body.get(name), dict)
+    ]
 
 
 class DeploymentsResource(SyncAPIResource):
@@ -112,7 +123,7 @@ class DeploymentsResource(SyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
-        body = deepcopy_with_paths(
+        body: dict[str, object] = deepcopy_with_paths(
             {
                 "entrypoint_rel_path": entrypoint_rel_path,
                 "env_vars": env_vars,
@@ -125,19 +136,20 @@ class DeploymentsResource(SyncAPIResource):
             },
             [["file"]],
         )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        files = extract_files(body, paths=[["file"]])
+        body = transform(body, deployment_create_params.DeploymentCreateParams)
+        files.extend(_extract_json_parts(body, extra_body))
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/deployments",
-            body=maybe_transform(body, deployment_create_params.DeploymentCreateParams),
+            body=body,
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
-                extra_body=extra_body,
                 timeout=timeout,
                 idempotency_key=idempotency_key,
             ),
@@ -410,7 +422,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
 
           idempotency_key: Specify a custom idempotency key for this request
         """
-        body = deepcopy_with_paths(
+        body: dict[str, object] = deepcopy_with_paths(
             {
                 "entrypoint_rel_path": entrypoint_rel_path,
                 "env_vars": env_vars,
@@ -423,19 +435,20 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             },
             [["file"]],
         )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        files = extract_files(body, paths=[["file"]])
+        body = await async_transform(body, deployment_create_params.DeploymentCreateParams)
+        files.extend(_extract_json_parts(body, extra_body))
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/deployments",
-            body=await async_maybe_transform(body, deployment_create_params.DeploymentCreateParams),
+            body=body,
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
-                extra_body=extra_body,
                 timeout=timeout,
                 idempotency_key=idempotency_key,
             ),
