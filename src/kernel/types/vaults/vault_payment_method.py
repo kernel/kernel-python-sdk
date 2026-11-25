@@ -66,8 +66,8 @@ class VaultPaymentMethod(BaseModel):
     is_default: bool
     """
     For Kernel wallets, true for the default card, ID card, which a Kernel card item
-    that omits payment_method_id selects. Wallets created with payment methods
-    enabled have no default card.
+    that omits payment_method_id selects. Only wallets created before cards were
+    added with add_payment_method have a default card.
     """
 
     provider: str

@@ -16,3 +16,11 @@ class ReportTypeListParams(TypedDict, total=False):
 
     offset: int
     """Offset the number of report types to return."""
+
+    query: str
+    """What the agent wants to report, in its own words.
+
+    Types are ranked by how closely their meaning matches, most relevant first; they
+    need not share any words. Only this text affects the ranking, not the task.
+    Without it, or if ranking is unavailable, types are listed by name.
+    """

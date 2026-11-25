@@ -97,6 +97,7 @@ class ReportTypesResource(SyncAPIResource):
         task_id: str,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -115,6 +116,11 @@ class ReportTypesResource(SyncAPIResource):
           limit: Limit the number of report types to return.
 
           offset: Offset the number of report types to return.
+
+          query: What the agent wants to report, in its own words. Types are ranked by how
+              closely their meaning matches, most relevant first; they need not share any
+              words. Only this text affects the ranking, not the task. Without it, or if
+              ranking is unavailable, types are listed by name.
 
           extra_headers: Send extra headers
 
@@ -137,6 +143,7 @@ class ReportTypesResource(SyncAPIResource):
                         "task_id": task_id,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     report_type_list_params.ReportTypeListParams,
                 ),
@@ -211,6 +218,7 @@ class AsyncReportTypesResource(AsyncAPIResource):
         task_id: str,
         limit: int | Omit = omit,
         offset: int | Omit = omit,
+        query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -229,6 +237,11 @@ class AsyncReportTypesResource(AsyncAPIResource):
           limit: Limit the number of report types to return.
 
           offset: Offset the number of report types to return.
+
+          query: What the agent wants to report, in its own words. Types are ranked by how
+              closely their meaning matches, most relevant first; they need not share any
+              words. Only this text affects the ranking, not the task. Without it, or if
+              ranking is unavailable, types are listed by name.
 
           extra_headers: Send extra headers
 
@@ -251,6 +264,7 @@ class AsyncReportTypesResource(AsyncAPIResource):
                         "task_id": task_id,
                         "limit": limit,
                         "offset": offset,
+                        "query": query,
                     },
                     report_type_list_params.ReportTypeListParams,
                 ),

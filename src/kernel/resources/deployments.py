@@ -60,6 +60,7 @@ class DeploymentsResource(SyncAPIResource):
         file: FileTypes | Omit = omit,
         force: bool | Omit = omit,
         region: Literal["aws.us-east-1a"] | Omit = omit,
+        runtime_policy: deployment_create_params.RuntimePolicy | Omit = omit,
         source: deployment_create_params.Source | Omit = omit,
         version: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -85,6 +86,18 @@ class DeploymentsResource(SyncAPIResource):
 
           region: Region for deployment. Currently we only support "aws.us-east-1a"
 
+          runtime_policy: Permissions for each invocation's injected API key. Send this multipart field as
+              JSON. Requires scoped deployment enablement. The policy must stay within the
+              deployment's project, be a subset of the caller's permissions when the caller
+              has a policy, and grant container-wide invocations:write for runtime callbacks.
+              It cannot include api_keys:issue_beyond_expiry. Exact resource IDs must exist.
+              The policy outlives the deploying credential; each invocation gets a fresh key
+              valid for 65 minutes from issuance. When the caller has a policy, omission
+              grants only project-wide invocations:write for runtime callbacks. A supplied
+              policy must explicitly include that permission; it is never added automatically.
+              Callers without a policy keep an unrestricted runtime key when this field is
+              omitted. Scoped invokers must cover the runtime policy.
+
           source: Source from which to fetch application code.
 
           version: Version of the application. Can be any string.
@@ -106,6 +119,7 @@ class DeploymentsResource(SyncAPIResource):
                 "file": file,
                 "force": force,
                 "region": region,
+                "runtime_policy": runtime_policy,
                 "source": source,
                 "version": version,
             },
@@ -344,6 +358,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         file: FileTypes | Omit = omit,
         force: bool | Omit = omit,
         region: Literal["aws.us-east-1a"] | Omit = omit,
+        runtime_policy: deployment_create_params.RuntimePolicy | Omit = omit,
         source: deployment_create_params.Source | Omit = omit,
         version: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -369,6 +384,18 @@ class AsyncDeploymentsResource(AsyncAPIResource):
 
           region: Region for deployment. Currently we only support "aws.us-east-1a"
 
+          runtime_policy: Permissions for each invocation's injected API key. Send this multipart field as
+              JSON. Requires scoped deployment enablement. The policy must stay within the
+              deployment's project, be a subset of the caller's permissions when the caller
+              has a policy, and grant container-wide invocations:write for runtime callbacks.
+              It cannot include api_keys:issue_beyond_expiry. Exact resource IDs must exist.
+              The policy outlives the deploying credential; each invocation gets a fresh key
+              valid for 65 minutes from issuance. When the caller has a policy, omission
+              grants only project-wide invocations:write for runtime callbacks. A supplied
+              policy must explicitly include that permission; it is never added automatically.
+              Callers without a policy keep an unrestricted runtime key when this field is
+              omitted. Scoped invokers must cover the runtime policy.
+
           source: Source from which to fetch application code.
 
           version: Version of the application. Can be any string.
@@ -390,6 +417,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
                 "file": file,
                 "force": force,
                 "region": region,
+                "runtime_policy": runtime_policy,
                 "source": source,
                 "version": version,
             },

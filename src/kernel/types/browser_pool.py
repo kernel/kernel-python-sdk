@@ -5,6 +5,7 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from .._models import BaseModel
+from .browser_proxy import BrowserProxy
 from .browser_memory import BrowserMemory
 from .browser_captcha_solver import BrowserCaptchaSolver
 from .browser_network_config import BrowserNetworkConfig
@@ -99,10 +100,13 @@ class BrowserPoolConfig(BaseModel):
     pool profile is silently ignored rather than rejected.
     """
 
-    proxy_id: Optional[str] = None
-    """Optional proxy associated to the browser session.
+    proxy: Optional[BrowserProxy] = None
+    """Resolved proxy configuration for browsers in this pool."""
 
-    References a proxy in the same project as the browser session.
+    proxy_id: Optional[str] = None
+    """ID of the proxy associated with browsers in this pool, if any.
+
+    Deprecated in favor of proxy.
     """
 
     refresh_on_profile_update: Optional[bool] = None
@@ -127,9 +131,9 @@ class BrowserPoolConfig(BaseModel):
     stealth: Optional[bool] = None
     """
     Whether browsers in this pool use stealth mode, which is CAPTCHA solving with
-    Kernel's default stealth proxy unless proxy_id is set. A pool with only
+    Kernel's default stealth proxy unless a proxy is set. A pool with only
     captcha_solver enabled reports false. Deprecated in favor of captcha_solver and
-    proxy_id.
+    proxy.
     """
 
     telemetry: Optional[BrowserTelemetryConfig] = None

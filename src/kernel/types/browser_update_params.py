@@ -25,6 +25,13 @@ __all__ = [
 
 
 class BrowserUpdateParams(TypedDict, total=False):
+    captcha_solver_enabled: bool
+    """
+    Enable or disable the stealth browser's CAPTCHA solver immediately, without
+    restarting the browser or interrupting the current page. Omit to leave the
+    solver unchanged. Only available for stealth browsers.
+    """
+
     disable_default_proxy: bool
     """
     If true, stealth browsers connect directly instead of using the default stealth

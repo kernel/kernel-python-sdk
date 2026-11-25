@@ -469,6 +469,7 @@ class BrowsersResource(SyncAPIResource):
         self,
         id_or_name: str,
         *,
+        captcha_solver_enabled: bool | Omit = omit,
         disable_default_proxy: bool | Omit = omit,
         location: BrowserLocationUpdateRequestParam | Omit = omit,
         name: Optional[str] | Omit = omit,
@@ -492,6 +493,10 @@ class BrowsersResource(SyncAPIResource):
         Update a browser session.
 
         Args:
+          captcha_solver_enabled: Enable or disable the stealth browser's CAPTCHA solver immediately, without
+              restarting the browser or interrupting the current page. Omit to leave the
+              solver unchanged. Only available for stealth browsers.
+
           disable_default_proxy: If true, stealth browsers connect directly instead of using the default stealth
               proxy. Deprecated in favor of proxy.mode.
 
@@ -554,6 +559,7 @@ class BrowsersResource(SyncAPIResource):
             path_template("/browsers/{id_or_name}", id_or_name=id_or_name),
             body=maybe_transform(
                 {
+                    "captcha_solver_enabled": captcha_solver_enabled,
                     "disable_default_proxy": disable_default_proxy,
                     "location": location,
                     "name": name,
@@ -609,6 +615,9 @@ class BrowsersResource(SyncAPIResource):
           offset: Number of results to skip. Defaults to 0.
 
           query: Search browsers by name, session ID, profile name or ID, proxy ID, or pool name.
+              With `status=deleted` or `status=all`, only browsers created in the last 24
+              hours are searched, including active ones; use `status=active` to search all
+              active browsers.
 
           region: Filter sessions by geographic region. Omit to list sessions in all regions.
 
@@ -617,7 +626,9 @@ class BrowsersResource(SyncAPIResource):
 
           tags: Filter sessions by tag key-value pairs using deepObject style, e.g.
               ?tags[team]=backend&tags[env]=staging. Multiple pairs are ANDed: a session must
-              match every supplied pair exactly.
+              match every supplied pair exactly. With `status=deleted` or `status=all`, only
+              browsers created in the last 24 hours are matched; use `status=active` to match
+              all active browsers.
 
           extra_headers: Send extra headers
 
@@ -1361,6 +1372,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
         self,
         id_or_name: str,
         *,
+        captcha_solver_enabled: bool | Omit = omit,
         disable_default_proxy: bool | Omit = omit,
         location: BrowserLocationUpdateRequestParam | Omit = omit,
         name: Optional[str] | Omit = omit,
@@ -1384,6 +1396,10 @@ class AsyncBrowsersResource(AsyncAPIResource):
         Update a browser session.
 
         Args:
+          captcha_solver_enabled: Enable or disable the stealth browser's CAPTCHA solver immediately, without
+              restarting the browser or interrupting the current page. Omit to leave the
+              solver unchanged. Only available for stealth browsers.
+
           disable_default_proxy: If true, stealth browsers connect directly instead of using the default stealth
               proxy. Deprecated in favor of proxy.mode.
 
@@ -1446,6 +1462,7 @@ class AsyncBrowsersResource(AsyncAPIResource):
             path_template("/browsers/{id_or_name}", id_or_name=id_or_name),
             body=await async_maybe_transform(
                 {
+                    "captcha_solver_enabled": captcha_solver_enabled,
                     "disable_default_proxy": disable_default_proxy,
                     "location": location,
                     "name": name,
@@ -1501,6 +1518,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
           offset: Number of results to skip. Defaults to 0.
 
           query: Search browsers by name, session ID, profile name or ID, proxy ID, or pool name.
+              With `status=deleted` or `status=all`, only browsers created in the last 24
+              hours are searched, including active ones; use `status=active` to search all
+              active browsers.
 
           region: Filter sessions by geographic region. Omit to list sessions in all regions.
 
@@ -1509,7 +1529,9 @@ class AsyncBrowsersResource(AsyncAPIResource):
 
           tags: Filter sessions by tag key-value pairs using deepObject style, e.g.
               ?tags[team]=backend&tags[env]=staging. Multiple pairs are ANDed: a session must
-              match every supplied pair exactly.
+              match every supplied pair exactly. With `status=deleted` or `status=all`, only
+              browsers created in the last 24 hours are matched; use `status=active` to match
+              all active browsers.
 
           extra_headers: Send extra headers
 

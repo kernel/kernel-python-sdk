@@ -219,6 +219,7 @@ class TestBrowsers:
     def test_method_update_with_all_params(self, client: Kernel) -> None:
         browser = client.browsers.update(
             id_or_name="htzv5orfit78e1m2biiifpbv",
+            captcha_solver_enabled=True,
             disable_default_proxy=True,
             location={
                 "locale": "en-US",
@@ -835,6 +836,7 @@ class TestAsyncBrowsers:
     async def test_method_update_with_all_params(self, async_client: AsyncKernel) -> None:
         browser = await async_client.browsers.update(
             id_or_name="htzv5orfit78e1m2biiifpbv",
+            captcha_solver_enabled=True,
             disable_default_proxy=True,
             location={
                 "locale": "en-US",
