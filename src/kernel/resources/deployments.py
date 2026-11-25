@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Mapping, cast
+from typing import Any, Dict, cast
 from typing_extensions import Literal
 
 import httpx
@@ -31,9 +31,7 @@ from ..types.deployment_retrieve_response import DeploymentRetrieveResponse
 __all__ = ["DeploymentsResource", "AsyncDeploymentsResource"]
 
 
-def _extract_json_parts(body: dict[str, object], extra_body: Body | None) -> list[tuple[str, FileTypes]]:
-    if extra_body is not None:
-        body.update(cast(Mapping[str, object], extra_body))
+def _extract_json_parts(body: dict[str, object]) -> list[tuple[str, FileTypes]]:
     return [
         (name, (None, openapi_dumps(body.pop(name)), "application/json"))
         for name in ("source", "runtime_policy")
@@ -138,7 +136,7 @@ class DeploymentsResource(SyncAPIResource):
         )
         files = extract_files(body, paths=[["file"]])
         body = transform(body, deployment_create_params.DeploymentCreateParams)
-        files.extend(_extract_json_parts(body, extra_body))
+        files.extend(_extract_json_parts(body))
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -150,6 +148,7 @@ class DeploymentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
+                extra_body=extra_body,
                 timeout=timeout,
                 idempotency_key=idempotency_key,
             ),
@@ -437,7 +436,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
         )
         files = extract_files(body, paths=[["file"]])
         body = await async_transform(body, deployment_create_params.DeploymentCreateParams)
-        files.extend(_extract_json_parts(body, extra_body))
+        files.extend(_extract_json_parts(body))
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -449,6 +448,7 @@ class AsyncDeploymentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
+                extra_body=extra_body,
                 timeout=timeout,
                 idempotency_key=idempotency_key,
             ),
